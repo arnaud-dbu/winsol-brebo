@@ -1,0 +1,15 @@
+title: 'Page Intro'
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+      required: true
+      validate:
+        - required
+  -
+    handle: text
+    field:
+      type: textarea
+      display: Text

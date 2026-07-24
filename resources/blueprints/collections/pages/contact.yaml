@@ -1,4 +1,4 @@
-title: Page
+title: Contact
 tabs:
   main:
     display: Main
@@ -7,6 +7,15 @@ tabs:
         fields:
           -
             import: page_intro
+      -
+        fields:
+          -
+            handle: quicklinks
+            field:
+              type: entries
+              collections:
+                - quicklinks
+              display: Quicklinks
       -
         fields:
           -

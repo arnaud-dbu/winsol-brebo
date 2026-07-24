@@ -5,19 +5,65 @@ tabs:
     display: Main
     sections:
       -
+        display: Hero
         fields:
           -
             handle: title
             field:
               type: text
+              display: Title
               required: true
               validate:
                 - required
           -
-            handle: intro
+            handle: text
             field:
               type: textarea
-              display: Intro
+              display: Text
+          -
+            import: link
+          -
+            import: image
+      -
+        display: 'Value Proposition'
+        fields:
+          -
+            handle: value_proposition
+            field:
+              type: group
+              display: 'Value Proposition'
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  handle: items
+                  field:
+                    type: replicator
+                    display: 'Value Propositions'
+                    collapse: accordion
+                    button_label: 'Add Value Proposition'
+                    sets:
+                      new_set_group:
+                        display: 'New Set Group'
+                        sets:
+                          value_proposition:
+                            display: 'Value Proposition'
+                            fields:
+                              -
+                                import: icon
+                              -
+                                handle: title
+                                field:
+                                  type: text
+                                  display: Title
+                              -
+                                handle: text
+                                field:
+                                  type: textarea
+                                  display: Text
       -
         fields:
           -

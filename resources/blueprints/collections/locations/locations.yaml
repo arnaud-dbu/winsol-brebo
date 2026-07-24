@@ -1,0 +1,64 @@
+title: Location
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: name
+            field:
+              type: text
+              display: Name
+              required: true
+              validate:
+                - required
+          -
+            handle: street
+            field:
+              type: text
+              display: Street
+          -
+            handle: number
+            field:
+              type: text
+              display: Number
+          -
+            handle: postal_code
+            field:
+              type: text
+              display: 'Postal Code'
+          -
+            handle: city
+            field:
+              type: text
+              display: City
+          -
+            handle: opening_hours
+            field:
+              type: grid
+              mode: table
+              display: 'Opening Hours'
+              add_row: 'Add Row'
+              fields:
+                -
+                  handle: day
+                  field:
+                    type: text
+                    display: Day
+                -
+                  handle: time
+                  field:
+                    type: text
+                    display: Time
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate: 'max:200'

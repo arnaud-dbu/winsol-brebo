@@ -1,4 +1,4 @@
-title: Case
+title: 'Range Overview'
 tabs:
   main:
     display: Main
@@ -6,10 +6,7 @@ tabs:
       -
         fields:
           -
-            import: page_header_image
-            config:
-              title:
-                required: true
+            import: page_intro
       -
         fields:
           -
@@ -39,3 +36,5 @@ tabs:
               type: slug
               localizable: true
               validate: 'max:200'
+          -
+            import: template

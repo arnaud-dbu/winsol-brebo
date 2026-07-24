@@ -1,0 +1,100 @@
+title: 'Services Overview'
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            import: page_intro
+      -
+        display: Services
+        fields:
+          -
+            handle: services
+            field:
+              type: replicator
+              display: Services
+              collapse: accordion
+              button_label: 'Add Service'
+              sets:
+                new_set_group:
+                  display: 'New Set Group'
+                  sets:
+                    service:
+                      display: Service
+                      fields:
+                        -
+                          handle: overline
+                          field:
+                            type: text
+                            display: Overline
+                        -
+                          handle: title
+                          field:
+                            type: text
+                            display: Title
+                        -
+                          handle: text
+                          field:
+                            type: bard
+                            display: Text
+                            buttons:
+                              - bold
+                              - italic
+                              - anchor
+                            container: assets
+                            remove_empty_nodes: false
+                        -
+                          import: image
+      -
+        display: Reparation
+        fields:
+          -
+            handle: reparation
+            field:
+              type: group
+              display: Reparation
+              fields:
+                -
+                  handle: overline
+                  field:
+                    type: text
+                    display: Overline
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  handle: text
+                  field:
+                    type: textarea
+                    display: Text
+  preview:
+    display: Preview
+    sections:
+      -
+        fields:
+          -
+            import: preview
+  seo:
+    display: SEO
+    sections:
+      -
+        fields:
+          -
+            import: seo
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate: 'max:200'
+          -
+            import: template

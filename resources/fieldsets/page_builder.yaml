@@ -11,27 +11,281 @@ fields:
         new_set_group:
           display: 'New Set Group'
           sets:
-            text:
-              display: Text
-              image: image-5.png
+            cta:
+              display: 'Call to Action'
               fields:
                 -
-                  import: text
+                  handle: overline
+                  field:
+                    type: text
+                    display: Overline
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  handle: text
+                  field:
+                    type: textarea
+                    display: Text
+                -
+                  import: link
+                -
+                  import: image
             cards:
               display: Cards
-              image: image-7.png
               fields:
                 -
-                  import: cards
-            collapses:
-              display: Collapses
-              image: image-9.png
-              fields:
+                  handle: overline
+                  field:
+                    type: text
+                    display: Overline
                 -
-                  import: collapses
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  handle: text
+                  field:
+                    type: textarea
+                    display: Text
+                -
+                  handle: cards
+                  field:
+                    type: replicator
+                    display: Cards
+                    collapse: accordion
+                    button_label: 'Add Card'
+                    sets:
+                      new_set_group:
+                        display: 'New Set Group'
+                        sets:
+                          card:
+                            display: Card
+                            fields:
+                              -
+                                import: image
+                              -
+                                handle: title
+                                field:
+                                  type: text
+                                  display: Title
+                              -
+                                handle: text
+                                field:
+                                  type: bard
+                                  display: Text
+                                  buttons:
+                                    - bold
+                                    - italic
+                                    - anchor
+                                  container: assets
+                                  remove_empty_nodes: false
             image_gallery:
               display: 'Image Gallery'
-              image: image-13.png
               fields:
                 -
-                  import: image_gallery
+                  handle: overline
+                  field:
+                    type: text
+                    display: Overline
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  handle: images
+                  field:
+                    type: assets
+                    container: assets
+                    display: Images
+            technical_details:
+              display: 'Technical Details'
+              fields:
+                -
+                  handle: overline
+                  field:
+                    type: text
+                    display: Overline
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  handle: text
+                  field:
+                    type: textarea
+                    display: Text
+                -
+                  import: link
+                -
+                  handle: technical_details
+                  field:
+                    type: grid
+                    mode: table
+                    display: 'Technical Details'
+                    add_row: 'Add Row'
+                    fields:
+                      -
+                        handle: key
+                        field:
+                          type: text
+                          display: Key
+                      -
+                        handle: value
+                        field:
+                          type: text
+                          display: Value
+            ranges:
+              display: Ranges
+              fields:
+                -
+                  handle: overline
+                  field:
+                    type: text
+                    display: Overline
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  handle: range
+                  field:
+                    type: entries
+                    collections:
+                      - ranges
+                    display: Ranges
+            text:
+              display: Text
+              fields:
+                -
+                  import: section_header
+            text_image:
+              display: 'Text + Image'
+              fields:
+                -
+                  import: section_header
+                -
+                  handle: background
+                  field:
+                    type: toggle
+                    display: Background
+                -
+                  import: image
+            products:
+              display: Products
+              fields:
+                -
+                  handle: overline
+                  field:
+                    type: text
+                    display: Overline
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  handle: products
+                  field:
+                    type: entries
+                    collections:
+                      - products
+                    display: Products
+            projects:
+              display: Projects
+              fields:
+                -
+                  handle: overline
+                  field:
+                    type: text
+                    display: Overline
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  import: link
+                -
+                  handle: projects
+                  field:
+                    type: entries
+                    collections:
+                      - projects
+                    display: Projects
+            features:
+              display: Features
+              fields:
+                -
+                  handle: overline
+                  field:
+                    type: text
+                    display: Overline
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  handle: features
+                  field:
+                    type: replicator
+                    display: Features
+                    collapse: accordion
+                    button_label: 'Add Feature'
+                    sets:
+                      new_set_group:
+                        display: 'New Set Group'
+                        sets:
+                          feature:
+                            display: Feature
+                            fields:
+                              -
+                                import: icon
+                              -
+                                handle: title
+                                field:
+                                  type: text
+                                  display: Title
+                              -
+                                handle: text
+                                field:
+                                  type: textarea
+                                  display: Text
+            grid_cta:
+              display: 'Grid CTA'
+              fields:
+                -
+                  import: image
+                -
+                  handle: grid
+                  field:
+                    type: replicator
+                    display: Grid
+                    collapse: accordion
+                    button_label: 'Add Item'
+                    sets:
+                      new_set_group:
+                        display: 'New Set Group'
+                        sets:
+                          item:
+                            display: Item
+                            fields:
+                              -
+                                handle: title
+                                field:
+                                  type: text
+                                  display: Title
+                              -
+                                handle: text
+                                field:
+                                  type: textarea
+                                  display: Text
+                              -
+                                import: link

@@ -1,0 +1,65 @@
+title: Range
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              display: Title
+              required: true
+              validate:
+                - required
+          -
+            handle: short_description
+            field:
+              type: textarea
+              display: 'Short Description'
+          -
+            handle: long_description
+            field:
+              type: textarea
+              display: 'Long Description'
+          -
+            import: image
+          -
+            handle: range_category
+            field:
+              type: terms
+              taxonomies:
+                - range_categories
+              display: 'Range Category'
+      -
+        fields:
+          -
+            import: page_builder
+  preview:
+    display: Preview
+    sections:
+      -
+        fields:
+          -
+            import: preview
+  seo:
+    display: SEO
+    sections:
+      -
+        fields:
+          -
+            import: seo
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate: 'max:200'
+          -
+            import: template

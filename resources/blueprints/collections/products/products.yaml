@@ -1,4 +1,4 @@
-title: Page
+title: Product
 tabs:
   main:
     display: Main
@@ -6,7 +6,20 @@ tabs:
       -
         fields:
           -
-            import: page_intro
+            handle: title
+            field:
+              type: text
+              display: Title
+              required: true
+              validate:
+                - required
+          -
+            handle: text
+            field:
+              type: textarea
+              display: Text
+          -
+            import: image
       -
         fields:
           -

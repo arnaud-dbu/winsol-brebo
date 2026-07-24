@@ -1,0 +1,2 @@
+title: Products
+route: '/producten/{slug}'
