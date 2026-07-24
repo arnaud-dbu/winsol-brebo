@@ -39,7 +39,7 @@ tabs:
                     type: text
                     display: Title
                 -
-                  handle: value_proposition
+                  handle: items
                   field:
                     type: replicator
                     display: 'Value Propositions'
