@@ -6,10 +6,7 @@ tabs:
       -
         fields:
           -
-            import: page_header
-            config:
-              title:
-                required: true
+            import: page_intro
       -
         fields:
           -
