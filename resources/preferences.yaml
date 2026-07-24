@@ -1,0 +1,6 @@
+nav:
+  content:
+    reorder:
+      - 'content::collections::pages'
+    items:
+      'content::collections::pages': '@move'

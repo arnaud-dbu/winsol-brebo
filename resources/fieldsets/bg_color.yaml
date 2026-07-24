@@ -1,0 +1,14 @@
+title: 'Background Color'
+fields:
+  -
+    handle: bg_color
+    field:
+      swatches:
+        - '#f5efe2'
+        - '#A7A7A7'
+        - '#292d2d'
+      allow_any: false
+      default: '#f5efe2'
+      type: color
+      display: 'Background Color'
+      width: 50

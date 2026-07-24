@@ -1,0 +1,12 @@
+{{ if passthrough }}
+<img src="{{ src | sanitize }}" alt="{{ alt | sanitize }}"{{ if class }} class="{{ class | sanitize }}"{{ /if }}{{ if data_speed }} data-speed="{{ data_speed | sanitize }}"{{ /if }}
+    {{ if priority }}loading="eager" fetchpriority="high" decoding="async"{{ else }}loading="lazy" decoding="async"{{ /if }}>
+{{ else }}
+<picture>
+    {{ sources }}
+    <source type="image/webp"{{ if media }} media="{{ media }}"{{ /if }} width="{{ width }}" height="{{ height }}" sizes="{{ sizes | sanitize }}" srcset="{{ srcset }}">
+    {{ /sources }}
+    <img src="{{ fallback_src }}" srcset="{{ fallback_srcset }}" sizes="{{ sizes | sanitize }}" alt="{{ alt | sanitize }}" width="{{ width }}" height="{{ height }}"{{ if class }} class="{{ class | sanitize }}"{{ /if }}{{ if fill }} style="object-position: {{ focus_css }}"{{ /if }}{{ if data_speed }} data-speed="{{ data_speed | sanitize }}"{{ /if }}
+        {{ if priority }}loading="eager" fetchpriority="high" decoding="async"{{ else }}loading="lazy" decoding="async"{{ /if }}>
+</picture>
+{{ /if }}

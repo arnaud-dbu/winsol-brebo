@@ -1,0 +1,59 @@
+title: Text
+fields:
+  -
+    import: section_header
+  -
+    handle: media
+    field:
+      options:
+        -
+          key: none
+          value: null
+        -
+          key: image
+          value: null
+        -
+          key: video
+          value: null
+      type: button_group
+      display: Media
+      width: 50
+      default: none
+  -
+    handle: media_position
+    field:
+      type: button_group
+      display: 'Media Position'
+      default: left
+      options:
+        -
+          key: left
+          value: ←
+        -
+          key: right
+          value: →
+        -
+          key: top
+          value: ↑
+        -
+          key: bottom
+          value: ↓
+      width: 50
+      if:
+        media: 'contains_any image, video, project'
+  -
+    handle: video
+    field:
+      type: video
+      display: Video
+      if:
+        media: 'equals video'
+  -
+    handle: image
+    field:
+      container: assets
+      type: assets
+      display: Image
+      if:
+        media: 'equals image'
+      max_files: 1

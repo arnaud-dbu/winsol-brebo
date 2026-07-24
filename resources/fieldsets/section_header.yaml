@@ -1,0 +1,25 @@
+title: 'Section Header'
+fields:
+  -
+    handle: overline
+    field:
+      type: text
+      display: Overline
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+  -
+    handle: text
+    field:
+      buttons:
+        - bold
+        - italic
+        - anchor
+      container: assets
+      remove_empty_nodes: false
+      type: bard
+      display: Text
+  -
+    import: link

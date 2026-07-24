@@ -1,0 +1,10 @@
+{{ if video | is_embeddable }}
+    {{# Youtube and Vimeo #}}
+    <iframe class="size-full aspect-video" src="{{ video | embed_url }}" class="{{ class }}" frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
+        {{ if data_speed }}data-speed="{{ data_speed }}"{{ /if }}></iframe>
+{{ else }}
+    {{# HTML5 video #}}
+    <video class="size-full aspect-video" src="{{ video | embed_url }}" class="{{ class }}" controls
+        {{ if data_speed }}data-speed="{{ data_speed }}"{{ /if }}></video>
+{{ /if }}

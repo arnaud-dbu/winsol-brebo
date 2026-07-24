@@ -1,0 +1,7 @@
+title: Template
+fields:
+  -
+    handle: template
+    field:
+      type: template
+      display: Template

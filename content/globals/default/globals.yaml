@@ -1,0 +1,14 @@
+company:
+  name: Stuw
+  street: Street
+  number: '33'
+  postal: '3090'
+  city: Brussels
+contact:
+  phone: '0478258076'
+  email: hello@stuw.agency
+socials:
+  facebook: 'https://test.be'
+  instagram: 'https://test.be'
+  linkedin: 'https://test.be'
+  youtube: 'https://test.be'

@@ -1,0 +1,52 @@
+.footer-link-button {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    text-align: left;
+}
+
+.footer-link-button:hover {
+    text-decoration: underline;
+}
+
+/* Toggle switch — appearance:none + ::before knob, lastig in pure Tailwind. */
+.cookie-switch {
+    --switch-w: 2.25rem;
+    --switch-h: 1.25rem;
+    appearance: none;
+    width: var(--switch-w);
+    height: var(--switch-h);
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.2);
+    border: 0;
+    padding: 0;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    flex-shrink: 0;
+}
+
+.cookie-switch::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 2px;
+    width: calc(var(--switch-h) - 4px);
+    height: calc(var(--switch-h) - 4px);
+    background: currentColor;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    transition: left 0.15s ease;
+}
+
+.cookie-switch[aria-checked='true'] {
+    background: var(--color-accent);
+}
+
+.cookie-switch[aria-checked='true']::before {
+    left: calc(var(--switch-w) - var(--switch-h) + 2px);
+}

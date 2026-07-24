@@ -1,0 +1,14 @@
+<div class="@container">
+    <div class="bg-gray-200 p-4">
+        {{ icon:index src="{{ icon | raw }}" class="" }}
+        {{ if title }}
+            <h3 class="">{{ title }}</h3>
+        {{ /if }}
+        {{ if text }}
+            <p class="">{{ text }}</p>
+        {{ /if }}
+        {{ if link }}
+            {{ partial:link }}
+        {{ /if }}
+    </div>
+</div>

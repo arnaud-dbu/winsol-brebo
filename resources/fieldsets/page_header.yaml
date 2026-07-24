@@ -1,0 +1,12 @@
+title: 'Page Header'
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+  -
+    handle: intro
+    field:
+      type: textarea
+      display: Intro

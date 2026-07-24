@@ -1,0 +1,14 @@
+title: 'Call To Action'
+fields:
+  -
+    handle: title
+    field:
+      type: text
+      display: Title
+  -
+    handle: text
+    field:
+      type: textarea
+      display: Text
+  -
+    import: link

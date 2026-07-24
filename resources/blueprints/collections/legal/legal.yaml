@@ -1,0 +1,27 @@
+title: Legal
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            import: page_header
+            config:
+              title:
+                required: true
+      -
+        fields:
+          -
+            import: redactor
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate: 'max:200'

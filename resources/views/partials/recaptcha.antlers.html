@@ -1,0 +1,21 @@
+<input type="hidden" name="g-recaptcha-response" class="recaptcha-token" />
+
+{{ section:scripts }}
+    <script src="https://www.google.com/recaptcha/enterprise.js?render={{ config:services:recaptcha:site_key }}"></script>
+    <script>
+        document.querySelectorAll('.recaptcha-token').forEach(function (input) {
+            const form = input.closest('form');
+            if (! form) return;
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                grecaptcha.enterprise.ready(function () {
+                    grecaptcha.enterprise.execute('{{ config:services:recaptcha:site_key }}', { action: 'submit' }).then(function (token) {
+                        input.value = token;
+                        form.submit();
+                    });
+                });
+            });
+        });
+    </script>
+{{ /section:scripts }}

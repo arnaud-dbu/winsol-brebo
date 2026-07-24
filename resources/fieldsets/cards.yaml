@@ -1,0 +1,32 @@
+title: Cards
+fields:
+  -
+    import: section_header
+  -
+    handle: cards
+    field:
+      collapse: accordion
+      button_label: 'Add Card'
+      type: replicator
+      display: Cards
+      sets:
+        new_set_group:
+          display: 'New Set Group'
+          sets:
+            card:
+              display: Card
+              fields:
+                -
+                  import: icon
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  handle: text
+                  field:
+                    type: textarea
+                    display: Text
+                -
+                  import: link

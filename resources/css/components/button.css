@@ -1,0 +1,7 @@
+.btn {
+    @apply inline-flex items-center justify-center w-fit;
+}
+
+.btn--primary {
+    @apply bg-black text-white p-3 py-2;
+}

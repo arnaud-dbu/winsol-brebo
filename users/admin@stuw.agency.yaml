@@ -1,0 +1,15 @@
+name: Admin
+super: true
+id: d308c19c-c205-4453-9862-1f62996a3734
+password_hash: $2y$12$s4YTcCio/IneSXunLZ9moOx.fBrFhUtIGiZmVYKk39Keot4HkZoRK
+preferences:
+  collections:
+    pages:
+      view: tree
+    articles:
+      view: list
+    legal:
+      view: list
+    cases:
+      after_save: create_another
+      view: tree

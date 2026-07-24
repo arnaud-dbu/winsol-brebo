@@ -1,0 +1,18 @@
+@utility container {
+    @apply px-4 xl:px-10 2xl:px-12;
+
+    margin-inline: auto;
+    max-width: var(--breakpoint-4xl);
+}
+
+@utility container-md {
+    @apply lg:w-4/5 2xl:w-full;
+
+    margin-inline: auto;
+    padding-inline: 1rem;
+    max-width: var(--breakpoint-xl);
+
+    @media (min-width: 1024px) {
+        padding-inline: 2rem;
+    }
+}

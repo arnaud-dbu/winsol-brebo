@@ -1,0 +1,16 @@
+{{ partial:headers/default }}
+<section class="section section--default">
+    <div class="container-sm">
+        {{ redactor }}
+            {{ if type == "text" }}
+                <div class="rich-text">{{ text }}</div>
+            {{ /if }}
+            {{ if type == "image" }}
+                {{ img :src="image" :alt="image.alt" max_width="960" sizes="(min-width: 768px) 768px, 100vw" }}
+            {{ /if }}
+            {{ if type == "video" }}
+                {{ partial:video }}
+            {{ /if }}
+        {{ /redactor }}
+    </div>
+</section>

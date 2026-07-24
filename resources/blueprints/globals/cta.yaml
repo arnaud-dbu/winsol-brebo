@@ -1,0 +1,9 @@
+title: CTA
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            import: call_to_action

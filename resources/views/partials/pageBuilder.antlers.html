@@ -1,0 +1,11 @@
+{{ page_builder }}
+    {{ if type == "text" }}
+        {{ partial src="sections/text" }}
+    {{ elseif type == "image_gallery" }}
+        {{ partial src="sections/imageGallery" }}
+    {{ elseif type == "collapses" }}
+        {{ partial src="sections/collapses" }}
+    {{ elseif type == "cards" }}
+        {{ partial src="sections/cards" }}
+    {{ /if }}
+{{ /page_builder }}

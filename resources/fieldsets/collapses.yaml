@@ -1,0 +1,25 @@
+title: Collapses
+fields:
+  -
+    import: section_header
+  -
+    handle: collapses
+    field:
+      collapse: accordion
+      type: replicator
+      display: Collapses
+      button_label: 'Add Collapse'
+      sets:
+        new_set_group:
+          display: 'New Set Group'
+          sets:
+            collapse:
+              display: Collapse
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  import: rich_text

@@ -1,0 +1,35 @@
+{{#
+    Font Preloading Partial
+    -----------------------
+    Include this in your layout's <head> section:
+        {{ partial:fonts }}
+
+    Expects a `font_faces` array shared from config/fonts.php.
+    Each entry is an associative array with the following keys (all REQUIRED):
+        - family  (string)  — font-family name, e.g. 'Acme'
+        - src     (string)  — absolute URL or path to the .woff2 file, e.g. /fonts/acme-regular.woff2
+        - weight  (mixed)   — font-weight value: a number (400) or range string ('100 900')
+        - style   (string)  — font-style value, e.g. 'normal'
+        - display (string)  — font-display value, e.g. 'swap'
+        - preload (boolean) — when true, also emits a <link rel="preload"> tag for the font
+
+    An empty `font_faces` array renders nothing.
+#}}
+{{ if font_faces }}
+{{ font_faces }}
+{{ if preload }}
+<link rel="preload" as="font" type="font/woff2" href="{{ src }}" crossorigin>
+{{ /if }}
+{{ /font_faces }}
+<style>
+{{ font_faces }}
+@font-face {
+    font-family: '{{ family }}';
+    src: url('{{ src }}') format('woff2');
+    font-weight: {{ weight }};
+    font-style: {{ style }};
+    font-display: {{ display }};
+}
+{{ /font_faces }}
+</style>
+{{ /if }}

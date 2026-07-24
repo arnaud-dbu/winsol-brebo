@@ -1,0 +1,20 @@
+{
+  "singleQuote": true,
+  "tabWidth": 4,
+  "printWidth": 120,
+  "bracketSameLine": true,
+  "plugins": [
+    "prettier-plugin-antlers",
+    "prettier-plugin-tailwindcss"
+  ],
+  "tailwindStylesheet": "./resources/css/site.css",
+  "overrides": [
+    {
+      "files": "*.antlers.html",
+      "options": {
+        "parser": "antlers",
+        "singleQuote": true
+      }
+    }
+  ]
+}

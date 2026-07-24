@@ -1,0 +1,23 @@
+body {
+}
+
+hr {
+    @apply border-none;
+}
+
+address {
+    @apply not-italic;
+}
+
+button {
+    @apply cursor-pointer;
+}
+
+picture {
+    display: block;
+    overflow: hidden;
+}
+
+[x-cloak] {
+    display: none !important;
+}

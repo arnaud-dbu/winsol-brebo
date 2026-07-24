@@ -1,0 +1,19 @@
+<nav
+    class="fixed right-0 bottom-0 left-0 z-[100] bg-(--color-nav-bar) pb-[env(safe-area-inset-bottom)] md:hidden"
+    aria-label="Mobile main navigation">
+    <div class="flex h-14 items-stretch">
+        {{# Nav links #}}
+        <ul class="m-0 flex flex-1 list-none items-stretch p-0" role="list">
+            {{ nav:main }}
+                <li class="contents">
+                    <a
+                        href="{{ entry.url }}"
+                        class="flex flex-1 items-center justify-center text-xs font-semibold tracking-[0.08em] text-white uppercase no-underline transition-opacity hover:opacity-75 focus-visible:opacity-75 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-white aria-[current=page]:opacity-60"
+                        {{ if entry.url == current_url }}aria-current="page"{{ /if }}>
+                        {{ title }}
+                    </a>
+                </li>
+            {{ /nav:main }}
+        </ul>
+    </div>
+</nav>

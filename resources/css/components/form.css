@@ -1,0 +1,14 @@
+form {
+    @apply space-y-4;
+
+    fieldset {
+        label {
+            @apply block mb-1;
+        }
+
+        input,
+        textarea {
+            @apply border border-black;
+        }
+    }
+}

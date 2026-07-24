@@ -1,0 +1,15 @@
+title: "General Information"
+company:
+  name: null
+  street: null
+  number: null
+  postal: null
+  city: null
+contact:
+  phone: null
+  email: null
+socials:
+  facebook: null
+  instagram: null
+  linkedin: null
+  youtube: null

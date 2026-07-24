@@ -1,0 +1,15 @@
+title: 'Rich Text'
+fields:
+  -
+    handle: text
+    field:
+      buttons:
+        - bold
+        - italic
+        - unorderedlist
+        - orderedlist
+        - anchor
+      container: assets
+      remove_empty_nodes: false
+      type: bard
+      display: Text

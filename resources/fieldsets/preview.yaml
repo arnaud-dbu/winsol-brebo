@@ -1,0 +1,19 @@
+title: Preview
+fields:
+  -
+    handle: preview_title
+    field:
+      type: text
+      display: Title
+  -
+    handle: preview_intro
+    field:
+      type: textarea
+      display: Intro
+  -
+    handle: preview_image
+    field:
+      container: assets
+      max_files: 1
+      type: assets
+      display: Image

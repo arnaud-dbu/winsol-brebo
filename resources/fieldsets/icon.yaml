@@ -1,0 +1,8 @@
+title: Icon
+fields:
+  -
+    handle: icon
+    field:
+      set: icons
+      type: icon
+      display: Icon

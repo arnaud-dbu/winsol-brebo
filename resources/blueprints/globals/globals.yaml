@@ -1,0 +1,46 @@
+title: "General Information"
+tabs:
+  main:
+    display: Main
+    sections:
+      - fields:
+          - handle: company
+            field:
+              mode: keyed
+              keys:
+                - key: name
+                  value: null
+                - key: street
+                  value: null
+                - key: number
+                  value: null
+                - key: postal
+                  value: null
+                - key: city
+                  value: null
+              type: array
+              display: Company
+          - handle: contact
+            field:
+              mode: keyed
+              keys:
+                - key: phone
+                  value: null
+                - key: email
+                  value: null
+              type: array
+              display: Contact
+          - handle: socials
+            field:
+              mode: keyed
+              keys:
+                - key: facebook
+                  value: null
+                - key: instagram
+                  value: null
+                - key: linkedin
+                  value: null
+                - key: youtube
+                  value: null
+              type: array
+              display: Socials

@@ -1,0 +1,18 @@
+<div class="section-header-gap">
+    {{ if title }}
+        <h2 class="">
+            {{ if overline }}
+                <div class="">{{ overline }} </div>
+            {{ /if }}
+            {{ title }}
+        </h2>
+    {{ /if }}
+    {{ if text }}
+        <div class="rich-text">
+            {{ text }}
+        </div>
+    {{ /if }}
+    {{ if link }}
+        {{ partial:link :variant="btnVariant" }}
+    {{ /if }}
+</div>

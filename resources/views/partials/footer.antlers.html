@@ -1,0 +1,85 @@
+<footer class="section section--default bg-gray-200">
+    <div class="container space-y-12">
+        <div class="flex justify-between">
+            <div class="flex flex-col">
+                <a href="/">
+                    <span class="sr-only">Home Link</span>
+                    {{ svg src="logo" }}
+                </a>
+                {{ if globals:company:name }}
+                    {{ globals:company:name }}
+                {{ /if }}
+                {{ if globals:company:street and globals:company:city }}
+                    <address>
+                        {{ globals:company:street }}
+                        {{ globals:company:number }}<br>
+                        {{ globals:company:postal }}
+                        {{ globals:company:city }}<br>
+                    </address>
+                {{ /if }}
+                {{ if globals:contact:phone }}
+                    <a href="tel:{{ globals:contact:phone }}">{{ globals:contact:phone }}</a>
+                {{ /if }}
+                {{ if globals:contact:email }}
+                    <a href="mailto:{{ globals:contact:email }}">{{ globals:contact:email }}</a>
+                {{ /if }}
+            </div>
+            <nav>
+                <ul class="">
+                    {{ nav:main }}
+                        <li>
+                            <a href="{{ entry.url }}">{{ title }}</a>
+                        </li>
+                    {{ /nav:main }}
+                </ul>
+            </nav>
+            <ul>
+                {{ iconClass = "size-8" }}
+                {{ if globals:socials:facebook }}
+                    <li>
+                        <a href="{{ globals:socials:facebook }}">
+                            {{ icon src="facebook-logo" class="{{ iconClass }}" }}
+                        </a>
+                    </li>
+                {{ /if }}
+                {{ if globals:socials:instagram }}
+                    <li>
+                        <a href="{{ globals:socials:instagram }}">
+                            {{ icon src="instagram-logo" class="{{ iconClass }}" }}
+                        </a>
+                    </li>
+                {{ /if }}
+                {{ if globals:socials:youtube }}
+                    <li>
+                        <a href="{{ globals:socials:youtube }}">
+                            {{ icon src="youtube-logo" class="{{ iconClass }}" }}
+                        </a>
+                    </li>
+                {{ /if }}
+                {{ if globals:socials:linkedin }}
+                    <li>
+                        <a href="{{ globals:socials:linkedin }}">
+                            {{ icon src="linkedin-logo" class="{{ iconClass }}" }}
+                        </a>
+                    </li>
+                {{ /if }}
+            </ul>
+        </div>
+        <div>
+            {{ collection:legal }}
+                <a href="{{ entry:url }}">{{ title }}</a>
+            {{ /collection:legal }}
+            {{ if cookie_consent:enabled }}
+                <button
+                    type="button"
+                    class="footer-link-button"
+                    onclick="window.dispatchEvent(new CustomEvent('cookie-consent:open'))">
+                    {{ cookie_consent:revoke_label }}
+                </button>
+            {{ /if }}
+        </div>
+        <div>
+            Designed and built by <a href="https://stuw.agency" target="_blank">Stuw</a>
+        </div>
+    </div>
+</footer>

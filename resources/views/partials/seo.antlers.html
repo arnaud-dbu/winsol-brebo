@@ -1,0 +1,82 @@
+{{#
+    SEO Meta Tags Partial
+    ----------------------
+    Include this in your layout's <head> section:
+        {{ partial:seo }}
+        Handles:
+        - Meta title & description (with fallbacks)
+        - Open Graph tags (Facebook, LinkedIn)
+        - Twitter Card tags
+        - Robots meta (noindex/nofollow)
+        - Canonical URL
+#}}
+
+{{# Meta Title: use meta_title field, fall back to title + site name #}}
+{{ meta_title_computed = meta_title ?? title }}
+<title>
+    {{ meta_title_computed }}
+    {{ if meta_title_computed != site:name }}
+        | {{ site:name }}
+    {{ /if }}
+</title>
+
+{{# Meta Description: use meta_description, fall back to intro, then global meta_description #}}
+{{ meta_description_computed = meta_description ?? intro ?? seo:meta_description }}
+{{ if meta_description_computed }}
+    <meta name="description" content="{{ meta_description_computed }}">
+{{ /if }}
+{{# Robots: noindex / nofollow #}}
+{{ if seo_noindex || seo_nofollow }}
+    <meta name="robots"
+        content="{{ if seo_noindex }}noindex{{ /if }}{{ if seo_noindex && seo_nofollow }}, {{ /if }}{{ if seo_nofollow }}nofollow{{ /if }}">
+{{ /if }}
+{{# Canonical URL #}}
+<link rel="canonical" href="{{ current_url }}">
+
+{{# ── Open Graph (Facebook, LinkedIn, etc.) ── #}}
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ meta_title_computed }}">
+<meta property="og:url" content="{{ current_url }}">
+{{ if meta_description_computed }}
+    <meta property="og:description" content="{{ meta_description_computed }}">
+{{ /if }}
+{{ if meta_image }}
+    {{ meta_image }}
+        <meta property="og:image"
+            content="{{ glide:url width='1200' height='630' fit='crop_focal' quality='80' absolute='true' }}">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="{{ alt ?? meta_title_computed }}">
+    {{ /meta_image }}
+{{ else }}
+    {{ seo:meta_image }}
+        <meta property="og:image"
+            content="{{ glide:url width='1200' height='630' fit='crop_focal' quality='80' absolute='true' }}">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="{{ alt ?? meta_title_computed }}">
+    {{ /seo:meta_image }}
+{{ /if }}
+<meta property="og:site_name" content="{{ site:name }}">
+{{ if site:locale }}
+    <meta property="og:locale" content="{{ site:locale }}">
+{{ /if }}
+{{# ── Twitter Card ── #}}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ meta_title_computed }}">
+{{ if meta_description_computed }}
+    <meta name="twitter:description" content="{{ meta_description_computed }}">
+{{ /if }}
+{{ if meta_image }}
+    {{ meta_image }}
+        <meta name="twitter:image"
+            content="{{ glide:url width='1200' height='630' fit='crop_focal' quality='80' absolute='true' }}">
+        <meta name="twitter:image:alt" content="{{ alt ?? meta_title_computed }}">
+    {{ /meta_image }}
+{{ else }}
+    {{ seo:meta_image }}
+        <meta name="twitter:image"
+            content="{{ glide:url width='1200' height='630' fit='crop_focal' quality='80' absolute='true' }}">
+        <meta name="twitter:image:alt" content="{{ alt ?? meta_title_computed }}">
+    {{ /seo:meta_image }}
+{{ /if }}

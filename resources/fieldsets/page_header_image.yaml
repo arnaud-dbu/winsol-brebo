@@ -1,0 +1,11 @@
+title: 'Page Header w/ Image'
+fields:
+  -
+    import: page_header
+  -
+    handle: image
+    field:
+      container: assets
+      max_files: 1
+      type: assets
+      display: Image

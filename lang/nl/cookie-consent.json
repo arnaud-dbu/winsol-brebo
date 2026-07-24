@@ -1,0 +1,24 @@
+{
+    "enabled": true,
+    "consent_mode_v2": true,
+    "cookie_version": "1",
+
+    "title": "Mogen we cookies gebruiken?",
+    "intro_before": "Ze helpen ons de site te verbeteren. Kies zelf wat je toelaat in de ",
+    "intro_link": "voorkeuren",
+    "intro_after": ".",
+
+    "accept_label": "Accepteren",
+    "deny_label": "Weigeren",
+    "confirm_label": "Voorkeuren bevestigen",
+    "revoke_label": "Cookie Instellingen",
+
+    "marketing_title": "Marketing",
+    "marketing_description": "Gebruikt om advertenties relevanter te maken voor jou en de prestaties ervan te meten.",
+
+    "personalization_title": "Personalisatie",
+    "personalization_description": "Onthoudt je voorkeuren zodat de site beter aansluit op jouw bezoek.",
+
+    "analytics_title": "Analytics",
+    "analytics_description": "Helpt ons begrijpen hoe bezoekers de site gebruiken, zodat we hem kunnen verbeteren."
+}

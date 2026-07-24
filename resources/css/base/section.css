@@ -1,0 +1,7 @@
+.section {
+    @apply py-16 sm:py-20 md:py-24 lg:py-28 xl:py-32 2xl:py-36 3xl:py-40 4xl:py-44;
+}
+
+.section--default + .section--default {
+    padding-top: 0 !important;
+}

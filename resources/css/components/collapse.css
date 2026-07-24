@@ -1,0 +1,40 @@
+details {
+    position: relative;
+}
+
+summary {
+    @apply flex cursor-pointer justify-between gap-2;
+
+    span {
+        @apply self-center;
+    }
+}
+
+summary::marker,
+summary::-webkit-details-marker {
+    content: none;
+}
+
+summary svg {
+    flex-shrink: 0;
+    max-width: 4rem;
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+details[open] summary svg {
+    transform: rotate(45deg);
+}
+
+details::details-content {
+    display: block;
+    block-size: 0;
+    overflow: hidden;
+    transition-property: block-size, content-visibility;
+    transition-duration: 0.5s;
+    transition-behavior: allow-discrete;
+}
+
+details[open]::details-content {
+    block-size: auto;
+    block-size: calc-size(auto, size);
+}

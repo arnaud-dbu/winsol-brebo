@@ -1,0 +1,23 @@
+/* SECTION */
+
+/* INLINE SPACING */
+
+@utility section-y-gap {
+    @apply flex flex-col gap-8 sm:gap-10 md:gap-12 xl:gap-16 2xl:gap-20;
+}
+
+@utility section-x-gap {
+    @apply flex flex-col gap-6 sm:flex-row sm:justify-between sm:gap-8 md:gap-12 lg:gap-20 xl:gap-24 2xl:gap-28 3xl:gap-36 4xl:gap-48;
+}
+
+@utility section-col-wide {
+    @apply sm:w-1/2;
+}
+
+@utility section-col-narrow {
+    @apply sm:w-1/2;
+}
+
+@utility section-header-gap {
+    @apply flex flex-col gap-4 lg:gap-6 2xl:gap-7 3xl:gap-8 4xl:gap-10;
+}

@@ -1,0 +1,28 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              display: Title
+              validate:
+                - required
+          -
+            handle: entry
+            field:
+              type: entries
+              display: Entry
+              create: false
+              max_items: 1
+          -
+            handle: url
+            field:
+              type: text
+              display: URL
+              if:
+                link_type: 'equals url'
+              visibility: hidden

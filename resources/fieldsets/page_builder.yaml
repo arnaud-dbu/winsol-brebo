@@ -1,0 +1,37 @@
+title: 'Page Builder'
+fields:
+  -
+    handle: page_builder
+    field:
+      type: replicator
+      display: 'Page Builder'
+      collapse: accordion
+      button_label: 'Add Section'
+      sets:
+        new_set_group:
+          display: 'New Set Group'
+          sets:
+            text:
+              display: Text
+              image: image-5.png
+              fields:
+                -
+                  import: text
+            cards:
+              display: Cards
+              image: image-7.png
+              fields:
+                -
+                  import: cards
+            collapses:
+              display: Collapses
+              image: image-9.png
+              fields:
+                -
+                  import: collapses
+            image_gallery:
+              display: 'Image Gallery'
+              image: image-13.png
+              fields:
+                -
+                  import: image_gallery

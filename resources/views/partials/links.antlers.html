@@ -1,0 +1,25 @@
+<div class="flex items-center gap-x-4 xl:gap-x-6">
+    {{ links }}
+        {{ if index == 0 }}
+            {{ style = "btn btn--primary" }}
+        {{ elseif index == 1 }}
+            {{ style = "link" }}
+        {{ /if }}
+        {{ if type == 'entry' }}
+            <a class="{{ style }} {{ inverse ? " inverse" : "" }}" href="{{ entry.url }}"
+                target="{{ new_tab ? " _blank" : "" }}">{{ label }}</a>
+        {{ elseif type == 'url' }}
+            <a class="{{ style }} {{ inverse ? " inverse" : "" }}" href="https://{{ url }}"
+                target="{{ new_tab ? '_blank' : '""' }}">{{ label }}</a>
+        {{ elseif type == 'mail' }}
+            <a class="{{ style }} {{ inverse ? " inverse" : "" }}" href="mailto:{{ e_mail }}"
+                target="{{ new_tab ? '_blank' : '""' }}">{{ label }}</a>
+        {{ elseif type == 'phone' }}
+            <a class="{{ style }} {{ inverse ? " inverse" : "" }}" href="tel:{{ phone }}"
+                target="{{ new_tab ? " _blank" : "" }}">{{ label }}</a>
+        {{ elseif type == 'asset' }}
+            <a class="{{ style }} {{ inverse ? " inverse" : "" }}" href="{{ asset.url }}"
+                target="_blank">{{ label }}</a>
+        {{ /endif }}
+    {{ /links }}
+</div>

@@ -1,0 +1,29 @@
+title: 'Image Gallery'
+fields:
+  -
+    import: section_header
+  -
+    handle: image_width
+    field:
+      options:
+        -
+          key: 1/4
+          value: null
+        -
+          key: 1/3
+          value: null
+        -
+          key: 1/2
+          value: null
+        -
+          key: 1/1
+          value: null
+      default: 1/4
+      type: button_group
+      display: 'Image Width'
+  -
+    handle: images
+    field:
+      container: assets
+      type: assets
+      display: Images

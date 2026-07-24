@@ -1,0 +1,18 @@
+title: Redactor
+fields:
+  -
+    handle: redactor
+    field:
+      buttons:
+        - h2
+        - h3
+        - bold
+        - italic
+        - unorderedlist
+        - orderedlist
+        - anchor
+        - table
+      container: assets
+      remove_empty_nodes: false
+      type: bard
+      display: Redactor

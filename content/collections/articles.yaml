@@ -1,0 +1,14 @@
+title: Articles
+icon: collections
+template: articles/show
+layout: layout
+mount: 8cf703da-5dde-4543-89aa-8f2d5c3011d9
+revisions: false
+route: 'articles/{slug}'
+date: true
+sort_dir: asc
+preview_targets:
+  -
+    label: Entry
+    url: '{permalink}'
+    refresh: true

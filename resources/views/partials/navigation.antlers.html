@@ -1,0 +1,19 @@
+<header class="py-4">
+    <div class="container">
+        <div class="flex justify-between items-center">
+            <a href="/">
+                <span class="sr-only">Home Link</span>
+                {{ svg src="logo" }}
+            </a>
+            <nav class="hidden md:block">
+                <ul class="flex gap-3">
+                    {{ nav:main }}
+                        <li>
+                            <a href="{{ entry.url }}">{{ title }}</a>
+                        </li>
+                    {{ /nav:main }}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>

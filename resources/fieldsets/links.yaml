@@ -1,0 +1,95 @@
+title: Links
+fields:
+  -
+    handle: links
+    field:
+      max_rows: 2
+      add_row: 'Add link'
+      type: grid
+      display: Links
+      mode: stacked
+      fields:
+        -
+          handle: type
+          field:
+            options:
+              -
+                key: entry
+                value: Entry
+              -
+                key: url
+                value: URL
+              -
+                key: mail
+                value: E-mail
+              -
+                key: phone
+                value: Phone
+              -
+                key: asset
+                value: Asset
+            default: entry
+            type: select
+            display: Type
+            width: 50
+        -
+          handle: entry
+          field:
+            max_items: 1
+            type: entries
+            display: Entry
+            width: 50
+            create: false
+            if:
+              type: 'equals entry'
+        -
+          handle: e_mail
+          field:
+            type: text
+            display: E-mail
+            width: 50
+            input_type: email
+            if:
+              type: 'equals mail'
+        -
+          handle: url
+          field:
+            prepend: 'https://'
+            type: text
+            display: URL
+            width: 50
+            always_save: false
+            input_type: url
+            if:
+              type: 'equals url'
+        -
+          handle: phone
+          field:
+            type: text
+            display: Phone
+            width: 50
+            input_type: tel
+            if:
+              type: 'equals phone'
+        -
+          handle: asset
+          field:
+            max_files: 1
+            container: assets
+            type: assets
+            display: Asset
+            width: 50
+            if:
+              type: 'equals asset'
+        -
+          handle: label
+          field:
+            type: text
+            display: Label
+            width: 50
+        -
+          handle: new_tab
+          field:
+            type: toggle
+            display: 'Open link in a new tab'
+            width: 50
