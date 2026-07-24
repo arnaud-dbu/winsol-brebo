@@ -1,0 +1,44 @@
+title: Quicklink
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              display: Title
+              required: true
+              validate:
+                - required
+          -
+            handle: text
+            field:
+              type: textarea
+              display: Text
+          -
+            import: image
+          -
+            import: link
+          -
+            handle: link_style
+            field:
+              type: select
+              display: 'Link Style'
+              default: primary
+              options:
+                primary: Primary
+                outline: Outline
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate: 'max:200'
