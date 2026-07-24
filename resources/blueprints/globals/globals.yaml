@@ -24,6 +24,8 @@ tabs:
             field:
               mode: keyed
               keys:
+                - key: mobile
+                  value: null
                 - key: phone
                   value: null
                 - key: email

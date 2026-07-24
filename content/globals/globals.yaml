@@ -6,6 +6,7 @@ company:
   postal: null
   city: null
 contact:
+  mobile: null
   phone: null
   email: null
 socials:

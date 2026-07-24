@@ -5,6 +5,7 @@ company:
   postal: '3090'
   city: Brussels
 contact:
+  mobile: null
   phone: '0478258076'
   email: hello@stuw.agency
 socials:
