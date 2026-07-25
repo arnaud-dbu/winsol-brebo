@@ -1,18 +1,19 @@
-<div class="section-header-gap">
-    {{ if title }}
-        <h2 class="">
-            {{ if overline }}
-                <div class="">{{ overline }} </div>
-            {{ /if }}
-            {{ title }}
-        </h2>
-    {{ /if }}
-    {{ if text }}
-        <div class="rich-text">
-            {{ text }}
-        </div>
-    {{ /if }}
-    {{ if link }}
-        {{ partial:link :variant="btnVariant" }}
-    {{ /if }}
-</div>
+{{ tag = tag ?? "h2" }}
+{{ if title || text || overline || link }}
+    <div
+        class="section-header section-header-gap {{ is_centered ? 'section-header--centered items-center text-center' : '' }} {{ is_inverse ? 'section-header--inverse text-white' : '' }}">
+        {{ partial:overline :label="overline" :is_inverse="is_inverse" }}
+
+        {{ if title }}
+            <{{ tag }} class="max-w-3xl">{{ title }}</{{ tag }}>
+        {{ /if }}
+
+        {{ if text }}
+            <div class="rich-text max-w-2xl">{{ text }}</div>
+        {{ /if }}
+
+        {{ if link }}
+            {{ partial:link :style="btn_variant" :inverse="is_inverse" }}
+        {{ /if }}
+    </div>
+{{ /if }}
