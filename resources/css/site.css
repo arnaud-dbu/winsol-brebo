@@ -11,6 +11,13 @@
     --color-white: #fff;
     --color-black: #121B22;
     --color-nav-bar: #3b3bf5;
+    --color-dark: #292d2d;
+
+    --spacing-gutter: 2rem;          /* 32 */
+    --spacing-margin: 2.5rem;        /* 40 */
+    --spacing-margin-mobile: 1.25rem;/* 20 */
+    --spacing-section: 7rem;         /* 112 */
+    --spacing-section-half: 4rem;    /* 64 */
 
     --breakpoint-xs: 28rem; /* 448px */
     --breakpoint-sm: 40rem; /* 640px */
@@ -34,25 +41,15 @@
 
     --text-xs: 0.625rem; /* 10px */
     --text-sm: 0.812rem; /* 13px */
-    --text-base: 1rem; /* 16px */
-    --text-lg: 1.25rem; /* 20px */
-    --text-xl: 1.562rem; /* 25px */
-    --text-2xl: 1.938rem; /* 31px */
-    --text-3xl: 2.438rem; /* 39px */
-    --text-4xl: 3.062rem; /* 49px */
-    --text-5xl: 3.812rem; /* 61px */
-    --text-6xl: 4.75rem; /* 76px */
-    --text-7xl: 5.938rem; /* 95px */
-    --text-8xl: 7.438rem; /* 119px */
 
-    --text-xs: 0.625rem; /* 10px */
-    --text-sm: 0.812rem; /* 13px */
-    --text-base: 1rem; /* 16px */
-    --text-lg: 1.25rem; /* 20px */
-    --text-xl: 1.562rem; /* 25px */
-    --text-2xl: 1.938rem; /* 31px */
-    --text-3xl: 2.438rem; /* 39px */
-    --text-4xl: 3.062rem; /* 49px */
+    /* Fluid: mobiel (640px) → desktop (1536px), waarden uit Figma */
+    --text-base: clamp(1rem, 0.821rem + 0.446vw, 1.25rem);        /* P        16 → 20 */
+    --text-lg: clamp(1.125rem, 0.813rem + 0.781vw, 1.5625rem);    /* P-lg     18 → 25 */
+    --text-xl: clamp(1.25rem, 0.759rem + 1.228vw, 1.9375rem);     /* H3       20 → 31 */
+    --text-2xl: clamp(1.5625rem, 0.938rem + 1.563vw, 2.4375rem);  /*          25 → 39 */
+    --text-3xl: clamp(1.9375rem, 1.134rem + 2.009vw, 3.0625rem);  /* H2       31 → 49 */
+    --text-4xl: clamp(2.4375rem, 1.455rem + 2.455vw, 3.8125rem);  /* H1       39 → 61 */
+
     --text-5xl: 3.812rem; /* 61px */
     --text-6xl: 4.75rem; /* 76px */
     --text-7xl: 5.938rem; /* 95px */

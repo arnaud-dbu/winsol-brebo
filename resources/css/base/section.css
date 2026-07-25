@@ -1,5 +1,11 @@
 .section {
-    @apply py-16 sm:py-20 md:py-24 lg:py-28 xl:py-32 2xl:py-36 3xl:py-40 4xl:py-44;
+    padding-block: var(--spacing-section-half);
+}
+
+@media (min-width: 1024px) {
+    .section {
+        padding-block: var(--spacing-section);
+    }
 }
 
 .section--default + .section--default {

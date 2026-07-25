@@ -1,5 +1,5 @@
 @utility container {
-    @apply px-4 xl:px-10 2xl:px-12;
+    @apply px-5 lg:px-10;
 
     margin-inline: auto;
     max-width: var(--breakpoint-4xl);

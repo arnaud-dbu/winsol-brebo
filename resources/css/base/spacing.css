@@ -21,3 +21,21 @@
 @utility section-header-gap {
     @apply flex flex-col gap-4 lg:gap-6 2xl:gap-7 3xl:gap-8 4xl:gap-10;
 }
+
+@utility grid-gutter {
+    @apply gap-6 lg:gap-8;
+}
+
+@utility card-padding {
+    @apply p-6 lg:p-8;
+}
+
+@utility slider-bleed {
+    margin-inline: calc(var(--spacing-margin-mobile) * -1);
+    padding-inline: var(--spacing-margin-mobile);
+
+    @media (min-width: 1024px) {
+        margin-inline: calc(var(--spacing-margin) * -1);
+        padding-inline: var(--spacing-margin);
+    }
+}
