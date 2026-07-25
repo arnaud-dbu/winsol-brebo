@@ -1,11 +1,25 @@
 {{ page_builder }}
     {{ if type == "text" }}
         {{ partial src="sections/text" }}
-    {{ elseif type == "image_gallery" }}
-        {{ partial src="sections/imageGallery" }}
-    {{ elseif type == "collapses" }}
-        {{ partial src="sections/collapses" }}
+    {{ elseif type == "text_image" }}
+        {{ partial src="sections/textImage" }}
+    {{ elseif type == "ranges" }}
+        {{ partial src="sections/ranges" }}
     {{ elseif type == "cards" }}
         {{ partial src="sections/cards" }}
+    {{ elseif type == "projects" }}
+        {{ partial src="sections/projects" }}
+    {{ elseif type == "technical_details" }}
+        {{ partial src="sections/technicalDetails" }}
+    {{ elseif type == "features" }}
+        {{ partial src="sections/features" }}
+    {{ elseif type == "grid_cta" }}
+        {{ partial src="sections/gridCta" }}
+    {{ elseif type == "image_gallery" }}
+        {{ partial src="sections/imageGallery" }}
+    {{ elseif type == "cta" }}
+        {{ partial src="sections/cta" }}
+    {{ elseif type == "products" }}
+        {{ partial src="sections/products" }}
     {{ /if }}
 {{ /page_builder }}

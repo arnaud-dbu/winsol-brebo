@@ -1,14 +1,1 @@
-<section class="section section--default">
-  <div class="container">
-    <div class="section-y-gap">
-      {{ partial:sectionHeader }}
-      {{ if media == "image" }}
-        {{ img :src="image" class="max-w-sm" max_width="960" sizes="(min-width: 448px) 384px, 100vw" }}
-      {{ elseif media == "video" }}
-        <div class="max-w-sm ">
-          {{ partial:video }}
-        </div>
-      {{ /if }}
-    </div>
-  </div>
-</section>
+<section class="section section--default" data-section="text"></section>
