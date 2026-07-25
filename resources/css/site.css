@@ -4,14 +4,12 @@
 @source '../../content';
 
 @theme {
-    /* Set these to your project's font family (registered in config/fonts.php). */
-    --font-base: '', sans-serif;
-    --font-display: '', sans-serif;
+    --font-base: 'General Sans', sans-serif;
 
-    --color-accent: #012b24;
-    --color-light: #004437;
+    --color-accent: #F8D71C;
+    --color-light: #F1F6F8;
     --color-white: #fff;
-    --color-black: #000;
+    --color-black: #121B22;
     --color-nav-bar: #3b3bf5;
 
     --breakpoint-xs: 28rem; /* 448px */
