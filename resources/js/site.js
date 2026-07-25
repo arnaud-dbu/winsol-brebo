@@ -9,7 +9,7 @@ Alpine.start()
 
 import "./components/hamburger";
 import "./components/mobile-navigation";
-import "./components/collapses";
+import "./components/sliders";
 
 if (import.meta.hot) {
     import.meta.hot.on("vite:beforeFullReload", () => {

@@ -1,0 +1,19 @@
+<div class="slider {{ bleed ? 'slider-bleed' : '' }}" data-slider data-slider-per-view="{{ per_view }}"
+    {{ if from }}data-slider-from="{{ from }}"{{ /if }}
+    {{ if pagination }}data-slider-pagination="true"{{ /if }}
+    {{ if navigation }}data-slider-navigation="true"{{ /if }}>
+    <div class="swiper-wrapper">
+        {{ slot }}
+    </div>
+
+    {{ if pagination }}
+        <div class="swiper-pagination"></div>
+    {{ /if }}
+
+    {{ if navigation }}
+        <div class="slider__nav">
+            <button type="button" class="swiper-button-prev" aria-label="{{ trans:site.slider_previous }}"></button>
+            <button type="button" class="swiper-button-next" aria-label="{{ trans:site.slider_next }}"></button>
+        </div>
+    {{ /if }}
+</div>
