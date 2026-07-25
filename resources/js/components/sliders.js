@@ -58,20 +58,35 @@ async function createSwiper(element) {
  * Zonder data-slider-from draait de slider altijd. Met data-slider-from="md"
  * draait hij alleen ONDER die breakpoint; erboven wordt hij vernietigd zodat
  * de CSS-grid het overneemt.
+ *
+ * enable()/disable() zijn geserialiseerd via `queue`: elke aanroep wordt
+ * aan de vorige gekoppeld en wacht tot die volledig is afgerond (inclusief
+ * de async createSwiper()) voordat hij zelf start. Zo kan snel heen-en-weer
+ * schakelen over de breakpoint nooit twee instanties opleveren, en kan een
+ * disable() nooit "verdwijnen" doordat instance nog null is terwijl een
+ * enable() nog in-flight is — de laatste aanroep in de rij bepaalt altijd
+ * de uiteindelijke staat.
  */
 function register(element) {
     let instance = null
+    let queue = Promise.resolve()
     const from = element.dataset.sliderFrom
 
-    const enable = async () => {
-        if (!instance) instance = await createSwiper(element)
+    const enable = () => {
+        queue = queue.then(async () => {
+            if (!instance) instance = await createSwiper(element)
+        })
+        return queue
     }
 
     const disable = () => {
-        if (instance) {
-            instance.destroy(true, true)
-            instance = null
-        }
+        queue = queue.then(() => {
+            if (instance) {
+                instance.destroy(true, true)
+                instance = null
+            }
+        })
+        return queue
     }
 
     if (!from) {
