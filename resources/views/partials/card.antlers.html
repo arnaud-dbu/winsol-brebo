@@ -1,14 +1,27 @@
-<div class="@container">
-    <div class="bg-gray-200 p-4">
-        {{ icon:index src="{{ icon | raw }}" class="" }}
+{{ layout = layout ?? "vertical" }}
+{{ ratio = layout == "horizontal" ? "2/3" : "8/5" }}
+<article class="card card--{{ layout }} @container">
+    {{ if image }}
+        <div class="card__media">
+            {{ img :src="image" :ratio="ratio" max_width="960" sizes="(min-width: 1024px) 33vw, 90vw" }}
+        </div>
+    {{ /if }}
+
+    <div class="card__body card-padding">
+        {{ partial:overline :label="overline" }}
+
         {{ if title }}
-            <h3 class="">{{ title }}</h3>
+            <h3>{{ title }}</h3>
         {{ /if }}
+
         {{ if text }}
-            <p class="">{{ text }}</p>
+            <div class="rich-text">{{ text }}</div>
         {{ /if }}
+
+        {{ partial:featureList :items="features" }}
+
         {{ if link }}
             {{ partial:link }}
         {{ /if }}
     </div>
-</div>
+</article>
