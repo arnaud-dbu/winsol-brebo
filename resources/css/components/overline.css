@@ -1,0 +1,15 @@
+.overline {
+    @apply flex flex-col items-start gap-2 font-semibold uppercase text-black;
+
+    font-size: clamp(0.75rem, 0.571rem + 0.446vw, 1rem); /* 12 → 16 */
+    line-height: 1.1;
+    letter-spacing: 0.125em; /* 2px op 16px */
+}
+
+.overline--inverse {
+    @apply text-white;
+}
+
+.overline__rule {
+    @apply block h-px w-6 bg-current;
+}
