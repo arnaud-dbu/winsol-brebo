@@ -1,0 +1,10 @@
+{{ if items }}
+    <ul class="feature-list flex flex-col gap-2">
+        {{ items }}
+            <li class="flex items-center gap-3 text-base">
+                {{ svg src="icons/regular/check" class="size-5 shrink-0 text-accent" }}
+                <span>{{ label }}</span>
+            </li>
+        {{ /items }}
+    </ul>
+{{ /if }}
