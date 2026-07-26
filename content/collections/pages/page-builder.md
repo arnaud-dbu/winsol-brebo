@@ -52,24 +52,76 @@ page_builder:
         image: dummy-images/test-img-19.jpg
         title: 'Sfeervolle ledverlichting'
         text: '<p>Dimbare spots geïntegreerd in de lamellen en de structuur. Ook na zonsondergang blijft uw terras een aangename plek.</p>'
+        features:
+          -
+            id: card01feat01
+            type: feature
+            label: 'Dimbaar via app'
+          -
+            id: card01feat02
+            type: feature
+            label: 'Spots in lamellen én balken'
+          -
+            id: card01feat03
+            type: feature
+            label: 'Warmwit, instelbaar'
       -
         id: card02
         type: card
         image: dummy-images/test-img-1.jpg
         title: 'Klaar voor lange avonden'
         text: '<p>Voorzie verwarmingselementen, speakers en stopcontacten. Uw buitenkamer wordt een verlengstuk van de woonkamer.</p>'
+        features:
+          -
+            id: card02feat01
+            type: feature
+            label: Infraroodverwarming
+          -
+            id: card02feat02
+            type: feature
+            label: 'Geïntegreerde audio'
+          -
+            id: card02feat03
+            type: feature
+            label: 'Stroompunten op maat'
       -
         id: card03
         type: card
         image: dummy-images/test-img-2.jpg
         title: 'Tot op de millimeter op maat'
         text: '<p>Vrijstaand of aangebouwd, koppelbaar tot grote oppervlaktes, in elke RAL-kleur. De pergola volgt uw woning, niet omgekeerd.</p>'
+        features:
+          -
+            id: card03feat01
+            type: feature
+            label: 'Koppelbare modules'
+          -
+            id: card03feat02
+            type: feature
+            label: 'Elke RAL-kleur'
+          -
+            id: card03feat03
+            type: feature
+            label: 'Vrijstaand of aangebouwd'
       -
         id: card04
         type: card
         image: dummy-images/test-img-3.jpg
         title: 'Sierwanden en schuifpanelen'
         text: '<p>Glazen schuifwanden, screens en sierpanelen sluiten de pergola af tegen wind en inkijk — zonder het open gevoel te verliezen.</p>'
+        features:
+          -
+            id: card04feat01
+            type: feature
+            label: 'Glazen schuifwanden'
+          -
+            id: card04feat02
+            type: feature
+            label: Zip-screens
+          -
+            id: card04feat03
+            type: feature
+            label: Sierpanelen
   -
     id: sec04
     type: text
