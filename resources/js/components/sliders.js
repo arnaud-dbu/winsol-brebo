@@ -31,6 +31,7 @@ function parsePerView(value) {
 
 async function createSwiper(element) {
     const { default: Swiper } = await import('swiper')
+    await import('swiper/css')
     const { Navigation, Pagination } = await import('swiper/modules')
 
     const { slidesPerView, breakpoints } = parsePerView(element.dataset.sliderPerView)
