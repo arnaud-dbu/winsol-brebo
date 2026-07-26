@@ -34,6 +34,18 @@ tabs:
               type: text
               display: City
           -
+            handle: latitude
+            field:
+              type: float
+              display: Latitude
+              instructions: 'Uit Google Maps, bv. 50.8631'
+          -
+            handle: longitude
+            field:
+              type: float
+              display: Longitude
+              instructions: 'Uit Google Maps, bv. 4.2564'
+          -
             handle: opening_hours
             field:
               type: grid
