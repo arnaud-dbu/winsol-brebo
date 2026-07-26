@@ -41,3 +41,18 @@
 .btn--dark {
     @apply rounded-full bg-black px-8 py-5 font-semibold text-base text-white;
 }
+
+/*
+ * `.btn--outline` is de knop van de home-hero (Figma 293:2702): 1px zwarte
+ * rand op een transparante achtergrond, verder identiek aan `.btn--accent`
+ * en `.btn--dark` in vorm, padding en labelgrootte. `.btn--inverse` heeft
+ * geen vorm of padding en kan dit dus niet dekken.
+ *
+ * Dit is de vierde knop met dezelfde vorm-declaraties. De follow-up om een
+ * `.btn--pill` base te extraheren staat open in
+ * docs/superpowers/specs/2026-07-26-pagebuilder-sections-followups.md en
+ * hoort niet in deze diff — die raakt vier bestaande secties.
+ */
+.btn--outline {
+    @apply rounded-full border border-black px-8 py-5 font-semibold text-base text-black;
+}
