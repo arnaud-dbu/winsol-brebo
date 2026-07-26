@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-- **Bestaande pagina's mogen niet veranderen.** Elke wijziging aan een gedeeld partial is additief, via een argument met een default die het huidige gedrag exact bewaart.
+- **Bestaande pagina's mogen niet veranderen, op één afgesproken uitzondering na.** Elke wijziging aan een gedeeld partial is additief, via een argument met een default die het huidige gedrag exact bewaart. De uitzondering is de `product` → `range`-omzetting uit Taak 3 en 5: die is bewust doorgevoerd en verandert het categorielabel op de projectkaart, ook in de `projects`-sectie van de page builder. Dat is geen defect.
 - **Geen animatie in het filter.** Zichtbaarheid is uitsluitend het `hidden`-attribuut, nooit een transition of `x-transition`.
 - **Geen swiper op de overzichtspagina's.** Kaarten stapelen op mobile via een grid met één kolom, niet via een uitgezette slider.
 - **Tailwind-klassen altijd letterlijk uitschrijven.** Nooit een breakpoint of variant in een klassenaam interpoleren — Tailwind's scanner leest alleen letterlijke tekst uit de bronbestanden. Dit is elders in dit project al een gedocumenteerde valkuil (zie de comment-blokken in `sectionHeader.antlers.html`).
