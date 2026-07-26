@@ -79,6 +79,40 @@ class ProjectsOverviewPageTest extends TestCase
         );
     }
 
+    public function test_the_active_pill_carries_a_server_rendered_aria_current(): void
+    {
+        // Zonder JavaScript en vóór Alpine boot is `aria-current` de enige
+        // programmatische actieve staat, dus die moet uit de server komen.
+        $html = $this->get('/realisaties?range=zonwering')->getContent();
+
+        $this->assertMatchesRegularExpression(
+            '/data-range="zonwering"\s+class="range-filter__btn range-filter__btn--active"\s+aria-current="page"/',
+            $html,
+            'De actieve knop hoort server-side aria-current="page" te dragen'
+        );
+
+        // Precies één pil is actief, en "Toon alles" is het niet.
+        $this->assertSame(1, substr_count($html, 'aria-current="page"'));
+        $this->assertDoesNotMatchRegularExpression(
+            '/data-range=""\s+class="[^"]*"\s+aria-current=/',
+            $html,
+            '"Toon alles" hoort niet actief te zijn bij ?range=zonwering'
+        );
+    }
+
+    public function test_show_all_carries_the_aria_current_when_no_range_is_selected(): void
+    {
+        $html = $this->get('/realisaties')->getContent();
+
+        $this->assertMatchesRegularExpression(
+            '/data-range=""\s+class="range-filter__btn range-filter__btn--active"\s+aria-current="page"/',
+            $html,
+            '"Toon alles" hoort standaard aria-current="page" te dragen'
+        );
+
+        $this->assertSame(1, substr_count($html, 'aria-current="page"'));
+    }
+
     public function test_it_wires_up_the_alpine_filter(): void
     {
         $html = $this->get('/realisaties')->getContent();

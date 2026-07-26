@@ -42,6 +42,27 @@ class RangeFilterTest extends SectionTestCase
         );
     }
 
+    public function test_the_active_state_is_also_exposed_server_side_via_aria_current(): void
+    {
+        $html = $this->render('{{ partial src="rangeFilter" }}');
+
+        // `:aria-current` is Alpine-only; zonder JavaScript en vóór Alpine
+        // boot moet het echte attribuut er al staan.
+        $this->assertMatchesRegularExpression(
+            '/data-range=""\s+class="range-filter__btn range-filter__btn--active"\s+aria-current="page"/',
+            $html,
+            '"Toon alles" hoort server-side aria-current="page" te dragen'
+        );
+
+        // Klasse en aria-current kunnen niet uiteenlopen: precies één pil.
+        $this->assertSame(1, substr_count($html, 'aria-current="page"'));
+        $this->assertSame(
+            substr_count($html, 'class="range-filter__btn range-filter__btn--active"'),
+            substr_count($html, 'aria-current="page"'),
+            'Actieve klasse en aria-current horen op dezelfde knoppen te staan'
+        );
+    }
+
     public function test_every_range_button_links_to_its_own_query_string(): void
     {
         $html = $this->render('{{ partial src="rangeFilter" }}');
