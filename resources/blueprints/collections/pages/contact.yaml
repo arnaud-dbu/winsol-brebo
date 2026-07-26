@@ -10,15 +10,6 @@ tabs:
       -
         fields:
           -
-            handle: quicklinks
-            field:
-              type: entries
-              collections:
-                - quicklinks
-              display: Quicklinks
-      -
-        fields:
-          -
             import: page_builder
   preview:
     display: Preview
