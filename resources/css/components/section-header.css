@@ -1,0 +1,31 @@
+/*
+ * `.section-header--centered` centres a sectionHeader at all widths.
+ * `.section-header--centered-from-{breakpoint}` centres it only from that
+ * breakpoint up, staying left-aligned below it (e.g. `features`: left on
+ * mobile, centred on desktop). Only the breakpoints below are supported —
+ * see the precedence/fallback comment in sectionHeader.antlers.html.
+ */
+
+.section-header--centered {
+    @apply items-center text-center;
+}
+
+.section-header--centered-from-sm {
+    @apply sm:items-center sm:text-center;
+}
+
+.section-header--centered-from-md {
+    @apply md:items-center md:text-center;
+}
+
+.section-header--centered-from-lg {
+    @apply lg:items-center lg:text-center;
+}
+
+.section-header--centered-from-xl {
+    @apply xl:items-center xl:text-center;
+}
+
+.section-header--centered-from-2xl {
+    @apply 2xl:items-center 2xl:text-center;
+}

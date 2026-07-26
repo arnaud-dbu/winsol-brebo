@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Sections;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class SectionHeaderTest extends SectionTestCase
 {
     private array $context = [
@@ -31,7 +33,41 @@ class SectionHeaderTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:sectionHeader is_centered="true" }}', $this->context);
 
-        $this->assertStringContainsString('section-header--centered', $html);
+        $this->assertStringContainsString('class="section-header section-header-gap section-header--centered', $html);
+    }
+
+    public static function centeredFromBreakpointProvider(): array
+    {
+        return [
+            'sm' => ['sm'],
+            'md' => ['md'],
+            'lg' => ['lg'],
+            'xl' => ['xl'],
+            '2xl' => ['2xl'],
+        ];
+    }
+
+    #[DataProvider('centeredFromBreakpointProvider')]
+    public function test_centered_from_emits_the_literal_breakpoint_class(string $breakpoint): void
+    {
+        $html = $this->render('{{ partial:sectionHeader :centered_from="breakpoint" }}', $this->context + ['breakpoint' => $breakpoint]);
+
+        $this->assertStringContainsString("section-header--centered-from-{$breakpoint}", $html);
+    }
+
+    public function test_centered_from_with_unsupported_value_falls_back_to_left_aligned(): void
+    {
+        $html = $this->render('{{ partial:sectionHeader centered_from="not-a-breakpoint" }}', $this->context);
+
+        $this->assertStringNotContainsString('section-header--centered', $html);
+    }
+
+    public function test_is_centered_wins_when_both_args_are_passed(): void
+    {
+        $html = $this->render('{{ partial:sectionHeader is_centered="true" centered_from="lg" }}', $this->context);
+
+        $this->assertStringContainsString('class="section-header section-header-gap section-header--centered', $html);
+        $this->assertStringNotContainsString('section-header--centered-from-lg', $html);
     }
 
     public function test_inverse_variant(): void
