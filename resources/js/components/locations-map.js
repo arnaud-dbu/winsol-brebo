@@ -128,7 +128,10 @@ function register(section) {
             if (!entries.some((entry) => entry.isIntersecting)) return
 
             observer.disconnect()
-            createMap(section, container, locations)
+            // De kaart is decoratief en de drie /contact-links werken zonder
+            // haar; een mislukte chunk-fetch (flaky netwerk, offline) heeft
+            // dus niets zinvols om te tonen, en faalt daarom stil.
+            createMap(section, container, locations).catch(() => {})
         },
         { rootMargin: '200px' }
     )

@@ -46,16 +46,25 @@
 }
 
 /*
- * Leaflet's eigen .leaflet-div-icon geeft elke divIcon een witte achtergrond
- * en een grijze rand. leaflet.css komt uit een dynamisch geladen chunk, dus
- * de laadvolgorde ten opzichte van site.css ligt niet vast — vandaar de
- * dubbele selector, die wint op specificiteit in plaats van op volgorde.
+ * Leaflet's eigen witte achtergrond en grijze rand komen niet van
+ * .leaflet-div-icon: een custom className op L.divIcon vervangt die default
+ * in plaats van hem aan te vullen (zie Marker._setIconStyles). Wat wel op de
+ * pin-div terechtkomt is .leaflet-marker-icon, gevolgd door onze eigen
+ * className — vandaar de samengestelde selector hieronder. leaflet.css komt
+ * uit een dynamisch geladen chunk, dus de laadvolgorde ten opzichte van
+ * site.css ligt niet vast; de compound wint op specificiteit in plaats van
+ * op volgorde.
  */
-.leaflet-div-icon.locations-map__pin {
+.leaflet-marker-icon.locations-map__pin {
     @apply border-0 bg-transparent;
 }
 
-/* De kaart is illustratie: geen focusring, geen tekstcursor. */
-.locations-map__canvas .leaflet-container {
+/*
+ * De kaart is illustratie: geen focusring, geen tekstcursor. L.map(container)
+ * wordt aangeroepen op .locations-map__canvas zelf, en Leaflet's _initLayout
+ * zet .leaflet-container op datzelfde element — geen kind-element, dus geen
+ * afstammeling-selector.
+ */
+.locations-map__canvas.leaflet-container {
     @apply cursor-default outline-none;
 }
