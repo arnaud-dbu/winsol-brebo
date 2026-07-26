@@ -5,5 +5,5 @@ short_description: 'Airconditioning voor koeling in de zomer en bijverwarming in
 long_description: 'Een airco houdt de temperatuur in huis onder controle op warme dagen en dient bij de meeste toestellen ook als extra verwarming in het voor- en najaar. We adviseren over het juiste vermogen per ruimte en plaatsen zowel wandmodellen als multisplitsystemen voor meerdere kamers op één buitenunit. Bediening via een app of afstandsbediening is standaard voorzien.'
 image: ranges/airco.png
 range_category:
-  - comfort-en-techniek
+  - voor-je-woning
 ---
