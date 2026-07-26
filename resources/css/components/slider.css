@@ -36,16 +36,18 @@
 }
 
 /*
- * `ranges` section only (Figma 451:2700 desktop vs 451:3048 mobile): on
- * desktop the two nav buttons sit beside the heading, top-right of the
- * header row; on mobile they stay in their default spot below the card
- * row. `.slider__nav` must remain a DOM descendant of `[data-slider]` —
- * `resources/js/components/sliders.js` finds it via
- * `element.querySelector('.swiper-button-next'/'-prev')` scoped to that
- * element — so only its *visual* position changes here, never its place
- * in the markup, and neither the shared `slider` nor `sectionHeader`
- * partials are touched (this would affect every other section that uses
- * them).
+ * Nav-beside-heading treatment, shared by two sections:
+ * - `ranges` (Figma 451:2700 desktop vs 451:3048 mobile)
+ * - `image_gallery` (Figma 451:2902 desktop vs 451:3272 mobile)
+ *
+ * On desktop both put the slider's nav buttons beside the heading,
+ * top-right of the header row. `.slider__nav` must remain a DOM
+ * descendant of `[data-slider]` — resources/js/components/sliders.js
+ * finds it via `element.querySelector('.swiper-button-next'/'-prev')`
+ * scoped to that element — so only its *visual* position changes here,
+ * never its place in the markup, and neither the shared `slider` nor
+ * `sectionHeader` partials are touched (this would affect every other
+ * section that uses them).
  *
  * `.slider` keeps clipping the horizontally-oversized `.swiper-wrapper`
  * (`overflow-x: hidden`, unchanged from the base rule above) so the
@@ -54,26 +56,42 @@
  * above `.slider`'s own box without being clipped. `.slider` is also
  * taken out of the positioning chain (`position: static`) so the nav's
  * containing block bubbles up to `.section-y-gap` (made `position:
- * relative` here, ranges-only) — i.e. the box that wraps both the
- * header and the slider — placing the nav at that box's own top-right
- * corner, which is exactly the header's top-right corner since the
- * header is its first child.
+ * relative` here) — i.e. the box that wraps both the header and the
+ * slider — placing the nav at that box's own top-right corner, which is
+ * exactly the header's top-right corner since the header is its first
+ * child.
  */
 @media (min-width: 1024px) {
-    [data-section='ranges'] .section-y-gap {
+    [data-section='ranges'] .section-y-gap,
+    [data-section='image_gallery'] .section-y-gap {
         position: relative;
     }
 
-    [data-section='ranges'] .slider {
+    [data-section='ranges'] .slider,
+    [data-section='image_gallery'] .slider {
         position: static;
         overflow-x: hidden;
         overflow-y: visible;
     }
 
-    [data-section='ranges'] .slider__nav {
+    [data-section='ranges'] .slider__nav,
+    [data-section='image_gallery'] .slider__nav {
         position: absolute;
         top: 0;
         right: 0;
         margin-top: 0;
+    }
+}
+
+/*
+ * `image_gallery` only: unlike `ranges` (whose mobile design keeps the nav
+ * visible below the card row), `image_gallery`'s mobile design (451:3272)
+ * has no nav buttons at all — only pagination dots. Hide `.slider__nav`
+ * below `lg`; the nav reappears beside the heading via the shared rule
+ * above once the `min-width: 1024px` query takes over.
+ */
+@media (max-width: 1023.98px) {
+    [data-section='image_gallery'] .slider__nav {
+        display: none;
     }
 }

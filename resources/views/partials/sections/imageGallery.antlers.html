@@ -1,1 +1,52 @@
-<section class="section section--default" data-section="image_gallery"></section>
+{{#
+    Track bleeds outside `.container` at every width (Figma 451:2902 desktop,
+    451:3272 mobile) via `bleed="true"` on the shared `slider` partial: it
+    applies the `slider-bleed` utility (resources/css/base/spacing.css),
+    which cancels the container's own inline padding with a matching
+    negative margin and immediately re-adds it as padding — the box reaches
+    the viewport edge but its content still starts at the same x as the
+    container. `.slider` still clips with `overflow-x: hidden`
+    (resources/css/components/slider.css, base rule), so the oversized
+    swiper track is cut off exactly at the viewport edge and can never
+    widen `document.documentElement` — the bleed only ever grows inward
+    to fill the container's own padding, never past the viewport itself.
+
+    Header is left-aligned (no centring args) at both breakpoints. On
+    desktop (451:2910) the slider's prev/next buttons sit beside the
+    heading, top-right of the header row; on mobile (451:3283) there is no
+    nav at all, only pagination dots below the row. Both `navigation="true"`
+    and `pagination="true"` are passed to the slider — the *placement* is
+    handled entirely by the `[data-section='image_gallery']` rules in
+    resources/css/components/slider.css, which reuse (and generalise) the
+    `ranges` section's existing desktop-nav-beside-heading treatment and
+    additionally hide `.slider__nav` below `lg` for this section. Neither
+    the `slider` nor `sectionHeader` partials are touched — that would
+    affect every other section that consumes them.
+
+    `per_view="1.15,lg:1.4"`: at the base tier the design (451:3272, 402px
+    wide mobile frame) shows one ~339px slide filling ~84% of the frame
+    (339/402), i.e. slidesPerView ≈ 1/0.84 ≈ 1.15 — the same value already
+    used by `ranges`/`projects`. From `lg` up the container's own padding
+    is constant (`container` is `px-10` from `lg` through `4xl`), so the
+    1744px desktop frame (451:2902) is representative of the whole `lg+`
+    range: a 1225px slide fills ~70% of the 1744px frame (1225/1744),
+    i.e. slidesPerView ≈ 1/0.70 ≈ 1.4 — not the different value a plain
+    per-breakpoint guess might suggest.
+#}}
+<section class="section section--default" data-section="image_gallery">
+    <div class="container">
+        <div class="section-y-gap">
+            {{ partial:sectionHeader }}
+
+            {{ if images }}
+                {{ partial:slider per_view="1.15,lg:1.4" pagination="true" navigation="true" bleed="true" }}
+                    {{ images }}
+                        <div class="swiper-slide">
+                            {{ img :src="url" ratio="1225/774" max_width="1400" sizes="(min-width: 1024px) 45vw, 85vw" class="rounded-md" }}
+                        </div>
+                    {{ /images }}
+                {{ /partial:slider }}
+            {{ /if }}
+        </div>
+    </div>
+</section>
