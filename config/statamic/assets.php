@@ -52,7 +52,10 @@ return [
         |
         */
 
-        'cache' => env('GLIDE_CACHE', false),
+        // env() returns '' for a present-but-empty GLIDE_CACHE (e.g. fresh `cp .env.example .env`),
+        // which is truthy enough to break the dynamic /img/asset/... Glide route. Coerce blank to false
+        // while still allowing a real disk name like "glide" to pass through untouched.
+        'cache' => env('GLIDE_CACHE') ?: false,
         'cache_path' => public_path('img'),
 
         /*
