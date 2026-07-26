@@ -1,0 +1,22 @@
+{{#
+    Eén bron voor de range-kaart: `sections/ranges` rendert hem binnen een
+    `swiper-slide`, `range-overview` binnen een grid-cel. De kaart kent zijn
+    eigen context niet en neemt daarom geen argumenten — de beeldkolom is een
+    vaste `w-24 lg:w-32`, dus `sizes="128px"` klopt in beide gevallen.
+#}}
+<a href="{{ url }}" class="range-card relative isolate flex h-full items-center gap-5 overflow-hidden rounded-md bg-light card-padding lg:gap-8">
+    {{ svg src="shape" aria-hidden="true" class="pointer-events-none absolute -bottom-10 -left-14 -z-10 h-40 w-40 text-white/70 sm:h-52 sm:w-52 lg:-left-16 lg:-bottom-14 lg:h-64 lg:w-64" }}
+
+    {{ if image }}
+        <div class="relative z-10 flex w-24 shrink-0 items-center justify-center lg:w-32">
+            {{ img :src="image" max_width="320" sizes="128px" class="h-auto max-h-24 w-full object-contain lg:max-h-32" }}
+        </div>
+    {{ /if }}
+
+    <div class="relative z-10 flex flex-col gap-2 lg:gap-3">
+        <h3>{{ title }}</h3>
+        {{ if short_description }}
+            <p>{{ short_description }}</p>
+        {{ /if }}
+    </div>
+</a>
