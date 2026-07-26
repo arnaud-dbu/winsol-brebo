@@ -53,4 +53,19 @@ class RangesContentTest extends TestCase
             $this->assertSame($expectedTitle, $term->value('title'), "Range {$slug} is niet gekoppeld aan de verwachte categorie");
         }
     }
+
+    public function test_range_titles_match_the_design(): void
+    {
+        $expectedTitles = [
+            'pergolas' => "Terrasoverkappingen & pergola's",
+            'velux' => 'VELUX dakramen',
+        ];
+
+        foreach ($expectedTitles as $slug => $title) {
+            $entry = Entry::query()->where('collection', 'ranges')->where('slug', $slug)->first();
+
+            $this->assertNotNull($entry, "Range {$slug} ontbreekt");
+            $this->assertSame($title, $entry->get('title'), "Titel van {$slug} wijkt af van het ontwerp");
+        }
+    }
 }
