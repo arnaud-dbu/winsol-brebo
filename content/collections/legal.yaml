@@ -1,4 +1,5 @@
 title: Legal
+route: '/legal/{slug}'
 revisions: false
 date_behavior:
   past: public

@@ -1,85 +1,87 @@
-<footer class="section section--default bg-gray-200">
-    <div class="container space-y-12">
-        <div class="flex justify-between">
-            <div class="flex flex-col">
-                <a href="/">
+<footer class="bg-black pt-section-half pb-section-half text-white lg:pt-section">
+    <div class="container flex flex-col gap-10">
+        <div class="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+            <div class="flex flex-col items-start gap-5">
+                <a href="/" class="flex flex-col items-start gap-2">
                     <span class="sr-only">Home Link</span>
-                    {{ svg src="logo" }}
+                    {{ svg src="logo-inverse" class="h-[35px] w-auto lg:h-[70px]" }}
+                    <span class="px-3 text-[9px] font-semibold tracking-[0.43em] text-white uppercase lg:text-2xl lg:tracking-[10px]" aria-hidden="true">
+                        BY BREBO
+                    </span>
                 </a>
-                {{ if globals:company:name }}
-                    {{ globals:company:name }}
-                {{ /if }}
-                {{ if globals:company:street and globals:company:city }}
-                    <address>
-                        {{ globals:company:street }}
-                        {{ globals:company:number }}<br>
-                        {{ globals:company:postal }}
-                        {{ globals:company:city }}<br>
-                    </address>
-                {{ /if }}
-                {{ if globals:contact:phone }}
-                    <a href="tel:{{ globals:contact:phone }}">{{ globals:contact:phone }}</a>
-                {{ /if }}
-                {{ if globals:contact:email }}
-                    <a href="mailto:{{ globals:contact:email }}">{{ globals:contact:email }}</a>
-                {{ /if }}
             </div>
-            <nav>
-                <ul class="">
-                    {{ nav:main }}
-                        <li>
-                            <a href="{{ entry.url }}">{{ title }}</a>
-                        </li>
-                    {{ /nav:main }}
-                </ul>
-            </nav>
-            <ul>
-                {{ iconClass = "size-8" }}
-                {{ if globals:socials:facebook }}
+
+            <div class="flex flex-col gap-8 sm:flex-row sm:gap-16 lg:gap-30">
+                <div class="footer__column flex flex-col gap-4">
+                    <p class="font-bold text-white">{{ trans:site.footer_column_aanbod }}</p>
+                    <ul class="flex flex-col gap-0.5">
+                        {{ collection:ranges }}
+                            <li>
+                                <a href="{{ url }}" class="text-white/60 transition-opacity hover:opacity-80">{{ title }}</a>
+                            </li>
+                        {{ /collection:ranges }}
+                    </ul>
+                </div>
+
+                <div class="footer__column flex flex-col gap-4">
+                    <p class="font-bold text-white">{{ trans:site.footer_column_bedrijf }}</p>
+                    <ul class="flex flex-col gap-0.5">
+                        {{ nav:main }}
+                            <li>
+                                <a href="{{ entry.url }}" class="text-white/60 transition-opacity hover:opacity-80">{{ title }}</a>
+                            </li>
+                        {{ /nav:main }}
+                    </ul>
+                </div>
+
+                <div class="footer__column flex flex-col gap-4">
+                    <p class="font-bold text-white">{{ trans:site.footer_column_contact }}</p>
+                    <ul class="flex flex-col gap-0.5">
+                        {{ if globals:contact:phone }}
+                            <li>
+                                <a href="tel:{{ globals:contact:phone }}" class="text-white/60 transition-opacity hover:opacity-80">
+                                    {{ globals:contact:phone }}
+                                </a>
+                            </li>
+                        {{ /if }}
+                        {{ if globals:contact:email }}
+                            <li>
+                                <a href="mailto:{{ globals:contact:email }}" class="text-white/60 transition-opacity hover:opacity-80">
+                                    {{ globals:contact:email }}
+                                </a>
+                            </li>
+                        {{ /if }}
+                        {{ if globals:company:street and globals:company:city }}
+                            <li class="text-white/60">
+                                {{ globals:company:street }} {{ globals:company:number }}, {{ globals:company:postal }} {{ globals:company:city }}
+                            </li>
+                        {{ /if }}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="h-px w-full bg-white/10"></div>
+
+        <div class="footer__colophon flex flex-col gap-5 text-white/60 lg:flex-row lg:items-center lg:justify-between">
+            <p>&copy; {{ now format="Y" }} {{ trans:site.footer_copyright }}</p>
+            <ul class="flex flex-col gap-0.5 lg:flex-row lg:items-center lg:gap-8">
+                {{ collection:legal }}
                     <li>
-                        <a href="{{ globals:socials:facebook }}">
-                            {{ icon src="facebook-logo" class="{{ iconClass }}" }}
-                        </a>
+                        <a href="{{ url }}" class="transition-opacity hover:opacity-80">{{ title }}</a>
                     </li>
-                {{ /if }}
-                {{ if globals:socials:instagram }}
+                {{ /collection:legal }}
+                {{ if cookie_consent:enabled }}
                     <li>
-                        <a href="{{ globals:socials:instagram }}">
-                            {{ icon src="instagram-logo" class="{{ iconClass }}" }}
-                        </a>
-                    </li>
-                {{ /if }}
-                {{ if globals:socials:youtube }}
-                    <li>
-                        <a href="{{ globals:socials:youtube }}">
-                            {{ icon src="youtube-logo" class="{{ iconClass }}" }}
-                        </a>
-                    </li>
-                {{ /if }}
-                {{ if globals:socials:linkedin }}
-                    <li>
-                        <a href="{{ globals:socials:linkedin }}">
-                            {{ icon src="linkedin-logo" class="{{ iconClass }}" }}
-                        </a>
+                        <button
+                            type="button"
+                            class="footer-link-button"
+                            onclick="window.dispatchEvent(new CustomEvent('cookie-consent:open'))">
+                            {{ cookie_consent:revoke_label }}
+                        </button>
                     </li>
                 {{ /if }}
             </ul>
-        </div>
-        <div>
-            {{ collection:legal }}
-                <a href="{{ entry:url }}">{{ title }}</a>
-            {{ /collection:legal }}
-            {{ if cookie_consent:enabled }}
-                <button
-                    type="button"
-                    class="footer-link-button"
-                    onclick="window.dispatchEvent(new CustomEvent('cookie-consent:open'))">
-                    {{ cookie_consent:revoke_label }}
-                </button>
-            {{ /if }}
-        </div>
-        <div>
-            Designed and built by <a href="https://stuw.agency" target="_blank">Stuw</a>
         </div>
     </div>
 </footer>
