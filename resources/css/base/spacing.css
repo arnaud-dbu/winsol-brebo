@@ -10,12 +10,30 @@
     @apply flex flex-col gap-6 sm:flex-row sm:justify-between sm:gap-8 md:gap-12 lg:gap-20 xl:gap-24 2xl:gap-28 3xl:gap-36 4xl:gap-48;
 }
 
+/*
+ * Explicit `w-full` (not just relying on flex stretch) below `sm` matters:
+ * `textImage.antlers.html` sets `items-center` on the `.section-x-gap` flex
+ * container for that section, which overrides the default stretch alignment.
+ * Without a width, a non-stretched flex child sizes to its content's
+ * max-content width — and an `<img>` with an explicit `width="1600"`
+ * attribute (from the `{{ img }}` tag) reports 1600px as its max-content
+ * contribution regardless of `max-width: 100%` in CSS, since percentages are
+ * ignored during intrinsic-size calculations. That blew the column (and the
+ * whole page) out to 1600px wide on mobile. `w-full` forces the column to the
+ * container's width outright, so the img's own `max-width: 100%` then has a
+ * definite box to clamp against. `min-w-0` additionally guards the `sm+`
+ * `w-1/2` row layout from the classic flex min-width:auto overflow. Also used
+ * by text.antlers.html, technicalDetails.antlers.html and gridCta.antlers.html
+ * (the latter already uses `items-stretch`, so this is a no-op there); none
+ * of them relied on shrink-to-fit sizing, so this is a safe, blast-radius-wide
+ * hardening rather than a behavioural change for them.
+ */
 @utility section-col-wide {
-    @apply sm:w-1/2;
+    @apply w-full min-w-0 sm:w-1/2;
 }
 
 @utility section-col-narrow {
-    @apply sm:w-1/2;
+    @apply w-full min-w-0 sm:w-1/2;
 }
 
 @utility section-header-gap {
