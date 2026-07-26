@@ -1049,10 +1049,14 @@ template: projects/show
 Run: `php artisan test --filter=ProjectHeaderTest`
 Expected: PASS (4 tests)
 
-- [ ] **Step 8: Draai alle headertests samen**
+- [ ] **Step 8: Draai alle nieuwe headertests samen**
 
-Run: `php artisan test --filter='HeaderTest'`
+Run: `php artisan test --filter='HeroHeaderTest|RangeHeaderTest|ProductHeaderTest|ProjectHeaderTest'`
 Expected: PASS (17 tests: 6 hero + 4 range + 3 product + 4 project)
+
+De filter noemt de vier klassen expliciet. `--filter='HeaderTest'` zou ook het
+bestaande `PageHeaderTest` meepakken, dat bij `headers/default` hoort en buiten
+dit plan valt.
 
 - [ ] **Step 9: Commit**
 
@@ -1221,7 +1225,7 @@ git commit -m "docs: record header follow-ups and the CSS layering trap"
 
 ## Verificatie na afloop
 
-- [ ] `php artisan test --filter='HeaderTest'` → 17 tests groen
+- [ ] `php artisan test --filter='HeroHeaderTest|RangeHeaderTest|ProductHeaderTest|ProjectHeaderTest'` → 17 tests groen
 - [ ] `npx vite build` → geen fouten
 - [ ] Alle nieuwe CSS-classes landen ongelaagd (de check uit Task 1 Step 6, Task 2 Step 7 en Task 3 Step 10)
 - [ ] `git status` is schoon op `resources/svg/test-img.png` na — dat bestand was al untracked vóór dit werk en staat bij de te verwijderen bestanden in de page-builder-follow-ups
