@@ -433,7 +433,7 @@ door:
 
 - [ ] **Step 4: Rewrite the six project entries**
 
-Vervang in elk bestand de regel `product: <uuid>` door een `range:` met de slug hieronder. De rest van de front matter blijft staan.
+Vervang in elk bestand de regel `product: <uuid>` door een `range:` met het **id** van de range hieronder. De rest van de front matter blijft staan.
 
 | Bestand | `range:` |
 |---|---|
@@ -451,12 +451,12 @@ Voor `pergola-so-met-glazen-schuifwanden.md` betekent dat:
 id: b7d4e2c3-0001-4f5a-9b8c-6d7e8f9a0b01
 title: 'Pergola SO! met glazen schuifwanden'
 text: 'Een aangebouwde pergola met draaibare lamellen, glazen schuifwanden en zip-screens. Geïntegreerde ledverlichting verlengt de avonden tot ver in het seizoen.'
-range: pergolas
+range: 8c2e41a0-0001-4a1b-9c7d-3e5f6a7b8c01
 image: dummy-images/test-img-7.jpg
 ---
 ```
 
-Een `entries`-veld met `max_items: 1` accepteert zowel een id als een slug; slugs houden de content leesbaar en zijn hier stabiel.
+Gebruik het `id` uit het bijbehorende bestand in `content/collections/ranges/`, niet de slug. Het `entries`-fieldtype resolvet uitsluitend op id — `Entries::toItemArray()` doet `Entry::find($id)` en de query-builder een `whereIn('id', $ids)`, dus een slug laat `augmentedValue('range')` op `null` staan terwijl `get('range')` wél gevuld lijkt. Dat is ook al de conventie elders in deze content (`author`, `updated_by`, `duplicated_from`).
 
 - [ ] **Step 5: Run test to verify it passes**
 
