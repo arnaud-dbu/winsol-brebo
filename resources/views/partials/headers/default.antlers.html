@@ -1,8 +1,11 @@
-<section class="section section--default">
+<section class="section--default bg-white pt-16 pb-16 lg:pb-28">
     <div class="container">
-        <h1>{{ title }}</h1>
-        {{ if intro }}
-            <p>{{ intro }}</p>
-        {{ /if }}
+        <div class="section-header-gap max-w-3xl items-center mx-auto text-center">
+            <h1>{{ title }}</h1>
+
+            {{ if text }}
+                <p class="text-lg">{{ text }}</p>
+            {{ /if }}
+        </div>
     </div>
 </section>
