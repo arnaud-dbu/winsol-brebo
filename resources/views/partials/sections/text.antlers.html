@@ -1,1 +1,21 @@
-<section class="section section--default" data-section="text"></section>
+<section class="section section--default" data-section="text">
+    <div class="container">
+        <div class="section-x-gap">
+            <div class="section-col-wide">
+                {{ if title }}
+                    <h2>{{ title }}</h2>
+                {{ /if }}
+            </div>
+
+            <div class="section-col-narrow">
+                {{ if text }}
+                    <div class="rich-text text-lg">{{ text }}</div>
+                {{ /if }}
+
+                {{ if link }}
+                    {{ partial:link }}
+                {{ /if }}
+            </div>
+        </div>
+    </div>
+</section>
