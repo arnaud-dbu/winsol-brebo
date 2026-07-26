@@ -14,8 +14,8 @@
 - **Image alt text.** Assets carry no alt text, so images render with an empty `alt`.
 - **Desktop nav extras.** The design's "Gratis offerte" CTA button and "NL" language switcher were not built — no content or locale source exists for either.
 - **The nav does not float.** In Figma the nav overlays the home hero, range, and product headers (hence the overflows and a white logo on the photo headers). In code `navigation.antlers.html` sits in the flow with dark text and `logo.svg`. The headers are built so they work in both cases; the nav change itself was not made.
-- **The range overview page is missing.** `range_overview.yaml` exists as a blueprint, but there is no entry and `/aanbod` is not a route. The hero button "Discover our range" has no destination as a result and does not render.
-- **Copy alternates between `je` and `uw`.** The home hero says "your home", range and product headers say "your terrace". This is as shown in Figma.
+- **The range overview page is missing.** `range_overview.yaml` exists as a blueprint, but there is no entry and `/aanbod` is not a route. The hero button `"Ontdek ons aanbod"` has no destination as a result and does not render.
+- **Copy alternates between `je` and `uw`.** The home hero says `"je woning"`, range and product headers say `"uw terras"`. This is as shown in Figma.
 - **The mobile range frame disappeared during readout** (`457:6977`). The dimensions in the spec come from an earlier readout and have not been re-verified against the file.
 - **Header ↔ first section coupling** on the range page: the PNG extends below the header and relies on the section below having no opaque background.
 
