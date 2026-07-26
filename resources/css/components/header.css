@@ -11,6 +11,21 @@
  * `@layer utilities` eindigt vóór de ongelaagde `h1`/`p`/`.overline`-regels.
  */
 
+/* --- Detail-headers (range, product, project) --- */
+
+/*
+ * LET OP: `--text-display` genereert ook een `text-display`-utility. Gebruik
+ * die NIET op een `h1` — die verliest van de ongelaagde `h1`-basisregel.
+ * Deze class is de werkende variant.
+ */
+.header-title {
+    font-size: var(--text-display); /* 39 → 76px */
+}
+
+.header-intro {
+    font-size: var(--text-lg); /* 18 → 25px, Figma 293:3545 / 301:3499 / 301:3309 */
+}
+
 /* --- Value proposition (Figma 293:2705) --- */
 
 .value-proposition__title {

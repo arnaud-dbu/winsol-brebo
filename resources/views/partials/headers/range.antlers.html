@@ -1,0 +1,52 @@
+{{#
+    Range-header — Figma 293:3540 (desktop) en 457:6978 (mobiel).
+
+    Twee achtergrondlagen met tegengesteld overloopgedrag, en dát is de reden
+    voor de nesting hieronder:
+
+    - Het W-watermerk WORDT geklipt: `overflow-clip` staat expliciet op het
+      Figma-frame. Het zit daarom in een eigen `overflow-hidden`-wrapper.
+    - De range-png wordt NIET geklipt: hij steekt links buiten beeld en op
+      desktop 135px onder de header uit, over de eerste page-builder-sectie
+      heen. In Figma staat hij daarom in de sectie eróónder geparenteerd
+      (361:4036), niet in de header. Hier hoort hij bij de header — één
+      component bezit het beeld — maar de sectie eronder mag dan geen
+      dekkende achtergrond over de png leggen. Dat is vandaag zo (wit), maar
+      het is een echte koppeling; zie de open punten in de spec.
+
+    De positionering van het watermerk is proportioneel in plaats van in
+    pixels: Figma geeft alleen exacte offsets voor 402px en 1744px, en
+    daartussen zou een vaste pixelwaarde verlopen. De verhoudingen komen uit
+    die twee frames (desktop -321/1744 en 1134/1744; mobiel -218/402 en
+    609/402). De mobiele `top` is gecorrigeerd omdat het Figma-frame de 75px
+    hoge nav meetelt en onze nav in de flow staat.
+#}}
+<section class="relative isolate rounded-md bg-light" data-header="range">
+    {{# `data-header-watermark` staat vóór `class` omdat RangeHeaderTest de
+        volgorde attribuut-dan-class matcht om te bewijzen dat déze wrapper
+        klipt en die van de png niet. #}}
+    <div data-header-watermark class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+        {{ svg src="watermark" class="absolute top-[12%] -left-[54%] w-[152%] lg:top-[21%] lg:-left-[18%] lg:w-[65%]" }}
+    </div>
+
+    <div class="container flex flex-col py-14 lg:flex-row lg:justify-end lg:pt-38 lg:pb-28">
+        {{ if image }}
+            {{#
+                Mobiel staat de png in de flow bóven de titel (457:6984);
+                vanaf `lg` wordt hij absoluut en hangt hij 135px onder de
+                header uit — de exacte overhang uit 361:4036.
+            #}}
+            <div data-header-media class="mb-8 w-[229px] max-w-[60%] lg:absolute lg:-bottom-[135px] lg:-left-[8%] lg:mb-0 lg:w-[47%]">
+                {{ img :src="image" max_width="1280" sizes="(min-width: 1024px) 47vw, 60vw" class="h-auto w-full" }}
+            </div>
+        {{ /if }}
+
+        <div class="relative z-10 flex flex-col gap-5 lg:w-1/2 lg:gap-9">
+            <h1 class="header-title">{{ title }}</h1>
+
+            {{ if short_description }}
+                <p class="header-intro">{{ short_description }}</p>
+            {{ /if }}
+        </div>
+    </div>
+</section>
