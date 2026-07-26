@@ -1,1 +1,22 @@
-<section class="section section--default" data-section="text_image"></section>
+{{ if background }}
+    {{ image_base_ratio = "3/4" }}
+{{ else }}
+    {{ image_base_ratio = "16/9" }}
+{{ /if }}
+
+<section class="section section--default {{ background ? 'text-image--background' : '' }}" data-section="text_image">
+    <div class="container">
+        <div class="section-x-gap items-center">
+            <div class="section-col-wide {{ background ? 'bg-light card-padding' : 'order-last' }}">
+                {{ partial:sectionHeader }}
+                {{ partial:featureList :items="features" }}
+            </div>
+
+            {{ if image }}
+                <div class="section-col-narrow">
+                    {{ img :src="image" :ratio="image_base_ratio" sm:ratio="5/4" max_width="1600" sizes="(min-width: 640px) 50vw, 100vw" class="rounded-md" }}
+                </div>
+            {{ /if }}
+        </div>
+    </div>
+</section>
