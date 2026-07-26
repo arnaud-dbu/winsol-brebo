@@ -18,6 +18,15 @@ class RangeHeaderTest extends SectionTestCase
         $this->assertStringContainsString('Terrasoverkapping', $html);
         $this->assertStringContainsString('Geniet het hele jaar van uw terras.', $html);
         $this->assertStringNotContainsString('Deze hoort in de sectie eronder', $html);
+
+        // Pin de layering-workaround (zie header.css): `.header-title` en
+        // `.header-intro` declareren hun eigen `font-size` omdat een
+        // `text-*`-utility op een `h1`/`p` niets doet (ongelaagde CSS wint
+        // altijd). Zonder deze assertie zou het vervangen van deze classes
+        // door bv. `text-display` alle 17 bestaande tests groen laten, terwijl
+        // de tekst stilletjes van 76px naar 61px zakt.
+        $this->assertStringContainsString('<h1 class="header-title">Terrasoverkapping</h1>', $html);
+        $this->assertStringContainsString('<p class="header-intro">Geniet het hele jaar van uw terras.</p>', $html);
     }
 
     public function test_renders_the_watermark_inside_the_clipping_layer(): void
@@ -49,6 +58,19 @@ class RangeHeaderTest extends SectionTestCase
             '/data-header-media[^>]*class="[^"]*overflow-hidden/',
             $html
         );
+
+        // De negatieve assertie hierboven bewijst alleen dat de media-div
+        // niet klipt. Ze bewijst niet dat de sectie zelf niet klipt: zet
+        // `overflow-hidden` op de <section> en de png wordt alsnog geklipt —
+        // precies de regressie die dit component moet voorkomen — terwijl
+        // bovenstaande assertie groen zou blijven. Vandaar deze extra check
+        // op de sectie's eigen class-lijst.
+        $this->assertMatchesRegularExpression(
+            '/<section[^>]*data-header="range"[^>]*>/',
+            $html
+        );
+        preg_match('/<section[^>]*data-header="range"[^>]*>/', $html, $sectionTag);
+        $this->assertDoesNotMatchRegularExpression('/overflow-/', $sectionTag[0]);
     }
 
     public function test_omits_the_image_wrapper_without_an_image(): void

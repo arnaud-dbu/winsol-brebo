@@ -7,6 +7,13 @@
     gelijk, in plaats van onder `lg` om te klappen naar een stapel —
     waarvoor geen frame bestaat.
 
+    `image` is optioneel ({{ if image }} hieronder), en zonder beeld is er
+    niets in de flow om de sectie hoogte te geven — de kaart zou dan als
+    `absolute inset-0` op een 0px-sectie staan en onzichtbaar zijn, inclusief
+    de H1. Daarom liggen het verloop en de kaartwrapper alleen `absolute`
+    wanneer er een beeld is; zonder beeld rendert de kaart gewoon in de flow.
+    Geen vaste hoogte verzonnen — geen Figma-frame dekt deze staat.
+
     Afgeleid (geen mobiel frame): Figma tekent alleen 1744x1055 (5/3). De
     ratio's daaronder geven de kaart genoeg hoogte om binnen het beeld te
     passen; 4/5 op mobiel, 16/9 vanaf `sm`.
@@ -21,18 +28,21 @@
         <div data-header-media>
             {{ img :src="image" ratio="4/5" sm:ratio="16/9" lg:ratio="5/3" max_width="2560" sizes="100vw" priority="true" class="w-full" }}
         </div>
+
+        <div class="absolute inset-0 bg-linear-to-b from-black/50 to-transparent to-[26.5%]" aria-hidden="true"></div>
     {{ /if }}
 
-    <div class="absolute inset-0 bg-linear-to-b from-black/50 to-transparent to-[26.5%]" aria-hidden="true"></div>
-
-    <div class="container absolute inset-0 flex items-end py-5 lg:py-10">
+    <div class="container {{ if image }}absolute inset-0 {{ /if }}flex items-end py-5 lg:py-10">
         {{#
             56px padding en 620px breedte komen uit Figma 293:2697. Onder `sm`
-            gaat de kaart naar volle breedte en zakt de padding naar de
-            gedeelde `card-padding`-utility, zodat hij niet aan een vaste
-            breedte vastzit op een smal scherm.
+            gaat de kaart naar volle breedte en zakt de padding naar `p-6`
+            (gelijk aan `card-padding`'s eigen mobiele waarde, maar hier
+            expliciet uitgeschreven omdat `lg:p-14` anders alleen werkt door
+            toeval in Tailwind's emissievolgorde — zie de code follow-ups),
+            zodat de kaart niet aan een vaste breedte vastzit op een smal
+            scherm.
         #}}
-        <div class="flex w-full flex-col gap-6 rounded-md bg-white card-padding sm:w-[620px] lg:gap-8 lg:p-14">
+        <div class="flex w-full flex-col gap-6 rounded-md bg-white p-6 sm:w-[620px] lg:gap-8 lg:p-14">
             <h1>{{ title }}</h1>
 
             {{ if text }}

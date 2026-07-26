@@ -64,6 +64,22 @@ class HeroHeaderTest extends SectionTestCase
         $this->assertStringNotContainsString('data-header-media', $html);
     }
 
+    public function test_renders_the_heading_in_flow_without_an_image(): void
+    {
+        config(['app.debug' => false]);
+
+        $html = $this->render('{{ partial src="headers/hero" }}', [
+            'title' => 'Winsol maakt je woning compleet',
+        ]);
+
+        // Zonder beeld is er niets in de flow om de sectie hoogte te geven.
+        // Als de kaart dan nog `absolute inset-0` was, zou de sectie 0px
+        // hoog blijven en de H1 onzichtbaar zijn.
+        $this->assertStringContainsString('<h1', $html);
+        $this->assertStringContainsString('Winsol maakt je woning compleet', $html);
+        $this->assertStringNotContainsString('absolute inset-0', $html);
+    }
+
     public function test_loops_the_value_proposition_items(): void
     {
         config(['app.debug' => false]);

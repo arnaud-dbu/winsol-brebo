@@ -18,6 +18,13 @@ class ProjectHeaderTest extends SectionTestCase
         $this->assertStringContainsString('Pergola SO! met glazen schuifwanden', $html);
         $this->assertStringContainsString('Een zuidgericht terras dat het hele jaar bruikbaar werd.', $html);
         $this->assertStringContainsString('data-header-media', $html);
+
+        // Pin de layering-workaround (zie header.css): zonder deze assertie
+        // zou het vervangen van `.header-title`/`.header-intro` door bv.
+        // `text-display` alle bestaande tests groen laten terwijl de tekst
+        // stilletjes kleiner wordt.
+        $this->assertStringContainsString('<h1 class="header-title max-w-[866px]">Pergola SO! met glazen schuifwanden</h1>', $html);
+        $this->assertStringContainsString('<p class="header-intro max-w-[866px]">Een zuidgericht terras dat het hele jaar bruikbaar werd.</p>', $html);
     }
 
     public function test_renders_the_range_name_as_eyebrow(): void

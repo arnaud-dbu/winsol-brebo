@@ -100,7 +100,7 @@ De site-`h1` is `--text-4xl` (39 → 61px) en blijft dat. De home-hero gebruikt 
 
 Zelfde vorm en padding als `.btn--accent` en `.btn--dark`, maar met rand in plaats van vulling. Dit is precies het vierde geval dat de follow-ups voorspelden ("extract een `.btn--pill` base"). Die refactor hoort **niet** in deze diff — hij raakt vier bestaande secties. De variant wordt toegevoegd en de follow-up blijft openstaan.
 
-**`resources/css/components/value-proposition.css`** — nieuw, voor de scheidingslijnen van de strip (zie §2.2).
+**`resources/css/components/header.css`** — nieuw, voor de headertypografie van alle vier de headers plus de value-proposition-typografie (zie §2.2); geen aparte `value-proposition.css`, want de scheidingslijnen zelf hebben geen component-CSS nodig — ze zijn inline `border-*`-utilities op de `<li>`'s, dus de enige reden die een los bestand zou rechtvaardigen (de scheidingslijnen) bleek niet nodig.
 
 ## 2. De headers
 

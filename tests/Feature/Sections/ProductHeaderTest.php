@@ -48,6 +48,13 @@ class ProductHeaderTest extends SectionTestCase
             $html,
             'Bovenverloop moet in eigen div met absolute inset-0 staan.'
         );
+
+        // Pin de layering-workaround (zie header.css): zonder deze assertie
+        // zou het vervangen van `.header-title`/`.header-intro` door bv.
+        // `text-display` alle bestaande tests groen laten terwijl de tekst
+        // stilletjes kleiner wordt.
+        $this->assertStringContainsString('<h1 class="header-title">Pergola SO!</h1>', $html);
+        $this->assertStringContainsString('<p class="header-intro">De pergola met draaibare lamellen.</p>', $html);
     }
 
     public function test_omits_the_image_wrapper_without_an_image(): void
@@ -59,6 +66,22 @@ class ProductHeaderTest extends SectionTestCase
         ]);
 
         $this->assertStringNotContainsString('data-header-media', $html);
+    }
+
+    public function test_renders_the_heading_in_flow_without_an_image(): void
+    {
+        config(['app.debug' => false]);
+
+        $html = $this->render('{{ partial src="headers/product" }}', [
+            'title' => 'Pergola SO!',
+        ]);
+
+        // Zonder beeld is er niets in de flow om de sectie hoogte te geven.
+        // Als het tekstblok dan nog `absolute inset-0` was, zou de sectie
+        // 0px hoog blijven en de H1 onzichtbaar zijn.
+        $this->assertStringContainsString('<h1', $html);
+        $this->assertStringContainsString('Pergola SO!', $html);
+        $this->assertStringNotContainsString('absolute inset-0', $html);
     }
 
     public function test_products_render_through_their_own_template(): void

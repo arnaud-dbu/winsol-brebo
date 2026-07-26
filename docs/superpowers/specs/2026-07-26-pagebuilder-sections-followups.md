@@ -17,7 +17,7 @@
 - **The range overview page is missing.** `range_overview.yaml` exists as a blueprint, but there is no entry and `/aanbod` is not a route. The hero button `"Ontdek ons aanbod"` has no destination as a result and does not render.
 - **Copy alternates between `je` and `uw`.** The home hero says `"je woning"`, range and product headers say `"uw terras"`. This is as shown in Figma.
 - **The mobile range frame disappeared during readout** (`457:6977`). The dimensions in the spec come from an earlier readout and have not been re-verified against the file.
-- **Header ↔ first section coupling** on the range page: the PNG extends below the header and relies on the section below having no opaque background.
+- **Header ↔ first section coupling** on the range page: the PNG extends below the header and relies on the section below having no opaque background. Because the header is `isolate`, the overhang survives even an opaque following section — but a following section that is itself `relative isolate` (for example `sections/gridCta.antlers.html`) creates its own stacking context and will paint over it, covering the overhang.
 
 ## Code follow-ups
 
