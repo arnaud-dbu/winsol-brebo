@@ -3,7 +3,7 @@
 }
 
 .slider .swiper-wrapper {
-    @apply flex;
+    @apply flex items-stretch;
 }
 
 /* Boven data-slider-from valt Swiper weg; dan is het een gewoon grid. */
@@ -11,10 +11,38 @@
     @apply grid grid-cols-1 grid-gutter md:grid-cols-2 xl:grid-cols-3;
 }
 
+/*
+ * Figma (451:2700) shows every `ranges` card at a uniform 260px with its
+ * content vertically centred, i.e. one level band, not each slide sized to
+ * its own content (which is what produced the ~540px vs ~260px mismatch —
+ * "Ramen en deuren" wraps to 3 lines while other cards don't).
+ *
+ * `.swiper-wrapper` is `flex` (above) whose default cross-axis alignment
+ * is already `stretch`, which would equalise every `.swiper-slide` to the
+ * tallest one for free — except Swiper writes an inline `style="height:
+ * …px"` onto each slide once it has measured them (this fires on init and
+ * again on breakpoint changes, e.g. the `lg` jump this section's `per_view`
+ * uses). An inline style wins over an unqualified stylesheet rule, so
+ * `height: auto` alone would never win; forcing it with `!important` is
+ * what survives Swiper re-writing that inline style on every resize/init,
+ * handing height back to the flex row's own stretch behaviour. The card
+ * itself (`.range-card`) then needs `h-full` (added in
+ * ranges.antlers.html) to actually fill that equalised slide height; its
+ * existing `flex items-center` centres the content vertically inside it,
+ * matching Figma.
+ */
+.slider .swiper-slide {
+    height: auto !important;
+}
+
 .slider__nav {
     @apply mt-8 flex gap-3;
 }
 
+/*
+ * Figma (451:2700 `ranges`, 451:2910 `image_gallery`) shows both sliders'
+ * nav buttons in accent yellow with a dark arrow, never black/white.
+ */
 .slider__nav button {
     @apply flex size-11 items-center justify-center rounded-full bg-black text-white transition-opacity;
 }
