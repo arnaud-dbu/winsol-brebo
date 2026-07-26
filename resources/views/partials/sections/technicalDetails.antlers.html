@@ -8,9 +8,9 @@
             {{ if technical_details }}
                 <dl class="section-col-narrow flex flex-col sm:order-first">
                     {{ technical_details }}
-                        <div class="specs__row flex flex-col gap-1 border-b border-black/10 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
-                            <dt class="text-base font-semibold">{{ key }}</dt>
-                            <dd class="text-base">{{ value }}</dd>
+                        <div class="specs__row flex flex-col gap-1 border-b border-black/10 py-4 sm:flex-row sm:items-center sm:gap-8">
+                            <dt class="text-base font-semibold sm:flex-1">{{ key }}</dt>
+                            <dd class="text-base sm:flex-1">{{ value }}</dd>
                         </div>
                     {{ /technical_details }}
                 </dl>
