@@ -44,9 +44,16 @@
  * nav buttons in accent yellow with a dark arrow, never black/white.
  */
 .slider__nav button {
-    @apply flex size-11 items-center justify-center rounded-full bg-black text-white transition-opacity;
+    @apply flex size-11 items-center justify-center rounded-full bg-accent text-black transition-opacity;
 }
 
+/*
+ * Figma has no distinct "disabled" frame for either slider (both nav
+ * buttons render identically since neither shown state is at a scroll
+ * boundary), so the disabled state keeps the same accent/dark treatment
+ * and only mutes it via opacity — same mechanism as before, just applied
+ * to the corrected base colours instead of black-on-white fading to grey.
+ */
 .slider__nav button:disabled {
     @apply opacity-40;
 }
