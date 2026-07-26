@@ -1,0 +1,30 @@
+{{#
+    De server rendert álle projecten en zet `hidden` op wie bij de eerste
+    paint niet matcht; Alpine neemt datzelfde attribuut over via `:hidden`.
+    Daardoor werkt "Toon alles" zonder request, blijft een gedeelde URL als
+    /realisaties?range=zonwering ook zonder JavaScript kloppen, en is er geen
+    animatie in het spel.
+
+    Welke ranges in het filter horen, bepaalt `rangeFilter` zelf via de
+    `project_ranges`-tag. Deze template geeft die lijst dus niet door.
+#}}
+{{ partial:headers/default divider="true" }}
+
+<section class="section section--default" data-section="projects-overview"
+         x-data="projectFilter('{{ get:range }}')">
+    <div class="container">
+        <div class="grid grid-gutter lg:grid-cols-[24rem_1fr] lg:gap-x-16">
+            {{ partial:rangeFilter }}
+
+            <ul class="grid grid-gutter md:grid-cols-2">
+                {{ collection:projects }}
+                    <li {{ if get:range && get:range != range:slug }}hidden{{ /if }} :hidden="!matches('{{ range:slug }}')">
+                        {{ partial:projectCard }}
+                    </li>
+                {{ /collection:projects }}
+            </ul>
+        </div>
+    </div>
+</section>
+
+{{ partial:pageBuilder }}
