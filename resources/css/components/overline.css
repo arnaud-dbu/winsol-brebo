@@ -10,6 +10,33 @@
     @apply text-white;
 }
 
+/*
+ * `.overline--inverse-until-{breakpoint}` mirrors
+ * `.section-header--inverse-until-{breakpoint}`: light label below that
+ * breakpoint, dark label from it up. See sectionHeader.antlers.html /
+ * overline.antlers.html for the precedence rules and supported breakpoints.
+ */
+
+.overline--inverse-until-sm {
+    @apply text-white sm:text-black;
+}
+
+.overline--inverse-until-md {
+    @apply text-white md:text-black;
+}
+
+.overline--inverse-until-lg {
+    @apply text-white lg:text-black;
+}
+
+.overline--inverse-until-xl {
+    @apply text-white xl:text-black;
+}
+
+.overline--inverse-until-2xl {
+    @apply text-white 2xl:text-black;
+}
+
 .overline__rule {
     @apply block h-px w-6 bg-current;
 }

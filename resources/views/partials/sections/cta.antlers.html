@@ -3,9 +3,9 @@
         {{ img :src="image" fill="true" ratio="402/705" lg:ratio="1744/721" max_width="2560" sizes="100vw" class="size-full object-cover" }}
     {{ /if }}
 
-    <div class="relative flex size-full flex-col justify-end p-5 lg:p-10">
-        <div class="rounded-md bg-black/60 p-10 lg:p-14">
-            {{ partial:sectionHeader is_inverse="true" btn_variant="btn btn--accent" }}
+    <div class="relative flex size-full flex-col items-start justify-end p-5 lg:justify-center lg:p-14">
+        <div class="w-full rounded-md bg-black/60 p-10 lg:w-auto lg:max-w-[41.6875rem] lg:bg-accent lg:p-14">
+            {{ partial:sectionHeader inverse_until="lg" btn_variant="btn btn--cta" }}
         </div>
     </div>
 </section>

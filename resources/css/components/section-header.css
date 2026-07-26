@@ -29,3 +29,36 @@
 .section-header--centered-from-2xl {
     @apply 2xl:items-center 2xl:text-center;
 }
+
+/*
+ * `.section-header--inverse` renders light text at all widths.
+ * `.section-header--inverse-until-{breakpoint}` renders light text below
+ * that breakpoint and dark text from it up (e.g. `cta`: light overlay text
+ * on mobile, dark text on the desktop accent panel). Only the breakpoints
+ * below are supported — see the precedence/fallback comment in
+ * sectionHeader.antlers.html.
+ */
+
+.section-header--inverse {
+    @apply text-white;
+}
+
+.section-header--inverse-until-sm {
+    @apply text-white sm:text-black;
+}
+
+.section-header--inverse-until-md {
+    @apply text-white md:text-black;
+}
+
+.section-header--inverse-until-lg {
+    @apply text-white lg:text-black;
+}
+
+.section-header--inverse-until-xl {
+    @apply text-white xl:text-black;
+}
+
+.section-header--inverse-until-2xl {
+    @apply text-white 2xl:text-black;
+}

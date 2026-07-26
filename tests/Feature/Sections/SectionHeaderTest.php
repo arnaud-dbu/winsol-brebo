@@ -78,6 +78,42 @@ class SectionHeaderTest extends SectionTestCase
         $this->assertStringContainsString('overline--inverse', $html);
     }
 
+    public static function inverseUntilBreakpointProvider(): array
+    {
+        return [
+            'sm' => ['sm'],
+            'md' => ['md'],
+            'lg' => ['lg'],
+            'xl' => ['xl'],
+            '2xl' => ['2xl'],
+        ];
+    }
+
+    #[DataProvider('inverseUntilBreakpointProvider')]
+    public function test_inverse_until_emits_the_literal_breakpoint_class(string $breakpoint): void
+    {
+        $html = $this->render('{{ partial:sectionHeader :inverse_until="breakpoint" }}', $this->context + ['breakpoint' => $breakpoint]);
+
+        $this->assertStringContainsString("section-header--inverse-until-{$breakpoint}", $html);
+        $this->assertStringContainsString("overline--inverse-until-{$breakpoint}", $html);
+    }
+
+    public function test_inverse_until_with_unsupported_value_falls_back_to_dark_at_every_width(): void
+    {
+        $html = $this->render('{{ partial:sectionHeader inverse_until="not-a-breakpoint" }}', $this->context);
+
+        $this->assertStringNotContainsString('section-header--inverse', $html);
+        $this->assertStringNotContainsString('overline--inverse', $html);
+    }
+
+    public function test_is_inverse_wins_when_both_args_are_passed(): void
+    {
+        $html = $this->render('{{ partial:sectionHeader is_inverse="true" inverse_until="lg" }}', $this->context);
+
+        $this->assertStringContainsString('section-header--inverse"', $html);
+        $this->assertStringNotContainsString('section-header--inverse-until-lg', $html);
+    }
+
     public function test_heading_tag_is_configurable(): void
     {
         $html = $this->render('{{ partial:sectionHeader tag="h3" }}', $this->context);

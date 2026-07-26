@@ -13,3 +13,16 @@
 .btn--inverse {
     @apply bg-white text-black;
 }
+
+/*
+ * `.btn--cta` is the responsive button used by the `cta` section: accent
+ * bg / dark label below `lg` (matches the mobile Figma button), dark bg /
+ * white label from `lg` up (matches the desktop Figma button). Shape,
+ * padding and font size are identical at both widths and match Figma
+ * (rounded-full, 32px/20px padding, 16px -> 20px fluid label via the
+ * existing --text-base clamp).
+ */
+
+.btn--cta {
+    @apply rounded-full bg-accent px-8 py-5 font-semibold text-base text-black lg:bg-black lg:text-white;
+}
