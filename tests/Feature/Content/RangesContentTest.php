@@ -42,14 +42,14 @@ class RangesContentTest extends TestCase
 
             $this->assertNotNull($entry, "Range {$slug} ontbreekt");
 
-            $terms = $entry->augmentedValue('range_category')->value()->get();
+            $terms = $entry->augmentedValue('range_categories')->value()->get();
 
-            $this->assertNotEmpty($terms, "Range {$slug} heeft geen resolvebare range_category-term");
+            $this->assertNotEmpty($terms, "Range {$slug} heeft geen resolvebare range_categories-term");
 
             $term = $terms->first();
 
-            $this->assertNotNull($term, "range_category van {$slug} resolveert niet naar een Term-object");
-            $this->assertNotEmpty($term->value('title'), "range_category-term van {$slug} heeft geen titel");
+            $this->assertNotNull($term, "range_categories van {$slug} resolveert niet naar een Term-object");
+            $this->assertNotEmpty($term->value('title'), "range_categories-term van {$slug} heeft geen titel");
             $this->assertSame($expectedTitle, $term->value('title'), "Range {$slug} is niet gekoppeld aan de verwachte categorie");
         }
     }

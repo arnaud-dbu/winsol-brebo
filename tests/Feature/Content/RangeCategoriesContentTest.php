@@ -48,7 +48,7 @@ class RangeCategoriesContentTest extends TestCase
 
             $this->assertNotNull($entry, "Range {$rangeSlug} ontbreekt");
 
-            $terms = $entry->augmentedValue('range_category')->value()->get();
+            $terms = $entry->augmentedValue('range_categories')->value()->get();
 
             $this->assertCount(1, $terms, "Range {$rangeSlug} hoort in precies één categorie te zitten");
             $this->assertSame($categorySlug, $terms->first()->slug(), "Range {$rangeSlug} zit in de verkeerde categorie");
