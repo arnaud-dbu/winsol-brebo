@@ -33,5 +33,9 @@ class PageHeaderTest extends SectionTestCase
         ]);
 
         $this->assertStringNotContainsString('page-header__divider', $html);
+        $this->assertStringContainsString('section--default', $html);
+        $this->assertStringContainsString('container', $html);
+        $this->assertStringContainsString('section-header-gap', $html);
+        $this->assertStringContainsString('<h1>Ons aanbod</h1>', $html);
     }
 }
