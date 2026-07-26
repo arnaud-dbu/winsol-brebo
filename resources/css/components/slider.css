@@ -34,3 +34,46 @@
 .swiper-pagination-bullet-active {
     @apply bg-black;
 }
+
+/*
+ * `ranges` section only (Figma 451:2700 desktop vs 451:3048 mobile): on
+ * desktop the two nav buttons sit beside the heading, top-right of the
+ * header row; on mobile they stay in their default spot below the card
+ * row. `.slider__nav` must remain a DOM descendant of `[data-slider]` —
+ * `resources/js/components/sliders.js` finds it via
+ * `element.querySelector('.swiper-button-next'/'-prev')` scoped to that
+ * element — so only its *visual* position changes here, never its place
+ * in the markup, and neither the shared `slider` nor `sectionHeader`
+ * partials are touched (this would affect every other section that uses
+ * them).
+ *
+ * `.slider` keeps clipping the horizontally-oversized `.swiper-wrapper`
+ * (`overflow-x: hidden`, unchanged from the base rule above) so the
+ * peeking slides are still cut off exactly as before; only the vertical
+ * axis is opened up (`overflow-y: visible`) so `.slider__nav` may render
+ * above `.slider`'s own box without being clipped. `.slider` is also
+ * taken out of the positioning chain (`position: static`) so the nav's
+ * containing block bubbles up to `.section-y-gap` (made `position:
+ * relative` here, ranges-only) — i.e. the box that wraps both the
+ * header and the slider — placing the nav at that box's own top-right
+ * corner, which is exactly the header's top-right corner since the
+ * header is its first child.
+ */
+@media (min-width: 1024px) {
+    [data-section='ranges'] .section-y-gap {
+        position: relative;
+    }
+
+    [data-section='ranges'] .slider {
+        position: static;
+        overflow-x: hidden;
+        overflow-y: visible;
+    }
+
+    [data-section='ranges'] .slider__nav {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-top: 0;
+    }
+}

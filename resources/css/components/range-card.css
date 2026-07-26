@@ -1,0 +1,14 @@
+/*
+ * Figma dgMxUtoYzYrR5FRuwPzQBn, nodes 451:2700 (desktop) / 451:3048
+ * (mobile): each range card is a full-card link, so it needs its own
+ * hover affordance to read as clickable — matching the lift/shadow
+ * treatment already used on other interactive cards in this project.
+ */
+.range-card {
+    @apply shadow-md/0 transition-shadow duration-200 ease-out;
+}
+
+.range-card:hover,
+.range-card:focus-visible {
+    @apply shadow-lg shadow-black/10;
+}
