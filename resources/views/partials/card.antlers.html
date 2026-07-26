@@ -1,9 +1,19 @@
-{{ layout = layout ?? "vertical" }}
-{{ ratio = layout == "horizontal" ? "2/3" : "8/5" }}
-<article class="card card--{{ layout }} @container">
+{{#
+    `layout` is never reassigned here: Antlers `{{ var = ... }}` assignments
+    write into the shared render cascade, not a partial-local scope, so a
+    reassignment would leak "vertical" (or whatever was last computed) into
+    every sibling/later partial call in the same render — including other
+    `partial:card` calls further down the page that pass no `layout` at all.
+    Read `layout ?? 'vertical'` inline wherever needed instead.
+#}}
+<article class="card card--{{ layout ?? 'vertical' }} @container">
     {{ if image }}
         <div class="card__media">
-            {{ img :src="image" :ratio="ratio" max_width="960" sizes="(min-width: 1024px) 33vw, 90vw" }}
+            {{ if layout == "horizontal" }}
+                {{ img :src="image" ratio="2/3" max_width="960" sizes="(min-width: 1024px) 33vw, 90vw" }}
+            {{ else }}
+                {{ img :src="image" ratio="8/5" max_width="960" sizes="(min-width: 1024px) 33vw, 90vw" }}
+            {{ /if }}
         </div>
     {{ /if }}
 
