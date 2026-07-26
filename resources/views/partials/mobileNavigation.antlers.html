@@ -1,16 +1,32 @@
 <div class="md:hidden" data-mobile-nav>
-    {{ partial:hamburger version="3" class="top-6 right-4" aria_label="Open menu" controls="mobile-navigation-panel" data_target="mobile-navigation-panel" }}
+    {{ partial:hamburger
+        version="3"
+        class="top-1/2 right-0 -translate-y-1/2"
+        aria_label="{{ trans:site.nav_open }}"
+        label_open="{{ trans:site.nav_open }}"
+        label_close="{{ trans:site.nav_close }}"
+        controls="mobile-navigation-panel"
+        data_target="mobile-navigation-panel" }}
     <div class="mobile-navigation__overlay" data-mobile-nav-overlay></div>
 
     <aside id="mobile-navigation-panel" class="mobile-navigation__panel" data-mobile-nav-panel role="dialog"
-        aria-label="Main navigation" aria-modal="true" aria-hidden="true" tabindex="-1">
+        aria-label="{{ trans:site.nav_label }}" aria-modal="true" aria-hidden="true" tabindex="-1">
         <div class="mobile-navigation__content">
-            <p class="sr-only" id="mobile-navigation-title">Main navigation</p>
+            <p class="sr-only" id="mobile-navigation-title">{{ trans:site.nav_label }}</p>
             <nav aria-labelledby="mobile-navigation-title">
                 <ul class="mobile-navigation__list">
                     {{ nav:main }}
                         <li>
-                            <a href="{{ entry.url }}">{{ title }}</a>
+                            <a href="{{ entry.url }}" class="text-black">{{ title }}</a>
+                            {{ if children }}
+                                <ul class="mt-2 ml-4 flex flex-col gap-2 border-l border-black/10 pl-4">
+                                    {{ children }}
+                                        <li>
+                                            <a href="{{ entry.url }}" class="inline-block text-base text-black">{{ title }}</a>
+                                        </li>
+                                    {{ /children }}
+                                </ul>
+                            {{ /if }}
                         </li>
                     {{ /nav:main }}
                 </ul>

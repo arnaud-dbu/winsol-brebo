@@ -18,10 +18,13 @@ function setExpanded(button, expanded) {
 }
 
 function setMenuState(root, trigger, panel, isOpen) {
+    const openLabel = trigger.dataset.labelOpen || "Open menu";
+    const closeLabel = trigger.dataset.labelClose || "Close menu";
+
     root.classList.toggle("is-open", isOpen);
     panel.setAttribute("aria-hidden", isOpen ? "false" : "true");
     panel.inert = !isOpen;
-    trigger.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+    trigger.setAttribute("aria-label", isOpen ? closeLabel : openLabel);
 
     if (isOpen) {
         document.body.classList.add("mobile-nav-open");

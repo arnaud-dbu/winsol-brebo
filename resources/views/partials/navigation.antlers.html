@@ -1,19 +1,49 @@
-<header class="py-4">
-    <div class="container">
-        <div class="flex justify-between items-center">
-            <a href="/">
-                <span class="sr-only">Home Link</span>
-                {{ svg src="logo" }}
-            </a>
-            <nav class="hidden md:block">
-                <ul class="flex gap-3">
-                    {{ nav:main }}
-                        <li>
-                            <a href="{{ entry.url }}">{{ title }}</a>
-                        </li>
-                    {{ /nav:main }}
-                </ul>
-            </nav>
-        </div>
-    </div>
+<header class="container relative flex items-center justify-between border-b border-black/12 pt-3 pb-5 md:border-b-0 md:py-6">
+    <a href="/" class="flex flex-col items-start gap-2">
+        <span class="sr-only">Home Link</span>
+        {{ svg src="logo" class="h-[27px] w-auto md:h-[35px]" }}
+        <span class="px-3 text-[9px] font-semibold tracking-[0.43em] text-black uppercase md:text-xs" aria-hidden="true">
+            By Brebo
+        </span>
+    </a>
+
+    <nav class="hidden md:block" aria-label="{{ trans:site.nav_label }}">
+        <ul class="flex items-center gap-10">
+            {{ nav:main }}
+                <li class="relative" {{ if children }}x-data="{ open: false }" @click.outside="open = false" @keyup.escape="open = false"{{ /if }}>
+                    {{ if children }}
+                        <button type="button"
+                            class="flex items-center gap-2 text-lg text-black transition-opacity hover:opacity-70"
+                            @click="open = !open" :aria-expanded="open.toString()">
+                            {{ title }}
+                            <svg class="size-3.5 shrink-0 transition-transform duration-200" :class="{ 'rotate-180': open }"
+                                viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                                <path d="M2.5 4.5L7 9.5L11.5 4.5" stroke="currentColor" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                        <ul x-show="open" x-cloak x-transition
+                            class="absolute top-full left-0 z-10 mt-4 flex min-w-44 flex-col gap-1 rounded-lg bg-white p-3 shadow-lg">
+                            {{ children }}
+                                <li>
+                                    <a href="{{ entry.url }}"
+                                        class="block rounded-sm px-3 py-2 text-base text-black transition-opacity hover:opacity-70">
+                                        {{ title }}
+                                    </a>
+                                </li>
+                            {{ /children }}
+                        </ul>
+                    {{ else }}
+                        <a href="{{ entry.url }}"
+                            class="text-lg text-black transition-opacity hover:opacity-70 focus-visible:opacity-70 aria-[current=page]:opacity-60"
+                            {{ if entry.url == current_url }}aria-current="page"{{ /if }}>
+                            {{ title }}
+                        </a>
+                    {{ /if }}
+                </li>
+            {{ /nav:main }}
+        </ul>
+    </nav>
+
+    {{ partial:mobileNavigation }}
 </header>
