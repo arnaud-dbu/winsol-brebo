@@ -12,6 +12,7 @@ Alpine.start()
 import "./components/hamburger";
 import "./components/mobile-navigation";
 import "./components/sliders";
+import "./components/locations-map";
 
 if (import.meta.hot) {
     import.meta.hot.on("vite:beforeFullReload", () => {

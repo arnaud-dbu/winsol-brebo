@@ -44,3 +44,18 @@
 .locations-map__attribution a {
     @apply underline;
 }
+
+/*
+ * Leaflet's eigen .leaflet-div-icon geeft elke divIcon een witte achtergrond
+ * en een grijze rand. leaflet.css komt uit een dynamisch geladen chunk, dus
+ * de laadvolgorde ten opzichte van site.css ligt niet vast — vandaar de
+ * dubbele selector, die wint op specificiteit in plaats van op volgorde.
+ */
+.leaflet-div-icon.locations-map__pin {
+    @apply border-0 bg-transparent;
+}
+
+/* De kaart is illustratie: geen focusring, geen tekstcursor. */
+.locations-map__canvas .leaflet-container {
+    @apply cursor-default outline-none;
+}
