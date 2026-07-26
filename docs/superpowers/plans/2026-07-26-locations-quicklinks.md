@@ -28,7 +28,7 @@
 
   Niet `php artisan test`: dat draait op PHP's standaard 128 MB en loopt betrouwbaar OOM in `AssetUploadCompressionTest` (intervention/image `Cloner.php`). Dat is een bestaand probleem, niet iets wat dit plan introduceert — `php artisan test` spawnt een subproces, dus een `-d memory_limit` erop heeft geen effect en de limiet moet via phpunit direct.
 
-- **Groene baseline bij aanvang:** 138 tests, 554 assertions, 1 skipped, 0 failures. Elke `Expected: PASS` hieronder gaat uit van dat vertrekpunt.
+- **Groene baseline bij aanvang:** 142 tests, 565 assertions, 1 skipped, 0 failures. Elke `Expected: PASS` hieronder gaat uit van dat vertrekpunt.
 
 ## Afwijkingen van de spec
 
