@@ -83,16 +83,20 @@ async function createMap(section, container, locations) {
 
     // fitBounds over de echte pins, niet het hardcoded centrum uit Figma: zo
     // blijft het beeld kloppen als er een vestiging bijkomt of verhuist.
+    //
+    // maxZoom: FOCUS_ZOOM voorkomt dat een gedegenereerde bounds (nog maar één
+    // locatie met geldige coordinaten over) inzoomt tot op de maxZoom van de
+    // tegellaag (20) — een dakzicht op één gebouw in plaats van een overzicht.
     const bounds = L.latLngBounds(locations.map(({ lat, lng }) => [lat, lng]))
-    map.fitBounds(bounds, { padding: BOUNDS_PADDING })
+    map.fitBounds(bounds, { padding: BOUNDS_PADDING, maxZoom: FOCUS_ZOOM })
 
     if (!canHover()) return map
 
     const reset = () => {
         if (prefersReducedMotion()) {
-            map.fitBounds(bounds, { padding: BOUNDS_PADDING })
+            map.fitBounds(bounds, { padding: BOUNDS_PADDING, maxZoom: FOCUS_ZOOM })
         } else {
-            map.flyToBounds(bounds, { padding: BOUNDS_PADDING })
+            map.flyToBounds(bounds, { padding: BOUNDS_PADDING, maxZoom: FOCUS_ZOOM })
         }
     }
 

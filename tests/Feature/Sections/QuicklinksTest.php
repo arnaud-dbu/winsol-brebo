@@ -52,13 +52,18 @@ class QuicklinksTest extends SectionTestCase
         $this->assertLessThan($showroom, $brochure, 'Brochure hoort tweede te staan');
     }
 
-    public function test_a_quicklink_without_an_image_still_renders_its_card(): void
+    public function test_it_renders_every_card_while_the_photos_are_still_unlinked(): void
     {
         // De entries hebben nog geen beeld (het assets-pad is nog niet bekend),
-        // dus de component hoort daar nu al tegen te kunnen.
+        // dus dit pint vast dat alle drie de kaarten renderen zolang dat zo is.
+        //
+        // De `{{ if image }}` guard zelf wordt hier niet gedekt: er is geen
+        // beeld-fixture, dus er is geen manier om vanuit deze test aan te
+        // tonen dat de guard het verschil maakt (een assertNotContainsString
+        // op '<img' zou evengoed slagen zonder de guard, want de Img-tag
+        // geeft toch al niets terug als `image` null is).
         $html = $this->render('{{ partial:quicklinks }}');
 
         $this->assertSame(3, substr_count($html, 'quicklink-card'));
-        $this->assertStringNotContainsString('<img', $html);
     }
 }

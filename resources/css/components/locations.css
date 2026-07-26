@@ -64,7 +64,18 @@
  * wordt aangeroepen op .locations-map__canvas zelf, en Leaflet's _initLayout
  * zet .leaflet-container op datzelfde element — geen kind-element, dus geen
  * afstammeling-selector.
+ *
+ * Leaflet's eigen `.leaflet-container { background: #ddd }` heeft dezelfde
+ * specificiteit (0,1,0) als de bg-light-utility die in de partial op
+ * hetzelfde element staat, en de laadvolgorde van leaflet.css t.o.v. site.css
+ * ligt niet vast (zie hierboven) — dus zonder ingrijpen kan de "tegelserver
+ * onbereikbaar"-fallback zomaar Leaflet's grijs tonen in plaats van ons
+ * neutrale paneel. Deze compound-selector wint op specificiteit zodra Leaflet
+ * de container-class heeft gezet, en dekt zo de na-Leaflet-fase. Vóór die
+ * klasse er is (de placeholder terwijl de chunk nog laadt) blijft de
+ * bg-light-utility op het element zelf verantwoordelijk — die twee samen
+ * dekken beide fases.
  */
 .locations-map__canvas.leaflet-container {
-    @apply cursor-default outline-none;
+    @apply cursor-default outline-none bg-light;
 }

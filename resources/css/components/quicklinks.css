@@ -1,7 +1,11 @@
 /*
  * De productfoto's zijn uitgeknipte beelden op transparant, geen
- * bleed-foto's: een vaste hoogte met object-contain houdt de drie kaarten
- * op één lijn, ook als de bronbeelden verschillende verhoudingen hebben.
+ * bleed-foto's. `.quicklink-media` is de vaste uitlijningsbox (h-24/h-32,
+ * items-end) die de drie kaarten op één lijn houdt. De box stretcht zijn
+ * kind niet (items-end i.p.v. items-stretch), dus een hoogte van 100% op de
+ * <img> zelf zou tegen een onbepaalde hoogte oplossen en naar auto
+ * terugvallen — vandaar dat de klem (`max-h-24 lg:max-h-32`) in de partial
+ * op de afbeelding zelf staat, niet hier op de wrapper.
  */
 .quicklink-media {
     @apply flex h-24 items-end lg:h-32;

@@ -30,6 +30,13 @@
                 </ul>
 
                 <div class="locations-map">
+                    {{#
+                        bg-light hier is de placeholder-achtergrond zolang Leaflet's
+                        chunk nog niet geladen is (dus nog geen .leaflet-container
+                        op dit element). Zodra die klasse er wel is, wint
+                        `.locations-map__canvas.leaflet-container` in locations.css
+                        op specificiteit — zie de comment daar.
+                    #}}
                     <div class="locations-map__canvas rounded-md bg-light" data-locations-map aria-hidden="true"></div>
 
                     <p class="locations-map__attribution">
