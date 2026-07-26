@@ -18,19 +18,21 @@ class CatalogContentTest extends TestCase
         }
     }
 
-    public function test_six_projects_exist_and_reference_a_product(): void
+    public function test_six_projects_exist_and_reference_a_range(): void
     {
         $projects = Entry::query()->where('collection', 'projects')->get();
 
         $this->assertCount(6, $projects);
 
         foreach ($projects as $project) {
-            $this->assertNotEmpty($project->get('product'), "Project {$project->slug()} verwijst niet naar een product");
-            $this->assertNotEmpty($project->get('image'));
+            $this->assertNotEmpty($project->get('image'), "Project {$project->slug()} heeft geen beeld");
+            $this->assertNotEmpty($project->get('range'), "Project {$project->slug()} verwijst niet naar een range");
 
-            $relatedProduct = $project->augmentedValue('product')->value();
-            $this->assertNotNull($relatedProduct, "Project {$project->slug()} se product-relatie augmenteert niet naar een entry");
-            $this->assertNotEmpty($relatedProduct->get('title'), "Project {$project->slug()} se gerelateerde product heeft geen title");
+            $relatedRange = $project->augmentedValue('range')->value();
+
+            $this->assertNotNull($relatedRange, "Project {$project->slug()} zijn range-relatie augmenteert niet naar een entry");
+            $this->assertSame('ranges', $relatedRange->collectionHandle(), "Project {$project->slug()} verwijst niet naar de ranges-collectie");
+            $this->assertNotEmpty($relatedRange->get('title'), "De range van project {$project->slug()} heeft geen titel");
         }
     }
 }
