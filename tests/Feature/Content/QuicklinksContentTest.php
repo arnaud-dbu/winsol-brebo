@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Content;
 
+use Statamic\Facades\Blueprint;
 use Statamic\Facades\Entry;
 use Tests\TestCase;
 
@@ -77,10 +78,12 @@ class QuicklinksContentTest extends TestCase
 
     public function test_the_contact_blueprint_no_longer_carries_a_dead_quicklinks_field(): void
     {
-        // De component leest altijd de hele collectie, dus dit veld deed niets
-        // meer en hoort niet als loze knop in de CP te blijven staan.
-        $blueprint = Entry::query()->where('collection', 'pages')->where('slug', 'contact')->first()->blueprint();
+        // De component leest altijd de hele collectie, dus dit veld op het
+        // contact-blueprintbestand deed niets meer en hoort niet als loze
+        // knop in de CP te blijven staan.
+        $blueprint = Blueprint::find('collections.pages.contact');
 
+        $this->assertNotNull($blueprint, 'Blueprint collections.pages.contact niet gevonden');
         $this->assertNull($blueprint->field('quicklinks'));
     }
 }
