@@ -1,0 +1,46 @@
+/*
+ * Figma dgMxUtoYzYrR5FRuwPzQBn, node 293:3935 (desktop 1744): twee kolommen
+ * van 816 met 32 gap, kaartjes 816 x 147 met 40 padding, kaart 816 x 506.
+ * De verhouding staat als aspect-ratio zodat de kaartcontainer zijn hoogte
+ * heeft voordat Leaflet geladen is — anders springt de layout op het moment
+ * dat de tegels binnenkomen, en heeft Leaflet geen definite height om in te
+ * renderen.
+ */
+.location-card {
+    @apply shadow-md/0 transition-shadow duration-200 ease-out;
+}
+
+.location-card:hover,
+.location-card:focus-visible {
+    @apply shadow-lg shadow-black/10;
+}
+
+.location-card__name {
+    @apply text-xl font-semibold;
+}
+
+.location-card__address {
+    @apply text-base;
+}
+
+.locations-map {
+    @apply flex flex-col gap-2;
+}
+
+.locations-map__canvas {
+    aspect-ratio: 4 / 3;
+}
+
+@media (min-width: 1024px) {
+    .locations-map__canvas {
+        aspect-ratio: 816 / 506;
+    }
+}
+
+.locations-map__attribution {
+    @apply text-xs text-black/50;
+}
+
+.locations-map__attribution a {
+    @apply underline;
+}
