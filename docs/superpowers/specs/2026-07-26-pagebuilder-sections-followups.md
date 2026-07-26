@@ -13,6 +13,11 @@
 - **Ranges featured card.** The desktop design shows a fourth, dark "featured" card variant. The `ranges` blueprint has no field that can express it.
 - **Image alt text.** Assets carry no alt text, so images render with an empty `alt`.
 - **Desktop nav extras.** The design's "Gratis offerte" CTA button and "NL" language switcher were not built — no content or locale source exists for either.
+- **The nav does not float.** In Figma the nav overlays the home hero, range, and product headers (hence the overflows and a white logo on the photo headers). In code `navigation.antlers.html` sits in the flow with dark text and `logo.svg`. The headers are built so they work in both cases; the nav change itself was not made.
+- **The range overview page is missing.** `range_overview.yaml` exists as a blueprint, but there is no entry and `/aanbod` is not a route. The hero button "Discover our range" has no destination as a result and does not render.
+- **Copy alternates between `je` and `uw`.** The home hero says "your home", range and product headers say "your terrace". This is as shown in Figma.
+- **The mobile range frame disappeared during readout** (`457:6977`). The dimensions in the spec come from an earlier readout and have not been re-verified against the file.
+- **Header ↔ first section coupling** on the range page: the PNG extends below the header and relies on the section below having no opaque background.
 
 ## Code follow-ups
 
@@ -24,6 +29,10 @@
 - **Root routing.** `pages` and `legal` both route off the root with no collision guard. No clash today, but a future page sharing a legal slug would silently shadow it.
 - **Hover affordances.** The three link cards differ: `range-card` lifts with a shadow, `project-card` translates an arrow, `card` does nothing. Pick one.
 - **Decorative icons.** The check icon in `featureList.antlers.html` and the icon in `features.antlers.html` lack `aria-hidden`, unlike the ones in `projects`, `gridCta` and `ranges`.
+- **`text-*` utilities on `h1`–`h4` and `p` do nothing.** `base/typography.css` and component CSS are unlayered; Tailwind utilities sit in `@layer utilities`, and unlayered CSS always wins, regardless of specificity. Concretely dead: `<p class="text-lg">` in `headers/default.antlers.html` and `<h2 class="... text-base">` in `cookieConsent.antlers.html`. `.overline` and the new `header.css` classes sidestep this with a direct `font-size` on a class. Decide whether the two existing cases should get their intended size — that is a visible change on articles, cases, legal and contact.
+- **`range` field name collides with Antlers' built-in `range`/`loop` tag** (`Statamic\Tags\Range`). If the variable is missing from context, a parameterless `{{ range }}...{{ /range }}` falls back to that tag and renders its body once with the parent scope. `headers/project.antlers.html` guards against this with a surrounding `{{ if range }}`. The same construct appears in `sections/ranges.antlers.html`, where `range` is always present in the section context and doesn't trap — but the pitfall is there.
+- **`.btn--pill` base.** `.btn--outline` is the fourth button with identical shape declarations alongside `.btn--accent`, `.btn--cta` and `.btn--dark`.
+- **Tailwind's own `.overline` utility** (`text-decoration-line: overline`) clashes by name with the project component. The unlayered project rule wins, so there is no visible problem today, but the name is a pitfall.
 
 ## Files that can probably go
 
