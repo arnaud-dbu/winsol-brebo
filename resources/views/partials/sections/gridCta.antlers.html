@@ -1,1 +1,47 @@
-<section class="section section--default" data-section="grid_cta"></section>
+{{#
+    The shape sits far outside the section's own box in Figma (desktop:
+    left -681px/width 1518px; mobile: left -131px/width 493px), so it is
+    rendered as a sibling of `.container`, absolutely positioned against
+    the `relative isolate overflow-hidden` `<section>` below. That
+    `overflow-hidden` clips the bleed at the section's own edge — it never
+    grows the section's box, so it cannot widen `document.documentElement`.
+
+    Panel background/button alternate per grid item using `index` (native
+    Antlers `%`), never by assigning a shared variable: both branches of
+    each ternary are complete, literal class strings so Tailwind's
+    (variable-blind) scanner still finds them, and nothing is written back
+    to the cascade that a later partial in the same render could inherit.
+#}}
+<section class="section section--default relative isolate overflow-hidden" data-section="grid_cta">
+    {{ svg src="shape" aria-hidden="true" class="pointer-events-none absolute -z-10 left-[-8.1875rem] top-[2.8125rem] w-[30.8125rem] h-auto max-w-none text-light sm:left-[-42.5625rem] sm:top-[13.4375rem] sm:w-[94.875rem]" }}
+
+    <div class="container">
+        <div class="section-x-gap items-stretch">
+            {{ if image }}
+                <div class="section-col-wide">
+                    {{ img :src="image" ratio="4/5" max_width="1200" sizes="(min-width: 640px) 45vw, 100vw" class="size-full rounded-md object-cover" }}
+                </div>
+            {{ /if }}
+
+            {{ if grid }}
+                <div class="section-col-narrow flex flex-col gap-6 sm:gap-8">
+                    {{ grid }}
+                        <div class="grid-cta__panel card-padding flex flex-col gap-6 rounded-md sm:gap-8 {{ index % 2 == 0 ? 'bg-light' : 'bg-accent' }}">
+                            {{ if title }}
+                                <h2>{{ title }}</h2>
+                            {{ /if }}
+
+                            {{ if text }}
+                                <p>{{ text }}</p>
+                            {{ /if }}
+
+                            {{ if link }}
+                                {{ partial:link :style="index % 2 == 0 ? 'btn btn--accent' : 'btn btn--dark'" }}
+                            {{ /if }}
+                        </div>
+                    {{ /grid }}
+                </div>
+            {{ /if }}
+        </div>
+    </div>
+</section>

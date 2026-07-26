@@ -26,3 +26,18 @@
 .btn--cta {
     @apply rounded-full bg-accent px-8 py-5 font-semibold text-base text-black lg:bg-black lg:text-white;
 }
+
+/*
+ * `.btn--dark` is the dark pill button used by the `grid_cta` section for
+ * panels with an accent background (the Figma button there is bg-black /
+ * text-white, same rounded-full shape, padding and font size as
+ * `.btn--accent`). Neither `.btn--primary` (square, smaller padding) nor
+ * `.btn--inverse` (no shape/padding at all) match that shape, so this adds
+ * the missing dark counterpart to `.btn--accent` rather than overriding
+ * `.btn--primary`'s own padding/radius with ad-hoc utilities at the call
+ * site.
+ */
+
+.btn--dark {
+    @apply rounded-full bg-black px-8 py-5 font-semibold text-base text-white;
+}
