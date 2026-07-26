@@ -19,13 +19,16 @@ tabs:
               type: textarea
               display: Text
           -
-            handle: product
+            handle: range
             field:
               type: entries
               collections:
-                - products
+                - ranges
               max_items: 1
-              display: Product
+              display: Range
+              required: true
+              validate:
+                - required
           -
             import: image
       -
