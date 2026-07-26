@@ -1,1 +1,17 @@
-<section class="section section--default" data-section="cards"></section>
+<section class="section section--default" data-section="cards">
+    <div class="container">
+        <div class="section-y-gap">
+            {{ partial:sectionHeader is_centered="true" }}
+
+            {{ if cards }}
+                {{ partial:slider per_view="1.15,sm:2" from="md" }}
+                    {{ cards }}
+                        <div class="swiper-slide">
+                            {{ partial:card layout="horizontal" }}
+                        </div>
+                    {{ /cards }}
+                {{ /partial:slider }}
+            {{ /if }}
+        </div>
+    </div>
+</section>

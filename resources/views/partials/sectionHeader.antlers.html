@@ -1,7 +1,7 @@
 {{ tag = tag ?? "h2" }}
 {{ if title || text || overline || link }}
     <div
-        class="section-header section-header-gap {{ is_centered ? 'section-header--centered items-center text-center' : '' }} {{ is_inverse ? 'section-header--inverse text-white' : '' }}">
+        class="section-header section-header-gap {{ if is_centered }}section-header--centered items-center text-center{{ elseif centered_from }}{{ centered_from }}:section-header--centered {{ centered_from }}:items-center {{ centered_from }}:text-center{{ /if }} {{ is_inverse ? 'section-header--inverse text-white' : '' }}">
         {{ partial:overline :label="overline" :is_inverse="is_inverse" }}
 
         {{ if title }}

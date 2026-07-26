@@ -29,3 +29,12 @@
 .card__body {
     @apply flex flex-col gap-4;
 }
+
+/*
+ * cards section (node 451:2738): desktop shows a 2x2 grid of horizontal
+ * cards. Above `md` the slider destroys Swiper and `.slider.css` falls back
+ * to a grid defaulting to 3 columns at `xl` — override that back to 2 here.
+ */
+[data-section='cards'] .slider:not(.swiper-initialized) .swiper-wrapper {
+    @apply md:grid-cols-2 xl:grid-cols-2;
+}
