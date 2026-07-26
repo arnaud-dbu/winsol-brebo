@@ -15,7 +15,8 @@ class CardsSectionTest extends SectionTestCase
         ]);
 
         $this->assertStringContainsString('data-section="cards"', $html);
-        $this->assertStringContainsString('section-header--centered', $html);
+        $this->assertMatchesRegularExpression('/section-header--centered(\s|")/', $html);
+        $this->assertStringNotContainsString('section-header--centered-from-', $html);
         $this->assertStringContainsString('data-slider-from="md"', $html);
         $this->assertSame(2, substr_count($html, 'swiper-slide'));
         $this->assertSame(2, substr_count($html, 'card--horizontal'));

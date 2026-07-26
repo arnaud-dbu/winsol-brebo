@@ -17,7 +17,8 @@ class ProductsSectionTest extends SectionTestCase
         ]);
 
         $this->assertStringContainsString('data-section="products"', $html);
-        $this->assertStringContainsString('section-header--centered', $html);
+        $this->assertStringContainsString('section-header--centered-from-lg', $html);
+        $this->assertDoesNotMatchRegularExpression('/section-header--centered(\s|")/', $html);
         $this->assertStringContainsString('data-slider-from="md"', $html);
         $this->assertSame(3, substr_count($html, 'card--vertical'));
     }

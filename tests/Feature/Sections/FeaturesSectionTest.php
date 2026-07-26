@@ -16,7 +16,8 @@ class FeaturesSectionTest extends SectionTestCase
         ]);
 
         $this->assertStringContainsString('data-section="features"', $html);
-        $this->assertStringContainsString('section-header--centered', $html);
+        $this->assertStringContainsString('section-header--centered-from-lg', $html);
+        $this->assertDoesNotMatchRegularExpression('/section-header--centered(\s|")/', $html);
         $this->assertSame(2, substr_count($html, 'feature-item'));
         $this->assertStringContainsString('Lokaal verankerd', $html);
     }
