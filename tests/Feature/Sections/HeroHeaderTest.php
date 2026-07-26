@@ -63,4 +63,47 @@ class HeroHeaderTest extends SectionTestCase
 
         $this->assertStringNotContainsString('data-header-media', $html);
     }
+
+    public function test_loops_the_value_proposition_items(): void
+    {
+        config(['app.debug' => false]);
+
+        $html = $this->render('{{ partial src="headers/hero" }}', [
+            'title' => 'Winsol maakt je woning compleet',
+            'value_proposition' => [
+                'title' => 'Waarom Winsol Brebo',
+                'items' => [
+                    ['icon' => 'flag', 'title' => 'Belgisch merk', 'text' => '145 jaar vakmanschap.'],
+                    ['icon' => 'ruler', 'title' => 'Maatwerk', 'text' => 'Alles op maat gemaakt.'],
+                    ['icon' => 'headset', 'title' => 'Lokaal en bereikbaar', 'text' => 'Drie showrooms in de buurt.'],
+                ],
+            ],
+        ]);
+
+        $this->assertStringContainsString('data-header="value-proposition"', $html);
+        $this->assertStringContainsString('Waarom Winsol Brebo', $html);
+
+        // Assert op de inhoud, niet alleen op het aantal <li>: een lus die
+        // driemaal hetzelfde item rendert zou een telling overleven.
+        $this->assertStringContainsString('Belgisch merk', $html);
+        $this->assertStringContainsString('Maatwerk', $html);
+        $this->assertStringContainsString('Lokaal en bereikbaar', $html);
+        $this->assertStringContainsString('Drie showrooms in de buurt.', $html);
+        $this->assertSame(3, substr_count($html, '<li'));
+
+        // De iconen worden inline gerenderd door de `icon`-tag, dus er
+        // staan drie <svg>'s in de strip.
+        $this->assertSame(3, substr_count($html, '<svg'));
+    }
+
+    public function test_omits_the_whole_strip_without_a_value_proposition(): void
+    {
+        config(['app.debug' => false]);
+
+        $html = $this->render('{{ partial src="headers/hero" }}', [
+            'title' => 'Winsol maakt je woning compleet',
+        ]);
+
+        $this->assertStringNotContainsString('data-header="value-proposition"', $html);
+    }
 }

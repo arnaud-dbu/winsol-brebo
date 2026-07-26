@@ -53,3 +53,51 @@
         </div>
     </div>
 </section>
+
+{{#
+    Value proposition — Figma 293:2705. Onderdeel van de hero, niet van de
+    page builder: de strip hoort visueel en inhoudelijk bij de hero en de
+    velden staan in de `home`-blueprint.
+
+    De container-padding is 40px in Figma, wat exact `container`'s `lg:px-10`
+    is — vandaar gewoon `container` in plaats van een eigen inspringing.
+
+    Scheidingslijnen: wit op 25% (geverifieerd tegen het lijn-asset in
+    293:2709). Figma zet er één vóór elke cel plus één na de laatste; de
+    dubbele lijn rechts in de file (293:2733 naast 293:2734, en de tweede
+    is zwart op 10%) is een duplicaat uit een andere context, geen ontwerp.
+
+    Afgeleid (geen mobiel frame): onder `lg` stapelen de cellen en worden de
+    verticale lijnen horizontale scheidingen.
+#}}
+{{ if value_proposition:items }}
+    <section class="bg-black text-white" data-header="value-proposition">
+        <div class="container flex flex-col lg:flex-row lg:items-center lg:gap-26">
+            {{ if value_proposition:title }}
+                <h2 class="value-proposition__title pt-10 lg:w-[303px] lg:shrink-0 lg:pt-0">
+                    {{ value_proposition:title }}
+                </h2>
+            {{ /if }}
+
+            <ul class="flex flex-1 flex-col lg:flex-row">
+                {{ value_proposition:items }}
+                    <li class="flex flex-1 items-start gap-6 border-t border-white/25 py-7 last:border-b lg:border-t-0 lg:border-l lg:px-10 lg:last:border-r lg:last:border-b-0">
+                        {{ if icon }}
+                            {{ icon:index src="{{ icon | raw }}" class="size-10 shrink-0 text-accent" aria-hidden="true" }}
+                        {{ /if }}
+
+                        <div class="flex flex-col gap-3">
+                            {{ if title }}
+                                <h3 class="value-proposition__item-title">{{ title }}</h3>
+                            {{ /if }}
+
+                            {{ if text }}
+                                <p class="value-proposition__item-text">{{ text }}</p>
+                            {{ /if }}
+                        </div>
+                    </li>
+                {{ /value_proposition:items }}
+            </ul>
+        </div>
+    </section>
+{{ /if }}

@@ -1,0 +1,32 @@
+/*
+ * Headertypografie.
+ *
+ * WAAROM CLASSES EN GEEN `text-*`-UTILITIES:
+ * `base/typography.css` en de component-CSS staan ongelaagd; Tailwind's
+ * utilities staan in `@layer utilities`. Ongelaagde CSS wint altijd van
+ * gelaagde, ongeacht specificiteit. `<h1 class="text-display">` en
+ * `<p class="text-lg">` doen dus niets — de `h1`- en `p`-basisregels winnen.
+ * Vandaar een class met een directe `font-size`, precies de constructie die
+ * `.overline` al gebruikt. Geverifieerd in public/build/assets/site-*.css:
+ * `@layer utilities` eindigt vóór de ongelaagde `h1`/`p`/`.overline`-regels.
+ */
+
+/* --- Value proposition (Figma 293:2705) --- */
+
+.value-proposition__title {
+    font-size: var(--text-xl); /* 20 → 31px, Figma 293:2707 */
+}
+
+.value-proposition__item-title {
+    font-size: var(--text-base); /* 16 → 20px, Figma 293:2715 */
+    line-height: 1;
+}
+
+/*
+ * Vast 16px, NIET de fluid `--text-base`: die klimt op desktop naar 20px,
+ * terwijl Figma 293:2716 op een 1744px-frame 16px aanhoudt. De regelhoogte
+ * van 1.5 komt al uit de `p`-basisregel.
+ */
+.value-proposition__item-text {
+    font-size: 1rem;
+}
