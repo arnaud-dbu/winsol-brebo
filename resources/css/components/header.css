@@ -1,0 +1,63 @@
+/*
+ * Headertypografie.
+ *
+ * WAAROM CLASSES EN GEEN `text-*`-UTILITIES:
+ * `base/typography.css` en de component-CSS staan ongelaagd; Tailwind's
+ * utilities staan in `@layer utilities`. Ongelaagde CSS wint altijd van
+ * gelaagde, ongeacht specificiteit. `<h1 class="text-display">` en
+ * `<p class="text-lg">` doen dus niets — de `h1`- en `p`-basisregels winnen.
+ * Vandaar een class met een directe `font-size`, precies de constructie die
+ * `.overline` al gebruikt. Geverifieerd in public/build/assets/site-*.css:
+ * `@layer utilities` eindigt vóór de ongelaagde `h1`/`p`/`.overline`-regels.
+ */
+
+/* --- Detail-headers (range, product, project) --- */
+
+/*
+ * LET OP: `--text-display` genereert ook een `text-display`-utility. Gebruik
+ * die NIET op een `h1` — die verliest van de ongelaagde `h1`-basisregel.
+ * Deze class is de werkende variant.
+ */
+.header-title {
+    font-size: var(--text-display); /* 39 → 76px */
+}
+
+.header-intro {
+    font-size: var(--text-lg); /* 18 → 25px, Figma 293:3545 / 301:3499 / 301:3309 */
+}
+
+/*
+ * Het label boven de project-H1 (Figma 301:3307) is NIET de `.overline`-
+ * component: die is 12 → 16px met `letter-spacing: 0.125em` en rendert
+ * altijd een streepje-span. Dit label is 20px, 0.4px tracking, halftrans-
+ * parant zwart en heeft geen streepje. Een zesde `.overline`-variant zou een
+ * component uitbreiden dat al te veel bereikbare varianten heeft — zie de
+ * page-builder-follow-ups.
+ */
+.header-eyebrow {
+    @apply font-semibold text-black/50 uppercase;
+
+    font-size: var(--text-base); /* 16 → 20px */
+    line-height: 1.1;
+    letter-spacing: 0.02em; /* 0.4px op 20px */
+}
+
+/* --- Value proposition (Figma 293:2705) --- */
+
+.value-proposition__title {
+    font-size: var(--text-xl); /* 20 → 31px, Figma 293:2707 */
+}
+
+.value-proposition__item-title {
+    font-size: var(--text-base); /* 16 → 20px, Figma 293:2715 */
+    line-height: 1;
+}
+
+/*
+ * Vast 16px, NIET de fluid `--text-base`: die klimt op desktop naar 20px,
+ * terwijl Figma 293:2716 op een 1744px-frame 16px aanhoudt. De regelhoogte
+ * van 1.5 komt al uit de `p`-basisregel.
+ */
+.value-proposition__item-text {
+    font-size: 1rem;
+}

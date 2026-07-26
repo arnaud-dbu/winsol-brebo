@@ -49,6 +49,9 @@
     --text-3xl: clamp(1.9375rem, 1.134rem + 2.009vw, 3.0625rem);  /* H2       31 → 49 */
     --text-4xl: clamp(2.4375rem, 1.455rem + 2.455vw, 3.8125rem);  /* H1       39 → 61 */
 
+    /* Header-H1: groter dan de site-h1 (die op 61px stopt). Figma 293:3544, 301:3498, 301:3308. */
+    --text-display: clamp(2.4375rem, 0.786rem + 4.129vw, 4.75rem); /* 39 → 76 */
+
     --text-5xl: 3.812rem; /* 61px */
     --text-6xl: 4.75rem; /* 76px */
     --text-7xl: 5.938rem; /* 95px */
@@ -83,6 +86,7 @@
 @import './components/section-header.css';
 @import './components/project-card.css';
 @import './components/range-card.css';
+@import './components/header.css';
 @import './components/range-filter.css';
 @import './components/locations.css';
 @import './components/quicklinks.css';

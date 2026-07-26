@@ -1,0 +1,41 @@
+{{#
+    Project-header — Figma 301:3304.
+
+    `range` is een entries-veld en wordt daarom gelust in plaats van met
+    `{{ range:title }}` gelezen: Statamic augmenteert een entries-veld altijd
+    naar een collectie, ook met `max_items: 1`. De lus rendert niets bij een
+    lege relatie, wat precies het gedrag is dat we willen zolang de
+    `range`-relatie nog niet gemerged is — zie de spec.
+
+    Afgeleid (geen mobiel frame): het tekstblok volgt `container` in plaats
+    van 866px vast, en het beeld houdt een ratio per breakpoint aan.
+
+    Afwijking van de spec-brief: `range` is ook de naam van Antlers' ingebouwde
+    `range`/`loop`-tag (`Statamic\Tags\Range`). Zonder omringende `{{ if range }}`
+    valt een param-loze `{{ range }}...{{ /range }}` terug op die tag zodra de
+    `range`-variabele ontbreekt (in plaats van niet te bestaan als lege array),
+    en rendert hij zijn body één keer met de bovenliggende scope — precies het
+    lege label dat we niet willen. De buitenste `{{ if range }}` dwingt af dat
+    de variabele-lookup wint en de body pas rendert als er echt data is.
+#}}
+<section class="bg-white" data-header="project">
+    <div class="container flex flex-col items-center gap-6 pt-10 text-center lg:pt-16">
+        {{ if range }}
+            {{ range }}
+                <p class="header-eyebrow">{{ title }}</p>
+            {{ /range }}
+        {{ /if }}
+
+        <h1 class="header-title max-w-[866px]">{{ title }}</h1>
+
+        {{ if text }}
+            <p class="header-intro max-w-[866px]">{{ text }}</p>
+        {{ /if }}
+    </div>
+
+    {{ if image }}
+        <div data-header-media class="container mt-10 lg:mt-16">
+            {{ img :src="image" ratio="4/3" lg:ratio="2/1" max_width="2560" sizes="100vw" priority="true" class="w-full rounded-md" }}
+        </div>
+    {{ /if }}
+</section>

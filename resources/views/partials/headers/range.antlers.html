@@ -1,0 +1,77 @@
+{{#
+    Range-header — Figma 293:3540 (desktop) en 457:6978 (mobiel).
+
+    Twee achtergrondlagen met tegengesteld overloopgedrag, en dát is de reden
+    voor de nesting hieronder:
+
+    - Het W-watermerk WORDT geklipt: `overflow-clip` staat expliciet op het
+      Figma-frame. Het zit daarom in een eigen `overflow-hidden`-wrapper, met
+      dezelfde `rounded-md` als de sectie — anders kunnen de hoeken van het
+      watermerk voorbij de afgeronde sectiehoek steken.
+    - De range-png wordt NIET geklipt: hij steekt links buiten beeld en op
+      desktop 135px onder de header uit, over de eerste page-builder-sectie
+      heen. In Figma staat hij daarom in de sectie eróónder geparenteerd
+      (361:4036), niet in de header. Hier hoort hij bij de header — één
+      component bezit het beeld — maar de sectie eronder mag dan geen
+      dekkende achtergrond over de png leggen. Dat is vandaag zo (wit), maar
+      het is een echte koppeling; zie de open punten in de spec.
+
+    Watermerkpositionering: `{{ svg }}` string-replaced alleen de `<svg`-tag
+    en behoudt de eigen `width="1134" height="512"` van het bestand. Zonder
+    `h-auto` bleef de hoogte dus 512px vast op elke breedte terwijl de breedte
+    wél schaalde — dat klopte toevallig alleen bij precies 1744px. Met
+    `h-auto` volgt de hoogte de breedte via de intrinsieke ratio (1134:512,
+    gelijk aan de mobiele 609:275).
+
+    De positionering zelf is proportioneel in plaats van in pixels: Figma
+    geeft alleen exacte offsets voor 402px en 1744px, en daartussen zou een
+    vaste pixelwaarde verlopen.
+
+    Desktop (1744x564-frame, merk op top:119 left:-321 breedte:1134):
+    119/564 = 21,1% top, -321/1744 = -18,4% left, 1134/1744 = 65,0% breedte.
+    Dat klopt al mét `h-auto`, want bij precies 1744px was de hoogte toch al
+    512px (de natuurlijke svg-hoogte) — geen wijziging hier.
+
+    Mobiel telt het Figma-frame (402x676) de 75px hoge zwevende nav mee; onze
+    nav staat in de flow, dus de header-box zelf is 676-75 = 601px hoog. Het
+    merk staat op top:139 t.o.v. de vólledige frame, dus t.o.v. de header-box
+    139-75 = 64px: 64/601 = 10,65% top. (Hier stond eerder `top-[12%]`, een
+    afronding die niet klopte met de eigen 10,6%-afleiding uit de spec; nu
+    gecorrigeerd naar de uitgerekende 64/601 = 10,65%.) Links en breedte
+    blijven ongewijzigd: -218/402 = -54,2% en 609/402 = 151,5%.
+#}}
+<section class="relative isolate rounded-md bg-light" data-header="range">
+    {{# `data-header-watermark` staat vóór `class` omdat RangeHeaderTest de
+        volgorde attribuut-dan-class matcht om te bewijzen dat déze wrapper
+        klipt en die van de png niet. #}}
+    <div data-header-watermark class="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-md" aria-hidden="true">
+        {{ svg src="watermark" class="absolute top-[10.65%] -left-[54%] w-[152%] h-auto lg:top-[21%] lg:-left-[18%] lg:w-[65%]" }}
+    </div>
+
+    <div class="container flex flex-col py-14 lg:flex-row lg:justify-end lg:pt-38 lg:pb-28">
+        {{ if image }}
+            {{#
+                Mobiel staat de png in de flow bóven de titel (457:6984);
+                vanaf `lg` wordt hij absoluut en hangt hij 135px onder de
+                header uit — de exacte overhang uit 361:4036.
+            #}}
+            <div data-header-media class="mb-8 w-[229px] max-w-[60%] lg:absolute lg:-bottom-[135px] lg:-left-[8%] lg:mb-0 lg:w-[47%]">
+                {{#
+                    `priority` omdat dit beeld boven de vouw staat, zoals de
+                    andere headerbeelden. Bewust geen `ratio`: dit is een
+                    transparante productrender, geen bijgesneden
+                    achtergrondfoto, en een ratio zou het beeld croppen.
+                #}}
+                {{ img :src="image" max_width="1280" sizes="(min-width: 1024px) 47vw, 60vw" priority="true" class="h-auto w-full" }}
+            </div>
+        {{ /if }}
+
+        <div class="relative z-10 flex flex-col gap-5 lg:w-1/2 lg:gap-9">
+            <h1 class="header-title">{{ title }}</h1>
+
+            {{ if short_description }}
+                <p class="header-intro">{{ short_description }}</p>
+            {{ /if }}
+        </div>
+    </div>
+</section>

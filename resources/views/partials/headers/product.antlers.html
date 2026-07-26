@@ -1,0 +1,42 @@
+{{#
+    Product-header — Figma 301:3495.
+
+    Twee donkere lagen over het beeld:
+    1. Een radiale verdonkering (`opacity: 0.7`, zwart -> zwart/50%) die het
+       midden zwaarder maakt, waar de tekst staat. De Figma-matrix beschrijft
+       een ellips die het frame vult; CSS `radial-gradient` doet dat standaard
+       ook (ellips, gecentreerd, farthest-corner), dus `bg-radial` is hier een
+       nauwe benadering en geen willekeurige keuze.
+    2. Hetzelfde bovenverloop als de home-hero, maar zwaarder (70% i.p.v. 50%).
+       Zie hero.antlers.html voor waarom dat verloop er staat.
+
+    Afgeleid (geen mobiel frame): de vaste hoogte van 752px wordt een ratio
+    per breakpoint, het tekstblok volgt `container` in plaats van 790px vast.
+
+    `image` is optioneel, en zonder beeld is er niets in de flow om de sectie
+    hoogte te geven — het tekstblok zou als `absolute inset-0` op een
+    0px-sectie staan en onzichtbaar zijn, inclusief de H1. Daarom liggen de
+    donkere lagen en het tekstblok alleen `absolute` wanneer er een beeld is;
+    zonder beeld rendert de tekst in de flow, zonder witte-op-wit-tekst.
+    Geen vaste hoogte verzonnen — geen Figma-frame dekt deze staat.
+#}}
+<section class="relative isolate overflow-hidden rounded-md" data-header="product">
+    {{ if image }}
+        <div data-header-media>
+            {{ img :src="image" ratio="4/5" sm:ratio="16/9" lg:ratio="7/3" max_width="2560" sizes="100vw" priority="true" class="w-full" }}
+        </div>
+
+        <div class="absolute inset-0 bg-radial from-black to-black/50 opacity-70" aria-hidden="true"></div>
+        <div class="absolute inset-0 bg-linear-to-b from-black/70 to-transparent to-[26.5%]" aria-hidden="true"></div>
+    {{ /if }}
+
+    <div class="container {{ if image }}absolute inset-0 {{ /if }}flex items-center justify-center py-10 lg:py-14">
+        <div class="flex w-full max-w-[790px] flex-col items-center gap-6 text-center {{ if image }}text-white{{ /if }} lg:gap-8">
+            <h1 class="header-title">{{ title }}</h1>
+
+            {{ if text }}
+                <p class="header-intro">{{ text }}</p>
+            {{ /if }}
+        </div>
+    </div>
+</section>
