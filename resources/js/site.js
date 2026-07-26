@@ -1,10 +1,12 @@
 import Alpine from 'alpinejs'
 import Collapse from '@alpinejs/collapse'
 import { cookieConsent } from './components/cookie-consent'
+import { projectFilter } from './components/project-filter'
 
 window.Alpine = Alpine
 Alpine.plugin(Collapse)
 Alpine.data('cookieConsent', cookieConsent)
+Alpine.data('projectFilter', projectFilter)
 Alpine.start()
 
 import "./components/hamburger";
