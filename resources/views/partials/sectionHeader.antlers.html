@@ -1,4 +1,11 @@
-{{ tag = tag ?? "h2" }}
+{{#
+    `tag` is never reassigned here: Antlers `{{ var = ... }}` assignments
+    write into the shared render cascade, not a partial-local scope, so a
+    reassignment would leak the last-computed tag into every sibling/later
+    `partial:sectionHeader` call in the same render. Read `tag ?? 'h2'`
+    inline wherever needed instead (see CardLayoutCascadeTest for the same
+    bug class in card.antlers.html's `layout`).
+#}}
 {{#
     Centring precedence (only one applies):
     1. is_centered="true"   -> centred at every width. Wins if both args are passed.
@@ -74,7 +81,7 @@
         {{ partial:overline :label="overline" :is_inverse="is_inverse" :inverse_until="inverse_until" :accent_bg="accent_bg" :accent_bg_from="accent_bg_from" }}
 
         {{ if title }}
-            <{{ tag }} class="max-w-3xl">{{ title }}</{{ tag }}>
+            <{{ tag ?? 'h2' }} class="max-w-3xl">{{ title }}</{{ tag ?? 'h2' }}>
         {{ /if }}
 
         {{ if text }}
