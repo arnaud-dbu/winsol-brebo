@@ -1,5 +1,25 @@
-.mobile-navigation__overlay {
+/*
+ * The overlay and panel are visually fixed to the viewport, but a closed panel
+ * is only moved off-screen via `transform: translateX(100%)` — its untransformed
+ * box is still `inset: 0 0 0 auto; width: 100%`. Browsers include a
+ * `position: fixed` element's transformed painted box in the document's
+ * scrollable overflow, which widens `document.documentElement` sideways even
+ * though nothing is visible there. Wrapping both in a `position: fixed;
+ * inset: 0; overflow: hidden` viewport box and making the overlay/panel
+ * `position: absolute` within it keeps the exact same visual behaviour (the
+ * wrapper covers the viewport 1:1) while the wrapper's own `overflow: hidden`
+ * clips the translated panel instead of letting it leak into document width.
+ */
+.mobile-navigation__viewport {
     position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 80;
+}
+
+.mobile-navigation__overlay {
+    position: absolute;
     inset: 0;
     background: rgb(0 0 0 / 0.45);
     opacity: 0;
@@ -12,7 +32,7 @@
 }
 
 .mobile-navigation__panel {
-    position: fixed;
+    position: absolute;
     inset: 0 0 0 auto;
     width: 100%;
     max-width: 100%;
