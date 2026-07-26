@@ -177,6 +177,25 @@ fields:
                     display: Background
                 -
                   import: image
+                -
+                  handle: features
+                  field:
+                    type: replicator
+                    display: Features
+                    collapse: accordion
+                    button_label: 'Add Feature'
+                    sets:
+                      new_set_group:
+                        display: 'New Set Group'
+                        sets:
+                          feature:
+                            display: Feature
+                            fields:
+                              -
+                                handle: label
+                                field:
+                                  type: text
+                                  display: Label
             products:
               display: Products
               fields:
