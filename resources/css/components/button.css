@@ -41,3 +41,15 @@
 .btn--dark {
     @apply rounded-full bg-black px-8 py-5 font-semibold text-base text-white;
 }
+
+/*
+ * `.btn--outline` is de omlijnde tegenhanger van `.btn--accent`, gebruikt
+ * door de quicklinks-component voor de tweede en derde kaart. Zelfde vorm,
+ * padding en fontgrootte als `.btn--accent`; alleen de vulling verschilt.
+ * `.btn--primary` is hier geen alternatief (vierkant, kleinere padding) en
+ * die overriden met losse utilities op de aanroepplek zou de knopvormen
+ * over twee bestanden verspreiden.
+ */
+.btn--outline {
+    @apply rounded-full border border-black bg-transparent px-8 py-5 text-base font-semibold text-black;
+}

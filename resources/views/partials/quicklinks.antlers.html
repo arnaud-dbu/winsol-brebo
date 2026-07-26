@@ -1,0 +1,54 @@
+{{#
+    Vaste component, geen page-builder sectie: geen argumenten, leest zijn
+    eigen collectie.
+
+    Hier staat een kale `<h2>` en geen `{{ partial:sectionHeader }}`: het
+    design toont boven dit blok geen overline, tekst of link, alleen de
+    titel. sectionHeader aanroepen zou drie ongebruikte takken meeslepen —
+    en die lezen uit de cascade, dus ze zouden paginavelden binnenhalen.
+
+    Geen slider, in tegenstelling tot `sections/cards` en `sections/ranges`:
+    dat zijn open lijsten van wisselende lengte, dit zijn de drie
+    belangrijkste CTA's van de pagina. Die horen alle drie in beeld, niet
+    twee ervan achter een swipe.
+
+    De link_style-mapping is een expliciete if/else met twee volledig
+    uitgeschreven klassenstrings. Nooit interpoleren: Tailwind's scanner
+    vindt runtime-samengestelde klassenamen niet.
+#}}
+<section class="section section--default" data-section="quicklinks">
+    <div class="container">
+        <div class="section-y-gap">
+            <h2 class="text-center">Zet de volgende stap</h2>
+
+            <ul class="grid gap-6 lg:grid-cols-3 lg:gap-8">
+                {{ collection:quicklinks }}
+                    <li class="quicklink-card flex flex-col gap-4 rounded-md bg-light card-padding lg:gap-6">
+                        {{#
+                            Bewust `quicklink-media` en niet `quicklink-card__media`:
+                            QuicklinksTest telt het aantal kaarten met
+                            substr_count($html, 'quicklink-card'), en een BEM-kind
+                            van die naam zou elke kaart dubbel tellen zodra de
+                            beelden gekoppeld worden.
+                        #}}
+                        {{ if image }}
+                            <div class="quicklink-media">
+                                {{ img :src="image" max_width="640" sizes="(min-width: 1024px) 30vw, 90vw" class="size-full object-contain" }}
+                            </div>
+                        {{ /if }}
+
+                        <h3>{{ title }}</h3>
+
+                        {{ if text }}
+                            <p>{{ text }}</p>
+                        {{ /if }}
+
+                        {{ if link }}
+                            {{ partial:link :style="link_style == 'outline' ? 'btn btn--outline' : 'btn btn--accent'" }}
+                        {{ /if }}
+                    </li>
+                {{ /collection:quicklinks }}
+            </ul>
+        </div>
+    </div>
+</section>

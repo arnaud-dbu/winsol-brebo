@@ -1,0 +1,22 @@
+/*
+ * De productfoto's zijn uitgeknipte beelden op transparant, geen
+ * bleed-foto's: een vaste hoogte met object-contain houdt de drie kaarten
+ * op één lijn, ook als de bronbeelden verschillende verhoudingen hebben.
+ */
+.quicklink-media {
+    @apply flex h-24 items-end lg:h-32;
+}
+
+.quicklink-card {
+    @apply shadow-md/0 transition-shadow duration-200 ease-out;
+}
+
+.quicklink-card:hover,
+.quicklink-card:focus-within {
+    @apply shadow-lg shadow-black/10;
+}
+
+/* De knop hangt onderaan, ook als de teksten verschillend lang zijn. */
+.quicklink-card .btn {
+    @apply mt-auto;
+}
