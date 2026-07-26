@@ -59,10 +59,19 @@
 {{ else }}
     {{ inverse_class = '' }}
 {{ /if }}
+{{#
+    `accent_bg`/`accent_bg_from` are passed straight through to the
+    overline partial unchanged — they control the overline rule's colour
+    (accent vs dark), which tracks the panel behind it, not the label text
+    colour that `is_inverse`/`inverse_until` control above. See
+    overline.antlers.html for their precedence and resources/css/components/
+    overline.css for why the two axes are independent (`cta` needs both,
+    on the same breakpoint but opposite states).
+#}}
 {{ if title || text || overline || link }}
     <div
         class="section-header section-header-gap {{ centered_class }} {{ inverse_class }}">
-        {{ partial:overline :label="overline" :is_inverse="is_inverse" :inverse_until="inverse_until" }}
+        {{ partial:overline :label="overline" :is_inverse="is_inverse" :inverse_until="inverse_until" :accent_bg="accent_bg" :accent_bg_from="accent_bg_from" }}
 
         {{ if title }}
             <{{ tag }} class="max-w-3xl">{{ title }}</{{ tag }}>

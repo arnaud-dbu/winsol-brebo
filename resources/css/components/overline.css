@@ -37,6 +37,54 @@
     @apply text-white 2xl:text-black;
 }
 
+/*
+ * Figma default is an accent-yellow rule regardless of label colour (see
+ * "AANBOD" in 451:2700, light bg + dark label; the same rule stays accent
+ * wherever the label goes light-on-dark too, e.g. an image overlay).
+ * `bg-current` used to tie the rule to the label's own text colour, which
+ * is wrong here — the rule's colour tracks the *panel* behind it, not the
+ * text, and those two only coincide by accident on plain light/dark
+ * backgrounds.
+ */
 .overline__rule {
-    @apply block h-px w-6 bg-current;
+    @apply block h-px w-6 bg-accent;
+}
+
+/*
+ * `.overline__rule--dark{,-from-{breakpoint}}` is the on-accent-panel
+ * counterpart, mirroring `.overline--inverse{,-until-{breakpoint}}` above
+ * one axis over: that pair tracks label *text* colour, this pair tracks
+ * whether the rule's own background is itself accent-coloured (where an
+ * accent rule would be invisible — see "OVER ONS" in the cta, 451:2932).
+ * The two axes are independent — `cta` is the case where they diverge:
+ * its label is `inverse_until="lg"` (white text below lg, black from lg
+ * up) while its *background* only becomes accent from `lg` up (dark
+ * overlay below lg, accent panel from lg up) — so it also needs
+ * `accent_bg_from="lg"` on the same breakpoint to keep the rule visible
+ * at every width. Only the `-from-{breakpoint}` direction exists (no
+ * `-until-`) because no current section needs the opposite transition —
+ * see overline.antlers.html for the class precedence.
+ */
+.overline__rule--dark {
+    @apply bg-black;
+}
+
+.overline__rule--dark-from-sm {
+    @apply bg-accent sm:bg-black;
+}
+
+.overline__rule--dark-from-md {
+    @apply bg-accent md:bg-black;
+}
+
+.overline__rule--dark-from-lg {
+    @apply bg-accent lg:bg-black;
+}
+
+.overline__rule--dark-from-xl {
+    @apply bg-accent xl:bg-black;
+}
+
+.overline__rule--dark-from-2xl {
+    @apply bg-accent 2xl:bg-black;
 }
