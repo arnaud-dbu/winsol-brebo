@@ -5,8 +5,6 @@ namespace Tests;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\Facades\Event;
-use Statamic\Facades\URL;
-use Statamic\Support\Arr;
 use Statamic\View\Cascade;
 
 abstract class TestCase extends BaseTestCase
@@ -27,25 +25,17 @@ abstract class TestCase extends BaseTestCase
         // genuine `$this->get('/path?x=y')` call, because nothing in
         // Statamic ever calls Cascade::withRequest() to refresh it.
         //
-        // Forgetting the whole singleton isn't safe here: Cascade also
-        // carries a 'views' map used by getViewData() that's populated once
-        // and expected to survive for the life of the instance, so
-        // rebuilding it from scratch mid-request throws. Instead, once
-        // routing has resolved the real request for this call, patch just
-        // the request-derived cascade values in place — the same ones
-        // Cascade::contextualVariables() computes from the request — and
-        // leave everything else (views, sections, globals) untouched.
+        // The fix only needs to swap the request reference, not recompute
+        // any data by hand: Statamic\View\View::cascade() calls
+        // Cascade::instance()->hydrate() once per front-end response, which
+        // runs well after routing (and thus after this listener), and
+        // hydrate() clears and re-derives every contextual variable —
+        // including 'get', 'current_url', etc. — from whatever request
+        // Cascade currently holds. So by the time hydrate() runs, it
+        // recomputes those keys itself from the request we swapped in here;
+        // setting them ourselves would just be overwritten moments later.
         Event::listen(RouteMatched::class, function (RouteMatched $event) {
-            $request = $event->request;
-            $cascade = app(Cascade::class);
-
-            $cascade->withRequest($request);
-            $cascade->set('current_url', $request->url());
-            $cascade->set('current_full_url', $request->fullUrl());
-            $cascade->set('current_uri', URL::tidy($request->path()));
-            $cascade->set('get_post', Arr::sanitize($request->all()));
-            $cascade->set('get', Arr::sanitize($request->query->all()));
-            $cascade->set('post', $request->isMethod('post') ? Arr::sanitize($request->request->all()) : []);
+            app(Cascade::class)->withRequest($event->request);
         });
     }
 }

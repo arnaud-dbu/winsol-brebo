@@ -7,11 +7,19 @@
 
     Welke ranges in het filter horen, bepaalt `rangeFilter` zelf via de
     `project_ranges`-tag. Deze template geeft die lijst dus niet door.
+
+    `x-data="projectFilter()"` krijgt bewust geen geïnterpoleerd argument:
+    `{{ get:range }}` is de ruwe queryparameter, en die in een Alpine-
+    expressie plaatsen (`projectFilter('{{ get:range }}')`) is een reflected-
+    XSS-gat, omdat de browser HTML-entities decodeert vóórdat Alpine de
+    attribuutwaarde als JS evalueert — escapen aan de serverkant helpt daar
+    niet tegen. `projectFilter()` leest `?range=` daarom zelf uit
+    `window.location.search` (zie resources/js/components/project-filter.js).
 #}}
 {{ partial:headers/default divider="true" }}
 
 <section class="section section--default" data-section="projects-overview"
-         x-data="projectFilter('{{ get:range }}')">
+         x-data="projectFilter()">
     <div class="container">
         <div class="grid grid-gutter lg:grid-cols-[24rem_1fr] lg:gap-x-16">
             {{ partial:rangeFilter }}
