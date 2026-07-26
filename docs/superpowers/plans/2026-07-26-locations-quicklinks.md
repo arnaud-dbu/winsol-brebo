@@ -1349,6 +1349,6 @@ De spec houdt drie open punten die dit plan bewust niet oplost, omdat de informa
 
 1. **Echte huisnummers** — nu `000` in de drie locatie-entries.
 2. **Assets-pad van de quicklink-foto's** — de entries hebben nog geen `image`; de partial rendert eromheen.
-3. **Figma-node van de quicklink-component** — de productfoto lijkt op het screenshot net over de bovenrand van de kaart te steken. Dit plan bouwt het beeld bínnen de kaart (`.quicklink-card__media`); met de node kan die overlap alsnog nagebouwd worden.
+3. **Figma-node van de quicklink-component** — de productfoto lijkt op het screenshot net over de bovenrand van de kaart te steken. Dit plan bouwt het beeld bínnen de kaart (`.quicklink-media`); met de node kan die overlap alsnog nagebouwd worden.
 
 Alle drie zijn een kwestie van waarden invullen, niet van code herschrijven.
