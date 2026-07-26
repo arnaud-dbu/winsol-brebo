@@ -21,9 +21,33 @@ class ProductHeaderTest extends SectionTestCase
 
         // Twee donkere lagen (Figma 301:3495): een radiale verdonkering over
         // het hele vlak plus het bovenverloop. Zonder beide is de witte tekst
-        // op een licht beeld onleesbaar.
-        $this->assertStringContainsString('bg-radial', $html);
-        $this->assertStringContainsString('bg-linear-to-b', $html);
+        // op een licht beeld onleesbaar. Deze moeten distincte `absolute inset-0`
+        // divs zijn en vóór het tekstblok staan, zodat de tekst erbovenop ligt.
+        $radial = strpos($html, 'bg-radial');
+        $linear = strpos($html, 'bg-linear-to-b');
+        $textBlock = strpos($html, 'class="container absolute');
+
+        $this->assertNotFalse($radial, 'Radiale verdonkering (bg-radial) niet gevonden.');
+        $this->assertNotFalse($linear, 'Bovenverloop (bg-linear-to-b) niet gevonden.');
+        $this->assertNotFalse($textBlock, 'Tekstblok niet gevonden.');
+
+        // Beide overlay-divs moeten vóór het tekstblok staan in DOM-volgorde.
+        $this->assertLessThan($textBlock, $radial, 'Radiale laag moet vóór tekstblok staan.');
+        $this->assertLessThan($textBlock, $linear, 'Bovenverloop moet vóór tekstblok staan.');
+
+        // Beide overlay-divs moeten elk hun eigen `absolute inset-0` div zijn,
+        // niet in dezelfde element. De regex verifiëert dat elke class gekoppeld
+        // is aan een div met `absolute inset-0`.
+        $this->assertMatchesRegularExpression(
+            '/class="absolute inset-0 bg-radial/',
+            $html,
+            'Radiale verdonkering moet in eigen div met absolute inset-0 staan.'
+        );
+        $this->assertMatchesRegularExpression(
+            '/class="absolute inset-0 bg-linear-to-b/',
+            $html,
+            'Bovenverloop moet in eigen div met absolute inset-0 staan.'
+        );
     }
 
     public function test_omits_the_image_wrapper_without_an_image(): void
