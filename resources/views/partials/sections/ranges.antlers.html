@@ -1,1 +1,43 @@
-<section class="section section--default" data-section="ranges"></section>
+{{#
+    Header is left-aligned at every width (no centring args), matching Figma
+    at both 451:2700 (desktop) and 451:3048 (mobile).
+
+    The slider is always active (no `from`) and renders its own prev/next
+    controls via `navigation="true"` below the card row — Figma's own brief
+    for this section already describes the nav buttons as sitting "onder de
+    rij" (under the row) at both breakpoints, so this is the same nav the
+    slider partial already owns, not a duplicate rendered again in the
+    header.
+#}}
+<section class="section section--default" data-section="ranges">
+    <div class="container">
+        <div class="section-y-gap">
+            {{ partial:sectionHeader }}
+
+            {{ if range }}
+                {{ partial:slider per_view="1.15,sm:2,lg:3,xl:3.5" navigation="true" }}
+                    {{ range }}
+                        <div class="swiper-slide">
+                            <a href="{{ url }}" class="range-card relative isolate flex items-center gap-5 overflow-hidden rounded-md bg-light card-padding lg:gap-8">
+                                {{ svg src="shape" aria-hidden="true" class="pointer-events-none absolute -bottom-10 -left-14 -z-10 h-40 w-40 text-white/70 sm:h-52 sm:w-52 lg:-left-16 lg:-bottom-14 lg:h-64 lg:w-64" }}
+
+                                {{ if image }}
+                                    <div class="relative z-10 flex w-24 shrink-0 items-center justify-center lg:w-32">
+                                        {{ img :src="image" max_width="320" sizes="128px" class="h-auto max-h-24 w-full object-contain lg:max-h-32" }}
+                                    </div>
+                                {{ /if }}
+
+                                <div class="relative z-10 flex flex-col gap-2 lg:gap-3">
+                                    <h3>{{ title }}</h3>
+                                    {{ if short_description }}
+                                        <p>{{ short_description }}</p>
+                                    {{ /if }}
+                                </div>
+                            </a>
+                        </div>
+                    {{ /range }}
+                {{ /partial:slider }}
+            {{ /if }}
+        </div>
+    </div>
+</section>
