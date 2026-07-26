@@ -24,7 +24,11 @@
   ```
   Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
   ```
-- **Testcommando:** `php artisan test --filter=<TestClass>`
+- **Testcommando:** `php -d memory_limit=512M vendor/bin/phpunit --filter=<TestClass>`, en `php -d memory_limit=512M vendor/bin/phpunit` voor de hele suite.
+
+  Niet `php artisan test`: dat draait op PHP's standaard 128 MB en loopt betrouwbaar OOM in `AssetUploadCompressionTest` (intervention/image `Cloner.php`). Dat is een bestaand probleem, niet iets wat dit plan introduceert — `php artisan test` spawnt een subproces, dus een `-d memory_limit` erop heeft geen effect en de limiet moet via phpunit direct.
+
+- **Groene baseline bij aanvang:** 138 tests, 554 assertions, 1 skipped, 0 failures. Elke `Expected: PASS` hieronder gaat uit van dat vertrekpunt.
 
 ## Afwijkingen van de spec
 
@@ -149,7 +153,7 @@ class LocationsContentTest extends TestCase
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `php artisan test --filter=LocationsContentTest`
+Run: `php -d memory_limit=512M vendor/bin/phpunit --filter=LocationsContentTest`
 Expected: FAIL — er zijn nog geen entries, dus `assertNotNull($entry, "Locatie winsol-dilbeek ontbreekt")` faalt.
 
 - [ ] **Step 3: Make the collection orderable**
@@ -249,14 +253,14 @@ tree:
 
 - [ ] **Step 7: Run tests to verify they pass**
 
-Run: `php artisan test --filter=LocationsContentTest`
+Run: `php -d memory_limit=512M vendor/bin/phpunit --filter=LocationsContentTest`
 Expected: PASS — 3 tests.
 
 Faalt `test_the_locations_are_ordered_as_designed` met een lege lijst, dan is de statische cache van Statamic nog warm: draai `php please cache:clear` en probeer opnieuw.
 
 - [ ] **Step 8: Run the full suite to check for regressions**
 
-Run: `php artisan test`
+Run: `php -d memory_limit=512M vendor/bin/phpunit`
 Expected: PASS — de blueprint- en collectiewijziging mag geen bestaande test raken.
 
 - [ ] **Step 9: Commit**
@@ -433,7 +437,7 @@ class LocationsTest extends SectionTestCase
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `php artisan test --filter=LocationsTest`
+Run: `php -d memory_limit=512M vendor/bin/phpunit --filter=LocationsTest`
 Expected: FAIL — de partial bestaat niet, dus Antlers gooit een view-not-found.
 
 - [ ] **Step 3: Write the location card partial**
@@ -583,12 +587,12 @@ In `resources/css/site.css`, add to the end of the `/* Components */` block:
 
 - [ ] **Step 7: Run tests to verify they pass**
 
-Run: `php artisan test --filter=LocationsTest`
+Run: `php -d memory_limit=512M vendor/bin/phpunit --filter=LocationsTest`
 Expected: PASS — 10 tests.
 
 - [ ] **Step 8: Run the full suite**
 
-Run: `php artisan test`
+Run: `php -d memory_limit=512M vendor/bin/phpunit`
 Expected: PASS.
 
 - [ ] **Step 9: Commit**
@@ -968,7 +972,7 @@ class QuicklinksContentTest extends TestCase
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `php artisan test --filter=QuicklinksContentTest`
+Run: `php -d memory_limit=512M vendor/bin/phpunit --filter=QuicklinksContentTest`
 Expected: FAIL — `assertNotNull($entry, "Quicklink vraag-offerte-aan ontbreekt")` faalt.
 
 - [ ] **Step 3: Make the collection orderable**
@@ -1075,12 +1079,12 @@ tree:
 
 - [ ] **Step 7: Run tests to verify they pass**
 
-Run: `php artisan test --filter=QuicklinksContentTest`
+Run: `php -d memory_limit=512M vendor/bin/phpunit --filter=QuicklinksContentTest`
 Expected: PASS — 4 tests.
 
 - [ ] **Step 8: Run the full suite**
 
-Run: `php artisan test`
+Run: `php -d memory_limit=512M vendor/bin/phpunit`
 Expected: PASS. Let op `PageBuilderPageTest` en andere tests die de contactpagina renderen — het verwijderde veld werd nergens uitgelezen, dus dit hoort schoon door te gaan.
 
 - [ ] **Step 9: Commit**
@@ -1192,7 +1196,7 @@ class QuicklinksTest extends SectionTestCase
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `php artisan test --filter=QuicklinksTest`
+Run: `php -d memory_limit=512M vendor/bin/phpunit --filter=QuicklinksTest`
 Expected: FAIL — de partial bestaat niet.
 
 - [ ] **Step 3: Add the outline button variant**
@@ -1313,12 +1317,12 @@ In `resources/css/site.css`, add to the end of the `/* Components */` block:
 
 - [ ] **Step 7: Run tests to verify they pass**
 
-Run: `php artisan test --filter=QuicklinksTest`
+Run: `php -d memory_limit=512M vendor/bin/phpunit --filter=QuicklinksTest`
 Expected: PASS — 5 tests.
 
 - [ ] **Step 8: Run the full suite**
 
-Run: `php artisan test`
+Run: `php -d memory_limit=512M vendor/bin/phpunit`
 Expected: PASS.
 
 - [ ] **Step 9: Commit**
