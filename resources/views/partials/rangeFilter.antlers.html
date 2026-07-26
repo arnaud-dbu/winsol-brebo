@@ -1,0 +1,40 @@
+{{#
+    De filterpillen op /realisaties. Dit partial kent de projectgrid niet: het
+    muteert alleen `active` op de omliggende Alpine-scope (zie
+    resources/js/components/project-filter.js). De knoppen zijn echte links,
+    zodat een gedeelde URL ook zonder JavaScript het juiste resultaat toont.
+
+    De actieve staat wordt twee keer gezet: server-side uit `{{ get:range }}`
+    voor de eerste paint en het no-JS-pad via de statische `class`, en
+    client-side via `:aria-current` zodra Alpine draait. De stylesheet stuurt
+    beide dezelfde `range-filter__btn--active`-look aan (zie
+    resources/css/components/range-filter.css), dus er is geen flits. Bewust
+    geen `:class` binding hier: die zou de modifierklasse als losstaande
+    letterlijke string in elke knop moeten herhalen, ongeacht of hij actief
+    is, wat niets met de werkelijke actieve staat te maken heeft.
+
+    De lijst komt uit de `project_ranges`-tag (app/Tags/ProjectRanges.php),
+    niet uit een argument: welke ranges in het filter horen, volgt uit de
+    projecten zelf en is geen keuze van de aanroeper.
+#}}
+<nav class="range-filter" aria-label="{{ trans:site.filter_label }}">
+    <ul class="range-filter__list">
+        <li>
+            <a href="{{ url }}"
+               data-range=""
+               class="range-filter__btn{{ if !get:range }} range-filter__btn--active{{ /if }}"
+               :aria-current="active === 'all' ? 'true' : 'false'"
+               @click.prevent="select('all')">{{ trans:site.filter_all }}</a>
+        </li>
+
+        {{ project_ranges }}
+            <li>
+                <a href="?range={{ slug }}"
+                   data-range="{{ slug }}"
+                   class="range-filter__btn{{ if get:range == slug }} range-filter__btn--active{{ /if }}"
+                   :aria-current="active === '{{ slug }}' ? 'true' : 'false'"
+                   @click.prevent="select('{{ slug }}')">{{ title | entities }}</a>
+            </li>
+        {{ /project_ranges }}
+    </ul>
+</nav>

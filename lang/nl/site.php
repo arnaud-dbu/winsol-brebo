@@ -10,4 +10,6 @@ return [
     'footer_column_bedrijf' => 'Bedrijf',
     'footer_column_contact' => 'Contact',
     'footer_copyright' => 'Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar',
+    'filter_all' => 'Toon alles',
+    'filter_label' => 'Filter realisaties op productgroep',
 ];
