@@ -183,7 +183,23 @@ fields:
               display: Text
               fields:
                 -
-                  import: section_header
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                -
+                  handle: text
+                  field:
+                    buttons:
+                      - bold
+                      - italic
+                      - anchor
+                    container: assets
+                    remove_empty_nodes: false
+                    type: bard
+                    display: Text
+                -
+                  import: link
             text_image:
               display: 'Text + Image'
               fields:
