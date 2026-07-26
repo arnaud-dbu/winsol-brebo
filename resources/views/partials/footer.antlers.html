@@ -34,30 +34,32 @@
                     </ul>
                 </div>
 
-                <div class="footer__column flex flex-col gap-4">
-                    <p class="font-bold text-white">{{ trans:site.footer_column_contact }}</p>
-                    <ul class="flex flex-col gap-0.5">
-                        {{ if globals:contact:phone }}
-                            <li>
-                                <a href="tel:{{ globals:contact:phone }}" class="text-white/60 transition-opacity hover:opacity-80">
-                                    {{ globals:contact:phone }}
-                                </a>
-                            </li>
-                        {{ /if }}
-                        {{ if globals:contact:email }}
-                            <li>
-                                <a href="mailto:{{ globals:contact:email }}" class="text-white/60 transition-opacity hover:opacity-80">
-                                    {{ globals:contact:email }}
-                                </a>
-                            </li>
-                        {{ /if }}
-                        {{ if globals:company:street and globals:company:city }}
-                            <li class="text-white/60">
-                                {{ globals:company:street }} {{ globals:company:number }}, {{ globals:company:postal }} {{ globals:company:city }}
-                            </li>
-                        {{ /if }}
-                    </ul>
-                </div>
+                {{ if globals:contact:phone or globals:contact:email or (globals:company:street and globals:company:city) }}
+                    <div class="footer__column flex flex-col gap-4">
+                        <p class="font-bold text-white">{{ trans:site.footer_column_contact }}</p>
+                        <ul class="flex flex-col gap-0.5">
+                            {{ if globals:contact:phone }}
+                                <li>
+                                    <a href="tel:{{ globals:contact:phone }}" class="text-white/60 transition-opacity hover:opacity-80">
+                                        {{ globals:contact:phone }}
+                                    </a>
+                                </li>
+                            {{ /if }}
+                            {{ if globals:contact:email }}
+                                <li>
+                                    <a href="mailto:{{ globals:contact:email }}" class="text-white/60 transition-opacity hover:opacity-80">
+                                        {{ globals:contact:email }}
+                                    </a>
+                                </li>
+                            {{ /if }}
+                            {{ if globals:company:street and globals:company:city }}
+                                <li class="text-white/60">
+                                    {{ globals:company:street }} {{ globals:company:number }}, {{ globals:company:postal }} {{ globals:company:city }}
+                                </li>
+                            {{ /if }}
+                        </ul>
+                    </div>
+                {{ /if }}
             </div>
         </div>
 

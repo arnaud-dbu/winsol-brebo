@@ -1,13 +1,13 @@
 company:
-  name: Stuw
-  street: Street
-  number: '33'
-  postal: '3090'
-  city: Brussels
+  name: null
+  street: null
+  number: null
+  postal: null
+  city: null
 contact:
   mobile: null
-  phone: '0478258076'
-  email: hello@stuw.agency
+  phone: null
+  email: null
 socials:
   facebook: 'https://test.be'
   instagram: 'https://test.be'
