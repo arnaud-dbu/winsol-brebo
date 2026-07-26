@@ -1,1 +1,11 @@
-<section class="section section--default" data-section="cta"></section>
+<section class="cta relative isolate overflow-hidden aspect-[402/705] lg:aspect-[1744/721]" data-section="cta">
+    {{ if image }}
+        {{ img :src="image" fill="true" ratio="402/705" lg:ratio="1744/721" max_width="2560" sizes="100vw" class="size-full object-cover" }}
+    {{ /if }}
+
+    <div class="relative flex size-full flex-col justify-end p-5 lg:p-10">
+        <div class="rounded-md bg-black/60 p-10 lg:p-14">
+            {{ partial:sectionHeader is_inverse="true" btn_variant="btn btn--accent" }}
+        </div>
+    </div>
+</section>

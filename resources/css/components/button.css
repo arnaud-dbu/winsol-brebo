@@ -5,3 +5,11 @@
 .btn--primary {
     @apply bg-black text-white p-3 py-2;
 }
+
+.btn--accent {
+    @apply rounded-full bg-accent px-8 py-5 font-semibold text-base text-black;
+}
+
+.btn--inverse {
+    @apply bg-white text-black;
+}
