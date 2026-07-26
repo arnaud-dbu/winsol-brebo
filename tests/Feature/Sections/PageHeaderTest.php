@@ -33,9 +33,14 @@ class PageHeaderTest extends SectionTestCase
         ]);
 
         $this->assertStringNotContainsString('page-header__divider', $html);
-        $this->assertStringContainsString('section--default', $html);
-        $this->assertStringContainsString('container', $html);
-        $this->assertStringContainsString('section-header-gap', $html);
+        // Verify structural integrity: critical closing structure without extra blank lines
+        // This catches whitespace drift that substring checks alone cannot catch
+        $this->assertStringContainsString('        </div>' . "\r\n" . '    </div>', $html);
+        // Verify no extra blank line (8 spaces) appears between section-header-gap and container closes
+        $this->assertStringNotContainsString('        </div>' . "\r\n" . '        ' . "\r\n", $html);
+        // Verify key structural elements are present
+        $this->assertStringContainsString('<section class="section--default', $html);
+        $this->assertStringContainsString('class="container">', $html);
         $this->assertStringContainsString('<h1>Ons aanbod</h1>', $html);
     }
 }
