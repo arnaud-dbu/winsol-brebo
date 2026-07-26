@@ -67,8 +67,13 @@ class ProjectsOverviewPageTest extends TestCase
     {
         $html = $this->get('/realisaties?range=zonwering')->getContent();
 
+        // Doelt op de statische `class`-attribuutwaarde zelf, niet op een
+        // substring-scan over de hele tag: `:class`-Alpine-bindings noemen
+        // "range-filter__btn--active" ook letterlijk in knoppen die niet
+        // actief zijn, dus die tekst alleen bewijst niets over de echte
+        // server-side staat (zie RangeFilterTest).
         $this->assertMatchesRegularExpression(
-            '/data-range="zonwering"[^>]*range-filter__btn--active/',
+            '/data-range="zonwering"\s+class="range-filter__btn range-filter__btn--active"/',
             $html,
             'De zonwering-knop hoort actief te staan'
         );
@@ -78,9 +83,17 @@ class ProjectsOverviewPageTest extends TestCase
     {
         $html = $this->get('/realisaties')->getContent();
 
-        $this->assertStringContainsString('x-data="projectFilter(', $html);
-        $this->assertStringContainsString(':hidden="!matches(', $html);
-        $this->assertStringNotContainsString('x-transition', $html);
+        // De "geen animatie"-eis geldt voor het filter/de grid die deze
+        // template zelf bouwt, niet voor de rest van het document: de
+        // site-brede cookie-consent- en navigatie-partials leven buiten dit
+        // section-element en horen niet mee te tellen.
+        $start = strpos($html, 'data-section="projects-overview"');
+        $end = strpos($html, '</section>', $start);
+        $section = substr($html, $start, $end - $start);
+
+        $this->assertStringContainsString('x-data="projectFilter(', $section);
+        $this->assertStringContainsString(':hidden="!matches(', $section);
+        $this->assertStringNotContainsString('x-transition', $section);
     }
 
     public function test_the_page_builder_renders_below_the_grid(): void
