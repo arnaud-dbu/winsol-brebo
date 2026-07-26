@@ -1,3 +1,11 @@
+{{#
+    `divider="true"` tekent een lijn onder de header, uitsluitend vanaf `lg`.
+    In Figma zit die lijn in het Header-component zelf (component 293:3753,
+    430px hoog inclusief lijn); instanties die hem niet tonen zijn 360px
+    (/over-ons, /contact, /page-builder) en op beide mobile-frames staat
+    `Line 4` op hidden. Vandaar: opt-in argument, desktop-only, zodat de acht
+    bestaande aanroepers ongewijzigd blijven renderen.
+#}}
 <section class="section--default bg-white pt-16 pb-16 lg:pb-28">
     <div class="container">
         <div class="section-header-gap max-w-3xl items-center mx-auto text-center">
@@ -7,5 +15,9 @@
                 <p class="text-lg">{{ text }}</p>
             {{ /if }}
         </div>
+
+        {{ if divider }}
+            <div class="page-header__divider mt-16 hidden border-t border-black/10 lg:block" aria-hidden="true"></div>
+        {{ /if }}
     </div>
 </section>
