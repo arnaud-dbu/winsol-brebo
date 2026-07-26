@@ -5,5 +5,5 @@ short_description: 'Velux dakramen die daglicht en frisse lucht brengen in zolde
 long_description: 'Een dakraam brengt daglicht tot diep in de kamer, op plaatsen waar een gevelraam niet mogelijk is. We plaatsen Velux dakramen als officieel erkend installateur, inclusief de nodige plaatsingsmaterialen voor een waterdichte aansluiting op het dak. Rolluiken, screens en gordijnen op maat van het dakraam zijn als aanvulling leverbaar.'
 image: ranges/velux.png
 range_category:
-  - schrijnwerk
+  - voor-je-woning
 ---

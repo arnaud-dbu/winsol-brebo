@@ -26,15 +26,15 @@ class RangesContentTest extends TestCase
     public function test_every_range_category_relation_resolves_to_a_real_term(): void
     {
         $expectedCategoryTitles = [
-            'pergolas' => 'Buitenzonwering',
-            'ramen-en-deuren' => 'Schrijnwerk',
-            'rolluiken' => 'Buitenzonwering',
-            'zonwering' => 'Buitenzonwering',
-            'garagepoorten' => 'Schrijnwerk',
-            'velux' => 'Schrijnwerk',
-            'airco' => 'Comfort en techniek',
-            'somfy-smart-home' => 'Comfort en techniek',
-            'stalen-binnendeuren' => 'Schrijnwerk',
+            'pergolas' => 'Rondom je woning',
+            'ramen-en-deuren' => 'Voor je woning',
+            'rolluiken' => 'Rondom je woning',
+            'zonwering' => 'Rondom je woning',
+            'garagepoorten' => 'Rondom je woning',
+            'velux' => 'Voor je woning',
+            'airco' => 'Voor je woning',
+            'somfy-smart-home' => 'Slim & comfort',
+            'stalen-binnendeuren' => 'Voor je woning',
         ];
 
         foreach ($expectedCategoryTitles as $slug => $expectedTitle) {

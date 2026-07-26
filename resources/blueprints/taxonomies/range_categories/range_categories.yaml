@@ -13,3 +13,12 @@ tabs:
               required: true
               validate:
                 - required
+          -
+            handle: order
+            field:
+              type: integer
+              display: Volgorde
+              instructions: 'Bepaalt de volgorde op de aanbod-pagina. Laag getal komt eerst.'
+              required: true
+              validate:
+                - required
