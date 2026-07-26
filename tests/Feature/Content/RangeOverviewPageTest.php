@@ -43,6 +43,28 @@ class RangeOverviewPageTest extends TestCase
         $this->assertStringContainsString('href="/aanbod/somfy-smart-home"', $html);
     }
 
+    public function test_it_lists_the_ranges_in_the_designed_order_within_each_category(): void
+    {
+        $section = $this->rangeOverviewSection();
+
+        preg_match_all('~href="/aanbod/([a-z0-9-]+)"~', $section, $matches);
+
+        $this->assertSame([
+            // Voor je woning
+            'ramen-en-deuren',
+            'stalen-binnendeuren',
+            'velux',
+            'airco',
+            // Rondom je woning
+            'rolluiken',
+            'zonwering',
+            'pergolas',
+            'garagepoorten',
+            // Slim & comfort
+            'somfy-smart-home',
+        ], $matches[1], 'De ranges staan niet in de Figma-volgorde binnen hun categorie');
+    }
+
     public function test_the_page_builder_renders_below_the_categories(): void
     {
         $html = $this->get('/aanbod')->getContent();
@@ -55,5 +77,22 @@ class RangeOverviewPageTest extends TestCase
             strpos($html, 'data-section="range-overview"'),
             'De page builder hoort onder de categorieën te staan'
         );
+    }
+
+    /**
+     * Alleen de range-overview-sectie, zodat links elders op de pagina (navigatie,
+     * footer) de volgorde-assertie niet vervuilen.
+     */
+    private function rangeOverviewSection(): string
+    {
+        $html = $this->get('/aanbod')->getContent();
+
+        $start = strpos($html, 'data-section="range-overview"');
+        $this->assertNotFalse($start, 'De range-overview-sectie ontbreekt');
+
+        $end = strpos($html, '</section>', $start);
+        $this->assertNotFalse($end, 'De range-overview-sectie wordt niet afgesloten');
+
+        return substr($html, $start, $end - $start);
     }
 }
