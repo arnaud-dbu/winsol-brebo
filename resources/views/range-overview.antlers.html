@@ -4,7 +4,7 @@
     <div class="container">
         <div class="section-y-gap">
             {{ taxonomy:range_categories sort="order:asc" }}
-                {{ collection:ranges range_category:contains="{slug}" as="ranges_in_category" }}
+                {{ collection:ranges range_category:overlaps="{slug}" as="ranges_in_category" }}
                     {{ if ranges_in_category }}
                         <div class="section-header-gap">
                             {{ partial:overline :label="title | entities" }}
