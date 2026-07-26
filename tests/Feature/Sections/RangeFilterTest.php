@@ -25,16 +25,20 @@ class RangeFilterTest extends SectionTestCase
     {
         $html = $this->render('{{ partial src="rangeFilter" }}');
 
+        // Doelt op de statische `class`-attribuutwaarde zelf, niet op een
+        // substring-scan over de hele tag: `:class`-Alpine-bindings noemen
+        // "range-filter__btn--active" ook letterlijk in knoppen die niet
+        // actief zijn, dus die tekst alleen bewijst niets over de echte staat.
         $this->assertMatchesRegularExpression(
-            '/data-range=""[^>]*range-filter__btn--active/',
+            '/data-range=""\s+class="range-filter__btn range-filter__btn--active"/',
             $html,
             '"Toon alles" hoort standaard actief te zijn'
         );
 
-        $this->assertDoesNotMatchRegularExpression(
-            '/data-range="zonwering"[^>]*range-filter__btn--active/',
+        $this->assertMatchesRegularExpression(
+            '/data-range="zonwering"\s+class="range-filter__btn"/',
             $html,
-            'Zonder ?range hoort geen enkele range-knop actief te staan'
+            'Zonder ?range hoort de zonwering-knop niet actief te staan'
         );
     }
 

@@ -4,14 +4,17 @@
     resources/js/components/project-filter.js). De knoppen zijn echte links,
     zodat een gedeelde URL ook zonder JavaScript het juiste resultaat toont.
 
-    De actieve staat wordt twee keer gezet: server-side uit `{{ get:range }}`
-    voor de eerste paint en het no-JS-pad via de statische `class`, en
-    client-side via `:aria-current` zodra Alpine draait. De stylesheet stuurt
-    beide dezelfde `range-filter__btn--active`-look aan (zie
-    resources/css/components/range-filter.css), dus er is geen flits. Bewust
-    geen `:class` binding hier: die zou de modifierklasse als losstaande
-    letterlijke string in elke knop moeten herhalen, ongeacht of hij actief
-    is, wat niets met de werkelijke actieve staat te maken heeft.
+    De actieve staat wordt twee keer gezet, maar via één klasse: server-side
+    uit `{{ get:range }}` voor de eerste paint en het no-JS-pad (de statische
+    `class`), en client-side zodra Alpine draait via `:class` met Alpine's
+    object-syntax. Die syntax (zie `setClassesFromObject` in
+    node_modules/alpinejs/src/utils/classes.js) voegt de modifierklasse toe
+    óf verwijdert hem expliciet — ook als hij al statisch in `class` stond —
+    dus er blijft nooit een stale `range-filter__btn--active` achter op een
+    knop die niet meer actief is. `:aria-current` is puur voor assistive
+    technology en stuurt geen styling aan; `range-filter__btn--active` is de
+    enige bron van de actieve look (zie
+    resources/css/components/range-filter.css).
 
     De lijst komt uit de `project_ranges`-tag (app/Tags/ProjectRanges.php),
     niet uit een argument: welke ranges in het filter horen, volgt uit de
@@ -23,6 +26,7 @@
             <a href="{{ url }}"
                data-range=""
                class="range-filter__btn{{ if !get:range }} range-filter__btn--active{{ /if }}"
+               :class="{ 'range-filter__btn--active': active === 'all' }"
                :aria-current="active === 'all' ? 'true' : 'false'"
                @click.prevent="select('all')">{{ trans:site.filter_all }}</a>
         </li>
@@ -32,6 +36,7 @@
                 <a href="?range={{ slug }}"
                    data-range="{{ slug }}"
                    class="range-filter__btn{{ if get:range == slug }} range-filter__btn--active{{ /if }}"
+                   :class="{ 'range-filter__btn--active': active === '{{ slug }}' }"
                    :aria-current="active === '{{ slug }}' ? 'true' : 'false'"
                    @click.prevent="select('{{ slug }}')">{{ title | entities }}</a>
             </li>

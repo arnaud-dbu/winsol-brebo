@@ -37,13 +37,12 @@
 }
 
 /*
- * Twee triggers voor dezelfde look: de server-rendered modifierklasse (eerste
- * paint, no-JS-pad) en `aria-current="true"` zodra Alpine `select()` de
- * knoppen bijwerkt (zie resources/views/partials/rangeFilter.antlers.html).
- * Geen `:class`-binding met de modifierklasse erin: die zou de klassenaam als
- * losse string in elke knop moeten herhalen, ongeacht de echte actieve staat.
+ * Eén klasse is de enige bron van de actieve look, zowel server- als
+ * client-side (zie resources/views/partials/rangeFilter.antlers.html):
+ * Alpine's `:class`-object-syntax voegt of verwijdert precies deze klasse,
+ * dus er is nooit een tweede stylingmechanisme om in sync te houden.
+ * `aria-current` is enkel voor assistive technology.
  */
-.range-filter__btn--active,
-.range-filter__btn[aria-current='true'] {
+.range-filter__btn--active {
     @apply bg-black text-white;
 }
