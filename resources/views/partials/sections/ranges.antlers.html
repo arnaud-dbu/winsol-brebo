@@ -8,6 +8,20 @@
     rij" (under the row) at both breakpoints, so this is the same nav the
     slider partial already owns, not a duplicate rendered again in the
     header.
+
+    `per_view="1.15,lg:2.25"`: mobile (451:3048, 402px frame) shows a peek of
+    the next card, which `1.15` already reproduces (unchanged from before).
+    Desktop (451:2700) is a single designed state — a 2084px track of
+    723 x 260px cards inside a 1744px frame, i.e. a 1664px visible
+    container (40px `lg:px-10` margins each side) — and it lines up with
+    this section's own `min-width: 1024px` (`lg`) breakpoint in
+    slider.css, which is where the nav also jumps from "under the row" to
+    "beside the heading". Solving
+    `n*723 + (n-1)*32 = 1664` (32px = the slider's fixed `spaceBetween`)
+    for `n` gives `n ≈ 2.25`, which reproduces the 723px card width
+    exactly once the viewport reaches 1744px and scales proportionally
+    below/above it. The previous `sm:2,lg:3,xl:3.5` tiers were guesses not
+    backed by any distinct Figma frame — removed rather than re-guessed.
 #}}
 <section class="section section--default" data-section="ranges">
     <div class="container">
@@ -15,7 +29,7 @@
             {{ partial:sectionHeader }}
 
             {{ if range }}
-                {{ partial:slider per_view="1.15,sm:2,lg:3,xl:3.5" navigation="true" }}
+                {{ partial:slider per_view="1.15,lg:2.25" navigation="true" }}
                     {{ range }}
                         <div class="swiper-slide">
                             <a href="{{ url }}" class="range-card relative isolate flex items-center gap-5 overflow-hidden rounded-md bg-light card-padding lg:gap-8">
