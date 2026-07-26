@@ -8,13 +8,29 @@ class GridCtaSectionTest extends SectionTestCase
     {
         $html = $this->render('{{ partial src="sections/gridCta" }}', [
             'grid' => [
-                ['title' => 'Wij werken met Winsol', 'text' => 'Belgisch merk met 145 jaar vakmanschap.'],
-                ['title' => 'Kom ons team versterken', 'text' => 'Stuur ons gerust je cv.'],
+                [
+                    'title' => 'Wij werken met Winsol',
+                    'text' => 'Belgisch merk met 145 jaar vakmanschap.',
+                    'link' => [['type' => 'url', 'url' => 'winsol.eu', 'label' => 'Naar winsol.eu']],
+                ],
+                [
+                    'title' => 'Kom ons team versterken',
+                    'text' => 'Stuur ons gerust je cv.',
+                    'link' => [['type' => 'url', 'url' => 'winsol.eu/vacatures', 'label' => 'Stuur ons je cv']],
+                ],
             ],
         ]);
 
         $this->assertStringContainsString('data-section="grid_cta"', $html);
         $this->assertSame(2, substr_count($html, 'grid-cta__panel'));
         $this->assertStringContainsString('Kom ons team versterken', $html);
+
+        // The first (index 0) item is the light/accent-button panel, the
+        // second (index 1) is the accent/dark-button panel — this is the
+        // only branching logic in the partial (gridCta.antlers.html:29,39).
+        $this->assertSame(1, substr_count($html, 'bg-light'));
+        $this->assertSame(1, substr_count($html, 'bg-accent'));
+        $this->assertSame(1, substr_count($html, 'btn--accent'));
+        $this->assertSame(1, substr_count($html, 'btn--dark'));
     }
 }
