@@ -26,7 +26,7 @@ tabs:
           -
             import: image
           -
-            handle: range_category
+            handle: range_categories
             field:
               type: terms
               taxonomies:

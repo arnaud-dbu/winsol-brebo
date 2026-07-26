@@ -1,10 +1,22 @@
+{{#
+    De ranges per categorie. `range_categories:overlaps` filtert op array-
+    membership (filterWhereJsonOverlaps -> array_intersect), niet op substring;
+    `:contains` zou hier een slug matchen die toevallig in een andere zit.
+
+    Sinds het blueprint-veld `range_categories` heet (gelijk aan het taxonomie-
+    handle) bouwt Statamic de taxonomie-associatie-index wél op, dus
+    `{{ taxonomy:range_categories }}` met een `collection`-parameter zou dit
+    kunnen vervangen. Die vereenvoudiging is bewust niet doorgevoerd: de
+    huidige query is bewezen correct en het omzetten heropent gedrag dat al een
+    reviewronde gekost heeft. Kandidaat voor een aparte opruimbeurt.
+#}}
 {{ partial:headers/default divider="true" }}
 
 <section class="section section--default" data-section="range-overview">
     <div class="container">
         <div class="section-y-gap">
             {{ taxonomy:range_categories sort="order:asc" }}
-                {{ collection:ranges range_category:overlaps="{slug}" as="ranges_in_category" }}
+                {{ collection:ranges range_categories:overlaps="{slug}" as="ranges_in_category" }}
                     {{ if ranges_in_category }}
                         <div class="section-header-gap">
                             {{ partial:overline :label="title | entities" }}
