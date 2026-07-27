@@ -1,0 +1,87 @@
+{{#
+    Het paneel onder het navigatie-item met `mega_menu` (Figma 366:5017).
+
+    Twee lagen. De strook is zo breed als het venster en heeft geen eigen
+    achtergrond: hij is `pointer-events-none`, zodat een klik náást de kaart
+    doorvalt naar de pagina en de `@click.outside` op de `<header>` hem sluit.
+    De kaart daarbinnen is wél klikbaar en is maximaal 85rem (1360px, de
+    breedte uit het ontwerp op een venster van 1744px).
+
+    De kaart heeft een schaduw die Figma niet tekent. Zonder die schaduw heeft
+    een witte kaart op een witte pagina geen rand — in Figma leest hij als
+    kaart doordat het canvas eromheen grijs is, en dat canvas bestaat op de
+    site niet.
+
+    De query is dezelfde als in resources/views/range-overview.antlers.html.
+    `range_categories:overlaps` filtert op array-membership; `:contains` zou
+    een slug matchen die toevallig in een andere zit. Sorteren op `order`
+    houdt beide plekken in de Figma-volgorde.
+
+    Het CTA-blok hangt onderaan de laatste categoriekolom, zoals in het
+    ontwerp: die kolom is `justify-between`, dus de categorie staat bovenaan
+    en het blok onderaan. `last` wordt bewaard in `is_last_category` vóór de
+    `collection`-tag, zodat het onmiskenbaar de laatste catégorie is en niet
+    de laatste range.
+
+    Twee kolommen tot `xl`, daarboven drie. Het ontwerp geeft de derde kolom
+    407px vaste breedte; hier is dat een gelijke `1fr`. Op 1744px scheelt dat
+    een vijftigtal pixels, en het scheelt een raster dat onder 1600px in
+    elkaar klapt.
+
+    De tekstgroottes zijn vaste pixelwaarden en geen `text-*`-tokens. Die
+    tokens zijn vloeiende clamp()-waarden voor paginacontent; een menu-item
+    van 14px dat meeschaalt naar 18px is niet wat het ontwerp toont.
+#}}
+<div
+    id="mega-menu-panel"
+    x-show="open"
+    x-cloak
+    x-collapse
+    class="pointer-events-none absolute top-full left-0 z-40 w-full border-b border-black/25">
+    <div class="container py-4">
+        <div class="pointer-events-auto mx-auto grid w-full max-w-[85rem] grid-cols-2 items-stretch gap-10 rounded-md bg-white p-6 shadow-lg xl:grid-cols-3 xl:gap-20 xl:p-10">
+            {{ taxonomy:range_categories sort="order:asc" }}
+                {{ is_last_category = last }}
+                {{ collection:ranges range_categories:overlaps="{slug}" sort="order:asc" as="ranges_in_category" }}
+                    {{ if ranges_in_category }}
+                        <div class="flex flex-col justify-between gap-10">
+                            <div class="flex flex-col gap-6">
+                                {{ partial:overline :label="title | entities" }}
+
+                                <ul class="flex flex-col gap-6">
+                                    {{ ranges_in_category }}
+                                        <li>
+                                            <a href="{{ url }}" class="flex items-start gap-3 transition-opacity hover:opacity-70">
+                                                {{ if image }}
+                                                    <span class="flex size-[46px] shrink-0 items-center justify-center rounded-sm bg-light p-1.5">
+                                                        {{ img :src="image" max_width="92" sizes="46px" class="h-auto max-h-full w-auto max-w-full object-contain" }}
+                                                    </span>
+                                                {{ /if }}
+
+                                                <span class="flex flex-col gap-1">
+                                                    <span class="text-[20px] leading-[1.1] font-semibold text-black">{{ title }}</span>
+                                                    {{ if short_description }}
+                                                        <span class="text-[14px] leading-[1.5] text-black/75">{{ short_description }}</span>
+                                                    {{ /if }}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    {{ /ranges_in_category }}
+                                </ul>
+                            </div>
+
+                            {{ if is_last_category }}
+                                <a href="/aanbod" class="flex flex-col items-start gap-4 rounded-md bg-light px-8 py-6 transition-opacity hover:opacity-70">
+                                    <span class="text-[20px] leading-[1.5] font-semibold text-black">{{ trans:site.mega_menu_cta_title }}</span>
+                                    <span class="inline-flex w-fit items-center justify-center rounded-full bg-black px-5 py-3.5 text-[16px] leading-[1.5] font-semibold tracking-[0.02em] text-white">
+                                        {{ trans:site.mega_menu_cta_label }}
+                                    </span>
+                                </a>
+                            {{ /if }}
+                        </div>
+                    {{ /if }}
+                {{ /collection:ranges }}
+            {{ /taxonomy:range_categories }}
+        </div>
+    </div>
+</div>
