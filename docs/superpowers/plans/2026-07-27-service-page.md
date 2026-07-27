@@ -18,6 +18,7 @@
 - **`{{ if }}`-blokken lekken witruimte** — de indentatie vóór de tag en de newline erna blijven staan als de conditie onwaar is. In markup waarvan de uitvoer ongewijzigd moet blijven: tag en markup op één regel.
 - **`{{ id }}` binnen een replicator-loop is de set-id van Statamic.** Noem een partial-argument nooit `id`.
 - **Loopvariabelen:** `index` is 0-gebaseerd, `count` is 1-gebaseerd. Geverifieerd tegen de runtime.
+- **Blueprinttests moeten door de fieldtype.** `Field::get('fields')` is een kale `Arr::get` en lost geen `import:` op in een geneste group; `->fieldtype()->fields()` doet dat wél, en dat is ook hoe de CP en augmentatie het veld lezen.
 - **`:param="true"` werkt niet.** De colon-vorm evalueert de inhoud als expressie en resolvet `true` als variabelenaam, die niet bestaat en dus falsy is. Voor een letterlijke waarde: `param="true"` zonder colon. Voor een echte expressie (`:text_first="count % 2 == 0"`) is de colon-vorm juist verplicht. Beide geverifieerd tegen de runtime.
 - **`{{ field class="…" }}` bestaat niet.** Antlers parseert dat als modifier en gooit `Modifier [class] not found`. Fieldtype-views accepteren geen class-attribuut.
 - **Taal:** codecommentaar en contentcopy in het Nederlands, net als de rest van dit project. Commitberichten in het Nederlands.
@@ -1113,9 +1114,12 @@ class ServicePageTest extends TestCase
             $blueprint->hasField('reparation'),
             'De reparation-group ontbreekt in het blueprint.'
         );
-        $this->assertArrayHasKey(
-            'image',
-            collect($blueprint->field('reparation')->get('fields'))->keyBy('handle')->all(),
+        // Via de fieldtype, niet via `->get('fields')`. Dat laatste is een kale
+        // `Arr::get` op de ruwe config en daalt niet af in de geneste group, dus
+        // een `import:` blijft daar onopgelost. `Group::fields()` bouwt wél een
+        // `Fields`-collectie, en die constructor roept `resolveFields()` aan.
+        $this->assertTrue(
+            $blueprint->field('reparation')->fieldtype()->fields()->has('image'),
             'Het image-veld ontbreekt op de reparation-group.'
         );
     }
