@@ -18,6 +18,7 @@
 - **`{{ if }}`-blokken lekken witruimte** — de indentatie vóór de tag en de newline erna blijven staan als de conditie onwaar is. In markup waarvan de uitvoer ongewijzigd moet blijven: tag en markup op één regel.
 - **`{{ id }}` binnen een replicator-loop is de set-id van Statamic.** Noem een partial-argument nooit `id`.
 - **Loopvariabelen:** `index` is 0-gebaseerd, `count` is 1-gebaseerd. Geverifieerd tegen de runtime.
+- **`:param="true"` werkt niet.** De colon-vorm evalueert de inhoud als expressie en resolvet `true` als variabelenaam, die niet bestaat en dus falsy is. Voor een letterlijke waarde: `param="true"` zonder colon. Voor een echte expressie (`:text_first="count % 2 == 0"`) is de colon-vorm juist verplicht. Beide geverifieerd tegen de runtime.
 - **`{{ field class="…" }}` bestaat niet.** Antlers parseert dat als modifier en gooit `Modifier [class] not found`. Fieldtype-views accepteren geen class-attribuut.
 - **Taal:** codecommentaar en contentcopy in het Nederlands, net als de rest van dit project. Commitberichten in het Nederlands.
 - **Kleuren uit Figma `318:3097`:** invoervulling `#f5f5f5`, streepjesrand `#bfbfbf`, kaart `#ffffff`, knop `#f8d71c` (= `--color-accent`). De invoervulling is nadrukkelijk **niet** `--color-light` (`#f1f6f8`), dat blauw zweemt op wit.
@@ -94,7 +95,7 @@ Voeg toe aan `tests/Feature/Sections/TextImageSectionTest.php`, binnen de bestaa
 
     public function test_text_first_moves_the_text_column_ahead_of_the_image(): void
     {
-        $html = $this->render('{{ partial src="sections/textImage" :text_first="true" }}', [
+        $html = $this->render('{{ partial src="sections/textImage" text_first="true" }}', [
             'title' => 'Vakkundige installatie',
         ]);
 
@@ -106,7 +107,7 @@ Voeg toe aan `tests/Feature/Sections/TextImageSectionTest.php`, binnen de bestaa
         // `background` zette de tekstkolom al vooraan, mét lichte kaart. Dat gedrag
         // mag niet veranderen nu `text_first` hetzelfde effect langs een andere weg
         // bereikt: de acht bestaande aanroepers geven `text_first` nooit mee.
-        $html = $this->render('{{ partial src="sections/textImage" :text_first="true" }}', [
+        $html = $this->render('{{ partial src="sections/textImage" text_first="true" }}', [
             'title' => 'Drie lokale verkooppunten',
             'background' => true,
         ]);
