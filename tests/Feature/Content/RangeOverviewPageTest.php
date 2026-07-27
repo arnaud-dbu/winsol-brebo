@@ -12,7 +12,7 @@ class RangeOverviewPageTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('Ons aanbod', false);
-        $response->assertSee('page-header__divider', false);
+        $response->assertSee('border-t border-black/10', false);
     }
 
     public function test_it_lists_the_three_categories_in_their_designed_order(): void
