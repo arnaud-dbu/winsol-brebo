@@ -1,66 +1,27 @@
 .btn {
-    @apply inline-flex items-center justify-center w-fit;
+    @apply inline-flex w-fit items-center justify-center rounded-full text-base font-semibold lg:px-6 xl:px-7 lg:py-2.5;
 }
 
 .btn--primary {
-    @apply bg-black text-white p-3 py-2;
+    @apply bg-black p-3 py-2 text-white;
 }
 
 .btn--accent {
-    @apply rounded-full bg-accent px-8 py-5 font-semibold text-base text-black;
+    @apply bg-accent text-black;
 }
 
 .btn--inverse {
     @apply bg-white text-black;
 }
 
-/*
- * `.btn--cta` is the responsive button used by the `cta` section: accent
- * bg / dark label below `lg` (matches the mobile Figma button), dark bg /
- * white label from `lg` up (matches the desktop Figma button). Shape,
- * padding and font size are identical at both widths and match Figma
- * (rounded-full, 32px/20px padding, 16px -> 20px fluid label via the
- * existing --text-base clamp).
- */
-
 .btn--cta {
-    @apply rounded-full bg-accent px-8 py-5 font-semibold text-base text-black lg:bg-black lg:text-white;
+    @apply rounded-full bg-accent px-8 py-5 text-base font-semibold text-black lg:bg-black lg:text-white;
 }
-
-/*
- * `.btn--dark` is the dark pill button used by the `grid_cta` section for
- * panels with an accent background (the Figma button there is bg-black /
- * text-white, same rounded-full shape, padding and font size as
- * `.btn--accent`). Neither `.btn--primary` (square, smaller padding) nor
- * `.btn--inverse` (no shape/padding at all) match that shape, so this adds
- * the missing dark counterpart to `.btn--accent` rather than overriding
- * `.btn--primary`'s own padding/radius with ad-hoc utilities at the call
- * site.
- */
 
 .btn--dark {
-    @apply rounded-full bg-black px-8 py-5 font-semibold text-base text-white;
+    @apply rounded-full bg-black px-8 py-5 text-base font-semibold text-white;
 }
 
-/*
- * `.btn--outline` is de omlijnde tegenhanger van `.btn--accent`: 1px zwarte
- * rand op een transparante achtergrond, verder identiek in vorm, padding en
- * labelgrootte aan `.btn--accent` en `.btn--dark`. Twee consumenten, die hem
- * los van elkaar nodig bleken te hebben:
- *
- *   - de home-hero (Figma 293:2702)
- *   - de quicklinks-component, voor de tweede en derde kaart
- *
- * `.btn--inverse` heeft geen vorm of padding en kan dit niet dekken;
- * `.btn--primary` is vierkant met kleinere padding, en die op de aanroepplek
- * overriden met losse utilities zou de knopvormen over twee bestanden
- * verspreiden.
- *
- * Dit is de vierde knop met dezelfde vorm-declaraties. De follow-up om een
- * `.btn--pill` base te extraheren staat open in
- * docs/superpowers/specs/2026-07-26-pagebuilder-sections-followups.md — die
- * raakt vier bestaande secties en hoort in een eigen diff.
- */
 .btn--outline {
-    @apply rounded-full border border-black px-8 py-5 font-semibold text-base text-black;
+    @apply rounded-full border border-black px-8 py-5 text-base font-semibold text-black;
 }

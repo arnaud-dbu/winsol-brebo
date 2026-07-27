@@ -1,39 +1,3 @@
-{{#
-    De header. Twee lagen: de `<header>` staat op volle breedte en is de
-    positioneringscontext van het mega-menu-paneel, dat een strook over de
-    hele vensterbreedte is. De `container` daarbinnen houdt logo, menu en
-    knoppen op de sitebreedte.
-
-    Die container is óók `relative`, en dat is niet overbodig: de hamburger
-    van partials/mobileNavigation.antlers.html is absoluut gepositioneerd
-    (zie resources/css/components/hamburger.css) en moet aan de containerrand
-    hangen. Zonder `relative` hier zou hij naar de vensterrand springen.
-
-    `x-data` staat op de `<header>` en niet op het `<li>` van het
-    mega-menu-item: het paneel is breder dan dat item en staat daarom buiten
-    de `nav:main`-lus. Er is precies één item met `mega_menu`, dus één
-    `open`-boolean volstaat — de test daarop staat in MegaMenuTest.
-
-    `@resize.window` sluit het paneel bij een sprong van desktop naar mobiel.
-    Het menu is daaronder `display: none`, dus de knop is dan onbereikbaar en
-    een open paneel zou blijven hangen zonder iets om het mee te sluiten.
-
-    De omslag naar de desktopvariant staat op `lg` en niet op `md`. Dat kon
-    met drie items en geen knoppen; met vijf items plus een offerte-knop plus
-    een taalpill niet meer. Ruwe telling op 768px: logo ±120px, vijf items met
-    `gap-8` ±470px, knop ±180px, pill ±80px — ruim 850px in een container van
-    688px.
-
-    Focusbeheer op de toggle en het paneel: het paneel staat als laatste kind
-    van `<header>`, buiten het `<nav>`-landmark en dus buiten de natuurlijke
-    tabvolgorde van zijn knop — het is breder dan het item dat het opent en
-    kan daarom niet als kind van dat item staan. Zonder ingrijpen loopt Tab
-    vanaf de knop eerst door de resterende menu-items, de knoppen en de
-    hamburger, en pas dan de negen range-links. Bij openen verplaatst
-    `$nextTick` de focus naar het paneel (`x-ref="megaPanel"`,
-    `tabindex="-1"`); Escape sluit het paneel én geeft de focus terug aan de
-    knop (`x-ref="megaToggle"`).
-#}}
 <header
     class="relative"
     x-data="{ open: false }"
@@ -44,7 +8,7 @@
         class="relative container flex items-center justify-between border-b border-black/12 py-4 lg:border-b-0 lg:py-6">
         <a href="/" class="flex flex-col items-start gap-2">
             <span class="sr-only">Home Link</span>
-            {{ svg src="logo" class="h-8 md:h-10 2xl:h-12 w-auto" }}
+            {{ svg src="logo" class="h-8 sm:h-10 2xl:h-12 w-auto" }}
         </a>
 
         <nav class="hidden lg:block" aria-label="{{ trans:site.nav_label }}">
