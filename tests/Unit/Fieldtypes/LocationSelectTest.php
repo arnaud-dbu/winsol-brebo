@@ -47,4 +47,17 @@ class LocationSelectTest extends TestCase
 
         $this->assertContains('nullable', $field->rules()['location']);
     }
+
+    /**
+     * Zonder deze override valt Statamic stil terug op het tekstveld: de
+     * viewnaam wordt uit de handle samengesteld en
+     * `statamic::forms.fields.location_select` bestaat niet. Dat is precies
+     * het soort fout dat pas in de browser opvalt.
+     */
+    public function test_it_renders_through_the_select_view(): void
+    {
+        $field = new Field('location', ['type' => 'location_select']);
+
+        $this->assertSame('statamic::forms.fields.select', $field->fieldtype()->view());
+    }
 }

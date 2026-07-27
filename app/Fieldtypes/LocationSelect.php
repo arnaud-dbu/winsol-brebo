@@ -40,4 +40,17 @@ class LocationSelect extends Select
             ->orderBy('order')
             ->get();
     }
+
+    /**
+     * `Fieldtype::view()` stelt de viewnaam samen uit de handle en valt terug
+     * op het tekstveld als `statamic::forms.fields.location_select` niet
+     * bestaat — en die bestaat niet. Deze fieldtype erft zijn gedrag van
+     * Select, dus hij hoort ook diens view te gebruiken: die rendert de
+     * `<select>` met placeholder-optie, `required` en `aria-invalid`, zodat
+     * dat hier niet met de hand nagebouwd hoeft te worden.
+     */
+    public function view()
+    {
+        return 'statamic::forms.fields.select';
+    }
 }

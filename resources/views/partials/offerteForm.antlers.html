@@ -27,17 +27,16 @@
       het veld is dan nooit leeg, dus `required` vuurt niet en de bezoeker
       krijgt de `in:`-fout te zien in plaats van "dit veld is verplicht".
 
-    - `location`: handgeschreven, net als `branch` in reparationForm. Niet
-      omdat de opties met de hand komen — die staan al in `{{ options }}`,
-      dankzij App\Fieldtypes\LocationSelect::extraRenderableFieldData() —
-      maar omdat `{{ field }}` hier geen bruikbare `<select>` oplevert:
-      `Statamic\Fields\Fieldtype::view()` zoekt naar de view
-      `statamic::forms.fields.location_select` (afgeleid van de klassenaam),
-      die niet bestaat, en valt terug op de generieke tekstinput-view. De
-      opties komen dus wél uit de fieldtype, alleen de markup niet.
-      `required` en de aria-koppeling spiegelen dezelfde twee condities als
+    - `location`: alleen een wrapper met caret eromheen. De `<select>` zelf
+      komt van `{{ field }}`. Dat werkt hier omdat App\Fieldtypes\LocationSelect
+      zijn `view()` overschrijft naar `statamic::forms.fields.select` — zonder
+      die override zou `Fieldtype::view()` de viewnaam uit de klasse-handle
+      opbouwen (`statamic::forms.fields.location_select`), die niet bestaat,
+      en stil terugvallen op het tekstveld. Met de override renderen
+      `required`, `aria-invalid` en de placeholder-optie zoals in
       vendor/statamic/cms/resources/views/extend/forms/fields/
-      select.antlers.html.
+      select.antlers.html, en hoeven ze hier niet met de hand nagebouwd te
+      worden.
 
     - `attachment`: de streepjeszone. De `<input type="file">` ligt
       transparant over de hele zone; browsers accepteren drag-and-drop
@@ -51,9 +50,9 @@
     van een gewone entry komt ongefilterd door). Voor de meeste velden maakt
     dat niet uit — vertrouwde CMS-inhoud, geen bezoekersinvoer — maar één
     range-titel bevat een `&` ("Terrasoverkappingen & pergola's"), en die
-    moet als geldige HTML-entity op de pagina staan. Vandaar de expliciete
-    `replace`-modifier op de pillabel, in plaats van op elke `{{ }}` in dit
-    bestand.
+    moet als geldige HTML-entity op de pagina staan. Vandaar `| entities` op
+    de pillabel — de huisstijl-modifier hiervoor, zie ook
+    partials/rangeFilter.antlers.html.
 #}}
 {{ form:offerte class="form offerte-form" }}
     {{ sections }}
@@ -70,7 +69,7 @@
                                         <label class="offerte-pill">
                                             <input type="checkbox" name="{{ name }}[]" value="{{ option }}"{{ if value|in_array:option }} checked{{ /if }}>
                                             {{ icon src="check" class="offerte-pill__check" }}
-                                            <span>{{ label | replace:"&":"&amp;" }}</span>
+                                            <span>{{ label | entities }}</span>
                                         </label>
                                     </li>
                                 {{ /foreach:options }}
@@ -84,17 +83,7 @@
 
                             {{ if handle == "location" }}
                                 <div class="form-select-wrap">
-                                    <select
-                                        id="{{ id }}"
-                                        name="{{ name }}"
-                                        {{ if validate|contains:required }}required{{ /if }}
-                                        {{ if error }}aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }}
-                                    >
-                                        <option value="">{{ placeholder }}</option>
-                                        {{ foreach:options as="option|label" }}
-                                            <option value="{{ option }}"{{ if option == value }} selected{{ /if }}>{{ label }}</option>
-                                        {{ /foreach:options }}
-                                    </select>
+                                    {{ field }}
                                     {{ icon src="caret-down" }}
                                 </div>
                             {{ elseif handle == "attachment" }}
