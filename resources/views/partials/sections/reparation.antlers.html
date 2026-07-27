@@ -1,0 +1,43 @@
+{{#
+    De herstellingssectie (Figma 318:3087). Vaste component, geen page-builder
+    sectie: geen argumenten, leest de `reparation`-group uit de cascade.
+
+    `id="herstelling"` is het doelwit van de donkere pill in
+    partials/sectionNav.antlers.html. Verandert die naam hier, dan wijst die
+    pill nergens naar; ReparationSectionTest en ServiceNavTest dekken beide
+    kanten van dat contract.
+
+    Het watermerk is dezelfde SVG die headers/range.antlers.html gebruikt.
+    Decoratief, dus buiten de toegankelijkheidsboom.
+
+    De koffer steekt in Figma links buiten het raster (node 361:4112, x: -97).
+    Die negatieve marge slaat pas vanaf `lg` aan: onder die breedte zou hij
+    horizontale overflow op de hele pagina veroorzaken.
+#}}
+{{ if reparation }}
+    {{ reparation }}
+        <section id="herstelling" class="section section--default relative overflow-hidden bg-light" data-section="reparation">
+            <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+                {{ svg src="watermark" class="absolute -bottom-[10%] -left-[30%] h-auto w-[110%] lg:-left-[38%] lg:w-[85%]" }}
+            </div>
+
+            <div class="container">
+                <div class="section-x-gap items-start">
+                    <div class="section-col-wide flex flex-col gap-12">
+                        {{ partial:sectionHeader }}
+
+                        {{ if image }}
+                            <div class="reparation__media lg:-ml-24 xl:-ml-32">
+                                {{ img :src="image" max_width="1200" sizes="(min-width: 1024px) 40vw, 90vw" class="h-auto w-full" }}
+                            </div>
+                        {{ /if }}
+                    </div>
+
+                    <div class="section-col-wide rounded-md bg-white p-6 lg:p-12">
+                        {{ partial:reparationForm }}
+                    </div>
+                </div>
+            </div>
+        </section>
+    {{ /reparation }}
+{{ /if }}
