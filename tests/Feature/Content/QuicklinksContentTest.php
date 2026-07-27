@@ -76,14 +76,37 @@ class QuicklinksContentTest extends TestCase
         );
     }
 
-    public function test_the_contact_blueprint_no_longer_carries_a_dead_quicklinks_field(): void
+    public function test_the_contact_blueprint_carries_a_page_local_quicklinks_grid(): void
     {
-        // De component leest altijd de hele collectie, dus dit veld op het
-        // contact-blueprintbestand deed niets meer en hoort niet als loze
-        // knop in de CP te blijven staan.
+        // Het oude `quicklinks`-veld was een entries-picker die dubbelde met
+        // de collectie en daarom verdween. Dit veld is iets anders: een grid
+        // met pagina-eigen rijen, die de collectie niet raken. Het onderscheid
+        // staat hier vast zodat de picker niet terugsluipt.
         $blueprint = Blueprint::find('collections.pages.contact');
 
         $this->assertNotNull($blueprint, 'Blueprint collections.pages.contact niet gevonden');
-        $this->assertNull($blueprint->field('quicklinks'));
+
+        $field = $blueprint->field('quicklinks');
+
+        $this->assertNotNull($field, 'Het quicklinks-veld ontbreekt op de contact-blueprint');
+        $this->assertSame('grid', $field->type());
+
+        // $field->get('fields') geeft de ruwe config terug, waarin `import:
+        // image` en `import: link` nog niet zijn uitgevouwen naar hun handle.
+        // fieldtype()->fields() loopt dezelfde resolutie als de CP en de
+        // publish-form, en levert dus wel de echte handles op.
+        $subfields = $field->fieldtype()->fields()->all()->keys()->all();
+
+        $this->assertSame(['title', 'text', 'image', 'link', 'link_style'], $subfields);
+    }
+
+    public function test_the_contact_blueprint_keeps_its_template_picker(): void
+    {
+        // De entry draagt `template: contact` in zijn front matter. Zonder het
+        // veld in het blueprint kan een CP-bewerking dat laten vallen, waarna
+        // /contact terugvalt op default.antlers.html.
+        $blueprint = Blueprint::find('collections.pages.contact');
+
+        $this->assertNotNull($blueprint->field('template'));
     }
 }

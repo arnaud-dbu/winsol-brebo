@@ -52,18 +52,48 @@ class QuicklinksTest extends SectionTestCase
         $this->assertLessThan($showroom, $brochure, 'Brochure hoort tweede te staan');
     }
 
-    public function test_it_renders_every_card_while_the_photos_are_still_unlinked(): void
+    public function test_every_card_now_carries_its_photo(): void
     {
-        // De entries hebben nog geen beeld (het assets-pad is nog niet bekend),
-        // dus dit pint vast dat alle drie de kaarten renderen zolang dat zo is.
-        //
-        // De `{{ if image }}` guard zelf wordt hier niet gedekt: er is geen
-        // beeld-fixture, dus er is geen manier om vanuit deze test aan te
-        // tonen dat de guard het verschil maakt (een assertNotContainsString
-        // op '<img' zou evengoed slagen zonder de guard, want de Img-tag
-        // geeft toch al niets terug als `image` null is).
+        // De foto's stonden al in de assets-container onder quicklinks/; ze
+        // waren alleen nog niet aan de entries gekoppeld. Dat sluit open punt 2
+        // uit docs/superpowers/specs/2026-07-26-locations-quicklinks-design.md.
         $html = $this->render('{{ partial:quicklinks }}');
 
-        $this->assertSame(3, substr_count($html, 'quicklink-card'));
+        $this->assertSame(3, substr_count($html, 'quicklink-media'));
+        $this->assertSame(3, substr_count($html, '<img'));
+    }
+
+    public function test_the_card_markup_comes_from_the_shared_partial(): void
+    {
+        // Dezelfde kaart wordt door de collectie-component en door
+        // pageQuicklinks gerenderd. Dit pint vast dat er één bron is: de
+        // losse kaart levert dezelfde klassen op als de component eromheen.
+        $html = $this->render('{{ partial:quicklinkCard }}', [
+            'title' => 'Losse kaart',
+            'text' => 'Met een tekst.',
+            'link_style' => 'outline',
+            'link' => [[
+                'type' => 'url',
+                'url' => 'example.com',
+                'label' => 'Naar example',
+            ]],
+        ]);
+
+        $this->assertStringContainsString('quicklink-card', $html);
+        $this->assertStringContainsString('Losse kaart', $html);
+        $this->assertStringContainsString('btn--outline', $html);
+
+        // Zonder `image` mag de media-box niet meekomen, anders reserveert de
+        // overhang ruimte voor een foto die er niet is.
+        $this->assertStringNotContainsString('quicklink-media', $html);
+    }
+
+    public function test_the_grid_reserves_room_for_the_overhanging_photo(): void
+    {
+        // De foto hangt over de bovenrand van het lichte vlak. Zonder die
+        // klasse op het grid valt hij over de kaart erboven en tegen de <h2>.
+        $html = $this->render('{{ partial:quicklinks }}');
+
+        $this->assertStringContainsString('quicklink-grid', $html);
     }
 }

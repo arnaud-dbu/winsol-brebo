@@ -2,6 +2,7 @@
 id: e6f7a8b9-0002-4c3d-9e4f-5a6b7c8d9e02
 title: 'Vraag brochure aan'
 text: 'Ontvang de volledige brochure met opties en kleuren in uw bus of mailbox.'
+image: quicklinks/brochures.png
 link:
   -
     type: entry

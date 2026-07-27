@@ -7,4 +7,14 @@ postal_code: '1600'
 city: 'Sint-Pieters-Leeuw'
 latitude: 50.7789
 longitude: 4.2432
+opening_hours:
+  -
+    day: 'Di - Vr'
+    time: '10:30 - 17:30'
+  -
+    day: Zaterdag
+    time: '10:00 - 16:00'
+  -
+    day: 'Zo & Ma'
+    time: Gesloten
 ---

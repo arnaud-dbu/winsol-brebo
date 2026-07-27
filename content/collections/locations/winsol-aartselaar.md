@@ -7,4 +7,14 @@ postal_code: '2630'
 city: Aartselaar
 latitude: 51.1342
 longitude: 4.3831
+opening_hours:
+  -
+    day: 'Di - Vr'
+    time: '10:30 - 17:30'
+  -
+    day: Zaterdag
+    time: '10:00 - 16:00'
+  -
+    day: 'Zo & Ma'
+    time: Gesloten
 ---
