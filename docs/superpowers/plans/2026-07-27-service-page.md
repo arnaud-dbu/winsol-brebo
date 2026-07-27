@@ -398,9 +398,10 @@ Maak `resources/css/components/section-nav.css`:
  * collapse er wél te zijn; zonder deze regel staat er op mobiel 128px tussen
  * header en eerste sectie waar elders 64px staat.
  *
- * Geen `!important` nodig, in tegenstelling tot de regel in section.css:
- * deze selector is specifieker (0,2,0 tegen 0,1,0) en beide bestanden staan
- * ongelaagd, dus geen enkele Tailwind-utility komt ertussen.
+ * Geen `!important` nodig, want de twee selectors kunnen nooit hetzelfde element
+ * raken: deze eist dat het vorige broertje `[data-section='section-nav']` is,
+ * die eist dat het vorige broertje `.section--default` is. Een element heeft
+ * maar één direct vorig broertje, dus er is geen cascadeconflict om te winnen.
  */
 @media (max-width: 1023px) {
     [data-section='section-nav'] + .section--default {
