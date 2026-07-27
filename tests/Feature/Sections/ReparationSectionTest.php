@@ -54,7 +54,15 @@ class ReparationSectionTest extends SectionTestCase
             'reparation' => $this->reparation(),
         ]);
 
-        $this->assertStringContainsString('aria-hidden="true"', $html);
+        // Specifiek op de watermerk-wrapper: `aria-hidden="true"` alléén
+        // checken is niet genoeg, want de fixture's `overline` laat
+        // sectionHeader ook een overline__rule renderen die onvoorwaardelijk
+        // `aria-hidden="true"` heeft. Koppel de assertie aan de `-z-10`-klasse
+        // die alleen op de watermerk-wrapper staat.
+        $this->assertStringContainsString(
+            'class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true"',
+            $html
+        );
     }
 
     public function test_renders_without_an_image(): void
