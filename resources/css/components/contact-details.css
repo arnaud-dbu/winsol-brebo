@@ -21,6 +21,13 @@
  * Vandaar de descendant-selector hieronder, die de path zelf raakt. Het
  * bestand blijft ongewijzigd, want `currentColor` zou ook rangeCard.antlers.html
  * en gridCta.antlers.html laten meeveranderen.
+ *
+ * De tint is `#EBF0F2`: uitgemeten uit de Figma-render van node 318:3509, niet
+ * geschat. De blob is dus iets *donkerder* dan het paneel eromheen (`#F1F6F8`),
+ * precies 6 punten per kanaal — een lichtere variant leest als een vlek in
+ * plaats van als diepte. Een literal en geen wit-met-alpha: de blob ligt op
+ * `-z-10` achter het paneel en dekt nooit iets anders dan die ene achtergrond,
+ * dus de gemengde kleur is hier de bron, niet het resultaat van een berekening.
  */
 .contact-panel__shape {
     @apply pointer-events-none absolute -z-10 h-auto max-w-none;
@@ -31,7 +38,7 @@
 }
 
 .contact-panel__shape path {
-    @apply fill-white/50;
+    @apply fill-[#EBF0F2];
 }
 
 /*
