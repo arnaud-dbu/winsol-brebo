@@ -23,12 +23,22 @@
     een taalpill niet meer. Ruwe telling op 768px: logo ±120px, vijf items met
     `gap-8` ±470px, knop ±180px, pill ±80px — ruim 850px in een container van
     688px.
+
+    Focusbeheer op de toggle en het paneel: het paneel staat als laatste kind
+    van `<header>`, buiten het `<nav>`-landmark en dus buiten de natuurlijke
+    tabvolgorde van zijn knop — het is breder dan het item dat het opent en
+    kan daarom niet als kind van dat item staan. Zonder ingrijpen loopt Tab
+    vanaf de knop eerst door de resterende menu-items, de knoppen en de
+    hamburger, en pas dan de negen range-links. Bij openen verplaatst
+    `$nextTick` de focus naar het paneel (`x-ref="megaPanel"`,
+    `tabindex="-1"`); Escape sluit het paneel én geeft de focus terug aan de
+    knop (`x-ref="megaToggle"`).
 #}}
 <header
     class="relative"
     x-data="{ open: false }"
     @click.outside="open = false"
-    @keyup.escape="open = false"
+    @keyup.escape="open = false; $refs.megaToggle?.focus()"
     @resize.window="open = false">
     <div
         class="relative container flex items-center justify-between border-b border-black/12 py-4 lg:border-b-0 lg:py-6">
@@ -44,10 +54,11 @@
                         {{ if mega_menu }}
                             <button
                                 type="button"
-                                class="flex items-center gap-2 text-base text-black transition-opacity hover:opacity-70"
+                                x-ref="megaToggle"
+                                class="flex items-center gap-2 text-base text-black transition-opacity hover:opacity-70 focus-visible:opacity-70"
                                 aria-controls="mega-menu-panel"
                                 :aria-expanded="open.toString()"
-                                @click="open = !open">
+                                @click="open = !open; if (open) $nextTick(() => $refs.megaPanel.focus())">
                                 {{ title }}
                                 <svg
                                     class="size-3.5 shrink-0 transition-transform duration-200"
@@ -66,7 +77,7 @@
                         {{ else }}
                             <a
                                 href="{{ entry.url }}"
-                                class="text-base text-black transition-opacity hover:opacity-70 aria-[current=page]:opacity-60"
+                                class="text-base text-black transition-opacity hover:opacity-70 focus-visible:opacity-70 aria-[current=page]:opacity-60"
                                 {{ if entry.url == current_url }}aria-current="page"{{ /if }}>
                                 {{ title }}
                             </a>

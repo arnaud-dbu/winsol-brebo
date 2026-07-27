@@ -17,11 +17,15 @@
     een slug matchen die toevallig in een andere zit. Sorteren op `order`
     houdt beide plekken in de Figma-volgorde.
 
-    De kolomkop gebruikt de `overline`-Tailwind-utility (`<p class="overline">`)
+    De kolomkop gebruikt de `overline`-Tailwind-utility (`<div class="overline">`)
     en niet meer de `overline`-partial: commit 9a7150f heeft die partial
     leeggemaakt en de streep-onder-de-tekst als `::after` in de utility zelf
-    ondergebracht (resources/css/base/typography.css). Zie
-    resources/views/partials/sectionHeader.antlers.html voor hetzelfde patroon.
+    ondergebracht (resources/css/base/typography.css). Dat moet een `<div>`
+    zijn en geen `<p>`: resources/css/base/typography.css heeft een
+    ongelaagde `p { font-size: var(--text-base); line-height: 1.5 }` die
+    altijd wint van de gelaagde `@utility overline`, ongeacht specificiteit.
+    Zie resources/views/partials/sectionHeader.antlers.html voor hetzelfde
+    patroon.
 
     Het CTA-blok hangt onderaan de laatste categoriekolom, zoals in het
     ontwerp: die kolom is `justify-between`, dus de categorie staat bovenaan
@@ -40,6 +44,8 @@
 #}}
 <div
     id="mega-menu-panel"
+    x-ref="megaPanel"
+    tabindex="-1"
     x-show="open"
     x-cloak
     x-collapse
@@ -52,12 +58,12 @@
                     {{ if ranges_in_category }}
                         <div class="flex flex-col justify-between gap-10">
                             <div class="flex flex-col gap-6">
-                                <p class="overline">{{ title | entities }}</p>
+                                <div class="overline">{{ title | entities }}</div>
 
                                 <ul class="flex flex-col gap-6">
                                     {{ ranges_in_category }}
                                         <li>
-                                            <a href="{{ url }}" class="flex items-start gap-3 transition-opacity hover:opacity-70">
+                                            <a href="{{ url }}" class="flex items-start gap-3 transition-opacity hover:opacity-70 focus-visible:opacity-70">
                                                 {{ if image }}
                                                     <span class="flex size-[46px] shrink-0 items-center justify-center rounded-sm bg-light p-1.5">
                                                         {{ img :src="image" max_width="92" sizes="46px" class="h-auto max-h-full w-auto max-w-full object-contain" }}

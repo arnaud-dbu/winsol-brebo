@@ -34,6 +34,10 @@ class MegaMenuTest extends SectionTestCase
         $this->assertStringContainsString('Rolluiken voor ramen en deuren die inbraakwerend zijn en helpen tegen warmte, licht en geluid.', $html);
         $this->assertStringContainsString('Somfy Smart Home', $html);
         $this->assertStringContainsString('Somfy-sturing waarmee rolluiken, zonwering en verlichting samenwerken via één app of afstandsbediening.', $html);
+
+        // Alle negen ranges, niet slechts de drie hierboven met naam genoemde.
+        // Het mobiele paneel toont geen ranges, dus negen is exact.
+        $this->assertSame(9, substr_count($html, 'href="/aanbod/'));
     }
 
     public function test_ranges_within_a_category_follow_their_order_field(): void

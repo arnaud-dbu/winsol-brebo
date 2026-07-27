@@ -7,8 +7,14 @@
 
     Zodra er een tweede site is, wordt dit hetzelfde `x-data`-patroon als het
     mega menu, gevoed door `Site::all()`.
+
+    Dit moet een `<span>` zijn en geen `<p>`: resources/css/base/typography.css
+    heeft een ongelaagde `p { line-height: 1.5 }` die de gelaagde
+    `leading-none`-utility altijd overrulet, ongeacht specificiteit — de pill
+    zou daardoor ~8-10px hoger uitvallen dan ontworpen en niet meer uitlijnen
+    met de `.btn--accent` ernaast.
 #}}
-<p class="flex items-center gap-0.5 rounded-full border border-black/25 px-[18px] py-5 text-base leading-none font-semibold text-black">
+<span class="flex items-center gap-0.5 rounded-full border border-black/25 px-[18px] py-5 text-base leading-none font-semibold text-black">
     <span class="sr-only">{{ trans:site.nav_language }}</span>
     <span aria-hidden="true">{{ trans:site.nav_language_short }}</span>
     <svg class="size-3.5 shrink-0" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -19,4 +25,4 @@
             stroke-linecap="round"
             stroke-linejoin="round" />
     </svg>
-</p>
+</span>

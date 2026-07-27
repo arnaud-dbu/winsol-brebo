@@ -78,16 +78,19 @@ class NavigationTest extends SectionTestCase
 
     public function test_language_pill_is_labelled_but_not_interactive(): void
     {
-        $html = $this->render('{{ partial:navigation }}');
-
         // Eén site, dus er valt niets te kiezen: de pill toont de taal maar
         // opent niets. Een knop met aria-expanded zou een paneel beloven dat
-        // niet bestaat. Er zijn er precies twee in de header — de knop van
-        // het mega menu en de hamburger — en de pill voegt er geen derde aan
-        // toe.
-        $this->assertStringContainsString('Taal: Nederlands', $html);
-        $this->assertStringContainsString('>NL<', $html);
-        $this->assertSame(2, substr_count($html, 'aria-expanded'));
+        // niet bestaat. Geankerd aan de pill zelf, niet aan de hele header:
+        // een generieke `aria-expanded`-telling over `{{ partial:navigation }}`
+        // zou breken zodra de header een volgende disclosure krijgt, terwijl
+        // die niets met de taalpill te maken heeft. De claim "precies één
+        // paneel-toggle" staat al in MegaMenuTest.
+        $pill = $this->render('{{ partial:languagePill }}');
+
+        $this->assertStringContainsString('Taal: Nederlands', $pill);
+        $this->assertStringContainsString('>NL<', $pill);
+        $this->assertStringNotContainsString('aria-expanded', $pill);
+        $this->assertStringNotContainsString('<button', $pill);
     }
 
     public function test_mobile_panel_repeats_the_quote_button_and_language_pill(): void
@@ -105,7 +108,9 @@ class NavigationTest extends SectionTestCase
         $html = $this->render('{{ partial:navigation }}');
 
         // Op mobiel is Aanbod een gewone link; het mega menu rendert alleen
-        // vanaf `md`. Het paneel bevat dus geen tweede paneel-id.
-        $this->assertSame(1, substr_count($html, 'id="mega-menu-panel"'));
+        // vanaf `lg`. Twee treffers: één uit het mobiele navigatie-item, één
+        // uit het CTA-blok van het mega menu. Het desktop-item is een
+        // `<button>` zonder href, dus die telt niet mee.
+        $this->assertSame(2, substr_count($html, 'href="/aanbod"'));
     }
 }
