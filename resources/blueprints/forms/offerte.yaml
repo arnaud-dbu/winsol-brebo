@@ -67,3 +67,6 @@ tabs:
               folder: offertes
               max_files: 1
               display: 'Foto of plan toevoegen (optioneel)'
+              validate:
+                - 'mimes:jpg,jpeg,png,webp,heic,pdf'
+                - 'max_filesize:10240'

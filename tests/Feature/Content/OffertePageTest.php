@@ -32,7 +32,10 @@ class OffertePageTest extends TestCase
         $html = $this->get('/offerte')->assertOk()->getContent();
 
         $this->assertStringContainsString('Vraag een offerte aan', $html);
-        $this->assertStringContainsString('offerte-form', $html);
+        // Het klasse-attribuut zelf, niet de losse tekst: elke veld-id begint
+        // met `offerte-form-`, dus een kale substring-check slaagt ook als de
+        // klasse van het formulier valt.
+        $this->assertStringContainsString('class="form offerte-form"', $html);
         $this->assertStringContainsString('offerte-still', $html);
     }
 

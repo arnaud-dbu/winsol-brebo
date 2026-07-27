@@ -35,6 +35,12 @@
       op `products` zelf) en de server-side foutmelding hieronder — niet via
       HTML5-constraint-validation.
 
+      Omdat `required` er niet staat, krijgt een schermlezer ook geen enkel
+      signaal dat deze groep verplicht is: er is geen ARIA-equivalent voor
+      "minstens één uit deze verzameling". Vandaar "(verplicht)" letterlijk
+      in het labelonderschrift, zichtbaar voor iedereen — geen sterretje, dat
+      wordt als "asterisk" of helemaal niet voorgelezen.
+
       De foutmelding krijgt een `aria-describedby`-koppeling op de groep
       zelf (`{{ id }}-error`), zoals elke vendor-fieldtype-view die al gratis
       zet voor het veld dat ze renderen (bv. select.antlers.html,
@@ -58,6 +64,12 @@
       rechtstreeks op een file-input, dus slepen én klikken werken zonder
       JavaScript.
 
+    Na een geslaagde verzending vervángt het bevestigingsblok de inhoud van de
+    kaart; het staat er niet onder. Vandaar `{{ unless success }}` om de hele
+    veldloop én de honeypot heen — anders ziet de bezoeker naast zijn
+    bevestiging ook nog het volledige, leeggemaakte formulier zonder
+    verzendknop.
+
     Nergens `{{ field class="…" }}`: Antlers parseert dat als modifier en
     gooit "Modifier [class] not found".
 
@@ -70,15 +82,16 @@
     partials/rangeFilter.antlers.html.
 #}}
 {{ form:offerte class="form offerte-form" }}
+    {{ unless success }}
     {{ sections }}
         <div class="form-section">
             <div class="form-grid">
                 {{ fields }}
                     {{ if handle == "products" }}
                         <div class="offerte-products">
-                            <span class="form-label" id="{{ id }}-label">{{ display }}</span>
+                            <span class="form-label" id="{{ id }}-label">{{ display }} (verplicht)</span>
 
-                            <ul class="offerte-pills" role="group" aria-labelledby="{{ id }}-label"{{ if error }} aria-describedby="{{ id }}-error"{{ /if }}>
+                            <ul class="offerte-pills" role="group" aria-labelledby="{{ id }}-label"{{ if error }} aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }}>
                                 {{ foreach:options as="option|label" }}
                                     <li>
                                         <label class="offerte-pill">
@@ -120,6 +133,7 @@
     {{ /sections }}
 
     <input type="text" class="hidden" name="{{ honeypot ?? 'honeypot' }}">
+    {{ /unless }}
 
     {{ if success }}
         <div class="offerte-success">

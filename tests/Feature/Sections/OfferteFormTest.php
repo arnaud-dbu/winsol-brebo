@@ -139,7 +139,32 @@ class OfferteFormTest extends SectionTestCase
 
         $html = $this->render('{{ partial:offerteForm }}');
 
+        $this->assertStringContainsString('aria-invalid="true"', $html);
         $this->assertStringContainsString('aria-describedby="offerte-form-products-field-error"', $html);
         $this->assertStringContainsString('id="offerte-form-products-field-error"', $html);
+    }
+
+    /**
+     * De bevestiging vervángt het formulier in dezelfde kaart. Rendert de
+     * veldloop ook na een geslaagde verzending, dan staat de bezoeker voor
+     * een leeg formulier zonder verzendknop mét een bevestiging erboven.
+     *
+     * De succesvlag komt uit de sessie: `Tags::success()` leest
+     * `{sessionHandle}.success`, en `sessionHandle()` is hier `form.offerte`
+     * — dezelfde sleutel als de errorbag hierboven.
+     */
+    public function test_the_confirmation_replaces_the_form(): void
+    {
+        session(['form.offerte.success' => 'Bedankt voor uw aanvraag.']);
+
+        $html = $this->render('{{ partial:offerteForm }}');
+
+        $this->assertStringContainsString('offerte-success', $html);
+        $this->assertStringContainsString('Uw aanvraag is verstuurd', $html);
+
+        $this->assertStringNotContainsString('name="products[]"', $html);
+        $this->assertStringNotContainsString('class="form-field', $html);
+        $this->assertStringNotContainsString('name="honeypot"', $html);
+        $this->assertStringNotContainsString('type="submit"', $html);
     }
 }
