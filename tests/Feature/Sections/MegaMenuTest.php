@@ -68,6 +68,12 @@ class MegaMenuTest extends SectionTestCase
         $this->assertStringContainsString('Niet zeker welke oplossing past?', $html);
         $this->assertStringContainsString('Volledig aanbod', $html);
         $this->assertStringContainsString('href="/aanbod"', $html);
+
+        // Het blok hangt onder de laatste categoriekolom via `is_last_category`.
+        // Telt, want een verschoven scope zou het nul of drie keer opleveren en
+        // een `contains`-assertie blijft in beide gevallen groen.
+        $this->assertSame(1, substr_count($html, 'Niet zeker welke oplossing past?'));
+        $this->assertSame(1, substr_count($html, 'Volledig aanbod'));
     }
 
     public function test_only_the_flagged_item_opens_a_panel(): void
