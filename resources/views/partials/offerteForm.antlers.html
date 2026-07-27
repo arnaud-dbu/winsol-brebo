@@ -1,0 +1,129 @@
+{{#
+    Het offerteformulier (Figma 318:3956).
+
+    Zelfde opzet als partials/reparationForm.antlers.html: de veldloop is
+    generiek en leest labels, breedtes en placeholders uit
+    resources/blueprints/forms/offerte.yaml. `{{ width }}` zet Statamic
+    altijd, met 100 als default.
+
+    Twee velden wijken af van de generieke tak, en één valt zelfs buiten de
+    veldwrapper:
+
+    - `products`: pillen in plaats van een checkboxlijst. De vendor-view
+      (vendor/statamic/cms/resources/views/extend/forms/fields/
+      checkboxes.antlers.html) rendert een kale `<label><input><br>` en
+      accepteert geen classes, dus die markup staat hier. De opties komen uit
+      App\Fieldtypes\RangeCheckboxes en dus uit de ranges-collectie.
+
+      Dit blok staat bewust NIET in `.form-field`. form.css bevat
+      `.form-field :is(input:not([type='file']), textarea, select)`, wat de
+      checkboxes van de pillen een volle-breedte grijze vulling zou geven.
+      Een eigen wrapper houdt ze buiten het bereik van die selector, in
+      plaats van er met specificiteit tegenaan te duwen.
+
+      Er staat hier geen `<input type="hidden" name="products[]">` zoals in
+      de vendor-view. Die is er om een waarde te kunnen wissen bij het
+      bewerken van een entry, maar zou hier de required-melding kapotmaken:
+      het veld is dan nooit leeg, dus `required` vuurt niet en de bezoeker
+      krijgt de `in:`-fout te zien in plaats van "dit veld is verplicht".
+
+    - `location`: handgeschreven, net als `branch` in reparationForm. Niet
+      omdat de opties met de hand komen — die staan al in `{{ options }}`,
+      dankzij App\Fieldtypes\LocationSelect::extraRenderableFieldData() —
+      maar omdat `{{ field }}` hier geen bruikbare `<select>` oplevert:
+      `Statamic\Fields\Fieldtype::view()` zoekt naar de view
+      `statamic::forms.fields.location_select` (afgeleid van de klassenaam),
+      die niet bestaat, en valt terug op de generieke tekstinput-view. De
+      opties komen dus wél uit de fieldtype, alleen de markup niet.
+      `required` en de aria-koppeling spiegelen dezelfde twee condities als
+      vendor/statamic/cms/resources/views/extend/forms/fields/
+      select.antlers.html.
+
+    - `attachment`: de streepjeszone. De `<input type="file">` ligt
+      transparant over de hele zone; browsers accepteren drag-and-drop
+      rechtstreeks op een file-input, dus slepen én klikken werken zonder
+      JavaScript.
+
+    Nergens `{{ field class="…" }}`: Antlers parseert dat als modifier en
+    gooit "Modifier [class] not found".
+
+    Antlers escaped hier niets automatisch (geverifieerd: ook `{{ title }}`
+    van een gewone entry komt ongefilterd door). Voor de meeste velden maakt
+    dat niet uit — vertrouwde CMS-inhoud, geen bezoekersinvoer — maar één
+    range-titel bevat een `&` ("Terrasoverkappingen & pergola's"), en die
+    moet als geldige HTML-entity op de pagina staan. Vandaar de expliciete
+    `replace`-modifier op de pillabel, in plaats van op elke `{{ }}` in dit
+    bestand.
+#}}
+{{ form:offerte class="form offerte-form" }}
+    {{ sections }}
+        <div class="form-section">
+            <div class="form-grid">
+                {{ fields }}
+                    {{ if handle == "products" }}
+                        <div class="offerte-products">
+                            <span class="form-label" id="{{ id }}-label">{{ display }}</span>
+
+                            <ul class="offerte-pills" role="group" aria-labelledby="{{ id }}-label">
+                                {{ foreach:options as="option|label" }}
+                                    <li>
+                                        <label class="offerte-pill">
+                                            <input type="checkbox" name="{{ name }}[]" value="{{ option }}"{{ if value|in_array:option }} checked{{ /if }}>
+                                            {{ icon src="check" class="offerte-pill__check" }}
+                                            <span>{{ label | replace:"&":"&amp;" }}</span>
+                                        </label>
+                                    </li>
+                                {{ /foreach:options }}
+                            </ul>
+
+                            {{ if error }}<p class="form-error" id="{{ id }}-error">{{ error }}</p>{{ /if }}
+                        </div>
+                    {{ else }}
+                        <div class="form-field{{ if width == 50 }} form-field--half{{ /if }}">
+                            <label class="form-label" for="{{ id }}">{{ display }}</label>
+
+                            {{ if handle == "location" }}
+                                <div class="form-select-wrap">
+                                    <select
+                                        id="{{ id }}"
+                                        name="{{ name }}"
+                                        {{ if validate|contains:required }}required{{ /if }}
+                                        {{ if error }}aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }}
+                                    >
+                                        <option value="">{{ placeholder }}</option>
+                                        {{ foreach:options as="option|label" }}
+                                            <option value="{{ option }}"{{ if option == value }} selected{{ /if }}>{{ label }}</option>
+                                        {{ /foreach:options }}
+                                    </select>
+                                    {{ icon src="caret-down" }}
+                                </div>
+                            {{ elseif handle == "attachment" }}
+                                <div class="form-dropzone">
+                                    {{ icon src="upload" class="size-7" }}
+                                    <span>Sleep een foto hierheen of klik om te uploaden</span>
+                                    {{ field }}
+                                </div>
+                            {{ else }}
+                                {{ field }}
+                            {{ /if }}
+
+                            {{ if error }}<p class="form-error" id="{{ id }}-error">{{ error }}</p>{{ /if }}
+                        </div>
+                    {{ /if }}
+                {{ /fields }}
+            </div>
+        </div>
+    {{ /sections }}
+
+    <input type="text" class="hidden" name="{{ honeypot ?? 'honeypot' }}">
+
+    {{ if success }}
+        <div class="offerte-success">
+            <h2>Uw aanvraag is verstuurd</h2>
+            <p>Een lokale expert bekijkt uw vraag en neemt binnen twee werkdagen contact op. Ondertussen kunt u alvast rondkijken bij wat we eerder plaatsten.</p>
+            <a class="btn btn--accent" href="/realisaties">Naar realisaties</a>
+        </div>
+    {{ else }}
+        <button type="submit" class="btn btn--accent">Vraag offerte aan</button>
+    {{ /if }}
+{{ /form:offerte }}

@@ -1,0 +1,94 @@
+/*
+ * Offertepagina (Figma 318:3956).
+ *
+ * Alleen wat hier anders is dan het herstellingsformulier. De velden,
+ * labels, dropzone en foutmeldingen komen uit components/form.css; dat
+ * bestand blijft ongemoeid.
+ *
+ * Het enige echte verschil in het ontwerp: daar staan grijze velden op een
+ * witte kaart, hier witte velden op een `light`-kaart. De variabelen op de
+ * Figma-node zijn precies vier — accent, black, white en light — dus dit is
+ * geen benadering.
+ */
+
+.offerte-form {
+    @apply rounded-md bg-light card-padding lg:p-10;
+}
+
+/*
+ * Wint van `.form-field :is(input…)` in form.css: gelijke specificiteit
+ * (0,2,1), en offerte-form.css wordt ná form.css geïmporteerd. Beide staan
+ * ongelaagd, dus de bronvolgorde beslist. Verplaats de import in site.css
+ * dus niet naar boven.
+ */
+.offerte-form .form-field :is(input:not([type='file']), textarea, select) {
+    @apply bg-white;
+}
+
+.offerte-products {
+    @apply flex flex-col gap-2 sm:col-span-2;
+}
+
+.offerte-pills {
+    @apply flex flex-wrap gap-2;
+}
+
+/*
+ * De actieve staat komt volledig uit CSS, zonder JavaScript: `:has()` leest
+ * de checkbox die in de label zit. Vorm en actieve kleuren zijn dezelfde
+ * als `.range-filter__btn`, maar dit is een eigen klasse — dat zijn
+ * filterlinks, dit zijn checkboxes met een vinkje.
+ */
+.offerte-pill {
+    @apply inline-flex cursor-pointer items-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-black;
+
+    font-size: clamp(0.6875rem, 0.554rem + 0.335vw, 0.875rem);
+    line-height: 1.1;
+}
+
+.offerte-pill input[type='checkbox'] {
+    @apply sr-only;
+}
+
+.offerte-pill:has(input:checked) {
+    @apply bg-black text-white;
+}
+
+.offerte-pill__check {
+    @apply hidden size-4;
+}
+
+.offerte-pill:has(input:checked) .offerte-pill__check {
+    @apply block;
+}
+
+.offerte-success {
+    @apply flex flex-col items-start gap-4;
+}
+
+/* --- Paginaraster (taak 4) --- */
+
+/*
+ * Twee kolommen vanaf `lg`: links de titel op rij 1 en het stilleven op rij
+ * 2, rechts de formulierkaart over beide rijen. Onder `lg` valt alles terug
+ * op de DOM-volgorde, en die is bewust titel → formulier → beeld: het
+ * formulier is het doel van de pagina en het beeld is decoratief.
+ *
+ * Er is geen mobile-frame voor deze pagina in Figma; deze volgorde is een
+ * keuze uit de spec, geen meting.
+ */
+.offerte-layout {
+    @apply grid gap-10 lg:grid-cols-12 lg:gap-8;
+}
+
+.offerte-heading {
+    @apply flex flex-col gap-6 lg:col-span-4 lg:col-start-1 lg:row-start-1;
+}
+
+.offerte-still {
+    @apply lg:col-span-4 lg:col-start-1 lg:row-start-2 lg:self-end;
+}
+
+.offerte-form {
+    @apply lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1;
+}

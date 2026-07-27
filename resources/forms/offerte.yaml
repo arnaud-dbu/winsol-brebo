@@ -1,0 +1,7 @@
+title: Offerte
+email:
+  -
+    id: offerte-notification
+    to: hello@stuw.agency
+    reply_to: '{{ email }}'
+    subject: 'Nieuwe offerteaanvraag van {{ name }}'
