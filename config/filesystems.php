@@ -41,6 +41,29 @@ return [
             'use_path_style_endpoint' => false,
             'throw' => false,
         ],
+        /*
+         * De schijf achter de `private`-assetcontainer (offerte-uploads:
+         * klantfoto's en bouwplannen).
+         *
+         * LET OP — hier staat bewust GEEN `url`-sleutel, en dat is het hele
+         * mechanisme. `AssetContainer::accessible()` is niets meer dan
+         * `Arr::get($this->disk()->filesystem()->getConfig(), 'url') !== null`
+         * en `private()` is de ontkenning daarvan. Zodra hier een `url` bij
+         * komt "voor de consistentie" met `r2`, is de container niet langer
+         * privé, publiceert Statamic een raadbare URL en serveert het de
+         * bestanden niet meer via zijn afgeschermde route.
+         */
+        'r2_private' => [
+            'driver' => 's3',
+            'key' => env('R2_ACCESS_KEY_ID'),
+            'secret' => env('R2_SECRET_ACCESS_KEY'),
+            'region' => 'auto',
+            'bucket' => env('R2_PRIVATE_BUCKET', env('R2_BUCKET')),
+            'endpoint' => env('R2_ENDPOINT'),
+            'root' => env('R2_PRIVATE_ROOT', 'private'),
+            'use_path_style_endpoint' => false,
+            'throw' => false,
+        ],
         'glide' => [
             'driver' => 's3',
             'key' => env('R2_ACCESS_KEY_ID'),

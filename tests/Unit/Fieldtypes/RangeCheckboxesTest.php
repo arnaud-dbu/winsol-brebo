@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Fieldtypes;
 
+use Illuminate\Support\Facades\Validator;
+use Statamic\Facades\Form;
 use Statamic\Fields\Field;
 use Tests\TestCase;
 
@@ -31,17 +33,35 @@ class RangeCheckboxesTest extends TestCase
     }
 
     /**
-     * De regel hoort op `products.*` en niet op `products`: het is een array.
-     * Zonder deze regel kan een vervalste POST willekeurige tekst in de
-     * notificatiemail zetten.
+     * De allowlist staat op `products.*`, dus hij doet alleen iets zolang
+     * `products` ook echt een array ís: Laravel matcht een scalaire waarde
+     * nooit tegen dat patroon en laat hem dan door met alleen `required`.
+     *
+     * Deze test draait daarom de échte validator over de échte regelset uit
+     * het blueprint, en niet — zoals zijn voorganger — een assertie op de
+     * aanwezigheid van een regelstring. Die slaagde ook toen de gaten er nog
+     * in zat.
      */
     public function test_a_forged_product_value_is_rejected(): void
     {
-        $field = new Field('products', ['type' => 'range_checkboxes']);
+        $rules = Form::find('offerte')->blueprint()->fields()->validator()->rules();
 
-        $this->assertContains(
-            'in:ramen-en-deuren,stalen-binnendeuren,velux,airco,rolluiken,zonwering,pergolas,garagepoorten,somfy-smart-home',
-            $field->rules()['products.*'],
+        $this->assertTrue(
+            Validator::make(['products' => 'GRATIS VIAGRA'], $rules)->fails(),
+            'Een scalaire waarde hoort te falen; anders is de allowlist op products.* dode letter.',
+        );
+
+        $this->assertTrue(
+            Validator::make(['products' => ['rolluiken', 'niet-bestaand']], $rules)->fails(),
+            'Een slug buiten de ranges-collectie hoort te falen.',
+        );
+
+        $this->assertFalse(
+            Validator::make(
+                ['products' => ['rolluiken', 'airco'], 'name' => 'Jan', 'email' => 'jan@voorbeeld.be'],
+                $rules,
+            )->fails(),
+            'Twee echte slugs horen door te komen.',
         );
     }
 

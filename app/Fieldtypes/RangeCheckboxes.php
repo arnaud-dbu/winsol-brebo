@@ -39,6 +39,19 @@ class RangeCheckboxes extends Checkboxes
     }
 
     /**
+     * `array` op het veld zelf is geen opsmuk maar de voorwaarde waaronder de
+     * allowlist in `extraRules()` überhaupt iets doet. Laravel matcht de kale
+     * sleutel `products` nooit tegen het patroon `products.*`, dus zonder
+     * deze regel wordt een scalaire POST (`products=WILLEKEURIGE TEKST`)
+     * alleen door `required` gezien, glipt hij langs de `in:`-lijst en belandt
+     * hij letterlijk in de notificatiemail en de CP-submissielijst.
+     */
+    public function rules(): array
+    {
+        return ['array'];
+    }
+
+    /**
      * `Statamic\Fields\Field::rules()` hangt wat `rules()` teruggeeft aan de
      * veld-handle zelf. Voor een array moet de regel op `products.*` staan,
      * en dat kan alleen via `extraRules()`.
