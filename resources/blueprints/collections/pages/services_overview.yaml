@@ -72,12 +72,7 @@ tabs:
                     type: textarea
                     display: Text
                 -
-                  handle: image
-                  field:
-                    container: assets
-                    max_files: 1
-                    type: assets
-                    display: Image
+                  import: image
   preview:
     display: Preview
     sections:

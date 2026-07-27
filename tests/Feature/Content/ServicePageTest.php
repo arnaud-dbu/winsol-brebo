@@ -25,9 +25,14 @@ class ServicePageTest extends TestCase
             $blueprint->hasField('reparation'),
             'De reparation-group ontbreekt in het blueprint.'
         );
-        $this->assertArrayHasKey(
-            'image',
-            collect($blueprint->field('reparation')->get('fields'))->keyBy('handle')->all(),
+
+        // `field('reparation')->get('fields')` geeft de ruwe yaml terug en
+        // lost `import: image` niet op — dat gebeurt pas wanneer de
+        // Group-fieldtype zijn eigen Fields-collectie bouwt via fieldtype()
+        // ->fields(), precies zoals de CP en augmentatie het veld
+        // consumeren. Deze accessor toetst dus het echte gedrag.
+        $this->assertTrue(
+            $blueprint->field('reparation')->fieldtype()->fields()->has('image'),
             'Het image-veld ontbreekt op de reparation-group.'
         );
     }
