@@ -42,9 +42,13 @@
 /*
  * Figma (451:2700 `ranges`, 451:2910 `image_gallery`) shows both sliders'
  * nav buttons in accent yellow with a dark arrow, never black/white.
+ *
+ * De knop is een liggende pil, geen cirkel: breder dan hoog (56x44), met
+ * `rounded-full` zodat de zijkanten halve cirkels blijven en alleen boven-
+ * en onderrand een recht stuk krijgen.
  */
 .slider__nav button {
-    @apply flex size-11 items-center justify-center rounded-full bg-accent text-black transition-opacity;
+    @apply flex h-11 w-14 items-center justify-center rounded-full bg-accent text-black transition-opacity;
 }
 
 /*

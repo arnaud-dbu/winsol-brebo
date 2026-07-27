@@ -62,3 +62,45 @@
 .section-header--inverse-until-2xl {
     @apply text-white 2xl:text-black;
 }
+
+/*
+ * `.overline--rule-dark{,-from-{breakpoint}}` stuurt de kleur van het
+ * streepje onder de overline — de `::after` van de `overline`-utility in
+ * resources/css/base/typography.css, die standaard accent is.
+ *
+ * Dit is de tegenhanger van `.section-header--inverse*` hierboven, maar
+ * één as opzij: die paar volgt de TEKSTkleur (en werkt via overerving op
+ * de wrapper), deze volgt of de achtergrond zelf accent is — want daar is
+ * een accent streep onzichtbaar. `cta` is het geval waar de twee assen uit
+ * elkaar lopen: de tekst is licht onder `lg` en donker vanaf `lg`
+ * (`inverse_until="lg"`), terwijl de achtergrond pas vanaf `lg` accent
+ * wordt (`accent_bg_from="lg"`) — donkere overlay eronder, accent paneel
+ * erboven. Figma 451:2932 ("OVER ONS").
+ *
+ * Ze staan hier en niet bij de utility omdat sectionHeader de enige is die
+ * ze zet; `card` en `range-overview` gebruiken de kale `overline`.
+ */
+
+.overline--rule-dark::after {
+    @apply bg-black;
+}
+
+.overline--rule-dark-from-sm::after {
+    @apply bg-accent sm:bg-black;
+}
+
+.overline--rule-dark-from-md::after {
+    @apply bg-accent md:bg-black;
+}
+
+.overline--rule-dark-from-lg::after {
+    @apply bg-accent lg:bg-black;
+}
+
+.overline--rule-dark-from-xl::after {
+    @apply bg-accent xl:bg-black;
+}
+
+.overline--rule-dark-from-2xl::after {
+    @apply bg-accent 2xl:bg-black;
+}

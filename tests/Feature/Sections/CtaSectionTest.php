@@ -35,6 +35,25 @@ class CtaSectionTest extends SectionTestCase
         $this->assertStringNotContainsString('overline--inverse"', $html);
     }
 
+    /**
+     * Tekstkleur en streepkleur zijn twee losse assen; `cta` is precies het
+     * geval waar ze uit elkaar lopen. De tekst erft van de wrapper (zie
+     * hierboven), maar het streepje onder de overline is een `::after` met
+     * een eigen `background`. Die staat standaard op accent, en het paneel
+     * wordt vanaf `lg` zélf accent (`lg:bg-accent`) — geel op geel, dus
+     * onzichtbaar. `accent_bg_from="lg"` moet daarom een klasse opleveren
+     * die de streep vanaf `lg` donker maakt. Figma 451:2932 ("OVER ONS").
+     */
+    public function test_overline_rule_turns_dark_on_the_accent_panel(): void
+    {
+        $html = $this->render('{{ partial src="sections/cta" }}', [
+            'overline' => 'Over ons',
+            'title' => 'Lokale verkooppunten, eigen vakmensen',
+        ]);
+
+        $this->assertStringContainsString('overline--rule-dark-from-lg', $html);
+    }
+
     public function test_panel_switches_from_overlay_to_accent_card_at_lg(): void
     {
         $html = $this->render('{{ partial src="sections/cta" }}', [

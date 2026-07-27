@@ -10,10 +10,25 @@
         <div class="swiper-pagination"></div>
     {{ /if }}
 
+    {{#
+        De pijl komt uit `arrow.svg`, niet uit Swiper: sliders.js importeert
+        alleen `swiper/css` (de core), niet `swiper/css/navigation`, dus de
+        knoppen zouden anders lege gele cirkels blijven.
+
+        `arrow.svg` wijst naar rechts, dus `prev` is dezelfde svg op z'n kop.
+        Geen tweede pijlbestand — zelfde afspraak als in locationCard.
+
+        `w-5` = de eigen 20px van het bestand, zodat de 20x19-viewBox
+        1-op-1 uitkomt zonder loze ruimte.
+    #}}
     {{ if navigation }}
         <div class="slider__nav">
-            <button type="button" class="swiper-button-prev" aria-label="{{ trans:site.slider_previous }}"></button>
-            <button type="button" class="swiper-button-next" aria-label="{{ trans:site.slider_next }}"></button>
+            <button type="button" class="swiper-button-prev" aria-label="{{ trans:site.slider_previous }}">
+                {{ svg src="arrow" aria-hidden="true" class="w-5 h-auto px-4 rotate-180" }}
+            </button>
+            <button type="button" class="swiper-button-next" aria-label="{{ trans:site.slider_next }}">
+                {{ svg src="arrow" aria-hidden="true" class="w-5 h-auto" }}
+            </button>
         </div>
     {{ /if }}
 </div>

@@ -36,6 +36,20 @@ class SectionHeaderTest extends SectionTestCase
         $this->assertStringContainsString('section-header--centered', $html);
     }
 
+    /**
+     * Alle `--centered`-varianten centreren via `items-center` (zie
+     * resources/css/components/section-header.css), en dat is een
+     * flex-only eigenschap. Staat de wrapper op block-layout, dan
+     * centreert alleen de tekst nog en blijven de overline-streep en de
+     * CTA-knop links plakken. De wrapper moet dus een flexkolom zijn.
+     */
+    public function test_wrapper_is_a_flex_column_so_centering_can_work(): void
+    {
+        $html = $this->render('{{ partial:sectionHeader is_centered="true" }}', $this->context);
+
+        $this->assertStringContainsString('flex flex-col', $html);
+    }
+
     public static function centeredFromBreakpointProvider(): array
     {
         return [
