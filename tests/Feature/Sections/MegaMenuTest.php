@@ -29,11 +29,11 @@ class MegaMenuTest extends SectionTestCase
         // hier alsnog op valt. De omschrijvingen staan in
         // content/collections/ranges/*.md.
         $this->assertStringContainsString('Ramen en deuren', $html);
-        $this->assertStringContainsString('Ramen, voordeuren en schuiframen op maat.', $html);
+        $this->assertStringContainsString('Ramen en deuren in aluminium of PVC, op maat gemaakt voor een strakke afwerking en goede isolatie.', $html);
         $this->assertStringContainsString('Rolluiken', $html);
-        $this->assertStringContainsString('Verduistering, isolatie en inbraakwering.', $html);
+        $this->assertStringContainsString('Rolluiken voor ramen en deuren die inbraakwerend zijn en helpen tegen warmte, licht en geluid.', $html);
         $this->assertStringContainsString('Somfy Smart Home', $html);
-        $this->assertStringContainsString('Bedien zonwering, rolluiken en verlichting via app.', $html);
+        $this->assertStringContainsString('Somfy-sturing waarmee rolluiken, zonwering en verlichting samenwerken via één app of afstandsbediening.', $html);
     }
 
     public function test_ranges_within_a_category_follow_their_order_field(): void

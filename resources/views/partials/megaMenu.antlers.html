@@ -17,6 +17,12 @@
     een slug matchen die toevallig in een andere zit. Sorteren op `order`
     houdt beide plekken in de Figma-volgorde.
 
+    De kolomkop gebruikt de `overline`-Tailwind-utility (`<p class="overline">`)
+    en niet meer de `overline`-partial: commit 9a7150f heeft die partial
+    leeggemaakt en de streep-onder-de-tekst als `::after` in de utility zelf
+    ondergebracht (resources/css/base/typography.css). Zie
+    resources/views/partials/sectionHeader.antlers.html voor hetzelfde patroon.
+
     Het CTA-blok hangt onderaan de laatste categoriekolom, zoals in het
     ontwerp: die kolom is `justify-between`, dus de categorie staat bovenaan
     en het blok onderaan. `last` wordt bewaard in `is_last_category` vóór de
@@ -46,7 +52,7 @@
                     {{ if ranges_in_category }}
                         <div class="flex flex-col justify-between gap-10">
                             <div class="flex flex-col gap-6">
-                                {{ partial:overline :label="title | entities" }}
+                                <p class="overline">{{ title | entities }}</p>
 
                                 <ul class="flex flex-col gap-6">
                                     {{ ranges_in_category }}
