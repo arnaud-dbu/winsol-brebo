@@ -1,0 +1,60 @@
+/*
+ * De pills van de ankerbalk (Figma 318:2983).
+ *
+ * NIET `.btn--outline`: die heeft `border-black`, terwijl deze pills een
+ * lichte rand hebben — dezelfde lijn als de headerdivider. Dat op de
+ * aanroepplek overriden met losse utilities zou de knopvormen over twee
+ * bestanden verspreiden.
+ *
+ * Dit is wel de vijfde pill met dezelfde vormdeclaraties. De follow-up om
+ * een `.btn--pill`-basis te extraheren staat open in
+ * docs/superpowers/specs/2026-07-26-pagebuilder-sections-followups.md; die
+ * raakt vier bestaande secties en hoort in een eigen diff.
+ */
+
+.section-nav__link {
+    @apply inline-flex w-fit items-center justify-center gap-2 rounded-full border border-black/12 px-8 py-4 font-semibold text-base text-black transition-colors duration-200 ease-out;
+}
+
+.section-nav__link:hover,
+.section-nav__link:focus-visible {
+    @apply border-black;
+}
+
+.section-nav__link--report {
+    @apply border-transparent bg-black text-white;
+}
+
+.section-nav__link--report:hover,
+.section-nav__link--report:focus-visible {
+    @apply border-transparent bg-dark;
+}
+
+/*
+ * De balk staat tússen de header en de eerste sectie, dus de
+ * `.section--default + .section--default`-collapse uit base/section.css kan
+ * niet meer matchen — een `+`-selector kijkt naar de DOM, en `display: none`
+ * haalt de balk daar niet uit. Onder `lg` is de balk verborgen en hoort die
+ * collapse er wél te zijn; zonder deze regel staat er op mobiel 128px tussen
+ * header en eerste sectie waar elders 64px staat.
+ *
+ * Geen `!important` nodig, in tegenstelling tot de regel in section.css:
+ * deze selector is specifieker (0,2,0 tegen 0,1,0) en beide bestanden staan
+ * ongelaagd, dus geen enkele Tailwind-utility komt ertussen.
+ */
+@media (max-width: 1023px) {
+    [data-section='section-nav'] + .section--default {
+        padding-top: 0;
+    }
+}
+
+/*
+ * Opeenvolgende `.section--default` krijgen `padding-top: 0`, dus een anker
+ * zou tegen de bovenrand van het venster plakken. Deze marge geeft de sprong
+ * lucht. De sitenavigatie is niet sticky, dus er hoeft geen headerhoogte
+ * gecompenseerd te worden.
+ */
+[data-section='text_image'][id],
+[data-section='reparation'] {
+    scroll-margin-top: var(--spacing-section-half);
+}
