@@ -67,4 +67,26 @@ class NavigationTest extends SectionTestCase
             $html,
         );
     }
+
+    public function test_header_carries_a_quote_button_from_the_lang_file(): void
+    {
+        $html = $this->render('{{ partial:navigation }}');
+
+        $this->assertStringContainsString('Gratis offerte', $html);
+        $this->assertStringContainsString('href="/offerte"', $html);
+    }
+
+    public function test_language_pill_is_labelled_but_not_interactive(): void
+    {
+        $html = $this->render('{{ partial:navigation }}');
+
+        // Eén site, dus er valt niets te kiezen: de pill toont de taal maar
+        // opent niets. Een knop met aria-expanded zou een paneel beloven dat
+        // niet bestaat. Er zijn er precies twee in de header — de knop van
+        // het mega menu en de hamburger — en de pill voegt er geen derde aan
+        // toe.
+        $this->assertStringContainsString('Taal: Nederlands', $html);
+        $this->assertStringContainsString('>NL<', $html);
+        $this->assertSame(2, substr_count($html, 'aria-expanded'));
+    }
 }
