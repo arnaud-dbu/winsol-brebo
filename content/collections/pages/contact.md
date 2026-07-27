@@ -34,4 +34,19 @@ quicklinks:
         label: 'Naar herstelformulier'
         new_tab: false
     link_style: outline
+page_builder:
+  -
+    id: contactcta
+    type: cta
+    overline: Realisaties
+    title: 'Liever eerst even rondkijken?'
+    text: 'Geen zin om meteen contact op te nemen? Bekijk onze realisaties en ontdek wat we voor andere klanten in uw buurt hebben gemaakt.'
+    link:
+      -
+        type: entry
+        entry:
+          - c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a03
+        label: 'Naar realisaties'
+        new_tab: false
+    image: dummy-images/test-img-19.jpg
 ---
