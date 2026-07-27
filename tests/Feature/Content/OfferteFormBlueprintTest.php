@@ -73,8 +73,17 @@ class OfferteFormBlueprintTest extends TestCase
     {
         $attachment = Form::find('offerte')->blueprint()->fields()->all()->get('attachment');
 
-        $this->assertContains('mimes:jpg,jpeg,png,webp,heic,pdf', $attachment->get('validate'));
+        $this->assertContains('mimes:jpg,jpeg,png,webp,heic,heif,hif,pdf', $attachment->get('validate'));
         $this->assertContains('max_filesize:10240', $attachment->get('validate'));
+
+        $mimesRule = collect($attachment->get('validate'))->first(fn ($rule) => str_starts_with($rule, 'mimes:'));
+
+        // `heif` staat hier bewust náást `heic`: Symfony's MimeTypes gokt
+        // `image/heic` als extensie `heic`, maar raadt `image/heif` (het
+        // formaat dat veel iPhone-camera's afleveren) als `heif`. Zonder
+        // die extensie in de lijst weigert MimesRule precies de meest
+        // waarschijnlijke upload voor dit formulier.
+        $this->assertStringContainsString('heif', $mimesRule);
 
         $rules = $attachment->rules()['attachment'];
 
