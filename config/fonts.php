@@ -24,14 +24,54 @@ return [
     */
 
     'fonts' => [
-        // [
-        //     'family'  => 'Acme',
-        //     'src'     => '/fonts/acme-regular.woff2',
-        //     'weight'  => 400,
-        //     'style'   => 'normal',
-        //     'display' => 'swap',
-        //     'preload' => true,
-        // ],
+        [
+            'family'  => 'General Sans',
+            'src'     => '/fonts/GeneralSans-Light.woff2',
+            'weight'  => 300,
+            'style'   => 'normal',
+            'display' => 'swap',
+            'preload' => false,
+        ],
+        [
+            'family'  => 'General Sans',
+            'src'     => '/fonts/GeneralSans-LightItalic.woff2',
+            'weight'  => 300,
+            'style'   => 'italic',
+            'display' => 'swap',
+            'preload' => false,
+        ],
+        [
+            'family'  => 'General Sans',
+            'src'     => '/fonts/GeneralSans-Regular.woff2',
+            'weight'  => 400,
+            'style'   => 'normal',
+            'display' => 'swap',
+            'preload' => true,
+        ],
+        [
+            'family'  => 'General Sans',
+            'src'     => '/fonts/GeneralSans-Italic.woff2',
+            'weight'  => 400,
+            'style'   => 'italic',
+            'display' => 'swap',
+            'preload' => false,
+        ],
+        [
+            'family'  => 'General Sans',
+            'src'     => '/fonts/GeneralSans-Semibold.woff2',
+            'weight'  => 600,
+            'style'   => 'normal',
+            'display' => 'swap',
+            'preload' => true,
+        ],
+        [
+            'family'  => 'General Sans',
+            'src'     => '/fonts/GeneralSans-SemiboldItalic.woff2',
+            'weight'  => 600,
+            'style'   => 'italic',
+            'display' => 'swap',
+            'preload' => false,
+        ],
     ],
 
 ];

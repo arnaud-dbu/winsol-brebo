@@ -22,7 +22,7 @@
                 {{ collection:ranges range_categories:overlaps="{slug}" sort="order:asc" as="ranges_in_category" }}
                     {{ if ranges_in_category }}
                         <div class="section-header-gap">
-                            {{ partial:overline :label="title | entities" }}
+                            <div class="overline">{{ title | entities }}</div>
 
                             <ul class="grid grid-gutter lg:grid-cols-2">
                                 {{ ranges_in_category }}

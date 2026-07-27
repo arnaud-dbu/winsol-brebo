@@ -12,7 +12,7 @@ class ProjectsOverviewPageTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('Realisaties', false);
-        $response->assertSee('page-header__divider', false);
+        $response->assertSee('border-t border-black/10', false);
     }
 
     public function test_the_filter_only_offers_ranges_that_have_projects(): void

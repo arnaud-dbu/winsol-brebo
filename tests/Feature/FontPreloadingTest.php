@@ -83,9 +83,22 @@ class FontPreloadingTest extends TestCase
         $this->assertStringContainsString('font-weight: 100 900;', $html);
     }
 
-    public function test_config_defaults_to_empty_array(): void
+    public function test_config_lists_the_site_fonts(): void
     {
-        $this->assertSame([], config('fonts.fonts'));
+        // Deze test hield eerder vast aan de lege standaardconfig van het
+        // pakket. Sinds config/fonts.php de zes General Sans-snedes bevat, is
+        // dat geen eigenschap meer om te bewaken: wat telt is dat elke snede
+        // de vier sleutels heeft die partials/fonts.antlers.html uitleest.
+        $fonts = config('fonts.fonts');
+
+        $this->assertNotEmpty($fonts);
+
+        foreach ($fonts as $font) {
+            $this->assertSame('General Sans', $font['family']);
+            $this->assertArrayHasKey('src', $font);
+            $this->assertArrayHasKey('weight', $font);
+            $this->assertArrayHasKey('style', $font);
+        }
     }
 
     public function test_fonts_are_shared_with_views(): void

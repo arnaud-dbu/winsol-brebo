@@ -28,3 +28,17 @@ p {
 
     line-height: 1.5;
 }
+
+@utility overline {
+    @apply relative text-xs font-semibold tracking-wide uppercase;
+    text-decoration-line: none !important;
+
+    &::after {
+        @apply w-5 h-0.75;
+        content: '';
+        position: absolute;
+        background: var(--color-accent);
+        bottom: -50%;
+        left: 0;
+    }
+}

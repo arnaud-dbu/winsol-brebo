@@ -1,49 +1,103 @@
-<header class="container relative flex items-center justify-between border-b border-black/12 pt-3 pb-5 md:border-b-0 md:py-6">
-    <a href="/" class="flex flex-col items-start gap-2">
-        <span class="sr-only">Home Link</span>
-        {{ svg src="logo" class="h-[27px] w-auto md:h-[35px]" }}
-        <span class="px-3 text-[9px] font-semibold tracking-[0.43em] text-black uppercase md:text-xs" aria-hidden="true">
-            By Brebo
-        </span>
-    </a>
+{{#
+    De header. Twee lagen: de `<header>` staat op volle breedte en is de
+    positioneringscontext van het mega-menu-paneel, dat een strook over de
+    hele vensterbreedte is. De `container` daarbinnen houdt logo, menu en
+    knoppen op de sitebreedte.
 
-    <nav class="hidden md:block" aria-label="{{ trans:site.nav_label }}">
-        <ul class="flex items-center gap-10">
-            {{ nav:main }}
-                <li class="relative" {{ if children }}x-data="{ open: false }" @click.outside="open = false" @keyup.escape="open = false"{{ /if }}>
-                    {{ if children }}
-                        <button type="button"
-                            class="flex items-center gap-2 text-lg text-black transition-opacity hover:opacity-70"
-                            @click="open = !open" :aria-expanded="open.toString()">
-                            {{ title }}
-                            <svg class="size-3.5 shrink-0 transition-transform duration-200" :class="{ 'rotate-180': open }"
-                                viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                                <path d="M2.5 4.5L7 9.5L11.5 4.5" stroke="currentColor" stroke-width="1.5"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </button>
-                        <ul x-show="open" x-cloak x-transition
-                            class="absolute top-full left-0 z-10 mt-4 flex min-w-44 flex-col gap-1 rounded-lg bg-white p-3 shadow-lg">
-                            {{ children }}
-                                <li>
-                                    <a href="{{ entry.url }}"
-                                        class="block rounded-sm px-3 py-2 text-base text-black transition-opacity hover:opacity-70">
-                                        {{ title }}
-                                    </a>
-                                </li>
-                            {{ /children }}
-                        </ul>
-                    {{ else }}
-                        <a href="{{ entry.url }}"
-                            class="text-lg text-black transition-opacity hover:opacity-70 focus-visible:opacity-70 aria-[current=page]:opacity-60"
-                            {{ if entry.url == current_url }}aria-current="page"{{ /if }}>
-                            {{ title }}
-                        </a>
-                    {{ /if }}
-                </li>
-            {{ /nav:main }}
-        </ul>
-    </nav>
+    Die container is óók `relative`, en dat is niet overbodig: de hamburger
+    van partials/mobileNavigation.antlers.html is absoluut gepositioneerd
+    (zie resources/css/components/hamburger.css) en moet aan de containerrand
+    hangen. Zonder `relative` hier zou hij naar de vensterrand springen.
 
-    {{ partial:mobileNavigation }}
+    `x-data` staat op de `<header>` en niet op het `<li>` van het
+    mega-menu-item: het paneel is breder dan dat item en staat daarom buiten
+    de `nav:main`-lus. Er is precies één item met `mega_menu`, dus één
+    `open`-boolean volstaat — de test daarop staat in MegaMenuTest.
+
+    `@resize.window` sluit het paneel bij een sprong van desktop naar mobiel.
+    Het menu is daaronder `display: none`, dus de knop is dan onbereikbaar en
+    een open paneel zou blijven hangen zonder iets om het mee te sluiten.
+
+    De omslag naar de desktopvariant staat op `lg` en niet op `md`. Dat kon
+    met drie items en geen knoppen; met vijf items plus een offerte-knop plus
+    een taalpill niet meer. Ruwe telling op 768px: logo ±120px, vijf items met
+    `gap-8` ±470px, knop ±180px, pill ±80px — ruim 850px in een container van
+    688px.
+
+    Focusbeheer op de toggle en het paneel: het paneel staat als laatste kind
+    van `<header>`, buiten het `<nav>`-landmark en dus buiten de natuurlijke
+    tabvolgorde van zijn knop — het is breder dan het item dat het opent en
+    kan daarom niet als kind van dat item staan. Zonder ingrijpen loopt Tab
+    vanaf de knop eerst door de resterende menu-items, de knoppen en de
+    hamburger, en pas dan de negen range-links. Bij openen verplaatst
+    `$nextTick` de focus naar het paneel (`x-ref="megaPanel"`,
+    `tabindex="-1"`); Escape sluit het paneel én geeft de focus terug aan de
+    knop (`x-ref="megaToggle"`).
+#}}
+<header
+    class="relative"
+    x-data="{ open: false }"
+    @click.outside="open = false"
+    @keyup.escape="open = false; $refs.megaToggle?.focus()"
+    @resize.window="open = false">
+    <div
+        class="relative container flex items-center justify-between border-b border-black/12 py-4 lg:border-b-0 lg:py-6">
+        <a href="/" class="flex flex-col items-start gap-2">
+            <span class="sr-only">Home Link</span>
+            {{ svg src="logo" class="h-8 md:h-10 2xl:h-12 w-auto" }}
+        </a>
+
+        <nav class="hidden lg:block" aria-label="{{ trans:site.nav_label }}">
+            <ul class="flex items-center gap-8 xl:gap-10">
+                {{ nav:main }}
+                    <li>
+                        {{ if mega_menu }}
+                            <button
+                                type="button"
+                                x-ref="megaToggle"
+                                class="flex items-center gap-2 text-base text-black transition-opacity hover:opacity-70 focus-visible:opacity-70"
+                                aria-controls="mega-menu-panel"
+                                :aria-expanded="open.toString()"
+                                @click="open = !open; if (open) $nextTick(() => $refs.megaPanel.focus())">
+                                {{ title }}
+                                <svg
+                                    class="size-3.5 shrink-0 transition-transform duration-200"
+                                    :class="{ 'rotate-180': open }"
+                                    viewBox="0 0 14 14"
+                                    fill="none"
+                                    aria-hidden="true">
+                                    <path
+                                        d="M2.5 4.5L7 9.5L11.5 4.5"
+                                        stroke="currentColor"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                        {{ else }}
+                            <a
+                                href="{{ entry.url }}"
+                                class="text-base text-black transition-opacity hover:opacity-70 focus-visible:opacity-70 aria-[current=page]:opacity-60"
+                                {{ if entry.url == current_url }}aria-current="page"{{ /if }}>
+                                {{ title }}
+                            </a>
+                        {{ /if }}
+                    </li>
+                {{ /nav:main }}
+            </ul>
+        </nav>
+
+        <div class="hidden items-center gap-2.5 lg:flex">
+            <a href="/offerte" class="btn btn--accent">{{ trans:site.nav_quote }}</a>
+            {{ partial:languagePill }}
+        </div>
+
+        {{ partial:mobileNavigation }}
+    </div>
+
+    {{ nav:main }}
+        {{ if mega_menu }}
+            {{ partial:megaMenu }}
+        {{ /if }}
+    {{ /nav:main }}
 </header>

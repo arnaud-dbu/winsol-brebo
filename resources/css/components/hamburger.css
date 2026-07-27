@@ -2,7 +2,7 @@
     --hamburger-scale: 0.5;
     --hamburger-width: calc(60px * var(--hamburger-scale));
     --hamburger-height: calc(45px * var(--hamburger-scale));
-    --hamburger-line-height: calc(9px * var(--hamburger-scale));
+    --hamburger-line-height: calc(3px * var(--hamburger-scale));
     --hamburger-line-radius: calc(0px * var(--hamburger-scale));
     --hamburger-color: #000;
 

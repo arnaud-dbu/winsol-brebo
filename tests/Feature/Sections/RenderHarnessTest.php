@@ -15,10 +15,14 @@ class RenderHarnessTest extends SectionTestCase
     {
         // Regression test: ensure partial resolution works in the render harness
         // This guards against future changes that break partial support in test templates
-        $html = $this->render('{{ partial:overline label="Test Overline" }}');
+        $html = $this->render('{{ partial:sectionHeader }}', [
+            'overline' => 'Test Overline',
+            'title' => 'Test Title',
+        ]);
 
-        // Overline partial should render successfully (it exists in resources/views/partials/)
+        // sectionHeader partial should render successfully (it exists in resources/views/partials/)
         $this->assertStringContainsString('class="overline"', $html);
         $this->assertStringContainsString('Test Overline', $html);
+        $this->assertStringContainsString('Test Title', $html);
     }
 }

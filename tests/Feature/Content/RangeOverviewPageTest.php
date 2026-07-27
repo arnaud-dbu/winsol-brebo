@@ -12,16 +12,22 @@ class RangeOverviewPageTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('Ons aanbod', false);
-        $response->assertSee('page-header__divider', false);
+        $response->assertSee('border-t border-black/10', false);
     }
 
     public function test_it_lists_the_three_categories_in_their_designed_order(): void
     {
         $html = $this->get('/aanbod')->getContent();
 
-        $voorJeWoning = strpos($html, 'Voor je woning');
-        $rondomJeWoning = strpos($html, 'Rondom je woning');
-        $slimEnComfort = strpos($html, 'Slim &amp; comfort');
+        // Geankerd aan de paginabody (na `data-section="range-overview"`),
+        // niet aan de volledige respons: de header bevat via het mega menu
+        // dezelfde categorietitels, en `strpos` op $html zou daar altijd de
+        // eerste treffer van pakken — ook als de body zelf niets rendert.
+        $body = substr($html, strpos($html, 'data-section="range-overview"'));
+
+        $voorJeWoning = strpos($body, 'Voor je woning');
+        $rondomJeWoning = strpos($body, 'Rondom je woning');
+        $slimEnComfort = strpos($body, 'Slim &amp; comfort');
 
         $this->assertNotFalse($voorJeWoning, 'Categorie "Voor je woning" ontbreekt');
         $this->assertNotFalse($rondomJeWoning, 'Categorie "Rondom je woning" ontbreekt');

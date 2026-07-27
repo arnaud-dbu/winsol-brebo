@@ -18,7 +18,16 @@
     {{ /if }}
 
     <div class="card__body card-padding">
-        {{ partial:overline :label="overline" }}
+        {{#
+            `<div>`, geen `<p>`: typography.css heeft een ongelaagde
+            `p { font-size: var(--text-base) }`-regel die altijd wint van de
+            gelaagde `@utility overline` (Tailwind's `@layer utilities`),
+            ongeacht specificiteit. Zie sectionHeader.antlers.html voor
+            hetzelfde patroon.
+        #}}
+        {{ if overline }}
+            <div class="overline">{{ overline }}</div>
+        {{ /if }}
 
         {{ if title }}
             <h3>{{ title }}</h3>

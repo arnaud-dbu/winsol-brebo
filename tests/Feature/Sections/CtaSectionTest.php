@@ -18,7 +18,13 @@ class CtaSectionTest extends SectionTestCase
         // both backed by a real `text-white ... lg:text-black` rule (see
         // resources/css/components/section-header.css and overline.css).
         $this->assertStringContainsString('section-header--inverse-until-lg', $html);
-        $this->assertStringContainsString('overline--inverse-until-lg', $html);
+
+        // Geen aparte `overline--inverse-until-lg`-klasse: de overline-utility
+        // (resources/css/base/typography.css) zet zelf geen kleur, ze erft
+        // die van de `.section-header`-wrapper. `.section-header--inverse-
+        // until-lg` is `@apply text-white lg:text-black` op die wrapper
+        // (resources/css/components/section-header.css), dus de overline
+        // daarbinnen kleurt vanzelf mee — licht op mobiel, donker vanaf `lg`.
 
         // The all-widths inverse modifier must NOT be used here — desktop is
         // dark-on-accent, not light-on-dark, so the unconditional variant

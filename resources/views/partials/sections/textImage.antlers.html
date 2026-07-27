@@ -3,17 +3,6 @@
 {{ else }}
     {{ image_base_ratio = "16/9" }}
 {{ /if }}
-
-{{#
-    Kolomvolgorde. Drie takken, en élke tak wijst toe: een Antlers-toewijzing
-    schrijft in de gedeelde cascade, niet in een partial-lokale scope, dus een
-    tak die niets zet zou de waarde van de vorige loop-iteratie erven. Dezelfde
-    reden waarom `image_base_ratio` hierboven een `else` heeft.
-
-    `background` wint van `text_first`: met achtergrond stond de tekst al
-    vooraan, in een lichte kaart. De acht bestaande aanroepers geven
-    `text_first` nooit mee en renderen dus ongewijzigd.
-#}}
 {{ if background }}
     {{ text_column_class = "bg-light card-padding" }}
 {{ elseif text_first }}
@@ -21,25 +10,19 @@
 {{ else }}
     {{ text_column_class = "order-last" }}
 {{ /if }}
-
-{{#
-    `anchor` heet bewust niet `id`: binnen een replicator-loop is `{{ id }}` de
-    set-id die Statamic zelf toekent, en die zou een argument met die naam stil
-    overschrijven. Tag en attribuut staan op één regel omdat een `{{ if }}` de
-    indentatie ervoor en de newline erna laat staan wanneer hij onwaar is — de
-    uitvoer zónder anker moet byte-identiek blijven aan vroeger.
-#}}
-<section{{ if anchor }} id="{{ anchor }}"{{ /if }} class="section section--default {{ background ? 'text-image--background' : '' }}" data-section="text_image">
+<section
+    {{ if anchor }} id="{{ anchor }}"{{ /if }}
+    class="section section--default {{ background ? 'text-image--background' : '' }}"
+    data-section="text_image">
     <div class="container">
         <div class="section-x-gap items-center">
-            <div class="section-col-wide {{ text_column_class }}">
+            <div class="{{ text_column_class }} section-col-wide">
                 {{ partial:sectionHeader }}
                 {{ partial:featureList :items="features" }}
             </div>
-
             {{ if image }}
                 <div class="section-col-narrow">
-                    {{ img :src="image" :ratio="image_base_ratio" sm:ratio="5/4" max_width="1600" sizes="(min-width: 640px) 50vw, 100vw" class="rounded-md" }}
+                    {{ img :src="image" ratio="4/3" sm:ratio="5/4" max_width="1600" sizes="(min-width: 640px) 50vw, 100vw" class="rounded-sm" }}
                 </div>
             {{ /if }}
         </div>
