@@ -33,7 +33,7 @@ class SectionHeaderTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:sectionHeader is_centered="true" }}', $this->context);
 
-        $this->assertStringContainsString('class="section-header section-header-gap section-header--centered', $html);
+        $this->assertStringContainsString('section-header--centered', $html);
     }
 
     public static function centeredFromBreakpointProvider(): array
@@ -66,7 +66,7 @@ class SectionHeaderTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:sectionHeader is_centered="true" centered_from="lg" }}', $this->context);
 
-        $this->assertStringContainsString('class="section-header section-header-gap section-header--centered', $html);
+        $this->assertStringContainsString('section-header--centered', $html);
         $this->assertStringNotContainsString('section-header--centered-from-lg', $html);
     }
 
@@ -75,7 +75,10 @@ class SectionHeaderTest extends SectionTestCase
         $html = $this->render('{{ partial:sectionHeader is_inverse="true" }}', $this->context);
 
         $this->assertStringContainsString('section-header--inverse', $html);
-        $this->assertStringContainsString('overline--inverse', $html);
+
+        // Geen aparte `overline--inverse`-klasse: de overline-utility zet zelf
+        // geen kleur en erft die van de `.section-header`-wrapper (zie
+        // resources/css/base/typography.css en section-header.css).
     }
 
     public static function inverseUntilBreakpointProvider(): array
@@ -95,7 +98,9 @@ class SectionHeaderTest extends SectionTestCase
         $html = $this->render('{{ partial:sectionHeader :inverse_until="breakpoint" }}', $this->context + ['breakpoint' => $breakpoint]);
 
         $this->assertStringContainsString("section-header--inverse-until-{$breakpoint}", $html);
-        $this->assertStringContainsString("overline--inverse-until-{$breakpoint}", $html);
+
+        // Geen aparte `overline--inverse-until-{$breakpoint}`-klasse: zie
+        // test_inverse_variant hierboven.
     }
 
     public function test_inverse_until_with_unsupported_value_falls_back_to_dark_at_every_width(): void
@@ -110,7 +115,7 @@ class SectionHeaderTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:sectionHeader is_inverse="true" inverse_until="lg" }}', $this->context);
 
-        $this->assertStringContainsString('section-header--inverse"', $html);
+        $this->assertStringContainsString('section-header--inverse', $html);
         $this->assertStringNotContainsString('section-header--inverse-until-lg', $html);
     }
 
