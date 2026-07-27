@@ -6,7 +6,7 @@ link:
   -
     type: entry
     entry:
-      - f0ee3161-1534-4986-9ef1-a92fccfba619
+      - b7c8d9e0-0003-4f5a-8b6c-7d8e9f0a1b02
     label: 'Vraag offerte aan'
     new_tab: false
 link_style: primary

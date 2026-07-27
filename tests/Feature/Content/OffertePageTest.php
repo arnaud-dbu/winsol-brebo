@@ -62,4 +62,46 @@ class OffertePageTest extends TestCase
 
         $this->assertStringContainsString('<h1 class="header-title">', $html);
     }
+
+    public function test_the_page_builder_holds_exactly_one_cta_pointing_at_realisaties(): void
+    {
+        $entry = Entry::query()->where('collection', 'pages')->where('slug', 'offerte')->first();
+
+        $builder = $entry->get('page_builder');
+
+        $this->assertCount(1, $builder);
+        $this->assertSame('cta', $builder[0]['type']);
+        $this->assertSame('Nog niet klaar voor een offerte?', $builder[0]['title']);
+        $this->assertSame('Naar realisaties', $builder[0]['link'][0]['label']);
+        $this->assertSame(
+            'c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a03',
+            $builder[0]['link'][0]['entry'][0],
+        );
+    }
+
+    public function test_the_cta_renders_below_the_form(): void
+    {
+        $html = $this->get('/offerte')->getContent();
+
+        $this->assertStringContainsString('data-section="cta"', $html);
+        $this->assertLessThan(
+            strpos($html, 'data-section="cta"'),
+            strpos($html, 'offerte-form'),
+        );
+    }
+
+    /**
+     * Beide wezen naar /contact omdat /offerte nog niet bestond, terwijl hun
+     * label "Vraag offerte aan" is.
+     */
+    public function test_the_existing_offerte_links_point_at_this_page(): void
+    {
+        $offerte = Entry::query()->where('collection', 'pages')->where('slug', 'offerte')->first();
+
+        $quicklink = Entry::query()->where('collection', 'quicklinks')->where('slug', 'vraag-offerte-aan')->first();
+        $this->assertSame($offerte->id(), $quicklink->get('link')[0]['entry'][0]);
+
+        $realisaties = Entry::query()->where('collection', 'pages')->where('slug', 'realisaties')->first();
+        $this->assertSame($offerte->id(), $realisaties->get('page_builder')[0]['link'][0]['entry'][0]);
+    }
 }
