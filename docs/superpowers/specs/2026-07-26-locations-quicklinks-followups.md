@@ -70,12 +70,6 @@ bezit.
 Geen van deze is opgepakt; ze staan hier zodat ze niet opnieuw ontdekt hoeven te
 worden.
 
-- **`resources/blueprints/collections/pages/contact.yaml` wordt door geen enkele
-  entry gebruikt.** `content/collections/pages/contact.md` draait op
-  `blueprint: page` met `template: contact`. Óf het bestand is dood en kan weg,
-  óf de contactpagina hoort die blueprint te gebruiken en mist nu velden. Dit
-  heeft al één keer schade aangericht: het plan ging ervan uit dat de blueprint
-  bereikbaar was en schreef daarop een test die niets verifieerde.
 - **`/contact` staat hardcoded in `locationCard.antlers.html`**, drie keer per
   render, en geen test bewijst dat daar iets bestaat. De quicklinks lossen
   hetzelfde probleem netjes op met een entry-link.

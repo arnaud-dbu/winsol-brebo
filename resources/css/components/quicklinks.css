@@ -7,29 +7,37 @@
  * (`max-h-24 lg:max-h-32`) in de partial op de afbeelding zelf staat.
  *
  * De negatieve marge is de overhang uit Figma 465:1712: de foto is 138 x 129
- * en staat op y=-57, dus ruim 40% steekt boven het lichte vlak uit. Een
- * negatieve marge en geen absolute positionering — zo blijft de foto in de
+ * en staat op y=-57, dus circa 44% (57/129) steekt boven het lichte vlak uit.
+ * `.quicklink-media` is het eerste kind van `.quicklink-card`, die
+ * `card-padding` (p-6/lg:p-8, 24px/32px) draagt — de negatieve marge moet dus
+ * eerst die padding compenseren vóór er iets van de foto vrijkomt:
+ *   - mobiel: 24px padding + 0,44 × 96px (h-24) ≈ 42px overhang → 66px marge
+ *   - lg: 32px padding + 0,44 × 128px (lg:h-32) ≈ 57px overhang → 89px marge
+ * Vandaar de arbitrary values in plaats van de dichtstbijzijnde spacing-stap.
+ * Een negatieve marge en geen absolute positionering — zo blijft de foto in de
  * flow, houdt de kaart zijn eigen hoogte, en is er geen px-offset die per
  * breakpoint bijgesteld moet worden.
  *
  * Zet daarom nooit `overflow-hidden` op `.quicklink-card`.
  */
 .quicklink-media {
-    @apply -mt-10 flex h-24 items-end lg:-mt-14 lg:h-32;
+    @apply -mt-[4.125rem] flex h-24 items-end lg:-mt-[5.5625rem] lg:h-32;
 }
 
 /*
- * De rij-afstand moet groter zijn dan de overhang, anders valt de foto van de
- * volgende rij over de onderrand van de vorige — dat gebeurt gestapeld onder
- * `lg`, en vanaf `lg` zodra er een vierde kaart op een tweede rij komt. De
- * `pt` reserveert dezelfde ruimte boven de eerste rij, zodat de foto niet
- * tegen de <h2> botst.
+ * De rij-afstand moet groter zijn dan de overhang (42px mobiel, 57px op
+ * `lg`, zie hierboven), anders valt de foto van de volgende rij over de
+ * onderrand van de vorige — dat gebeurt gestapeld onder `lg`, en vanaf `lg`
+ * zodra er een vierde kaart op een tweede rij komt. De `pt` reserveert
+ * dezelfde ruimte boven de eerste rij, zodat de foto niet tegen de <h2>
+ * botst. `pt` en `gap-y` gebruiken bewust dezelfde waarde per breakpoint —
+ * dat is ruim boven de overhang en houdt de twee in de pas.
  *
  * Het aantal kolommen staat bewust niet hier maar op de aanroepplek: de
  * collectie-component toont er drie, de paginacomponent twee.
  */
 .quicklink-grid {
-    @apply grid gap-x-6 gap-y-16 pt-10 lg:gap-x-8 lg:gap-y-20 lg:pt-14;
+    @apply grid gap-x-6 gap-y-16 pt-16 lg:gap-x-8 lg:gap-y-20 lg:pt-20;
 }
 
 .quicklink-card {

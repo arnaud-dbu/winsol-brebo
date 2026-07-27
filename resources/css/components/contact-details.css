@@ -13,13 +13,25 @@
  * 1101 breed (66%). `overflow-hidden` op het paneel klipt hem aan de eigen
  * rand: hij groeit het paneel niet en kan dus document.documentElement niet
  * verbreden. Zelfde constructie als gridCta.antlers.html.
+ *
+ * `shape.svg` heeft een hardcoded `fill="#F1F6F8"` op zijn <path> — dat is
+ * exact `--color-light`, de eigen achtergrondkleur van dit paneel, en geen
+ * `currentColor`. Een `text-*`/`fill-*`-utility op het <svg>-element verft
+ * dus niets: het presentation-attribuut op de path wint van CSS-inheritance.
+ * Vandaar de descendant-selector hieronder, die de path zelf raakt. Het
+ * bestand blijft ongewijzigd, want `currentColor` zou ook rangeCard.antlers.html
+ * en gridCta.antlers.html laten meeveranderen.
  */
 .contact-panel__shape {
-    @apply pointer-events-none absolute -z-10 h-auto max-w-none text-white/50;
+    @apply pointer-events-none absolute -z-10 h-auto max-w-none;
 
     top: 10%;
     left: -16.6%;
     width: 66%;
+}
+
+.contact-panel__shape path {
+    @apply fill-white/50;
 }
 
 /*

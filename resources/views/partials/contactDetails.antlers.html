@@ -22,16 +22,21 @@
     `htmlspecialchars`-aanroep in het Antlers-runtime pad). Elke waarde in
     deze partial die uit een editor-veld of een global komt — naam, adres,
     openingsuren, telefoon, e-mail — is vrije tekst zonder validatie op
-    HTML-tekens, dus krijgt overal dezelfde `entities`-modifier, zoals
+    HTML-tekens, dus krijgt hier overal dezelfde `entities`-modifier, zoals
     `range-overview.antlers.html` al doet voor taxonomietitels. Alleen
-    statische labels ("Whatsapp") en klassenamen blijven ongemoeid.
+    statische labels ("Whatsapp") en klassenamen blijven ongemoeid. Dit is
+    de conventie binnen dít bestand, geen projectbrede regel: `link.antlers.html`,
+    `headers/default.antlers.html` en `locationCard.antlers.html` renderen
+    dezelfde soort editor-waarden elders nog kaal.
 
     De modifier staat ook op de `href`-waarden van de contactbalk, niet
     alleen op de zichtbare labels: een `"` in een global zou anders uit het
-    `href="..."`-attribuut kunnen breken. Voor `wa.me`/`tel:` komt hij ná de
-    `replace`-ketting die spaties en de `+` verwijdert — die ketting blijft
-    intact, `entities` is daar puur een extra laag voor tekens die de
-    replace niet opvangt.
+    `href="..."`-attribuut kunnen breken. Voor `wa.me` komt hij ná de
+    `replace`-ketting die spaties en de `+` verwijdert; voor `tel:` ná de
+    ketting die alleen spaties verwijdert (de `+` in een telefoonnummer is
+    geen probleem voor `tel:`, wel voor `wa.me` dat enkel cijfers accepteert)
+    — die kettingen blijven intact, `entities` is daar puur een extra laag
+    voor tekens die de replace niet opvangt.
 #}}
 <section class="section section--default" data-section="contact_details">
     <div class="container">

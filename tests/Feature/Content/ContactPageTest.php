@@ -2,10 +2,28 @@
 
 namespace Tests\Feature\Content;
 
+use Statamic\Facades\Entry;
 use Tests\TestCase;
 
 class ContactPageTest extends TestCase
 {
+    public function test_the_entry_uses_the_contact_blueprint(): void
+    {
+        // Zonder deze pin kan de entry stilzwijgend terugvallen op
+        // `blueprint: page`, waarna het pagina-eigen `quicklinks`-veld
+        // verdwijnt. Die exacte fout heeft dit project al eens gekost (zie
+        // de eindreview-observaties in
+        // 2026-07-26-locations-quicklinks-followups.md).
+        //
+        // `Entry::findByUri()` geeft voor entries in een gestructureerde
+        // collectie (zoals `pages`) een `Structures\Page` terug, niet de
+        // entry zelf — diens `blueprint()` bestaat wel, maar retourneert
+        // altijd null buiten een Nav-structuur. `->entry()` haalt de
+        // onderliggende `Entries\Entry` op, waarvan `blueprint()` wél de
+        // echte blueprint-handle geeft.
+        $this->assertSame('contact', Entry::findByUri('/contact')->entry()->blueprint()->handle());
+    }
+
     public function test_the_page_renders_every_block_from_the_design(): void
     {
         $response = $this->get('/contact');
