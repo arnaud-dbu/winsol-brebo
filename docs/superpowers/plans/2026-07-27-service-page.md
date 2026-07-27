@@ -18,6 +18,8 @@
 - **`{{ if }}`-blokken lekken witruimte** — de indentatie vóór de tag en de newline erna blijven staan als de conditie onwaar is. In markup waarvan de uitvoer ongewijzigd moet blijven: tag en markup op één regel.
 - **`{{ id }}` binnen een replicator-loop is de set-id van Statamic.** Noem een partial-argument nooit `id`.
 - **Loopvariabelen:** `index` is 0-gebaseerd, `count` is 1-gebaseerd. Geverifieerd tegen de runtime.
+- **Blueprinttests moeten door de fieldtype.** `Field::get('fields')` is een kale `Arr::get` en lost geen `import:` op in een geneste group; `->fieldtype()->fields()` doet dat wél, en dat is ook hoe de CP en augmentatie het veld lezen.
+- **`:param="true"` werkt niet.** De colon-vorm evalueert de inhoud als expressie en resolvet `true` als variabelenaam, die niet bestaat en dus falsy is. Voor een letterlijke waarde: `param="true"` zonder colon. Voor een echte expressie (`:text_first="count % 2 == 0"`) is de colon-vorm juist verplicht. Beide geverifieerd tegen de runtime.
 - **`{{ field class="…" }}` bestaat niet.** Antlers parseert dat als modifier en gooit `Modifier [class] not found`. Fieldtype-views accepteren geen class-attribuut.
 - **Taal:** codecommentaar en contentcopy in het Nederlands, net als de rest van dit project. Commitberichten in het Nederlands.
 - **Kleuren uit Figma `318:3097`:** invoervulling `#f5f5f5`, streepjesrand `#bfbfbf`, kaart `#ffffff`, knop `#f8d71c` (= `--color-accent`). De invoervulling is nadrukkelijk **niet** `--color-light` (`#f1f6f8`), dat blauw zweemt op wit.
@@ -94,7 +96,7 @@ Voeg toe aan `tests/Feature/Sections/TextImageSectionTest.php`, binnen de bestaa
 
     public function test_text_first_moves_the_text_column_ahead_of_the_image(): void
     {
-        $html = $this->render('{{ partial src="sections/textImage" :text_first="true" }}', [
+        $html = $this->render('{{ partial src="sections/textImage" text_first="true" }}', [
             'title' => 'Vakkundige installatie',
         ]);
 
@@ -106,7 +108,7 @@ Voeg toe aan `tests/Feature/Sections/TextImageSectionTest.php`, binnen de bestaa
         // `background` zette de tekstkolom al vooraan, mét lichte kaart. Dat gedrag
         // mag niet veranderen nu `text_first` hetzelfde effect langs een andere weg
         // bereikt: de acht bestaande aanroepers geven `text_first` nooit mee.
-        $html = $this->render('{{ partial src="sections/textImage" :text_first="true" }}', [
+        $html = $this->render('{{ partial src="sections/textImage" text_first="true" }}', [
             'title' => 'Drie lokale verkooppunten',
             'background' => true,
         ]);
@@ -397,9 +399,10 @@ Maak `resources/css/components/section-nav.css`:
  * collapse er wél te zijn; zonder deze regel staat er op mobiel 128px tussen
  * header en eerste sectie waar elders 64px staat.
  *
- * Geen `!important` nodig, in tegenstelling tot de regel in section.css:
- * deze selector is specifieker (0,2,0 tegen 0,1,0) en beide bestanden staan
- * ongelaagd, dus geen enkele Tailwind-utility komt ertussen.
+ * Geen `!important` nodig, want de twee selectors kunnen nooit hetzelfde element
+ * raken: deze eist dat het vorige broertje `[data-section='section-nav']` is,
+ * die eist dat het vorige broertje `.section--default` is. Een element heeft
+ * maar één direct vorig broertje, dus er is geen cascadeconflict om te winnen.
  */
 @media (max-width: 1023px) {
     [data-section='section-nav'] + .section--default {
@@ -1111,9 +1114,12 @@ class ServicePageTest extends TestCase
             $blueprint->hasField('reparation'),
             'De reparation-group ontbreekt in het blueprint.'
         );
-        $this->assertArrayHasKey(
-            'image',
-            collect($blueprint->field('reparation')->get('fields'))->keyBy('handle')->all(),
+        // Via de fieldtype, niet via `->get('fields')`. Dat laatste is een kale
+        // `Arr::get` op de ruwe config en daalt niet af in de geneste group, dus
+        // een `import:` blijft daar onopgelost. `Group::fields()` bouwt wél een
+        // `Fields`-collectie, en die constructor roept `resolveFields()` aan.
+        $this->assertTrue(
+            $blueprint->field('reparation')->fieldtype()->fields()->has('image'),
             'Het image-veld ontbreekt op de reparation-group.'
         );
     }

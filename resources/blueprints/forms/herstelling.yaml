@@ -1,0 +1,66 @@
+title: Herstelling
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        display: Probleem
+        fields:
+          -
+            handle: product
+            field:
+              type: text
+              display: 'Welk product gaat het over?'
+              placeholder: 'bv. Pergola SO!, rolluik, raam…'
+              width: 50
+          -
+            handle: installed
+            field:
+              type: text
+              display: 'Ongeveer wanneer geplaatst?'
+              placeholder: 'bv. 2021'
+              width: 50
+          -
+            handle: problem
+            field:
+              type: textarea
+              display: 'Wat is er aan de hand?'
+              placeholder: 'Beschrijf het probleem zo concreet mogelijk.'
+          -
+            handle: branch
+            field:
+              type: select
+              display: 'Naar welk filiaal?'
+              placeholder: 'Kies een filiaal…'
+          -
+            handle: photo
+            field:
+              type: assets
+              container: assets
+              folder: herstellingen
+              max_files: 1
+              display: 'Foto van het probleem (optioneel)'
+      -
+        display: Contact
+        fields:
+          -
+            handle: email
+            field:
+              type: text
+              input_type: email
+              display: E-mail
+              placeholder: 'naam@voorbeeld.be'
+          -
+            handle: name
+            field:
+              type: text
+              display: Naam
+              placeholder: 'Voor- en achternaam'
+              width: 50
+          -
+            handle: phone
+            field:
+              type: text
+              display: Telefoon
+              placeholder: '+32 …'
+              width: 50

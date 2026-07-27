@@ -71,6 +71,8 @@ tabs:
                   field:
                     type: textarea
                     display: Text
+                -
+                  import: image
   preview:
     display: Preview
     sections:

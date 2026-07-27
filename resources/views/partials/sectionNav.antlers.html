@@ -1,0 +1,46 @@
+{{#
+    Ankerbalk van de servicepagina (Figma 318:2983). Vaste component, geen
+    page-builder sectie: geen argumenten, leest `services` uit de cascade —
+    zelfde patroon als partials/quicklinks.antlers.html.
+
+    NIET `quicklinks` genoemd: die naam is bezet door de drie CTA-kaarten
+    (content/collections/quicklinks, partials/quicklinks.antlers.html,
+    components/quicklinks.css). Dit is anker-navigatie binnen één pagina.
+
+    Alleen vanaf `lg` zichtbaar, per opdracht. Onder die breedte verdwijnt de
+    balk volledig; de secties zelf blijven staan, dus er gaat geen inhoud
+    verloren. Zie section-nav.css voor wat dat met de sectie-collapse doet.
+
+    De scheidingslijn zit hier en niet in `headers/default divider="true"`:
+    dat argument zet 112px tussen de lijn en wat erop volgt, het design 32px.
+
+    De klassenstrings staan voluit — Tailwind's scanner vindt
+    runtime-samengestelde klassenamen niet.
+#}}
+{{ if services }}
+    <nav class="hidden lg:block" aria-label="Op deze pagina" data-section="section-nav">
+        <div class="container">
+            <div class="border-t border-black/10 pt-8">
+                <ul class="flex flex-wrap items-center gap-4">
+                    {{ services }}
+                        {{ if overline }}
+                            <li>
+                                <a href="#{{ overline | slugify }}" class="section-nav__link">
+                                    {{ overline }}
+                                    {{ icon src="arrow-down" class="size-3.5 shrink-0" }}
+                                </a>
+                            </li>
+                        {{ /if }}
+                    {{ /services }}
+
+                    <li class="ml-auto">
+                        <a href="#herstelling" class="section-nav__link section-nav__link--report">
+                            {{ icon src="wrench" class="size-6 shrink-0" }}
+                            Herstelling melden
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{{ /if }}

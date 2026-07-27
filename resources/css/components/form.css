@@ -1,14 +1,107 @@
-form {
-    @apply space-y-4;
+/*
+ * Formulieropmaak (Figma 318:3097).
+ *
+ * De klassen staan op de wrappers, niet op de inputs zelf. Statamic's
+ * `{{ field }}` rendert de fieldtype-views uit
+ * vendor/statamic/cms/resources/views/extend/forms/fields/*.antlers.html en
+ * die accepteren geen class-attribuut: `{{ field class="…" }}` wordt als
+ * modifier geparsed en gooit "Modifier [class] not found". Die views
+ * overriden in resources/views/vendor/statamic/forms/ kan wel, maar koppelt
+ * de opmaak aan een vendor-bestandsindeling die bij een upgrade kan
+ * schuiven. Vandaar: `.form-field` stijlt zijn eigen controls, zodat
+ * gegenereerde en handgeschreven controls er identiek uitzien.
+ *
+ * Kleuren gemeten uit het Figma-render: vulling #f5f5f5, streepjesrand
+ * #bfbfbf. De vulling is nadrukkelijk niet `--color-light` (#f1f6f8) —
+ * dat zweemt blauw op de witte kaart.
+ */
 
-    fieldset {
-        label {
-            @apply block mb-1;
-        }
+.form {
+    @apply flex flex-col gap-8 lg:gap-12;
+}
 
-        input,
-        textarea {
-            @apply border border-black;
-        }
-    }
+.form-section {
+    @apply flex flex-col gap-6;
+}
+
+.form-section + .form-section {
+    @apply border-t border-black/10 pt-8 lg:pt-12;
+}
+
+.form-grid {
+    @apply grid gap-6 lg:grid-cols-2;
+}
+
+/*
+ * Elk veld beslaat standaard de volle breedte; `--half` zet het terug naar
+ * één kolom. Zo is de brede variant de default en hoeft het blueprint alleen
+ * de uitzonderingen (`width: 50`) te dragen.
+ *
+ * De kolomsplitsing gaat pas vanaf `lg` in, niet `sm`: `section-x-gap`
+ * (base/spacing.css) zet de herstellingssectie zelf al vanaf `sm` naast
+ * elkaar, en gecombineerd met `px-6` op de inputs bleef er op 640–1023px
+ * per veld nog maar zo'n 58–86px zichtbare tekstruimte over — onbruikbaar
+ * voor placeholders als "bv. Pergola SO!, rolluik, raam…".
+ */
+.form-field {
+    @apply flex flex-col gap-2 lg:col-span-2;
+}
+
+.form-field--half {
+    @apply lg:col-span-1;
+}
+
+.form-label {
+    @apply font-semibold text-black;
+}
+
+/*
+ * `input[type="file"]` uitgesloten: die ligt transparant over `.form-dropzone`
+ * en mag de vulling van een gewoon veld niet krijgen.
+ */
+.form-field :is(input:not([type='file']), textarea, select) {
+    @apply w-full rounded-md border-none bg-[#f5f5f5] px-6 py-4 text-black;
+}
+
+.form-field :is(input, textarea)::placeholder {
+    @apply text-black/40;
+}
+
+.form-field textarea {
+    @apply min-h-34 resize-y;
+}
+
+.form-field select {
+    @apply appearance-none pr-12;
+}
+
+.form-select-wrap {
+    @apply relative;
+}
+
+.form-select-wrap svg {
+    @apply pointer-events-none absolute top-1/2 right-6 size-3.5 -translate-y-1/2 text-black;
+}
+
+.form-dropzone {
+    @apply relative flex flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[#bfbfbf] px-6 py-8 text-center text-black/40;
+}
+
+.form-dropzone input[type='file'] {
+    @apply absolute inset-0 size-full cursor-pointer opacity-0;
+}
+
+/*
+ * `input[type="file"]` zelf is onzichtbaar (`opacity-0` hierboven), dus een
+ * focusring dáárop is voor toetsenbordgebruikers niet te zien. Er is geen
+ * globale focusstijl in dit project, alleen per component `:focus-visible`
+ * (zie bv. components/locations.css), dus tekenen we de ring hier zelf op de
+ * zichtbare dropzone. WCAG 2.4.7 op een publiek formulier.
+ */
+.form-dropzone:has(input:focus-visible) {
+    @apply outline-2 outline-offset-2 outline-black;
+}
+
+.form-error {
+    @apply text-sm text-red-600;
 }

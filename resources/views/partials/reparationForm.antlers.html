@@ -1,0 +1,85 @@
+{{#
+    Het herstellingsformulier (Figma 318:3097).
+
+    De veldloop is generiek: labels, breedtes, placeholders en foutmeldingen
+    komen uit resources/blueprints/forms/herstelling.yaml, niet uit dit
+    bestand. `{{ width }}` zet Statamic altijd, met 100 als default
+    (Statamic\Fields\Field::toArray). `{{ sections }}` komt uit
+    Statamic\Forms\Tags::getSections en volgt de secties van het blueprint —
+    zo volgt de scheidingslijn uit het design uit de datastructuur in plaats
+    van uit een marker in de markup.
+
+    De halve-breedte-klasse staat voluit in de `{{ if }}`; Tailwind's scanner
+    vindt runtime-samengestelde klassenamen niet.
+
+    Twee velden vallen buiten de generieke tak:
+
+    - `branch`: de drie filialen komen uit de `locations`-collectie, zodat ze
+      niet naast het blueprint een tweede keer bestaan. Een Entries-veld kan
+      dit niet — alleen Select, Radio, Checkboxes en ButtonGroup geven opties
+      door aan de frontend (Statamic\Fieldtypes\HasSelectOptions).
+    - `photo`: de streepjeszone. De `<input type="file">` ligt transparant
+      over de hele zone; browsers accepteren drag-and-drop rechtstreeks op een
+      file-input, dus slepen én klikken werken zonder JavaScript.
+
+    Er staat nergens `{{ field class="…" }}`: Antlers parseert dat als
+    modifier en gooit "Modifier [class] not found". De fieldtype-views
+    accepteren geen class-attribuut, dus form.css stijlt de controls via
+    `.form-field`.
+#}}
+{{ form:herstelling class="form" }}
+    {{ sections }}
+        <div class="form-section">
+            <div class="form-grid">
+                {{ fields }}
+                    <div class="form-field{{ if width == 50 }} form-field--half{{ /if }}">
+                        <label class="form-label" for="{{ id }}">{{ display }}</label>
+
+                        {{ if handle == "branch" }}
+                            {{#
+                                Handgeschreven omdat de opties uit de locations-collectie
+                                komen (zie bovenaan), niet uit het blueprint. `required`, de
+                                aria-koppeling en de `selected`-state staan er zelf niet
+                                gratis op zoals bij {{ field }}, dus spiegelen we hier bewust
+                                dezelfde condities als vendor/statamic/cms/resources/views/
+                                extend/forms/fields/select.antlers.html. Zonder die laatste
+                                blijft `branch` bij een mislukte submit als enige veld leeg,
+                                terwijl alle andere velden hun waarde terugkrijgen.
+                            #}}
+                            <div class="form-select-wrap">
+                                <select
+                                    id="{{ id }}"
+                                    name="{{ name }}"
+                                    {{ if validate|contains:required }}required{{ /if }}
+                                    {{ if error }}aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }}
+                                >
+                                    <option value="">{{ placeholder }}</option>
+                                    {{ collection:locations }}
+                                        <option value="{{ slug }}"{{ if slug == value }} selected{{ /if }}>{{ name }}</option>
+                                    {{ /collection:locations }}
+                                </select>
+                                {{ icon src="caret-down" }}
+                            </div>
+                        {{ elseif handle == "photo" }}
+                            <div class="form-dropzone">
+                                {{ icon src="upload" class="size-7" }}
+                                <span>Sleep een foto hierheen of klik om te uploaden</span>
+                                {{ field }}
+                            </div>
+                        {{ else }}
+                            {{ field }}
+                        {{ /if }}
+
+                        {{ if error }}
+                            <p class="form-error" id="{{ id }}-error">{{ error }}</p>
+                        {{ /if }}
+                    </div>
+                {{ /fields }}
+            </div>
+        </div>
+    {{ /sections }}
+
+    <input type="text" class="hidden" name="{{ honeypot ?? 'honeypot' }}">
+
+    <button type="submit" class="btn btn--accent">Herstelling melden</button>
+{{ /form:herstelling }}

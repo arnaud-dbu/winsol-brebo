@@ -2,7 +2,7 @@
 <section class="section section--default">
     <div class="container">
 
-        {{ form:contact }}
+        {{ form:contact class="form" }}
             {{ if errors }}
                 <div>
                     {{ errors }}
@@ -11,13 +11,13 @@
                 </div>
             {{ /if }}
             {{ fields }}
-                <fieldset>
-                    <label>{{ display }}</label>
+                <div class="form-field">
+                    <label class="form-label" for="{{ id }}">{{ display }}</label>
                     {{ field }}
                     {{ if error }}
-                        <p>{{ error }}</p>
+                        <p class="form-error">{{ error }}</p>
                     {{ /if }}
-                </fieldset>
+                </div>
             {{ /fields }}
             <input type="text" class="hidden" name="{{ honeypot ?? 'honeypot' }}">
             {{ if success }}

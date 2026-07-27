@@ -1,3 +1,20 @@
+/*
+ * Vloeiend scrollen naar de ankers van partials/sectionNav.antlers.html.
+ * Geen JavaScript: de balk is gewone `<a href="#…">`, dus de sprong werkt
+ * ook zonder JS en verliest dan alleen de animatie. Uit bij "beweging
+ * beperken" — een lange sprong met vestibulaire klachten is geen animatie
+ * die je wil forceren.
+ */
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
 body {
     @apply font-base;
 }
