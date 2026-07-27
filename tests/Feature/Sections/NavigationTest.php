@@ -89,4 +89,23 @@ class NavigationTest extends SectionTestCase
         $this->assertStringContainsString('>NL<', $html);
         $this->assertSame(2, substr_count($html, 'aria-expanded'));
     }
+
+    public function test_mobile_panel_repeats_the_quote_button_and_language_pill(): void
+    {
+        $html = $this->render('{{ partial:navigation }}');
+
+        // Twee keer: één keer in de desktopheader, één keer in het mobiele
+        // paneel. Figma tekent geen open-state voor mobiel; dit is ingevuld.
+        $this->assertSame(2, substr_count($html, 'href="/offerte"'));
+        $this->assertSame(2, substr_count($html, 'Taal: Nederlands'));
+    }
+
+    public function test_mobile_panel_links_straight_to_the_range_overview(): void
+    {
+        $html = $this->render('{{ partial:navigation }}');
+
+        // Op mobiel is Aanbod een gewone link; het mega menu rendert alleen
+        // vanaf `md`. Het paneel bevat dus geen tweede paneel-id.
+        $this->assertSame(1, substr_count($html, 'id="mega-menu-panel"'));
+    }
 }
