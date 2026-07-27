@@ -10,6 +10,42 @@ tabs:
       -
         fields:
           -
+            handle: quicklinks
+            field:
+              type: grid
+              display: Quicklinks
+              mode: stacked
+              add_row: '+ Add quicklink'
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                    required: true
+                    validate:
+                      - required
+                -
+                  handle: text
+                  field:
+                    type: textarea
+                    display: Text
+                -
+                  import: image
+                -
+                  import: link
+                -
+                  handle: link_style
+                  field:
+                    type: select
+                    display: 'Link Style'
+                    default: primary
+                    options:
+                      primary: Primary
+                      outline: Outline
+      -
+        fields:
+          -
             import: page_builder
   preview:
     display: Preview
