@@ -26,3 +26,9 @@ tabs:
               if:
                 link_type: 'equals url'
               visibility: hidden
+          -
+            handle: mega_menu
+            field:
+              type: toggle
+              display: 'Mega menu'
+              instructions: 'Toont het volledige aanbod per categorie onder dit item. Alleen zinvol op het item dat naar de aanbod-pagina wijst.'

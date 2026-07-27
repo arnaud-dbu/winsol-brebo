@@ -8,22 +8,37 @@ class NavigationTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:navigation }}');
 
-        // These titles come from content/trees/navigation/main.yaml, not from the
-        // template — proves the menu is not a hardcoded list of links.
+        // Deze titels komen uit content/trees/navigation/main.yaml, niet uit de
+        // template — bewijst dat het menu geen hardcoded lijst links is.
+        $this->assertStringContainsString('Aanbod', $html);
+        $this->assertStringContainsString('Realisaties', $html);
+        $this->assertStringContainsString('Service', $html);
         $this->assertStringContainsString('Over ons', $html);
-        $this->assertStringContainsString('Projecten', $html);
         $this->assertStringContainsString('Contact', $html);
     }
 
-    public function test_menu_does_not_hardcode_a_fake_aanbod_dropdown(): void
+    public function test_menu_items_follow_the_order_of_the_structure(): void
     {
         $html = $this->render('{{ partial:navigation }}');
 
-        // The `main` structure currently has no nested items, so no dropdown
-        // markup (and no "Aanbod" label, which isn't part of the structure)
-        // should be faked into the output.
-        $this->assertStringNotContainsString('Aanbod', $html);
-        $this->assertStringNotContainsString(':aria-expanded="open.toString()"', $html);
+        // De volgorde uit Figma 332:3244. `strpos` op de eerste treffer volstaat:
+        // de items staan één keer in het desktopmenu, in boomvolgorde.
+        $positions = [
+            'Aanbod' => strpos($html, 'Aanbod'),
+            'Realisaties' => strpos($html, 'Realisaties'),
+            'Service' => strpos($html, 'Service'),
+            'Over ons' => strpos($html, 'Over ons'),
+            'Contact' => strpos($html, 'Contact'),
+        ];
+
+        foreach ($positions as $title => $position) {
+            $this->assertNotFalse($position, "'{$title}' staat niet in het menu.");
+        }
+
+        $sorted = $positions;
+        asort($sorted);
+
+        $this->assertSame(array_keys($positions), array_keys($sorted));
     }
 
     public function test_desktop_nav_landmark_uses_the_lang_file_label(): void
