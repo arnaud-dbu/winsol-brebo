@@ -16,10 +16,10 @@
 }
 
 /*
- * Wint van `.form-field :is(input…)` in form.css: gelijke specificiteit
- * (0,2,1), en offerte-form.css wordt ná form.css geïmporteerd. Beide staan
- * ongelaagd, dus de bronvolgorde beslist. Verplaats de import in site.css
- * dus niet naar boven.
+ * Wint van `.form-field :is(input…)` in form.css op specificiteit, niet op
+ * bronvolgorde: deze selector heeft een extra klasse (`.offerte-form`), dus
+ * (0,3,1) tegenover (0,2,1) bij form.css. De bronvolgorde is hier niet
+ * doorslaggevend.
  */
 .offerte-form .form-field :is(input:not([type='file']), textarea, select) {
     @apply bg-white;
@@ -48,6 +48,15 @@
 
 .offerte-pill input[type='checkbox'] {
     @apply sr-only;
+}
+
+/*
+ * De checkbox zelf is `sr-only` (1×1px), dus de browser zou zijn
+ * standaard-focusring op een onzichtbaar element tekenen. De ring komt
+ * daarom op de label te staan — het enige zichtbare element van de pil.
+ */
+.offerte-pill:has(input:focus-visible) {
+    @apply outline-2 outline-offset-2 outline-black;
 }
 
 .offerte-pill:has(input:checked) {

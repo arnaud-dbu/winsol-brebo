@@ -27,6 +27,21 @@
       het veld is dan nooit leeg, dus `required` vuurt niet en de bezoeker
       krijgt de `in:`-fout te zien in plaats van "dit veld is verplicht".
 
+      Ook `required` zelf staat hier niet op de checkboxes, anders dan
+      checkboxes.antlers.html:11 dat op élke checkbox zet. HTML5 interpreteert
+      `required` op een checkbox als "deze ene moet aangevinkt zijn", dus dat
+      zou alle negen pillen verplicht maken in plaats van minstens één. De
+      validatie loopt daarom volledig via het blueprint (`validate: required`
+      op `products` zelf) en de server-side foutmelding hieronder — niet via
+      HTML5-constraint-validation.
+
+      De foutmelding krijgt een `aria-describedby`-koppeling op de groep
+      zelf (`{{ id }}-error`), zoals elke vendor-fieldtype-view die al gratis
+      zet voor het veld dat ze renderen (bv. select.antlers.html,
+      text.antlers.html, assets.antlers.html). Voor deze handgeschreven groep
+      moet die koppeling met de hand gelegd worden, anders is de foutmelding
+      wel zichtbaar maar voor een schermlezer onvindbaar.
+
     - `location`: alleen een wrapper met caret eromheen. De `<select>` zelf
       komt van `{{ field }}`. Dat werkt hier omdat App\Fieldtypes\LocationSelect
       zijn `view()` overschrijft naar `statamic::forms.fields.select` — zonder
@@ -63,7 +78,7 @@
                         <div class="offerte-products">
                             <span class="form-label" id="{{ id }}-label">{{ display }}</span>
 
-                            <ul class="offerte-pills" role="group" aria-labelledby="{{ id }}-label">
+                            <ul class="offerte-pills" role="group" aria-labelledby="{{ id }}-label"{{ if error }} aria-describedby="{{ id }}-error"{{ /if }}>
                                 {{ foreach:options as="option|label" }}
                                     <li>
                                         <label class="offerte-pill">

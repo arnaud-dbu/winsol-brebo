@@ -2,6 +2,9 @@
 
 namespace Tests\Feature\Sections;
 
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\ViewErrorBag;
+
 class OfferteFormTest extends SectionTestCase
 {
     public function test_renders_every_field_from_the_blueprint(): void
@@ -52,12 +55,29 @@ class OfferteFormTest extends SectionTestCase
         $this->assertSame(4, substr_count($html, 'form-field--half'));
     }
 
+    /**
+     * "Inside" is de assertie, niet alleen "aanwezig": drie losse
+     * assertStringContainsString-checks slagen nog als `{{ field }}` buiten
+     * `.form-dropzone` terechtkomt, terwijl form.css:84 dan niet meer matcht
+     * en de pagina een kaal, zichtbaar file-input krijgt — precies de
+     * regressie die de testnaam belooft te dekken. Vandaar posities
+     * vergelijken, zoals test_the_pills_stay_outside_the_generic_field_wrapper
+     * dat ook al doet.
+     */
     public function test_the_attachment_field_is_a_file_input_inside_the_dropzone(): void
     {
         $html = $this->render('{{ partial:offerteForm }}');
 
-        $this->assertStringContainsString('form-dropzone', $html);
-        $this->assertStringContainsString('type="file"', $html);
+        $dropzoneOpen = strpos($html, 'class="form-dropzone"');
+        $this->assertNotFalse($dropzoneOpen, 'De dropzone ontbreekt.');
+
+        $dropzoneClose = strpos($html, '</div>', $dropzoneOpen);
+        $fileInput = strpos($html, 'type="file"');
+
+        $this->assertNotFalse($fileInput, 'Het file-input ontbreekt.');
+        $this->assertGreaterThan($dropzoneOpen, $fileInput, 'Het file-input hoort ná de opening van de dropzone te staan.');
+        $this->assertLessThan($dropzoneClose, $fileInput, 'Het file-input hoort vóór de sluiting van de dropzone te staan.');
+
         $this->assertStringContainsString('Sleep een foto hierheen of klik om te uploaden', $html);
     }
 
@@ -99,5 +119,27 @@ class OfferteFormTest extends SectionTestCase
         $this->assertNotFalse($firstFieldWrapper, 'Geen enkel veld gebruikt de generieke wrapper.');
         $this->assertLessThan($firstFieldWrapper, strpos($html, 'offerte-products'));
         $this->assertLessThan($firstFieldWrapper, strrpos($html, 'offerte-pill"'));
+    }
+
+    /**
+     * Elke vendor-fieldtype-view zet `aria-describedby` zelf op het veld dat
+     * ze rendert; voor de handgeschreven pillengroep moet dat met de hand.
+     * Zonder foutstatus staat het attribuut er niet — dat is geen bug, `{{
+     * if error }}` is dan simpelweg leeg — dus deze test zet zelf een fout op
+     * `products` in de errorbag die Statamic's form-tag leest
+     * (`form.{handle}`, zie Statamic\Forms\Tags::sessionHandle()).
+     */
+    public function test_the_products_error_is_wired_to_the_group_for_assistive_tech(): void
+    {
+        $errors = new ViewErrorBag;
+        $errors = $errors->put('form.offerte', new MessageBag([
+            'products' => 'Kies minstens één product.',
+        ]));
+        session(['errors' => $errors]);
+
+        $html = $this->render('{{ partial:offerteForm }}');
+
+        $this->assertStringContainsString('aria-describedby="offerte-form-products-field-error"', $html);
+        $this->assertStringContainsString('id="offerte-form-products-field-error"', $html);
     }
 }
