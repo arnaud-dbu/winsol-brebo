@@ -66,6 +66,18 @@ class ReparationFormTest extends SectionTestCase
         $this->assertStringContainsString('id="herstelling-form-product-field"', $html);
     }
 
+    public function test_the_branch_label_points_at_the_handwritten_select(): void
+    {
+        // De generieke tak (hierboven, `product`) laat `{{ field }}` zijn eigen
+        // id zetten. `branch` is handgeschreven omdat de opties uit de
+        // locations-collectie komen, dus juist daar is een mismatch tussen
+        // `<label for>` en `<select id>` het waarschijnlijkst.
+        $html = $this->render('{{ partial:reparationForm }}');
+
+        $this->assertStringContainsString('for="herstelling-form-branch-field"', $html);
+        $this->assertStringContainsString('id="herstelling-form-branch-field"', $html);
+    }
+
     public function test_the_submit_button_uses_the_accent_style(): void
     {
         $html = $this->render('{{ partial:reparationForm }}');

@@ -36,8 +36,21 @@
                         <label class="form-label" for="{{ id }}">{{ display }}</label>
 
                         {{ if handle == "branch" }}
+                            {{#
+                                Handgeschreven omdat de opties uit de locations-collectie
+                                komen (zie bovenaan), niet uit het blueprint. `required` en
+                                de aria-koppeling staan er zelf niet gratis op zoals bij
+                                {{ field }}, dus spiegelen we hier bewust dezelfde twee
+                                condities als vendor/statamic/cms/resources/views/extend/
+                                forms/fields/select.antlers.html.
+                            #}}
                             <div class="form-select-wrap">
-                                <select id="{{ id }}" name="{{ name }}">
+                                <select
+                                    id="{{ id }}"
+                                    name="{{ name }}"
+                                    {{ if validate|contains:required }}required{{ /if }}
+                                    {{ if error }}aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }}
+                                >
                                     <option value="">{{ placeholder }}</option>
                                     {{ collection:locations }}
                                         <option value="{{ slug }}">{{ name }}</option>
