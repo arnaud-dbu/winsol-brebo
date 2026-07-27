@@ -1,0 +1,36 @@
+{{#
+    De offertepagina (Figma 318:3956).
+
+    Géén `{{ partial:headers/default }}`: die zet titel en tekst gecentreerd
+    in een smalle kolom, terwijl ze hier links naast het formulier staan.
+
+    De H1 draagt `.header-title` en niet `text-display`. Tailwind's utilities
+    staan in `@layer utilities` en ongelaagde CSS wint daarvan, dus de
+    `h1`-basisregel uit base/typography.css zou een `text-*`-utility
+    overrulen. Zie de toelichting bovenaan components/header.css.
+
+    De volgorde in de markup — kop, formulier, beeld — is de mobiele
+    volgorde. Vanaf `lg` verzet `.offerte-layout` het beeld terug naar de
+    linkerkolom onder de kop.
+#}}
+<section class="section section--default">
+    <div class="container">
+        <div class="offerte-layout">
+            <div class="offerte-heading">
+                <h1 class="header-title">{{ title }}</h1>
+
+                {{ if text }}<p>{{ text }}</p>{{ /if }}
+            </div>
+
+            {{ partial:offerteForm }}
+
+            {{ if image }}
+                <div class="offerte-still">
+                    {{ img :src="image" max_width="1024" sizes="(min-width: 1024px) 30vw, 90vw" class="h-auto w-full object-contain" }}
+                </div>
+            {{ /if }}
+        </div>
+    </div>
+</section>
+
+{{ partial:pageBuilder }}
