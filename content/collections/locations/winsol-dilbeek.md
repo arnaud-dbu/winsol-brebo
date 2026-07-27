@@ -7,4 +7,14 @@ postal_code: '1700'
 city: Dilbeek
 latitude: 50.8631
 longitude: 4.2564
+opening_hours:
+  -
+    day: 'Di - Vr'
+    time: '10:30 - 17:30'
+  -
+    day: Zaterdag
+    time: '10:00 - 16:00'
+  -
+    day: 'Zo & Ma'
+    time: Gesloten
 ---

@@ -84,4 +84,32 @@ class LocationsContentTest extends TestCase
             $this->assertFalse($field->isRequired(), "Veld {$handle} hoort optioneel te zijn");
         }
     }
+
+    public function test_every_location_carries_the_designed_opening_hours(): void
+    {
+        // Alle drie de vestigingen tonen in het design dezelfde uren. Het zijn
+        // aparte entries en geen gedeelde global, zodat één vestiging later
+        // afwijkende uren kan krijgen zonder codewijziging.
+        $expected = [
+            ['day' => 'Di - Vr', 'time' => '10:30 - 17:30'],
+            ['day' => 'Zaterdag', 'time' => '10:00 - 16:00'],
+            ['day' => 'Zo & Ma', 'time' => 'Gesloten'],
+        ];
+
+        $entries = Entry::query()->where('collection', 'locations')->get();
+
+        $this->assertCount(3, $entries);
+
+        foreach ($entries as $entry) {
+            $hours = $entry->get('opening_hours');
+
+            $this->assertIsArray($hours, "Locatie {$entry->slug()} heeft geen openingsuren");
+            $this->assertCount(3, $hours, "Locatie {$entry->slug()} hoort drie regels te tonen");
+
+            foreach ($expected as $i => $row) {
+                $this->assertSame($row['day'], $hours[$i]['day'], "Dag {$i} van {$entry->slug()} klopt niet");
+                $this->assertSame($row['time'], $hours[$i]['time'], "Tijd {$i} van {$entry->slug()} klopt niet");
+            }
+        }
+    }
 }
