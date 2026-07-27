@@ -26,11 +26,13 @@ class FooterTest extends SectionTestCase
         // The `ranges` collection loop (9 seeded ranges under /aanbod/*).
         $this->assertSame(9, substr_count($html, 'href="/aanbod/'));
 
-        // The `nav:main` loop (Over ons, Projecten, Contact) actually renders.
-        $this->assertSame(3, substr_count($html, 'href="/over-ons"')
-            + substr_count($html, 'href="/cases"')
+        // De `nav:main`-lus (Aanbod, Realisaties, Service, Over ons, Contact).
+        $this->assertSame(5, substr_count($html, 'href="/aanbod"')
+            + substr_count($html, 'href="/realisaties"')
+            + substr_count($html, 'href="/service"')
+            + substr_count($html, 'href="/over-ons"')
             + substr_count($html, 'href="/contact"'));
-        $this->assertStringContainsString('Projecten', $html);
+        $this->assertStringContainsString('Realisaties', $html);
 
         // The legal collection (3 seeded entries) renders in the colophon.
         $this->assertSame(3, substr_count($html, 'href="/cookie-policy"')
