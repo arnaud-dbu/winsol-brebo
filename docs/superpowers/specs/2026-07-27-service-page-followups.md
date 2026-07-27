@@ -6,7 +6,8 @@
 
 ## Follow-ups
 
-- **Het formulier mag niet live voordat de verwerking geregeld is.** `resources/forms/herstelling.yaml` heeft geen `email:`-blok, dus er wordt niets verstuurd — maar Statamic schrijft een POST wél als inzending weg. Dat is een formulier dat in stilte inzendingen opslokt.
+- **Het formulier mag niet live voordat de verwerking geregeld is.** `resources/forms/herstelling.yaml` heeft geen `email:`-blok, dus er wordt niets verstuurd — maar Statamic schrijft een POST wél als inzending weg. Dat is een formulier dat in stilte inzendingen opslokt. Daarom staat `seo_noindex: true` op `content/collections/pages/service.md` — dat is de poort die de pagina uit Google houdt zolang de verwerking niet klopt. Wie het `email:`-blok toevoegt, moet in diezelfde wijziging `seo_noindex` terugzetten naar `false`; anders blijft de pagina onvindbaar nadat de verwerking al wél werkt.
+- **Het formulier verzamelt persoonsgegevens zonder privacyverklaring of bewaartermijn.** Naam, e-mailadres, telefoonnummer én een foto worden naar schijf geschreven (zie vorig punt) zonder dat de bezoeker iets leest over hoe lang die gegevens bewaard blijven of wie ze inziet.
 - **Geen recaptcha.** `partials/recaptcha.antlers.html` bestaat en wordt op `/contact` gebruikt; dit formulier heeft hem niet.
 - **Geen drag-and-drop-feedback.** Slepen werkt, maar er is geen highlight tijdens het slepen en de gekozen bestandsnaam wordt niet getoond. Dat is JavaScript-werk.
 - **Vier dummy-servicefoto's.** Te vervangen zodra de echte beelden er zijn.
