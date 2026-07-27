@@ -29,20 +29,26 @@
 }
 
 .form-grid {
-    @apply grid gap-6 sm:grid-cols-2;
+    @apply grid gap-6 lg:grid-cols-2;
 }
 
 /*
  * Elk veld beslaat standaard de volle breedte; `--half` zet het terug naar
  * één kolom. Zo is de brede variant de default en hoeft het blueprint alleen
  * de uitzonderingen (`width: 50`) te dragen.
+ *
+ * De kolomsplitsing gaat pas vanaf `lg` in, niet `sm`: `section-x-gap`
+ * (base/spacing.css) zet de herstellingssectie zelf al vanaf `sm` naast
+ * elkaar, en gecombineerd met `px-6` op de inputs bleef er op 640–1023px
+ * per veld nog maar zo'n 58–86px zichtbare tekstruimte over — onbruikbaar
+ * voor placeholders als "bv. Pergola SO!, rolluik, raam…".
  */
 .form-field {
-    @apply flex flex-col gap-2 sm:col-span-2;
+    @apply flex flex-col gap-2 lg:col-span-2;
 }
 
 .form-field--half {
-    @apply sm:col-span-1;
+    @apply lg:col-span-1;
 }
 
 .form-label {
@@ -83,6 +89,17 @@
 
 .form-dropzone input[type='file'] {
     @apply absolute inset-0 size-full cursor-pointer opacity-0;
+}
+
+/*
+ * `input[type="file"]` zelf is onzichtbaar (`opacity-0` hierboven), dus een
+ * focusring dáárop is voor toetsenbordgebruikers niet te zien. Er is geen
+ * globale focusstijl in dit project, alleen per component `:focus-visible`
+ * (zie bv. components/locations.css), dus tekenen we de ring hier zelf op de
+ * zichtbare dropzone. WCAG 2.4.7 op een publiek formulier.
+ */
+.form-dropzone:has(input:focus-visible) {
+    @apply outline-2 outline-offset-2 outline-black;
 }
 
 .form-error {

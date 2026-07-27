@@ -38,11 +38,13 @@
                         {{ if handle == "branch" }}
                             {{#
                                 Handgeschreven omdat de opties uit de locations-collectie
-                                komen (zie bovenaan), niet uit het blueprint. `required` en
-                                de aria-koppeling staan er zelf niet gratis op zoals bij
-                                {{ field }}, dus spiegelen we hier bewust dezelfde twee
-                                condities als vendor/statamic/cms/resources/views/extend/
-                                forms/fields/select.antlers.html.
+                                komen (zie bovenaan), niet uit het blueprint. `required`, de
+                                aria-koppeling en de `selected`-state staan er zelf niet
+                                gratis op zoals bij {{ field }}, dus spiegelen we hier bewust
+                                dezelfde condities als vendor/statamic/cms/resources/views/
+                                extend/forms/fields/select.antlers.html. Zonder die laatste
+                                blijft `branch` bij een mislukte submit als enige veld leeg,
+                                terwijl alle andere velden hun waarde terugkrijgen.
                             #}}
                             <div class="form-select-wrap">
                                 <select
@@ -53,7 +55,7 @@
                                 >
                                     <option value="">{{ placeholder }}</option>
                                     {{ collection:locations }}
-                                        <option value="{{ slug }}">{{ name }}</option>
+                                        <option value="{{ slug }}"{{ if slug == value }} selected{{ /if }}>{{ name }}</option>
                                     {{ /collection:locations }}
                                 </select>
                                 {{ icon src="caret-down" }}
