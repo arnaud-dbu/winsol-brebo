@@ -42,6 +42,10 @@ class ReparationSectionTest extends SectionTestCase
         $this->assertStringContainsString('Iets stuk of werkt iets niet meer?', $html);
         $this->assertStringContainsString('Herstelling', $html);
         $this->assertStringContainsString('class="form-section"', $html);
+        // De negatieve marge is de enige reden dat het beeldblok een eigen
+        // wrapper heeft; zie het commentaar bij `lg:-ml-24` hierboven en de
+        // afwezigheidscontrole in test_renders_without_an_image.
+        $this->assertStringContainsString('lg:-ml-24', $html);
     }
 
     public function test_renders_the_decorative_watermark_out_of_the_accessibility_tree(): void
@@ -58,9 +62,32 @@ class ReparationSectionTest extends SectionTestCase
         // checken is niet genoeg, want de fixture's `overline` laat
         // sectionHeader ook een overline__rule renderen die onvoorwaardelijk
         // `aria-hidden="true"` heeft. Koppel de assertie aan de `-z-10`-klasse
-        // die alleen op de watermerk-wrapper staat.
-        $this->assertStringContainsString(
-            'class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true"',
+        // die alleen op de watermerk-wrapper staat, via een regex in plaats van
+        // de volledige `class="…"`-string: die laatste zou al rood slaan bij
+        // een onschuldige herordening van klassen, en dekte niet de vraag of
+        // die klasse ook daadwerkelijk iets doet (zie de volgende test).
+        $this->assertMatchesRegularExpression(
+            '/class="[^"]*-z-10[^"]*"\s+aria-hidden="true"/',
+            $html
+        );
+    }
+
+    public function test_the_section_creates_a_stacking_context_so_the_watermark_is_not_covered(): void
+    {
+        // `position: relative` met `z-index: auto` creëert géén stacking
+        // context, en `overflow-hidden` ook niet. Zonder `isolate` ontsnapt de
+        // `-z-10` watermerk-wrapper naar de dichtstbijzijnde voorouder-
+        // stacking-context en tekent hij vóór de dekkende `bg-light` van de
+        // sectie zelf — het watermerk is dan onzichtbaar, ook al staat de
+        // vorige test nog steeds groen. Zie finding 1 in de branch-review.
+        config(['app.debug' => false]);
+
+        $html = $this->render('{{ partial src="sections/reparation" }}', [
+            'reparation' => $this->reparation(),
+        ]);
+
+        $this->assertMatchesRegularExpression(
+            '/<section[^>]*\bid="herstelling"[^>]*\bclass="[^"]*\bisolate\b/',
             $html
         );
     }
@@ -68,7 +95,10 @@ class ReparationSectionTest extends SectionTestCase
     public function test_renders_without_an_image(): void
     {
         // De koffer is decoratief. Ontbreekt hij, dan mag de sectie niet breken
-        // en mag er geen lege beeldkolom overblijven.
+        // en mag er geen lege beeldkolom overblijven. `lg:-ml-24` is de echte
+        // opmaak die het beeldblok nodig heeft (zie het commentaar bij de
+        // negatieve marge in reparation.antlers.html); zonder beeld hoort die
+        // klasse dus ook niet te verschijnen.
         $reparation = $this->reparation();
         unset($reparation['image']);
 
@@ -77,7 +107,7 @@ class ReparationSectionTest extends SectionTestCase
         ]);
 
         $this->assertStringContainsString('id="herstelling"', $html);
-        $this->assertStringNotContainsString('reparation__media', $html);
+        $this->assertStringNotContainsString('lg:-ml-24', $html);
     }
 
     public function test_renders_nothing_without_a_reparation_group(): void
