@@ -16,7 +16,7 @@
 #}}
 {{ if reparation }}
     {{ reparation }}
-        <section id="herstelling" class="section section--default relative overflow-hidden bg-light" data-section="reparation">
+        <section id="herstelling" class="section section--default relative isolate overflow-hidden bg-light" data-section="reparation">
             <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
                 {{ svg src="watermark" class="absolute -bottom-[10%] -left-[30%] h-auto w-[110%] lg:-left-[38%] lg:w-[85%]" }}
             </div>
@@ -27,7 +27,7 @@
                         {{ partial:sectionHeader }}
 
                         {{ if image }}
-                            <div class="reparation__media lg:-ml-24 xl:-ml-32">
+                            <div class="lg:-ml-24 xl:-ml-32">
                                 {{ img :src="image" max_width="1200" sizes="(min-width: 1024px) 40vw, 90vw" class="h-auto w-full" }}
                             </div>
                         {{ /if }}

@@ -296,15 +296,12 @@ Dit is een bewuste keuze, geen gat.
 
 ## Open punten
 
-Geen van beide blokkeert de implementatie.
+Blokkeert de implementatie niet.
 
 1. **Echte huisnummers** voor de drie vestigingen. Tot die er zijn staat
    `000` in de entries, zoals in het design.
-2. **Assets-pad** van de quicklink-foto's (`offerte-1`/`offerte-2`,
-   `brochure`, `winkel`). Niet teruggevonden in de root van de
-   `assets`-container. Tot dan worden de beelden in het CMS gekoppeld.
-3. **Figma-node van de quicklink-component** (component "quicklink" in
-   design v2, niet gevonden in file `dgMxUtoYzYrR5FRuwPzQBn`). Op het
-   screenshot lijkt de productfoto net over de bovenrand van het lichte
-   vlak te steken. Zonder die node wordt het beeld bínnen de kaart
-   gebouwd; met de node kan de exacte overlap alsnog nagebouwd worden.
+
+Punt 2 (assets-pad van de quicklink-foto's) en punt 3 (Figma-node van de
+quicklink-component) zijn afgesloten in de `contact-page`-branch: de foto's
+zijn gekoppeld en de overlap is nagebouwd zonder de node. Zie
+`2026-07-26-locations-quicklinks-followups.md` voor hoe dat afgesloten is.

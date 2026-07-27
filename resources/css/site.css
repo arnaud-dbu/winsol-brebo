@@ -12,6 +12,11 @@
     --color-black: #121B22;
     --color-dark: #292d2d;
 
+    /* Merkkleur van WhatsApp, gebruikt door de contactbalk. Als token en niet
+       als arbitrary value: hij komt terug zodra er elders een WhatsApp-knop
+       opduikt. */
+    --color-whatsapp: #25D366;
+
     --spacing-gutter: 2rem;          /* 32 */
     --spacing-margin: 2.5rem;        /* 40 */
     --spacing-margin-mobile: 1.25rem;/* 20 */
@@ -91,4 +96,10 @@
 @import './components/locations.css';
 @import './components/quicklinks.css';
 @import './components/section-nav.css';
+@import './components/contact-details.css';
+
+/*
+ * `offerte-form.css` staat bewust als laatste: het overschrijft de
+ * invoervulling uit `form.css` voor de lichte kaart op /offerte.
+ */
 @import './components/offerte-form.css';

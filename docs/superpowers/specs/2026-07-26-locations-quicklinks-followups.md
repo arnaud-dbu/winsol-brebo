@@ -58,42 +58,18 @@ het design. De coördinaten zijn gemeentecentra, geen pandlocaties. **Als de
 echte adressen ingevuld worden, moeten de coördinaten mee verhuizen**, anders
 staan de pins straks een straat verderop met een adres dat wél klopt.
 
-### 4. Foto's voor de quicklinks
-
-De drie quicklink-entries hebben geen `image`. De foto's (`offerte-1` of
-`offerte-2`, `brochure`, `winkel`) zitten ergens in de assets-container, maar
-het pad is niet teruggevonden. De partial rendert eromheen, dus koppelen kan
-gewoon in het CMS.
-
-Let op bij het koppelen: de beeldmaat is nooit met een echt beeld getest — er
-was geen fixture. `test_it_renders_every_card_while_the_photos_are_still_unlinked`
-dekt de `{{ if image }}`-guard expliciet níet.
-
-### 5. Twee quicklinks delen dezelfde tekst
+### 4. Twee quicklinks delen dezelfde tekst
 
 `vraag-offerte-aan` en `bezoek-een-showroom` hebben allebei "Met Pergola SO!
 voorinvuld. Vrijblijvend en op maat." Dat staat zo in het design-screenshot en
 oogt als placeholder-copy die de ontwerper herhaald heeft. Voor wie de teksten
 bezit.
 
-### 6. Figma-node van de quicklink-component
-
-Niet gevonden in file `dgMxUtoYzYrR5FRuwPzQBn` — de component "quicklink" zit in
-design v2. Op het screenshot lijkt de productfoto net over de bovenrand van het
-lichte vlak te steken. Nu is het beeld bínnen de kaart gebouwd; met de node kan
-die overlap alsnog nagebouwd worden.
-
 ## Losse observaties uit de eindreview
 
 Geen van deze is opgepakt; ze staan hier zodat ze niet opnieuw ontdekt hoeven te
 worden.
 
-- **`resources/blueprints/collections/pages/contact.yaml` wordt door geen enkele
-  entry gebruikt.** `content/collections/pages/contact.md` draait op
-  `blueprint: page` met `template: contact`. Óf het bestand is dood en kan weg,
-  óf de contactpagina hoort die blueprint te gebruiken en mist nu velden. Dit
-  heeft al één keer schade aangericht: het plan ging ervan uit dat de blueprint
-  bereikbaar was en schreef daarop een test die niets verifieerde.
 - **`/contact` staat hardcoded in `locationCard.antlers.html`**, drie keer per
   render, en geen test bewijst dat daar iets bestaat. De quicklinks lossen
   hetzelfde probleem netjes op met een entry-link.

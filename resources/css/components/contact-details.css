@@ -1,0 +1,88 @@
+/*
+ * Figma dgMxUtoYzYrR5FRuwPzQBn, node 318:3510 (desktop 1744): licht paneel op
+ * containerbreedte met 64 binnenpadding horizontaal en 80 verticaal, drie
+ * witte kaartjes van 490,67 met 32 gap, en 32 daaronder een witte balk van 89
+ * hoog met 112 tussen de items.
+ */
+.contact-panel {
+    @apply relative isolate flex flex-col gap-6 overflow-hidden rounded-md bg-light p-6 lg:gap-8 lg:px-16 lg:py-20;
+}
+
+/*
+ * De blob staat in Figma op x=-277 binnen een paneel van 1664 (-16,6%) en is
+ * 1101 breed (66%). `overflow-hidden` op het paneel klipt hem aan de eigen
+ * rand: hij groeit het paneel niet en kan dus document.documentElement niet
+ * verbreden. Zelfde constructie als gridCta.antlers.html.
+ *
+ * `shape.svg` heeft een hardcoded `fill="#F1F6F8"` op zijn <path> — dat is
+ * exact `--color-light`, de eigen achtergrondkleur van dit paneel, en geen
+ * `currentColor`. Een `text-*`/`fill-*`-utility op het <svg>-element verft
+ * dus niets: het presentation-attribuut op de path wint van CSS-inheritance.
+ * Vandaar de descendant-selector hieronder, die de path zelf raakt. Het
+ * bestand blijft ongewijzigd, want `currentColor` zou ook rangeCard.antlers.html
+ * en gridCta.antlers.html laten meeveranderen.
+ *
+ * De tint is `#EBF0F2`: uitgemeten uit de Figma-render van node 318:3509, niet
+ * geschat. De blob is dus iets *donkerder* dan het paneel eromheen (`#F1F6F8`),
+ * precies 6 punten per kanaal — een lichtere variant leest als een vlek in
+ * plaats van als diepte. Een literal en geen wit-met-alpha: de blob ligt op
+ * `-z-10` achter het paneel en dekt nooit iets anders dan die ene achtergrond,
+ * dus de gemengde kleur is hier de bron, niet het resultaat van een berekening.
+ */
+.contact-panel__shape {
+    @apply pointer-events-none absolute -z-10 h-auto max-w-none;
+
+    top: 10%;
+    left: -16.6%;
+    width: 66%;
+}
+
+.contact-panel__shape path {
+    @apply fill-[#EBF0F2];
+}
+
+/*
+ * Het kaartje heeft in Figma asymmetrische padding (32 horizontaal, 56
+ * verticaal). Daarom niet de `card-padding`-utility: die is symmetrisch, en
+ * hem oprekken met een tweede as zou hem voor zijn vijf bestaande gebruikers
+ * veranderen.
+ */
+.contact-location {
+    @apply flex flex-col gap-2 rounded-md bg-white p-6 lg:px-8 lg:py-14;
+}
+
+.contact-location__name {
+    @apply text-xl font-semibold;
+}
+
+.contact-location__address {
+    @apply text-base;
+}
+
+.contact-location__hours {
+    @apply mt-4 flex flex-col gap-2 text-sm;
+}
+
+.contact-location__hours-row {
+    @apply flex justify-between gap-4;
+}
+
+.contact-bar {
+    @apply flex flex-col items-center gap-4 rounded-md bg-white px-6 py-5 sm:flex-row sm:justify-center sm:gap-10 lg:gap-28;
+}
+
+.contact-bar__item {
+    @apply flex items-center gap-3 font-semibold transition-opacity hover:opacity-70;
+}
+
+.contact-bar__icon {
+    @apply flex size-10 shrink-0 items-center justify-center rounded-full;
+}
+
+.contact-bar__icon--whatsapp {
+    @apply bg-whatsapp text-white;
+}
+
+.contact-bar__icon--accent {
+    @apply bg-accent text-black;
+}

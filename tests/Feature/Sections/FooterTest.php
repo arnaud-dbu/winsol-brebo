@@ -5,12 +5,15 @@ namespace Tests\Feature\Sections;
 class FooterTest extends SectionTestCase
 {
     /**
-     * B1 deliberately nulls the starter kit's demo Contact details in
-     * content/globals/default/globals.yaml (fake agency phone/email), so
-     * the Contact `footer__column` is expected to be hidden by its `{{ if }}`
-     * guard. This test therefore only covers the two columns that are
-     * genuinely populated by real site content (ranges + main nav), and the
-     * legal links in the colophon — never the contact data that was removed.
+     * Deze test draait via SectionTestCase::render(), en die helper roept een
+     * kale view() aan — zonder Statamic-cascade. `{{ globals:… }}` is daar
+     * altijd leeg, ongeacht wat er in content/globals/ staat. De Contact-
+     * `footer__column` valt hier dus weg op zijn `{{ if }}`-guard, ook nu de
+     * contactgegevens wél gevuld zijn. Op een echte pagerender
+     * ($this->get(…)) verschijnt die kolom wel.
+     *
+     * Deze test dekt daarom de twee kolommen die zonder cascade gevuld zijn
+     * (ranges + hoofdnavigatie) en de legal-links in het colofon.
      */
     public function test_renders_populated_link_columns_and_a_colophon(): void
     {
