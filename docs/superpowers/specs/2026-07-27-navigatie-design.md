@@ -37,6 +37,7 @@ content/trees/navigation/main.yaml                       aangepast
 resources/blueprints/navigation/main.yaml                mega_menu-toggle erbij
 resources/views/partials/navigation.antlers.html         herschreven
 resources/views/partials/megaMenu.antlers.html           nieuw
+resources/views/partials/languagePill.antlers.html       nieuw
 resources/views/partials/mobileNavigation.antlers.html   offerte-knop + taalpill
 lang/nl/site.php                                         labels erbij
 tests/Feature/Sections/NavigationTest.php                bijgewerkt
@@ -105,7 +106,14 @@ openen).
 twee losse lagen (vector + "BY BREBO" als tekst); de werkkopie heeft dat al
 samengevoegd tot één asset. Die keuze blijft staan.
 
-**Midden** — `<nav class="hidden md:block">` met de items uit `nav:main`.
+**Midden** — `<nav class="hidden lg:block">` met de items uit `nav:main`.
+
+Het breekpunt schuift van `md` naar `lg`. De header wisselde op 768px naar de
+desktopvariant; dat kon met drie items en geen knoppen. Ruwe telling op 768px
+met wat er nu bij komt: logo ±120px, vijf items met `gap-8` ±470px,
+offerte-knop ±180px, taalpill ±80px — ruim 850px in een container van 688px.
+De hamburger in `mobileNavigation.antlers.html` schuift mee (`md:hidden` wordt
+`lg:hidden`), anders is er tussen 768px en 1024px helemaal geen navigatie.
 
 | Eigenschap | Figma | Implementatie |
 |---|---|---|
@@ -130,7 +138,8 @@ nieuwe knopvariant nodig. De link is hardcoded `/offerte`; het label komt uit
 maar wordt in een parallelle sessie gebouwd volgens
 `2026-07-27-offerte-page-design.md`, met exact die route.
 
-*Taalpill.* Outline-pill: `rounded-full border border-black/25 px-[18px] py-5`,
+*Taalpill.* Eigen partial, want dezelfde pill staat ook onderaan het mobiele
+paneel. Outline-pill: `rounded-full border border-black/25 px-[18px] py-5`,
 label "NL" 20px semibold, caret 14px. **Niet interactief.** `multisite` staat op
 `false` en er is één site, dus er valt niets te kiezen. Een knop met
 `aria-expanded` die een leeg of eenregelig paneel opent is slechtere markup dan
@@ -159,25 +168,39 @@ Het paneel krijgt een `id` en de knop een `aria-controls` die daarnaar wijst.
 Twee lagen, zoals `366:5017` ze heeft:
 
 1. **De strook** — `absolute top-full left-0 w-full`, volle breedte, met een
-   onderrand `border-b border-black/25`. Dit is wat "full-bleed" aan het
-   ontwerp is.
-2. **De kaart** — daarbinnen, gecentreerd: `bg-white rounded-md p-10`. Geen
-   schaduw; die zit niet in het ontwerp.
+   onderrand `border-b border-black/25`. Geen eigen achtergrond, en
+   `pointer-events-none`, zodat een klik náást de kaart doorvalt naar de
+   pagina en de `@click.outside` op de `<header>` het paneel sluit.
+2. **De kaart** — daarbinnen, gecentreerd en wél klikbaar:
+   `bg-white rounded-md p-6 shadow-lg xl:p-10`, maximaal `85rem` (1360px, de
+   breedte uit het ontwerp op een venster van 1744px).
 
-Figma's kaart is 1360 van 1744 breed (78%). De kaart gaat in de `container` en
-krijgt geen eigen maximum: de container heeft er al één (`--breakpoint-4xl`).
+De schaduw staat niet in Figma. Ze komt erbij omdat een witte kaart op een
+witte pagina anders geen rand heeft: in het ontwerp leest hij als kaart doordat
+het canvas eromheen grijs is, en dat canvas bestaat op de site niet. Dit is de
+enige toevoeging aan het ontwerp.
 
 ### Kolommen
 
-`grid grid-cols-[1fr_1fr_407px] gap-20`. De derde kolom heeft in Figma een vaste
-breedte van 407px; het CTA-blok zit in diezelfde kolom, tegen de onderkant van
-de kaart geduwd (`self-end` op de laatste cel).
+`grid grid-cols-2 gap-10 xl:grid-cols-3 xl:gap-20`. Het CTA-blok zit onderaan
+de laatste categoriekolom, zoals in het ontwerp: die kolom is
+`justify-between`, dus de categorie staat bovenaan en het blok onderaan.
 
-Het raster staat op drie kolommen, gelijk aan de drie categorieën die er
-vandaag zijn (`voor-je-woning`, `rondom-je-woning`, `slim-en-comfort`). Een
-vierde categorie is geen ontworpen geval: die valt dan op een tweede rij. Dat
-is een zichtbare, niet-kapotte uitkomst, en het moment om het ontwerp erop na
-te vragen in plaats van er nu een raster op te bouwen dat niemand besteld heeft.
+Figma geeft de derde kolom een vaste breedte van 407px. Hier is dat een gelijke
+`1fr`. Op 1744px scheelt dat een vijftigtal pixels; een vaste 407px naast twee
+`1fr`-kolommen klapt onder ongeveer 1600px in elkaar, en het ontwerp bestaat
+alleen op 1744px.
+
+Twee kolommen tot `xl`, daarboven drie. Het menu verschijnt vanaf `lg`
+(1024px); drie kolommen van elk een `46px`-thumbnail plus tekst passen daar
+niet in.
+
+Het raster gaat uit van de drie categorieën die er vandaag zijn
+(`voor-je-woning`, `rondom-je-woning`, `slim-en-comfort`). Een vierde is geen
+ontworpen geval: die valt op een tweede rij, en het CTA-blok schuift mee naar
+de dan laatste kolom. Dat is een zichtbare, niet-kapotte uitkomst, en het
+moment om het ontwerp erop na te vragen in plaats van er nu een raster voor te
+bouwen dat niemand besteld heeft.
 
 ### Data
 
