@@ -1,0 +1,24 @@
+{{#
+    De servicepagina (Figma 318:2955).
+
+    Geen `divider="true"` op de header: dat argument zet 112px tussen de lijn
+    en wat erop volgt, en het design heeft 32px. De lijn zit daarom in
+    partials/sectionNav.antlers.html, samen met de pills die eronder staan.
+
+    `count` is 1-gebaseerd (`index` is dat niet), dus `count % 2 == 0` is waar
+    voor sectie 2 en 4 — precies de twee die in het design de tekst links
+    hebben.
+
+    Het anker is `overline | slugify`, dezelfde uitdrukking die sectionNav
+    voor zijn hrefs gebruikt. Die twee moeten gelijk blijven;
+    ServicePageTest::test_the_nav_anchors_all_resolve_to_a_section_on_the_page
+    bewaakt dat.
+#}}
+{{ partial:headers/default }}
+{{ partial:sectionNav }}
+
+{{ services }}
+    {{ partial src="sections/textImage" :anchor="overline | slugify" :text_first="count % 2 == 0" }}
+{{ /services }}
+
+{{ partial src="sections/reparation" }}
