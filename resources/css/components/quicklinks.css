@@ -1,14 +1,35 @@
 /*
- * De productfoto's zijn uitgeknipte beelden op transparant, geen
- * bleed-foto's. `.quicklink-media` is de vaste uitlijningsbox (h-24/h-32,
- * items-end) die de drie kaarten op één lijn houdt. De box stretcht zijn
- * kind niet (items-end i.p.v. items-stretch), dus een hoogte van 100% op de
- * <img> zelf zou tegen een onbepaalde hoogte oplossen en naar auto
- * terugvallen — vandaar dat de klem (`max-h-24 lg:max-h-32`) in de partial
- * op de afbeelding zelf staat, niet hier op de wrapper.
+ * De productfoto's zijn uitgeknipte beelden op transparant, geen bleed-foto's.
+ * `.quicklink-media` is de vaste uitlijningsbox (h-24/h-32, items-end) die de
+ * kaarten op één lijn houdt. De box stretcht zijn kind niet (items-end i.p.v.
+ * items-stretch), dus een hoogte van 100% op de <img> zou tegen een
+ * onbepaalde hoogte oplossen en naar auto terugvallen — vandaar dat de klem
+ * (`max-h-24 lg:max-h-32`) in de partial op de afbeelding zelf staat.
+ *
+ * De negatieve marge is de overhang uit Figma 465:1712: de foto is 138 x 129
+ * en staat op y=-57, dus ruim 40% steekt boven het lichte vlak uit. Een
+ * negatieve marge en geen absolute positionering — zo blijft de foto in de
+ * flow, houdt de kaart zijn eigen hoogte, en is er geen px-offset die per
+ * breakpoint bijgesteld moet worden.
+ *
+ * Zet daarom nooit `overflow-hidden` op `.quicklink-card`.
  */
 .quicklink-media {
-    @apply flex h-24 items-end lg:h-32;
+    @apply -mt-10 flex h-24 items-end lg:-mt-14 lg:h-32;
+}
+
+/*
+ * De rij-afstand moet groter zijn dan de overhang, anders valt de foto van de
+ * volgende rij over de onderrand van de vorige — dat gebeurt gestapeld onder
+ * `lg`, en vanaf `lg` zodra er een vierde kaart op een tweede rij komt. De
+ * `pt` reserveert dezelfde ruimte boven de eerste rij, zodat de foto niet
+ * tegen de <h2> botst.
+ *
+ * Het aantal kolommen staat bewust niet hier maar op de aanroepplek: de
+ * collectie-component toont er drie, de paginacomponent twee.
+ */
+.quicklink-grid {
+    @apply grid gap-x-6 gap-y-16 pt-10 lg:gap-x-8 lg:gap-y-20 lg:pt-14;
 }
 
 .quicklink-card {
