@@ -65,10 +65,14 @@ Dit start `php artisan serve`, de queue, logs (pail) en Vite samen. De site draa
 ### Testen op je telefoon
 
 ```bash
-npm run mobile
+npm run dev:mobile
 ```
 
-Dit start een dev server die bereikbaar is vanaf andere toestellen op hetzelfde wifi-netwerk en herstelt de configuratie automatisch bij Ctrl+C.
+Dit draait Vite met assets en hot reload via Tailscale, zodat de site op je gsm bereikbaar is op `https://arnauds-macbook-pro.tailcfa200.ts.net` — ook buitenshuis op 4G/5G. Vereist eenmalig per machine:
+
+1. Tailscale-app ingelogd op Mac én gsm (zelfde account),
+2. `tailscale serve --bg http://127.0.0.1:8090` en `tailscale serve --bg --https=8443 http://127.0.0.1:5173`,
+3. de Host-rewrite proxy in `~/Library/Application Support/Herd/config/valet/Nginx/tailscale-proxy.conf` — zet daar de Host op `winsol-brebo.test` en draai `herd restart`.
 
 ### Problemen oplossen
 

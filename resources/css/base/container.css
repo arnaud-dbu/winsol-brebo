@@ -2,7 +2,7 @@
     @apply px-4 lg:px-10;
 
     margin-inline: auto;
-    max-width: var(--breakpoint-4xl);
+    max-width: var(--breakpoint-2xl);
 }
 
 @utility container-md {

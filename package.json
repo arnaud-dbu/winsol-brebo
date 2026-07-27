@@ -5,7 +5,7 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "mobile": "./mobile-dev.sh",
+        "dev:mobile": "MOBILE=1 vite",
         "watch": "vite"
     },
     "devDependencies": {

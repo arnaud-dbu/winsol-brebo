@@ -43,10 +43,9 @@
     --radius-5xl: 3.5rem; /* 32px */
     --radius-6xl: 4.5rem; /* 32px */
 
-    --text-xs: 0.625rem; /* 10px */
-    --text-sm: 0.812rem; /* 13px */
-
     /* Fluid: mobiel (640px) → desktop (1536px), waarden uit Figma */
+    --text-xs: clamp(0.625rem, 0.491rem + 0.335vw, 0.8125rem);    /*          10 → 13 */
+    --text-sm: clamp(0.8125rem, 0.679rem + 0.335vw, 1rem);        /*          13 → 16 */
     --text-base: clamp(1rem, 0.821rem + 0.446vw, 1.25rem);        /* P        16 → 20 */
     --text-lg: clamp(1.125rem, 0.813rem + 0.781vw, 1.5625rem);    /* P-lg     18 → 25 */
     --text-xl: clamp(1.25rem, 0.759rem + 1.228vw, 1.9375rem);     /* H3       20 → 31 */
@@ -85,7 +84,6 @@
 @import './components/hamburger.css';
 @import './components/mobile-navigation.css';
 @import './components/cookie-consent.css';
-@import './components/overline.css';
 @import './components/slider.css';
 @import './components/card.css';
 @import './components/section-header.css';

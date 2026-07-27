@@ -1,26 +1,3 @@
-{{#
-    `tag` is never reassigned here: Antlers `{{ var = ... }}` assignments
-    write into the shared render cascade, not a partial-local scope, so a
-    reassignment would leak the last-computed tag into every sibling/later
-    `partial:sectionHeader` call in the same render. Read `tag ?? 'h2'`
-    inline wherever needed instead (see CardLayoutCascadeTest for the same
-    bug class in card.antlers.html's `layout`).
-#}}
-{{#
-    Centring precedence (only one applies):
-    1. is_centered="true"   -> centred at every width. Wins if both args are passed.
-    2. centered_from="{bp}" -> left-aligned below {bp}, centred from {bp} up.
-    3. neither               -> left-aligned at every width (default).
-
-    centered_from only supports sm|md|lg|xl|2xl. Each maps to a literal,
-    fully-written class name (`section-header--centered-from-{bp}`) defined
-    in resources/css/components/section-header.css — never build the class
-    by interpolating the breakpoint into a Tailwind utility name, since
-    Tailwind's scanner only picks up classes that appear verbatim in source
-    files and won't generate anything for a runtime-assembled string. An
-    unsupported/misspelled value intentionally falls back to left-aligned
-    (same as omitting the argument) rather than emitting a dead class name.
-#}}
 {{ if is_centered }}
     {{ centered_class = 'section-header--centered' }}
 {{ elseif centered_from == 'sm' }}
@@ -36,21 +13,6 @@
 {{ else }}
     {{ centered_class = '' }}
 {{ /if }}
-{{#
-    Inverse precedence (only one applies):
-    1. is_inverse="true"    -> light text at every width. Wins if both args are passed.
-    2. inverse_until="{bp}" -> light text below {bp}, dark text from {bp} up.
-    3. neither               -> dark text at every width (default).
-
-    inverse_until only supports sm|md|lg|xl|2xl. Each maps to a literal,
-    fully-written class name (`section-header--inverse-until-{bp}`) defined
-    in resources/css/components/section-header.css — never build the class
-    by interpolating the breakpoint into a Tailwind utility name, since
-    Tailwind's scanner only picks up classes that appear verbatim in source
-    files and won't generate anything for a runtime-assembled string. An
-    unsupported/misspelled value intentionally falls back to dark-at-every-width
-    (same as omitting the argument) rather than emitting a dead class name.
-#}}
 {{ if is_inverse }}
     {{ inverse_class = 'section-header--inverse' }}
 {{ elseif inverse_until == 'sm' }}
@@ -66,28 +28,17 @@
 {{ else }}
     {{ inverse_class = '' }}
 {{ /if }}
-{{#
-    `accent_bg`/`accent_bg_from` are passed straight through to the
-    overline partial unchanged — they control the overline rule's colour
-    (accent vs dark), which tracks the panel behind it, not the label text
-    colour that `is_inverse`/`inverse_until` control above. See
-    overline.antlers.html for their precedence and resources/css/components/
-    overline.css for why the two axes are independent (`cta` needs both,
-    on the same breakpoint but opposite states).
-#}}
 {{ if title || text || overline || link }}
-    <div
-        class="section-header section-header-gap {{ centered_class }} {{ inverse_class }}">
-        {{ partial:overline :label="overline" :is_inverse="is_inverse" :inverse_until="inverse_until" :accent_bg="accent_bg" :accent_bg_from="accent_bg_from" }}
-
+    <div class="section-header {{ centered_class }} {{ inverse_class }} space-y-4 lg:space-y-6">
+        {{ if overline }}
+            <div class="overline">{{ overline }}</div>
+        {{ /if }}
         {{ if title }}
             <{{ tag ?? 'h2' }} class="max-w-3xl">{{ title }}</{{ tag ?? 'h2' }}>
         {{ /if }}
-
         {{ if text }}
             <div class="rich-text max-w-2xl">{{ text }}</div>
         {{ /if }}
-
         {{ if link }}
             {{ partial:link :style="btn_variant" :inverse="is_inverse" }}
         {{ /if }}
