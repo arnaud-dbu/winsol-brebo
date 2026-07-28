@@ -1,46 +1,22 @@
-{{#
-    `layout` is never reassigned here: Antlers `{{ var = ... }}` assignments
-    write into the shared render cascade, not a partial-local scope, so a
-    reassignment would leak "vertical" (or whatever was last computed) into
-    every sibling/later partial call in the same render — including other
-    `partial:card` calls further down the page that pass no `layout` at all.
-    Read `layout ?? 'vertical'` inline wherever needed instead.
-#}}
-<article class="card card--{{ layout ?? 'vertical' }} @container">
-    {{ if image }}
-        <div class="card__media">
-            {{ if layout == "horizontal" }}
-                {{ img :src="image" ratio="2/3" max_width="960" sizes="(min-width: 1024px) 33vw, 90vw" }}
-            {{ else }}
-                {{ img :src="image" ratio="8/5" max_width="960" sizes="(min-width: 1024px) 33vw, 90vw" }}
+<article class="@container h-full">
+    <div class="card flex h-full flex-col @lg:flex-row">
+        <div class="@lg:spect-auto @lg: relative aspect-3/2 @lg:w-1/3 @lg:shrink-0">
+            {{ img :src="image" fill="true" ratio="3/2" sm:ratio="2/3" sizes="(min-width: 640px) 20vw, 90vw" }}
+        </div>
+        <div class="space-y-3 card-padding">
+            {{ if overline }}
+                <div class="overline">{{ overline }}</div>
+            {{ /if }}
+            {{ if title }}
+                <h3>{{ title }}</h3>
+            {{ /if }}
+            {{ if text }}
+                <div class="rich-text">{{ text }}</div>
+            {{ /if }}
+            {{ partial:featureList :items="features" }}
+            {{ if link }}
+                {{ partial:link }}
             {{ /if }}
         </div>
-    {{ /if }}
-
-    <div class="card__body card-padding">
-        {{#
-            `<div>`, geen `<p>`: typography.css heeft een ongelaagde
-            `p { font-size: var(--text-base) }`-regel die altijd wint van de
-            gelaagde `@utility overline` (Tailwind's `@layer utilities`),
-            ongeacht specificiteit. Zie sectionHeader.antlers.html voor
-            hetzelfde patroon.
-        #}}
-        {{ if overline }}
-            <div class="overline">{{ overline }}</div>
-        {{ /if }}
-
-        {{ if title }}
-            <h3>{{ title }}</h3>
-        {{ /if }}
-
-        {{ if text }}
-            <div class="rich-text">{{ text }}</div>
-        {{ /if }}
-
-        {{ partial:featureList :items="features" }}
-
-        {{ if link }}
-            {{ partial:link }}
-        {{ /if }}
     </div>
 </article>

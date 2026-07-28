@@ -1,5 +1,18 @@
+/*
+ * `overflow-x: clip` vangt de scrollbar-overshoot van `slider-bleed`
+ * (resources/css/base/spacing.css) op: die utility rekent met `100vw`, wat
+ * de scrollbar meetelt, dus de box steekt op sommige systemen een paar pixels
+ * buiten de layout-viewport en zou anders `document.documentElement`
+ * horizontaal laten scrollen.
+ *
+ * `clip` en niet `hidden`: `hidden` maakt van `.section` een scroll-container,
+ * en dat breekt de `position: absolute`-nav van `ranges`/`image_gallery`
+ * (resources/css/components/slider.css) plus elke sticky erbinnen. `clip`
+ * klipt alleen en laat de verticale as op `visible` staan.
+ */
 .section {
     padding-block: var(--spacing-section-half);
+    overflow-x: clip;
 }
 
 @media (min-width: 1024px) {

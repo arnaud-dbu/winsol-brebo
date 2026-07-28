@@ -6,9 +6,33 @@
     @apply flex items-stretch;
 }
 
-/* Boven data-slider-from valt Swiper weg; dan is het een gewoon grid. */
+/*
+ * `space` bestaat in twee werelden. Zolang Swiper draait vertaalt sliders.js
+ * hem naar `spaceBetween` en zet Swiper zelf een marge op elke slide; boven
+ * `data-slider-from` vernietigt sliders.js de instantie en wordt de wrapper
+ * het grid hieronder — daar leest niemand die waarde nog. Een tier op of
+ * boven het `from`-breakpoint (`space="…,xl:40"` bij `from="xl"`) was
+ * daardoor stille dode code.
+ *
+ * sliders.js schrijft de actieve tier daarom óók inline als `--slider-gap`,
+ * zodat één attribuut beide modi stuurt. De waarden hier zijn de terugval
+ * voor sliders zonder `space` en voor de paint vóór het script draait; ze
+ * spiegelen `grid-gutter` (resources/css/base/spacing.css), de utility die
+ * dit grid eerder gebruikte.
+ */
+.slider {
+    --slider-gap: calc(var(--spacing) * 6);
+}
+
+@media (min-width: 1024px) {
+    .slider {
+        --slider-gap: calc(var(--spacing) * 8);
+    }
+}
+
 .slider:not(.swiper-initialized) .swiper-wrapper {
-    @apply grid grid-cols-1 grid-gutter md:grid-cols-2 xl:grid-cols-3;
+    @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3;
+    gap: var(--slider-gap);
 }
 
 /*
@@ -36,7 +60,7 @@
 }
 
 .slider__nav {
-    @apply mt-8 flex gap-3;
+    @apply mt-8 flex gap-2;
 }
 
 /*
@@ -48,7 +72,7 @@
  * en onderrand een recht stuk krijgen.
  */
 .slider__nav button {
-    @apply flex h-11 w-14 items-center justify-center rounded-full bg-accent text-black transition-opacity;
+    @apply flex px-4 py-2 items-center justify-center rounded-full bg-accent text-black transition-opacity;
 }
 
 /*
@@ -79,46 +103,55 @@
  * - `ranges` (Figma 451:2700 desktop vs 451:3048 mobile)
  * - `image_gallery` (Figma 451:2902 desktop vs 451:3272 mobile)
  *
- * On desktop both put the slider's nav buttons beside the heading,
- * top-right of the header row. `.slider__nav` must remain a DOM
- * descendant of `[data-slider]` — resources/js/components/sliders.js
- * finds it via `element.querySelector('.swiper-button-next'/'-prev')`
- * scoped to that element — so only its *visual* position changes here,
- * never its place in the markup, and neither the shared `slider` nor
- * `sectionHeader` partials are touched (this would affect every other
- * section that uses them).
+ * Vanaf `lg` staan de nav-knoppen rechts naast de kop, met hun ONDERkant
+ * gelijk aan de onderkant van de kop (dus onder de tekst uitgelijnd, niet
+ * boven met de overline).
  *
- * `.slider` keeps clipping the horizontally-oversized `.swiper-wrapper`
- * (`overflow-x: hidden`, unchanged from the base rule above) so the
- * peeking slides are still cut off exactly as before; only the vertical
- * axis is opened up (`overflow-y: visible`) so `.slider__nav` may render
- * above `.slider`'s own box without being clipped. `.slider` is also
- * taken out of the positioning chain (`position: static`) so the nav's
- * containing block bubbles up to `.section-y-gap` (made `position:
- * relative` here) — i.e. the box that wraps both the header and the
- * slider — placing the nav at that box's own top-right corner, which is
- * exactly the header's top-right corner since the header is its first
- * child.
+ * Dat is precies `align-self: end`, en daarvoor moet de nav een echt
+ * grid-item zijn: `.section-y-gap` — de box die de kop en de slider
+ * omvat — wordt hier een grid met een smalle tweede kolom, en
+ * `.slider-shell` (resources/views/partials/slider.antlers.html) wordt
+ * `display: contents` zodat `.slider` en `.slider__nav` er allebei
+ * rechtstreeks in landen. De kop wordt automatisch geplaatst in de enige
+ * vrije cel (rij 1, kolom 1).
+ *
+ * De vorige opzet positioneerde de nav absoluut op `top: 0` van diezelfde
+ * box. Dat kon alleen bovenaan uitlijnen: de onderkant van de kop is geen
+ * waarde die CSS uit een absolute positie kan afleiden — daarvoor zou je
+ * de hoogte van de kop of van de slider moeten kennen. Met grid-plaatsing
+ * hoeft dat niet, en mag `.slider` gewoon weer `position: relative` +
+ * `overflow: hidden` houden (de basisregel bovenaan) in plaats van de
+ * `position: static` / `overflow-y: visible`-uitzondering die alleen
+ * bestond om de absolute nav buiten de slider te laten tekenen.
+ *
+ * De kolom-gap komt uit `section-y-gap` zelf (`gap` geldt in grid voor
+ * beide assen). De kop heeft toch al een eigen `max-w-3xl`, dus die
+ * ruimte gaat af van de `1fr`-kolom en raakt de tekst niet.
  */
 @media (min-width: 1024px) {
     [data-section='ranges'] .section-y-gap,
     [data-section='image_gallery'] .section-y-gap {
-        position: relative;
+        display: grid;
+        grid-template-columns: 1fr auto;
     }
 
-    [data-section='ranges'] .slider,
-    [data-section='image_gallery'] .slider {
-        position: static;
-        overflow-x: hidden;
-        overflow-y: visible;
+    [data-section='ranges'] .slider-shell,
+    [data-section='image_gallery'] .slider-shell {
+        display: contents;
     }
 
     [data-section='ranges'] .slider__nav,
     [data-section='image_gallery'] .slider__nav {
-        position: absolute;
-        top: 0;
-        right: 0;
+        grid-column: 2;
+        grid-row: 1;
+        align-self: end;
         margin-top: 0;
+    }
+
+    [data-section='ranges'] .slider,
+    [data-section='image_gallery'] .slider {
+        grid-column: 1 / -1;
+        grid-row: 2;
     }
 }
 

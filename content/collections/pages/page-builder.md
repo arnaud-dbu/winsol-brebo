@@ -207,7 +207,6 @@ page_builder:
   -
     id: sec08
     type: grid_cta
-    image: winsol-team.png
     grid:
       -
         id: grid01
@@ -217,7 +216,7 @@ page_builder:
         link:
           -
             type: url
-            url: 'winsol.eu'
+            url: winsol.eu
             label: 'Naar winsol.eu'
             new_tab: true
       -

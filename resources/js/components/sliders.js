@@ -8,25 +8,92 @@ const BREAKPOINTS = {
 };
 
 /**
- * "1.15,md:2,xl:3" -> { slidesPerView: 1.15, breakpoints: { 768: {...}, 1280: {...} } }
+ * "1.15,md:2,xl:3" -> { 0: 1.15, 768: 2, 1280: 3 }
+ *
+ * Sleutel 0 is de basiswaarde (het deel zonder `breakpoint:`-prefix); zonder
+ * zo'n deel valt hij terug op `fallback`.
  */
-function parsePerView(value) {
-    const config = { slidesPerView: 1, breakpoints: {} };
+function parseTiers(value, fallback) {
+    const tiers = { 0: fallback };
 
-    for (const part of (value ?? '1').split(',')) {
+    for (const part of (value ?? '').split(',')) {
         const [key, raw] = part.includes(':') ? part.split(':') : [null, part];
-        const slidesPerView = parseFloat(raw);
+        const parsed = parseFloat(raw);
 
-        if (Number.isNaN(slidesPerView)) continue;
+        if (Number.isNaN(parsed)) continue;
 
         if (key === null) {
-            config.slidesPerView = slidesPerView;
+            tiers[0] = parsed;
         } else if (BREAKPOINTS[key]) {
-            config.breakpoints[BREAKPOINTS[key]] = { slidesPerView };
+            tiers[BREAKPOINTS[key]] = parsed;
         }
     }
 
-    return config;
+    return tiers;
+}
+
+/**
+ * Swiper-breakpoints zijn niet cumulatief: hij kiest de hoogste matchende
+ * breakpoint en merget uitsluitend díe over de basisparameters — lagere
+ * breakpoints worden overgeslagen. `per_view="1.15,md:2"` met
+ * `space="16,lg:32"` zou op `lg` dus terugvallen op de basis-slidesPerView
+ * van 1.15 in plaats van de 2 die `md` zette.
+ *
+ * Daarom stapelt deze functie beide assen zelf: elke breakpoint die in één
+ * van de twee attributen voorkomt, krijgt een volledig paar mee met de
+ * laatst bekende waarde van de andere as.
+ */
+function buildResponsive(element) {
+    const perView = parseTiers(element.dataset.sliderPerView, 1);
+    const space = parseTiers(element.dataset.sliderSpace, 16);
+
+    const widths = [...new Set([...Object.keys(perView), ...Object.keys(space)])]
+        .map(Number)
+        .sort((a, b) => a - b);
+
+    const breakpoints = {};
+    let slidesPerView = perView[0];
+    let spaceBetween = space[0];
+
+    for (const width of widths) {
+        slidesPerView = perView[width] ?? slidesPerView;
+        spaceBetween = space[width] ?? spaceBetween;
+
+        if (width > 0) breakpoints[width] = { slidesPerView, spaceBetween };
+    }
+
+    return { slidesPerView: perView[0], spaceBetween: space[0], breakpoints };
+}
+
+/**
+ * Houdt `--slider-gap` gelijk aan de tier van `space` die bij de huidige
+ * viewport hoort.
+ *
+ * Swiper leest `space` als `spaceBetween`, maar boven `data-slider-from`
+ * bestaat er geen Swiper meer en neemt het CSS-grid het over — zie de
+ * `--slider-gap`-regels in resources/css/components/slider.css. Zonder deze
+ * spiegeling zou elke tier op of boven het `from`-breakpoint niets doen.
+ *
+ * Sliders zonder `space` krijgen niets inline en houden dus de terugval uit
+ * de stylesheet.
+ */
+function syncGap(element) {
+    if (!element.dataset.sliderSpace) return;
+
+    const tiers = parseTiers(element.dataset.sliderSpace, 16);
+    const queries = Object.keys(tiers)
+        .map(Number)
+        .filter(Boolean)
+        .sort((a, b) => a - b)
+        .map((width) => [width, window.matchMedia(`(min-width: ${width}px)`)]);
+
+    const apply = () => {
+        const [width] = queries.filter(([, query]) => query.matches).pop() ?? [0];
+        element.style.setProperty('--slider-gap', `${tiers[width]}px`);
+    };
+
+    queries.forEach(([, query]) => query.addEventListener('change', apply));
+    apply();
 }
 
 async function createSwiper(element) {
@@ -34,13 +101,18 @@ async function createSwiper(element) {
     await import('swiper/css');
     const { Navigation, Pagination } = await import('swiper/modules');
 
-    const { slidesPerView, breakpoints } = parsePerView(element.dataset.sliderPerView);
+    /*
+     * De nav staat naast `[data-slider]` in plaats van erin, zodat hij in de
+     * secties die hem bij de kop zetten een eigen grid-item kan zijn — zie
+     * `.slider-shell` in resources/views/partials/slider.antlers.html en de
+     * `lg`-regels in resources/css/components/slider.css. De paginering blijft
+     * wel binnen de slider zelf.
+     */
+    const shell = element.closest('.slider-shell') ?? element;
 
     return new Swiper(element, {
         modules: [Navigation, Pagination],
-        slidesPerView,
-        breakpoints,
-        spaceBetween: 16,
+        ...buildResponsive(element),
         watchOverflow: true,
         a11y: { enabled: true },
         pagination: element.dataset.sliderPagination
@@ -48,8 +120,8 @@ async function createSwiper(element) {
             : false,
         navigation: element.dataset.sliderNavigation
             ? {
-                  nextEl: element.querySelector('.swiper-button-next'),
-                  prevEl: element.querySelector('.swiper-button-prev'),
+                  nextEl: shell.querySelector('.swiper-button-next'),
+                  prevEl: shell.querySelector('.swiper-button-prev'),
               }
             : false,
     });
@@ -69,6 +141,8 @@ async function createSwiper(element) {
  * de uiteindelijke staat.
  */
 function register(element) {
+    syncGap(element);
+
     let instance = null;
     let queue = Promise.resolve();
     const from = element.dataset.sliderFrom;

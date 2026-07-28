@@ -3,7 +3,7 @@
 /* INLINE SPACING */
 
 @utility section-y-gap {
-    @apply flex flex-col gap-8 sm:gap-10 md:gap-12 xl:gap-16 2xl:gap-20;
+    @apply flex flex-col gap-8 sm:gap-10 md:gap-12 xl:gap-16;
 }
 
 @utility section-x-gap {
@@ -27,15 +27,30 @@
 }
 
 @utility card-padding {
-    @apply p-6 lg:p-8;
+    @apply p-6 md:p-8 lg:p-10;
 }
 
+/*
+ * Volle bleed tot aan de viewportrand, op elke breedte.
+ *
+ * `50%` is de halve breedte van het bevattende blok (de contentbox van
+ * `.container`), `50vw` de halve viewport. De negatieve marge trekt de box
+ * dus precies de afstand naar buiten die `.container` aan padding én — boven
+ * `max-width: 1536px` — aan auto-marge opzij kwijt is; de padding zet de
+ * inhoud daarna exact terug op de contentrand van `.container`, zodat de
+ * eerste slide uitgelijnd blijft met de sectiekop.
+ *
+ * Dit leest die afstand zelf uit de layout, dus geen breakpoints en geen
+ * losse `--spacing-margin`-waarden meer die uit de pas kunnen lopen met
+ * `.container` (dat was ook zo: mobiel gebruikte deze utility 20px terwijl
+ * `.container` op `px-4`/16px staat).
+ *
+ * `100vw` telt de scrollbar mee, dus op systemen met een klassieke scrollbar
+ * steekt de box een paar pixels buiten de layout-viewport. `.slider` klipt
+ * zelf al met `overflow-hidden`, maar de negatieve marge niet — daarvoor
+ * staat `overflow-x: clip` op `.section` (resources/css/base/section.css).
+ */
 @utility slider-bleed {
-    margin-inline: calc(var(--spacing-margin-mobile) * -1);
-    padding-inline: var(--spacing-margin-mobile);
-
-    @media (min-width: 1024px) {
-        margin-inline: calc(var(--spacing-margin) * -1);
-        padding-inline: var(--spacing-margin);
-    }
+    margin-inline: calc(50% - 50vw);
+    padding-inline: calc(50vw - 50%);
 }

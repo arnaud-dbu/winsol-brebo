@@ -2,26 +2,33 @@
     Track bleeds outside `.container` at every width (Figma 451:2902 desktop,
     451:3272 mobile) via `bleed="true"` on the shared `slider` partial: it
     applies the `slider-bleed` utility (resources/css/base/spacing.css),
-    which cancels the container's own inline padding with a matching
-    negative margin and immediately re-adds it as padding — the box reaches
-    the viewport edge but its content still starts at the same x as the
-    container. `.slider` still clips with `overflow-x: hidden`
+    which pulls the box out to the viewport edge with a negative margin and
+    immediately re-adds that distance as padding — the box reaches the
+    viewport edge but its content still starts at the same x as the
+    container. That margin is derived from `50vw` minus the container's own
+    half-width, so it also cancels the auto margin `.container` gains above
+    its `max-width` — the bleed is full-width on the largest screens too,
+    not just up to 1536px. `.slider` still clips with `overflow-x: hidden`
     (resources/css/components/slider.css, base rule), so the oversized
-    swiper track is cut off exactly at the viewport edge and can never
-    widen `document.documentElement` — the bleed only ever grows inward
-    to fill the container's own padding, never past the viewport itself.
+    swiper track is cut off exactly at the viewport edge; `.section` adds
+    `overflow-x: clip` (resources/css/base/section.css) so the few pixels of
+    scrollbar overshoot in `100vw` can never widen
+    `document.documentElement` either.
 
     Header is left-aligned (no centring args) at both breakpoints. On
     desktop (451:2910) the slider's prev/next buttons sit beside the
-    heading, top-right of the header row; on mobile (451:3283) there is no
-    nav at all, only pagination dots below the row. Both `navigation="true"`
-    and `pagination="true"` are passed to the slider — the *placement* is
-    handled entirely by the `[data-section='image_gallery']` rules in
+    heading, right of the header row and aligned with its bottom edge; on
+    mobile (451:3283) there is no nav at all, only pagination dots below
+    the row. Both `navigation="true"` and `pagination="true"` are passed to
+    the slider — the *placement* is handled entirely by the
+    `[data-section='image_gallery']` rules in
     resources/css/components/slider.css, which reuse (and generalise) the
     `ranges` section's existing desktop-nav-beside-heading treatment and
-    additionally hide `.slider__nav` below `lg` for this section. Neither
-    the `slider` nor `sectionHeader` partials are touched — that would
-    affect every other section that consumes them.
+    additionally hide `.slider__nav` below `lg` for this section. The
+    `sectionHeader` partial is untouched; the `slider` partial only gained
+    the neutral `.slider-shell` wrapper those rules flatten with
+    `display: contents`, which changes nothing for the sections that don't
+    opt into this treatment.
 
     `per_view="1.15,lg:1.4"`: at the base tier the design (451:3272, 402px
     wide mobile frame) shows one ~339px slide filling ~84% of the frame

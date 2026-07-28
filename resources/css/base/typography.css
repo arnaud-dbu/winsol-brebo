@@ -16,7 +16,8 @@ h2 {
 }
 
 h3 {
-    @apply text-xl;
+    @apply text-lg;
+    line-height: 120%;
 }
 
 h4 {
@@ -29,16 +30,20 @@ p {
     line-height: 1.5;
 }
 
-@utility overline {
-    @apply relative text-xs font-semibold tracking-wide uppercase;
+.overline {
+    @apply relative text-sm font-semibold tracking-wide uppercase;
     text-decoration-line: none !important;
 
     &::after {
-        @apply w-5 h-0.75;
+        @apply h-0.75 w-5;
         content: '';
         position: absolute;
         background: var(--color-accent);
         bottom: -50%;
         left: 0;
     }
+}
+
+.overline--center::after {
+    @apply lg:-translate-x-1/2 lg:left-1/2;
 }

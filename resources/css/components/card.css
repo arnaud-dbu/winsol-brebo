@@ -1,33 +1,6 @@
-/*
- * Figma: dgMxUtoYzYrR5FRuwPzQBn
- * - node 451:2743 (desktop horizontal card): bg-light body, rounded 6px,
- *   media column 261/390 (~2/3 portrait ratio).
- * - node 451:3090 (mobile vertical card): bg-light body, rounded 6px,
- *   media 326.25/207 (~8/5 landscape ratio).
- */
 
 .card {
     @apply flex overflow-hidden rounded-md bg-light;
-}
-
-.card--vertical {
-    @apply flex-col;
-}
-
-.card--horizontal {
-    @apply flex-col sm:flex-row;
-}
-
-.card--horizontal .card__media {
-    @apply sm:w-1/3 sm:shrink-0;
-}
-
-.card__media img {
-    @apply size-full object-cover;
-}
-
-.card__body {
-    @apply flex flex-col gap-4;
 }
 
 /*

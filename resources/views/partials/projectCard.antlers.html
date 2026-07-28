@@ -1,40 +1,18 @@
-{{#
-    Eén bron voor de project-kaart: `sections/projects` rendert hem binnen een
-    `swiper-slide`, `projects-overview` binnen een grid-cel. Het categorielabel
-    leest `range`, niet `product` — de ranges zijn wat het ontwerp op de kaart
-    toont en waarop `/realisaties` filtert.
-
-    NIET VERWIJDEREN: de `{{ if range }}` rond het `{{ range }}`-tagpaar is
-    load-bearing, geen dubbele check. `range` botst met Antlers' ingebouwde
-    range/loop-tag (Statamic\Tags\Range). Staat de variabele niet in de context
-    — een project zonder gekoppelde range — dan valt een parameterloos
-    `{{ range }}...{{ /range }}` terug op díé tag, en die rendert zijn body één
-    keer tegen de parent-scope. Gevolg: een `<span class="project-card__
-    category">` met de projecttitel erin, alsof de projecttitel de
-    categorienaam was. De `if` houdt de fallback tegen omdat een ontbrekende
-    variabele daar gewoon falsy is.
-
-    ProjectCardTest::test_omits_the_category_when_no_range_is_set dekt dit af.
-#}}
-<a href="{{ url }}" class="project-card group flex flex-col gap-8">
+<a href="{{ url }}" class="project-card group flex h-full flex-col gap-6">
     {{ if image }}
-        {{ img :src="image" ratio="1/1" max_width="960" sizes="(min-width: 1024px) 33vw, 90vw" class="rounded-md" }}
+        {{ img :src="image" ratio="1/1" sizes="(min-width: 1024px) 33vw, 90vw" class="rounded-md max-h-100" }}
     {{ /if }}
 
-    <div class="flex flex-col gap-6 border-b border-black/10 pb-8">
-        <div class="flex flex-col gap-3">
-            {{ if range }}
-                {{ range }}
-                    <span class="project-card__category">{{ title }}</span>
-                {{ /range }}
-            {{ /if }}
-
-            <div class="flex items-end justify-between gap-4">
-                <h3>{{ title }}</h3>
-                <span aria-hidden="true" class="contents">
-                    {{ svg src="icons/regular/arrow-right" class="size-3.5 shrink-0 -rotate-45 transition-transform group-hover:translate-x-1" }}
-                </span>
-            </div>
+    <div class="flex grow flex-col justify-end gap-2.5">
+        {{ if range }}
+            <span class="project-card__category">{{ range.title }}</span>
+        {{ /if }}
+        <div class="flex items-end justify-between gap-4">
+            <h3>{{ title }}</h3>
+            <span aria-hidden="true" class="contents">
+                {{ svg src="icons/regular/arrow-right" class="size-6 lg:size-7 shrink-0 -rotate-45 transition-transform group-hover:translate-x-1" }}
+            </span>
         </div>
     </div>
+    <div class="mt-auto h-px w-full bg-black/10 "></div>
 </a>

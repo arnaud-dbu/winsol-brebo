@@ -17,8 +17,11 @@
 
 /*
  * Onder `lg` loopt de rij door tot de schermrand in plaats van tot de
- * container-inset, zoals in 457:6550. Zelfde techniek als `slider-bleed`,
- * maar lokaal gehouden — dit is geen slider.
+ * container-inset, zoals in 457:6550. Zelfde idee als `slider-bleed`
+ * (negatieve marge naar buiten, padding weer naar binnen), maar lokaal
+ * gehouden — dit is geen slider. Bewust niet de `50vw`-variant van die
+ * utility: die regel geldt alleen onder `lg`, waar `.container` nooit zijn
+ * `max-width` haalt en er dus geen auto-marge te compenseren valt.
  */
 @media (max-width: 1023px) {
     .range-filter__list {

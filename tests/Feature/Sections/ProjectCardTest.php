@@ -2,8 +2,29 @@
 
 namespace Tests\Feature\Sections;
 
+use Statamic\Facades\Entry;
+
 class ProjectCardTest extends SectionTestCase
 {
+    public function test_the_overline_of_a_real_project_is_the_range_and_not_the_title(): void
+    {
+        // Array-fixtures dekken deze bug niet af: `range` heeft `max_items: 1`
+        // en augmenteert naar één `Entry`. Een pair scoopt daar niet in en
+        // liet `{{ title }}` terugvallen op de projecttitel. Alleen een echte
+        // entry legt dat vast.
+        $project = Entry::query()
+            ->where('collection', 'projects')
+            ->where('slug', 'pergola-so-met-glazen-schuifwanden')
+            ->first();
+
+        $html = $this->render('{{ partial src="projectCard" }}', $project->toAugmentedArray());
+
+        $this->assertStringContainsString(
+            '<span class="project-card__category">Terrasoverkappingen & pergola\'s</span>',
+            $html
+        );
+    }
+
     public function test_renders_a_linked_card_with_the_range_as_category(): void
     {
         $html = $this->render('{{ partial src="projectCard" }}', [

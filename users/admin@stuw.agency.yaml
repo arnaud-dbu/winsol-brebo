@@ -13,3 +13,5 @@ preferences:
     cases:
       after_save: create_another
       view: tree
+    projects:
+      view: list

@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Sections;
 
+use Statamic\Facades\Entry;
+
 class ProjectHeaderTest extends SectionTestCase
 {
     public function test_renders_title_text_and_image(): void
@@ -33,13 +35,29 @@ class ProjectHeaderTest extends SectionTestCase
 
         $html = $this->render('{{ partial src="headers/project" }}', [
             'title' => 'Pergola SO! met glazen schuifwanden',
-            'range' => [
-                ['title' => 'Terrasoverkapping', 'url' => '/aanbod/terrasoverkapping'],
-            ],
+            'range' => ['title' => 'Terrasoverkapping', 'url' => '/aanbod/terrasoverkapping'],
         ]);
 
         $this->assertStringContainsString('header-eyebrow', $html);
         $this->assertStringContainsString('Terrasoverkapping', $html);
+    }
+
+    public function test_the_eyebrow_of_a_real_project_is_the_range_and_not_the_title(): void
+    {
+        config(['app.debug' => false]);
+
+        // Array-fixtures dekken deze bug niet af: `range` heeft `max_items: 1`
+        // en augmenteert naar één `Entry`. Een pair scoopt daar niet in en
+        // liet `{{ title }}` terugvallen op de projecttitel. Alleen een echte
+        // entry legt dat vast.
+        $project = Entry::query()
+            ->where('collection', 'projects')
+            ->where('slug', 'pergola-so-met-glazen-schuifwanden')
+            ->first();
+
+        $html = $this->render('{{ partial src="headers/project" }}', $project->toAugmentedArray());
+
+        $this->assertStringContainsString('<p class="header-eyebrow">Terrasoverkappingen & pergola\'s</p>', $html);
     }
 
     public function test_omits_the_eyebrow_entirely_without_a_range(): void
