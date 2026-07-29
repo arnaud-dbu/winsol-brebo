@@ -64,9 +64,11 @@ kandidaat om alsnog toe te voegen.
 **Geen `DELETE`.** Inspace vroeg er niet om. Terugtrekken kan via `status:
 draft`.
 
-## Voorwerk in winsol-brebo
+## Voorwerk
 
-Twee dingen moeten recht vóór de adapter er content in schrijft.
+Twee dingen moeten recht vóór de adapter er content in schrijft. Beide zitten in
+`statamic-base` en zijn van daaruit overgeërfd door winsol-brebo, dus ze moeten
+in beide repo's landen.
 
 **Het artikeltemplate klopt niet met het veld.**
 `resources/views/articles/show.antlers.html:4` loopt over `{{ redactor }}` en
@@ -83,23 +85,53 @@ assets-veld met `max_files: 1` op container `assets`.
 Bestaande artikels blijven werken: hun platte ProseMirror-nodes worden na de
 wijziging één `text`-segment.
 
-**Waar `image` en `intro` terechtkomen.** Geen van beide rendert op het
-artikeldetail — `headers/default` toont alleen `title`, want die partial gebruikt
-`text` en `divider`, velden die het artikelblueprint niet heeft. Beide worden wél
-gebruikt op de blogoverzichtskaart in `partials/article.antlers.html`: `image`
-als thumbnail, `intro` als excerpt. Daarom is `image` verplicht bij create —
-zonder afbeelding staat er een leeg kader op het overzicht.
+**Waar `image` en `intro` terechtkomen.** In de base install rendert
+`partials/headers/default.antlers.html` alle drie: `title`, `intro` en `image`.
+Daarnaast gebruikt de blogoverzichtskaart in `partials/article.antlers.html`
+`image` als thumbnail en `intro` als excerpt. Elk veld dat Nova stuurt komt in
+de base dus ergens zichtbaar terecht.
+
+Winsol-brebo is hier afgeweken: die versie van `headers/default` toont alleen
+`title` en gebruikt `text` en `divider`, velden die het artikelblueprint niet
+heeft. Daar landt `intro` alleen op de overzichtskaart en `image` nergens op het
+detail. Iets om te weten bij de overname, geen blocker.
+
+`image` is verplicht bij create. Ontbreekt hij, dan geeft de `img`-tag een lege
+string terug (`app/Tags/Img.php:41-45` throwt alleen bij `app.debug`), dus er
+crasht niets — je krijgt een leeg kader op het overzicht en een header zonder
+beeld. Dat is een ontwerpkeuze, geen crashpreventie.
 
 ## Plaats in de codebase
 
-App-code in `winsol-brebo` onder `app/Inspace/`, met de grenzen getrokken alsof
-het al een package is: geen enkele verwijzing naar winsol-specifieke blueprints,
-collecties of veldnamen in de code. Alles wat sitespecifiek is staat in
-`config/inspace.php`.
+De adapter wordt app-code in **`statamic-base`**, onder `app/Inspace/`. Elke
+nieuwe site die van de base vertrekt heeft hem daarmee standaard aan boord — dat
+was de opzet.
 
-Zodra de koppeling met Inspace live en stabiel is, verhuist `app/Inspace/` naar
-een eigen Composer-package voor `statamic-base`. Door bovenstaande discipline is
-dat een verhuizing van een map plus een service provider, geen herschrijving.
+Waarom daar en niet in winsol-brebo:
+
+- Het `article`-blueprint, `articles.yaml` en de `redactor`-fieldset zijn in
+  beide repo's identiek. Wat in de base werkt, werkt in winsol-brebo.
+- De templatebug hierboven komt uit de base. Daar repareren betekent hem één keer
+  repareren in plaats van in elk project apart.
+- De base heeft een werkende testsuite met fixtures (`tests/Feature`,
+  `AssetUploadCompressionTest`, `ImgTagTest`); winsol-brebo heeft alleen
+  sectietests. Voor round-trip-tests is dat de betere ondergrond.
+- De base staat op staging en beweegt niet. Winsol-brebo zit midden in een
+  UI-refactor met tientallen open wijzigingen; adaptercommits zouden daarmee
+  verstrengeld raken.
+
+Bestaande projecten trekken niets terug uit de base — die is een startpunt voor
+nieuwe sites, geen upstream. Winsol-brebo krijgt de adapter dus als een bewuste,
+eenmalige overname op het moment dat die klant effectief gekoppeld wordt. Om dat
+een kopieerhandeling te houden en geen herschrijving, staat er geen enkele
+verwijzing naar base-specifieke blueprints, collecties of veldnamen in de code:
+alles wat sitespecifiek is zit in `config/inspace.php`. Overnemen is dan
+`app/Inspace/` plus de config, de routes en één regel in een service provider.
+
+De prijs die we daarvoor accepteren: een bug die op een klantsite opduikt moet in
+beide repo's gerepareerd worden. Zolang het bij twee sites blijft is dat
+goedkoper dan een private Composer-package opzetten en onderhouden. Bij de derde
+of vierde gekoppelde site is dat de afweging om te herzien.
 
 Routes onder `/api/inspace/v1/`, bewust naast Statamic's eigen `/api/`. Die
 laatste is read-only en moet apart aangezet worden; een eigen namespace voorkomt
@@ -117,9 +149,10 @@ collisie en verwarring.
 
 `{id}` is de Statamic entry-UUID, niet de slug. Die overleeft een hernoeming.
 
-Elk endpoint accepteert een optionele `site`-parameter. winsol-brebo heeft geen
-`resources/sites.yaml` en draait dus single-site, maar de base install gaat naar
-klanten waar NL/FR eerder regel dan uitzondering is. De parameter nu opnemen kost
+Elk endpoint accepteert een optionele `site`-parameter. Noch de base install noch
+winsol-brebo heeft een `resources/sites.yaml`, dus beide draaien single-site —
+maar de base gaat naar klanten waar NL/FR eerder regel dan uitzondering is. De
+parameter nu opnemen kost
 een default en voorkomt dat we Inspace later een tweede contractversie moeten
 sturen. Ontbreekt hij, dan geldt de default site.
 
@@ -185,7 +218,8 @@ image-blok zet.
 
 ## Veldmapping
 
-Config-gedreven, in `config/inspace.php`. Voor winsol-brebo:
+Config-gedreven, in `config/inspace.php`. Voor de base install, en identiek in
+winsol-brebo omdat het `article`-blueprint daar niet van afwijkt:
 
 | API-veld | `article` blueprint | Type |
 |---|---|---|
@@ -319,7 +353,10 @@ voor niet-blokkerende zaken zoals gestripte HTML-nodes.
 
 ## Testen
 
-PHPUnit met 1G geheugen, nooit `php artisan test` (zie CLAUDE.md).
+Via `vendor/bin/phpunit`, niet via `php artisan test` — dat laatste staat wel in
+het `test`-script van de base, maar winsol-brebo's CLAUDE.md verbiedt het en die
+conventie houden we aan. De base heeft zelf geen CLAUDE.md; die zou er moeten
+komen, anders gelden de codeerregels niet op de plek waar de adapter leeft.
 
 - round-trip: `GET` → ongewijzigde `PATCH` levert identieke opgeslagen ProseMirror
 - row-ID's en `enabled: false` overleven een update
@@ -336,19 +373,27 @@ PHPUnit met 1G geheugen, nooit `php artisan test` (zie CLAUDE.md).
 
 ## Aanlevering aan Inspace
 
+De staging van `statamic-base` is de referentieomgeving. Inspace bouwt hun
+integratie daar tegenaan, los van de planning van welke klantsite dan ook. Dat
+beantwoordt meteen Dirk's vraag om een gesplitste productie- en testomgeving:
+base staging is de test, elke gekoppelde klantsite is een productie met hetzelfde
+contract.
+
 - OpenAPI 3.1-spec plus een korte begeleidende markdown
 - expliciete vermelding dat fase 1 blog is en service pages later komen
-- een staging-URL en een token
-- CMS-toegang voor de klant
+- de staging-URL van de base install en een token
+- CMS-toegang op die staging
+
+Twee voorwaarden aan die omgeving. Met een schrijftoken kan Inspace er echte
+artikels aanmaken, dus ze moet als wegwerpbaar behandeld worden. En ze mag niet
+indexeerbaar zijn: anders staat er AI-gegenereerde SEO-content op je eigen
+showcase, als duplicaat van wat later bij klanten komt.
 
 ## Openstaande punten
 
-- **Testomgeving.** Dirk vroeg expliciet om gesplitste productie en test. Of
-  winsol-brebo staging heeft is nog niet nagegaan. Infravraag, geen blocker voor
-  de bouw, wel voor de oplevering.
 - **Welke klant eerst.** De mails spreken van "volgende maand opstarten", gezegd
   op 25 juni. Of winsol-brebo de eerste gekoppelde site is, is niet bevestigd.
-  Bepaalt waar staging moet staan.
+  Bepaalt wanneer de overname naar dat project moet gebeuren.
 - **WordPress-datamodel.** Nooit ontvangen. Het risico dat we accepteren: hun
   veldnamen wijken af van de onze, wat aan hún kant een mappinglaag vraagt. Zij
   bouwen die koppeling toch al, dus dat is een aanvaardbare kost — maar het is de
