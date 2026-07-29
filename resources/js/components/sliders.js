@@ -102,21 +102,40 @@ async function createSwiper(element) {
     const { Navigation, Pagination } = await import('swiper/modules');
 
     /*
-     * De nav staat naast `[data-slider]` in plaats van erin, zodat hij in de
-     * secties die hem bij de kop zetten een eigen grid-item kan zijn — zie
-     * `.slider-shell` in resources/views/partials/slider.antlers.html en de
-     * `lg`-regels in resources/css/components/slider.css. De paginering blijft
-     * wel binnen de slider zelf.
+     * Nav én paginering staan naast `[data-slider]` in plaats van erin: de
+     * nav omdat hij in de secties die hem bij de kop zetten een eigen
+     * grid-item moet zijn, de paginering omdat `.slider` met
+     * `overflow: hidden` klipt en niet hoger wordt dan zijn track — zie de
+     * comments in resources/views/partials/slider.antlers.html en de
+     * `lg`-regels in resources/css/components/slider.css. Beide worden
+     * daarom vanaf de shell opgezocht in plaats van vanaf het slider-element.
      */
     const shell = element.closest('.slider-shell') ?? element;
 
+    /*
+     * `loop` en `centered` zijn opt-in per sectie.
+     *
+     * Ze horen bij elkaar: `centeredSlides` zet de actieve slide midden in
+     * de track in plaats van tegen de linkerrand, waardoor er aan bééde
+     * kanten een stukje buurslide zichtbaar wordt. Zonder `loop` is dat een
+     * doodlopende weg — op slide 1 en op de laatste slide valt die peek weg
+     * omdat Swiper daar niet voorbij de rand kan schuiven — dus pas met
+     * `loop` blijft de compositie op elke positie hetzelfde.
+     *
+     * `watchOverflow` hieronder blijft leidend: passen alle slides samen in
+     * de viewport, dan schakelt Swiper zichzelf uit en doet ook `loop`
+     * niets. Swiper waarschuwt zelf in de console als er te weinig slides
+     * zijn om te kunnen dupliceren en valt dan terug op niet-loopend gedrag.
+     */
     return new Swiper(element, {
         modules: [Navigation, Pagination],
         ...buildResponsive(element),
+        loop: Boolean(element.dataset.sliderLoop),
+        centeredSlides: Boolean(element.dataset.sliderCentered),
         watchOverflow: true,
         a11y: { enabled: true },
         pagination: element.dataset.sliderPagination
-            ? { el: element.querySelector('.swiper-pagination'), clickable: true }
+            ? { el: shell.querySelector('.swiper-pagination'), clickable: true }
             : false,
         navigation: element.dataset.sliderNavigation
             ? {

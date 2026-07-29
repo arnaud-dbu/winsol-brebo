@@ -4,75 +4,67 @@ namespace Tests\Feature\Sections;
 
 class CtaSectionTest extends SectionTestCase
 {
-    public function test_renders_full_bleed_panel_with_responsive_inverse_header(): void
+    private array $context = [
+        'overline' => 'Over ons',
+        'title' => 'Lokale verkooppunten, eigen vakmensen',
+    ];
+
+    /**
+     * De foto is full bleed (`{{ img fill="true" }}` zet hem absoluut over de
+     * hele sectie), maar het tekstpaneel zit in `.container` zodat het de
+     * sitemarges volgt en niet tegen de schermrand geduwd wordt.
+     */
+    public function test_text_panel_sits_in_the_container_while_the_image_stays_full_bleed(): void
     {
-        $html = $this->render('{{ partial src="sections/cta" }}', [
-            'overline' => 'Over ons',
-            'title' => 'Lokale verkooppunten, eigen vakmensen',
-        ]);
+        $html = $this->render('{{ partial src="sections/cta" }}', $this->context);
 
         $this->assertStringContainsString('data-section="cta"', $html);
-        $this->assertStringNotContainsString('class="container"', $html);
-
-        // Light overline/heading on mobile, dark from `lg` up: one class each,
-        // both backed by a real `text-white ... lg:text-black` rule (see
-        // resources/css/components/section-header.css and overline.css).
-        $this->assertStringContainsString('section-header--inverse-until-lg', $html);
-
-        // Geen aparte `overline--inverse-until-lg`-klasse: de overline-utility
-        // (resources/css/base/typography.css) zet zelf geen kleur, ze erft
-        // die van de `.section-header`-wrapper. `.section-header--inverse-
-        // until-lg` is `@apply text-white lg:text-black` op die wrapper
-        // (resources/css/components/section-header.css), dus de overline
-        // daarbinnen kleurt vanzelf mee — licht op mobiel, donker vanaf `lg`.
-
-        // The all-widths inverse modifier must NOT be used here — desktop is
-        // dark-on-accent, not light-on-dark, so the unconditional variant
-        // would be wrong at `lg` and up.
-        $this->assertStringNotContainsString('section-header--inverse ', $html);
-        $this->assertStringNotContainsString('section-header--inverse"', $html);
-        $this->assertStringNotContainsString('overline--inverse ', $html);
-        $this->assertStringNotContainsString('overline--inverse"', $html);
+        $this->assertMatchesRegularExpression('/class="[^"]*\bcontainer\b[^"]*"/', $html);
     }
 
     /**
-     * Tekstkleur en streepkleur zijn twee losse assen; `cta` is precies het
-     * geval waar ze uit elkaar lopen. De tekst erft van de wrapper (zie
-     * hierboven), maar het streepje onder de overline is een `::after` met
-     * een eigen `background`. Die staat standaard op accent, en het paneel
-     * wordt vanaf `lg` zélf accent (`lg:bg-accent`) — geel op geel, dus
-     * onzichtbaar. `accent_bg_from="lg"` moet daarom een klasse opleveren
-     * die de streep vanaf `lg` donker maakt. Figma 451:2932 ("OVER ONS").
+     * Twee panelen die met een hidden-klasse wisselen, in plaats van één
+     * paneel met responsieve sectionHeader-modifiers. Elke header kent
+     * daardoor maar één toestand.
      */
-    public function test_overline_rule_turns_dark_on_the_accent_panel(): void
+    public function test_renders_a_mobile_and_a_desktop_panel_that_swap_at_lg(): void
     {
-        $html = $this->render('{{ partial src="sections/cta" }}', [
-            'overline' => 'Over ons',
-            'title' => 'Lokale verkooppunten, eigen vakmensen',
-        ]);
+        $html = $this->render('{{ partial src="sections/cta" }}', $this->context);
 
-        $this->assertStringContainsString('overline--rule-dark-from-lg', $html);
+        // Twee headers, elk in een eigen paneel. De exacte tint, blur en
+        // maxbreedte zijn design-tuning en staan hier bewust niet vast; wat
+        // vastligt is dat er precies één paneel per breedte zichtbaar is.
+        $this->assertSame(2, substr_count($html, 'class="section-header'));
+
+        // Mobiel paneel: zichtbaar tot `lg`, glasmorf op de foto — dus blur,
+        // en witte tekst die de header eronder erft.
+        $this->assertMatchesRegularExpression('/class="[^"]*\bbackdrop-blur-\w+\b[^"]*"/', $html);
+        $this->assertMatchesRegularExpression('/class="[^"]*\btext-white\b[^"]*\blg:hidden\b/', $html);
+
+        // Desktop paneel: verborgen tot `lg`, daarna een accent kaart.
+        $this->assertMatchesRegularExpression('/class="\bhidden\b[^"]*\bbg-accent\b[^"]*\blg:block\b/', $html);
     }
 
-    public function test_panel_switches_from_overlay_to_accent_card_at_lg(): void
+    /**
+     * De header erft z'n tekstkleur van het paneel en zet er zelf geen. Alleen
+     * de overline-streep heeft nog een vlag nodig (`accent_bg`), want die
+     * `::after` erft niet. De responsieve varianten (`inverse_until` /
+     * `accent_bg_from`) bestaan niet meer.
+     */
+    public function test_only_the_overline_rule_still_needs_a_flag(): void
     {
-        $html = $this->render('{{ partial src="sections/cta" }}', [
-            'overline' => 'Over ons',
-            'title' => 'Lokale verkooppunten, eigen vakmensen',
-        ]);
+        $html = $this->render('{{ partial src="sections/cta" }}', $this->context);
 
-        // Panel: dark translucent overlay full width on mobile, solid accent
-        // and width-constrained from `lg` up (floating card, per Figma).
-        $this->assertStringContainsString('bg-black/60', $html);
-        $this->assertStringContainsString('lg:bg-accent', $html);
-        $this->assertStringContainsString('lg:max-w-[41.6875rem]', $html);
+        // Eén keer: alleen het accent paneel, niet het glaspaneel.
+        $this->assertSame(1, substr_count($html, 'overline--rule-dark'));
+
+        $this->assertStringNotContainsString('section-header--inverse', $html);
+        $this->assertStringNotContainsString('overline--rule-dark-from', $html);
     }
 
-    public function test_button_variant_is_the_responsive_cta_button(): void
+    public function test_each_panel_gets_a_button_that_reads_on_its_own_background(): void
     {
-        $html = $this->render('{{ partial src="sections/cta" }}', [
-            'overline' => 'Over ons',
-            'title' => 'Lokale verkooppunten, eigen vakmensen',
+        $html = $this->render('{{ partial src="sections/cta" }}', $this->context + [
             'link' => [
                 'type' => 'url',
                 'url' => 'winsol.be',
@@ -80,8 +72,9 @@ class CtaSectionTest extends SectionTestCase
             ],
         ]);
 
-        // Button: accent bg / dark label on mobile, dark bg / white label
-        // from `lg` up — single responsive class, see button.css.
-        $this->assertStringContainsString('btn--cta', $html);
+        // Accent knop op het donkere glas, donkere knop op het gele accent
+        // vlak — omgekeerd zou telkens één van de twee wegvallen.
+        $this->assertSame(1, substr_count($html, 'btn btn--primary'));
+        $this->assertSame(1, substr_count($html, 'btn btn--secondary'));
     }
 }

@@ -1,16 +1,16 @@
 {{ link }}
     {{ style = style ?? "btn btn--primary" }}
     {{ if type == 'entry' }}
-        <a class="{{ style }} {{ inverse ? " inverse" : "" }}" href="{{ entry.url }}"
+        <a class="{{ style }}" href="{{ entry.url }}"
             target="{{ new_tab ? " _blank" : "" }}"><span>{{ label }}</span></a>
     {{ elseif type == 'url' }}
-        <a class="{{ style }} {{ inverse ? " inverse" : "" }}" href="https://{{ url }}"
+        <a class="{{ style }}" href="https://{{ url }}"
             target="{{ new_tab ? '_blank' : '""' }}"><span>{{ label }}</span></a>
     {{ elseif type == 'mail' }}
-        <a class="{{ style }} {{ inverse ? " inverse" : "" }}" href="mailto:{{ e_mail }}"
+        <a class="{{ style }}" href="mailto:{{ e_mail }}"
             target="{{ new_tab ? '_blank' : '""' }}"><span>{{ label }}</span></a>
     {{ elseif type == 'phone' }}
-        <a class="{{ style }} {{ inverse ? " inverse" : "" }}" href="tel:{{ phone }}"
+        <a class="{{ style }}" href="tel:{{ phone }}"
             target="{{ new_tab ? " _blank" : "" }}"><span>{{ label }}</span></a>
     {{ /endif }}
 {{ /link }}

@@ -1,28 +1,27 @@
 {{ if background }}
-    {{ image_base_ratio = "3/4" }}
+    {{ row_class = "flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-8" }}
+    {{ text_column_class = "w-full min-w-0 lg:w-1/2 bg-light card-padding flex flex-col justify-center rounded-sm lg:px-16 2xl:px-24 order-last lg:order-none" }}
+    {{ image_column_class = "text-image__media w-full min-w-0 lg:w-1/2" }}
+    {{ image_sizes = "(min-width: 1024px) 50vw, 100vw" }}
 {{ else }}
-    {{ image_base_ratio = "16/9" }}
-{{ /if }}
-{{ if background }}
-    {{ text_column_class = "bg-light card-padding" }}
-{{ elseif text_first }}
-    {{ text_column_class = "" }}
-{{ else }}
-    {{ text_column_class = "order-last" }}
+    {{ row_class = "section-x-gap items-center" }}
+    {{ text_column_class = text_first ? "section-col-half order-last sm:order-none" : "section-col-half order-last" }}
+    {{ image_column_class = "section-col-half" }}
+    {{ image_sizes = "(min-width: 640px) 50vw, 100vw" }}
 {{ /if }}
 <section
     {{ if anchor }} id="{{ anchor }}"{{ /if }}
     class="section section--default {{ background ? 'text-image--background' : '' }}"
     data-section="text_image">
     <div class="container">
-        <div class="section-x-gap items-center">
-            <div class="{{ text_column_class }} section-col-wide">
+        <div class="{{ row_class }}">
+            <div class="{{ text_column_class }}">
                 {{ partial:sectionHeader }}
                 {{ partial:featureList :items="features" }}
             </div>
             {{ if image }}
-                <div class="section-col-narrow">
-                    {{ img :src="image" ratio="4/3" sm:ratio="5/4" max_width="1600" sizes="(min-width: 640px) 50vw, 100vw" class="rounded-sm" }}
+                <div class="{{ image_column_class }}">
+                    {{ img :src="image" ratio="4/3" sm:ratio="5/4" max_width="1600" :sizes="image_sizes" class="rounded-sm" }}
                 </div>
             {{ /if }}
         </div>

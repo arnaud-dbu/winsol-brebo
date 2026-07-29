@@ -1,11 +1,14 @@
-<section class="cta relative isolate overflow-hidden aspect-[402/705] lg:aspect-[1744/721]" data-section="cta">
+<section class="cta relative isolate overflow-hidden pt-80 pb-10 lg:pt-100 lg:pb-24" data-section="cta">
     {{ if image }}
-        {{ img :src="image" fill="true" ratio="402/705" lg:ratio="1744/721" max_width="2560" sizes="100vw" class="size-full object-cover" }}
+        {{ img :src="image" fill="true" sizes="100vw" class="size-full object-cover" }}
     {{ /if }}
+    <div class="relative container flex flex-col items-start justify-end lg:justify-center">
+        <div class="w-full max-w-md rounded-md bg-black/25 card-padding text-white backdrop-blur-sm lg:hidden">
+            {{ partial:sectionHeader btn_variant="btn btn--primary" }}
+        </div>
 
-    <div class="relative flex size-full flex-col items-start justify-end p-5 lg:justify-center lg:p-14">
-        <div class="w-full rounded-md bg-black/60 p-10 lg:w-auto lg:max-w-[41.6875rem] lg:bg-accent lg:p-14">
-            {{ partial:sectionHeader inverse_until="lg" accent_bg_from="lg" btn_variant="btn btn--cta" }}
+        <div class="hidden w-full rounded-md bg-accent card-padding lg:block lg:w-auto lg:max-w-2xl">
+            {{ partial:sectionHeader btn_variant="btn btn--secondary" accent_bg="true" }}
         </div>
     </div>
 </section>

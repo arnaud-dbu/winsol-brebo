@@ -1,43 +1,16 @@
-{{#
-    De server rendert álle projecten en zet `hidden` op wie bij de eerste
-    paint niet matcht; Alpine neemt datzelfde attribuut over via `:hidden`.
-    Daardoor werkt "Toon alles" zonder request, blijft een gedeelde URL als
-    /realisaties?range=zonwering ook zonder JavaScript kloppen, en is er geen
-    animatie in het spel.
-
-    Welke ranges in het filter horen, bepaalt `rangeFilter` zelf via de
-    `project_ranges`-tag. Deze template geeft die lijst dus niet door.
-
-    `x-data="projectFilter()"` krijgt bewust geen geïnterpoleerd argument:
-    `{{ get:range }}` is de ruwe queryparameter, en die in een Alpine-
-    expressie plaatsen (`projectFilter('{{ get:range }}')`) is een reflected-
-    XSS-gat, omdat de browser HTML-entities decodeert vóórdat Alpine de
-    attribuutwaarde als JS evalueert — escapen aan de serverkant helpt daar
-    niet tegen. `projectFilter()` leest `?range=` daarom zelf uit
-    `window.location.search` (zie resources/js/components/project-filter.js).
-
-    De slug van de range gaat eerst door `range_slug`. Reden: `range` botst met
-    Antlers' ingebouwde range/loop-tag (Statamic\Tags\Range) — precies dezelfde
-    botsing als in partials/projectCard. Houdt `range` een lege string of een
-    lege array, dan wordt `{{ range:slug }}` als tag-aanroep gelezen en gooit
-    het `BadMethodCallException: Call to undefined method slug` — een 500.
-    Echte content augmenteert naar `null` en is veilig, dus dit is latent, maar
-    de `{{ if range }}` kost niets. Een project zonder range krijgt een lege
-    `range_slug` en valt dus onder elk actief filter weg, server- én
-    client-side.
-#}}
 {{ partial:headers/default divider="true" }}
-
-<section class="section section--default" data-section="projects-overview"
-         x-data="projectFilter()">
+<section class="section section--default" data-section="projects-overview" x-data="projectFilter()">
     <div class="container">
-        <div class="grid grid-gutter lg:grid-cols-[24rem_1fr] lg:gap-x-16">
+        {{# De filterkolom is zo breed als zijn breedste pil; de grid krijgt de rest. #}}
+        <div class="grid grid-gutter gap-8 lg:grid-cols-[max-content_1fr] lg:gap-x-16 2xl:gap-x-20">
             {{ partial:rangeFilter }}
-
             <ul class="grid grid-gutter md:grid-cols-2">
                 {{ collection:projects }}
-                    {{ range_slug = '' }}{{ if range }}{{ range_slug = range:slug }}{{ /if }}
-                    <li {{ if get:range && get:range != range_slug }}hidden{{ /if }} :hidden="!matches('{{ range_slug }}')">
+                    {{ range_slug = '' }}
+                    {{ if range }}{{ range_slug = range:slug }}{{ /if }}
+                    <li
+                        {{ if get:range && get:range != range_slug }}hidden{{ /if }}
+                        :hidden="!matches('{{ range_slug }}')">
                         {{ partial:projectCard }}
                     </li>
                 {{ /collection:projects }}

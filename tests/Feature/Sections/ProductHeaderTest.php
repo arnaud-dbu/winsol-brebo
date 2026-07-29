@@ -57,6 +57,80 @@ class ProductHeaderTest extends SectionTestCase
         $this->assertStringContainsString('<p class="header-intro">De pergola met draaibare lamellen.</p>', $html);
     }
 
+    /**
+     * De foto loopt schermbreed door tot tegen alle vier de randen: geen
+     * afronding, en de sectie zit niet in een `container`.
+     */
+    public function test_the_image_is_full_bleed_without_rounding(): void
+    {
+        config(['app.debug' => false]);
+
+        $html = $this->render('{{ partial src="headers/product" }}', [
+            'title' => 'Pergola SO!',
+            'image' => '/img/pergola.jpg',
+        ]);
+
+        $this->assertMatchesRegularExpression('/<section class="([^"]*)" data-header="product"/', $html);
+        preg_match('/<section class="([^"]*)" data-header="product"/', $html, $matches);
+
+        $this->assertStringNotContainsString('rounded', $matches[1]);
+        $this->assertStringNotContainsString('container', $matches[1]);
+    }
+
+    /**
+     * De nav zweeft over de foto. De vlag komt uit de layout en niet uit deze
+     * partial: `navigation` rendert vóór `template_content` en kan dus niet
+     * weten wat er onder hem komt.
+     *
+     * Het bovenverloop van de header is precies wat die zwevende nav leesbaar
+     * houdt, dus als de een verdwijnt moet de ander mee — vandaar dat beide
+     * kanten hier in één test staan.
+     */
+    public function test_the_layout_floats_the_navigation_over_this_header(): void
+    {
+        $layout = file_get_contents(resource_path('views/layout.antlers.html'));
+
+        // Deze header zet béide vlaggen aan: hij zweeft én is wit — net als de
+        // home-hero, die in dezelfde vlag zit. De range-header zet alleen
+        // `floating` aan, dus een test die slechts op 'zweeft' controleert zou
+        // het verschil niet zien.
+        $this->assertMatchesRegularExpression(
+            '/nav_over_photo\s*=[^}]*template == \'products\/show\'/',
+            $layout
+        );
+        $this->assertMatchesRegularExpression(
+            '/:floating="nav_floats"/',
+            $layout
+        );
+        $this->assertMatchesRegularExpression(
+            '/:inverse="nav_over_photo"/',
+            $layout
+        );
+        $this->assertMatchesRegularExpression(
+            '/nav_floats\s*=\s*nav_over_photo\s*\|\|/',
+            $layout
+        );
+
+        $nav = file_get_contents(resource_path('views/partials/navigation.antlers.html'));
+
+        // Uit de flow en boven de pagina, anders schildert `main` eroverheen.
+        $this->assertStringContainsString("floating ? 'absolute inset-x-0 top-0 z-50' : 'relative'", $nav);
+
+        // Alles wat zwart is wordt wit; zwarte tekst op het donkere verloop is
+        // onleesbaar. Dat hangt aan `inverse`, niet aan `floating`.
+        $this->assertStringContainsString("nav_text_class = inverse ? 'text-white' : 'text-black'", $nav);
+        $this->assertStringContainsString("inverse ? 'logo-inverse' : 'logo'", $nav);
+        $this->assertStringContainsString(':inverse="inverse"', $nav);
+
+        // En het verloop waar dat op steunt moet blijven bestaan.
+        config(['app.debug' => false]);
+        $header = $this->render('{{ partial src="headers/product" }}', [
+            'title' => 'Pergola SO!',
+            'image' => '/img/pergola.jpg',
+        ]);
+        $this->assertStringContainsString('bg-linear-to-b from-black/70', $header);
+    }
+
     public function test_omits_the_image_wrapper_without_an_image(): void
     {
         config(['app.debug' => false]);

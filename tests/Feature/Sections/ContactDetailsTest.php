@@ -9,7 +9,7 @@ class ContactDetailsTest extends SectionTestCase
         $html = $this->render('{{ partial:contactDetails }}');
 
         $this->assertStringContainsString('data-section="contact_details"', $html);
-        $this->assertSame(3, substr_count($html, 'contact-location"'));
+        $this->assertSame(3, substr_count($html, 'data-location'));
         $this->assertStringContainsString('Winsol Dilbeek', $html);
         $this->assertStringContainsString('Winsol Sint-Pieters-Leeuw', $html);
         $this->assertStringContainsString('Winsol Aartselaar', $html);
@@ -54,7 +54,7 @@ class ContactDetailsTest extends SectionTestCase
         // hieronder via een echte pagerender getest wordt.
         $html = $this->render('{{ partial:contactDetails }}');
 
-        $this->assertStringNotContainsString('contact-bar', $html);
+        $this->assertStringNotContainsString('data-contact-bar', $html);
     }
 
     public function test_the_contact_bar_renders_from_the_globals_on_a_real_page(): void

@@ -1,51 +1,16 @@
-{{ if is_inverse }}
-    {{ inverse_class = 'section-header--inverse' }}
-{{ elseif inverse_until == 'sm' }}
-    {{ inverse_class = 'section-header--inverse-until-sm' }}
-{{ elseif inverse_until == 'md' }}
-    {{ inverse_class = 'section-header--inverse-until-md' }}
-{{ elseif inverse_until == 'lg' }}
-    {{ inverse_class = 'section-header--inverse-until-lg' }}
-{{ elseif inverse_until == 'xl' }}
-    {{ inverse_class = 'section-header--inverse-until-xl' }}
-{{ elseif inverse_until == '2xl' }}
-    {{ inverse_class = 'section-header--inverse-until-2xl' }}
-{{ else }}
-    {{ inverse_class = '' }}
-{{ /if }}
-{{#
-    Streepkleur is een tweede, onafhankelijke as naast de tekstkleur hierboven. De tekst erft van deze wrapper, maar het
-    streepje onder de overline is een `::after` met een eigen `background: var(--color-accent)`
-    (resources/css/base/typography.css). Staat de overline op een accent vlak, dan is die streep geel op geel — `cta` is
-    precies dat geval, en het is ook waarom de twee assen niet samen te voegen zijn: daar is de tekst licht ONDER `lg`
-    terwijl de streep donker moet zijn VANAF `lg`. 1. accent_bg="true" -> donkere streep op elke breedte. Wint als beide
-    args meekomen. 2. accent_bg_from="{bp}" -> accent streep onder {bp}, donkere streep vanaf {bp}. 3. geen van beide ->
-    accent streep op elke breedte (default). Zoals bij de assen hierboven: alleen sm|md|lg|xl|2xl, elk als letterlijke
-    klasse in resources/css/components/section-header.css. Nooit uit een geinterpoleerde breakpoint-string opbouwen —
-    Tailwind leest alleen letterlijke klassetekst. Een onbekende waarde valt terug op accent.
-#}}
 {{ if accent_bg }}
     {{ rule_class = ' overline--rule-dark' }}
-{{ elseif accent_bg_from == 'sm' }}
-    {{ rule_class = ' overline--rule-dark-from-sm' }}
-{{ elseif accent_bg_from == 'md' }}
-    {{ rule_class = ' overline--rule-dark-from-md' }}
-{{ elseif accent_bg_from == 'lg' }}
-    {{ rule_class = ' overline--rule-dark-from-lg' }}
-{{ elseif accent_bg_from == 'xl' }}
-    {{ rule_class = ' overline--rule-dark-from-xl' }}
-{{ elseif accent_bg_from == '2xl' }}
-    {{ rule_class = ' overline--rule-dark-from-2xl' }}
 {{ else }}
     {{ rule_class = '' }}
 {{ /if }}
-
 {{ if title || text || overline || link }}
     <div
-        class="section-header {{ inverse_class }} {{ is_centered ? 'lg:items-center lg:text-center' : '' }} {{ link_col ? "lg:flex-row lg:justify-between lg:items-end" : "" }} flex flex-col gap-4">
+        class="section-header {{ is_centered ? 'lg:items-center lg:text-center' : '' }} {{ link_col ? "lg:flex-row lg:justify-between lg:items-end" : "" }} flex flex-col gap-4">
         <div class="flex flex-col gap-4 lg:gap-6">
             {{ if overline }}
-                <div class="overline {{ is_centered ? "overline--center" : "" }} {{ rule_class }}">{{ overline }}</div>
+                <div class="{{ is_centered ? "overline--center" : "" }} {{ rule_class }} overline">
+                    {{ overline }}
+                </div>
             {{ /if }}
             {{ if title }}
                 <{{ tag ?? 'h2' }} class="max-w-3xl">{{ title }}</{{ tag ?? 'h2' }}>
@@ -55,7 +20,7 @@
             {{ /if }}
         </div>
         {{ if link }}
-            {{ partial:link :style="btn_variant" :inverse="is_inverse" }}
+            {{ partial:link :style="btn_variant" }}
         {{ /if }}
     </div>
 {{ /if }}

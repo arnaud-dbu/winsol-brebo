@@ -52,7 +52,7 @@ class PageQuicklinksTest extends SectionTestCase
 
         // De link_style-mapping is de enige vertakking in de kaart, dus dat is
         // wat vastgepind hoort te worden.
-        $this->assertSame(1, substr_count($html, 'btn--accent'));
+        $this->assertSame(1, substr_count($html, 'btn--primary'));
         $this->assertSame(1, substr_count($html, 'btn--outline'));
     }
 

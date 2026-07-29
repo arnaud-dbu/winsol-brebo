@@ -152,9 +152,8 @@ collisie en verwarring.
 Elk endpoint accepteert een optionele `site`-parameter. Noch de base install noch
 winsol-brebo heeft een `resources/sites.yaml`, dus beide draaien single-site —
 maar de base gaat naar klanten waar NL/FR eerder regel dan uitzondering is. De
-parameter nu opnemen kost
-een default en voorkomt dat we Inspace later een tweede contractversie moeten
-sturen. Ontbreekt hij, dan geldt de default site.
+parameter nu opnemen kost een default en voorkomt dat we Inspace later een tweede
+contractversie moeten sturen. Ontbreekt hij, dan geldt de default site.
 
 ### GET /pages
 

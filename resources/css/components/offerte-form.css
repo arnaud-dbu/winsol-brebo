@@ -3,26 +3,12 @@
  *
  * Alleen wat hier anders is dan het herstellingsformulier. De velden,
  * labels, dropzone en foutmeldingen komen uit components/form.css; dat
- * bestand blijft ongemoeid.
- *
- * Het enige echte verschil in het ontwerp: daar staan grijze velden op een
- * witte kaart, hier witte velden op een `light`-kaart. De variabelen op de
- * Figma-node zijn precies vier — accent, black, white en light — dus dit is
- * geen benadering.
+ * bestand blijft ongemoeid — ook de grijze veldvulling, hier op een
+ * `light`-kaart in plaats van op wit.
  */
 
 .offerte-form {
-    @apply rounded-md bg-light card-padding lg:p-10;
-}
-
-/*
- * Wint van `.form-field :is(input…)` in form.css op specificiteit, niet op
- * bronvolgorde: deze selector heeft een extra klasse (`.offerte-form`), dus
- * (0,3,1) tegenover (0,2,1) bij form.css. De bronvolgorde is hier niet
- * doorslaggevend.
- */
-.offerte-form .form-field :is(input:not([type='file']), textarea, select) {
-    @apply bg-white;
+    @apply rounded-md bg-light card-padding-lg;
 }
 
 /*
@@ -32,7 +18,7 @@
  * versmalt daarmee élk ander veld.
  */
 .offerte-products {
-    @apply flex flex-col gap-2 lg:col-span-2;
+    @apply flex flex-col gap-3 lg:col-span-2;
 }
 
 .offerte-pills {
@@ -42,11 +28,14 @@
 /*
  * De actieve staat komt volledig uit CSS, zonder JavaScript: `:has()` leest
  * de checkbox die in de label zit. Vorm en actieve kleuren zijn dezelfde
- * als `.range-filter__btn`, maar dit is een eigen klasse — dat zijn
- * filterlinks, dit zijn checkboxes met een vinkje.
+ * als de `btn`-pillen van het rangefilter, maar dit is een eigen klasse —
+ * dat zijn links, dit zijn checkboxes.
+ *
+ * Bewust geen vinkje bij de actieve staat: dat verbreedt de pil op het
+ * moment van aanvinken en laat de hele rij verspringen.
  */
 .offerte-pill {
-    @apply inline-flex cursor-pointer items-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-black;
+    @apply inline-flex cursor-pointer items-center rounded-full bg-white px-5 py-3 font-semibold text-black;
 
     font-size: clamp(0.6875rem, 0.554rem + 0.335vw, 0.875rem);
     line-height: 1.1;
@@ -67,14 +56,6 @@
 
 .offerte-pill:has(input:checked) {
     @apply bg-black text-white;
-}
-
-.offerte-pill__check {
-    @apply hidden size-4;
-}
-
-.offerte-pill:has(input:checked) .offerte-pill__check {
-    @apply block;
 }
 
 .offerte-success {
@@ -101,7 +82,7 @@
 }
 
 .offerte-still {
-    @apply lg:col-span-4 lg:col-start-1 lg:row-start-2 lg:self-end;
+    @apply relative lg:col-span-4 lg:col-start-1 lg:row-start-2 lg:self-end;
 }
 
 .offerte-form {

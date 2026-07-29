@@ -1,3 +1,40 @@
+/*
+ * Voor headers waar de nav overheen zweeft: het achtergrondvlak loopt door
+ * achter de nav, dus de inhoud moet die hoogte zelf overslaan. `--nav-height`
+ * stuurt zowel de nav als deze padding (zie navigation.css), zodat de twee
+ * niet uit elkaar kunnen lopen.
+ */
+@utility header-under-nav {
+    padding-top: calc(var(--nav-height) + var(--spacing-section-half));
+}
+
+/*
+ * De home-hero vult het venster, maar met een plafond: op een lang scherm
+ * wordt hij anders een leeg vlak waar de value proposition ver onder de plooi
+ * wegzakt. `svh` en niet `vh`, zodat de mobiele adresbalk geen tweede sprong
+ * maakt. `min-height` en niet `height`, want een kaart die hoger uitvalt dan
+ * het venster — lange titel op een smal scherm — mag de sectie meenemen in
+ * plaats van eruit te lopen.
+ */
+@utility hero-frame {
+    min-height: min(100svh, 56rem); /* 896px */
+}
+
+/*
+ * De nav zweeft over de hero, dus de kaart moet die hoogte zelf overslaan:
+ * anders schuift hij op een kort scherm onder het logo. Onderaan staat de
+ * kaart op dezelfde marge als de container links van hem heeft (`px-4`,
+ * `lg:px-10`), zodat de inspringing rondom gelijk blijft.
+ */
+@utility hero-inset {
+    padding-top: calc(var(--nav-height) + var(--spacing-margin-mobile));
+    padding-bottom: var(--spacing-margin-mobile);
+
+    @media (min-width: 64rem) {
+        padding-top: calc(var(--nav-height) + var(--spacing-margin));
+        padding-bottom: var(--spacing-margin);
+    }
+}
 
 .header-title {
     font-size: var(--text-display); /* 39 → 76px */

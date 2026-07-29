@@ -73,6 +73,120 @@ class RangeHeaderTest extends SectionTestCase
         $this->assertDoesNotMatchRegularExpression('/overflow-/', $sectionTag[0]);
     }
 
+    /**
+     * Elke range-png is een vierkant canvas met het product gecentreerd en
+     * een wisselende hoeveelheid transparante lucht eromheen. Een vierkante
+     * box met `object-contain` is precies wat het optische midden van het
+     * product op het midden van de box legt, ongeacht welke range er staat.
+     *
+     * `ratio` zou dat kapotmaken: die crop't via `crop_focal` en levert per
+     * beeld een ander midden op. Vandaar dat beide kanten hier vastliggen.
+     */
+    public function test_the_media_is_a_square_contain_box(): void
+    {
+        config(['app.debug' => false]);
+
+        $html = $this->render('{{ partial src="headers/range" }}', [
+            'title' => 'Terrasoverkapping',
+            'image' => '/img/pergolas.png',
+        ]);
+
+        $this->assertMatchesRegularExpression(
+            '/data-header-media[^>]*class="[^"]*aspect-square/',
+            $html
+        );
+        $this->assertMatchesRegularExpression(
+            '/<img[^>]*class="[^"]*object-contain/',
+            $html
+        );
+
+        // Geen crop: een `ratio` op {{ img }} zet `fit=crop_focal` in de
+        // Glide-URL en zou het product aansnijden.
+        $this->assertStringNotContainsString('crop_focal', $html);
+    }
+
+    /**
+     * Het beeld steekt links voorbij de paginamarge het beeld uit. Dat kan
+     * alleen als niets ertussen klipt — de sectie niet (dat pint de test
+     * hierboven) en de container niet. Zonder deze assertie zou een
+     * `overflow-hidden` op de container het beeld stilletjes bijsnijden op
+     * exact de marge, wat er "bijna goed" uitziet.
+     */
+    public function test_the_media_bleeds_past_the_page_margin(): void
+    {
+        config(['app.debug' => false]);
+
+        $html = $this->render('{{ partial src="headers/range" }}', [
+            'title' => 'Terrasoverkapping',
+            'image' => '/img/pergolas.png',
+        ]);
+
+        $this->assertMatchesRegularExpression(
+            '/data-header-media[^>]*class="[^"]*lg:-ml-/',
+            $html
+        );
+
+        // Precies één klippende laag in deze header, en dat is die van het
+        // watermerk. Een `overflow-hidden` erbij — op de sectie, de container
+        // of de media zelf — snijdt het beeld af op exact de marge, wat er
+        // "bijna goed" uitziet en dus makkelijk ongemerkt binnenglipt.
+        $this->assertSame(1, substr_count($html, 'overflow-'));
+    }
+
+    /**
+     * De nav zweeft over deze header, maar blijft zwart: de achtergrond is
+     * licht. Dat is precies waarom `floating` en `inverse` twee vlaggen zijn
+     * — zie ProductHeaderTest voor de kant waar ze allebei aanstaan.
+     *
+     * Het lichte vlak loopt daardoor door achter de nav, dus de header moet
+     * die hoogte zelf overslaan. Beide kanten staan hier samen: verdwijnt de
+     * ene, dan klopt de andere niet meer.
+     */
+    public function test_the_layout_floats_a_dark_navigation_over_this_header(): void
+    {
+        $layout = file_get_contents(resource_path('views/layout.antlers.html'));
+
+        $this->assertMatchesRegularExpression(
+            '/nav_floats\s*=\s*nav_over_photo\s*\|\|\s*template == \'ranges\/show\'/',
+            $layout
+        );
+
+        // Wél zwevend, niet inverse: `inverse` hangt alleen aan de foto-header.
+        $this->assertStringNotContainsString("nav_over_photo = template == 'ranges/show'", $layout);
+
+        config(['app.debug' => false]);
+        $html = $this->render('{{ partial src="headers/range" }}', [
+            'title' => 'Terrasoverkapping',
+        ]);
+
+        $this->assertStringContainsString('header-under-nav', $html);
+    }
+
+    /**
+     * `--nav-height` stuurt zowel de nav-hoogte als de padding van deze
+     * header. Zou de nav zijn hoogte weer uit padding halen, dan schuift de
+     * H1 onder de zwevende nav zonder dat één test rood wordt.
+     */
+    public function test_the_nav_height_variable_drives_both_sides(): void
+    {
+        $nav = file_get_contents(resource_path('views/partials/navigation.antlers.html'));
+        $this->assertStringContainsString('nav-bar', $nav);
+
+        $navCss = file_get_contents(resource_path('css/components/navigation.css'));
+        $this->assertMatchesRegularExpression('/@utility nav-bar \{\s*height: var\(--nav-height\);/', $navCss);
+
+        $headerCss = file_get_contents(resource_path('css/components/header.css'));
+        $this->assertMatchesRegularExpression(
+            '/@utility header-under-nav \{\s*padding-top: calc\(var\(--nav-height\)/',
+            $headerCss
+        );
+
+        $this->assertStringContainsString(
+            "@import './components/navigation.css';",
+            file_get_contents(resource_path('css/site.css'))
+        );
+    }
+
     public function test_omits_the_image_wrapper_without_an_image(): void
     {
         config(['app.debug' => false]);

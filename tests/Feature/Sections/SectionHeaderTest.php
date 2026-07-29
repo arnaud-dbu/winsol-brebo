@@ -2,8 +2,6 @@
 
 namespace Tests\Feature\Sections;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-
 class SectionHeaderTest extends SectionTestCase
 {
     private array $context = [
@@ -55,53 +53,56 @@ class SectionHeaderTest extends SectionTestCase
         $this->assertStringContainsString('flex flex-col', $html);
     }
 
-    public function test_inverse_variant(): void
+    /**
+     * De partial zet zelf geen tekstkleur — niet met een vlag en niet per
+     * breakpoint. Ze erft van het vlak eromheen, precies zoals de overline
+     * z'n kleur al kreeg. Een lichte header is dus `text-white` op het
+     * omhullende paneel; zie CtaSectionTest.
+     */
+    public function test_partial_never_sets_its_own_text_colour(): void
     {
-        $html = $this->render('{{ partial:sectionHeader is_inverse="true" }}', $this->context);
+        foreach (['', 'is_inverse="true"', 'inverse_until="lg"'] as $args) {
+            $html = $this->render("{{ partial:sectionHeader {$args} }}", $this->context);
 
-        $this->assertStringContainsString('section-header--inverse', $html);
-
-        // Geen aparte `overline--inverse`-klasse: de overline-utility zet zelf
-        // geen kleur en erft die van de `.section-header`-wrapper (zie
-        // resources/css/base/typography.css en section-header.css).
+            $this->assertStringNotContainsString('section-header--inverse', $html);
+            $this->assertStringNotContainsString('text-white', $html);
+        }
     }
 
-    public static function inverseUntilBreakpointProvider(): array
+    /**
+     * `is_inverse` gaf ook een `inverse`-klasse door aan de knop. Die klasse
+     * bestond nergens in resources/css, dus ze is mee verdwenen.
+     */
+    public function test_button_gets_no_dead_inverse_class(): void
     {
-        return [
-            'sm' => ['sm'],
-            'md' => ['md'],
-            'lg' => ['lg'],
-            'xl' => ['xl'],
-            '2xl' => ['2xl'],
-        ];
+        $html = $this->render('{{ partial:sectionHeader is_inverse="true" }}', $this->context + [
+            'link' => ['type' => 'url', 'url' => 'winsol.be', 'label' => 'Lees meer'],
+        ]);
+
+        $this->assertStringContainsString('Lees meer', $html);
+        $this->assertStringNotContainsString('inverse', $html);
     }
 
-    #[DataProvider('inverseUntilBreakpointProvider')]
-    public function test_inverse_until_emits_the_literal_breakpoint_class(string $breakpoint): void
+    /**
+     * `accent_bg="true"` maakt de overline-streep donker: op een accent vlak
+     * zou de default-accentstreep geel op geel staan. Ook hier geen
+     * responsieve variant (`accent_bg_from`).
+     */
+    public function test_accent_bg_darkens_the_overline_rule(): void
     {
-        $html = $this->render('{{ partial:sectionHeader :inverse_until="breakpoint" }}', $this->context + ['breakpoint' => $breakpoint]);
+        $html = $this->render('{{ partial:sectionHeader accent_bg="true" }}', $this->context);
 
-        $this->assertStringContainsString("section-header--inverse-until-{$breakpoint}", $html);
+        $this->assertStringContainsString('overline--rule-dark', $html);
 
-        // Geen aparte `overline--inverse-until-{$breakpoint}`-klasse: zie
-        // test_inverse_variant hierboven.
+        $withoutFlag = $this->render('{{ partial:sectionHeader }}', $this->context);
+        $this->assertStringNotContainsString('overline--rule-dark', $withoutFlag);
     }
 
-    public function test_inverse_until_with_unsupported_value_falls_back_to_dark_at_every_width(): void
+    public function test_accent_bg_has_no_responsive_variant(): void
     {
-        $html = $this->render('{{ partial:sectionHeader inverse_until="not-a-breakpoint" }}', $this->context);
+        $html = $this->render('{{ partial:sectionHeader accent_bg_from="lg" }}', $this->context);
 
-        $this->assertStringNotContainsString('section-header--inverse', $html);
-        $this->assertStringNotContainsString('overline--inverse', $html);
-    }
-
-    public function test_is_inverse_wins_when_both_args_are_passed(): void
-    {
-        $html = $this->render('{{ partial:sectionHeader is_inverse="true" inverse_until="lg" }}', $this->context);
-
-        $this->assertStringContainsString('section-header--inverse', $html);
-        $this->assertStringNotContainsString('section-header--inverse-until-lg', $html);
+        $this->assertStringNotContainsString('overline--rule-dark', $html);
     }
 
     public function test_heading_tag_is_configurable(): void

@@ -1,58 +1,18 @@
-{{#
-    Vaste component: geen argumenten, leest de locations-collectie en de
-    globals zelf.
-
-    In Figma (318:3510) zitten de adreskaartjes en de contactbalk samen in
-    één licht paneel met de shape-blob erachter — niet in twee losse
-    containers, zoals de opdracht ze beschreef. De gedeelde achtergrond en de
-    blob kloppen anders niet.
-
-    De balk leest `globals:contact:*`. Die cascade bestaat alleen bij een
-    echte pagerender: in SectionTestCase::render() is hij altijd leeg. Daarom
-    test ContactDetailsTest de balk via $this->get('/contact') en de
-    kaartjes via render().
-
-    `regex_replace` is in dit project een stille no-op — geverifieerd in vier
-    argumentsyntaxen, de waarde komt ongewijzigd terug zonder foutmelding.
-    Vandaar de replace-ketting voor het wa.me-nummer, dat alleen cijfers
-    accepteert.
-
-    Antlers HTML-encodeert `{{ variable }}` hier niet automatisch (geverifieerd
-    via view()->render(): een kale "a & b" komt ongewijzigd terug, geen
-    `htmlspecialchars`-aanroep in het Antlers-runtime pad). Elke waarde in
-    deze partial die uit een editor-veld of een global komt — naam, adres,
-    openingsuren, telefoon, e-mail — is vrije tekst zonder validatie op
-    HTML-tekens, dus krijgt hier overal dezelfde `entities`-modifier, zoals
-    `range-overview.antlers.html` al doet voor taxonomietitels. Alleen
-    statische labels ("Whatsapp") en klassenamen blijven ongemoeid. Dit is
-    de conventie binnen dít bestand, geen projectbrede regel: `link.antlers.html`,
-    `headers/default.antlers.html` en `locationCard.antlers.html` renderen
-    dezelfde soort editor-waarden elders nog kaal.
-
-    De modifier staat ook op de `href`-waarden van de contactbalk, niet
-    alleen op de zichtbare labels: een `"` in een global zou anders uit het
-    `href="..."`-attribuut kunnen breken. Voor `wa.me` komt hij ná de
-    `replace`-ketting die spaties en de `+` verwijdert; voor `tel:` ná de
-    ketting die alleen spaties verwijdert (de `+` in een telefoonnummer is
-    geen probleem voor `tel:`, wel voor `wa.me` dat enkel cijfers accepteert)
-    — die kettingen blijven intact, `entities` is daar puur een extra laag
-    voor tekens die de replace niet opvangt.
-#}}
 <section class="section section--default" data-section="contact_details">
     <div class="container">
-        <div class="contact-panel">
-            {{ svg src="shape" aria-hidden="true" class="contact-panel__shape" }}
-
-            <ul class="grid gap-6 lg:grid-cols-3 lg:gap-8">
+        <div
+            class="relative isolate flex flex-col gap-5 overflow-hidden rounded-md bg-light p-6 lg:gap-6 xl:gap-7 lg:px-8 lg:py-12  2xl:px-10 2xl:py-16">
+            {{ svg src="shape-full" aria-hidden="true" class="pointer-events-none absolute top-[10%] -left-[25%] -z-10 h-auto w-full max-w-none [&_path]:fill-light-shape" }}
+            <ul class="grid gap-5 lg:grid-cols-3 lg:gap-6 xl:gap-7">
                 {{ collection:locations }}
-                    <li class="contact-location">
-                        <h3 class="contact-location__name">{{ name | entities }}</h3>
-                        <p class="contact-location__address">{{ street | entities }} {{ number | entities }}, {{ postal_code | entities }} {{ city | entities }}</p>
-
+                    <li class="flex flex-col gap-2 rounded-md bg-white p-6 xl:px-8 xl:py-10" data-location>
+                        <h3 class="text-xl font-semibold">{{ name | entities }}</h3>
+                        {{# Eén expressie: los uitgeschreven breekt Prettier de regel vlak vóór de komma. #}}
+                        <p class="text-base">{{ "{street} {number}, {postal_code} {city}" | entities }}</p>
                         {{ if opening_hours }}
-                            <dl class="contact-location__hours">
+                            <dl class="mt-2 flex flex-col gap-2 text-base">
                                 {{ opening_hours }}
-                                    <div class="contact-location__hours-row">
+                                    <div class="flex justify-between gap-4">
                                         <dt>{{ day | entities }}</dt>
                                         <dd>{{ time | entities }}</dd>
                                     </div>
@@ -62,31 +22,48 @@
                     </li>
                 {{ /collection:locations }}
             </ul>
-
             {{ if globals:contact:mobile or globals:contact:phone or globals:contact:email }}
-                <ul class="contact-bar">
+                <ul
+                    class="flex flex-col gap-4 rounded-md bg-white px-6 py-5 md:flex-row md:items-center md:justify-center md:gap-10 lg:gap-28"
+                    data-contact-bar>
                     {{ if globals:contact:mobile }}
                         <li>
-                            <a class="contact-bar__item" href="https://wa.me/{{ globals:contact:mobile | replace('+', '') | replace(' ', '') | entities }}" target="_blank" rel="noopener">
-                                <span class="contact-bar__icon contact-bar__icon--whatsapp">{{ svg src="icons/fill/whatsapp-logo-fill" aria-hidden="true" class="size-6" }}</span>
+                            <a
+                                class="flex items-center gap-3 text-base font-semibold transition-opacity hover:opacity-70"
+                                href="https://wa.me/{{ globals:contact:mobile | replace('+', '') | replace(' ', '') | entities }}"
+                                target="_blank"
+                                rel="noopener">
+                                <span
+                                    class="flex size-10 shrink-0 items-center justify-center rounded-full bg-whatsapp text-white">
+                                    {{# Het merkglyph, geen Phosphor-logo. Eigen fill="white" in het bestand, dus de `text-white` hiernaast raakt hem niet. #}}
+                                    {{ svg src="whatsapp" aria-hidden="true" class="h-6 w-auto" }}
+                                </span>
                                 Whatsapp
                             </a>
                         </li>
                     {{ /if }}
-
                     {{ if globals:contact:phone }}
                         <li>
-                            <a class="contact-bar__item" href="tel:{{ globals:contact:phone | replace(' ', '') | entities }}">
-                                <span class="contact-bar__icon contact-bar__icon--accent">{{ svg src="icons/fill/phone-fill" aria-hidden="true" class="size-6" }}</span>
+                            <a
+                                class="flex items-center gap-3 text-base font-semibold transition-opacity hover:opacity-70"
+                                href="tel:{{ globals:contact:phone | replace(' ', '') | entities }}">
+                                <span
+                                    class="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent text-black">
+                                    {{ icon src="phone" aria-hidden="true" class="size-6" }}
+                                </span>
                                 {{ globals:contact:phone | entities }}
                             </a>
                         </li>
                     {{ /if }}
-
                     {{ if globals:contact:email }}
                         <li>
-                            <a class="contact-bar__item" href="mailto:{{ globals:contact:email | entities }}">
-                                <span class="contact-bar__icon contact-bar__icon--accent">{{ svg src="icons/fill/envelope-fill" aria-hidden="true" class="size-6" }}</span>
+                            <a
+                                class="flex items-center gap-3 text-base font-semibold transition-opacity hover:opacity-70"
+                                href="mailto:{{ globals:contact:email | entities }}">
+                                <span
+                                    class="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent text-black">
+                                    {{ icon src="envelope" aria-hidden="true" class="size-6" }}
+                                </span>
                                 {{ globals:contact:email | entities }}
                             </a>
                         </li>

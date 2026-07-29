@@ -10,21 +10,34 @@ page_builder:
     type: text_image
     overline: 'In de kijker'
     title: 'Pergola SO!'
-    text: '<p>De pergola met draaibare lamellen die je terras het hele jaar door bruikbaar maakt — zon, schaduw of beschutting tegen de regen, met één tik op je smartphone.</p>'
+    text:
+      -
+        type: paragraph
+        attrs:
+          textAlign: left
+        content:
+          -
+            type: text
+            text: 'De pergola met draaibare lamellen die je terras het hele jaar door bruikbaar maakt — zon, schaduw of beschutting tegen de regen, met één tik op je smartphone.'
     features:
       -
         id: feat01
         type: feature
         label: 'Automatische lamellen'
+        enabled: true
       -
         id: feat02
         type: feature
         label: 'Bediening via app'
+        enabled: true
       -
         id: feat03
         type: feature
         label: 'Belgisch maatwerk'
+        enabled: true
     image: dummy-images/test-img-13.jpg
+    background: false
+    enabled: true
   -
     id: sec02
     type: ranges
@@ -40,6 +53,7 @@ page_builder:
       - 8c2e41a0-0007-4a1b-9c7d-3e5f6a7b8c07
       - 8c2e41a0-0008-4a1b-9c7d-3e5f6a7b8c08
       - 8c2e41a0-0009-4a1b-9c7d-3e5f6a7b8c09
+    enabled: true
   -
     id: sec03
     type: cards
@@ -51,82 +65,140 @@ page_builder:
         type: card
         image: dummy-images/test-img-19.jpg
         title: 'Sfeervolle ledverlichting'
-        text: '<p>Dimbare spots geïntegreerd in de lamellen en de structuur. Ook na zonsondergang blijft uw terras een aangename plek.</p>'
+        text:
+          -
+            type: paragraph
+            attrs:
+              textAlign: left
+            content:
+              -
+                type: text
+                text: 'Dimbare spots geïntegreerd in de lamellen en de structuur. Ook na zonsondergang blijft uw terras een aangename plek.'
         features:
           -
             id: card01feat01
             type: feature
             label: 'Dimbaar via app'
+            enabled: true
           -
             id: card01feat02
             type: feature
             label: 'Spots in lamellen én balken'
+            enabled: true
           -
             id: card01feat03
             type: feature
             label: 'Warmwit, instelbaar'
+            enabled: true
+        enabled: true
       -
         id: card02
         type: card
         image: dummy-images/test-img-1.jpg
         title: 'Klaar voor lange avonden'
-        text: '<p>Voorzie verwarmingselementen, speakers en stopcontacten. Uw buitenkamer wordt een verlengstuk van de woonkamer.</p>'
+        text:
+          -
+            type: paragraph
+            attrs:
+              textAlign: left
+            content:
+              -
+                type: text
+                text: 'Voorzie verwarmingselementen, speakers en stopcontacten. Uw buitenkamer wordt een verlengstuk van de woonkamer.'
         features:
           -
             id: card02feat01
             type: feature
             label: Infraroodverwarming
+            enabled: true
           -
             id: card02feat02
             type: feature
             label: 'Geïntegreerde audio'
+            enabled: true
           -
             id: card02feat03
             type: feature
             label: 'Stroompunten op maat'
+            enabled: true
+        enabled: true
       -
         id: card03
         type: card
         image: dummy-images/test-img-2.jpg
         title: 'Tot op de millimeter op maat'
-        text: '<p>Vrijstaand of aangebouwd, koppelbaar tot grote oppervlaktes, in elke RAL-kleur. De pergola volgt uw woning, niet omgekeerd.</p>'
+        text:
+          -
+            type: paragraph
+            attrs:
+              textAlign: left
+            content:
+              -
+                type: text
+                text: 'Vrijstaand of aangebouwd, koppelbaar tot grote oppervlaktes, in elke RAL-kleur. De pergola volgt uw woning, niet omgekeerd.'
         features:
           -
             id: card03feat01
             type: feature
             label: 'Koppelbare modules'
+            enabled: true
           -
             id: card03feat02
             type: feature
             label: 'Elke RAL-kleur'
+            enabled: true
           -
             id: card03feat03
             type: feature
             label: 'Vrijstaand of aangebouwd'
+            enabled: true
+        enabled: true
       -
         id: card04
         type: card
         image: dummy-images/test-img-3.jpg
         title: 'Sierwanden en schuifpanelen'
-        text: '<p>Glazen schuifwanden, screens en sierpanelen sluiten de pergola af tegen wind en inkijk — zonder het open gevoel te verliezen.</p>'
+        text:
+          -
+            type: paragraph
+            attrs:
+              textAlign: left
+            content:
+              -
+                type: text
+                text: 'Glazen schuifwanden, screens en sierpanelen sluiten de pergola af tegen wind en inkijk — zonder het open gevoel te verliezen.'
         features:
           -
             id: card04feat01
             type: feature
             label: 'Glazen schuifwanden'
+            enabled: true
           -
             id: card04feat02
             type: feature
             label: Zip-screens
+            enabled: true
           -
             id: card04feat03
             type: feature
             label: Sierpanelen
+            enabled: true
+        enabled: true
+    enabled: true
   -
     id: sec04
     type: text
     title: 'Van de draaibare lamellen tot de avondsfeer met geïntegreerde led — dit project van dichtbij.'
-    text: '<p>De oplossing werd een aangebouwde Pergola SO! met draaibare lamellen, aangevuld met glazen schuifwanden en zip-screens. Geïntegreerde ledverlichting verlengt de avonden tot ver in het seizoen. Het resultaat is een echte buitenkamer die naadloos aansluit op de leefruimte: met één tik op de app schakelt het terras van volle zon naar beschutte luwte.</p>'
+    text:
+      -
+        type: paragraph
+        attrs:
+          textAlign: left
+        content:
+          -
+            type: text
+            text: 'De oplossing werd een aangebouwde Pergola SO! met draaibare lamellen, aangevuld met glazen schuifwanden en zip-screens. Geïntegreerde ledverlichting verlengt de avonden tot ver in het seizoen. Het resultaat is een echte buitenkamer die naadloos aansluit op de leefruimte: met één tik op de app schakelt het terras van volle zon naar beschutte luwte.'
+    enabled: true
   -
     id: sec05
     type: projects
@@ -134,15 +206,16 @@ page_builder:
     title: 'Recent gerealiseerd'
     link:
       -
+        id: gzejMI7X
         type: entry
-        entry:
-          - abe3f0e6-93bd-4c99-9389-393613952117
+        entry: abe3f0e6-93bd-4c99-9389-393613952117
         label: 'Bekijk alle realisaties'
         new_tab: false
     projects:
       - b7d4e2c3-0001-4f5a-9b8c-6d7e8f9a0b01
       - b7d4e2c3-0003-4f5a-9b8c-6d7e8f9a0b03
       - b7d4e2c3-0005-4f5a-9b8c-6d7e8f9a0b05
+    enabled: true
   -
     id: sec06
     type: technical_details
@@ -150,30 +223,37 @@ page_builder:
     text: 'Duis consectetur nisi labore labore fugiat tempor et officia proident pariatur pariatur. Veniam cillum elit non. Reprehenderit consequat duis eiusmod labore et enim nostrud consectetur magna proident minim commodo consectetur.'
     link:
       -
+        id: g0I7YrMJ
         type: entry
-        entry:
-          - f0ee3161-1534-4986-9ef1-a92fccfba619
+        entry: f0ee3161-1534-4986-9ef1-a92fccfba619
         label: 'Brochure aanvragen'
         new_tab: false
     technical_details:
       -
+        id: lW8hAOba
         key: 'Max. breedte per module'
         value: 'tot 6,0 m'
       -
+        id: r2PmWmlm
         key: 'Max. uitval'
         value: 'tot 6,0 m'
       -
+        id: djRuAd0M
         key: 'Lamellen openingsgraad'
         value: '0 tot 145 graden'
       -
+        id: DbzcHxpu
         key: 'Glas schuifwanden'
         value: 'veiligheidsglas 10 mm (ESG/H)'
       -
+        id: 1TqEPaXN
         key: 'Screens windklasse'
         value: 'klasse 3 (6 Beaufort)'
       -
+        id: vfI5plpw
         key: Bediening
         value: 'app, druktoetsen of automatisch'
+    enabled: true
   -
     id: sec07
     type: features
@@ -186,24 +266,29 @@ page_builder:
         icon: map-pin
         title: 'Lokaal verankerd'
         text: 'Drie verkooppunten uit de buurt, met persoonlijk en bereikbaar contact.'
+        enabled: true
       -
         id: feature02
         type: feature
         icon: users-three
         title: 'Eigen plaatsingsteam'
         text: 'Onze eigen vakmensen plaatsen alles — geen onderaannemers.'
+        enabled: true
       -
         id: feature03
         type: feature
         icon: handshake
         title: 'Eerlijk advies'
         text: 'We stellen voor wat past bij uw woning en budget, zonder verkooppraat.'
+        enabled: true
       -
         id: feature04
         type: feature
         icon: ruler
         title: Maatwerk
         text: 'Alles op maat gemaakt en afgewerkt tot in de details.'
+        enabled: true
+    enabled: true
   -
     id: sec08
     type: grid_cta
@@ -215,10 +300,12 @@ page_builder:
         text: 'Onze producten komen van Winsol, een Belgisch merk met 145 jaar vakmanschap. Het merk maakt en ontwikkelt; wij zijn de lokale verkooppunten die adviseren, plaatsen en u na de verkoop verderhelpen.'
         link:
           -
+            id: A0Gwv5ma
             type: url
             url: winsol.eu
             label: 'Naar winsol.eu'
             new_tab: true
+        enabled: true
       -
         id: grid02
         type: item
@@ -226,11 +313,13 @@ page_builder:
         text: 'We zijn altijd op zoek naar vakmensen die ons lokaal team komen versterken. We houden geen lange vacaturelijst bij — stuur ons gerust je cv of een open sollicitatie.'
         link:
           -
+            id: l2ZuN7fj
             type: entry
-            entry:
-              - f0ee3161-1534-4986-9ef1-a92fccfba619
+            entry: f0ee3161-1534-4986-9ef1-a92fccfba619
             label: 'Stuur ons je cv'
             new_tab: false
+        enabled: true
+    enabled: true
   -
     id: sec09
     type: image_gallery
@@ -240,6 +329,10 @@ page_builder:
       - dummy-images/test-img-14.jpg
       - dummy-images/test-img-15.jpg
       - dummy-images/test-img-16.jpg
+      - dummy-images/test-img-17.jpg
+      - dummy-images/test-img-18.jpg
+      - dummy-images/test-img-19.jpg
+    enabled: true
   -
     id: sec10
     type: cta
@@ -248,19 +341,29 @@ page_builder:
     text: 'Geen anonieme keten, maar drie lokale Winsol-verkooppunten met een vast eigen team. We denken met je mee van het eerste advies tot lang na de plaatsing.'
     link:
       -
+        id: aaS7a4Ti
         type: entry
-        entry:
-          - 559b2b7e-a511-409c-9eec-51d314cec648
+        entry: 559b2b7e-a511-409c-9eec-51d314cec648
         label: 'Lees ons overhaal'
         new_tab: false
     image: dummy-images/test-img-17.jpg
+    enabled: true
   -
     id: sec11
     type: text_image
     background: true
     title: 'Drie lokale verkooppunten, één aanpak'
-    text: '<p>Winsol Dilbeek, Sint-Pieters-Leeuw en Aartselaar zijn drie zelfstandige, lokale verkooppunten. Geen anoniem filiaal van een keten, maar mensen uit de buurt die je woning kennen en met je meedenken — van het eerste advies tot lang na de plaatsing. [Hier komt het verhaal van de lokale ondernemers: sinds wanneer, door wie en waarom. Deze tekst wordt door de klant aangeleverd.]</p>'
+    text:
+      -
+        type: paragraph
+        attrs:
+          textAlign: left
+        content:
+          -
+            type: text
+            text: 'Winsol Dilbeek, Sint-Pieters-Leeuw en Aartselaar zijn drie zelfstandige, lokale verkooppunten. Geen anoniem filiaal van een keten, maar mensen uit de buurt die je woning kennen en met je meedenken — van het eerste advies tot lang na de plaatsing. [Hier komt het verhaal van de lokale ondernemers: sinds wanneer, door wie en waarom. Deze tekst wordt door de klant aangeleverd.]'
     image: dummy-images/test-img-18.jpg
+    enabled: true
   -
     id: sec12
     type: products
@@ -273,4 +376,8 @@ page_builder:
       - 9a3f52b1-0004-4c2d-8e6f-4a5b6c7d8e04
       - 9a3f52b1-0005-4c2d-8e6f-4a5b6c7d8e05
       - 9a3f52b1-0006-4c2d-8e6f-4a5b6c7d8e06
+    enabled: true
+seo_noindex: false
+updated_by: d308c19c-c205-4453-9862-1f62996a3734
+updated_at: 1785271199
 ---

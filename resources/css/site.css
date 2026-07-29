@@ -6,22 +6,19 @@
 @theme {
     --font-base: 'General Sans', sans-serif;
 
-    --color-accent: #F8D71C;
-    --color-light: #F1F6F8;
+    --color-accent: #f8d71c;
+    --color-light: #f1f6f8;
+    --color-light-shape: #ebf0f2;
     --color-white: #fff;
-    --color-black: #121B22;
+    --color-black: #121b22;
     --color-dark: #292d2d;
+    --color-whatsapp: #25d366;
 
-    /* Merkkleur van WhatsApp, gebruikt door de contactbalk. Als token en niet
-       als arbitrary value: hij komt terug zodra er elders een WhatsApp-knop
-       opduikt. */
-    --color-whatsapp: #25D366;
-
-    --spacing-gutter: 2rem;          /* 32 */
-    --spacing-margin: 2.5rem;        /* 40 */
-    --spacing-margin-mobile: 1.25rem;/* 20 */
-    --spacing-section: 7rem;         /* 112 */
-    --spacing-section-half: 4rem;    /* 64 */
+    --spacing-gutter: 2rem; /* 32 */
+    --spacing-margin: 2.5rem; /* 40 */
+    --spacing-margin-mobile: 1.25rem; /* 20 */
+    --spacing-section: 7rem; /* 112 */
+    --spacing-section-half: 4rem; /* 64 */
 
     --breakpoint-xs: 28rem; /* 448px */
     --breakpoint-sm: 40rem; /* 640px */
@@ -44,14 +41,14 @@
     --radius-6xl: 4.5rem; /* 32px */
 
     /* Fluid: mobiel (640px) → desktop (1536px), waarden uit Figma */
-    --text-xs: clamp(0.625rem, 0.491rem + 0.335vw, 0.8125rem);    /*          10 → 13 */
-    --text-sm: clamp(0.8125rem, 0.679rem + 0.335vw, 1rem);        /*          13 → 16 */
-    --text-base: clamp(1rem, 0.821rem + 0.446vw, 1.25rem);        /* P        16 → 20 */
-    --text-lg: clamp(1.125rem, 0.813rem + 0.781vw, 1.5625rem);    /* P-lg     18 → 25 */
-    --text-xl: clamp(1.25rem, 0.759rem + 1.228vw, 1.9375rem);     /* H3       20 → 31 */
-    --text-2xl: clamp(1.5625rem, 0.938rem + 1.563vw, 2.4375rem);  /*          25 → 39 */
-    --text-3xl: clamp(1.9375rem, 1.134rem + 2.009vw, 3.0625rem);  /* H2       31 → 49 */
-    --text-4xl: clamp(2.4375rem, 1.455rem + 2.455vw, 3.8125rem);  /* H1       39 → 61 */
+    --text-xs: clamp(0.625rem, 0.491rem + 0.335vw, 0.8125rem); /*          10 → 13 */
+    --text-sm: clamp(0.8125rem, 0.679rem + 0.335vw, 1rem); /*          13 → 16 */
+    --text-base: clamp(1rem, 0.821rem + 0.446vw, 1.25rem); /* P        16 → 20 */
+    --text-lg: clamp(1.125rem, 0.813rem + 0.781vw, 1.5625rem); /* P-lg     18 → 25 */
+    --text-xl: clamp(1.25rem, 0.759rem + 1.228vw, 1.9375rem); /* H3       20 → 31 */
+    --text-2xl: clamp(1.5625rem, 0.938rem + 1.563vw, 2.4375rem); /*          25 → 39 */
+    --text-3xl: clamp(1.9375rem, 1.134rem + 2.009vw, 3.0625rem); /* H2       31 → 49 */
+    --text-4xl: clamp(2.4375rem, 1.455rem + 2.455vw, 3.8125rem); /* H1       39 → 61 */
 
     /* Header-H1: groter dan de site-h1 (die op 61px stopt). Figma 293:3544, 301:3498, 301:3308. */
     --text-display: clamp(2.4375rem, 0.786rem + 4.129vw, 4.75rem); /* 39 → 76 */
@@ -74,6 +71,7 @@
 @import './base/rich-text.css';
 @import './base/section.css';
 @import './base/container.css';
+@import './base/scrollbar.css';
 
 /* Components */
 
@@ -82,6 +80,7 @@
 @import './components/form.css';
 @import './components/badge.css';
 @import './components/hamburger.css';
+@import './components/navigation.css';
 @import './components/mobile-navigation.css';
 @import './components/cookie-consent.css';
 @import './components/slider.css';
@@ -90,14 +89,8 @@
 @import './components/project-card.css';
 @import './components/range-card.css';
 @import './components/header.css';
-@import './components/range-filter.css';
 @import './components/locations.css';
 @import './components/quicklinks.css';
 @import './components/section-nav.css';
-@import './components/contact-details.css';
-
-/*
- * `offerte-form.css` staat bewust als laatste: het overschrijft de
- * invoervulling uit `form.css` voor de lichte kaart op /offerte.
- */
+@import './components/text-image.css';
 @import './components/offerte-form.css';

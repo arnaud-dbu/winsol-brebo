@@ -1,0 +1,35 @@
+/*
+ * De nav zweeft op sommige pagina's over de header eronder (`floating` in
+ * layout.antlers.html). Die headers moeten precies de nav-hoogte overslaan,
+ * anders schuift hun titel eronder.
+ *
+ * Daarom is `--nav-height` niet beschrijvend maar sturend: `.nav-bar` krijgt
+ * die hoogte, en de header rekent op dezelfde variabele (`header-under-nav`
+ * in header.css). Zou de nav zijn hoogte uit padding halen en de header uit
+ * een eigen aanname, dan lopen de twee stilzwijgend uit elkaar zodra het
+ * logo of de knop verandert.
+ *
+ * De waarden komen overeen met de padding die hier eerder stond (py-4,
+ * lg:py-6) plus de hoogste inhoud: het logo (h-8 / sm:h-10 / 2xl:h-12) en
+ * vanaf `lg` de offerte-knop. De hamburger telt niet mee — die staat
+ * absoluut.
+ */
+:root {
+    --nav-height: 4rem; /* 64 = 16 + 32 + 16 */
+}
+
+@media (min-width: 40rem) {
+    :root {
+        --nav-height: 4.5rem; /* 72 = 16 + 40 + 16 */
+    }
+}
+
+@media (min-width: 64rem) {
+    :root {
+        --nav-height: 6rem; /* 96 = 24 + 48 + 24 */
+    }
+}
+
+@utility nav-bar {
+    height: var(--nav-height);
+}

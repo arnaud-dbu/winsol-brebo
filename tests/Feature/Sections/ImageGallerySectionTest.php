@@ -35,6 +35,12 @@ class ImageGallerySectionTest extends SectionTestCase
         $this->assertStringContainsString('swiper-pagination', $html);
         $this->assertStringNotContainsString('data-slider-from', $html);
         $this->assertSame(2, substr_count($html, 'swiper-slide'));
+
+        // De actieve foto staat gecentreerd in de bleeding track met aan
+        // beide kanten een gelijke peek; dat werkt alleen rondom als de
+        // slider ook loopt (zie de comment in het partial).
+        $this->assertStringContainsString('data-slider-centered="true"', $html);
+        $this->assertStringContainsString('data-slider-loop="true"', $html);
     }
 
     public function test_no_longer_branches_on_image_width(): void

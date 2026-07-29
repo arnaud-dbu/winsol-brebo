@@ -111,7 +111,7 @@
  * grid-item zijn: `.section-y-gap` — de box die de kop en de slider
  * omvat — wordt hier een grid met een smalle tweede kolom, en
  * `.slider-shell` (resources/views/partials/slider.antlers.html) wordt
- * `display: contents` zodat `.slider` en `.slider__nav` er allebei
+ * `display: contents` zodat `.slider-frame` en `.slider__nav` er allebei
  * rechtstreeks in landen. De kop wordt automatisch geplaatst in de enige
  * vrije cel (rij 1, kolom 1).
  *
@@ -148,8 +148,15 @@
         margin-top: 0;
     }
 
-    [data-section='ranges'] .slider,
-    [data-section='image_gallery'] .slider {
+    /*
+     * Het grid-item is `.slider-frame` (track + dots), niet `.slider` zelf.
+     * Zo blijft de afstand tussen de foto's en de dots de `mt-6` van
+     * `.swiper-pagination` in plaats van de veel grotere rij-gap die
+     * `.section-y-gap` hier zet, en houdt `.slider` een blok-ouder die
+     * precies containerbreed is — waar `slider-bleed`'s `50%` op rekent.
+     */
+    [data-section='ranges'] .slider-frame,
+    [data-section='image_gallery'] .slider-frame {
         grid-column: 1 / -1;
         grid-row: 2;
     }
@@ -161,6 +168,13 @@
  * has no nav buttons at all — only pagination dots. Hide `.slider__nav`
  * below `lg`; the nav reappears beside the heading via the shared rule
  * above once the `min-width: 1024px` query takes over.
+ *
+ * Alleen de nav is dus breakpoint-gebonden. De dots blijven op elke
+ * breedte staan — ook naast de desktop-nav — dus er hoort hier bewust
+ * géén tegenhanger te staan die `.swiper-pagination` boven `lg` verbergt.
+ * Dat ze op desktop tóch onzichtbaar waren, lag niet aan een regel hier
+ * maar aan de plek in de DOM; zie `.slider-frame` in
+ * resources/views/partials/slider.antlers.html.
  */
 @media (max-width: 1023.98px) {
     [data-section='image_gallery'] .slider__nav {

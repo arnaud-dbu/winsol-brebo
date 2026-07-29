@@ -46,7 +46,7 @@ class ProjectsOverviewPageTest extends TestCase
     {
         $html = $this->get('/realisaties')->getContent();
 
-        $this->assertSame(0, substr_count($html, '<li hidden'));
+        $this->assertSame(0, preg_match_all('/<li\s+hidden/', $html));
     }
 
     public function test_a_range_query_string_hides_the_others_without_dropping_them(): void
@@ -58,7 +58,7 @@ class ProjectsOverviewPageTest extends TestCase
         $this->assertSame(6, substr_count($html, 'project-card '));
 
         // Eén project hangt aan `zonwering`, dus vijf staan er verborgen.
-        $this->assertSame(5, substr_count($html, '<li hidden'));
+        $this->assertSame(5, preg_match_all('/<li\s+hidden/', $html));
 
         $this->assertStringContainsString('Zip-screens op nieuwbouwwoning', $html);
     }
@@ -69,11 +69,11 @@ class ProjectsOverviewPageTest extends TestCase
 
         // Doelt op de statische `class`-attribuutwaarde zelf, niet op een
         // substring-scan over de hele tag: `:class`-Alpine-bindings noemen
-        // "range-filter__btn--active" ook letterlijk in knoppen die niet
+        // "btn--secondary" ook letterlijk in knoppen die niet
         // actief zijn, dus die tekst alleen bewijst niets over de echte
         // server-side staat (zie RangeFilterTest).
         $this->assertMatchesRegularExpression(
-            '/data-range="zonwering"\s+class="range-filter__btn range-filter__btn--active"/',
+            '/data-range="zonwering"\s+class="[^"]*btn--secondary[^"]*"/',
             $html,
             'De zonwering-knop hoort actief te staan'
         );
@@ -86,7 +86,7 @@ class ProjectsOverviewPageTest extends TestCase
         $html = $this->get('/realisaties?range=zonwering')->getContent();
 
         $this->assertMatchesRegularExpression(
-            '/data-range="zonwering"\s+class="range-filter__btn range-filter__btn--active"\s+aria-current="page"/',
+            '/data-range="zonwering"\s+class="[^"]*btn--secondary[^"]*"\s+aria-current="page"/',
             $html,
             'De actieve knop hoort server-side aria-current="page" te dragen'
         );
@@ -105,7 +105,7 @@ class ProjectsOverviewPageTest extends TestCase
         $html = $this->get('/realisaties')->getContent();
 
         $this->assertMatchesRegularExpression(
-            '/data-range=""\s+class="range-filter__btn range-filter__btn--active"\s+aria-current="page"/',
+            '/data-range=""\s+class="[^"]*btn--secondary[^"]*"\s+aria-current="page"/',
             $html,
             '"Toon alles" hoort standaard aria-current="page" te dragen'
         );

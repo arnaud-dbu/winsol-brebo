@@ -1,27 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ site:short_locale }}">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    {{ partial:fonts }}
-    {{ partial:seo }}
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    {{ partial:analytics }}
-    {{ vite src="resources/js/site.js|resources/css/site.css" }}
-</head>
-<body>
-    {{ partial:skipLink }}
-    {{ partial:navigation }}
-    <main id="main-content" tabindex="-1" class="pb-14 md:pb-0">
-        {{ template_content }}
-    </main>
-    {{ partial:footer }}
-    {{ partial:mobileNav }}
-    {{ partial:editPage }}
-    <script src="//instant.page/5.2.0" type="module"
-        integrity="sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z"></script>
-    {{ yield:scripts }}
-    {{ partial:cookieConsent }}
-</body>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {{ partial:fonts }}
+        {{ partial:seo }}
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        {{ partial:analytics }}
+        {{ vite src="resources/js/site.js|resources/css/site.css" }}
+    </head>
+    <body>
+        {{ partial:skipLink }}
+        {{#
+            De vlaggen moeten hier staan en niet in de headers zelf: `navigation` rendert vóór `template_content`, dus die kan niet
+            weten wat er onder hem komt. De home- en productpagina openen met een schermbrede foto: nav eroverheen én volledig wit.
+            De range-pagina opent met een licht vlak: nav eroverheen, maar zwart. Vandaar twee vlaggen — zie de toelichting in
+            navigation.antlers.html.
+        #}}
+        {{ nav_over_photo = template == 'home'
+ or template == 'products/show' }}
+        {{ nav_floats = nav_over_photo || template == 'ranges/show' }}
+        {{ partial:navigation :floating="nav_floats" :inverse="nav_over_photo" }}
+        <main id="main-content" tabindex="-1" class="">
+            {{ template_content }}
+        </main>
+        {{ partial:footer }}
+        {{ partial:mobileNav }}
+        {{ partial:editPage }}
+        <script
+            src="//instant.page/5.2.0"
+            type="module"
+            integrity="sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z"></script>
+        {{ yield:scripts }}
+        {{ partial:cookieConsent }}
+    </body>
 </html>

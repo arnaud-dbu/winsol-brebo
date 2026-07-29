@@ -1,0 +1,27 @@
+/*
+ * Vanaf `lg` staat de foto van de `background`-variant naast de lichte
+ * tekstkaart en moeten de twee exact even hoog zijn. De rij regelt dat met
+ * `items-stretch`, maar dat rekt alleen de KOLOM uit: de foto houdt haar eigen
+ * ratio en laat wit onder zich staan zodra de tekst langer is dan de foto hoog.
+ * Hier vult ze de kolom en snijdt ze bij.
+ *
+ * Dit moet CSS zijn en kan geen utility op de `{{ img }}`-aanroep worden: die
+ * klasse belandt op de `<img>`, en daartussen zit een `<picture>` dat standaard
+ * `display: inline` is en dus geen hoogte doorgeeft.
+ *
+ * Onder `lg` staan de twee onder elkaar en houdt de foto haar ratio — daar is
+ * niets om op af te stemmen.
+ */
+
+@media (min-width: 64rem) {
+    .text-image__media picture {
+        display: block;
+        height: 100%;
+    }
+
+    .text-image__media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}

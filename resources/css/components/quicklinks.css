@@ -49,7 +49,14 @@
     @apply shadow-lg shadow-black/10;
 }
 
-/* De knop hangt onderaan, ook als de teksten verschillend lang zijn. */
+/*
+ * De knop hangt onderaan, ook als de teksten verschillend lang zijn. Dat
+ * werkt alleen als de hele keten meestrekt: `h-full` trekt de kaart op de
+ * hoogte van zijn grid-cel, `grow` geeft het tekstblok de resterende ruimte,
+ * en pas dan heeft `mt-auto` iets om op te eten. De onderkant van dat blok is
+ * de contentrand van `card-padding`, dus de knop houdt vanzelf de padding van
+ * de kaart aan.
+ */
 .quicklink-card .btn {
     @apply mt-auto;
 }

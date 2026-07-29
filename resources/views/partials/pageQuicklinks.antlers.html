@@ -1,15 +1,12 @@
 {{#
-    Rendert het `quicklinks`-gridveld van de pagina in twee kolommen (Figma
-    465:1711). De collectie-component `quicklinks` doet hetzelfde met de
-    collectie in drie kolommen; ze delen `quicklinkCard`.
-
-    De <h2> staat hier hardcoded en ook in quicklinks.antlers.html. Dat is
-    een bewuste duplicatie van vier woorden: het alternatief is een partial
-    van één regel, of één partial die impliciet tussen twee databronnen
-    kiest — en op de contactpagina zouden allebei die bronnen bestaan.
-
-    Zonder gevuld veld rendert deze partial niets, zodat andere templates hem
-    gerust mogen includen.
+    Rendert het `quicklinks`-gridveld van de pagina in twee kolommen (Figma 465:1711). De collectie-component `quicklinks`
+    doet hetzelfde met de collectie in drie kolommen; ze delen `quicklinkCard`. De
+    <h2>
+        staat hier hardcoded en ook in quicklinks.antlers.html. Dat is een bewuste duplicatie van vier woorden: het
+        alternatief is een partial van één regel, of één partial die impliciet tussen twee databronnen kiest — en op de
+        contactpagina zouden allebei die bronnen bestaan. Zonder gevuld veld rendert deze partial niets, zodat andere
+        templates hem gerust mogen includen.
+    </h2>
 #}}
 {{ if quicklinks }}
     <section class="section section--default" data-section="page_quicklinks">

@@ -1,27 +1,25 @@
-.btn {
-    @apply inline-flex h-fit w-fit items-center justify-center rounded-full px-5 py-2 text-base font-semibold lg:px-6 lg:py-2.5 xl:px-7;
+@utility btn {
+    @apply inline-flex  gap-x-1.5 h-fit w-fit items-center justify-center rounded-full px-5 py-2 text-base font-semibold lg:px-6 lg:py-2.5 xl:px-7;
+
+    svg {
+        @apply size-5 shrink-0;
+    }
+    
 }
 
-.btn--primary {
+
+@utility btn--primary {
     @apply bg-accent text-black;
 }
 
-.btn--accent {
-    @apply bg-accent text-black;
-}
-
-.btn--inverse {
-    @apply bg-white text-black;
-}
-
-.btn--cta {
-    @apply bg-accent text-black lg:bg-black lg:text-white;
-}
-
-.btn--dark {
+@utility btn--secondary {
     @apply bg-black text-white;
 }
 
-.btn--outline {
-    @apply border border-black text-black;
+@utility btn--tertiary {
+    @apply bg-light text-black;
+}
+
+@utility btn--outline {
+    @apply border border-black/20;
 }

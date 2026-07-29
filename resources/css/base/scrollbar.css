@@ -1,0 +1,12 @@
+/*
+ * `scrollbar-width` dekt Firefox; het pseudo-element de WebKit-browsers. Er is
+ * geen enkele property die beide doet, dus dit blijft CSS en kan niet als
+ * utility-reeks in de markup.
+ */
+@utility scrollbar-none {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}

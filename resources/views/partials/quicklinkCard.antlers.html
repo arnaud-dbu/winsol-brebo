@@ -1,39 +1,16 @@
-{{#
-    Eén bron voor de quicklink-kaart: `quicklinks` rendert hem per entry uit
-    de collectie (drie kolommen), `pageQuicklinks` per rij van het gridveld
-    op een pagina (twee kolommen).
-
-    Bewust `quicklink-media` en niet `quicklink-card__media`: QuicklinksTest
-    telt de kaarten met substr_count($html, 'quicklink-card'), en een
-    BEM-kind van die naam zou elke kaart dubbel tellen.
-
-    De link_style-mapping is een expliciete ternary met twee volledig
-    uitgeschreven klassenstrings. Nooit interpoleren: Tailwind's scanner
-    leest broncode statisch en vindt een runtime-samengestelde klassenaam
-    niet.
-
-    Zet nooit `overflow-hidden` op deze kaart — dat knipt de overhangende
-    foto weg. Zie quicklinks.css.
-
-    `title` en `text` komen uit een editor-veld en zijn vrije tekst zonder
-    HTML-validatie; Antlers HTML-encodeert `{{ variable }}` hier niet
-    automatisch (zie contactDetails.antlers.html), dus krijgen ze dezelfde
-    `entities`-modifier als daar.
-#}}
-<div class="quicklink-card flex flex-col gap-4 rounded-md bg-light card-padding lg:gap-6">
+<div class="quicklink-card flex h-full flex-col rounded-md bg-light card-padding">
     {{ if image }}
         <div class="quicklink-media">
-            {{ img :src="image" max_width="640" sizes="(min-width: 1024px) 30vw, 90vw" class="h-auto max-h-24 w-auto max-w-full object-contain lg:max-h-32" }}
+            {{ img :src="image" max_width="640" sizes="(min-width: 1024px) 30vw, 90vw" class="h-auto max-h-28 w-auto max-w-full object-contain lg:max-h-40 lg:-ml-4" }}
         </div>
     {{ /if }}
-
-    <h3>{{ title | entities }}</h3>
-
-    {{ if text }}
-        <p>{{ text | entities }}</p>
-    {{ /if }}
-
-    {{ if link }}
-        {{ partial:link :style="link_style == 'outline' ? 'btn btn--outline' : 'btn btn--accent'" }}
-    {{ /if }}
+    <div class="flex grow flex-col gap-4 xl:gap-5">
+        <h3>{{ title | entities }}</h3>
+        {{ if text }}
+            <p>{{ text | entities }}</p>
+        {{ /if }}
+        {{ if link }}
+            {{ partial:link :style="link_style == 'outline' ? 'btn btn--outline' : 'btn btn--primary'" }}
+        {{ /if }}
+    </div>
 </div>

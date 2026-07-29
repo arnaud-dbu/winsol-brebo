@@ -86,8 +86,12 @@ class ServicePageTest extends TestCase
 
         $html = $this->get('/service')->getContent();
 
-        // Sectie 1 en 3 hebben `order-last` op de tekstkolom (beeld links),
-        // sectie 2 en 4 niet.
-        $this->assertSame(2, substr_count($html, 'order-last'));
+        // Gestapeld staat de foto overal bovenaan: alle vier de tekstkolommen
+        // dragen `order-last`.
+        $this->assertSame(4, substr_count($html, 'order-last'));
+
+        // Zodra de kolommen naast elkaar staan draaien sectie 2 en 4 dat terug
+        // en komt de tekst links.
+        $this->assertSame(2, substr_count($html, 'sm:order-none'));
     }
 }

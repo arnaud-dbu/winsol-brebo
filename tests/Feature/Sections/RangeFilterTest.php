@@ -8,7 +8,7 @@ class RangeFilterTest extends SectionTestCase
     {
         $html = $this->render('{{ partial src="rangeFilter" }}');
 
-        $this->assertStringContainsString('class="range-filter"', $html);
+        $this->assertStringContainsString('<nav class="range-filter', $html);
         $this->assertStringContainsString('Toon alles', $html);
 
         // Eén knop voor "Toon alles" plus één per gebruikte range.
@@ -27,16 +27,16 @@ class RangeFilterTest extends SectionTestCase
 
         // Doelt op de statische `class`-attribuutwaarde zelf, niet op een
         // substring-scan over de hele tag: `:class`-Alpine-bindings noemen
-        // "range-filter__btn--active" ook letterlijk in knoppen die niet
+        // "btn--secondary" ook letterlijk in knoppen die niet
         // actief zijn, dus die tekst alleen bewijst niets over de echte staat.
         $this->assertMatchesRegularExpression(
-            '/data-range=""\s+class="range-filter__btn range-filter__btn--active"/',
+            '/data-range=""\s+class="[^"]*btn--secondary[^"]*"/',
             $html,
             '"Toon alles" hoort standaard actief te zijn'
         );
 
-        $this->assertMatchesRegularExpression(
-            '/data-range="zonwering"\s+class="range-filter__btn"/',
+        $this->assertDoesNotMatchRegularExpression(
+            '/data-range="zonwering"\s+class="[^"]*btn--secondary[^"]*"/',
             $html,
             'Zonder ?range hoort de zonwering-knop niet actief te staan'
         );
@@ -49,7 +49,7 @@ class RangeFilterTest extends SectionTestCase
         // `:aria-current` is Alpine-only; zonder JavaScript en vóór Alpine
         // boot moet het echte attribuut er al staan.
         $this->assertMatchesRegularExpression(
-            '/data-range=""\s+class="range-filter__btn range-filter__btn--active"\s+aria-current="page"/',
+            '/data-range=""\s+class="[^"]*btn--secondary[^"]*"\s+aria-current="page"/',
             $html,
             '"Toon alles" hoort server-side aria-current="page" te dragen'
         );
@@ -57,7 +57,7 @@ class RangeFilterTest extends SectionTestCase
         // Klasse en aria-current kunnen niet uiteenlopen: precies één pil.
         $this->assertSame(1, substr_count($html, 'aria-current="page"'));
         $this->assertSame(
-            substr_count($html, 'class="range-filter__btn range-filter__btn--active"'),
+            preg_match_all('/\sclass="[^"]*btn--secondary[^"]*"/', $html),
             substr_count($html, 'aria-current="page"'),
             'Actieve klasse en aria-current horen op dezelfde knoppen te staan'
         );

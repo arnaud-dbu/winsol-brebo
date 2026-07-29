@@ -1,14 +1,40 @@
+{{#
+    De paginering staat NAAST `.slider` in `.slider-frame`, niet erin.
+
+    `.slider` klipt met `overflow: hidden` (resources/css/components/slider.css)
+    — dat is wat de bleed bruikbaar maakt: de te brede track wordt precies op
+    de viewportrand afgesneden. Maar de hoogte van die box eindigt bij de
+    track: gemeten op de echte pagina is `.slider` exact even hoog als
+    `.swiper-wrapper`, waardoor een dot-rij eronder buiten de box valt (24px
+    voorbij de onderrand) en dus door datzelfde `overflow: hidden` werd
+    weggeknipt. Op desktop was daar niets van te zien.
+
+    Er is geen weg omheen binnen de slider: `overflow-y: visible` bestaat niet
+    naast `overflow-x: hidden` (de y-as promoveert dan naar `auto`, met
+    scrollbar), en absoluut positioneren zou de dots over de foto's leggen
+    omdat de box níet hoger is dan de track.
+
+    `.slider-frame` groepeert daarom de geklipte track met zijn dots. Het is
+    dat frame — niet `.slider` zelf — dat in de secties met nav-naast-de-kop
+    het grid-item is; zo houden de dots hun eigen `mt-6` in plaats van de veel
+    grotere rij-gap van `.section-y-gap`. De nav blijft een broer van het
+    frame, want die moet in díe secties wél apart in het grid landen.
+#}}
 <div class="slider-shell">
-    <div
-        class="slider {{ bleed ? 'slider-bleed' : '' }}"
-        data-slider
-        data-slider-per-view="{{ per_view }}"
-        data-slider-space="{{ space }}"
-        {{ if from }}data-slider-from="{{ from }}"{{ /if }}
-        {{ if pagination }}data-slider-pagination="true"{{ /if }}
-        {{ if navigation }}data-slider-navigation="true"{{ /if }}>
-        <div class="swiper-wrapper ">
-            {{ slot }}
+    <div class="slider-frame">
+        <div
+            class="slider {{ bleed ? 'slider-bleed' : '' }}"
+            data-slider
+            data-slider-per-view="{{ per_view }}"
+            data-slider-space="{{ space }}"
+            {{ if from }}data-slider-from="{{ from }}"{{ /if }}
+            {{ if pagination }}data-slider-pagination="true"{{ /if }}
+            {{ if navigation }}data-slider-navigation="true"{{ /if }}
+            {{ if loop }}data-slider-loop="true"{{ /if }}
+            {{ if centered }}data-slider-centered="true"{{ /if }}>
+            <div class="swiper-wrapper">
+                {{ slot }}
+            </div>
         </div>
         {{ if pagination }}
             <div class="swiper-pagination"></div>

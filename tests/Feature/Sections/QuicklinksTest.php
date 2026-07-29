@@ -30,12 +30,12 @@ class QuicklinksTest extends SectionTestCase
 
         // De link_style-mapping is de enige vertakking in de partial, dus dit
         // is wat vastgepind hoort te worden.
-        $this->assertSame(1, substr_count($html, 'btn--accent'));
+        $this->assertSame(1, substr_count($html, 'btn--primary'));
         $this->assertSame(2, substr_count($html, 'btn--outline'));
 
         $this->assertLessThan(
             strpos($html, 'btn--outline'),
-            strpos($html, 'btn--accent'),
+            strpos($html, 'btn--primary'),
             'De gevulde knop hoort op de eerste kaart te staan'
         );
     }

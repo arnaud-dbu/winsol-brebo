@@ -3,7 +3,7 @@ id: c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a03
 blueprint: projects_overview
 title: Realisaties
 text: 'Samen je huis klaarmaken voor de toekomst — energiebewust, comfortabel en met vakmanschap uit je eigen buurt.'
-template: projects-overview
+template: projects/index
 seo_noindex: false
 page_builder:
   -

@@ -1,7 +1,12 @@
 <div class="lg:hidden" data-mobile-nav>
+    {{#
+        `--hamburger-color` is de enige kleurknop van de hamburger
+        (hamburger.css). Boven een donkere foto moeten de streepjes wit,
+        vandaar de arbitrary property i.p.v. een tweede hamburger-variant.
+    #}}
     {{ partial:hamburger
         version="3"
-        class="top-1/2 right-3 -translate-y-1/2"
+        class="top-1/2 right-3 -translate-y-1/2 {{ inverse ? '[--hamburger-color:#fff]' : '' }}"
         aria_label="{{ trans:site.nav_open }}"
         label_open="{{ trans:site.nav_open }}"
         label_close="{{ trans:site.nav_close }}"

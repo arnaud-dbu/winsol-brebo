@@ -31,4 +31,44 @@ class SliderTest extends SectionTestCase
         $this->assertStringNotContainsString('swiper-button-next', $html);
         $this->assertStringNotContainsString('swiper-pagination', $html);
     }
+
+    // De dots mogen geen kind van `.slider` zijn: die box klipt met
+    // `overflow: hidden` (nodig voor de bleed) en wordt niet hoger dan zijn
+    // track, waardoor de dot-rij eronder wegviel. Zie de comments in het
+    // partial — dit is precies de regressie die terugkomt zodra iemand de
+    // paginering "logisch" weer in de slider zet.
+    public function test_pagination_sits_outside_the_clipping_slider(): void
+    {
+        $html = $this->render(
+            '{{ partial:slider per_view="1" pagination="true" bleed="true" }}<div class="swiper-slide">Een</div>{{ /partial:slider }}'
+        );
+
+        $document = new \DOMDocument();
+        $document->loadHTML('<html><body>' . $html . '</body></html>', LIBXML_NOERROR);
+        $xpath = new \DOMXPath($document);
+
+        $this->assertSame(1, $xpath->query("//div[@class='swiper-pagination']")->length);
+        $this->assertSame(
+            0,
+            $xpath->query("//div[contains(@class, 'slider ')]//div[@class='swiper-pagination']")->length,
+            'De paginering hoort naast .slider te staan, niet erin — anders klipt overflow: hidden hem weg.'
+        );
+        $this->assertStringContainsString('slider-frame', $html);
+    }
+
+    // `loop` en `centered` zijn opt-in: sliders die ze niet meegeven mogen
+    // ze ook niet in de markup krijgen, want sliders.js leest ze puur op
+    // aanwezigheid van het data-attribuut (zie createSwiper()).
+    public function test_loop_and_centering_are_opt_in(): void
+    {
+        $html = $this->render('{{ partial:slider per_view="1" }}<div class="swiper-slide">Een</div>{{ /partial:slider }}');
+
+        $this->assertStringNotContainsString('data-slider-loop', $html);
+        $this->assertStringNotContainsString('data-slider-centered', $html);
+
+        $html = $this->render('{{ partial:slider per_view="1" loop="true" centered="true" }}<div class="swiper-slide">Een</div>{{ /partial:slider }}');
+
+        $this->assertStringContainsString('data-slider-loop="true"', $html);
+        $this->assertStringContainsString('data-slider-centered="true"', $html);
+    }
 }

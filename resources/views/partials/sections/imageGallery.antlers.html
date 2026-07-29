@@ -19,7 +19,13 @@
     desktop (451:2910) the slider's prev/next buttons sit beside the
     heading, right of the header row and aligned with its bottom edge; on
     mobile (451:3283) there is no nav at all, only pagination dots below
-    the row. Both `navigation="true"` and `pagination="true"` are passed to
+    the row. The dots are a deliberate departure from Figma in one
+    direction only: they stay visible at *every* width, desktop included,
+    where they sit under the track alongside the nav beside the heading —
+    so nothing hides `.swiper-pagination` per breakpoint, and it shouldn't
+    be "corrected" to mobile-only later. Keeping them visible is what
+    `.slider-frame` in the shared partial is for: inside `.slider` they
+    fell outside the clipped box. Both `navigation="true"` and `pagination="true"` are passed to
     the slider — the *placement* is handled entirely by the
     `[data-section='image_gallery']` rules in
     resources/css/components/slider.css, which reuse (and generalise) the
@@ -39,6 +45,19 @@
     range: a 1225px slide fills ~70% of the 1744px frame (1225/1744),
     i.e. slidesPerView ≈ 1/0.70 ≈ 1.4 — not the different value a plain
     per-breakpoint guess might suggest.
+
+    `centered="true" loop="true"`: the active image sits in the middle of
+    the bled track rather than flush against the container's left edge, so
+    the peek of the neighbouring slide is symmetrical. Those two args are a
+    pair — see the comment above the Swiper options in
+    resources/js/components/sliders.js: centring alone would still collapse
+    the peek to one side on the first and last slide, since Swiper cannot
+    scroll past either end; only with `loop` is the composition identical
+    at every position. Nothing about the bleed changes — Swiper measures
+    its track from the element's content box, which `slider-bleed`'s
+    padding keeps exactly container-wide, so the centred slide is centred
+    on the container (and thus on the page) while the overflowing
+    neighbours still get clipped at the viewport edge.
 #}}
 <section class="section section--default" data-section="image_gallery">
     <div class="container">
@@ -46,7 +65,7 @@
             {{ partial:sectionHeader }}
 
             {{ if images }}
-                {{ partial:slider per_view="1.15,lg:1.4" pagination="true" navigation="true" bleed="true" }}
+                {{ partial:slider per_view="1.15,lg:1.4" pagination="true" navigation="true" bleed="true" loop="true" centered="true" }}
                     {{ images }}
                         <div class="swiper-slide">
                             {{ img :src="url" ratio="1225/774" max_width="1400" sizes="(min-width: 1024px) 45vw, 85vw" class="rounded-md" }}

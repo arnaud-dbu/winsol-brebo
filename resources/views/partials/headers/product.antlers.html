@@ -13,6 +13,11 @@
     Afgeleid (geen mobiel frame): de vaste hoogte van 752px wordt een ratio
     per breakpoint, het tekstblok volgt `container` in plaats van 790px vast.
 
+    Schermbreed en zonder afronding: de foto loopt tot tegen alle vier de
+    randen, en de nav zweeft eroverheen (`over_hero` in layout.antlers.html).
+    Bovenverloop 1 hierboven is precies wat die zwevende nav leesbaar houdt —
+    dat verloop stond er al voor er iets overheen zweefde.
+
     `image` is optioneel, en zonder beeld is er niets in de flow om de sectie
     hoogte te geven — het tekstblok zou als `absolute inset-0` op een
     0px-sectie staan en onzichtbaar zijn, inclusief de H1. Daarom liggen de
@@ -20,7 +25,7 @@
     zonder beeld rendert de tekst in de flow, zonder witte-op-wit-tekst.
     Geen vaste hoogte verzonnen — geen Figma-frame dekt deze staat.
 #}}
-<section class="relative isolate overflow-hidden rounded-md" data-header="product">
+<section class="relative isolate overflow-hidden" data-header="product">
     {{ if image }}
         <div data-header-media>
             {{ img :src="image" ratio="4/5" sm:ratio="16/9" lg:ratio="7/3" max_width="2560" sizes="100vw" priority="true" class="w-full" }}

@@ -1,14 +1,47 @@
+{{#
+    Twee losse vlaggen, geen gedeelde `over_hero`: positie en kleur vallen niet samen. De product-header is een schermbrede
+    foto — daar zweeft de nav én is hij wit. De range-header is een licht vlak — daar zweeft de nav wel, maar zwarte tekst
+    blijft de enige leesbare optie. Eén vlag zou die twee aan elkaar vastnagelen. Beide komen uit de layout en niet uit de
+    headers zelf: `navigation` rendert vóór `template_content` en kan dus niet weten wat er onder hem komt.
+#}}
+{{ nav_text_class = inverse ? 'text-white' : 'text-black' }}
+{{#
+    Tussen de nav-balk en de mega-kaart zit een `pointer-events-none` strook. De cursor die daar oversteekt verlaat de
+    header even, dus sluiten gebeurt met een korte vertraging die `openMega` weer opheft — anders klapt het paneel dicht op
+    weg naar zijn eigen inhoud.
+#}}
 <header
-    class="relative"
-    x-data="{ open: false }"
-    @click.outside="open = false"
-    @keyup.escape="open = false; $refs.megaToggle?.focus()"
-    @resize.window="open = false">
+    class="{{ floating ? 'absolute inset-x-0 top-0 z-50' : 'relative' }}"
+    x-data="{
+        open: false,
+        closeTimer: null,
+        openMega() {
+            clearTimeout(this.closeTimer)
+            this.open = true
+        },
+        closeMega() {
+            clearTimeout(this.closeTimer)
+            this.open = false
+        },
+        scheduleClose() {
+            clearTimeout(this.closeTimer)
+            this.closeTimer = setTimeout(() => (this.open = false), 200)
+        },
+    }"
+    @mouseleave="scheduleClose()"
+    @click.outside="closeMega()"
+    @keyup.escape="closeMega(); $refs.megaToggle?.focus()"
+    @resize.window="closeMega()">
+    {{#
+        `nav-bar` zet de hoogte op `--nav-height` (navigation.css). Een zwevende nav bedekt de bovenkant van de header eronder,
+        en die header moet exact díe hoogte reserveren — met padding hier en een losse aanname daar zouden de twee uit elkaar
+        lopen.
+    #}}
     <div
-        class="relative container flex items-center justify-between border-b border-black/12 py-4 lg:border-b-0 lg:py-6">
+        class="{{ floating ? '' : 'border-b border-black/12 lg:border-b-0' }} relative container flex nav-bar items-center justify-between">
         <a href="/" class="flex flex-col items-start gap-2">
             <span class="sr-only">Home Link</span>
-            {{ svg src="logo" class="h-8 sm:h-10 2xl:h-12 w-auto" }}
+            {{ svg :src="inverse ? 'logo-inverse' : 'logo'" class="h-8 sm:h-10 2xl:h-12 w-auto" }}
         </a>
 
         <nav class="hidden lg:block" aria-label="{{ trans:site.nav_label }}">
@@ -19,10 +52,11 @@
                             <button
                                 type="button"
                                 x-ref="megaToggle"
-                                class="flex items-center gap-2 text-base text-black transition-opacity hover:opacity-70 focus-visible:opacity-70"
+                                class="{{ nav_text_class }} flex items-center gap-2 text-base transition-opacity hover:opacity-70 focus-visible:opacity-70"
                                 aria-controls="mega-menu-panel"
                                 :aria-expanded="open.toString()"
-                                @click="open = !open; if (open) $nextTick(() => $refs.megaPanel.focus())">
+                                @mouseenter="openMega()"
+                                @click="open ? closeMega() : (openMega(), $nextTick(() => $refs.megaPanel.focus()))">
                                 {{ title }}
                                 <svg
                                     class="size-3.5 shrink-0 transition-transform duration-200"
@@ -41,7 +75,8 @@
                         {{ else }}
                             <a
                                 href="{{ entry.url }}"
-                                class="text-base text-black transition-opacity hover:opacity-70 focus-visible:opacity-70 aria-[current=page]:opacity-60"
+                                class="{{ nav_text_class }} text-base transition-opacity hover:opacity-70 focus-visible:opacity-70 aria-[current=page]:opacity-60"
+                                @mouseenter="closeMega()"
                                 {{ if entry.url == current_url }}aria-current="page"{{ /if }}>
                                 {{ title }}
                             </a>
@@ -52,11 +87,11 @@
         </nav>
 
         <div class="hidden items-center gap-2.5 lg:flex">
-            <a href="/offerte" class="btn btn--accent">{{ trans:site.nav_quote }}</a>
-            {{ partial:languagePill }}
+            <a href="/offerte" class="btn btn--primary">{{ trans:site.nav_quote }}</a>
+            {{ partial:languagePill :inverse="inverse" }}
         </div>
 
-        {{ partial:mobileNavigation }}
+        {{ partial:mobileNavigation :inverse="inverse" }}
     </div>
 
     {{ nav:main }}

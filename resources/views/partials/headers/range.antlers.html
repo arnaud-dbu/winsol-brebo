@@ -1,6 +1,10 @@
 {{#
     Range-header — Figma 293:3540 (desktop) en 457:6978 (mobiel).
 
+    De nav zweeft over deze header (`floating` in layout.antlers.html), dus
+    het lichte vlak loopt door achter de nav en `header-under-nav` slaat die
+    hoogte over. Zwart, niet inverse: de achtergrond is licht.
+
     Twee achtergrondlagen met tegengesteld overloopgedrag, en dát is de reden
     voor de nesting hieronder:
 
@@ -8,13 +12,8 @@
       Figma-frame. Het zit daarom in een eigen `overflow-hidden`-wrapper, met
       dezelfde `rounded-md` als de sectie — anders kunnen de hoeken van het
       watermerk voorbij de afgeronde sectiehoek steken.
-    - De range-png wordt NIET geklipt: hij steekt links buiten beeld en op
-      desktop 135px onder de header uit, over de eerste page-builder-sectie
-      heen. In Figma staat hij daarom in de sectie eróónder geparenteerd
-      (361:4036), niet in de header. Hier hoort hij bij de header — één
-      component bezit het beeld — maar de sectie eronder mag dan geen
-      dekkende achtergrond over de png leggen. Dat is vandaag zo (wit), maar
-      het is een echte koppeling; zie de open punten in de spec.
+    - De range-png wordt NIET geklipt: hij steekt links voorbij de
+      paginamarge, het beeld uit.
 
     Watermerkpositionering: `{{ svg }}` string-replaced alleen de `<svg`-tag
     en behoudt de eigen `width="1134" height="512"` van het bestand. Zonder
@@ -29,16 +28,12 @@
 
     Desktop (1744x564-frame, merk op top:119 left:-321 breedte:1134):
     119/564 = 21,1% top, -321/1744 = -18,4% left, 1134/1744 = 65,0% breedte.
-    Dat klopt al mét `h-auto`, want bij precies 1744px was de hoogte toch al
-    512px (de natuurlijke svg-hoogte) — geen wijziging hier.
 
     Mobiel telt het Figma-frame (402x676) de 75px hoge zwevende nav mee; onze
     nav staat in de flow, dus de header-box zelf is 676-75 = 601px hoog. Het
     merk staat op top:139 t.o.v. de vólledige frame, dus t.o.v. de header-box
-    139-75 = 64px: 64/601 = 10,65% top. (Hier stond eerder `top-[12%]`, een
-    afronding die niet klopte met de eigen 10,6%-afleiding uit de spec; nu
-    gecorrigeerd naar de uitgerekende 64/601 = 10,65%.) Links en breedte
-    blijven ongewijzigd: -218/402 = -54,2% en 609/402 = 151,5%.
+    139-75 = 64px: 64/601 = 10,65% top. Links en breedte blijven -218/402 =
+    -54,2% en 609/402 = 151,5%.
 #}}
 <section class="relative isolate rounded-md bg-light" data-header="range">
     {{# `data-header-watermark` staat vóór `class` omdat RangeHeaderTest de
@@ -48,25 +43,36 @@
         {{ svg src="watermark" class="absolute top-[10.65%] -left-[54%] w-[152%] h-auto lg:top-[21%] lg:-left-[18%] lg:w-[65%]" }}
     </div>
 
-    <div class="container flex flex-col py-14 lg:flex-row lg:justify-end lg:pt-38 lg:pb-28">
+    <div class="container header-under-nav flex flex-col pb-14 lg:flex-row lg:items-center lg:justify-between lg:pb-20">
         {{ if image }}
             {{#
-                Mobiel staat de png in de flow bóven de titel (457:6984);
-                vanaf `lg` wordt hij absoluut en hangt hij 135px onder de
-                header uit — de exacte overhang uit 361:4036.
+                Elke range-png is een vierkant canvas met het product
+                gecentreerd en transparante lucht eromheen — de pergola staat
+                ruim, het rolluik vult bijna het hele vlak. Een vierkante box
+                met `object-contain` legt het midden van de box dus altijd op
+                het optische midden van het product, wat er ook in staat. Dat
+                is waarom hier geen `ratio` staat: die zou croppen en juist
+                per beeld een ander midden opleveren.
+
+                `-ml-40` trekt het beeld 160px voorbij de paginamarge naar
+                links, zodat het los van het lichte vlak lijkt te zweven. Op
+                smallere schermen loopt het daarmee het beeld uit; dat is de
+                bedoeling en veroorzaakt geen scrollbar, want overflow naar
+                links telt in LTR niet mee voor de scrollbreedte.
+
+                Mobiel staat de png gewoon in de flow bóven de titel
+                (457:6984), net als in rangeCard.
             #}}
-            <div data-header-media class="mb-8 w-[229px] max-w-[60%] lg:absolute lg:-bottom-[135px] lg:-left-[8%] lg:mb-0 lg:w-[47%]">
+            <div data-header-media class="mb-8 aspect-square w-2/3 max-w-xs shrink-0 lg:mb-0 lg:-ml-40 lg:w-5/12 lg:max-w-lg">
                 {{#
                     `priority` omdat dit beeld boven de vouw staat, zoals de
-                    andere headerbeelden. Bewust geen `ratio`: dit is een
-                    transparante productrender, geen bijgesneden
-                    achtergrondfoto, en een ratio zou het beeld croppen.
+                    andere headerbeelden.
                 #}}
-                {{ img :src="image" max_width="1280" sizes="(min-width: 1024px) 47vw, 60vw" priority="true" class="h-auto w-full" }}
+                {{ img :src="image" max_width="1280" sizes="(min-width: 1024px) 42vw, 66vw" priority="true" class="size-full object-contain" }}
             </div>
         {{ /if }}
 
-        <div class="relative z-10 flex flex-col gap-5 lg:w-1/2 lg:gap-9">
+        <div class="relative z-10 flex flex-col gap-5 lg:w-1/2 lg:shrink-0 lg:gap-9">
             <h1 class="header-title">{{ title }}</h1>
 
             {{ if short_description }}

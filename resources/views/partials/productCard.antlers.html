@@ -1,0 +1,20 @@
+<a
+    href="{{ url }}"
+    class="group relative flex h-80 flex-col justify-end overflow-hidden rounded-md p-6 xl:h-100 xl:p-8">
+    {{ if image }}
+        {{ img :src="image" fill="true" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" class="transition-transform duration-500 ease-out group-hover:scale-105" }}
+    {{ /if }}
+    <span
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 bg-linear-to-b from-transparent from-60% to-black"></span>
+
+    <div class="relative flex flex-col gap-4">
+        <div class="flex items-center justify-between gap-4">
+            <h3 class="text-xl! text-light">{{ title }}</h3>
+            <span aria-hidden="true" class="flex shrink-0 items-center justify-center rounded-full bg-accent p-2">
+                {{ svg src="arrow" class="w-4 lg:w-5  h-auto -rotate-45" }}
+            </span>
+        </div>
+        <span class="h-px w-full bg-light/40"></span>
+    </div>
+</a>

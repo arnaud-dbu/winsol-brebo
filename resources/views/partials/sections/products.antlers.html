@@ -2,15 +2,13 @@
     <div class="container">
         <div class="section-y-gap">
             {{ partial:sectionHeader is_centered="true" }}
-
             {{ if products }}
-                {{ partial:slider per_view="1.15,sm:2" from="md" }}
+                <ul
+                    class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-6 xl:gap-8 xl:[&>*]:col-span-2 sm:max-xl:[&>*:nth-child(2n+1):last-child]:col-span-2 xl:[&>*:nth-child(3n+1):last-child]:col-span-6 xl:[&>*:nth-child(3n+1):nth-last-child(2)]:col-span-3 xl:[&>*:nth-child(3n+1):nth-last-child(2)~*]:col-span-3">
                     {{ products }}
-                        <div class="swiper-slide">
-                            {{ partial:card }}
-                        </div>
+                        <li>{{ partial:productCard }}</li>
                     {{ /products }}
-                {{ /partial:slider }}
+                </ul>
             {{ /if }}
         </div>
     </div>

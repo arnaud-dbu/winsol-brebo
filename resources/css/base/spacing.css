@@ -10,12 +10,16 @@
     @apply flex flex-col gap-8 sm:flex-row sm:justify-between sm:gap-12 lg:gap-16 xl:gap-20 2xl:gap-24;
 }
 
-@utility section-col-wide {
+@utility section-col-half {
     @apply w-full min-w-0 sm:w-1/2;
 }
 
+@utility section-col-wide {
+    @apply w-full min-w-0 sm:w-7/12;
+}
+
 @utility section-col-narrow {
-    @apply w-full min-w-0 sm:w-1/2;
+    @apply w-full min-w-0 sm:w-5/12;
 }
 
 @utility section-header-gap {
@@ -31,25 +35,15 @@
 }
 
 /*
- * Volle bleed tot aan de viewportrand, op elke breedte.
- *
- * `50%` is de halve breedte van het bevattende blok (de contentbox van
- * `.container`), `50vw` de halve viewport. De negatieve marge trekt de box
- * dus precies de afstand naar buiten die `.container` aan padding én — boven
- * `max-width: 1536px` — aan auto-marge opzij kwijt is; de padding zet de
- * inhoud daarna exact terug op de contentrand van `.container`, zodat de
- * eerste slide uitgelijnd blijft met de sectiekop.
- *
- * Dit leest die afstand zelf uit de layout, dus geen breakpoints en geen
- * losse `--spacing-margin`-waarden meer die uit de pas kunnen lopen met
- * `.container` (dat was ook zo: mobiel gebruikte deze utility 20px terwijl
- * `.container` op `px-4`/16px staat).
- *
- * `100vw` telt de scrollbar mee, dus op systemen met een klassieke scrollbar
- * steekt de box een paar pixels buiten de layout-viewport. `.slider` klipt
- * zelf al met `overflow-hidden`, maar de negatieve marge niet — daarvoor
- * staat `overflow-x: clip` op `.section` (resources/css/base/section.css).
+ * De grote panelen: de offertekaart, de herstellingskaart en de blokken van
+ * de grid-cta. Die staan naast elkaar op dezelfde pagina's en moeten dus
+ * dezelfde ramp lopen — `card-padding` blijft voor de kleinere kaarten
+ * (quicklink, locatie, range), die op 2XL niet mee mogen groeien.
  */
+@utility card-padding-lg {
+    @apply p-6 md:p-8 lg:p-10 xl:p-12 2xl:p-14;
+}
+
 @utility slider-bleed {
     margin-inline: calc(50% - 50vw);
     padding-inline: calc(50vw - 50%);

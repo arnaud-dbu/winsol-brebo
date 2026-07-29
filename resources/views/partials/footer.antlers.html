@@ -1,13 +1,10 @@
 <footer class="bg-black pt-section-half pb-section-half text-white lg:pt-section">
     <div class="container flex flex-col gap-10">
-        <div class="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+        <div class="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
             <div class="flex flex-col items-start gap-5">
                 <a href="/" class="flex flex-col items-start gap-2">
                     <span class="sr-only">Home Link</span>
-                    {{ svg src="logo-inverse" class="h-[35px] w-auto lg:h-[70px]" }}
-                    <span class="px-3 text-[9px] font-semibold tracking-[0.43em] text-white uppercase lg:text-2xl lg:tracking-[10px]" aria-hidden="true">
-                        BY BREBO
-                    </span>
+                    {{ svg src="logo-inverse" class="w-3/5 max-h-sm h-auto" }}
                 </a>
             </div>
 
@@ -17,7 +14,9 @@
                     <ul class="flex flex-col gap-0.5">
                         {{ collection:ranges }}
                             <li>
-                                <a href="{{ url }}" class="text-white/60 transition-opacity hover:opacity-80">{{ title }}</a>
+                                <a href="{{ url }}" class="text-white/60 transition-opacity hover:opacity-80">
+                                    {{ title }}
+                                </a>
                             </li>
                         {{ /collection:ranges }}
                     </ul>
@@ -28,33 +27,40 @@
                     <ul class="flex flex-col gap-0.5">
                         {{ nav:main }}
                             <li>
-                                <a href="{{ entry.url }}" class="text-white/60 transition-opacity hover:opacity-80">{{ title }}</a>
+                                <a href="{{ entry.url }}" class="text-white/60 transition-opacity hover:opacity-80">
+                                    {{ title }}
+                                </a>
                             </li>
                         {{ /nav:main }}
                     </ul>
                 </div>
-
                 {{ if globals:contact:phone or globals:contact:email or (globals:company:street and globals:company:city) }}
                     <div class="footer__column flex flex-col gap-4">
                         <p class="font-bold text-white">{{ trans:site.footer_column_contact }}</p>
                         <ul class="flex flex-col gap-0.5">
                             {{ if globals:contact:phone }}
                                 <li>
-                                    <a href="tel:{{ globals:contact:phone }}" class="text-white/60 transition-opacity hover:opacity-80">
+                                    <a
+                                        href="tel:{{ globals:contact:phone }}"
+                                        class="text-white/60 transition-opacity hover:opacity-80">
                                         {{ globals:contact:phone }}
                                     </a>
                                 </li>
                             {{ /if }}
                             {{ if globals:contact:email }}
                                 <li>
-                                    <a href="mailto:{{ globals:contact:email }}" class="text-white/60 transition-opacity hover:opacity-80">
+                                    <a
+                                        href="mailto:{{ globals:contact:email }}"
+                                        class="text-white/60 transition-opacity hover:opacity-80">
                                         {{ globals:contact:email }}
                                     </a>
                                 </li>
                             {{ /if }}
                             {{ if globals:company:street and globals:company:city }}
                                 <li class="text-white/60">
-                                    {{ globals:company:street }} {{ globals:company:number }}, {{ globals:company:postal }} {{ globals:company:city }}
+                                    {{ globals:company:street }}
+                                    {{ globals:company:number }}
+                                    , {{ globals:company:postal }} {{ globals:company:city }}
                                 </li>
                             {{ /if }}
                         </ul>
@@ -63,14 +69,14 @@
             </div>
         </div>
 
-        <div class="h-px w-full bg-white/10"></div>
+        <div class="h-px w-full bg-white/30"></div>
 
-        <div class="footer__colophon flex flex-col gap-5 text-white/60 lg:flex-row lg:items-center lg:justify-between">
-            <p>&copy; {{ now format="Y" }} {{ trans:site.footer_copyright }}</p>
-            <ul class="flex flex-col gap-0.5 lg:flex-row lg:items-center lg:gap-8">
+        <div class="footer__colophon text-sm flex flex-col gap-5 text-white/60 lg:flex-row lg:items-center lg:justify-between">
+            <p class="text-sm!">&copy; {{ now format="Y" }} Winsol Brebo</p>
+            <ul class="flex flex-col gap-0.5 lg:flex-row lg:items-center lg:gap-4">
                 {{ collection:legal }}
                     <li>
-                        <a href="{{ url }}" class="transition-opacity hover:opacity-80">{{ title }}</a>
+                        <a href="{{ url }}" class="transition-opacity hover:opacity-80 ">{{ title }}</a>
                     </li>
                 {{ /collection:legal }}
                 {{ if cookie_consent:enabled }}
