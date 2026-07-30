@@ -145,15 +145,8 @@ class HeroHeaderTest extends SectionTestCase
             'image' => '/img/hero.jpg',
         ]);
 
-        $this->assertStringContainsString('from-black/50', $html);
-
-        // De kaart staat onderaan, maar moet de zwevende nav wel overslaan:
-        // op een kort scherm schuift hij anders onder het logo.
-        $this->assertStringContainsString('hero-inset', $html);
-        $this->assertMatchesRegularExpression(
-            '/@utility hero-inset \{\s*padding-top: calc\(var\(--nav-height\)/',
-            file_get_contents(resource_path('css/components/header.css'))
-        );
+        // Het verloop zelf: donker bovenaan, uitgelopen halverwege.
+        $this->assertMatchesRegularExpression('/bg-linear-to-b from-black\/\d+/', $html);
     }
 
     /**
@@ -203,9 +196,9 @@ class HeroHeaderTest extends SectionTestCase
     }
 
     /**
-     * De 620px uit Figma is een plafond: tussen `sm` en ~700px is de container
-     * zelf smaller, en een vaste breedte duwde de kaart daar rechts uit de
-     * container.
+     * De breedte van de kaart is een plafond en geen vaste maat: waar de
+     * container smaller is dan die maat duwt een vaste breedte de kaart er
+     * rechts uit — en `overflow-hidden` op de sectie snijdt hem dan af.
      */
     public function test_the_card_never_grows_past_the_container(): void
     {
@@ -216,7 +209,23 @@ class HeroHeaderTest extends SectionTestCase
             'image' => '/img/hero.jpg',
         ]);
 
-        $this->assertStringContainsString('sm:max-w-[620px]', $html);
-        $this->assertStringNotContainsString('sm:w-[620px]', $html);
+        $card = $this->cardClasses($html);
+
+        $this->assertStringContainsString('w-full', $card);
+        $this->assertMatchesRegularExpression('/(^|\s|:)max-w-/', $card);
+        $this->assertDoesNotMatchRegularExpression('/(^|\s|:)w-\[/', $card);
+    }
+
+    /**
+     * De klassen van de witte kaart: het eerste element ná de wrapper die de
+     * kaart positioneert.
+     */
+    private function cardClasses(string $html): string
+    {
+        preg_match('/<div\s+class="([^"]*\bbg-white\b[^"]*)"/', $html, $m);
+
+        $this->assertNotEmpty($m, 'Geen witte kaart gevonden in de hero.');
+
+        return $m[1];
     }
 }

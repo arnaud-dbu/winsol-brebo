@@ -1,21 +1,9 @@
-{{#
-    Eén bron voor het locatiekaartje: `locations` rendert hem per entry uit
-    de collectie, de test rendert hem los om de coordinaatloze variant te
-    controleren. Het kaartje is zelf de link, dus de pijl is een `<span>` —
-    een `<button>` of tweede `<a>` erin zou een link in een link zijn.
-
-    `data-location-lat`/`-lng` staan er alleen als beide velden gevuld zijn:
-    een halve coordinaat is geen positie, en de JS filtert liever op
-    afwezigheid dan op NaN.
-
-    De pijl uit het design wijst diagonaal naar rechtsboven; `arrow.svg`
-    wijst horizontaal, vandaar de `-rotate-45`. Geen tweede pijlbestand.
-#}}
-<a href="/contact"
-    class="location-card flex items-center justify-between gap-5 rounded-md bg-light card-padding"
+<a
+    href="/contact"
+    class="location-card flex h-full items-center justify-between gap-5 rounded-md bg-light card-padding"
     {{ if latitude and longitude }}data-location-lat="{{ latitude }}" data-location-lng="{{ longitude }}"{{ /if }}>
     <span class="flex flex-col gap-1">
-        <span class="location-card__name">{{ name }}</span>
+        <h3 class="">{{ name }}</h3>
         <span class="location-card__address">{{ street }} {{ number }}, {{ postal_code }} {{ city }}</span>
     </span>
 

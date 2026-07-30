@@ -15,10 +15,17 @@
     zonder beeld rendert de kaart gewoon in de flow. Geen vaste hoogte
     verzonnen — geen Figma-frame dekt deze staat.
     
-    Afgeleid (geen mobiel frame): Figma tekent alleen 1744x1055 (5/3). De
-    ratio's bepalen nu enkel welke uitsnede er binnenkomt — `object-cover`
-    vult daarna het vlak — dus ze blijven staan om geen liggende foto over
-    een staand scherm te trekken.
+    De ratio's volgen de vorm van dat venstervullende vlak, niet meer die van
+    Figma's ene frame (1744x1055, 5/3): de sectie is zo hoog als het venster,
+    dus de verhouding van het vlak is die van het venster — staand op een
+    telefoon, liggend op een laptop, en vanaf de 2XL-container breder dan 2:1
+    omdat de hoogte op 56rem stopt. Een uitsnede die tegen die vorm aan ligt
+    scheelt twee dingen: `object-cover` gooit niet de helft van de gedownloade
+    pixels weg, en op een staand scherm hoeft de browser het beeld niet op te
+    rekken (waar `sizes="100vw"` te weinig breedte voor vraagt).
+    
+    Wát er in beeld blijft is daarmee niet gestuurd — dat doet het focuspunt
+    van het asset (`object-position`). Zonder focuspunt is dat het midden.
     
     Het bovenverloop (rgba(0,0,0,0.5) -> transparant op 26,5%) houdt de
     zwevende nav leesbaar (`nav_over_photo` in layout.antlers.html).
@@ -26,7 +33,7 @@
 <section class="{{ if image }}hero-frame{{ /if }} relative isolate overflow-hidden" data-header="hero">
     {{ if image }}
         <div data-header-media>
-            {{ img :src="image" fill="true" ratio="4/5" sm:ratio="16/9" lg:ratio="5/3" max_width="2560" sizes="100vw" priority="true" }}
+            {{ img :src="image" fill="true" ratio="1/2" sm:ratio="2/3" lg:ratio="16/9" 2xl:ratio="2/1" max_width="2560" sizes="100vw" priority="true" }}
         </div>
 
         <div class="absolute inset-0 h-1/2 bg-linear-to-b from-black/75 to-transparent" aria-hidden="true"></div>
@@ -60,24 +67,33 @@
 {{#
     Value proposition — Figma 293:2705. Onderdeel van de hero, niet van de page builder: de strip hoort visueel en
     inhoudelijk bij de hero en de velden staan in de `home`-blueprint. De container-padding is 40px in Figma, wat exact
-    `container`'s `lg:px-10` is — vandaar gewoon `container` in plaats van een eigen inspringing. Scheidingslijnen: wit op
-    25% (geverifieerd tegen het lijn-asset in 293:2709). Figma zet er één vóór elke cel plus één na de laatste; de dubbele
-    lijn rechts in de file (293:2733 naast 293:2734, en de tweede is zwart op 10%) is een duplicaat uit een andere context,
-    geen ontwerp. Afgeleid (geen mobiel frame): onder `lg` stapelen de cellen en worden de verticale lijnen horizontale
-    scheidingen.
+    `container`'s `lg:px-10` is — vandaar gewoon `container` in plaats van een eigen inspringing. Drie composities, één per
+    hoeveelheid ruimte. Vanaf `2xl` staat de titel naast de rij, zoals Figma hem tekent. Daaronder kan dat niet: dat frame
+    is 1744px breed en onze container stopt op 1536px (`--breakpoint-2xl`), dus met een titelkolom van 303px ernaast hielden
+    de drie cellen te weinig over — op 1024px liepen ze de container uit en daarboven brak de tekst op één of twee woorden
+    per regel. Tussen `lg` en `2xl` staat de titel daarom bóven de rij, met dezelfde leesrichting maar de hele
+    containerbreedte voor de cellen; onder `lg` stapelen de cellen en worden de verticale lijnen horizontale scheidingen.
+    Scheidingslijnen: wit op 25% (geverifieerd tegen het lijn-asset in 293:2709). Figma zet er één vóór elke cel plus één na
+    de laatste. Die eerste hangt aan de compositie: hij scheidt titel van rij, dus hij staat er alleen wanneer de titel
+    ernaast staat — loopt de rij van rand tot rand, dan zou hij de strip als een kader omsluiten. De lijn ná de laatste cel
+    is er niet, in geen van de varianten: die sluit een blok af dat nergens tegenaan ligt. De dubbele lijn rechts in de file
+    (293:2733 naast 293:2734, en de tweede is zwart op 10%) is een duplicaat uit een andere context, geen ontwerp. Vanaf
+    `2xl` dragen de cellen de verticale ruimte in plaats van de wrapper, zodat de scheidingslijnen de volle hoogte van de
+    zwarte band halen in plaats van 48px voor de rand te stoppen.
 #}}
 {{ if value_proposition:items }}
     <section class="bg-black text-white" data-header="value-proposition">
-        <div class="container flex flex-col lg:flex-row lg:items-center lg:gap-26">
+        <div
+            class="container flex flex-col gap-6 py-10 lg:gap-10 lg:py-12 2xl:flex-row 2xl:items-stretch 2xl:gap-12 2xl:py-0">
             {{ if value_proposition:title }}
-                <h2 class="value-proposition__title pt-10 lg:w-[303px] lg:shrink-0 lg:pt-0">
+                <h2 class="value-proposition__title 2xl:w-[303px] 2xl:shrink-0 2xl:self-center">
                     {{ value_proposition:title }}
                 </h2>
             {{ /if }}
-            <ul class="flex flex-1 flex-col lg:flex-row">
+            <ul class="flex flex-col lg:flex-row 2xl:flex-1">
                 {{ value_proposition:items }}
                     <li
-                        class="flex flex-1 items-start gap-6 border-t border-white/25 py-7 last:border-b lg:border-t-0 lg:border-l lg:px-10 lg:last:border-r lg:last:border-b-0">
+                        class="flex flex-1 items-start gap-6 border-t border-white/25 py-7 lg:border-t-0 lg:border-l lg:px-6 lg:py-0 lg:first:border-l-0 lg:first:pl-0 lg:last:pr-0 xl:px-8 2xl:py-12 2xl:first:border-l 2xl:first:pl-8">
                         {{ if icon }}
                             {{ icon:index src="{{ icon | raw }}" class="size-10 shrink-0 text-accent" aria-hidden="true" }}
                         {{ /if }}

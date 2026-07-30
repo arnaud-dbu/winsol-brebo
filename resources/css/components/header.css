@@ -20,22 +20,6 @@
     min-height: min(100svh, 56rem); /* 896px */
 }
 
-/*
- * De nav zweeft over de hero, dus de kaart moet die hoogte zelf overslaan:
- * anders schuift hij op een kort scherm onder het logo. Onderaan staat de
- * kaart op dezelfde marge als de container links van hem heeft (`px-4`,
- * `lg:px-10`), zodat de inspringing rondom gelijk blijft.
- */
-@utility hero-inset {
-    padding-top: calc(var(--nav-height) + var(--spacing-margin-mobile));
-    padding-bottom: var(--spacing-margin-mobile);
-
-    @media (min-width: 64rem) {
-        padding-top: calc(var(--nav-height) + var(--spacing-margin));
-        padding-bottom: var(--spacing-margin);
-    }
-}
-
 .header-title {
     font-size: var(--text-display); /* 39 → 76px */
 }

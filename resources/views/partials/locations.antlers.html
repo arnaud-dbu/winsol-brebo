@@ -1,48 +1,23 @@
-{{#
-    Vaste component, geen page-builder sectie: hij neemt geen argumenten en
-    leest zijn eigen collectie, zodat `{{ partial:locations }}` overal
-    hetzelfde oplevert.
-
-    `text=""` en `link=""` worden expliciet meegegeven aan sectionHeader.
-    Die leest title/text/link uit de render-cascade, en deze partial wordt
-    op willekeurige templates geincludeerd — zonder die twee zou een pagina
-    met een eigen `text`- of `link`-veld dat in deze kop zien verschijnen.
-
-    De kaart staat na de lijst in de DOM. Onder `lg` stapelt het grid
-    daardoor vanzelf naar kaartjes-boven-kaart, zonder `order`-omkering.
-
-    De attributie staat buiten de `aria-hidden` container en Leaflet's eigen
-    attributionControl staat uit (locations-map.js): links binnen een
-    aria-hidden element zijn wel focusbaar maar niet aankondigbaar.
-#}}
 <section class="section section--default" data-section="locations">
     <div class="container">
         <div class="section-y-gap">
             {{ partial:sectionHeader is_centered="true" overline="Bezoek ons" title="Liever eerst zien en voelen?" text="" link="" }}
-
-            <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
-                <ul class="flex flex-col gap-6 lg:gap-8">
+            <div class="grid gap-4 lg:grid-cols-2 lg:gap-6">
+                {{#
+                    De kaartjes groeien mee vanaf `lg`: het grid rekt beide kolommen tot dezelfde hoogte, en zonder `flex-1` blijft de lijst
+                    op zijn eigen inhoud staan terwijl de kaart ernaast wél doorloopt — dan liggen de onderkanten niet gelijk. `flex-1`
+                    verdeelt de rijhoogte over de drie kaartjes.
+                #}}
+                <ul class="flex flex-col gap-4 lg:gap-6">
                     {{ collection:locations }}
-                        <li>
+                        <li class="lg:flex-1">
                             {{ partial:locationCard }}
                         </li>
                     {{ /collection:locations }}
                 </ul>
 
                 <div class="locations-map">
-                    {{#
-                        bg-light hier is de placeholder-achtergrond zolang Leaflet's
-                        chunk nog niet geladen is (dus nog geen .leaflet-container
-                        op dit element). Zodra die klasse er wel is, wint
-                        `.locations-map__canvas.leaflet-container` in locations.css
-                        op specificiteit — zie de comment daar.
-                    #}}
                     <div class="locations-map__canvas rounded-md bg-light" data-locations-map aria-hidden="true"></div>
-
-                    <p class="locations-map__attribution">
-                        &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>-bijdragers
-                        &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>
-                    </p>
                 </div>
             </div>
 

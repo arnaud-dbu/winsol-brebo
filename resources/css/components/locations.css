@@ -31,9 +31,19 @@
     aspect-ratio: 4 / 3;
 }
 
+/*
+ * Naast de lijst is de hoogte niet die van de kaart maar die van de rij: het
+ * grid rekt beide kolommen even hoog, dus `flex: 1` in die gestrekte kolom
+ * geeft de canvas een definite height nog voordat Leaflet er is — precies wat
+ * de aspect-ratio hierboven mobiel doet. De Figma-hoogte blijft als bodem
+ * staan voor het geval de lijst korter uitvalt dan de kaart (één of twee
+ * locaties); zonder die bodem zou de kaart met de lijst mee krimpen.
+ */
 @media (min-width: 1024px) {
     .locations-map__canvas {
-        aspect-ratio: 816 / 506;
+        aspect-ratio: auto;
+        flex: 1;
+        min-height: 506px; /* Figma 293:3935 */
     }
 }
 
@@ -77,5 +87,5 @@
  * dekken beide fases.
  */
 .locations-map__canvas.leaflet-container {
-    @apply cursor-default outline-none bg-light;
+    @apply cursor-default bg-light outline-none;
 }
