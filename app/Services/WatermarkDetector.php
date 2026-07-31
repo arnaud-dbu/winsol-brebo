@@ -29,6 +29,10 @@ class WatermarkDetector
         }
 
         try {
+            if (! imageistruecolor($image)) {
+                imagepalettetotruecolor($image);
+            }
+
             $width = imagesx($image);
             $height = imagesy($image);
 
