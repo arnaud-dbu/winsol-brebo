@@ -258,6 +258,34 @@ fields:
                                 field:
                                   type: text
                                   display: Label
+            embed:
+              display: Embed
+              fields:
+                -
+                  handle: title
+                  field:
+                    type: text
+                    display: Title
+                    localizable: true
+                -
+                  handle: url
+                  field:
+                    type: text
+                    display: URL
+                    localizable: true
+                    instructions: 'Volledige https-URL van de externe widget.'
+                    required: true
+                    validate:
+                      - required
+                      - 'url'
+                -
+                  handle: height
+                  field:
+                    type: integer
+                    display: Hoogte
+                    default: 900
+                    localizable: true
+                    instructions: 'Hoogte van het venster in pixels.'
             products:
               display: Products
               fields:

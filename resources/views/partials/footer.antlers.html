@@ -32,6 +32,13 @@
                                 </a>
                             </li>
                         {{ /nav:main }}
+                        {{ nav:footer }}
+                            <li>
+                                <a href="{{ entry.url }}" class="text-white/60 transition-opacity hover:opacity-80">
+                                    {{ title }}
+                                </a>
+                            </li>
+                        {{ /nav:footer }}
                     </ul>
                 </div>
                 {{ if globals:contact:phone or globals:contact:email or (globals:company:street and globals:company:city) }}
@@ -71,12 +78,13 @@
 
         <div class="h-px w-full bg-white/30"></div>
 
-        <div class="footer__colophon text-sm flex flex-col gap-5 text-white/60 lg:flex-row lg:items-center lg:justify-between">
+        <div
+            class="footer__colophon flex flex-col gap-5 text-sm text-white/60 lg:flex-row lg:items-center lg:justify-between">
             <p class="text-sm!">&copy; {{ now format="Y" }} Winsol Brebo</p>
             <ul class="flex flex-col gap-0.5 lg:flex-row lg:items-center lg:gap-4">
                 {{ collection:legal }}
                     <li>
-                        <a href="{{ url }}" class="transition-opacity hover:opacity-80 ">{{ title }}</a>
+                        <a href="{{ url }}" class="transition-opacity hover:opacity-80">{{ title }}</a>
                     </li>
                 {{ /collection:legal }}
                 {{ if cookie_consent:enabled }}

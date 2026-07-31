@@ -47,4 +47,11 @@ class FooterTest extends SectionTestCase
             + substr_count($html, 'href="/privacy-policy"')
             + substr_count($html, 'href="/toegankelijkheidsverklaring"'));
     }
+
+    public function test_the_loan_simulator_sits_in_the_footer(): void
+    {
+        $html = $this->render('{{ partial:footer }}');
+
+        $this->assertStringContainsString('Simuleer je lening', $html);
+    }
 }

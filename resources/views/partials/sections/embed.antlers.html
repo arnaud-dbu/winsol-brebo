@@ -1,0 +1,22 @@
+{{#
+    Externe widget in een iframe. `loading="lazy"` omdat de embed nooit boven de vouw staat, en een `title` omdat een iframe
+    zonder toegankelijke naam voor schermlezers een naamloos document is.
+#}}
+{{ frame_title = title ?? 'Externe widget' }}
+{{ if url }}
+    <section class="section section--default" data-section="embed">
+        <div class="container">
+            <div class="section-y-gap">
+                {{ if title }}
+                    <h2 class="text-center">{{ title | entities }}</h2>
+                {{ /if }}
+                <iframe
+                    src="{{ url }}"
+                    title="{{ frame_title | entities }}"
+                    height="{{ height ?? 900 }}"
+                    loading="lazy"
+                    class="w-full rounded-md border-0"></iframe>
+            </div>
+        </div>
+    </section>
+{{ /if }}
