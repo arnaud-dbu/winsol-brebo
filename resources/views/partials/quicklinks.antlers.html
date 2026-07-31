@@ -1,29 +1,25 @@
 {{#
-    Vaste component, geen page-builder sectie: geen argumenten, leest zijn
-    eigen collectie.
-
-    Hier staat een kale `<h2>` en geen `{{ partial:sectionHeader }}`: het
-    design toont boven dit blok geen overline, tekst of link, alleen de
-    titel. sectionHeader aanroepen zou drie ongebruikte takken meeslepen —
-    en die lezen uit de cascade, dus ze zouden paginavelden binnenhalen.
-
-    Geen slider, in tegenstelling tot `sections/cards` en `sections/ranges`:
-    dat zijn open lijsten van wisselende lengte, dit zijn de drie
-    belangrijkste CTA's van de pagina. Die horen alle drie in beeld, niet
-    twee ervan achter een swipe.
-
-    De kaart zelf staat in `quicklinkCard`, gedeeld met `pageQuicklinks`.
-    Deze partial bepaalt alleen de bron (de collectie) en het aantal
-    kolommen.
+    Vaste component, geen page-builder sectie: geen argumenten, leest zijn eigen collectie. Hier staat een kale kop en geen
+    `{{ partial:sectionHeader }}`: het design toont boven dit blok geen overline, tekst of link, alleen de titel.
+    sectionHeader aanroepen zou drie ongebruikte takken meeslepen — en die lezen uit de cascade, dus ze zouden paginavelden
+    binnenhalen. Geen slider, in tegenstelling tot `sections/cards` en `sections/ranges`: dat zijn open lijsten van
+    wisselende lengte, dit zijn de drie belangrijkste CTA's van de pagina. Die horen alle drie in beeld, niet twee ervan
+    achter een swipe. De kaart zelf staat in `quicklinkCard`, gedeeld met `pageQuicklinks`. Deze partial bepaalt alleen de
+    bron (de collectie) en het aantal kolommen. Het kolomaantal hangt aan de brochure: zonder pdf verbergt de brochurekaart
+    zich (zie quicklinkCard), dus blijven er twee van de drie over. Dat mag hier uit `brochure` afgeleid worden omdat
+    precies een quicklink het type `brochure` draagt — vastgepind in QuicklinksContentTest.
 #}}
+{{ grid_columns = brochure ? 'lg:grid-cols-3' : 'lg:grid-cols-2' }}
 <section class="section section--default" data-section="quicklinks">
     <div class="container">
         <div class="section-y-gap">
             <h2 class="text-center">Zet de volgende stap</h2>
 
-            <ul class="quicklink-grid lg:grid-cols-3">
-                {{ collection:quicklinks }}
-                    <li>{{ partial:quicklinkCard }}</li>
+            <ul class="quicklink-grid {{ grid_columns }}">
+                {{ collection:quicklinks as="cards" }}
+                    {{ cards }}
+                        <li>{{ partial:quicklinkCard :brochure="brochure" }}</li>
+                    {{ /cards }}
                 {{ /collection:quicklinks }}
             </ul>
         </div>

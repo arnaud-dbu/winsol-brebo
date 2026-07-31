@@ -15,6 +15,20 @@ class QuicklinksTest extends SectionTestCase
         return ['brochure' => ['url' => '/assets/brochures/pergola-so.pdf']];
     }
 
+    public function test_the_brochure_only_reaches_the_card_when_passed_explicitly(): void
+    {
+        // `withBrochure()` zet `brochure` rechtstreeks in de rootcontext, wat
+        // ook zonder expliciete doorgifte al doorsijpelt en dus niets pint.
+        // Deze test bindt de buitenvariabele onder een andere naam (`pdf`) en
+        // geeft hem alleen door via `:brochure="pdf"` op de aanroep — zonder
+        // die doorgifte bestaat er nergens een variabele die `brochure` heet.
+        $html = $this->render('{{ partial:quicklinks :brochure="pdf" }}', [
+            'pdf' => ['url' => '/assets/brochures/pergola-so.pdf'],
+        ]);
+
+        $this->assertStringContainsString('/assets/brochures/pergola-so.pdf', $html);
+    }
+
     public function test_it_renders_a_card_per_quicklink_under_the_hardcoded_title(): void
     {
         $html = $this->render('{{ partial:quicklinks }}', $this->withBrochure());

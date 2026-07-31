@@ -109,4 +109,14 @@ class QuicklinksContentTest extends TestCase
 
         $this->assertNotNull($blueprint->field('template'));
     }
+
+    public function test_exactly_one_quicklink_is_the_brochure_card(): void
+    {
+        $brochureCards = Entry::query()
+            ->where('collection', 'quicklinks')
+            ->get()
+            ->filter(fn ($entry) => $entry->get('type') === 'brochure');
+
+        $this->assertCount(1, $brochureCards, 'Het kolomaantal in quicklinks.antlers.html gaat uit van precies een brochurekaart');
+    }
 }
