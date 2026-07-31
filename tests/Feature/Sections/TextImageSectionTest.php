@@ -101,8 +101,11 @@ class TextImageSectionTest extends SectionTestCase
         ]);
 
         $this->assertStringContainsString('section-x-gap items-center', $html);
-        $this->assertStringContainsString('section-col-wide', $html);
-        $this->assertStringContainsString('section-col-narrow', $html);
+
+        // a257ed5 zette de standaardvariant op een 50/50-rij: waar de tekst
+        // eerst `section-col-wide` kreeg en de foto `section-col-narrow`,
+        // dragen beide kolommen nu dezelfde `section-col-half`.
+        $this->assertSame(2, substr_count($html, 'section-col-half'));
         $this->assertStringNotContainsString('lg:items-stretch', $html);
         $this->assertStringNotContainsString('text-image__media', $html);
     }
@@ -187,8 +190,12 @@ class TextImageSectionTest extends SectionTestCase
             'De foto hoort bovenaan te staan zolang de kolommen gestapeld zijn'
         );
 
+        // De fotokolom is de laatste kolom in de rij. In de standaardvariant
+        // dragen beide kolommen sinds a257ed5 dezelfde `section-col-half`, dus
+        // zoek van achteren; in de background-variant is `text-image__media`
+        // sowieso uniek en levert dat dezelfde positie op.
         $this->assertLessThan(
-            strpos($html, $image_column),
+            strrpos($html, $image_column),
             $text_column,
             '`order-last` hoort op de tekstkolom te staan, niet op de fotokolom'
         );
@@ -197,8 +204,8 @@ class TextImageSectionTest extends SectionTestCase
     public static function variantenProvider(): array
     {
         return [
-            'standaard' => ['', [], 'section-col-narrow'],
-            'text_first' => [' text_first="true"', [], 'section-col-narrow'],
+            'standaard' => ['', [], 'section-col-half'],
+            'text_first' => [' text_first="true"', [], 'section-col-half'],
             'background' => ['', ['background' => true], 'text-image__media'],
             'background + text_first' => [' text_first="true"', ['background' => true], 'text-image__media'],
         ];

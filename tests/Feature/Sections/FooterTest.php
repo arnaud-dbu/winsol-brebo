@@ -21,7 +21,15 @@ class FooterTest extends SectionTestCase
 
         $this->assertSame(2, substr_count($html, 'footer__column'));
         $this->assertStringContainsString('footer__colophon', $html);
-        $this->assertStringContainsString('BY BREBO', $html);
+
+        // "BY BREBO" was een aparte, aria-hidden tekstspan naast het logo, maar
+        // logo-inverse.svg tekent die merkregel zelf al als letterpaden. a257ed5
+        // haalde de dubbel weg; wat blijft is de homelink met zijn toegankelijke
+        // naam en het logo erin.
+        $this->assertMatchesRegularExpression(
+            '~<a href="/"[^>]*>\s*<span class="sr-only">Home Link</span>\s*<svg~',
+            $html
+        );
 
         // The `ranges` collection loop (9 seeded ranges under /aanbod/*).
         $this->assertSame(9, substr_count($html, 'href="/aanbod/'));

@@ -82,7 +82,9 @@ class ReparationFormTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:reparationForm }}');
 
-        $this->assertStringContainsString('btn btn--accent', $html);
+        // De accentknop heet sinds 95da753 `btn--primary`: die utility kreeg
+        // toen `bg-accent text-black` en `btn--accent` verdween uit button.css.
+        $this->assertStringContainsString('btn btn--primary', $html);
         $this->assertStringContainsString('>Herstelling melden<', $html);
     }
 }

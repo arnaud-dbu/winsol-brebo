@@ -53,7 +53,10 @@ class ServiceNavTest extends SectionTestCase
             ],
         ]);
 
-        $this->assertSame(1, substr_count($html, 'class="section-nav__link"'));
+        // De pills zijn sinds a257ed5 gewone `btn--outline`-knoppen: die utility
+        // kreeg in 95da753 `border-black/20`, precies de lichte rand waarvoor
+        // section-nav.css eerder een eigen klasse aanhield.
+        $this->assertSame(1, substr_count($html, 'class="btn--outline btn"'));
         $this->assertStringNotContainsString('href="#"', $html);
     }
 
@@ -63,7 +66,8 @@ class ServiceNavTest extends SectionTestCase
 
         $this->assertStringContainsString('href="#herstelling"', $html);
         $this->assertStringContainsString('Herstelling melden', $html);
-        $this->assertStringContainsString('section-nav__link--report', $html);
+        // De donkere meldknop is nu `btn--secondary` (bg-black text-white).
+        $this->assertStringContainsString('btn btn--secondary', $html);
     }
 
     public function test_is_hidden_below_the_lg_breakpoint(): void

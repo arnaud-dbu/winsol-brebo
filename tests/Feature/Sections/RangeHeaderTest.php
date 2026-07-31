@@ -86,9 +86,13 @@ class RangeHeaderTest extends SectionTestCase
     {
         config(['app.debug' => false]);
 
+        // Absolute URL, geen assetpad: de containers staan op een R2-disk, dus
+        // `{{ img }}` vindt hier nooit een asset en rendert dan niets. Met een
+        // http-src valt hij op zijn passthrough terug en zet hij `class` op een
+        // echte <img> — dezelfde plek waar de picture-tak hem ook zet.
         $html = $this->render('{{ partial src="headers/range" }}', [
             'title' => 'Terrasoverkapping',
-            'image' => '/img/pergolas.png',
+            'image' => 'https://assets.winsol-brebo.test/img/pergolas.png',
         ]);
 
         $this->assertMatchesRegularExpression(
