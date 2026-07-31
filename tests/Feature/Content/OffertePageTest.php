@@ -76,9 +76,12 @@ class OffertePageTest extends TestCase
         $this->assertSame('cta', $builder[0]['type']);
         $this->assertSame('Nog niet klaar voor een offerte?', $builder[0]['title']);
         $this->assertSame('Naar realisaties', $builder[0]['link'][0]['label']);
+        // Het `entry`-veld in resources/fieldsets/links.yaml heeft max_items: 1
+        // en slaat dus een losse id op. De lijstvorm hierboven was handmatig
+        // gezaaid; a257ed5 was een CP-save die hem naar de veldvorm trok.
         $this->assertSame(
             'c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a03',
-            $builder[0]['link'][0]['entry'][0],
+            $builder[0]['link'][0]['entry'],
         );
     }
 

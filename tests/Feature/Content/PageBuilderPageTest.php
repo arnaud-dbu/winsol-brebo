@@ -38,13 +38,16 @@ class PageBuilderPageTest extends TestCase
         // `ranges` renders one `.range-card` per seeded range entry (9).
         $this->assertSame(9, substr_count($html, 'range-card'));
 
-        // `cards` (4, horizontal layout) + `products` (6, vertical layout)
-        // are the only sections that consume `partial:card`.
-        $this->assertSame(4, substr_count($html, 'card--horizontal'));
-        $this->assertSame(6, substr_count($html, 'card--vertical'));
+        // `cards` (4) is sinds 95da753 de enige sectie die `partial:card`
+        // gebruikt: `products` (6) kreeg een eigen `productCard`. De varianten
+        // card--horizontal/card--vertical bestaan niet meer; de kaart bepaalt
+        // zijn richting nu op containerbreedte.
+        $this->assertSame(4, substr_count($html, 'class="card '));
+        $this->assertSame(6, substr_count($html, 'from-transparent from-60% to-black'));
 
-        // Every slider-backed section (ranges 9, cards 4, projects 3,
-        // image_gallery 3, products 6) renders one `.swiper-slide` per item.
-        $this->assertSame(25, substr_count($html, 'swiper-slide'));
+        // Every slider-backed section renders one `.swiper-slide` per item:
+        // ranges 9 + cards 4 + projects 3 + image_gallery 6. `products` staat
+        // sinds 95da753 in een grid en levert er geen enkele meer.
+        $this->assertSame(22, substr_count($html, 'swiper-slide'));
     }
 }
