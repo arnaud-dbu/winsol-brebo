@@ -9,6 +9,13 @@
     {{ image_column_class = "section-col-half" }}
     {{ image_sizes = "(min-width: 640px) 50vw, 100vw" }}
 {{ /if }}
+{{ if media == 'video' and video }}
+    {{ show_media = true }}
+{{ elseif media != 'none' and image }}
+    {{ show_media = true }}
+{{ else }}
+    {{ show_media = false }}
+{{ /if }}
 <section
     {{ if anchor }} id="{{ anchor }}"{{ /if }}
     class="section section--default {{ background ? 'text-image--background' : '' }}"
@@ -19,13 +26,13 @@
                 {{ partial:sectionHeader }}
                 {{ partial:featureList :items="features" }}
             </div>
-            {{ if media == 'video' and video }}
+            {{ if show_media }}
                 <div class="{{ image_column_class }}">
-                    {{ partial:video }}
-                </div>
-            {{ elseif media != 'none' and image }}
-                <div class="{{ image_column_class }}">
-                    {{ img :src="image" ratio="4/3" sm:ratio="5/4" max_width="1600" :sizes="image_sizes" class="rounded-sm" }}
+                    {{ if media == 'video' }}
+                        {{ partial:video }}
+                    {{ else }}
+                        {{ img :src="image" ratio="4/3" sm:ratio="5/4" max_width="1600" :sizes="image_sizes" class="rounded-sm" }}
+                    {{ /if }}
                 </div>
             {{ /if }}
         </div>
