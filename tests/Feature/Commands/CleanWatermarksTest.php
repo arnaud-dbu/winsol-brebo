@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Commands;
 
+use App\Services\WatermarkDetector;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
 use Statamic\Assets\Asset;
 use Statamic\Facades\AssetContainer;
@@ -38,11 +40,48 @@ class CleanWatermarksTest extends TestCase
     }
 
     /**
+     * Bootst winsol:import-images na voor extensies die het commando zelf
+     * niet importeert (het beperkt zijn Finder-pattern tot jpe?g|png), zodat
+     * ook een webp-asset met watermerkdata opgezet kan worden voor de
+     * formaatbehoud-test.
+     */
+    private function importBytes(string $bytes, string $path): Asset
+    {
+        $container = AssetContainer::find('assets');
+
+        $tempPath = sys_get_temp_dir().'/winsol-test-'.bin2hex(random_bytes(8)).'.'.pathinfo($path, PATHINFO_EXTENSION);
+        file_put_contents($tempPath, $bytes);
+
+        $asset = $container->makeAsset($path)->upload(
+            new UploadedFile($tempPath, basename($path), null, null, true)
+        );
+
+        if (is_file($tempPath)) {
+            unlink($tempPath);
+        }
+
+        $result = app(WatermarkDetector::class)->detect($asset->disk()->get($asset->path()));
+
+        $asset->set('watermark', $result->hasWatermark);
+        $asset->set('watermark_box', $result->box
+            ? implode(',', [$result->box['x'], $result->box['y'], $result->box['width'], $result->box['height']])
+            : '');
+        $asset->save();
+
+        return $asset;
+    }
+
+    /**
      * Statamic's Asset kent geen fresh(); opnieuw ophalen gaat via de container.
      */
     private function asset(string $path): Asset
     {
         return AssetContainer::find('assets')->asset($path);
+    }
+
+    private function assetBytes(string $path): string
+    {
+        return $this->asset($path)->disk()->get($path);
     }
 
     private function useInEntry(string $path): void
@@ -60,8 +99,9 @@ class CleanWatermarksTest extends TestCase
         $this->useInEntry('testrange/used.jpg');
 
         $heightBefore = $this->asset('testrange/used.jpg')->height();
+        $unusedBytesBefore = $this->assetBytes('testrange/unused.jpg');
 
-        $this->artisan('winsol:clean-watermarks')
+        $this->artisan('winsol:clean-watermarks', ['--force' => true])
             ->expectsOutputToContain('1 bijgesneden')
             ->assertExitCode(0);
 
@@ -69,6 +109,22 @@ class CleanWatermarksTest extends TestCase
         $this->assertFalse($this->asset('testrange/used.jpg')->get('watermark'), 'De vlag is niet omgezet');
 
         $this->assertTrue($this->asset('testrange/unused.jpg')->get('watermark'), 'De ongebruikte foto had ongemoeid moeten blijven');
+        $this->assertSame($unusedBytesBefore, $this->assetBytes('testrange/unused.jpg'), 'De ongebruikte foto is byte voor byte gewijzigd');
+    }
+
+    public function test_declining_the_confirmation_changes_nothing(): void
+    {
+        $this->importFixture('watermarked.jpg', 'used.jpg');
+        $this->useInEntry('testrange/used.jpg');
+
+        $bytesBefore = $this->assetBytes('testrange/used.jpg');
+
+        $this->artisan('winsol:clean-watermarks')
+            ->expectsConfirmation('Doorgaan?', 'no')
+            ->assertExitCode(0);
+
+        $this->assertSame($bytesBefore, $this->assetBytes('testrange/used.jpg'));
+        $this->assertTrue($this->asset('testrange/used.jpg')->get('watermark'));
     }
 
     public function test_dry_run_changes_nothing(): void
@@ -77,11 +133,15 @@ class CleanWatermarksTest extends TestCase
         $this->useInEntry('testrange/used.jpg');
 
         $heightBefore = $this->asset('testrange/used.jpg')->height();
+        $bytesBefore = $this->assetBytes('testrange/used.jpg');
+        $metaBefore = $this->asset('testrange/used.jpg')->meta();
 
         $this->artisan('winsol:clean-watermarks', ['--dry-run' => true])->assertExitCode(0);
 
         $this->assertSame($heightBefore, $this->asset('testrange/used.jpg')->height());
         $this->assertTrue($this->asset('testrange/used.jpg')->get('watermark'));
+        $this->assertSame($bytesBefore, $this->assetBytes('testrange/used.jpg'), 'dry-run heeft de foto byte voor byte gewijzigd');
+        $this->assertSame($metaBefore, $this->asset('testrange/used.jpg')->meta(), 'dry-run heeft de meta-yaml gewijzigd');
     }
 
     public function test_list_prints_the_filenames_without_changing_anything(): void
@@ -89,10 +149,173 @@ class CleanWatermarksTest extends TestCase
         $this->importFixture('watermarked.jpg', 'used.jpg');
         $this->useInEntry('testrange/used.jpg');
 
+        $bytesBefore = $this->assetBytes('testrange/used.jpg');
+        $metaBefore = $this->asset('testrange/used.jpg')->meta();
+
         $this->artisan('winsol:clean-watermarks', ['--list' => true])
             ->expectsOutputToContain('testrange/used.jpg')
             ->assertExitCode(0);
 
         $this->assertTrue($this->asset('testrange/used.jpg')->get('watermark'));
+        $this->assertSame($bytesBefore, $this->assetBytes('testrange/used.jpg'), '--list heeft de foto byte voor byte gewijzigd');
+        $this->assertSame($metaBefore, $this->asset('testrange/used.jpg')->meta(), '--list heeft de meta-yaml gewijzigd');
+    }
+
+    public function test_second_run_does_not_crop_again(): void
+    {
+        $this->importFixture('watermarked.jpg', 'used.jpg');
+        $this->useInEntry('testrange/used.jpg');
+
+        $this->artisan('winsol:clean-watermarks', ['--force' => true])->assertExitCode(0);
+
+        $heightAfterFirstRun = $this->asset('testrange/used.jpg')->height();
+        $bytesAfterFirstRun = $this->assetBytes('testrange/used.jpg');
+
+        $this->artisan('winsol:clean-watermarks', ['--force' => true])
+            ->expectsOutputToContain('0 bijgesneden')
+            ->assertExitCode(0);
+
+        $this->assertSame($heightAfterFirstRun, $this->asset('testrange/used.jpg')->height(), 'Tweede run heeft opnieuw bijgesneden');
+        $this->assertSame($bytesAfterFirstRun, $this->assetBytes('testrange/used.jpg'), 'Tweede run heeft de bytes herschreven');
+    }
+
+    public function test_a_garbage_watermark_box_is_skipped_instead_of_reduced_to_one_pixel(): void
+    {
+        $this->importFixture('watermarked.jpg', 'used.jpg');
+        $this->useInEntry('testrange/used.jpg');
+
+        $asset = $this->asset('testrange/used.jpg');
+        $asset->set('watermark_box', 'abc,def,ghi,jkl');
+        $asset->save();
+
+        $heightBefore = $this->asset('testrange/used.jpg')->height();
+        $bytesBefore = $this->assetBytes('testrange/used.jpg');
+
+        $this->artisan('winsol:clean-watermarks', ['--force' => true])
+            ->expectsOutputToContain('Geen bruikbaar watermerkvlak')
+            ->expectsOutputToContain('0 bijgesneden')
+            ->assertExitCode(0);
+
+        $this->assertSame($heightBefore, $this->asset('testrange/used.jpg')->height());
+        $this->assertSame($bytesBefore, $this->assetBytes('testrange/used.jpg'));
+        $this->assertTrue($this->asset('testrange/used.jpg')->get('watermark'), 'Een overgeslagen foto moet watermerkt blijven voor een latere run');
+    }
+
+    public function test_a_watermark_box_near_the_top_of_the_image_is_skipped(): void
+    {
+        $this->importFixture('watermarked.jpg', 'used.jpg');
+        $this->useInEntry('testrange/used.jpg');
+
+        $asset = $this->asset('testrange/used.jpg');
+        $asset->set('watermark_box', '0,0,0,0');
+        $asset->save();
+
+        $heightBefore = $this->asset('testrange/used.jpg')->height();
+        $bytesBefore = $this->assetBytes('testrange/used.jpg');
+
+        $this->artisan('winsol:clean-watermarks', ['--force' => true])
+            ->expectsOutputToContain('Onwaarschijnlijk watermerkvlak')
+            ->assertExitCode(0);
+
+        $this->assertSame($heightBefore, $this->asset('testrange/used.jpg')->height());
+        $this->assertSame($bytesBefore, $this->assetBytes('testrange/used.jpg'));
+        $this->assertTrue($this->asset('testrange/used.jpg')->get('watermark'));
+    }
+
+    public function test_a_watermark_box_beyond_the_image_height_is_clamped_instead_of_padded(): void
+    {
+        $this->importFixture('watermarked.jpg', 'used.jpg');
+        $this->useInEntry('testrange/used.jpg');
+
+        $asset = $this->asset('testrange/used.jpg');
+        $heightBefore = $asset->height();
+        $asset->set('watermark_box', '0,'.($heightBefore + 500).',10,10');
+        $asset->save();
+
+        $this->artisan('winsol:clean-watermarks', ['--force' => true])
+            ->expectsOutputToContain('1 bijgesneden')
+            ->assertExitCode(0);
+
+        $this->assertLessThanOrEqual($heightBefore, $this->asset('testrange/used.jpg')->height(), 'Een te grote box heeft de afbeelding met een zwarte band opgehoogd');
+        $this->assertFalse($this->asset('testrange/used.jpg')->get('watermark'));
+    }
+
+    public function test_format_is_preserved_for_png(): void
+    {
+        $sourceBytes = File::get(base_path('tests/fixtures/images/watermarked.jpg'));
+        $image = imagecreatefromstring($sourceBytes);
+        ob_start();
+        imagepng($image);
+        $pngBytes = ob_get_clean();
+        imagedestroy($image);
+
+        $this->importBytes($pngBytes, 'testrange/used.png');
+        $this->useInEntry('testrange/used.png');
+
+        $this->assertTrue($this->asset('testrange/used.png')->get('watermark'), 'De gegenereerde png-fixture bevat geen gedetecteerd watermerk');
+
+        $this->artisan('winsol:clean-watermarks', ['--force' => true])
+            ->expectsOutputToContain('1 bijgesneden')
+            ->assertExitCode(0);
+
+        $croppedBytes = $this->assetBytes('testrange/used.png');
+        $this->assertSame("\x89PNG\r\n\x1a\n", substr($croppedBytes, 0, 8), 'De bijgesneden png is niet langer een geldige png');
+        $this->assertFalse($this->asset('testrange/used.png')->get('watermark'));
+    }
+
+    public function test_format_is_preserved_for_webp(): void
+    {
+        $sourceBytes = File::get(base_path('tests/fixtures/images/watermarked.jpg'));
+        $image = imagecreatefromstring($sourceBytes);
+        ob_start();
+        imagewebp($image);
+        $webpBytes = ob_get_clean();
+        imagedestroy($image);
+
+        $asset = $this->importBytes($webpBytes, 'testrange/used.webp');
+        $this->useInEntry('testrange/used.webp');
+
+        $this->assertTrue($asset->get('watermark'), 'De gegenereerde webp-fixture bevat geen gedetecteerd watermerk');
+
+        $this->artisan('winsol:clean-watermarks', ['--force' => true])
+            ->expectsOutputToContain('1 bijgesneden')
+            ->assertExitCode(0);
+
+        $croppedBytes = $this->assetBytes('testrange/used.webp');
+        $this->assertSame('RIFF', substr($croppedBytes, 0, 4), 'De bijgesneden webp mist de RIFF-header');
+        $this->assertSame('WEBP', substr($croppedBytes, 8, 4), 'De bijgesneden webp is niet langer een geldige webp');
+        $this->assertFalse($this->asset('testrange/used.webp')->get('watermark'));
+    }
+
+    public function test_png_transparency_survives_the_crop(): void
+    {
+        $pngBytes = File::get(base_path('tests/fixtures/images/alpha.png'));
+        $sourceImage = imagecreatefromstring($pngBytes);
+        $rgbaBefore = imagecolorat($sourceImage, 10, 10);
+        $alphaBefore = ($rgbaBefore >> 24) & 0xFF;
+        $height = imagesy($sourceImage);
+        imagedestroy($sourceImage);
+
+        $asset = $this->importBytes($pngBytes, 'testrange/alpha.png');
+        $this->useInEntry('testrange/alpha.png');
+
+        // alpha.png bevat geen echt watermerk; de vlag en box worden hier
+        // opgelegd om enkel het formaatbehoud van de crop te toetsen, los
+        // van WatermarkDetector.
+        $asset->set('watermark', true);
+        $asset->set('watermark_box', '0,'.($height - 10).',0,0');
+        $asset->save();
+
+        $this->artisan('winsol:clean-watermarks', ['--force' => true])
+            ->expectsOutputToContain('1 bijgesneden')
+            ->assertExitCode(0);
+
+        $croppedBytes = $this->assetBytes('testrange/alpha.png');
+        $croppedImage = imagecreatefromstring($croppedBytes);
+        $rgbaAfter = imagecolorat($croppedImage, 10, 10);
+        $alphaAfter = ($rgbaAfter >> 24) & 0xFF;
+        imagedestroy($croppedImage);
+
+        $this->assertSame($alphaBefore, $alphaAfter, 'Transparantie is niet behouden na het bijsnijden');
     }
 }
