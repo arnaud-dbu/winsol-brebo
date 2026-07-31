@@ -11,9 +11,9 @@
                     <h2 class="text-center">{{ title | entities }}</h2>
                 {{ /if }}
                 <iframe
-                    src="{{ url }}"
+                    src="{{ url | entities }}"
                     title="{{ frame_title | entities }}"
-                    height="{{ height ?? 900 }}"
+                    height="{{ (height ?? 900) | entities }}"
                     loading="lazy"
                     class="w-full rounded-md border-0"></iframe>
             </div>

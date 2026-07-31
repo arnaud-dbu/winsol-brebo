@@ -20,6 +20,15 @@ class PageBuilderTest extends SectionTestCase
         }
     }
 
+    public function test_dispatches_the_embed_set_to_its_partial(): void
+    {
+        $html = $this->render('{{ partial:pageBuilder }}', [
+            'page_builder' => [['type' => 'embed', 'url' => 'https://example.test']],
+        ]);
+
+        $this->assertStringContainsString('data-section="embed"', $html);
+    }
+
     public function test_ignores_unknown_types(): void
     {
         $html = $this->render('{{ partial:pageBuilder }}', [

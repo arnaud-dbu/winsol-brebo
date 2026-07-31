@@ -52,6 +52,7 @@ class FooterTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:footer }}');
 
+        $this->assertStringContainsString('href="/simuleer-je-lening"', $html);
         $this->assertStringContainsString('Simuleer je lening', $html);
     }
 }
