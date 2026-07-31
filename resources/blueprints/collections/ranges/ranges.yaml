@@ -41,6 +41,19 @@ tabs:
               required: true
               validate:
                 - required
+          -
+            handle: brochure
+            field:
+              type: assets
+              display: Brochure
+              container: assets
+              folder: brochures
+              restrict: true
+              max_files: 1
+              localizable: true
+              instructions: 'Optioneel. Staat er een brochure, dan wordt de brochure-quicklink een directe download; anders verdwijnt die kaart.'
+              validate:
+                - 'mimes:pdf'
       -
         fields:
           -
