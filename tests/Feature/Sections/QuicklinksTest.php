@@ -4,9 +4,20 @@ namespace Tests\Feature\Sections;
 
 class QuicklinksTest extends SectionTestCase
 {
+    /**
+     * `quicklinks` leest zijn eigen collectie, maar de brochurekaart daarin
+     * rendert pas iets zodra de omringende pagina een `brochure` in scope
+     * zet (Task 5). Deze tests simuleren die pagina, zodat ze blijven pinnen
+     * hoe de collectie er in de praktijk — mét brochure — uitziet.
+     */
+    private function withBrochure(): array
+    {
+        return ['brochure' => ['url' => '/assets/brochures/pergola-so.pdf']];
+    }
+
     public function test_it_renders_a_card_per_quicklink_under_the_hardcoded_title(): void
     {
-        $html = $this->render('{{ partial:quicklinks }}');
+        $html = $this->render('{{ partial:quicklinks }}', $this->withBrochure());
 
         $this->assertStringContainsString('data-section="quicklinks"', $html);
         $this->assertStringContainsString('Zet de volgende stap', $html);
@@ -15,7 +26,7 @@ class QuicklinksTest extends SectionTestCase
 
     public function test_it_renders_the_copy_from_the_collection(): void
     {
-        $html = $this->render('{{ partial:quicklinks }}');
+        $html = $this->render('{{ partial:quicklinks }}', $this->withBrochure());
 
         $this->assertStringContainsString('Vraag offerte aan', $html);
         $this->assertStringContainsString('Vraag brochure aan', $html);
@@ -26,7 +37,7 @@ class QuicklinksTest extends SectionTestCase
 
     public function test_the_first_button_is_filled_and_the_other_two_are_outlined(): void
     {
-        $html = $this->render('{{ partial:quicklinks }}');
+        $html = $this->render('{{ partial:quicklinks }}', $this->withBrochure());
 
         // De link_style-mapping is de enige vertakking in de partial, dus dit
         // is wat vastgepind hoort te worden.
@@ -42,7 +53,7 @@ class QuicklinksTest extends SectionTestCase
 
     public function test_it_lists_the_quicklinks_in_their_designed_order(): void
     {
-        $html = $this->render('{{ partial:quicklinks }}');
+        $html = $this->render('{{ partial:quicklinks }}', $this->withBrochure());
 
         $offerte = strpos($html, 'Vraag offerte aan');
         $brochure = strpos($html, 'Vraag brochure aan');
@@ -57,7 +68,7 @@ class QuicklinksTest extends SectionTestCase
         // De foto's stonden al in de assets-container onder quicklinks/; ze
         // waren alleen nog niet aan de entries gekoppeld. Dat sluit open punt 2
         // uit docs/superpowers/specs/2026-07-26-locations-quicklinks-design.md.
-        $html = $this->render('{{ partial:quicklinks }}');
+        $html = $this->render('{{ partial:quicklinks }}', $this->withBrochure());
 
         $this->assertSame(3, substr_count($html, 'quicklink-media'));
         $this->assertSame(3, substr_count($html, '<img'));

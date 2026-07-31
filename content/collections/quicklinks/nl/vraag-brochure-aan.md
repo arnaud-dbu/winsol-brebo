@@ -11,4 +11,5 @@ link:
     label: 'Brochure aanvragen'
     new_tab: false
 link_style: outline
+type: brochure
 ---

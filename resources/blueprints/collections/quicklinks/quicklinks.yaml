@@ -31,6 +31,17 @@ tabs:
               options:
                 primary: Primary
                 outline: Outline
+          -
+            handle: type
+            field:
+              type: select
+              display: Type
+              default: default
+              localizable: true
+              instructions: 'Kies "Brochure" om deze kaart de brochure van de pagina te laten downloaden. Zonder brochure verdwijnt de kaart.'
+              options:
+                default: Standaard
+                brochure: Brochure
   sidebar:
     display: Sidebar
     sections:
