@@ -59,6 +59,7 @@ De huidige `products`-entries in de repo (carport, pergola-co, pergola-lo, pergo
 | Leningsimulator | Overnemen als losse pagina, link in de **footer** |
 | Batchindeling | Per range verticaal, met tussentijdse check na het eerste product |
 | Watermerkfoto's | Gebruiken zoals ze zijn; achteraf bijsnijden met één commando (§5.4) |
+| Ontbrekend beeld | Blokkeert nooit een batch: sectie afmaken met een placeholder uit `assets/placeholder/`, gat melden via `winsol:image-gaps` (§5.8) |
 
 ### Buiten scope
 
@@ -149,16 +150,16 @@ Batch 1 is de dure check: daar valideren we toon, lengte, sectiekeuze en bronnen
 
 De volgorde volgt de beeldbeschikbaarheid uit §5.6, aflopend; bij gelijke stand gaat de range met de meeste producten voor.
 
-| # | Range | Vlaggenschip | hero / sectie | Status |
-|---|---|---|---|---|
-| 1 | Terrasoverkapping | Pergola SO! | 43 / 49 | start nu |
-| 2 | Ramen en deuren | Aluminium ramen en deuren | 54 / 165 | start nu |
-| 3 | Rolluiken | Voorzetrolluiken | 3 / 12 | start nu, hero met watermerk |
-| 4 | Garagepoorten | Sectionale poorten | 1 / 25 | start nu, hero met watermerk |
-| 5 | Zonwering | Screens / verticale zonwering | 0 / 19 | start nu, hero met watermerk |
-| 6–9 | Stalen binnendeuren, Somfy Smart Home, VELUX, Airco | — | 0 / 0 | **wacht op beeld** |
+| # | Range | Vlaggenschip | hero / sectie |
+|---|---|---|---|
+| 1 | Terrasoverkapping | Pergola SO! | 43 / 49 |
+| 2 | Ramen en deuren | Aluminium ramen en deuren | 54 / 165 |
+| 3 | Rolluiken | Voorzetrolluiken | 3 / 12 |
+| 4 | Garagepoorten | Sectionale poorten | 1 / 25 |
+| 5 | Zonwering | Screens / verticale zonwering | 0 / 19 |
+| 6–9 | Stalen binnendeuren, Somfy Smart Home, VELUX, Airco | — | 0 / 0 |
 
-Batch 1 tot 5 kunnen doorlopen: waar een schone hero ontbreekt, gebruiken we een watermerkfoto en ruimt `clean-watermarks` (§5.4) die achteraf op. Alleen batch 6 tot 9 zijn werkelijk geblokkeerd — daarvoor bestaat geen enkele foto — en die wachten op §5.7.
+**Geen enkele batch wordt geblokkeerd door beeld.** De secties worden altijd volledig opgemaakt; ontbreekt een geschikte foto, dan komt er een placeholder (§5.8) en gaat de batch door. Een kleinere foto dan de laag vraagt is toegestaan — liever een scherpe 1200px-foto op een hero dan een gat. Watermerkfoto's mogen overal; `clean-watermarks` (§5.4) ruimt ze achteraf op.
 
 Batch 3 (Rolluiken) verdient extra aandacht: dat is de eerste range zonder brochure, dus daar blijkt of de verbergende quicklinkkaart klopt.
 
@@ -271,18 +272,26 @@ Vertaald naar de negen ranges:
 
 **Het tekort is smaller dan het lijkt.** Garagepoorten, Zonwering en Rolluiken hebben ruim voldoende sectie- en kaartbeeld; alleen een schone **hero** ontbreekt. Omdat watermerkfoto's overal gebruikt mogen worden (§5.4), blokkeert dat niets: die heroes krijgen voorlopig een watermerkfoto en `clean-watermarks` ruimt ze later op.
 
-Werkelijk zonder beeld zijn alleen de vier ranges zonder bronmap: Stalen binnendeuren, Somfy Smart Home, VELUX en Airco.
+Zonder bronmap zijn Stalen binnendeuren, Somfy Smart Home, VELUX en Airco. Die worden niet uitgesteld: hun secties krijgen placeholders volgens §5.8 en worden achteraf gericht aangevuld.
 
-### 5.7 Aanvraag SharePoint
+### 5.7 Geen tweede ronde op SharePoint
 
-Gericht, nu het patroon bekend is. Zoek per categorie de mappen die **niet** `LR`, `Low Res` of `lage resolutie` heten.
+Er wordt niet opnieuw op SharePoint gezocht. De beeldgaten worden aangevuld **nadat** de secties staan, gericht en door Arnaud zelf. De taak van project 2 is daarom niet "wacht op beeld" maar "maak de sectie af en meld precies wat er ontbreekt".
 
-1. **Stalen binnendeuren, Somfy Smart Home, VELUX, Airco** — hoogste prioriteit: hiervoor bestaat geen enkele foto, en zonder beeld kunnen die vier batches niet starten. Bestaat er überhaupt iets? Zo niet, dan moeten die pagina's het met producttekst en een render doen.
-2. **Grote liggende foto's (≥2000px) voor Zonwering, Rolluiken en Garagepoorten.** Sectie- en kaartbeeld is er genoeg; alleen de hero ontbreekt. Eén goede foto per range volstaat.
-3. **Losse producten zonder beeld:** Vliegenramen, Sierluiken, Veiligheidsdeuren, Verandazonwering.
-4. Zoek naar mappen die **`web`** heten — `terrasoverkappingen/web/` was met afstand de beste van de set.
+### 5.8 Placeholders en beeldgaten
 
-Niet nodig: `ballustrades` (buiten scope) en meer van hetzelfde uit `LR`/`Low Res`-mappen.
+**Regels bij het kiezen van beeld, in volgorde:**
+
+1. een schone foto uit de juiste laag (§5.6);
+2. anders een schone foto uit een lagere laag — **een kleinere foto is toegestaan**, ook op een hero. Glide schaalt niet op, dus een scherpe 1200px-foto is beter dan een gat;
+3. anders een watermerkfoto uit dezelfde range;
+4. anders een placeholder.
+
+**Placeholders staan in `assets/placeholder/`**, nooit ergens anders. Dat is geen administratieve voorkeur maar de enige manier om ze terug te vinden: een markdownlijst veroudert zodra iemand een foto vervangt, een mapverwijzing niet.
+
+`php please winsol:image-gaps` doorloopt alle entries en somt elk veld op dat nog naar `assets/placeholder/` wijst, met per regel: collectie, entry, veld, sectie, en wat er nodig is (oriëntatie, minimale breedte, onderwerp). Dat is tegelijk de boodschappenlijst en de livegangcontrole — bij oplevering moet de uitvoer leeg zijn.
+
+**Grens aan wat een placeholder mag zijn.** Sfeerbeeld of een abstracte foto van Unsplash is prima. Een foto van iemand anders' pergola, raam of poort is dat niet: op de site van een installateur leest elke productfoto als hun eigen werk. Placeholders die een realisatie suggereren horen dus niet op een live pagina — vandaar de controle hierboven.
 
 ---
 
