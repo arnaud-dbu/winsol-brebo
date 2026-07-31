@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\ImageManager;
 use Statamic\Assets\Asset;
-use Statamic\Facades\AssetContainer;
 use Throwable;
 
 class CleanWatermarks extends Command
@@ -39,16 +38,13 @@ class CleanWatermarks extends Command
 
     public function handle(UsedAssetFinder $finder): int
     {
-        $container = AssetContainer::find('assets');
-
         /** @var Collection<int, Asset> $targets */
-        $targets = $finder->paths()
-            ->map(fn (string $path): ?Asset => $container->asset($path))
-            ->filter()
-            ->filter(fn (Asset $asset): bool => (bool) $asset->get('watermark'));
+        $targets = $finder->assets()
+            ->filter(fn (Asset $asset): bool => (bool) $asset->get('watermark'))
+            ->values();
 
         if ($this->option('list')) {
-            $targets->each(fn (Asset $asset): mixed => $this->line($asset->path()));
+            $targets->each(fn (Asset $asset): mixed => $this->line($this->sourceName($asset)));
             $this->info("{$targets->count()} foto's met watermerk in gebruik.");
 
             return self::SUCCESS;
@@ -89,6 +85,21 @@ class CleanWatermarks extends Command
         $this->info("{$cropped} bijgesneden.");
 
         return self::SUCCESS;
+    }
+
+    /**
+     * De lijst gaat als aanvraag naar Winsol, die zijn foto's onder de
+     * oorspronkelijke naam kent. Het opgeslagen pad is daarvoor niet altijd
+     * bruikbaar: `Réalisation Été - Screens 04.JPG` wordt bij import
+     * `realisation-ete--screens-04.jpg`, en dat is aan de andere kant niet
+     * meer terug te zoeken. Assets van vóór het `source_filename`-veld hebben
+     * hem niet, en vallen terug op het pad.
+     */
+    private function sourceName(Asset $asset): string
+    {
+        $source = $asset->get('source_filename');
+
+        return is_string($source) && $source !== '' ? $source : $asset->path();
     }
 
     /**

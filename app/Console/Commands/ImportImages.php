@@ -84,6 +84,12 @@ class ImportImages extends Command
 
             $result = $detector->detect($asset->disk()->get($asset->path()));
 
+            // De sanering is niet omkeerbaar: `Réalisation Été - Screens
+            // 04.JPG` wordt `realisation-ete--screens-04.jpg`, en daarmee is
+            // de foto bij Winsol niet meer terug te zoeken. Bewaren kost hier
+            // niets; na de importbatches zou het een backfill over de hele
+            // container zijn.
+            $asset->set('source_filename', $relative);
             $asset->set('watermark', $result->hasWatermark);
             $asset->set('watermark_box', $result->box
                 ? implode(',', [$result->box['x'], $result->box['y'], $result->box['width'], $result->box['height']])

@@ -36,7 +36,6 @@ class ImportImagesTest extends TestCase
     protected function tearDown(): void
     {
         File::deleteDirectory($this->source);
-        $this->deleteTemporaryEntries();
 
         parent::tearDown();
     }
@@ -80,6 +79,25 @@ class ImportImagesTest extends TestCase
             filesize(base_path('tests/fixtures/images/watermarked.jpg')),
             strlen($stored),
         );
+    }
+
+    /**
+     * De sanering van de bestandsnaam is niet omkeerbaar, en zonder de
+     * oorspronkelijke naam is een foto bij Winsol niet meer terug te zoeken.
+     */
+    public function test_it_keeps_the_original_filename_on_the_asset(): void
+    {
+        File::copy(base_path('tests/fixtures/images/clean.jpg'), $this->source.'/Winsol_2019_Mol_Pergola SO! (23).jpg');
+
+        $this->artisan('winsol:import-images', [
+            'source' => $this->source,
+            'folder' => 'testrange-source-filename',
+        ])->assertExitCode(0);
+
+        $asset = AssetContainer::find('assets')->asset('testrange-source-filename/winsol_2019_mol_pergola-so!-(23).jpg');
+
+        $this->assertNotNull($asset, 'De foto is niet onder het gesaneerde pad geimporteerd');
+        $this->assertSame('Winsol_2019_Mol_Pergola SO! (23).jpg', $asset->get('source_filename'));
     }
 
     public function test_it_leaves_the_source_files_intact(): void

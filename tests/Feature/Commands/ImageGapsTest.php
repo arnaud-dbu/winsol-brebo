@@ -2,6 +2,10 @@
 
 namespace Tests\Feature\Commands;
 
+use App\Services\ContentValueScanner;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 use Statamic\Facades\GlobalVariables;
 use Statamic\Facades\Term;
 use Tests\Concerns\CreatesTemporaryContent;
@@ -10,13 +14,6 @@ use Tests\TestCase;
 class ImageGapsTest extends TestCase
 {
     use CreatesTemporaryContent;
-
-    protected function tearDown(): void
-    {
-        $this->deleteTemporaryEntries();
-
-        parent::tearDown();
-    }
 
     public function test_it_reports_an_entry_that_still_uses_a_placeholder(): void
     {
@@ -37,12 +34,32 @@ class ImageGapsTest extends TestCase
             ->assertExitCode(1);
     }
 
-    public function test_it_exits_clean_when_nothing_points_at_a_placeholder(): void
+    /**
+     * De exitcode gaat over de héle site, en die draagt zolang de content niet
+     * opgeleverd is nog dummybeeld — vandaar dat een entry met een echte foto
+     * getoetst wordt op zijn eigen regels in het rapport en niet op de exitcode.
+     * De schone uitkomst zelf staat in
+     * `test_it_exits_clean_when_no_content_points_at_a_placeholder()`.
+     */
+    public function test_it_does_not_report_an_entry_whose_image_is_real(): void
     {
         $this->temporaryEntry('products', 'beeld-in-orde', [
             'title' => 'Beeld in orde',
             'image' => 'pergolas/echte-foto.jpg',
         ]);
+
+        $this->assertSame([], $this->gapsFor('beeld-in-orde'));
+    }
+
+    public function test_it_exits_clean_when_no_content_points_at_a_placeholder(): void
+    {
+        $this->app->bind(ContentValueScanner::class, fn (): ContentValueScanner => new class extends ContentValueScanner
+        {
+            public function values(): array
+            {
+                return [];
+            }
+        });
 
         $this->artisan('winsol:image-gaps')
             ->expectsOutputToContain('Geen beeldgaten')
@@ -120,9 +137,7 @@ class ImageGapsTest extends TestCase
             'image' => 'pergolas/echte-foto.jpg',
         ]);
 
-        $this->artisan('winsol:image-gaps')
-            ->expectsOutputToContain('Geen beeldgaten')
-            ->assertExitCode(0);
+        $this->assertSame([], $this->gapsFor('geen-vals-alarm'));
     }
 
     public function test_it_reports_a_placeholder_left_in_a_global_set(): void
@@ -158,5 +173,122 @@ class ImageGapsTest extends TestCase
         $this->artisan('winsol:image-gaps')
             ->expectsOutputToContain('image-gaps-test | thumbnail | placeholder/categorie.jpg')
             ->assertExitCode(1);
+    }
+
+    public function test_it_reports_the_dummy_images_folder_the_real_content_uses(): void
+    {
+        $this->temporaryEntry('products', 'nog-dummybeeld', [
+            'title' => 'Nog dummybeeld',
+            'image' => 'dummy-images/test-img-1.jpg',
+        ]);
+
+        $this->artisan('winsol:image-gaps')
+            ->expectsOutputToContain('nog-dummybeeld | image | dummy-images/test-img-1.jpg')
+            ->assertExitCode(1);
+    }
+
+    public function test_it_reports_a_loose_dummy_file_that_has_no_folder(): void
+    {
+        $this->temporaryEntry('articles', 'los-dummybestand', [
+            'title' => 'Los dummybestand',
+            'image' => 'test-1.jpg',
+        ]);
+
+        $this->artisan('winsol:image-gaps')
+            ->expectsOutputToContain('los-dummybestand | image | test-1.jpg')
+            ->assertExitCode(1);
+    }
+
+    public function test_it_does_not_flag_a_folder_that_merely_starts_like_a_dummy_one(): void
+    {
+        $this->temporaryEntry('products', 'geen-vals-alarm-op-map', [
+            'title' => 'Geen vals alarm op map',
+            'image' => 'testimonials/klant.jpg',
+            'brochure' => 'dummy.pdf',
+        ]);
+
+        $this->assertSame(
+            [],
+            $this->gapsFor('geen-vals-alarm-op-map'),
+            'Een map die toevallig met dezelfde letters begint is geen beeldgat'
+        );
+    }
+
+    /**
+     * De poort meet een conventie, en die conventie moet er een zijn die de
+     * echte content werkelijk gebruikt. Deze test kijkt daarom niet naar een
+     * fixture maar naar `content/` zelf: elk pad dat op een dummy- of
+     * placeholdermap wijst, moet in het rapport staan. Zonder deze test bleef
+     * `dummy-images/` — 31 verwijzingen in 19 bestanden — onzichtbaar terwijl
+     * het commando `Geen beeldgaten.` meldde.
+     *
+     * Is de content bij oplevering schoon, dan is de verzameling leeg en
+     * slaagt de test vanzelf.
+     */
+    public function test_the_gate_knows_every_placeholder_convention_the_real_content_uses(): void
+    {
+        $suspicious = $this->suspiciousPathsInRealContent();
+
+        Artisan::call('winsol:image-gaps');
+        $output = Artisan::output();
+
+        $this->assertSame(
+            $suspicious->all(),
+            $suspicious->filter(fn (string $path): bool => str_contains($output, $path))->values()->all(),
+            'winsol:image-gaps kent niet elke placeholder-conventie die in content/ voorkomt'
+        );
+    }
+
+    public function test_it_reports_an_asset_in_use_that_still_carries_a_watermark(): void
+    {
+        $this->fakeAssetDisk();
+
+        $source = storage_path('framework/testing/gaps-source');
+        File::ensureDirectoryExists($source);
+        File::copy(base_path('tests/fixtures/images/watermarked.jpg'), $source.'/used.jpg');
+        $this->artisan('winsol:import-images', ['source' => $source, 'folder' => 'testrange-gaps']);
+        File::deleteDirectory($source);
+
+        $this->temporaryEntry('products', 'gewatermerkt-product', [
+            'title' => 'Gewatermerkt product',
+            'image' => 'testrange-gaps/used.jpg',
+        ]);
+
+        $this->artisan('winsol:image-gaps')
+            ->expectsOutputToContain('watermerk | testrange-gaps/used.jpg')
+            ->assertExitCode(1);
+    }
+
+    /**
+     * De regels die dit commando over één entry rapporteert.
+     *
+     * @return list<string>
+     */
+    private function gapsFor(string $slug): array
+    {
+        Artisan::call('winsol:image-gaps');
+
+        return collect(explode("\n", Artisan::output()))
+            ->map(fn (string $line): string => trim($line))
+            ->filter(fn (string $line): bool => str_contains($line, "| {$slug} |"))
+            ->values()
+            ->all();
+    }
+
+    /**
+     * Paden in de echte content waarvan de eerste padcomponent een dummy- of
+     * placeholdermap is. Het patroon eist een scheidingsteken na de naam, zodat
+     * een echte map als `testimonials/` niet meetelt.
+     *
+     * @return Collection<int, string>
+     */
+    private function suspiciousPathsInRealContent(): Collection
+    {
+        return collect(app(ContentValueScanner::class)->values())
+            ->pluck('value')
+            ->filter(fn (string $value): bool => (bool) preg_match('/\.(jpe?g|png|webp)$/i', $value))
+            ->filter(fn (string $value): bool => (bool) preg_match('#^(placeholder|dummy|temp|test)(s?[-_/]|s?\.)#i', $value))
+            ->unique()
+            ->values();
     }
 }

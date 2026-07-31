@@ -56,10 +56,21 @@ trait CreatesTemporaryContent
     }
 
     /**
+     * De opruiming hangt aan `beforeApplicationDestroyed()` en niet aan een
+     * `tearDown()` in de testklasse: die wordt overgeslagen zodra een test er
+     * geen definieert of vroegtijdig afbreekt, en het residu — bijvoorbeeld
+     * een product zonder range — blijft dan in de getrackte `content/`-map
+     * achter, waar het de contentbrede controles van de volgende test laat
+     * falen.
+     *
      * @param  array<string, mixed>  $data
      */
     protected function temporaryEntry(string $collection, string $slug, array $data): EntryContract
     {
+        if ($this->temporaryEntryIds === []) {
+            $this->beforeApplicationDestroyed($this->deleteTemporaryEntries(...));
+        }
+
         $entry = Entry::make()
             ->collection($collection)
             ->locale('nl')

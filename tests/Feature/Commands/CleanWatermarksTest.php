@@ -21,13 +21,6 @@ class CleanWatermarksTest extends TestCase
         $this->fakeAssetDisk();
     }
 
-    protected function tearDown(): void
-    {
-        $this->deleteTemporaryEntries();
-
-        parent::tearDown();
-    }
-
     private function importFixture(string $fixture, string $name): void
     {
         $dir = storage_path('framework/testing/clean-source');
@@ -168,12 +161,48 @@ class CleanWatermarksTest extends TestCase
         $metaBefore = $this->asset('testrange/used.jpg')->meta();
 
         $this->artisan('winsol:clean-watermarks', ['--list' => true])
-            ->expectsOutputToContain('testrange/used.jpg')
+            ->expectsOutputToContain('used.jpg')
             ->assertExitCode(0);
 
         $this->assertTrue($this->asset('testrange/used.jpg')->get('watermark'));
         $this->assertSame($bytesBefore, $this->assetBytes('testrange/used.jpg'), '--list heeft de foto byte voor byte gewijzigd');
         $this->assertSame($metaBefore, $this->asset('testrange/used.jpg')->meta(), '--list heeft de meta-yaml gewijzigd');
+    }
+
+    /**
+     * De lijst is een aanvraag bij Winsol, die zijn foto's onder de
+     * oorspronkelijke naam kent. Het opgeslagen pad is dat niet: de sanering
+     * bij import strijkt accenten en spaties glad en is niet omkeerbaar.
+     */
+    public function test_list_prints_the_original_filename_and_not_the_sanitized_path(): void
+    {
+        // ASCII, want macOS bewaart een bestandsnaam met accenten gedecomponeerd
+        // (NFD) en dan hangt het gesaneerde pad van het besturingssysteem af.
+        // De sanering die telt — hoofdletters, spaties, leestekens — is hier
+        // evengoed zichtbaar.
+        $original = 'Winsol_2019_Mol_Pergola SO! (23).jpg';
+        $this->importFixture('watermarked.jpg', $original);
+        $this->useInEntry('testrange/winsol_2019_mol_pergola-so!-(23).jpg');
+
+        $this->assertNotNull($this->asset('testrange/winsol_2019_mol_pergola-so!-(23).jpg'), 'De import saneerde het pad anders dan verwacht');
+
+        $this->artisan('winsol:clean-watermarks', ['--list' => true])
+            ->expectsOutputToContain($original)
+            ->assertExitCode(0);
+    }
+
+    public function test_list_falls_back_to_the_path_for_an_asset_without_a_source_filename(): void
+    {
+        $this->importFixture('watermarked.jpg', 'used.jpg');
+        $this->useInEntry('testrange/used.jpg');
+
+        $asset = $this->asset('testrange/used.jpg');
+        $asset->remove('source_filename');
+        $asset->save();
+
+        $this->artisan('winsol:clean-watermarks', ['--list' => true])
+            ->expectsOutputToContain('testrange/used.jpg')
+            ->assertExitCode(0);
     }
 
     public function test_second_run_does_not_crop_again(): void

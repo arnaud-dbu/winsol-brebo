@@ -2,37 +2,44 @@
 
 namespace App\Console\Commands;
 
+use App\Services\ContentValueScanner;
+use App\Services\UsedAssetFinder;
 use Illuminate\Console\Command;
-use Statamic\Facades\Entry;
-use Statamic\Facades\GlobalVariables;
-use Statamic\Facades\Term;
+use Statamic\Assets\Asset;
 
 class ImageGaps extends Command
 {
     protected $signature = 'winsol:image-gaps';
 
-    protected $description = 'Somt elk content-veld op dat nog naar een placeholder wijst';
-
-    private const PLACEHOLDER_PREFIX = 'placeholder/';
+    protected $description = 'Somt elk content-veld op dat nog een placeholder of een gewatermerkte foto gebruikt';
 
     /**
-     * Een bard-afbeeldingsnode bewaart zijn pad niet als kaal pad, maar als
-     * `asset::<container>::<pad>` (zie Statamic\Fieldtypes\Bard\ImageNode).
-     * Zonder dit voorvoegsel eraf te halen mist een kale prefix-check elk
-     * beeldgat dat via een bard-veld ingevoegd is.
+     * Mappen waarin geen enkele foto hoort te blijven staan bij oplevering.
+     * `placeholder/` is de afgesproken conventie, `dummy-images/` is wat de
+     * demo-content werkelijk gebruikt — dat laatste ontbrak, waardoor deze
+     * poort een schone site meldde terwijl elke pagina nog dummybeeld toonde.
+     *
+     * @var list<string>
      */
-    private const ASSET_ID_PREFIX_PATTERN = '/^asset::[^:]+::/';
+    private const PLACEHOLDER_PREFIXES = ['placeholder/', 'dummy-images/'];
 
-    public function handle(): int
+    /**
+     * Losse dummybestanden in de wortel van de container, die geen map hebben
+     * om aan herkend te worden. Exact vergelijken en niet op voorvoegsel: een
+     * `str_starts_with` op zulke korte namen zou een echte foto met dezelfde
+     * beginletters meeslepen.
+     *
+     * @var list<string>
+     */
+    private const PLACEHOLDER_PATHS = ['dscf4033.jpg', 'test-1.jpg'];
+
+    public function handle(ContentValueScanner $scanner, UsedAssetFinder $finder): int
     {
-        $rows = [
-            ...$this->entryRows(),
-            ...$this->globalRows(),
-            ...$this->termRows(),
-        ];
+        $gaps = $this->placeholderRows($scanner);
+        $watermarked = $this->watermarkedPaths($finder);
 
-        if ($rows === []) {
-            $this->info('Geen beeldgaten.');
+        if ($gaps === [] && $watermarked === []) {
+            $this->info("Geen beeldgaten en geen gewatermerkte foto's in gebruik.");
 
             return self::SUCCESS;
         }
@@ -44,10 +51,25 @@ class ImageGaps extends Command
         // wat het pad onbruikbaar maakt als boodschappenlijst — en precies
         // dat scenario (niet-interactief, als poort in een script) is hoe
         // dit commando bedoeld is te draaien.
-        foreach ($rows as [$source, $item, $path, $placeholder]) {
-            $this->line("{$source} | {$item} | {$path} | {$placeholder}");
+        if ($gaps !== []) {
+            $this->line('Placeholders in gebruik — vervang de foto:');
+
+            foreach ($gaps as [$source, $item, $path, $placeholder]) {
+                $this->line("{$source} | {$item} | {$path} | {$placeholder}");
+            }
+
+            $this->warn(count($gaps).' beeldgaten open.');
         }
-        $this->warn(count($rows).' beeldgaten open.');
+
+        if ($watermarked !== []) {
+            $this->line('Watermerken in gebruik — draai winsol:clean-watermarks of vraag een schone versie aan:');
+
+            foreach ($watermarked as $path) {
+                $this->line("watermerk | {$path}");
+            }
+
+            $this->warn(count($watermarked)." foto's dragen nog een watermerk.");
+        }
 
         return self::FAILURE;
     }
@@ -55,59 +77,13 @@ class ImageGaps extends Command
     /**
      * @return list<list<string>>
      */
-    private function entryRows(): array
+    private function placeholderRows(ContentValueScanner $scanner): array
     {
         $rows = [];
 
-        foreach (Entry::query()->get() as $entry) {
-            $rows = [...$rows, ...$this->rowsFor($entry->collectionHandle(), $entry->slug(), $entry->data()->all())];
-        }
-
-        return $rows;
-    }
-
-    /**
-     * Een entry-only scan ziet nooit het `meta_image`-veld van het
-     * `seo`-globalset: dat hangt niet aan een entry maar aan de site.
-     *
-     * @return list<list<string>>
-     */
-    private function globalRows(): array
-    {
-        $rows = [];
-
-        foreach (GlobalVariables::all() as $variables) {
-            $rows = [...$rows, ...$this->rowsFor("global:{$variables->handle()}", $variables->locale(), $variables->data()->all())];
-        }
-
-        return $rows;
-    }
-
-    /**
-     * @return list<list<string>>
-     */
-    private function termRows(): array
-    {
-        $rows = [];
-
-        foreach (Term::query()->get() as $term) {
-            $rows = [...$rows, ...$this->rowsFor("taxonomy:{$term->taxonomyHandle()}", $term->slug(), $term->data()->all())];
-        }
-
-        return $rows;
-    }
-
-    /**
-     * @param  array<string, mixed>  $data
-     * @return list<list<string>>
-     */
-    private function rowsFor(string $source, string $item, array $data): array
-    {
-        $rows = [];
-
-        foreach ($data as $handle => $value) {
-            foreach ($this->placeholders($value, (string) $handle) as $hit) {
-                $rows[] = [$source, $item, $hit['path'], $hit['value']];
+        foreach ($scanner->values() as $value) {
+            if ($this->isPlaceholder($value['value'])) {
+                $rows[] = [$value['source'], $value['item'], $value['path'], $value['value']];
             }
         }
 
@@ -115,20 +91,19 @@ class ImageGaps extends Command
     }
 
     /**
-     * @return list<array{path: string, value: string}>
+     * De tweede helft van de poort. `winsol:clean-watermarks` sluit ook met
+     * exitcode 0 af wanneer élke foto overgeslagen is wegens een onbruikbaar
+     * of verouderd watermerkvlak; zonder deze controle komt een site dus groen
+     * door beide commando's met zichtbaar gewatermerkte foto's erop.
+     *
+     * @return list<string>
      */
-    private function placeholders(mixed $value, string $path): array
+    private function watermarkedPaths(UsedAssetFinder $finder): array
     {
-        if (is_string($value)) {
-            return $this->isPlaceholder($value) ? [['path' => $path, 'value' => $this->stripAssetIdPrefix($value)]] : [];
-        }
-
-        if (! is_array($value)) {
-            return [];
-        }
-
-        return collect($value)
-            ->flatMap(fn (mixed $item, int|string $key): array => $this->placeholders($item, $this->extendPath($path, $key, $item)))
+        return $finder->assets()
+            ->filter(fn (Asset $asset): bool => (bool) $asset->get('watermark'))
+            ->map(fn (Asset $asset): string => $asset->path())
+            ->values()
             ->all();
     }
 
@@ -140,26 +115,18 @@ class ImageGaps extends Command
      */
     private function isPlaceholder(string $value): bool
     {
-        return str_starts_with(strtolower($this->stripAssetIdPrefix($value)), self::PLACEHOLDER_PREFIX);
-    }
+        $value = strtolower($value);
 
-    private function stripAssetIdPrefix(string $value): string
-    {
-        return preg_replace(self::ASSET_ID_PREFIX_PATTERN, '', $value) ?? $value;
-    }
-
-    /**
-     * Een replicator- of bard-set draagt altijd een `type`-sleutel (het
-     * sethandle), dus die neemt de indexnotatie over zodra die aanwezig is —
-     * anders zegt de veldnaam `page_builder` niets over wélke van de twaalf
-     * secties op een pagina het gat bevat.
-     */
-    private function extendPath(string $path, int|string $key, mixed $item): string
-    {
-        if (is_array($item) && is_string($item['type'] ?? null)) {
-            return "{$path}[{$key}:{$item['type']}]";
+        if (in_array($value, self::PLACEHOLDER_PATHS, true)) {
+            return true;
         }
 
-        return is_int($key) ? "{$path}[{$key}]" : "{$path}.{$key}";
+        foreach (self::PLACEHOLDER_PREFIXES as $prefix) {
+            if (str_starts_with($value, $prefix)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

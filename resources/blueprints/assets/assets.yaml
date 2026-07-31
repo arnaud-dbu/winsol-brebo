@@ -7,6 +7,12 @@ fields:
       type: text
       instructions: 'Description of the image'
   -
+    handle: source_filename
+    field:
+      display: 'Oorspronkelijke bestandsnaam'
+      type: text
+      instructions: 'Naam zoals het bestand in de bronmap stond, voor de sanering bij import. winsol:clean-watermarks --list toont deze naam, zodat een aanvraag bij Winsol terug te koppelen is.'
+  -
     handle: watermark
     field:
       display: Watermerk
