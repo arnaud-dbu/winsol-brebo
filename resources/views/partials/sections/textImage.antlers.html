@@ -10,11 +10,11 @@
     {{ image_sizes = "(min-width: 640px) 50vw, 100vw" }}
 {{ /if }}
 {{ if media == 'video' and video }}
-    {{ show_media = true }}
+    {{ media_mode = 'video' }}
 {{ elseif media != 'none' and image }}
-    {{ show_media = true }}
+    {{ media_mode = 'image' }}
 {{ else }}
-    {{ show_media = false }}
+    {{ media_mode = '' }}
 {{ /if }}
 <section
     {{ if anchor }} id="{{ anchor }}"{{ /if }}
@@ -26,9 +26,9 @@
                 {{ partial:sectionHeader }}
                 {{ partial:featureList :items="features" }}
             </div>
-            {{ if show_media }}
+            {{ if media_mode }}
                 <div class="{{ image_column_class }}">
-                    {{ if media == 'video' }}
+                    {{ if media_mode == 'video' }}
                         {{ partial:video }}
                     {{ else }}
                         {{ img :src="image" ratio="4/3" sm:ratio="5/4" max_width="1600" :sizes="image_sizes" class="rounded-sm" }}
