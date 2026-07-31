@@ -1,4 +1,6 @@
 title: Locations
+revisions: false
 title_format: '{{ name }}'
 structure:
+  root: false
   max_depth: 1

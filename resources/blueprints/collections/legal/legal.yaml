@@ -25,3 +25,17 @@ tabs:
               type: slug
               localizable: true
               validate: 'max:200'
+  preview:
+    display: Preview
+    sections:
+      -
+        fields:
+          -
+            import: preview
+  seo:
+    display: SEO
+    sections:
+      -
+        fields:
+          -
+            import: seo

@@ -1,3 +1,4 @@
 title: Products
 template: products/show
+revisions: false
 route: '/producten/{slug}'

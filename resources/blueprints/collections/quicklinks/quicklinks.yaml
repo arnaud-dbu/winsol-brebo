@@ -9,8 +9,8 @@ tabs:
             handle: title
             field:
               type: text
-              display: Title
               required: true
+              display: Title
               validate:
                 - required
           -
@@ -42,3 +42,17 @@ tabs:
               type: slug
               localizable: true
               validate: 'max:200'
+  preview:
+    display: Preview
+    sections:
+      -
+        fields:
+          -
+            import: preview
+  seo:
+    display: SEO
+    sections:
+      -
+        fields:
+          -
+            import: seo

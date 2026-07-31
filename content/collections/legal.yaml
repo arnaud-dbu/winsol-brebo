@@ -1,6 +1,6 @@
 title: Legal
-route: '/{slug}'
 revisions: false
+route: '/{slug}'
 date_behavior:
   past: public
   future: private

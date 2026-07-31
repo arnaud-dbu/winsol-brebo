@@ -1,5 +1,6 @@
 title: Ranges
 template: ranges/show
-route: '/aanbod/{slug}'
 taxonomies:
   - range_categories
+revisions: false
+route: '/aanbod/{slug}'
