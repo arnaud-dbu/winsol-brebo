@@ -1,13 +1,10 @@
 {{#
-    `brochure` komt niet uit de quicklink maar uit de pagina eromheen en wordt expliciet doorgegeven door `quicklinks` en
-    `pageQuicklinks`. Een brochurekaart zonder brochure rendert niets — dan is er niets te downloaden.
+    `brochure` komt niet uit de quicklink maar uit de pagina eromheen en komt er via de cascade in. Task 5 voegt de
+    expliciete doorgifte door `quicklinks` en `pageQuicklinks` toe. Een brochurekaart zonder brochure-asset rendert niets —
+    dan is er niets te bekijken.
 #}}
 {{ is_brochure = type == 'brochure' }}
-{{#
-    `link:0:label ?? '…'` levert inline geen fallback op — alleen als toekenning aan een variabele werkt de `??` wel.
-#}}
-{{ brochure_label = link:0:label ?? 'Download brochure' }}
-{{ if not is_brochure or brochure }}
+{{ if not is_brochure or brochure:url }}
     <div class="quicklink-card flex h-full flex-col rounded-md bg-light card-padding">
         {{ if image }}
             <div class="quicklink-media">
@@ -22,9 +19,10 @@
             {{ if is_brochure }}
                 <a
                     href="{{ brochure:url }}"
-                    download
+                    target="_blank"
+                    rel="noopener"
                     class="{{ link_style == 'outline' ? 'btn btn--outline' : 'btn btn--primary' }}">
-                    {{ brochure_label }}
+                    {{ link.0.label ?? 'Bekijk de brochure' }}
                 </a>
             {{ elseif link }}
                 {{ partial:link :style="link_style == 'outline' ? 'btn btn--outline' : 'btn btn--primary'" }}

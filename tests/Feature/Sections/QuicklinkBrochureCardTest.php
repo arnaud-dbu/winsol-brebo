@@ -34,18 +34,35 @@ class QuicklinkBrochureCardTest extends SectionTestCase
 
         $this->assertStringContainsString('Bezoek een showroom', $html);
         $this->assertStringContainsString('Plan een bezoek', $html);
-        $this->assertStringNotContainsString('download', $html);
+        $this->assertStringNotContainsString('target="_blank"', $html);
     }
 
-    public function test_a_brochure_card_with_a_pdf_becomes_a_direct_download(): void
+    public function test_a_brochure_card_with_a_pdf_opens_it_in_a_new_tab(): void
     {
         $html = $this->render('{{ partial:quicklinkCard }}', array_merge($this->brochureCard(), [
             'brochure' => ['url' => '/assets/brochures/pergola-so.pdf'],
         ]));
 
         $this->assertStringContainsString('/assets/brochures/pergola-so.pdf', $html);
-        $this->assertStringContainsString('download', $html);
+        $this->assertStringContainsString('target="_blank"', $html);
+        $this->assertStringContainsString('rel="noopener"', $html);
         $this->assertStringContainsString('Brochure aanvragen', $html);
+
+        // R2 draait op een andere origin dan de site: `download` wordt daar
+        // door de browser genegeerd en belooft dus gedrag dat niet gebeurt.
+        $this->assertStringNotContainsString('download', $html);
+    }
+
+    public function test_a_brochure_card_without_a_link_falls_back_to_a_neutral_label(): void
+    {
+        $html = $this->render('{{ partial:quicklinkCard }}', [
+            'title' => 'Vraag brochure aan',
+            'type' => 'brochure',
+            'link_style' => 'outline',
+            'brochure' => ['url' => '/assets/brochures/pergola-so.pdf'],
+        ]);
+
+        $this->assertStringContainsString('Bekijk de brochure', $html);
     }
 
     public function test_a_brochure_card_without_a_pdf_renders_nothing(): void
