@@ -111,6 +111,72 @@ class ImportImagesTest extends TestCase
         $this->assertCount(4, $container->assets('testrange-nested', true));
     }
 
+    /**
+     * Statamic slaat op onder `AssetUploader::getSafeFilename()`, niet onder
+     * het pad dat wij samenstellen: met `assets.lowercase` aan (de configuratie
+     * hier) verlaagt dat de extensie en strijkt het spaties en accenten glad.
+     * Een tweede run die op het ongesaneerde pad toetst, vindt zo'n bestand
+     * nooit terug en importeert het opnieuw onder een timestamp-suffix. De
+     * echte bronmap bestaat voor 100% uit zulke namen — spaties, hoofdletter-
+     * extensies, accenten — dus dit is geen randgeval.
+     */
+    public function test_it_skips_a_second_run_for_filenames_statamic_sanitizes(): void
+    {
+        File::copy(base_path('tests/fixtures/images/clean.jpg'), $this->source.'/IMG_0001.JPG');
+        File::copy(base_path('tests/fixtures/images/clean.jpg'), $this->source.'/Pergola SO.jpg');
+        File::copy(base_path('tests/fixtures/images/clean.jpg'), $this->source.'/Réalisation.jpg');
+
+        $this->artisan('winsol:import-images', [
+            'source' => $this->source,
+            'folder' => 'testrange-safe',
+        ])
+            ->expectsOutputToContain('5 geimporteerd')
+            ->assertExitCode(0);
+
+        $container = AssetContainer::find('assets');
+
+        $this->assertNotNull($container->asset('testrange-safe/img_0001.jpg'), 'IMG_0001.JPG had onder img_0001.jpg moeten landen');
+        $this->assertNotNull($container->asset('testrange-safe/pergola-so.jpg'), 'Pergola SO.jpg had onder pergola-so.jpg moeten landen');
+        $this->assertNotNull($container->asset('testrange-safe/realisation.jpg'), 'Réalisation.jpg had onder realisation.jpg moeten landen');
+
+        $this->artisan('winsol:import-images', [
+            'source' => $this->source,
+            'folder' => 'testrange-safe',
+        ])
+            ->expectsOutputToContain('5 overgeslagen')
+            ->assertExitCode(0);
+
+        $this->assertCount(5, $container->assets('testrange-safe', true), 'Een tweede run mag geen dubbele, timestamp-gesuffixte assets aanmaken');
+    }
+
+    /**
+     * De sanitatie in `sanitizedPath()` maakt de botsingsdetectie nu écht
+     * bereikbaar: twee bronbestanden die verschillend heten maar op hetzelfde
+     * veilige pad uitkomen ("foo bar.jpg" en "foo-bar.jpg" strijken allebei
+     * glad tot "foo-bar.jpg", filesystem-onafhankelijk, geen hoofdletter-
+     * gevoeligheid nodig) moeten binnen één run als botsing gemeld worden in
+     * plaats van dat de tweede stil de eerste "overschrijft".
+     */
+    public function test_it_flags_a_collision_when_two_source_files_sanitize_to_the_same_path(): void
+    {
+        File::copy(base_path('tests/fixtures/images/clean.jpg'), $this->source.'/foo bar.jpg');
+        File::copy(base_path('tests/fixtures/images/clean.jpg'), $this->source.'/foo-bar.jpg');
+
+        $this->artisan('winsol:import-images', [
+            'source' => $this->source,
+            'folder' => 'testrange-collision',
+        ])
+            ->expectsOutputToContain('1 botsingen')
+            ->assertExitCode(1);
+
+        $container = AssetContainer::find('assets');
+
+        // Beide bestanden strijken glad tot hetzelfde pad; welke van de twee
+        // wint hangt af van de traversal-volgorde, maar er mag er maar één zijn.
+        $this->assertNotNull($container->asset('testrange-collision/foo-bar.jpg'));
+        $this->assertCount(3, $container->assets('testrange-collision', true), 'Naast watermarked.jpg en clean.jpg mag maar één van de botsende bestanden geland zijn');
+    }
+
     public function test_it_skips_files_that_are_already_there(): void
     {
         $this->artisan('winsol:import-images', ['source' => $this->source, 'folder' => 'testrange-skip']);

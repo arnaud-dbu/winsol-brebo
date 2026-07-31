@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Services\WatermarkDetector;
 use Illuminate\Console\Command;
 use Illuminate\Http\UploadedFile;
+use Statamic\Assets\AssetUploader;
 use Statamic\Facades\AssetContainer;
 use Symfony\Component\Finder\Finder;
 
@@ -50,7 +51,7 @@ class ImportImages extends Command
         // Een kaal Storage::put zou ongecomprimeerde originelen op R2 zetten.
         foreach (Finder::create()->files()->in($source)->name('/\.(jpe?g|png)$/i') as $file) {
             $relative = str_replace('\\', '/', $file->getRelativePathname());
-            $path = $folder.'/'.$relative;
+            $path = $this->sanitizedPath($folder.'/'.$relative);
 
             if (isset($seen[$path])) {
                 $conflicts++;
@@ -98,5 +99,32 @@ class ImportImages extends Command
         $this->info($message);
 
         return $conflicts > 0 ? self::FAILURE : self::SUCCESS;
+    }
+
+    /**
+     * Bootst het pad na dat `AssetUploader::uploadPath()` er straks zelf van
+     * maakt, en gebruikt daarvoor diens eigen `getSafeFilename()` in plaats
+     * van een eigen kopie: `config('statamic.assets.lowercase')` staat aan,
+     * en die methode strijkt spaties, aanhalingstekens en accenten glad. Toetst
+     * de bestaat-al-check op het ongesaneerde pad, dan vindt een tweede run
+     * `IMG_0001.JPG` nooit terug onder het al opgeslagen `img_0001.jpg`, en
+     * plakt Statamic er een timestamp-suffix achter — in de echte bronmap is
+     * geen enkele bestandsnaam al safe, dus zou dat elke foto bij elke run
+     * opnieuw uploaden. De mapnamen zelf saneert `uploadPath()` niet, dus die
+     * blijven hier ook ongemoeid.
+     */
+    private function sanitizedPath(string $path): string
+    {
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+        if (config('statamic.assets.lowercase')) {
+            $extension = strtolower($extension);
+        }
+
+        $filename = AssetUploader::getSafeFilename(pathinfo($path, PATHINFO_FILENAME));
+
+        $directory = pathinfo($path, PATHINFO_DIRNAME);
+        $directory = $directory === '.' ? '' : $directory.'/';
+
+        return $directory.$filename.'.'.$extension;
     }
 }
