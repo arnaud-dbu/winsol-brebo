@@ -6,3 +6,15 @@ fields:
       display: 'Alt Text'
       type: text
       instructions: 'Description of the image'
+  -
+    handle: watermark
+    field:
+      display: Watermerk
+      type: toggle
+      instructions: 'Automatisch gezet bij import. Wordt door winsol:clean-watermarks weer uitgezet zodra het logo weggesneden is.'
+  -
+    handle: watermark_box
+    field:
+      display: 'Watermerkvlak'
+      type: text
+      instructions: 'x,y,breedte,hoogte in pixels. Automatisch gezet bij import.'
