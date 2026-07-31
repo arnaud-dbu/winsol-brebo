@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Het `range`-veld is een entries-veld en levert een id, geen slug. De route
         // heeft de slug nodig, dus die wordt hier afgeleid.
-        Collection::computed('products', 'range_slug', function ($entry) {
+        Collection::computed('products', 'range_slug', function (\Statamic\Contracts\Entries\Entry $entry): ?string {
             $id = Arr::first(Arr::wrap($entry->get('range')));
 
             return $id ? Entry::find($id)?->slug() : null;
