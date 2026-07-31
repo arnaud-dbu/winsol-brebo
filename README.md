@@ -84,6 +84,40 @@ Dit draait Vite met assets en hot reload via Tailscale, zodat de site op je gsm 
 | Kan niet inloggen op `/cp` | Maak een gebruiker aan met `php please make:user` |
 | Wijzigingen in content/templates verschijnen niet | Draai `php please cache:clear` |
 
+## Beeldpijplijn
+
+Drie commando's brengen de foto's van Winsol de site in en houden ze bruikbaar. Ze horen in deze volgorde te draaien.
+
+### 1. `php please winsol:import-images {bronmap} {doelmap}`
+
+Importeert elke `.jpg`/`.jpeg`/`.png` uit de bronmap (recursief) naar de map `{doelmap}` in de `assets`-container, bewaart de oorspronkelijke bestandsnaam in `source_filename` en zet per foto de vlag `watermark` plus het veld `watermark_box` op basis van `App\Services\WatermarkDetector`.
+
+Een foto die er al staat wordt overgeslagen; twee bronbestanden die op hetzelfde doelpad uitkomen leveren een botsing en exitcode 1, zodat er niet stilzwijgend één van de twee verdwijnt. De bestaat-al-check draait op het pad ná sanering, want Statamic maakt `IMG_0001.JPG` bij het uploaden zelf tot `img_0001.jpg` — zou de check op de ruwe naam toetsen, dan importeerde elke run de hele map opnieuw.
+
+> [!IMPORTANT]
+> **De bronmap blijft intact, maar alleen doordat het commando via een wegwerpkopie uploadt.** Statamic's `AssetUploader` *verplaatst* zijn bronbestand bij een console-upload in plaats van het te kopiëren (`Uploader::upload()`, er staat geen `source_preset` op deze container). Wees je hiervan bewust bij elke wijziging aan dit commando: geef je `UploadedFile` het echte pad in de bronmap mee, dan is het origineel na de import weg — zonder foutmelding en zonder terugvaloptie. De kopie in `sys_get_temp_dir()` is dus geen omweg maar de hele beveiliging.
+
+### 2. `php please winsol:clean-watermarks`
+
+Snijdt de watermerkbalk weg bij de foto's die de content werkelijk gebruikt en waarvan `watermark` aanstaat. Ongebruikte foto's blijven ongemoeid. Na afloop gaat `watermark` uit, wordt `watermark_box` leeggemaakt en wordt de Glide-cache gewist.
+
+| Optie | Wat het doet |
+| --- | --- |
+| `--dry-run` | Toont welke foto's bijgesneden zouden worden en wijzigt niets |
+| `--list` | Schrijft alleen de bestandsnamen uit — de oorspronkelijke uit `source_filename`, zodat de lijst als aanvraag naar Winsol kan voor versies zonder watermerk |
+| `--force` | Slaat de bevestiging over; nodig in een script of CI, want zonder interactieve terminal weigert het commando te draaien |
+
+De actie is onomkeerbaar: de foto's op R2 worden overschreven zonder terugvaloptie. Een box die onwaarschijnlijk hoog ligt of die niets meer zou afsnijden wordt overgeslagen in plaats van toegepast.
+
+### 3. `php please winsol:image-gaps`
+
+De opleveringspoort. Loopt over alle entries, globals en taxonomietermen en meldt twee dingen apart:
+
+- **Placeholders in gebruik** — elk veld dat nog naar `placeholder/` of `dummy-images/` wijst, of naar een van de losse dummybestanden, met collectie, entry en veldpad erbij.
+- **Watermerken in gebruik** — elke asset die de content gebruikt en waarvan `watermark` nog aanstaat. `winsol:clean-watermarks` sluit ook met exitcode 0 af wanneer élke foto overgeslagen werd, dus zonder deze tweede lijst kon een site groen door beide commando's met zichtbaar gewatermerkte foto's erop.
+
+Exitcode 0 zolang beide lijsten leeg zijn, anders 1 — bruikbaar als poort in een opleveringsscript. Bij oplevering hoort de uitvoer leeg te zijn.
+
 ## About Statamic
 
 Statamic is the flat-first, Laravel + Git powered CMS designed for building beautiful, easy to manage websites.

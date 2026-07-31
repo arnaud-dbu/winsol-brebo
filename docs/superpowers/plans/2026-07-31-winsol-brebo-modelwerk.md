@@ -1967,3 +1967,46 @@ Task 1 (multisite)
 Task 1 gaat eerst — hij verplaatst elk contentbestand. Task 2 tot 7 zijn onderling onafhankelijk behalve de keten 3→4→5. Task 8 tot 11 vormen een eigen keten.
 
 **Alleen Task 1, 2, 3 en 9 zijn nodig vóór batch 1 van project 2.** Task 10 en 11 zijn pas nodig bij oplevering; ze mogen na de eerste contentbatches komen als dat beter uitkomt.
+
+---
+
+## Afwijkingen tijdens de uitvoering
+
+De codeblokken hierboven zijn het ontwerp van vóór de uitvoering en zijn bewust niet herschreven — ze laten zien wat er bedacht was. Onderstaande punten zijn wat er uiteindelijk in de code staat en waarom het afwijkt. Bij twijfel geldt de code, niet het plan.
+
+### Task 4 en 5 — de brochureknop
+
+- **`download` werd `target="_blank" rel="noopener"`.** De brochures staan op R2, en dat is een andere origin dan de site: een browser negeert `download` cross-origin. Het attribuut beloofde dus gedrag dat niet gebeurt. De knop opent de brochure nu in een nieuw tabblad; de test die op de string `download` toetste is omgedraaid.
+- **De quicklinks zijn van `ranges/show` verwijderd.** Het plan gaf ze daar `:brochure="brochure"` mee; in de uiteindelijke opbouw staan er op de rangepagina geen quicklinks meer. De doorgifte zelf staat wel in `quicklinks.antlers.html` en `pageQuicklinks.antlers.html`.
+
+### Task 9 — `winsol:import-images`
+
+- **Sanering in plaats van een kale bestaat-al-check.** Statamic maakt bij het uploaden zelf `IMG_0001.JPG` tot `img_0001.jpg`. Toetste de check op de ruwe naam, dan vond een tweede run niets terug en plakte Statamic er een timestamp-suffix achter — met als gevolg dat elke run de hele bronmap opnieuw zou uploaden. `sanitizedPath()` bootst daarom `AssetUploader::uploadPath()` na, met diens eigen `getSafeFilename()`.
+- **Botsingsdetectie binnen één run.** `Finder::in()` recurseert, dus twee bestanden met dezelfde naam in verschillende submappen komen op hetzelfde doelpad uit. Dat telt nu als botsing met exitcode 1, in plaats van dat de tweede stil als "overgeslagen" wegvalt.
+- **Uploaden via een wegwerpkopie in `sys_get_temp_dir()`.** `AssetUploader` *verplaatst* zijn bronbestand bij een console-upload; wijst `UploadedFile` naar het echte pad in de bronmap, dan is het origineel na de import weg. Dit is de gevaarlijkste val in dit werk en staat daarom ook in `README.md`.
+- **`source_filename` op de assets-blueprint.** De sanering is niet omkeerbaar (`Réalisation Été - Screens 04.JPG` wordt `realisation-ete--screens-04.jpg`), waardoor `--list` van Task 10 een naam opleverde die bij Winsol niet meer terug te zoeken was. De oorspronkelijke naam wordt nu bij de import bewaard.
+
+### Task 10 — `winsol:clean-watermarks`
+
+- **Intervention Image in plaats van kale GD.** Een `imagejpeg()` op een png-pad zou jpeg-bytes onder een png-extensie schrijven; Intervention kiest de encoder per extensie en behoudt het alphakanaal van een png.
+- **Een bevestiging vóór de bulkactie.** De foto's op R2 worden onomkeerbaar overschreven zonder terugvaloptie. Zonder interactieve terminal weigert het commando te draaien tenzij `--force` meegegeven wordt; `confirm()` zou daar anders stilzwijgend een default teruggeven.
+- **Clamps op het watermerkvlak.** Een box die boven de onderste ~25% van de foto begint, of die na begrenzing niets meer zou afsnijden, wordt overgeslagen. Zonder die grenzen sneed een onzinnig of verouderd vlak de foto tot één pixel terug, of zette het de vlag op "schoon" terwijl het watermerk nog zichtbaar was.
+- **`UsedAssetFinder` levert ook assets, niet alleen paden.** Hij strookt het `asset::<container>::`-voorvoegsel van bard-nodes af, kijkt naast entries ook naar globals en taxonomietermen, en valt bij het opzoeken terug op een hoofdletterongevoelige match. Zonder die drie zag het commando een gewatermerkte foto niet die `winsol:image-gaps` wél telde.
+
+### Task 11 — `winsol:image-gaps`
+
+- **`$this->line()` in plaats van `$this->table()`.** `table()` wikkelt cellen op de gedetecteerde terminalbreedte, en die valt in een niet-interactieve run terug op 0 — precies de situatie waarvoor dit commando bedoeld is. Elk pad brak dan over meerdere regels en werd onbruikbaar als boodschappenlijst.
+- **Een lijst voorvoegsels in plaats van één `placeholder/`.** De echte content gebruikt `dummy-images/` plus een paar losse bestanden zonder map. Met alleen `placeholder/` meldde de poort een schone site terwijl elke pagina nog dummybeeld toonde.
+- **Ook de watermerkvlag.** `winsol:clean-watermarks` sluit ook met exitcode 0 af wanneer élke foto overgeslagen werd wegens een onbruikbaar vlak. De poort meldt daarom nu twee gescheiden lijsten — ontbrekend beeld en nog gewatermerkt beeld vragen om verschillende actie.
+- **Gedeelde scan via `App\Services\ContentValueScanner`.** Het plan liet dit commando bewust zelf over de entries lopen. Dat leverde twee scans die dezelfde vraag anders beantwoordden; de gedeelde scanner levert nu bron, entry, veldpad én waarde, zodat `UsedAssetFinder` er evengoed op kan draaien.
+
+### Task 2 — de productroute
+
+`range_slug` levert bij een niet-oplosbare range niet langer `null` maar de sentinel `AppServiceProvider::UNRESOLVED_RANGE_SLUG`. Een lege waarde liet het middelste routesegment wegvallen, waarna `/aanbod/{{ range_slug }}/{{ slug }}` samenviel met de rangeroute `/aanbod/{slug}` en een product stil een HTTP 200 met de rangepagina teruggaf.
+
+### Testinfrastructuur (staat nergens in het plan)
+
+- **`tests/bootstrap.php`.** Vóór er één test draait wordt de testcache gewist en de Stache in een apart proces gewarmd. Zonder die warmup bouwt de eerste koude entry- of asset-query het `filter`-veld van een nog lopende Traverser-cyclus over, waarna een halve bestandenlijst verdwijnt — goed voor tientallen misleidende failures die niets met de oorzaak te maken hebben.
+- **De `file_testing`-cachestore (`phpunit.xml`, `config/cache.php`).** Een eigen store op een eigen map, los van de `file`-store van de draaiende app. Anders wist elke testrun de runtime-cache van de app, en lekken `Storage::fake()`-assets uit een testrun de echte Stache in.
+- **`fakeAssetDisk()` bewaart en herstelt `asset-list-contents-assets`.** Kaal vergeten van die sleutel forceert een herberekening tegen de actieve fake-disk, die daarna via `remember()` in de gedeelde store belandt en de rest van de suite corrumpeert.
+- **`temporaryEntry()` ruimt op via `beforeApplicationDestroyed()`.** Een `tearDown()` in de testklasse wordt overgeslagen zodra een test er geen definieert of vroegtijdig afbreekt, en het residu blijft dan in de getrackte `content/`-map achter.
