@@ -9,7 +9,7 @@
     zich (zie quicklinkCard), dus blijven er twee van de drie over. Dat mag hier uit `brochure` afgeleid worden omdat
     precies een quicklink het type `brochure` draagt — vastgepind in QuicklinksContentTest.
 #}}
-{{ grid_columns = brochure ? 'lg:grid-cols-3' : 'lg:grid-cols-2' }}
+{{ grid_columns = brochure:url ? 'lg:grid-cols-3' : 'lg:grid-cols-2' }}
 <section class="section section--default" data-section="quicklinks">
     <div class="container">
         <div class="section-y-gap">
