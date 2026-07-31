@@ -53,6 +53,17 @@ return [
             'lock_path' => storage_path('framework/cache/data'),
         ],
 
+        // Losse map van 'file': de testsuite heeft een persistente Stache-
+        // cache nodig (zie tests/bootstrap.php), maar mag nooit de map delen
+        // die de draaiende app zelf gebruikt — anders wist elke testrun de
+        // runtime-cache van de app, en lekken Storage::fake()-assets uit een
+        // testrun de echte Stache in.
+        'file_testing' => [
+            'driver' => 'file',
+            'path' => storage_path('framework/cache/testing'),
+            'lock_path' => storage_path('framework/cache/testing'),
+        ],
+
         'memcached' => [
             'driver' => 'memcached',
             'persistent_id' => env('MEMCACHED_PERSISTENT_ID'),
