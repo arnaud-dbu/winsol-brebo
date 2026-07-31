@@ -21,7 +21,7 @@ class RenderHarnessTest extends SectionTestCase
         ]);
 
         // sectionHeader partial should render successfully (it exists in resources/views/partials/)
-        $this->assertStringContainsString('class="overline"', $html);
+        $this->assertMatchesRegularExpression(self::OVERLINE_CLASS, $html);
         $this->assertStringContainsString('Test Overline', $html);
         $this->assertStringContainsString('Test Title', $html);
     }

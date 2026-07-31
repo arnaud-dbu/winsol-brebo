@@ -14,7 +14,7 @@ class SectionHeaderTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:sectionHeader }}', $this->context);
 
-        $this->assertStringContainsString('class="overline"', $html);
+        $this->assertMatchesRegularExpression(self::OVERLINE_CLASS, $html);
         $this->assertStringContainsString('<h2', $html);
         $this->assertStringContainsString('Pergola SO!', $html);
         $this->assertStringContainsString('draaibare lamellen', $html);

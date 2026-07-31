@@ -8,6 +8,13 @@ use Tests\TestCase;
 
 abstract class SectionTestCase extends TestCase
 {
+    /**
+     * `overline` staat tussen conditionele klassen die leeg mogen zijn, dus de
+     * volgorde en de spaties eromheen liggen niet vast. Deze regex pint alleen
+     * vast wat telt: het is een losse klasse, geen prefix van `overline--…`.
+     */
+    protected const OVERLINE_CLASS = '/class="[^"]*(?<![\w-])overline(?![\w-])/';
+
     protected function setUp(): void
     {
         parent::setUp();
