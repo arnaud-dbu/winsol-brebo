@@ -90,6 +90,27 @@ class ImportImagesTest extends TestCase
         $this->assertFileExists($this->source.'/clean.jpg');
     }
 
+    public function test_it_imports_files_with_the_same_basename_from_different_subfolders(): void
+    {
+        File::ensureDirectoryExists($this->source.'/sub-a');
+        File::ensureDirectoryExists($this->source.'/sub-b');
+        File::copy(base_path('tests/fixtures/images/clean.jpg'), $this->source.'/sub-a/same.jpg');
+        File::copy(base_path('tests/fixtures/images/watermarked.jpg'), $this->source.'/sub-b/same.jpg');
+
+        $this->artisan('winsol:import-images', [
+            'source' => $this->source,
+            'folder' => 'testrange-nested',
+        ])
+            ->expectsOutputToContain('4 geimporteerd')
+            ->assertExitCode(0);
+
+        $container = AssetContainer::find('assets');
+
+        $this->assertNotNull($container->asset('testrange-nested/sub-a/same.jpg'), 'Het bestand uit sub-a is niet geimporteerd');
+        $this->assertNotNull($container->asset('testrange-nested/sub-b/same.jpg'), 'Het bestand uit sub-b is niet geimporteerd — vermoedelijk overschreven door sub-a/same.jpg');
+        $this->assertCount(4, $container->assets('testrange-nested', true));
+    }
+
     public function test_it_skips_files_that_are_already_there(): void
     {
         $this->artisan('winsol:import-images', ['source' => $this->source, 'folder' => 'testrange-skip']);

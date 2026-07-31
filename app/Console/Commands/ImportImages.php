@@ -32,12 +32,33 @@ class ImportImages extends Command
         $imported = 0;
         $skipped = 0;
         $flagged = 0;
+        $conflicts = 0;
+
+        /**
+         * Doelpad => bronbestand, om binnen deze ene run te vangen of twee
+         * bronbestanden op hetzelfde doelpad uitkomen. Finder::in() recurseert
+         * standaard; platslaan tot enkel de bestandsnaam liet twee bestanden met
+         * dezelfde naam in verschillende submappen samenvallen, waarna de tweede
+         * stil als "overgeslagen" telde in plaats van als botsing.
+         *
+         * @var array<string, string>
+         */
+        $seen = [];
 
         // Uploaden via de container in plaats van rechtstreeks naar de disk: dat
         // vuurt AssetUploaded, waardoor CompressUploadedAsset zijn werk doet.
         // Een kaal Storage::put zou ongecomprimeerde originelen op R2 zetten.
         foreach (Finder::create()->files()->in($source)->name('/\.(jpe?g|png)$/i') as $file) {
-            $path = $folder.'/'.$file->getFilename();
+            $relative = str_replace('\\', '/', $file->getRelativePathname());
+            $path = $folder.'/'.$relative;
+
+            if (isset($seen[$path])) {
+                $conflicts++;
+                $this->error("Botsing op {$path}: {$seen[$path]} en {$file->getRealPath()} wijzen naar hetzelfde doel.");
+
+                continue;
+            }
+            $seen[$path] = $file->getRealPath();
 
             if ($container->asset($path)) {
                 $skipped++;
@@ -72,8 +93,10 @@ class ImportImages extends Command
             $flagged += $result->hasWatermark ? 1 : 0;
         }
 
-        $this->info("{$imported} geimporteerd, {$skipped} overgeslagen, {$flagged} met watermerk.");
+        $message = "{$imported} geimporteerd, {$skipped} overgeslagen, {$flagged} met watermerk";
+        $message .= $conflicts > 0 ? ", {$conflicts} botsingen." : '.';
+        $this->info($message);
 
-        return self::SUCCESS;
+        return $conflicts > 0 ? self::FAILURE : self::SUCCESS;
     }
 }
