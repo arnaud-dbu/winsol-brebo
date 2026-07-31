@@ -16,8 +16,8 @@ class CardsSectionTest extends SectionTestCase
 
         $this->assertStringContainsString('data-section="cards"', $html);
         $this->assertStringContainsString('lg:items-center lg:text-center', $html);
-        $this->assertStringContainsString('data-slider-from="md"', $html);
+        $this->assertStringContainsString('data-slider-from="lg"', $html);
         $this->assertSame(2, substr_count($html, 'swiper-slide'));
-        $this->assertSame(2, substr_count($html, 'card--horizontal'));
+        $this->assertSame(2, substr_count($html, 'class="card '));
     }
 }

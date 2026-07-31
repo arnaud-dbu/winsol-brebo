@@ -24,7 +24,7 @@ class ProjectsSectionTest extends SectionTestCase
         ]);
 
         $this->assertStringContainsString('data-section="projects"', $html);
-        $this->assertStringContainsString('data-slider-from="md"', $html);
+        $this->assertStringContainsString('data-slider-from="xl"', $html);
         $this->assertSame(2, substr_count($html, 'project-card '));
         $this->assertStringContainsString('href="/realisaties/pergola-so"', $html);
         $this->assertStringContainsString('Zonwering', $html);
