@@ -1974,7 +1974,9 @@ Task 1 gaat eerst — hij verplaatst elk contentbestand. Task 2 tot 7 zijn onder
 
 De codeblokken hierboven zijn het ontwerp van vóór de uitvoering en zijn bewust niet herschreven — ze laten zien wat er bedacht was. Onderstaande punten zijn wat er uiteindelijk in de code staat en waarom het afwijkt. Bij twijfel geldt de code, niet het plan.
 
-### Task 4 en 5 — de brochureknop
+### Task 3, 4 en 5 — de brochure
+
+- **Het `brochure`-veld staat alleen op `products.yaml`, niet op `ranges.yaml`.** Task 3 zette het op allebei; Task 5 haalde `{{ partial:quicklinks }}` van `ranges/show` af, waarna het rangeveld geen enkele consument meer had terwijl de instructietekst wél een knop beloofde. De eigenaar heeft besloten dat alleen producten een brochure krijgen — de dertien beschikbare pdf's zijn vrijwel allemaal productniveau. Een terugval van het product naar de brochure van zijn range is afgewezen. `BrochureFieldTest` pint beide kanten vast: de configuratie op products, en de afwezigheid op ranges.
 
 - **`download` werd `target="_blank" rel="noopener"`.** De brochures staan op R2, en dat is een andere origin dan de site: een browser negeert `download` cross-origin. Het attribuut beloofde dus gedrag dat niet gebeurt. De knop opent de brochure nu in een nieuw tabblad; de test die op de string `download` toetste is omgedraaid.
 - **De quicklinks zijn van `ranges/show` verwijderd.** Het plan gaf ze daar `:brochure="brochure"` mee; in de uiteindelijke opbouw staan er op de rangepagina geen quicklinks meer. De doorgifte zelf staat wel in `quicklinks.antlers.html` en `pageQuicklinks.antlers.html`.

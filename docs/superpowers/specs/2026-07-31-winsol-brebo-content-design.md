@@ -87,7 +87,7 @@ Ranges en products blijven **twee aparte collecties**. Samenvoegen tot één ges
 
 ### 3.3 Brochures
 
-- `brochure`-veld op `ranges.yaml` en `products.yaml`: `type: assets`, `container: assets`, `folder: brochures`, `restrict: true`, `max_files: 1`, mime-validatie op pdf.
+- `brochure`-veld op `products.yaml`: `type: assets`, `container: assets`, `folder: brochures`, `restrict: true`, `max_files: 1`, mime-validatie op pdf. **Alleen op producten** — beslissing van de eigenaar. Het veld stond aanvankelijk ook op `ranges.yaml`, maar had daar geen consument meer nadat de quicklinks van `ranges/show` af gingen; het is verwijderd. Een terugval van het product naar de brochure van zijn range is afgewezen.
 - **Geen aparte assetcontainer.** `CompressUploadedAsset` filtert al op `image-compression.process_mimes`, dus een pdf gaat er ongemoeid doorheen. De assets-blueprint bevat enkel een `alt`-veld, onschadelijk voor een pdf.
 
 ### 3.4 Brochure-quicklink
@@ -161,7 +161,7 @@ De volgorde volgt de beeldbeschikbaarheid uit §5.6, aflopend; bij gelijke stand
 
 **Geen enkele batch wordt geblokkeerd door beeld.** De secties worden altijd volledig opgemaakt; ontbreekt een geschikte foto, dan komt er een placeholder (§5.8) en gaat de batch door. Een kleinere foto dan de laag vraagt is toegestaan — liever een scherpe 1200px-foto op een hero dan een gat. Watermerkfoto's mogen overal; `clean-watermarks` (§5.4) ruimt ze achteraf op.
 
-Batch 3 (Rolluiken) verdient extra aandacht: dat is de eerste range zonder brochure, dus daar blijkt of de verbergende quicklinkkaart klopt.
+Batch 3 (Rolluiken) verdient extra aandacht: dat zijn de eerste producten zonder brochure, dus daar blijkt of de verbergende quicklinkkaart klopt.
 
 ---
 
