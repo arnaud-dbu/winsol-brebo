@@ -84,9 +84,9 @@ class CleanWatermarksTest extends TestCase
         return $this->asset($path)->disk()->get($path);
     }
 
-    private function useInEntry(string $path): void
+    private function useInEntry(string $path, string $slug = 'testproduct'): void
     {
-        $this->temporaryEntry('products', 'testproduct', [
+        $this->temporaryEntry('products', $slug, [
             'title' => 'Testproduct',
             'image' => $path,
         ]);
@@ -122,6 +122,21 @@ class CleanWatermarksTest extends TestCase
         $this->artisan('winsol:clean-watermarks')
             ->expectsConfirmation('Doorgaan?', 'no')
             ->assertExitCode(0);
+
+        $this->assertSame($bytesBefore, $this->assetBytes('testrange/used.jpg'));
+        $this->assertTrue($this->asset('testrange/used.jpg')->get('watermark'));
+    }
+
+    public function test_non_interactive_mode_without_force_aborts(): void
+    {
+        $this->importFixture('watermarked.jpg', 'used.jpg');
+        $this->useInEntry('testrange/used.jpg');
+
+        $bytesBefore = $this->assetBytes('testrange/used.jpg');
+
+        $this->artisan('winsol:clean-watermarks', ['--no-interaction' => true])
+            ->expectsOutputToContain('Niet-interactieve modus')
+            ->assertExitCode(1);
 
         $this->assertSame($bytesBefore, $this->assetBytes('testrange/used.jpg'));
         $this->assertTrue($this->asset('testrange/used.jpg')->get('watermark'));
@@ -222,22 +237,83 @@ class CleanWatermarksTest extends TestCase
         $this->assertTrue($this->asset('testrange/used.jpg')->get('watermark'));
     }
 
-    public function test_a_watermark_box_beyond_the_image_height_is_clamped_instead_of_padded(): void
+    public function test_a_watermark_box_slightly_beyond_the_image_height_is_clamped_to_a_pinned_height(): void
     {
         $this->importFixture('watermarked.jpg', 'used.jpg');
         $this->useInEntry('testrange/used.jpg');
 
         $asset = $this->asset('testrange/used.jpg');
         $heightBefore = $asset->height();
-        $asset->set('watermark_box', '0,'.($heightBefore + 500).',10,10');
+        // y = hoogte + 2 ligt net voorbij de afbeelding; na de marge van 4px
+        // resulteert dat in een kleine, echte snede van 2px in plaats van een
+        // no-op. Een concrete verwachte hoogte (i.p.v. enkel <=) pint vast
+        // dat de begrenzing niet naar een veel te agressieve crop afglijdt.
+        $asset->set('watermark_box', '0,'.($heightBefore + 2).',10,10');
         $asset->save();
 
         $this->artisan('winsol:clean-watermarks', ['--force' => true])
             ->expectsOutputToContain('1 bijgesneden')
             ->assertExitCode(0);
 
-        $this->assertLessThanOrEqual($heightBefore, $this->asset('testrange/used.jpg')->height(), 'Een te grote box heeft de afbeelding met een zwarte band opgehoogd');
+        $this->assertSame($heightBefore - 2, $this->asset('testrange/used.jpg')->height());
         $this->assertFalse($this->asset('testrange/used.jpg')->get('watermark'));
+    }
+
+    public function test_a_watermark_box_far_beyond_the_image_height_is_skipped_as_stale(): void
+    {
+        $this->importFixture('watermarked.jpg', 'used.jpg');
+        $this->useInEntry('testrange/used.jpg');
+
+        $asset = $this->asset('testrange/used.jpg');
+        $heightBefore = $asset->height();
+        // Ver voorbij de hoogte, ruim buiten de marge: na begrenzing op de
+        // werkelijke hoogte zou er niets meer afgesneden worden. Dat is niet
+        // per se onzin (het kan een box zijn die na een eerdere, mislukte
+        // run al niet meer bij dit bestand hoort), dus die wordt overgeslagen
+        // in plaats van als "1 bijgesneden" schoon geboekt terwijl de foto
+        // ongewijzigd bleef.
+        $asset->set('watermark_box', '0,'.($heightBefore + 500).',10,10');
+        $asset->save();
+
+        $bytesBefore = $this->assetBytes('testrange/used.jpg');
+
+        $this->artisan('winsol:clean-watermarks', ['--force' => true])
+            ->expectsOutputToContain('Verouderd of onbruikbaar watermerkvlak')
+            ->expectsOutputToContain('0 bijgesneden')
+            ->assertExitCode(0);
+
+        $this->assertSame($heightBefore, $this->asset('testrange/used.jpg')->height());
+        $this->assertSame($bytesBefore, $this->assetBytes('testrange/used.jpg'));
+        $this->assertTrue($this->asset('testrange/used.jpg')->get('watermark'), 'Een overgeslagen foto moet watermerkt blijven, anders is ze niet meer vindbaar voor een correcte box');
+    }
+
+    public function test_one_unreadable_asset_does_not_stop_the_rest_of_the_run(): void
+    {
+        $this->importFixture('watermarked.jpg', 'broken.jpg');
+        $this->importFixture('watermarked.jpg', 'used.jpg');
+
+        // De bytes worden pas ná de import gecorrumpeerd: winsol:import-images
+        // zelf triggert Statamic's eigen preset-generatie op AssetSaved, die
+        // op werkelijk kapotte brondata zou crashen — los van het commando
+        // dat we hier toetsen. Rechtstreeks op de disk schrijven omzeilt dat
+        // en simuleert een bestand dat pas onleesbaar wordt op het moment dat
+        // winsol:clean-watermarks het leest.
+        $broken = $this->asset('testrange/broken.jpg');
+        $broken->disk()->put($broken->path(), 'niet langer een geldige afbeelding');
+
+        $this->useInEntry('testrange/broken.jpg', 'broken-product');
+        $this->useInEntry('testrange/used.jpg', 'used-product');
+
+        $heightBefore = $this->asset('testrange/used.jpg')->height();
+
+        $this->artisan('winsol:clean-watermarks', ['--force' => true])
+            ->expectsOutputToContain('Fout bij testrange/broken.jpg, overgeslagen')
+            ->expectsOutputToContain('1 bijgesneden')
+            ->assertExitCode(0);
+
+        $this->assertLessThan($heightBefore, $this->asset('testrange/used.jpg')->height(), 'De leesbare foto had ondanks de kapotte buur nog bijgesneden moeten worden');
+        $this->assertFalse($this->asset('testrange/used.jpg')->get('watermark'));
+        $this->assertTrue($this->asset('testrange/broken.jpg')->get('watermark'), 'De kapotte foto moet watermerkt blijven voor handmatige controle');
     }
 
     public function test_format_is_preserved_for_png(): void

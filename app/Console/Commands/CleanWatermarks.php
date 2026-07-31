@@ -21,6 +21,15 @@ class CleanWatermarks extends Command
      */
     private const MARGIN = 4;
 
+    /**
+     * WatermarkDetector meet zijn hoekzone vanaf 0,845 van de beeldhoogte
+     * (zie App\Services\WatermarkDetector::CORNER_Y); een echte watermerkbox
+     * ligt dus altijd in de onderste ~15%. Deze grens houdt ruimte voor de
+     * hoogte van de letters zelf, die boven die hoeklijn uitsteken, maar
+     * weigert een box die halverwege de foto zou beginnen.
+     */
+    private const MIN_WATERMARK_Y_FRACTION = 0.75;
+
     protected $signature = 'winsol:clean-watermarks
         {--dry-run : Toont wat er zou gebeuren, zonder iets te wijzigen}
         {--list : Schrijft alleen de bestandsnamen uit, voor een aanvraag bij Winsol}
@@ -52,7 +61,15 @@ class CleanWatermarks extends Command
             return self::SUCCESS;
         }
 
-        if (! $this->confirmDestructiveRun($targets->count())) {
+        $confirmation = $this->confirmDestructiveRun($targets->count());
+
+        if ($confirmation === null) {
+            $this->error('Niet-interactieve modus: gebruik --force om deze onomkeerbare actie zonder bevestiging uit te voeren.');
+
+            return self::FAILURE;
+        }
+
+        if (! $confirmation) {
             $this->info('Geannuleerd, niets gewijzigd.');
 
             return self::SUCCESS;
@@ -77,14 +94,22 @@ class CleanWatermarks extends Command
     /**
      * Dit commando overschrijft foto's op R2 zonder terugvaloptie. Een
      * script of CI-run heeft geen interactieve terminal en moet expliciet
-     * --force meegeven; anders zou Symfony's ConfirmationQuestion in een
-     * niet-interactieve context stilzwijgend de default-waarde teruggeven
-     * en per ongeluk toch bijsnijden.
+     * --force meegeven; `confirm()` zelf niet aanroepen in die situatie
+     * voorkomt dat een niet-interactieve `ConfirmationQuestion` stilzwijgend
+     * een default teruggeeft in plaats van de run te weigeren.
+     *
+     * @return bool|null true om door te gaan, false bij een expliciete
+     *                   weigering, null wanneer er niet-interactief geen
+     *                   bevestiging gevraagd kon worden.
      */
-    private function confirmDestructiveRun(int $count): bool
+    private function confirmDestructiveRun(int $count): ?bool
     {
         if ($this->option('force')) {
             return true;
+        }
+
+        if (! $this->input->isInteractive()) {
+            return null;
         }
 
         $this->warn("{$count} foto's met watermerk worden onomkeerbaar bijgesneden op R2, zonder terugvaloptie.");
@@ -116,11 +141,12 @@ class CleanWatermarks extends Command
         $image = $manager->read($asset->disk()->get($asset->path()));
         $height = $image->height();
 
-        // Een watermerk hoort onderin te zitten. Ligt de boxrand boven de
-        // helft van de beeldhoogte, dan komt hij uit onzin (een niet-numeriek
-        // veld dat naar 0 casst) of uit een box die niet meer bij dit
-        // bestand hoort — geen van beide is een reden om te snijden.
-        if ($box['y'] < $height / 2) {
+        // Een watermerk hoort in de onderste ~15% te zitten (zie
+        // MIN_WATERMARK_Y_FRACTION). Ligt de boxrand daarboven, dan komt hij
+        // uit onzin (een niet-numeriek veld dat naar 0 casst) of uit een box
+        // die niet meer bij dit bestand hoort — geen van beide is een reden
+        // om te snijden.
+        if ($box['y'] < $height * self::MIN_WATERMARK_Y_FRACTION) {
             $this->warn("Onwaarschijnlijk watermerkvlak (y={$box['y']} op hoogte {$height}), overgeslagen: {$asset->path()}");
 
             return false;
@@ -130,6 +156,18 @@ class CleanWatermarks extends Command
         // gevraagde hoogte dan de afbeelding pad juist bij in plaats van te
         // clippen, en dat plakt een zwarte band onderaan.
         $keepHeight = max(1, min($height, $box['y'] - self::MARGIN));
+
+        // Een box die na deze begrenzing niets meer afsnijdt, hoort niet meer
+        // bij dit bestand (bijvoorbeeld nadat een eerdere, mislukte run de
+        // foto al bijsneed zonder de vlag om te zetten — zie C2/I3 in de
+        // review). Toch schrijven zou de foto zinloos opnieuw comprimeren en
+        // de vlag ten onrechte op "schoon" zetten terwijl het watermerk nog
+        // zichtbaar is.
+        if ($keepHeight >= $height) {
+            $this->warn("Verouderd of onbruikbaar watermerkvlak (snede zou niets wijzigen), overgeslagen: {$asset->path()}");
+
+            return false;
+        }
 
         $croppedImage = $image->crop($image->width(), $keepHeight, 0, 0);
 
@@ -146,13 +184,30 @@ class CleanWatermarks extends Command
             default => $croppedImage->toJpeg(quality: $quality),
         };
 
-        $asset->disk()->put($asset->path(), $bytes);
+        return $this->persist($asset, $bytes);
+    }
 
-        $asset->set('watermark', false);
-        $asset->set('watermark_box', '');
-        Cache::forget($asset->metaCacheKey());
-        $asset->writeMeta($asset->generateMeta());
-        $asset->save();
+    /**
+     * Losstaand van attemptCrop() zodat een fout hier — na het schrijven van
+     * de bytes — een eigen boodschap krijgt: de generieke "overgeslagen" van
+     * cropAsset() zou anders ten onrechte suggereren dat er niets gebeurd is,
+     * terwijl de foto op dat moment al overschreven is.
+     */
+    private function persist(Asset $asset, string $bytes): bool
+    {
+        try {
+            $asset->disk()->put($asset->path(), $bytes);
+
+            $asset->set('watermark', false);
+            $asset->set('watermark_box', '');
+            Cache::forget($asset->metaCacheKey());
+            $asset->writeMeta($asset->generateMeta());
+            $asset->save();
+        } catch (Throwable $e) {
+            $this->warn("Bestand van {$asset->path()} is al overschreven, maar de vlag kon niet omgezet worden ({$e->getMessage()}). Controleer dit bestand handmatig.");
+
+            return false;
+        }
 
         return true;
     }
