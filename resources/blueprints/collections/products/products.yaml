@@ -14,6 +14,19 @@ tabs:
               validate:
                 - required
           -
+            handle: range
+            field:
+              type: entries
+              display: Range
+              collections:
+                - ranges
+              max_items: 1
+              localizable: true
+              instructions: 'Bepaalt de URL van dit product: /aanbod/<range>/<product>.'
+              required: true
+              validate:
+                - required
+          -
             handle: text
             field:
               type: textarea

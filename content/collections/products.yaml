@@ -1,4 +1,4 @@
 title: Products
 template: products/show
 revisions: false
-route: '/producten/{slug}'
+route: '/aanbod/{{ range_slug }}/{{ slug }}'
