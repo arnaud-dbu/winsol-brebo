@@ -17,7 +17,7 @@ class CardTest extends SectionTestCase
      * `card--vertical` en `card--horizontal` zijn daarbij uit card.css
      * verdwenen; de richting hangt nu aan de container, niet aan een vlag.
      */
-    public function test_renders_vertical_card_by_default(): void
+    public function test_stacks_the_card_while_its_container_is_narrow(): void
     {
         $html = $this->render('{{ partial:card }}', $this->context);
 
@@ -27,12 +27,19 @@ class CardTest extends SectionTestCase
         $this->assertStringContainsString('feature-list', $html);
     }
 
-    public function test_renders_horizontal_card(): void
+    /**
+     * Omklappen is twee dingen tegelijk, op hetzelfde containerbreekpunt: de rij
+     * wordt een rij, én de beeldkolom krijgt een eigen breedte. Zonder dat
+     * tweede deel staat het beeld op volle breedte naast de tekst en is de
+     * horizontale kaart alsnog stuk.
+     */
+    public function test_turns_horizontal_from_the_lg_container_width(): void
     {
         $html = $this->render('{{ partial:card }}', $this->context);
 
         $this->assertStringContainsString('@lg:flex-row', $html);
-        $this->assertStringNotContainsString('card--', $html);
+        $this->assertStringContainsString('@lg:w-1/3', $html);
+        $this->assertStringContainsString('@lg:shrink-0', $html);
     }
 
     public function test_omits_feature_list_when_absent(): void

@@ -2,8 +2,32 @@
 
 namespace Tests\Feature\Sections;
 
+use Illuminate\Support\Facades\Storage;
+use Statamic\Contracts\Assets\Asset;
+use Statamic\Facades\AssetContainer;
+
 class RangeHeaderTest extends SectionTestCase
 {
+    /** Zelfde opzet als tests/Feature/ImgTagTest.php. */
+    private function makeImageAsset(string $filename = 'pergolas.png'): Asset
+    {
+        Storage::fake('r2');
+
+        $container = AssetContainer::make('assets')->disk('r2')->title('Assets');
+        $container->save();
+
+        $image = imagecreatetruecolor(1200, 1200);
+        ob_start();
+        imagepng($image);
+        Storage::disk('r2')->put($filename, ob_get_clean());
+        imagedestroy($image);
+
+        $asset = $container->makeAsset($filename);
+        $asset->save();
+
+        return $asset;
+    }
+
     public function test_renders_title_and_short_description(): void
     {
         config(['app.debug' => false]);
@@ -86,13 +110,12 @@ class RangeHeaderTest extends SectionTestCase
     {
         config(['app.debug' => false]);
 
-        // Absolute URL, geen assetpad: de containers staan op een R2-disk, dus
-        // `{{ img }}` vindt hier nooit een asset en rendert dan niets. Met een
-        // http-src valt hij op zijn passthrough terug en zet hij `class` op een
-        // echte <img> — dezelfde plek waar de picture-tak hem ook zet.
+        // Een echt asset, geen url-string: `{{ img }}` moet hier de picture-tak
+        // in. De passthrough-tak (absolute http-src) bouwt geen Glide-url, en
+        // dan kan de `crop_focal`-assertie hieronder niet meer falen.
         $html = $this->render('{{ partial src="headers/range" }}', [
             'title' => 'Terrasoverkapping',
-            'image' => 'https://assets.winsol-brebo.test/img/pergolas.png',
+            'image' => $this->makeImageAsset(),
         ]);
 
         $this->assertMatchesRegularExpression(
@@ -104,9 +127,11 @@ class RangeHeaderTest extends SectionTestCase
             $html
         );
 
-        // Geen crop: een `ratio` op {{ img }} zet `fit=crop_focal` in de
-        // Glide-URL en zou het product aansnijden.
-        $this->assertStringNotContainsString('crop_focal', $html);
+        // Geen crop: een `ratio` op {{ img }} laat Img::glideUrl()
+        // `fit('crop_focal')` zetten, en dat landt als `fit=crop` in de
+        // Glide-url — de letterlijke string `crop_focal` haalt de output nooit.
+        // Zonder ratio staat er helemaal geen `fit=` in.
+        $this->assertStringNotContainsString('fit=', $html);
     }
 
     /**
