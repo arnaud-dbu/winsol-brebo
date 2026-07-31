@@ -147,18 +147,18 @@ Elke batch: **bronblad → rangepagina + één vlaggenschipproduct → check →
 
 Batch 1 is de dure check: daar valideren we toon, lengte, sectiekeuze en bronnengebruik. Slaagt die, dan zijn de volgende licht.
 
-De volgorde volgt de beschikbaarheid van schoon beeld (§5.6), aflopend; bij gelijke stand gaat de range met de meeste producten voor.
+De volgorde volgt de beeldbeschikbaarheid uit §5.6, aflopend; bij gelijke stand gaat de range met de meeste producten voor.
 
-| # | Range | Vlaggenschip | Schoon beeld | Status |
+| # | Range | Vlaggenschip | hero / sectie | Status |
 |---|---|---|---|---|
-| 1 | Terrasoverkapping | Pergola SO! | 43 | start nu |
-| 2 | Ramen en deuren | Aluminium ramen en deuren | 54 | start nu |
-| 3 | Rolluiken | Voorzetrolluiken | 2 + 9 renders | wacht op beeld |
-| 4 | Garagepoorten | Sectionale poorten | 1 | wacht op beeld |
-| 5 | Zonwering | Screens / verticale zonwering | 0 | wacht op beeld |
-| 6–9 | Stalen binnendeuren, Somfy Smart Home, VELUX, Airco | — | 0 | wacht op beeld |
+| 1 | Terrasoverkapping | Pergola SO! | 43 / 49 | start nu |
+| 2 | Ramen en deuren | Aluminium ramen en deuren | 54 / 165 | start nu |
+| 3 | Rolluiken | Voorzetrolluiken | 3 / 12 | start nu, hero met watermerk |
+| 4 | Garagepoorten | Sectionale poorten | 1 / 25 | start nu, hero met watermerk |
+| 5 | Zonwering | Screens / verticale zonwering | 0 / 19 | start nu, hero met watermerk |
+| 6–9 | Stalen binnendeuren, Somfy Smart Home, VELUX, Airco | — | 0 / 0 | **wacht op beeld** |
 
-Batch 1 en 2 starten nu; de rest wordt vrijgegeven zodra §5.7 iets oplevert. Blijft beeld voor een range uit, dan wordt die alsnog geschreven met de watermerkfoto's die er zijn — content gaat voor op beeldkwaliteit, en §5.4 repareert het achteraf.
+Batch 1 tot 5 kunnen doorlopen: waar een schone hero ontbreekt, gebruiken we een watermerkfoto en ruimt `clean-watermarks` (§5.4) die achteraf op. Alleen batch 6 tot 9 zijn werkelijk geblokkeerd — daarvoor bestaat geen enkele foto — en die wachten op §5.7.
 
 Batch 3 (Rolluiken) verdient extra aandacht: dat is de eerste range zonder brochure, dus daar blijkt of de verbergende quicklinkkaart klopt.
 
@@ -186,7 +186,7 @@ Doelmap: `assets/<range>/`.
 
 ### 5.3 Watermerkdetectie
 
-Gemeten over alle 1715 foto's: witfractie (drempel 238 in grijswaarde) in het vlak rechtsonder (x 0,74–1,00; y 0,845–1,00), met dezelfde zone linksonder als controle. Classificatie: watermerk indien `br ≥ 0,08` én `br ≥ 4 × bl`.
+Gemeten over alle 1642 foto's: witfractie (drempel 238 in grijswaarde) in het vlak rechtsonder (x 0,74–1,00; y 0,845–1,00), met dezelfde zone linksonder als controle. Classificatie: watermerk indien `br ≥ 0,08` én `br ≥ 4 × bl`.
 
 Scheiding is scherp: watermerkfoto's meten 0,16–0,22 tegen een controle van 0,001–0,011; schone foto's 0,0001. Visueel geverifieerd op vier gevallen (drie met, één zonder).
 
@@ -216,7 +216,7 @@ Assetpaden blijven identiek, dus **geen enkele entry hoeft aangepast**.
 
 **Gevolgen om te kennen:**
 - De verhouding verandert licht, dus Glide hersnijdt rond het focuspunt. Op een hero of `text_image` is dat een verschuiving van enkele procenten. Bij kritische composities kan het focuspunt daarna bijgesteld worden.
-- Terugdraaien kan altijd: de bronmap van 1,8 GB staat lokaal in `/Users/arnaud/Documents/winsol/afbeeldingen`. Opnieuw importeren volstaat; geen extra opslag op R2 voor originelen.
+- Terugdraaien kan altijd: de bronmap van 1,6 GB staat lokaal in `/Users/arnaud/Documents/winsol/afbeeldingen`. Opnieuw importeren volstaat; geen extra opslag op R2 voor originelen.
 - `--list` levert de aanvraag aan Winsol op: een concrete lijst van ~100 bestandsnamen waarvoor je de versie zonder watermerk vraagt. Komen die binnen, dan vervang je de bestanden op dezelfde paden.
 
 **Blijvende regel:** waar een schone foto bestaat, gebruiken we die. Niet uit principe, maar omdat een bijgesneden foto altijd iets van zijn compositie inlevert.
@@ -229,50 +229,58 @@ De bestandsnamen helpen: `Winsol_2019_Mol_Pergola SO! (23).jpg`, `Realisatie-Per
 
 ### 5.6 Inventaris van de beeldenbank
 
-1715 foto's, 1,8 GB, in `/Users/arnaud/Documents/winsol/afbeeldingen`.
+1642 foto's, 1,6 GB, in `/Users/arnaud/Documents/winsol/afbeeldingen`.
 
 **Patroon in de mapnamen:**
 - `LR` / `Low Res` / `lage resolutie` → webderivaten mét watermerk;
 - mappen met jaar en plaatsnaam (`2019_Ardooie`, `2019_Oekene`, `2019_Aalbeke`, `2020_Boutersem`) → schone originelen;
 - `terrasoverkappingen/web/` → 55 foto's, schoon, hoge resolutie, liggend; de beste map van de set.
 
-**Bruikbaar** = geen watermerk, liggend, ≥1600px — dus geschikt voor header, `text_image` en `cta`:
+**Geschiktheid hangt af van de positie, niet van één drempel.** De beeldposities vragen sterk uiteenlopende breedtes (`headers/hero` gebruikt `max_width="2560"`, `sections/textImage` 1600, kaarten 640–1400), dus wordt er in drie lagen gemeten. Alle drie gaan uit van een foto zonder watermerk.
 
-| Map | Totaal | Watermerk | Bruikbaar |
-|---|---|---|---|
-| ramen-en-deuren | 309 | 7 | 54 |
-| terrasoverkappingen | 395 | 330 | 43 |
-| rolluiken | 114 | 84 | 11 |
-| luifels | 285 | 208 | 11 |
-| garagepoorten | 42 | 2 | 1 |
-| screens | 357 | 352 | 0 |
-| ballustrades | 213 | 204 | 0 |
+| Laag | Eis | Voor |
+|---|---|---|
+| hero | liggend, ≥2000px | `headers/hero`, `headers/product`, `headers/project` |
+| sectie | liggend, ≥1400px | `sections/textImage`, `sections/cta` |
+| kaart | ≥800px, elke oriëntatie | `rangeCard`, `productCard`, `imageGallery`, `card` |
 
-**De mapnamen dekken de ranges niet.** Twee vallen weg en één is vervuild:
+Meting over 1642 foto's (na het opkuisen van `luifels`):
 
-- `ballustrades` — balustrades staan niet in de negen ranges. 213 foto's ongebruikt.
-- `luifels` — **vervuild met rolluikmateriaal.** `luifels/Renders` bevat exact dezelfde bestanden als `rolluiken/Renders`; de twee overige treffers heten `Voorzetrolluiken…` en `rolluiken solar…`. Alle 11 "bruikbare" treffers zijn rolluikbeelden, geen zonneschermen.
+| Map | Totaal | Watermerk | Schoon | hero | sectie | kaart |
+|---|---|---|---|---|---|---|
+| ramen-en-deuren | 309 | 7 | 302 | 54 | 165 | 301 |
+| terrasoverkappingen | 395 | 330 | 65 | 43 | 49 | 65 |
+| luifels | 212 | 165 | 47 | 0 | 19 | 47 |
+| garagepoorten | 42 | 2 | 40 | 1 | 25 | 40 |
+| rolluiken | 114 | 84 | 30 | 3 | 12 | 30 |
+| screens | 357 | 352 | 5 | 0 | 0 | 5 |
+| ballustrades | 213 | 204 | 9 | 0 | 2 | 9 |
+
+**De mapnamen dekken de ranges niet.** `ballustrades` valt weg — balustrades staan niet in de negen ranges, dus 213 foto's blijven ongebruikt.
 
 Vertaald naar de negen ranges:
 
-| Range | Bronmappen | Werkelijk bruikbaar |
-|---|---|---|
-| Ramen en deuren | ramen-en-deuren | 54 |
-| Terrasoverkapping | terrasoverkappingen | 43 |
-| Rolluiken | rolluiken + de rolluikbeelden uit luifels | 11, waarvan 9 SolarBox-renders → **2 echte foto's** |
-| Garagepoorten | garagepoorten | 1 |
-| Zonwering (zonneschermen, SolarFix, screens, verandazonwering) | luifels + screens | **0** |
-| Stalen binnendeuren, Somfy Smart Home, VELUX, Airco | geen | **0** |
+| Range | Bronmappen | hero | sectie | kaart |
+|---|---|---|---|---|
+| Ramen en deuren | ramen-en-deuren | 54 | 165 | 301 |
+| Terrasoverkapping | terrasoverkappingen | 43 | 49 | 65 |
+| Garagepoorten | garagepoorten | 1 | 25 | 40 |
+| Zonwering (zonneschermen, SolarFix, screens, verandazonwering) | luifels + screens | 0 | 19 | 52 |
+| Rolluiken | rolluiken | 3 | 12 | 30 |
+| Stalen binnendeuren, Somfy Smart Home, VELUX, Airco | geen | 0 | 0 | 0 |
+
+**Het tekort is smaller dan het lijkt.** Garagepoorten, Zonwering en Rolluiken hebben ruim voldoende sectie- en kaartbeeld; alleen een schone **hero** ontbreekt. Omdat watermerkfoto's overal gebruikt mogen worden (§5.4), blokkeert dat niets: die heroes krijgen voorlopig een watermerkfoto en `clean-watermarks` ruimt ze later op.
+
+Werkelijk zonder beeld zijn alleen de vier ranges zonder bronmap: Stalen binnendeuren, Somfy Smart Home, VELUX en Airco.
 
 ### 5.7 Aanvraag SharePoint
 
 Gericht, nu het patroon bekend is. Zoek per categorie de mappen die **niet** `LR`, `Low Res` of `lage resolutie` heten.
 
-1. **Zonwering** — hoogste prioriteit: 0 bruikbaar uit 642 foto's (`screens` + `luifels` samen). Vraag apart naar **zonneschermen/luifels**; de map die nu zo heet bevat rolluikmateriaal, geen zonneschermen.
-2. **Rolluiken** — 2 echte foto's plus 9 SolarBox-renders. Er moeten realisatiefoto's bestaan.
-3. **Garagepoorten** — 1 bruikbare uit 42.
-4. **Bestaat er iets voor** VELUX, Somfy Smart Home, Airco, Stalen binnendeuren, Vliegenramen, Sierluiken, Veiligheidsdeuren? Voor deze zeven is er nu niets.
-5. Zoek naar mappen die **`web`** heten.
+1. **Stalen binnendeuren, Somfy Smart Home, VELUX, Airco** — hoogste prioriteit: hiervoor bestaat geen enkele foto, en zonder beeld kunnen die vier batches niet starten. Bestaat er überhaupt iets? Zo niet, dan moeten die pagina's het met producttekst en een render doen.
+2. **Grote liggende foto's (≥2000px) voor Zonwering, Rolluiken en Garagepoorten.** Sectie- en kaartbeeld is er genoeg; alleen de hero ontbreekt. Eén goede foto per range volstaat.
+3. **Losse producten zonder beeld:** Vliegenramen, Sierluiken, Veiligheidsdeuren, Verandazonwering.
+4. Zoek naar mappen die **`web`** heten — `terrasoverkappingen/web/` was met afstand de beste van de set.
 
 Niet nodig: `ballustrades` (buiten scope) en meer van hetzelfde uit `LR`/`Low Res`-mappen.
 
