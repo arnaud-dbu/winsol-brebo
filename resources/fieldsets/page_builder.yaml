@@ -211,7 +211,34 @@ fields:
                     type: toggle
                     display: Background
                 -
-                  import: image
+                  handle: media
+                  field:
+                    type: button_group
+                    display: Media
+                    default: image
+                    localizable: true
+                    options:
+                      none: Geen
+                      image: Afbeelding
+                      video: Video
+                -
+                  handle: image
+                  field:
+                    type: assets
+                    display: Image
+                    container: assets
+                    max_files: 1
+                    localizable: true
+                    if:
+                      media: 'equals image'
+                -
+                  handle: video
+                  field:
+                    type: video
+                    display: Video
+                    localizable: true
+                    if:
+                      media: 'equals video'
                 -
                   handle: features
                   field:
