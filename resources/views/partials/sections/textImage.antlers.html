@@ -1,7 +1,6 @@
 {{ if background }}
     {{ row_class = "flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-8" }}
-    {{# Rondom dezelfde padding. `card-padding` met een eigen `px` erover gaf 40px boven en onder tegen 96px links en rechts; Figma houdt op deze kaart alle vier de kanten gelijk (318:3296, 112px op 812px kaartbreedte). #}}
-    {{ text_column_class = "w-full min-w-0 lg:w-1/2 bg-light p-6 md:p-8 lg:p-12 xl:p-16 2xl:p-24 flex flex-col justify-center rounded-sm order-last lg:order-none" }}
+    {{ text_column_class = "w-full min-w-0 lg:w-1/2 bg-light card-padding-xl flex flex-col justify-center rounded-sm order-last lg:order-none" }}
     {{ image_column_class = "text-image__media w-full min-w-0 lg:w-1/2" }}
     {{ image_sizes = "(min-width: 1024px) 50vw, 100vw" }}
 {{ else }}

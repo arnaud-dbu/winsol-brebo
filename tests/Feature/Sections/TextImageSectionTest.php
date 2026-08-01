@@ -60,7 +60,7 @@ class TextImageSectionTest extends SectionTestCase
 
         $this->assertStringNotContainsString('lg:px-16', $html);
         $this->assertStringNotContainsString('2xl:px-24', $html);
-        $this->assertMatchesRegularExpression('/class="[^"]*\bp-6\b[^"]*2xl:p-24\b/', $html);
+        $this->assertStringContainsString('card-padding-xl', $html);
     }
 
     public function test_adds_background_modifier_when_toggled(): void
