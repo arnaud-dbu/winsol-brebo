@@ -11,7 +11,7 @@ class ProjectRangesTagTest extends SectionTestCase
         // De vier ranges waaraan de zes projecten hangen.
         $this->assertStringContainsString('[ramen-en-deuren]', $html);
         $this->assertStringContainsString('[rolluiken]', $html);
-        $this->assertStringContainsString('[pergolas]', $html);
+        $this->assertStringContainsString('[terrasoverkapping]', $html);
         $this->assertStringContainsString('[zonwering]', $html);
 
         // De vijf ranges zonder projecten.
@@ -26,11 +26,11 @@ class ProjectRangesTagTest extends SectionTestCase
     {
         $html = $this->render('{{ project_ranges }}[{{ title }}]{{ /project_ranges }}');
 
-        // Drie projecten hangen aan `pergolas`; die range hoort er één keer te staan.
-        $this->assertSame(1, substr_count($html, "[Terrasoverkappingen & pergola's]"));
+        // Drie projecten hangen aan `terrasoverkapping`; die range hoort er één keer te staan.
+        $this->assertSame(1, substr_count($html, "[Terrasoverkapping]"));
 
         $this->assertSame(
-            '[Ramen en deuren][Rolluiken][Terrasoverkappingen & pergola\'s][Zonwering]',
+            '[Ramen en deuren][Rolluiken][Terrasoverkapping][Zonwering]',
             trim($html)
         );
     }

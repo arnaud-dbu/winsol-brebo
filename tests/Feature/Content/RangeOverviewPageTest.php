@@ -64,7 +64,7 @@ class RangeOverviewPageTest extends TestCase
             // Rondom je woning
             'rolluiken',
             'zonwering',
-            'pergolas',
+            'terrasoverkapping',
             'garagepoorten',
             // Slim & comfort
             'somfy-smart-home',

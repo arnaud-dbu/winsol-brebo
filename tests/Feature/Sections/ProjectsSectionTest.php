@@ -13,7 +13,7 @@ class ProjectsSectionTest extends SectionTestCase
                 [
                     'title' => 'Pergola SO! met glazen schuifwanden',
                     'url' => '/realisaties/pergola-so',
-                    'range' => ['title' => "Terrasoverkappingen & pergola's", 'slug' => 'pergolas'],
+                    'range' => ['title' => "Terrasoverkapping", 'slug' => 'terrasoverkapping'],
                 ],
                 [
                     'title' => 'Zip-screens op nieuwbouwwoning',

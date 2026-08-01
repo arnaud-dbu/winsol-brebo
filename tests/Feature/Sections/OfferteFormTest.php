@@ -29,7 +29,7 @@ class OfferteFormTest extends SectionTestCase
 
         $this->assertSame(9, substr_count($html, 'offerte-pill"'));
 
-        foreach (['Ramen en deuren', 'VELUX dakramen', 'Terrasoverkappingen &amp; pergola&#039;s', 'Somfy Smart Home'] as $title) {
+        foreach (['Ramen en deuren', 'VELUX dakramen', 'Terrasoverkapping', 'Somfy Smart Home'] as $title) {
             $this->assertStringContainsString($title, $html);
         }
     }

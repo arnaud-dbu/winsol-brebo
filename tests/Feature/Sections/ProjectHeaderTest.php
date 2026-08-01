@@ -57,7 +57,7 @@ class ProjectHeaderTest extends SectionTestCase
 
         $html = $this->render('{{ partial src="headers/project" }}', $project->toAugmentedArray());
 
-        $this->assertStringContainsString('<p class="header-eyebrow">Terrasoverkappingen & pergola\'s</p>', $html);
+        $this->assertStringContainsString('<p class="header-eyebrow">Terrasoverkapping</p>', $html);
     }
 
     public function test_omits_the_eyebrow_entirely_without_a_range(): void

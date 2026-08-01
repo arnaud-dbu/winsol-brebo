@@ -26,7 +26,7 @@ class RangeCheckboxesTest extends TestCase
             'airco' => 'Airco',
             'rolluiken' => 'Rolluiken',
             'zonwering' => 'Zonwering',
-            'pergolas' => "Terrasoverkappingen & pergola's",
+            'terrasoverkapping' => "Terrasoverkapping",
             'garagepoorten' => 'Garagepoorten',
             'somfy-smart-home' => 'Somfy Smart Home',
         ], $field->fieldtype()->extraRenderableFieldData()['options']);

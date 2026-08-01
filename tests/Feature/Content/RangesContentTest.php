@@ -10,7 +10,7 @@ class RangesContentTest extends TestCase
     public function test_every_range_exists_with_its_image(): void
     {
         $slugs = [
-            'pergolas', 'ramen-en-deuren', 'rolluiken', 'zonwering', 'garagepoorten',
+            'terrasoverkapping', 'ramen-en-deuren', 'rolluiken', 'zonwering', 'garagepoorten',
             'velux', 'airco', 'somfy-smart-home', 'stalen-binnendeuren',
         ];
 
@@ -26,7 +26,7 @@ class RangesContentTest extends TestCase
     public function test_every_range_category_relation_resolves_to_a_real_term(): void
     {
         $expectedCategoryTitles = [
-            'pergolas' => 'Rondom je woning',
+            'terrasoverkapping' => 'Rondom je woning',
             'ramen-en-deuren' => 'Voor je woning',
             'rolluiken' => 'Rondom je woning',
             'zonwering' => 'Rondom je woning',
@@ -57,7 +57,7 @@ class RangesContentTest extends TestCase
     public function test_range_titles_match_the_design(): void
     {
         $expectedTitles = [
-            'pergolas' => "Terrasoverkappingen & pergola's",
+            'terrasoverkapping' => "Terrasoverkapping",
             'velux' => 'VELUX dakramen',
         ];
 

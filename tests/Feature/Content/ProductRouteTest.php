@@ -69,13 +69,13 @@ class ProductRouteTest extends TestCase
         $product = Entry::query()->where('collection', 'products')->where('slug', 'pergola-so')->first();
 
         $this->assertNotNull($product);
-        $this->assertSame('pergolas', $product->augmentedValue('range_slug')->value());
+        $this->assertSame('terrasoverkapping', $product->augmentedValue('range_slug')->value());
     }
 
     public function test_the_url_nests_the_product_under_its_range(): void
     {
         $product = Entry::query()->where('collection', 'products')->where('slug', 'pergola-so')->first();
 
-        $this->assertSame('/aanbod/pergolas/pergola-so', $product->url());
+        $this->assertSame('/aanbod/terrasoverkapping/pergola-so', $product->url());
     }
 }

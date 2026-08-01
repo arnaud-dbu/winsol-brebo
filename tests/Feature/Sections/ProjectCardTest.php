@@ -20,7 +20,7 @@ class ProjectCardTest extends SectionTestCase
         $html = $this->render('{{ partial src="projectCard" }}', $project->toAugmentedArray());
 
         $this->assertStringContainsString(
-            '<span class="project-card__category">Terrasoverkappingen & pergola\'s</span>',
+            '<span class="project-card__category">Terrasoverkapping</span>',
             $html
         );
     }

@@ -22,7 +22,7 @@ class ProjectsOverviewPageTest extends TestCase
         $this->assertStringContainsString('Toon alles', $html);
 
         // De vier ranges waaraan projecten hangen.
-        $this->assertStringContainsString('data-range="pergolas"', $html);
+        $this->assertStringContainsString('data-range="terrasoverkapping"', $html);
         $this->assertStringContainsString('data-range="zonwering"', $html);
         $this->assertStringContainsString('data-range="ramen-en-deuren"', $html);
         $this->assertStringContainsString('data-range="rolluiken"', $html);

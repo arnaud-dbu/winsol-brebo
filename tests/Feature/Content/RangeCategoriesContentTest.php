@@ -38,7 +38,7 @@ class RangeCategoriesContentTest extends TestCase
             'airco' => 'voor-je-woning',
             'rolluiken' => 'rondom-je-woning',
             'zonwering' => 'rondom-je-woning',
-            'pergolas' => 'rondom-je-woning',
+            'terrasoverkapping' => 'rondom-je-woning',
             'garagepoorten' => 'rondom-je-woning',
             'somfy-smart-home' => 'slim-en-comfort',
         ];

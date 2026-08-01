@@ -13,7 +13,7 @@ class RangeShowPageTest extends TestCase
      */
     public function test_it_renders_the_locations_block(): void
     {
-        $html = $this->get('/aanbod/pergolas')->getContent();
+        $html = $this->get('/aanbod/terrasoverkapping')->getContent();
 
         $this->assertStringContainsString('data-section="locations"', $html);
     }

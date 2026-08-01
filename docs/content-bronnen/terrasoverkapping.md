@@ -61,22 +61,35 @@ verwijzing, geen productkaart.
 Gemeten over de 396 foto's in `afbeeldingen/terrasoverkappingen/`, met de
 watermerkdetector uit `App\Services\WatermarkDetector`.
 
-| Product | Schoon | Watermerk | Hero-waardig (≥2000px, liggend) |
-|---|---|---|---|
-| Pergola SO! | 55 | 216 | **42** |
-| Pergola Z!P CUBE | 3 | 72 | 0 |
-| Pergola Z!P | — | — | 0 |
-| Win Cube | — | — | 0 |
-| Pergola ORIG!N | — | — | 0 |
-| niet toegewezen | 7 | 42 | 1 |
+| Product | Totaal | Watermerk | Schoon | Hero-waardig (≥2000px, liggend) |
+|---|---|---|---|---|
+| Pergola SO! | 273 | 218 | 55 | **42** |
+| Z!P CUBE | 49 | 48 | 1 | 0 |
+| Pergola Z!P | 38 | 33 | 5 | 0 |
+| Win Cube | 26 | 24 | 2 | 0 |
+| Pergola ORIG!N | 5 | 5 | 0 | 0 |
+| niet toegewezen | 4 | 2 | 2 | 1 |
 
-**Gevolg:** het vlaggenschip is ruim gedekt, de rest niet. De vier andere
-producten krijgen watermerkfoto's uit dezelfde map, of een placeholder uit
-`assets/placeholder/` wanneer er niets passends is. Elk gat wordt gemeld door
-`php please winsol:image-gaps`. Dat blokkeert de batch niet — zie §5.8 van de
-spec.
+**Elk product heeft beeld** — geen enkele pagina hoeft op een placeholder terug
+te vallen. Maar de verdeling is scheef op twee manieren.
+
+Ten eerste is alleen Pergola SO! hero-waardig gedekt. De andere vier hebben
+geen enkele schone liggende foto van ≥2000px, dus die krijgen een watermerkfoto
+in de kop. `winsol:clean-watermarks` snijdt die later weg.
+
+Ten tweede, en dat is de echte beperking: **alle 42 schone liggende SO!-foto's
+komen uit één realisatie in Drongen.** De schone set biedt dus geen variatie.
+Voor de kop en de tekstblokken is dat prima — één huis van meerdere kanten leest
+als één project — maar een galerij die uitsluitend Drongen toont wordt eentonig.
+Daarom halen we de variatie uit watermerkfoto's van andere realisaties
+(Oostkamp, Melle) en uit de ORIG!N-renders.
 
 De beste map is `terrasoverkappingen/web/`: schoon, 2250×1502, liggend.
+
+*Correctie 2026-08-01: een eerdere versie van dit blad meldde dat Pergola Z!P,
+Win Cube en ORIG!N géén beeld hadden. Dat kwam door een zoekregel die `Z!P` niet
+matchte — er werd op `z!ip` gezocht in plaats van op `z!p`. De tabel hierboven is
+de gecorrigeerde telling.*
 
 ---
 
