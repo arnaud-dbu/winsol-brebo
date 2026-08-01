@@ -155,12 +155,12 @@ class OfferteFormTest extends SectionTestCase
      */
     public function test_the_confirmation_replaces_the_form(): void
     {
-        session(['form.offerte.success' => 'Bedankt voor uw aanvraag.']);
+        session(['form.offerte.success' => 'Bedankt voor je aanvraag.']);
 
         $html = $this->render('{{ partial:offerteForm }}');
 
         $this->assertStringContainsString('offerte-success', $html);
-        $this->assertStringContainsString('Uw aanvraag is verstuurd', $html);
+        $this->assertStringContainsString('Je aanvraag is verstuurd', $html);
 
         $this->assertStringNotContainsString('name="products[]"', $html);
         $this->assertStringNotContainsString('class="form-field', $html);

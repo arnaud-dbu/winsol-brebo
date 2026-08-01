@@ -4,10 +4,13 @@ namespace Tests\Feature\Content;
 
 use Statamic\Facades\Blueprint;
 use Statamic\Facades\Entry;
+use Tests\Concerns\AssertsSiteVoice;
 use Tests\TestCase;
 
 class ServicePageTest extends TestCase
 {
+    use AssertsSiteVoice;
+
     public function test_the_entry_uses_the_services_overview_blueprint_and_template(): void
     {
         $entry = Entry::query()->where('collection', 'pages')->where('slug', 'service')->first();
@@ -129,17 +132,7 @@ class ServicePageTest extends TestCase
         $entry = Entry::query()->where('collection', 'pages')->where('slug', 'service')->first();
 
         foreach ($this->copyBlocks($entry) as $label => $text) {
-            $this->assertDoesNotMatchRegularExpression(
-                '/[—–]/u',
-                $text,
-                "{$label} bevat een gedachtestreepje."
-            );
-
-            $this->assertDoesNotMatchRegularExpression(
-                '/\b[Uu]w?\b/u',
-                $text,
-                "{$label} spreekt in de u-vorm."
-            );
+            $this->assertSpeaksSiteVoice($text, $label);
         }
     }
 
@@ -162,24 +155,6 @@ class ServicePageTest extends TestCase
         $blocks['herstelling'] = $reparation['title'].' '.$reparation['text'];
 
         return $blocks;
-    }
-
-    /**
-     * Bard levert een boom van nodes; alleen de `text`-bladeren dragen inhoud.
-     *
-     * @param  array<int, mixed>  $nodes
-     */
-    private function flattenBard(array $nodes): string
-    {
-        $text = '';
-
-        array_walk_recursive($nodes, function ($value, $key) use (&$text) {
-            if ($key === 'text') {
-                $text .= ' '.$value;
-            }
-        });
-
-        return trim($text);
     }
 
     public function test_the_sections_alternate_starting_with_the_image(): void

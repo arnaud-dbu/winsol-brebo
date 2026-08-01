@@ -2,11 +2,15 @@
 
 namespace Tests\Feature\Content;
 
+use Statamic\Facades\Blueprint;
 use Statamic\Facades\Entry;
+use Tests\Concerns\AssertsSiteVoice;
 use Tests\TestCase;
 
 class OffertePageTest extends TestCase
 {
+    use AssertsSiteVoice;
+
     public function test_the_entry_exists_on_its_own_blueprint_and_template(): void
     {
         $entry = Entry::query()->where('collection', 'pages')->where('slug', 'offerte')->first();
@@ -83,6 +87,44 @@ class OffertePageTest extends TestCase
             'c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a03',
             $builder[0]['link'][0]['entry'],
         );
+    }
+
+    /**
+     * De gele kaart van het cta-component staat links over het beeld. Een
+     * dummyfoto viel daardoor niet op: de kaart dekt precies het deel af waar
+     * je naar kijkt.
+     */
+    public function test_the_cta_carries_a_real_photo(): void
+    {
+        $entry = Entry::query()->where('collection', 'pages')->where('slug', 'offerte')->first();
+
+        $image = $entry->get('page_builder')[0]['image'];
+
+        $this->assertStringNotContainsString('dummy-images/', $image);
+        $this->assertStringNotContainsString('placeholder/', $image);
+    }
+
+    public function test_the_copy_speaks_in_the_je_form_without_em_dashes(): void
+    {
+        $entry = Entry::query()->where('collection', 'pages')->where('slug', 'offerte')->first();
+        $cta = $entry->get('page_builder')[0];
+
+        $this->assertSpeaksSiteVoice($entry->get('text'), 'intro');
+        $this->assertSpeaksSiteVoice($cta['title'].' '.$cta['text'], 'cta');
+    }
+
+    /**
+     * Het formulier is de pagina, dus zijn labels en placeholders zijn hier
+     * evengoed lopende tekst.
+     */
+    public function test_the_form_labels_speak_in_the_je_form(): void
+    {
+        $fields = Blueprint::find('forms.offerte')->fields()->all();
+
+        foreach ($fields as $handle => $field) {
+            $this->assertSpeaksSiteVoice($field->display(), "label {$handle}");
+            $this->assertSpeaksSiteVoice($field->get('placeholder') ?? '', "placeholder {$handle}");
+        }
     }
 
     public function test_the_cta_renders_below_the_form(): void

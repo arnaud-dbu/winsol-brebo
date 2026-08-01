@@ -57,8 +57,8 @@ tabs:
             handle: project
             field:
               type: textarea
-              display: 'Vertel kort over uw project'
-              placeholder: 'Wat wilt u laten plaatsen? Afmetingen, wensen, timing…'
+              display: 'Vertel kort over je project'
+              placeholder: 'Wat wil je laten plaatsen? Afmetingen, wensen, timing…'
           -
             handle: attachment
             field:
