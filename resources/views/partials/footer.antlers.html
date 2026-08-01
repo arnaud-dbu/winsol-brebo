@@ -64,10 +64,9 @@
                                 </li>
                             {{ /if }}
                             {{ if globals:company:street and globals:company:city }}
+                                {{# Eén expressie: los uitgeschreven breekt Prettier de regel vlak vóór de komma, en dan staat er een spatie voor. #}}
                                 <li class="text-white/60">
-                                    {{ globals:company:street }}
-                                    {{ globals:company:number }}
-                                    , {{ globals:company:postal }} {{ globals:company:city }}
+                                    {{ "{globals:company:street} {globals:company:number}, {globals:company:postal} {globals:company:city}" }}
                                 </li>
                             {{ /if }}
                         </ul>

@@ -55,4 +55,17 @@ class FooterTest extends SectionTestCase
         $this->assertStringContainsString('href="/simuleer-je-lening"', $html);
         $this->assertStringContainsString('Simuleer je lening', $html);
     }
+
+    /**
+     * Het adres stond als drie losse tags onder elkaar, en Antlers hield de
+     * regelafbreking vlak vóór de komma aan: "Ninoofsesteenweg 637 , 1700
+     * Dilbeek". Onzichtbaar zolang de globals leeg waren.
+     */
+    public function test_the_address_has_no_space_before_the_comma(): void
+    {
+        $html = $this->get('/contact')->assertOk()->getContent();
+
+        $this->assertStringContainsString('Ninoofsesteenweg 637, 1700 Dilbeek', $html);
+        $this->assertDoesNotMatchRegularExpression('/\s+,\s+1700 Dilbeek/', $html);
+    }
 }
