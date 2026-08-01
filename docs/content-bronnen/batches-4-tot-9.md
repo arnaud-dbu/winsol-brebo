@@ -145,10 +145,17 @@ geen daarvan is breed genoeg voor een sectiebeeld. De screens- en
 SolarFix-pagina's draaien dus op gewatermerkt materiaal. Dat is de afspraak uit
 batch 1: de vlag staat, `winsol:clean-watermarks` snijdt ze later weg.
 
-**`screens/` bevat viervoudige duplicaten.** De submappen `LR`, `LR 2`,
-`lage resolutie` en `lage resolutie 2` bevatten dezelfde bestandsnamen. De
-import bewaart de mapnaam, dus dezelfde foto staat vier keer in de container
-onder vier paden. Dat is niet opgeruimd; het kost opslag maar breekt niets.
+**`screens/` bevat deels duplicaten.** De submappen `LR`, `LR 2`,
+`lage resolutie` en `lage resolutie 2` overlappen: 245 van de 357 bestanden
+hebben een unieke naam, de overige 112 staan er dubbel. De import bewaart de
+mapnaam, dus die 112 komen onder twee paden in de container terecht. Bij
+`luifels/` speelt dat nauwelijks: 208 van de 212 zijn uniek. Niet opgeruimd;
+het kost wat opslag maar breekt niets.
+
+Op de SolarFix-pagina was dat wél een inhoudelijk probleem: drie van de vier
+beeldplaatsen wezen aanvankelijk naar dezelfde foto uit drie verschillende
+mappen. Dat is rechtgezet met vier verschillende opnames uit dezelfde
+realisatie.
 
 **Zonder enig beeld:** VELUX, Somfy Smart Home, Airco, Stalen binnendeuren,
 verandazonwering, uitvalschermen en garagerolluiken. Alles daar staat op

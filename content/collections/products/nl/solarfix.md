@@ -4,7 +4,7 @@ title: SolarFix
 range:
   - 8c2e41a0-0004-4a1b-9c7d-3e5f6a7b8c04
 text: 'Screens op zonne-energie, geplaatst op bestaande ramen zonder kabels en zonder kapwerk.'
-image: 'screens/solarfix/LR/winsol_2020_kortemark_solarfix_screens-(1).jpg'
+image: 'screens/solarfix/LR/winsol_2020_kortemark_solarfix_screens-(6).jpg'
 brochure: brochures/winsol_brochure_verticale-zonwering_nl.pdf
 meta_title: 'SolarFix screens op zonne-energie | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
 meta_description: 'SolarFix zonnescreens met twee ingebouwde zonnepanelen en een 4 Ah-batterij. Voor ramen tot 15 m², geplaatst zonder kap- en breekwerk.'
@@ -33,7 +33,7 @@ page_builder:
             type: text
             text: 'De installatie gebeurt aan de buitenkant, bovenop je bestaande ramen. Je hoeft er niet voor thuis te zijn. Daarmee is dit de snelste manier om een gevel van zonwering te voorzien.'
     media: image
-    image: 'screens/solarfix/LR 2/winsol_2020_kortemark_solarfix_screens-(1).jpg'
+    image: 'screens/solarfix/LR/winsol_2020_kortemark_solarfix_screens-(12).jpg'
     features:
       -
         id: sfx-k1
@@ -75,7 +75,7 @@ page_builder:
             type: text
             text: 'Het doek zit met een ritssysteem in de geleiders, dus het blijft strak gespannen en waait niet los. Volledig neergelaten werkt het ook als muggenhor.'
     media: image
-    image: 'screens/solarfix/lage resolutie/winsol_2020_kortemark_solarfix_screens-(1).jpg'
+    image: 'screens/solarfix/LR/winsol_2020_kortemark_solarfix_screens-(24).jpg'
     features:
       -
         id: sfx-b1
@@ -117,7 +117,7 @@ page_builder:
             type: text
             text: 'Voor raampartijen tot 15 m² gebruiken we een krachtigere motor van 20 Newton en een andere oprolas. Het ontwerp werd bekroond met een Red Dot Design Award.'
     media: image
-    image: 'screens/solarfix/LR/winsol_2020_kortemark_solarfix_screens-(1).jpg'
+    image: 'screens/solarfix/LR/winsol_2020_kortemark_solarfix_screens-(25).jpg'
     features:
       -
         id: sfx-g1
