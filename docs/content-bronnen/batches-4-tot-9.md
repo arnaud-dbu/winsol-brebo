@@ -157,6 +157,20 @@ beeldplaatsen wezen aanvankelijk naar dezelfde foto uit drie verschillende
 mappen. Dat is rechtgezet met vier verschillende opnames uit dezelfde
 realisatie.
 
+### Twee imports tegelijk zien elkaars werk niet
+
+Omdat de bulkimport traag ging, zijn de vijftien foto's die de content nodig
+had apart vooruit geïmporteerd, met dezelfde mapstructuur zodat de bestaat-al-
+toets ze zou herkennen. Dat werkte voor `luifels/`, want die importrun startte
+pas daarna en las de container vers in. Voor `screens/` niet: die run liep al
+en hield een verouderde assetlijst vast, waardoor hij drie bestanden opnieuw
+uploadde en Statamic er een tijdstempel achter plakte.
+
+De drie duplicaten zijn verwijderd; de originelen waren intact, gemarkeerd als
+gewatermerkt en in gebruik. **Les:** `winsol:import-images` is idempotent
+binnen één run en tussen opeenvolgende runs, maar niet tussen runs die elkaar
+overlappen. Laat imports op dezelfde container nooit gelijktijdig lopen.
+
 **Zonder enig beeld:** VELUX, Somfy Smart Home, Airco, Stalen binnendeuren,
 verandazonwering, uitvalschermen en garagerolluiken. Alles daar staat op
 `placeholder/beeld-ontbreekt.jpg` en wordt gemeld door `winsol:image-gaps`.
