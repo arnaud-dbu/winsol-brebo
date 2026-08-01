@@ -99,6 +99,17 @@ class HomePageTest extends TestCase
     }
 
     /**
+     * De locatiesectie stond onder de page builder terwijl het ontwerp hem op
+     * /home niet toont. Hij hoort op de contactpagina en op de rangepagina's.
+     */
+    public function test_the_page_does_not_show_the_locations_section(): void
+    {
+        $html = $this->get('/')->getContent();
+
+        $this->assertStringNotContainsString('data-section="locations"', $html);
+    }
+
+    /**
      * Figma schrijft "Lees ons overhaal" op de knop van de over-ons-CTA.
      */
     public function test_the_over_ons_cta_button_is_spelled_correctly(): void

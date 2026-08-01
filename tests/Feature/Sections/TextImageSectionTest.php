@@ -19,6 +19,32 @@ class TextImageSectionTest extends SectionTestCase
         $this->assertStringContainsString('Bediening via app', $html);
     }
 
+    /**
+     * De knop stond boven de featurelijst, omdat `sectionHeader` de link zelf
+     * rendert en die header boven de lijst staat. Figma zet hem eronder
+     * (293:2745 gevolgd door 293:2755): eerst wat je krijgt, dan de stap.
+     */
+    public function test_the_link_renders_below_the_feature_list(): void
+    {
+        $html = $this->render('{{ partial src="sections/textImage" }}', [
+            'title' => 'Pergola SO!',
+            'features' => [['label' => 'Bediening via app']],
+            'link' => [[
+                'type' => 'url',
+                'url' => 'winsol.eu',
+                'label' => 'Ontdek Pergola SO!',
+            ]],
+        ]);
+
+        $this->assertStringContainsString('Ontdek Pergola SO!', $html);
+
+        $this->assertLessThan(
+            strpos($html, 'Ontdek Pergola SO!'),
+            strpos($html, 'Bediening via app'),
+            'De knop hoort onder de featurelijst te staan.'
+        );
+    }
+
     public function test_adds_background_modifier_when_toggled(): void
     {
         $html = $this->render('{{ partial src="sections/textImage" }}', [

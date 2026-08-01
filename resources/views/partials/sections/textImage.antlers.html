@@ -23,8 +23,14 @@
     <div class="container">
         <div class="{{ row_class }}">
             <div class="{{ text_column_class }}">
-                {{ partial:sectionHeader }}
+                {{# De knop hoort onder de featurelijst en niet erboven (Figma 293:2745 gevolgd door 293:2755), dus `sectionHeader` rendert hem hier niet. #}}
+                {{ partial:sectionHeader link="" }}
                 {{ partial:featureList :items="features" }}
+                {{ if link }}
+                    <div class="mt-6 lg:mt-8">
+                        {{ partial:link }}
+                    </div>
+                {{ /if }}
             </div>
             {{ if media_mode }}
                 <div class="{{ image_column_class }}">
