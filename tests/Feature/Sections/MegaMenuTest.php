@@ -33,7 +33,7 @@ class MegaMenuTest extends SectionTestCase
         $this->assertStringContainsString('Rolluiken', $html);
         $this->assertStringContainsString('Rolluiken tegen de gevel, in de spouwmuur of op het raam, altijd op maat gemaakt en geplaatst.', $html);
         $this->assertStringContainsString('Somfy Smart Home', $html);
-        $this->assertStringContainsString('Somfy-sturing waarmee rolluiken, zonwering en verlichting samenwerken via één app of afstandsbediening.', $html);
+        $this->assertStringContainsString('Somfy TaHoma laat je rolluiken, zonwering en poort samenwerken via één app, afstandsbediening of je stem.', $html);
 
         // Alle negen ranges, niet slechts de drie hierboven met naam genoemde.
         // Het mobiele paneel toont geen ranges, dus negen is exact.
