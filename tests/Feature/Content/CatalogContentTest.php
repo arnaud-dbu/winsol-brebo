@@ -11,7 +11,7 @@ class CatalogContentTest extends TestCase
     {
         $products = Entry::query()->where('collection', 'products')->get();
 
-        $this->assertCount(14, $products);
+        $this->assertCount(20, $products);
 
         foreach ($products as $product) {
             $this->assertNotEmpty($product->get('image'), "Product {$product->slug()} heeft geen beeld");

@@ -31,7 +31,7 @@ class MegaMenuTest extends SectionTestCase
         $this->assertStringContainsString('Ramen en deuren', $html);
         $this->assertStringContainsString('Ramen en deuren in aluminium of pvc, op maat gemaakt in België en geplaatst door ons eigen team.', $html);
         $this->assertStringContainsString('Rolluiken', $html);
-        $this->assertStringContainsString('Rolluiken voor ramen en deuren die inbraakwerend zijn en helpen tegen warmte, licht en geluid.', $html);
+        $this->assertStringContainsString('Rolluiken tegen de gevel, in de spouwmuur of op het raam, altijd op maat gemaakt en geplaatst.', $html);
         $this->assertStringContainsString('Somfy Smart Home', $html);
         $this->assertStringContainsString('Somfy-sturing waarmee rolluiken, zonwering en verlichting samenwerken via één app of afstandsbediening.', $html);
 
