@@ -29,7 +29,7 @@ class MegaMenuTest extends SectionTestCase
         // hier alsnog op valt. De omschrijvingen staan in
         // content/collections/ranges/*.md.
         $this->assertStringContainsString('Ramen en deuren', $html);
-        $this->assertStringContainsString('Ramen en deuren in aluminium of PVC, op maat gemaakt voor een strakke afwerking en goede isolatie.', $html);
+        $this->assertStringContainsString('Ramen en deuren in aluminium of pvc, op maat gemaakt in België en geplaatst door ons eigen team.', $html);
         $this->assertStringContainsString('Rolluiken', $html);
         $this->assertStringContainsString('Rolluiken voor ramen en deuren die inbraakwerend zijn en helpen tegen warmte, licht en geluid.', $html);
         $this->assertStringContainsString('Somfy Smart Home', $html);
