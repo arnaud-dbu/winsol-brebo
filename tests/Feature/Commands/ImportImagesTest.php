@@ -208,4 +208,34 @@ class ImportImagesTest extends TestCase
 
         $this->assertCount(2, $paths, 'Een tweede import mag geen dubbele assets aanmaken');
     }
+
+    /**
+     * Een en-dash en een ampersand in de bestandsnaam brachten het voorspelde
+     * pad en het werkelijke pad uit elkaar: `getSafeFilename()` maakte er drie
+     * streepjes van waar de container er twee opsloeg. Een tweede run vond de
+     * foto dan niet terug en Statamic plakte er een timestamp achter, met een
+     * duplicaat als gevolg. Deze namen komen letterlijk uit de bibliotheek.
+     */
+    public function test_a_second_run_does_not_duplicate_awkward_filenames(): void
+    {
+        $folder = 'awkward-'.uniqid();
+        $dir = storage_path('framework/testing/awkward-source');
+        File::ensureDirectoryExists($dir);
+        File::copy(base_path('tests/fixtures/images/clean.jpg'), $dir.'/Pergolas – Terrasoverkappingen – Z!P & Z!P Cube_Melle (6218).jpg');
+        File::copy(base_path('tests/fixtures/images/clean.jpg'), $dir.'/Réalisation Été - Screens 04.JPG');
+
+        $this->artisan('winsol:import-images', ['source' => $dir, 'folder' => $folder])->assertExitCode(0);
+
+        $container = AssetContainer::find('assets');
+        $after_first = $container->assets($folder, true)->count();
+
+        $this->artisan('winsol:import-images', ['source' => $dir, 'folder' => $folder])
+            ->expectsOutputToContain('2 overgeslagen')
+            ->assertExitCode(0);
+
+        File::deleteDirectory($dir);
+
+        $this->assertSame(2, $after_first);
+        $this->assertSame(2, AssetContainer::find('assets')->assets($folder, true)->count());
+    }
 }

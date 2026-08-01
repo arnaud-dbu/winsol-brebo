@@ -17,6 +17,14 @@ class ImportImages extends Command
 
     protected $description = 'Importeert foto\'s naar de assets-container en markeert watermerken';
 
+    /**
+     * `source_filename` van alles wat al in de doelmap staat, als lookup.
+     * Eenmalig opgebouwd bij de eerste toets in een run.
+     *
+     * @var array<string, int>
+     */
+    private array $importedSourceNames = [];
+
     public function handle(WatermarkDetector $detector): int
     {
         $source = rtrim($this->argument('source'), '/');
@@ -61,7 +69,7 @@ class ImportImages extends Command
             }
             $seen[$path] = $file->getRealPath();
 
-            if ($container->asset($path)) {
+            if ($this->alreadyImported($container, $folder, $path, $relative)) {
                 $skipped++;
 
                 continue;
@@ -100,6 +108,8 @@ class ImportImages extends Command
             $flagged += $result->hasWatermark ? 1 : 0;
         }
 
+        $this->importedSourceNames = [];
+
         $message = "{$imported} geimporteerd, {$skipped} overgeslagen, {$flagged} met watermerk";
         $message .= $conflicts > 0 ? ", {$conflicts} botsingen." : '.';
         $this->info($message);
@@ -108,16 +118,44 @@ class ImportImages extends Command
     }
 
     /**
+     * Is dit bronbestand al eerder geïmporteerd?
+     *
+     * De voorspelde padvergelijking alléén volstond niet. `uploadPath()` past
+     * `getSafeFilename()` toe op de bestandsnaam die het asset zélf al draagt,
+     * en het resultaat wijkt af zodra er tekens in zitten die deze functie niet
+     * kent — een en-dash in `Pergolas – Terrasoverkappingen – Z!P & Z!P Cube`
+     * leverde drie streepjes op waar de container er twee opsloeg, waarna een
+     * tweede run de foto niet terugvond en Statamic er een timestamp-suffix
+     * achter plakte.
+     *
+     * Daarom is `source_filename` leidend: dat is de naam zoals hij in de
+     * bronmap staat, exact zoals deze import hem heeft weggeschreven. Geen
+     * voorspelling, dus ook niets dat kan afwijken. Het voorspelde pad blijft
+     * als tweede toets staan voor assets die vóór dit veld zijn geïmporteerd.
+     *
+     * @param  \Statamic\Contracts\Assets\AssetContainer  $container
+     */
+    private function alreadyImported($container, string $folder, string $path, string $relative): bool
+    {
+        if ($container->asset($path)) {
+            return true;
+        }
+
+        if ($this->importedSourceNames === []) {
+            $this->importedSourceNames = $container->assets($folder, true)
+                ->map->get('source_filename')
+                ->filter()
+                ->flip()
+                ->all();
+        }
+
+        return isset($this->importedSourceNames[$relative]);
+    }
+
+    /**
      * Bootst het pad na dat `AssetUploader::uploadPath()` er straks zelf van
-     * maakt, en gebruikt daarvoor diens eigen `getSafeFilename()` in plaats
-     * van een eigen kopie: `config('statamic.assets.lowercase')` staat aan,
-     * en die methode strijkt spaties, aanhalingstekens en accenten glad. Toetst
-     * de bestaat-al-check op het ongesaneerde pad, dan vindt een tweede run
-     * `IMG_0001.JPG` nooit terug onder het al opgeslagen `img_0001.jpg`, en
-     * plakt Statamic er een timestamp-suffix achter — in de echte bronmap is
-     * geen enkele bestandsnaam al safe, dus zou dat elke foto bij elke run
-     * opnieuw uploaden. De mapnamen zelf saneert `uploadPath()` niet, dus die
-     * blijven hier ook ongemoeid.
+     * maakt. Blijft nodig om binnen één run botsingen te betrappen en om de
+     * bestaat-al-toets te dekken voor assets zonder `source_filename`.
      */
     private function sanitizedPath(string $path): string
     {

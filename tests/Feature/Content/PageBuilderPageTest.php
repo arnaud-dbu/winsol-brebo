@@ -31,7 +31,7 @@ class PageBuilderPageTest extends TestCase
         $response->assertSee('Kom ons team versterken', false); // grid_cta item
         $response->assertSee('In beeld', false); // image_gallery overline
         $response->assertSee('Lokale verkooppunten, eigen vakmensen', false); // cta title
-        $response->assertSee('Zes soorten terrasoverkapping', false); // products title
+        $response->assertSee('Vijf soorten terrasoverkapping', false); // products title
 
         $html = $response->getContent();
 
@@ -39,11 +39,11 @@ class PageBuilderPageTest extends TestCase
         $this->assertSame(9, substr_count($html, 'range-card'));
 
         // `cards` (4) is sinds 95da753 de enige sectie die `partial:card`
-        // gebruikt: `products` (6) kreeg een eigen `productCard`. De varianten
+        // gebruikt: `products` (5) kreeg een eigen `productCard`. De varianten
         // card--horizontal/card--vertical bestaan niet meer; de kaart bepaalt
         // zijn richting nu op containerbreedte.
         $this->assertSame(4, substr_count($html, 'class="card '));
-        $this->assertSame(6, substr_count($html, 'from-transparent from-60% to-black'));
+        $this->assertSame(5, substr_count($html, 'from-transparent from-60% to-black'));
 
         // Every slider-backed section renders one `.swiper-slide` per item:
         // ranges 9 + cards 4 + projects 3 + image_gallery 6. `products` staat

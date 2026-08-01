@@ -7,11 +7,11 @@ use Tests\TestCase;
 
 class CatalogContentTest extends TestCase
 {
-    public function test_six_products_exist_with_an_image(): void
+    public function test_five_products_exist_with_an_image(): void
     {
         $products = Entry::query()->where('collection', 'products')->get();
 
-        $this->assertCount(6, $products);
+        $this->assertCount(5, $products);
 
         foreach ($products as $product) {
             $this->assertNotEmpty($product->get('image'), "Product {$product->slug()} heeft geen beeld");

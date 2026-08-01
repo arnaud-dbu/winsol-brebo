@@ -47,6 +47,16 @@ onderweg.
 
 ## Beeldpijplijn
 
+- **`App\Tags\Img::resolveAsset()` zoekt elk stringpad op met
+  `Asset::findByUrl()`.** Die sorteert álle containers op
+  `strlen($container->url())`, en de private container geeft daar bewust `null`
+  terug — zie de toelichting in `config/filesystems.php`. Gevolg: een
+  PHP-deprecation per `{{ img }}`-aanroep, dus vier tot tien per productpagina.
+  Onschadelijk voor de uitvoer en onzichtbaar in productie, maar het is ook de
+  verkeerde opzoeking: onze srcs zijn containerrelatieve paden, geen URL's.
+  `Asset::find("assets::{$pad}")` is zowel correcter als goedkoper. Raakt een
+  tag die overal gebruikt wordt, dus niet terloops wijzigen.
+
 - **`dscf4033.jpg` staat met de hand in de dummy-lijst** van
   `winsol:image-gaps`. Een volgend los dummybestand met een neutrale naam glipt
   door zowel de poort als de content-test. Verdwijnt vanzelf zodra project 2 de

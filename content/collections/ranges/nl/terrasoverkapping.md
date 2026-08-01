@@ -61,6 +61,10 @@ page_builder:
     title: 'Vijf soorten terrasoverkapping'
     products:
       - 9a3f52b1-0001-4c2d-8e6f-4a5b6c7d8e01
+      - 9a3f52b1-0002-4c2d-8e6f-4a5b6c7d8e02
+      - 9a3f52b1-0003-4c2d-8e6f-4a5b6c7d8e03
+      - 9a3f52b1-0004-4c2d-8e6f-4a5b6c7d8e04
+      - 9a3f52b1-0005-4c2d-8e6f-4a5b6c7d8e05
     enabled: true
   -
     id: tov-cta
