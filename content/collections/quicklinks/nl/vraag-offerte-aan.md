@@ -2,7 +2,7 @@
 id: e6f7a8b9-0002-4c3d-9e4f-5a6b7c8d9e01
 blueprint: quicklinks
 title: 'Vraag offerte aan'
-text: 'Met Pergola SO! voorinvuld. Vrijblijvend en op maat.'
+text: 'Vrijblijvend en op maat van jouw woning. We meten op en rekenen het door.'
 image: quicklinks/calc-1.png
 link:
   -

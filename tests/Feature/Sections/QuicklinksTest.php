@@ -43,9 +43,9 @@ class QuicklinksTest extends SectionTestCase
         $html = $this->render('{{ partial:quicklinks }}', $this->withBrochure());
 
         $this->assertStringContainsString('Vraag offerte aan', $html);
-        $this->assertStringContainsString('Vraag brochure aan', $html);
+        $this->assertStringContainsString('Bekijk de brochure', $html);
         $this->assertStringContainsString('Bezoek een showroom', $html);
-        $this->assertStringContainsString('Ontvang de volledige brochure met opties en kleuren in uw bus of mailbox.', $html);
+        $this->assertStringContainsString('De volledige brochure met alle opties, maten en kleuren. Opent als pdf.', $html);
         $this->assertStringContainsString('Plan een bezoek', $html);
     }
 
@@ -70,7 +70,7 @@ class QuicklinksTest extends SectionTestCase
         $html = $this->render('{{ partial:quicklinks }}', $this->withBrochure());
 
         $offerte = strpos($html, 'Vraag offerte aan');
-        $brochure = strpos($html, 'Vraag brochure aan');
+        $brochure = strpos($html, 'Bekijk de brochure');
         $showroom = strpos($html, 'Bezoek een showroom');
 
         $this->assertLessThan($brochure, $offerte, 'Offerte hoort eerst te staan');

@@ -36,4 +36,31 @@ class QuicklinksSectionTest extends SectionTestCase
         $this->assertStringNotContainsString('lg:grid-cols-3', $html);
         $this->assertSame(2, substr_count($html, 'quicklink-card'));
     }
+
+    /**
+     * Twee kaarten is niet hetzelfde als twee gridcellen. Zolang de `<li>` in de
+     * lus stond en alleen de kaart erbinnen zich verborg, bleef er een lege
+     * `<li>` achter: die telt mee als cel, dus in twee kolommen zakte de derde
+     * kaart naar een tweede rij met een gat ernaast. `quicklink-card` tellen zag
+     * dat niet, want dat telt precies de kaarten die er wél zijn.
+     */
+    public function test_a_hidden_brochure_card_leaves_no_empty_grid_cell(): void
+    {
+        $html = $this->render('{{ partial:quicklinks :brochure="brochure" }}', [
+            'brochure' => 'brochures/weg.pdf',
+        ]);
+
+        $this->assertSame(2, substr_count($html, '<li'));
+        $this->assertSame(2, substr_count($html, '</li>'));
+    }
+
+    public function test_all_three_cells_are_there_when_the_brochure_exists(): void
+    {
+        $html = $this->render('{{ partial:quicklinks :brochure="brochure" }}', [
+            'brochure' => ['url' => '/assets/brochures/pergola-so.pdf'],
+        ]);
+
+        $this->assertSame(3, substr_count($html, '<li'));
+        $this->assertSame(3, substr_count($html, 'quicklink-card'));
+    }
 }

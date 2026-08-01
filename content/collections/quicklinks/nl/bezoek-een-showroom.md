@@ -1,7 +1,7 @@
 ---
 id: e6f7a8b9-0002-4c3d-9e4f-5a6b7c8d9e03
 title: 'Bezoek een showroom'
-text: 'Met Pergola SO! voorinvuld. Vrijblijvend en op maat.'
+text: 'Kom kijken en voelen in Dilbeek, Sint-Pieters-Leeuw of Aartselaar.'
 image: quicklinks/winkel.png
 link:
   -

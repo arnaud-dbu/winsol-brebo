@@ -18,7 +18,7 @@
             <ul class="quicklink-grid {{ grid_columns }}">
                 {{ collection:quicklinks as="cards" }}
                     {{ cards }}
-                        <li>{{ partial:quicklinkCard :brochure="brochure" }}</li>
+                        {{ partial:quicklinkCard :brochure="brochure" }}
                     {{ /cards }}
                 {{ /collection:quicklinks }}
             </ul>

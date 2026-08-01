@@ -9,7 +9,7 @@ class PageQuicklinksTest extends SectionTestCase
         return [
             [
                 'title' => 'Vraag offerte aan',
-                'text' => 'Met Pergola SO! voorinvuld. Vrijblijvend en op maat.',
+                'text' => 'Vrijblijvend en op maat van jouw woning.',
                 'link_style' => 'primary',
                 'link' => [[
                     'type' => 'url',

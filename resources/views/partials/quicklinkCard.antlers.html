@@ -1,10 +1,15 @@
 {{#
     `brochure` komt niet uit de quicklink zelf maar uit de pagina eromheen, en wordt expliciet doorgegeven door
     `quicklinks` en `pageQuicklinks`. Een brochurekaart zonder brochure-asset rendert niets — dan is er niets te bekijken.
+
+    De `<li>` staat hier en niet op de aanroepplek, juist omdat deze kaart zichzelf kan onderdrukken. Stond de wrapper in
+    de lus van `quicklinks`/`pageQuicklinks`, dan bleef er bij een ontbrekende brochure een lege `<li>` staan — die telt
+    als gridcel, dus in twee kolommen kwam de derde kaart op een tweede rij te staan met een gat ernaast. Onzichtbaar
+    zolang elk product een pdf heeft, zichtbaar zodra er eentje ontbreekt.
 #}}
 {{ is_brochure = type == 'brochure' }}
 {{ if not is_brochure or brochure:url }}
-    <div class="quicklink-card flex h-full flex-col rounded-md bg-light card-padding">
+    <li class="quicklink-card flex h-full flex-col rounded-md bg-light card-padding">
         {{ if image }}
             <div class="quicklink-media">
                 {{ img :src="image" max_width="640" sizes="(min-width: 1024px) 30vw, 90vw" class="h-auto max-h-28 w-auto max-w-full object-contain lg:max-h-40 lg:-ml-2" }}
@@ -27,5 +32,5 @@
                 {{ partial:link :style="link_style == 'outline' ? 'btn btn--outline' : 'btn btn--primary'" }}
             {{ /if }}
         </div>
-    </div>
+    </li>
 {{ /if }}
