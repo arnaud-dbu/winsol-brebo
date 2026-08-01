@@ -1,9 +1,17 @@
+{{#
+    Het beeldblok rendert alleen mét beeld. Stond het er onvoorwaardelijk, dan hield een kaart zonder foto een lege doos van
+    `aspect-3/2` over — zichtbaar als een gat boven de tekst. `overline` wordt hier bewust niet uit de omringende scope
+    opgepikt: de card-set in `page_builder.yaml` kent dat veld niet, dus wat er anders binnen zou vallen is de overline van
+    de séctie, en die stond dan in elke kaart. `sections/cards` geeft hem daarom leeg mee.
+#}}
 <article class="@container h-full">
     <div class="card flex h-full flex-col @lg:flex-row">
-        <div class="@lg:spect-auto @lg: relative aspect-3/2 @lg:w-1/3 @lg:shrink-0">
-            {{ img :src="image" fill="true" ratio="3/2" sm:ratio="2/3" sizes="(min-width: 640px) 20vw, 90vw" }}
-        </div>
-        <div class="space-y-3 card-padding">
+        {{ if image }}
+            <div class="relative aspect-3/2 @lg:aspect-auto @lg:w-1/3 @lg:shrink-0">
+                {{ img :src="image" fill="true" ratio="3/2" sm:ratio="2/3" sizes="(min-width: 640px) 20vw, 90vw" }}
+            </div>
+        {{ /if }}
+        <div class="flex flex-col gap-4 card-padding">
             {{ if overline }}
                 <div class="overline">{{ overline }}</div>
             {{ /if }}

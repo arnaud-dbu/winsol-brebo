@@ -1,12 +1,13 @@
 <section class="section section--default" data-section="cards">
     <div class="container">
         <div class="section-y-gap">
-            {{ partial:sectionHeader is_centered="true"  }}
+            {{ partial:sectionHeader is_centered="true" }}
             {{ if cards }}
                 {{ partial:slider per_view="1.15" space="16,lg:24" from="lg" bleed="true" }}
                     {{ cards }}
                         <div class="swiper-slide">
-                            {{ partial:card }}
+                            {{# `overline` leeg: zonder dit valt de overline van deze sectie door in elke kaart. #}}
+                            {{ partial:card overline="" }}
                         </div>
                     {{ /cards }}
                 {{ /partial:slider }}

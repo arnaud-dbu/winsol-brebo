@@ -47,9 +47,7 @@ function buildResponsive(element) {
     const perView = parseTiers(element.dataset.sliderPerView, 1);
     const space = parseTiers(element.dataset.sliderSpace, 16);
 
-    const widths = [...new Set([...Object.keys(perView), ...Object.keys(space)])]
-        .map(Number)
-        .sort((a, b) => a - b);
+    const widths = [...new Set([...Object.keys(perView), ...Object.keys(space)])].map(Number).sort((a, b) => a - b);
 
     const breakpoints = {};
     let slidesPerView = perView[0];
@@ -124,13 +122,27 @@ async function createSwiper(element) {
      *
      * `watchOverflow` hieronder blijft leidend: passen alle slides samen in
      * de viewport, dan schakelt Swiper zichzelf uit en doet ook `loop`
-     * niets. Swiper waarschuwt zelf in de console als er te weinig slides
-     * zijn om te kunnen dupliceren en valt dan terug op niet-loopend gedrag.
+     * niets.
+     *
+     * `loop` heeft wél genoeg slides nodig om te dupliceren. Swiper valt
+     * daaronder niet netjes terug maar toont lege plekken in de track — bij
+     * `slidesPerView: 1.4` en vier foto's een wit kader naast de laatste
+     * slide. De drempel hieronder is Swipers eigen vuistregel: er moet aan
+     * beide kanten een volledige set slides te dupliceren zijn, dus meer dan
+     * tweemaal het aantal zichtbare slides.
      */
+    const responsive = buildResponsive(element);
+    const maxPerView = Math.max(
+        responsive.slidesPerView,
+        ...Object.values(responsive.breakpoints ?? {}).map((b) => b.slidesPerView),
+    );
+    const slideCount = element.querySelectorAll('.swiper-slide').length;
+    const canLoop = slideCount > Math.ceil(maxPerView) * 2;
+
     return new Swiper(element, {
         modules: [Navigation, Pagination],
-        ...buildResponsive(element),
-        loop: Boolean(element.dataset.sliderLoop),
+        ...responsive,
+        loop: Boolean(element.dataset.sliderLoop) && canLoop,
         centeredSlides: Boolean(element.dataset.sliderCentered),
         watchOverflow: true,
         a11y: { enabled: true },

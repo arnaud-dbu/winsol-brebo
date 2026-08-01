@@ -63,6 +63,7 @@ page_builder:
         id: so-v1
         type: card
         title: 'SO! Classic'
+        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen10.jpg
         text:
           -
             type: paragraph
@@ -75,6 +76,7 @@ page_builder:
         id: so-v2
         type: card
         title: 'SO! Climate'
+        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen13.jpg
         text:
           -
             type: paragraph
@@ -87,6 +89,7 @@ page_builder:
         id: so-v3
         type: card
         title: 'SO! Crystal'
+        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen15.jpg
         text:
           -
             type: paragraph
@@ -99,6 +102,7 @@ page_builder:
         id: so-v4
         type: card
         title: 'SO! Cocoon'
+        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen17.jpg
         text:
           -
             type: paragraph
@@ -188,6 +192,12 @@ page_builder:
       - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen24.jpg
       - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen30.jpg
       - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen7.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen1.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen11.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen12.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen14.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen16.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-oostkamp-(39).jpg
       - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-oostkamp-(42).jpg
     enabled: true
 ---
