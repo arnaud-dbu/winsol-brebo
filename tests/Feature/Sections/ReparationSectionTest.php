@@ -58,16 +58,19 @@ class ReparationSectionTest extends SectionTestCase
             'reparation' => $this->reparation(),
         ]);
 
-        // Specifiek op het watermerk zelf: `aria-hidden="true"` alléén checken
-        // is niet genoeg, want de fixture's `overline` laat sectionHeader ook
-        // een overline__rule renderen die onvoorwaardelijk `aria-hidden="true"`
-        // heeft. Koppel de assertie aan de `-z-10`-klasse die alleen op het
-        // watermerk staat, via een regex in plaats van de volledige
-        // `class="…"`-string: die laatste zou al rood slaan bij een onschuldige
-        // herordening van klassen, en dekte niet de vraag of die klasse ook
-        // daadwerkelijk iets doet (zie de volgende test).
+        // Op de wrapper en niet op de svg: in Figma is het watermerk (`361:4101`)
+        // een kind van het hele herstellingsframe, niet van de koffer. De
+        // wrapper draagt daarom zowel de aria-hidden als de plaatsing.
+        //
+        // `aria-hidden="true"` alléén checken is niet genoeg, want de fixture's
+        // `overline` laat sectionHeader ook een overline__rule renderen die
+        // onvoorwaardelijk `aria-hidden="true"` heeft. Koppel de assertie aan de
+        // `-z-10`-klasse die alleen op het watermerk staat, via een regex in
+        // plaats van de volledige `class="…"`-string: die laatste zou al rood
+        // slaan zodra Prettier de Tailwind-klassen herordent, en dekte niet de
+        // vraag of die klasse ook daadwerkelijk iets doet (zie de volgende test).
         $this->assertMatchesRegularExpression(
-            '/<svg\s+aria-hidden="true"\s+class="[^"]*-z-10[^"]*"/',
+            '/<div[^>]*\bclass="[^"]*-z-10[^"]*"[^>]*\baria-hidden="true"/',
             $html
         );
     }
@@ -109,10 +112,13 @@ class ReparationSectionTest extends SectionTestCase
         $this->assertStringContainsString('id="herstelling"', $html);
         $this->assertStringNotContainsString('lg:-ml-24', $html);
 
-        // Het watermerk hangt aan het beeld en niet aan de sectie (zelfde
-        // opzet als gridCta), dus zonder koffer is er ook niets om achter te
-        // zetten.
-        $this->assertDoesNotMatchRegularExpression('/<svg\s+aria-hidden="true"\s+class="[^"]*-z-10/', $html);
+        // Het watermerk hangt aan de sectie en niet aan het beeld: in Figma
+        // spant het over het hele herstellingsframe, achter tekst én formulier.
+        // Valt de koffer weg, dan blijft de vorm dus staan.
+        $this->assertMatchesRegularExpression(
+            '/<div[^>]*\bclass="[^"]*-z-10[^"]*"[^>]*\baria-hidden="true"/',
+            $html
+        );
     }
 
     public function test_renders_nothing_without_a_reparation_group(): void

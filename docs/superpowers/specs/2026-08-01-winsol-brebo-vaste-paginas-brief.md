@@ -194,16 +194,15 @@ met vier knoppen bestaat nog niet** en moet gebouwd worden.
   van `{{ svg }}` voor Phosphor-iconen.
 - **Tests:** `vendor/bin/phpunit -d memory_limit=1G`, nooit `php artisan test`.
 
-### Drie tests staan bewust rood
+### Twee tests staan bewust rood
 
-`CardLayoutCascadeTest`, `ReparationSectionTest` en `LocationsTest`. Elk met een
-uitspraak in
+`CardLayoutCascadeTest` en `LocationsTest`. Elk met een uitspraak in
 `docs/superpowers/specs/2026-07-31-winsol-brebo-modelwerk-followups.md`. Een
-suite met precies deze drie failures is groen; meer is regressie.
+suite met precies deze twee failures is groen; meer is regressie.
 
-Let op: **`ReparationSectionTest` raakt het herstellingsformulier**, dat op de
-servicepagina staat. Bij het bouwen van die pagina hoort die uitspraak opnieuw
-tegen het licht gehouden te worden.
+`ReparationSectionTest` stond hier ook bij en is tijdens de servicepagina
+opgelost: Figma zet het watermerk op de sectie en niet op het beeld, dus de
+tests wezen naar de verkeerde node. Zie de followups-nota.
 
 ---
 
