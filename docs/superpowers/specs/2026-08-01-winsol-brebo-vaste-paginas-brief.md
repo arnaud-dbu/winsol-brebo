@@ -194,16 +194,15 @@ met vier knoppen bestaat nog niet** en moet gebouwd worden.
   van `{{ svg }}` voor Phosphor-iconen.
 - **Tests:** `vendor/bin/phpunit -d memory_limit=1G`, nooit `php artisan test`.
 
-### Drie tests staan bewust rood
+### Twee tests staan bewust rood
 
-`CardLayoutCascadeTest`, `ReparationSectionTest` en `LocationsTest`. Elk met een
-uitspraak in
+`CardLayoutCascadeTest` en `LocationsTest`. Elk met een uitspraak in
 `docs/superpowers/specs/2026-07-31-winsol-brebo-modelwerk-followups.md`. Een
-suite met precies deze drie failures is groen; meer is regressie.
+suite met precies deze twee failures is groen; meer is regressie.
 
-Let op: **`ReparationSectionTest` raakt het herstellingsformulier**, dat op de
-servicepagina staat. Bij het bouwen van die pagina hoort die uitspraak opnieuw
-tegen het licht gehouden te worden.
+`ReparationSectionTest` stond hier ook bij en is tijdens de servicepagina
+opgelost: Figma zet het watermerk op de sectie en niet op het beeld, dus de
+tests wezen naar de verkeerde node. Zie de followups-nota.
 
 ---
 
@@ -216,6 +215,27 @@ maar verklaren rode runs die niet van dit werk komen:
 - `MegaMenuTest` pint drie `short_description`-teksten letterlijk vast.
 
 ---
+
+## 8b. Waar project 3 is geëindigd
+
+Branch `vaste-paginas`. Service, offerte, contact, home en over-ons zijn af.
+**Aanbod is overgeslagen**: de eigenaar vond die pagina goed genoeg zoals ze was.
+
+Wat op de eigenaar wacht:
+
+- **Het verhaal van over-ons.** Sinds wanneer, door wie en waarom. Het ontwerp
+  markeert die plek zelf als aan te leveren tekst. De pagina staat er zonder,
+  met alleen wat te onderbouwen viel.
+- **Een foto van het pand in Dilbeek.** Twee beeldplekken op over-ons staan op
+  de placeholder en komen mee in `winsol:image-gaps`.
+- **De heroFoto van home.** Het avondrender uit het ontwerp zit niet in de
+  container; er staat nu een villa uit Ardooie.
+- **Een WhatsApp-nummer.** `contact.mobile` staat leeg, want het ontwerp gaf een
+  verzonnen 0470-nummer. De knop verschijnt zodra er een echt nummer is.
+- **De ontvanger van de formulieren.** Offerte, contact en herstelling mailen
+  naar `hello@stuw.agency`. Hoort naar Winsol voor go-live.
+- **`socials` in de globals** staat nog op `https://test.be`. Wordt nergens
+  gerenderd.
 
 ## 9. Openstaande punten uit eerdere projecten
 

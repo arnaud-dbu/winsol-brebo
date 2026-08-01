@@ -35,7 +35,7 @@
  * moment van aanvinken en laat de hele rij verspringen.
  */
 .offerte-pill {
-    @apply inline-flex cursor-pointer items-center rounded-full bg-white px-5 py-3 font-semibold text-black;
+    @apply inline-flex cursor-pointer items-center rounded-full border border-black/15 px-5 py-3 font-semibold text-black;
 
     font-size: clamp(0.6875rem, 0.554rem + 0.335vw, 0.875rem);
     line-height: 1.1;
@@ -54,8 +54,9 @@
     @apply outline-2 outline-offset-2 outline-black;
 }
 
+/* Ook de rand mee, anders verspringt de pil bij het aanvinken. */
 .offerte-pill:has(input:checked) {
-    @apply bg-black text-white;
+    @apply border-black bg-black text-white;
 }
 
 .offerte-success {

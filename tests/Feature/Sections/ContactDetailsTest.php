@@ -19,8 +19,8 @@ class ContactDetailsTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:contactDetails }}');
 
-        $this->assertStringContainsString('Ninoofsesteenweg 000, 1700 Dilbeek', $html);
-        $this->assertStringContainsString('Antwerpsesteenweg 000, 2630 Aartselaar', $html);
+        $this->assertStringContainsString('Ninoofsesteenweg 637, 1700 Dilbeek', $html);
+        $this->assertStringContainsString('Boomsesteenweg 70, 2630 Aartselaar', $html);
     }
 
     public function test_it_renders_the_opening_hours_as_day_time_pairs(): void
@@ -28,12 +28,14 @@ class ContactDetailsTest extends SectionTestCase
         $html = $this->render('{{ partial:contactDetails }}');
 
         // Een dag-tijdpaar is een beschrijvingslijst; losse spans zouden de
-        // koppeling weggooien. Drie regels maal drie vestigingen.
-        $this->assertSame(9, substr_count($html, '<dt>'));
-        $this->assertSame(9, substr_count($html, '<dd>'));
+        // koppeling weggooien. Vier regels maal drie vestigingen.
+        $this->assertSame(12, substr_count($html, '<dt>'));
+        $this->assertSame(12, substr_count($html, '<dd>'));
         $this->assertStringContainsString('<dt>Di - Vr</dt>', $html);
         $this->assertStringContainsString('<dd>10:30 - 17:30</dd>', $html);
-        $this->assertStringContainsString('<dt>Zo &amp; Ma</dt>', $html);
+        $this->assertStringContainsString('<dt>Maandag</dt>', $html);
+        $this->assertStringContainsString('<dd>Op afspraak</dd>', $html);
+        $this->assertStringContainsString('<dt>Zondag</dt>', $html);
         $this->assertStringContainsString('<dd>Gesloten</dd>', $html);
     }
 
@@ -62,9 +64,12 @@ class ContactDetailsTest extends SectionTestCase
         $html = $this->get('/contact')->assertOk()->getContent();
 
         $this->assertStringContainsString('contact-bar', $html);
-        $this->assertStringContainsString('Whatsapp', $html);
-        $this->assertStringContainsString('03 000 00 00', $html);
-        $this->assertStringContainsString('info@winsolbrebo.be', $html);
+        $this->assertStringContainsString('+32 2 308 02 26', $html);
+        $this->assertStringContainsString('info@winsoldilbeek.be', $html);
+
+        // Geen WhatsApp: `contact.mobile` staat leeg tot Jimmy een echt nummer
+        // geeft, en de partial slaat de knop dan over. Zie ContactGlobalsTest.
+        $this->assertStringNotContainsString('Whatsapp', $html);
     }
 
     public function test_the_bar_links_are_dialable_and_the_wa_me_number_is_digits_only(): void
@@ -72,10 +77,9 @@ class ContactDetailsTest extends SectionTestCase
         $html = $this->get('/contact')->assertOk()->getContent();
 
         // De strip is de enige transformatie in de partial en dus het enige
-        // dat stil kan breken: wa.me weigert een + of een voorloopnul.
-        $this->assertStringContainsString('href="https://wa.me/32470000000"', $html);
-        $this->assertStringContainsString('href="tel:030000000"', $html);
-        $this->assertStringContainsString('href="mailto:info@winsolbrebo.be"', $html);
+        // dat stil kan breken: een tel:-link met spaties belt niet.
+        $this->assertStringContainsString('href="tel:+3223080226"', $html);
+        $this->assertStringContainsString('href="mailto:info@winsoldilbeek.be"', $html);
     }
 
     public function test_the_page_no_longer_ships_a_contact_form(): void

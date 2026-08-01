@@ -27,8 +27,8 @@ class LocationsTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:locations }}');
 
-        $this->assertStringContainsString('Ninoofsesteenweg 000, 1700 Dilbeek', $html);
-        $this->assertStringContainsString('Antwerpsesteenweg 000, 2630 Aartselaar', $html);
+        $this->assertStringContainsString('Ninoofsesteenweg 637, 1700 Dilbeek', $html);
+        $this->assertStringContainsString('Boomsesteenweg 70, 2630 Aartselaar', $html);
     }
 
     public function test_it_lists_the_locations_in_their_designed_order(): void
@@ -49,8 +49,8 @@ class LocationsTest extends SectionTestCase
 
         $this->assertSame(3, substr_count($html, 'data-location-lat='));
         $this->assertSame(3, substr_count($html, 'data-location-lng='));
-        $this->assertStringContainsString('data-location-lat="50.8631"', $html);
-        $this->assertStringContainsString('data-location-lng="4.2564"', $html);
+        $this->assertStringContainsString('data-location-lat="50.842047"', $html);
+        $this->assertStringContainsString('data-location-lng="4.237594"', $html);
     }
 
     public function test_a_location_without_coordinates_still_gets_a_card(): void

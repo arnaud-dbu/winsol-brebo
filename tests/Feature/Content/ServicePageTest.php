@@ -4,10 +4,13 @@ namespace Tests\Feature\Content;
 
 use Statamic\Facades\Blueprint;
 use Statamic\Facades\Entry;
+use Tests\Concerns\AssertsSiteVoice;
 use Tests\TestCase;
 
 class ServicePageTest extends TestCase
 {
+    use AssertsSiteVoice;
+
     public function test_the_entry_uses_the_services_overview_blueprint_and_template(): void
     {
         $entry = Entry::query()->where('collection', 'pages')->where('slug', 'service')->first();
@@ -76,6 +79,82 @@ class ServicePageTest extends TestCase
                 "De ankerlink #{$anchor} wijst naar een sectie die niet bestaat."
             );
         }
+    }
+
+    public function test_the_four_service_blocks_use_the_imported_photos(): void
+    {
+        $entry = Entry::query()->where('collection', 'pages')->where('slug', 'service')->first();
+
+        $images = collect($entry->get('services'))->pluck('image');
+
+        $this->assertCount(4, $images);
+
+        foreach ($images as $image) {
+            $this->assertStringStartsWith(
+                'service/',
+                $image,
+                "Serviceblok wijst naar {$image} in plaats van naar de servicemap."
+            );
+        }
+
+        $this->assertSame(
+            $images->unique()->count(),
+            $images->count(),
+            'Twee serviceblokken delen dezelfde foto.'
+        );
+    }
+
+    /**
+     * De overline ligt vast: hij levert zowel het label in de ankerrij als het
+     * anker zelf. De kop eronder mag dat woord daarom niet nog eens herhalen,
+     * anders leest het blok als "Onderhoud / Onderhoud en nazicht".
+     */
+    public function test_no_service_title_repeats_its_overline(): void
+    {
+        $entry = Entry::query()->where('collection', 'pages')->where('slug', 'service')->first();
+
+        foreach ($entry->get('services') as $service) {
+            $this->assertStringNotContainsStringIgnoringCase(
+                $service['overline'],
+                $service['title'],
+                "De kop \"{$service['title']}\" herhaalt zijn overline."
+            );
+        }
+    }
+
+    /**
+     * De twee taalregels uit de brief, op de pagina waar de eigenaar ze het
+     * eerst gevraagd heeft: de site tutoyeert, en gedachtestreepjes zijn eruit
+     * omdat ze bij het overnemen van tekst meeverhuizen.
+     */
+    public function test_the_copy_speaks_in_the_je_form_without_em_dashes(): void
+    {
+        $entry = Entry::query()->where('collection', 'pages')->where('slug', 'service')->first();
+
+        foreach ($this->copyBlocks($entry) as $label => $text) {
+            $this->assertSpeaksSiteVoice($text, $label);
+        }
+    }
+
+    /**
+     * Alle lopende tekst van de pagina, per blok gelabeld zodat een rode test
+     * meteen zegt wélk blok het is.
+     *
+     * @param  \Statamic\Contracts\Entries\Entry  $entry
+     * @return array<string, string>
+     */
+    private function copyBlocks($entry): array
+    {
+        $blocks = ['intro' => $entry->get('text')];
+
+        foreach ($entry->get('services') as $service) {
+            $blocks[$service['overline']] = $service['title'].' '.$this->flattenBard($service['text']);
+        }
+
+        $reparation = $entry->get('reparation');
+        $blocks['herstelling'] = $reparation['title'].' '.$reparation['text'];
+
+        return $blocks;
     }
 
     public function test_the_sections_alternate_starting_with_the_image(): void

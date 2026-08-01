@@ -1,13 +1,13 @@
 company:
-  name: null
-  street: null
-  number: null
-  postal: null
-  city: null
+  name: 'Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+  street: Ninoofsesteenweg
+  number: '637'
+  postal: '1700'
+  city: Dilbeek
 contact:
-  mobile: '+32 470 00 00 00'
-  phone: '03 000 00 00'
-  email: info@winsolbrebo.be
+  mobile: ''
+  phone: '+32 2 308 02 26'
+  email: info@winsoldilbeek.be
 socials:
   facebook: 'https://test.be'
   instagram: 'https://test.be'

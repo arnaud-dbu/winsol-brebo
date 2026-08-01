@@ -1,7 +1,11 @@
 <section class="section section--default" data-section="features">
     <div class="container">
         <div class="section-y-gap">
-            {{ partial:sectionHeader is_centered="true" }}
+            {{#
+                `text` en `link` staan niet in deze set, dus zonder expliciete lege waarde valt `sectionHeader` terug op de velden van de
+                pagina zelf. Op /home zette dat de hero-intro en de knop "Ontdek ons aanbod" boven de aanbodslider.
+            #}}
+            {{ partial:sectionHeader is_centered="true" text="" link="" }}
             {{ if features }}
                 <div class="grid grid-cols-1 grid-gutter lg:grid-cols-4">
                     {{ features }}

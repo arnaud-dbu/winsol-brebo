@@ -2,11 +2,15 @@
 
 namespace Tests\Feature\Content;
 
+use Statamic\Facades\Blueprint;
 use Statamic\Facades\Entry;
+use Tests\Concerns\AssertsSiteVoice;
 use Tests\TestCase;
 
 class OffertePageTest extends TestCase
 {
+    use AssertsSiteVoice;
+
     public function test_the_entry_exists_on_its_own_blueprint_and_template(): void
     {
         $entry = Entry::query()->where('collection', 'pages')->where('slug', 'offerte')->first();
@@ -66,23 +70,65 @@ class OffertePageTest extends TestCase
         $this->assertStringContainsString('<h1 class="header-title">', $html);
     }
 
-    public function test_the_page_builder_holds_exactly_one_cta_pointing_at_realisaties(): void
+    /**
+     * De CTA wees naar realisaties, dat on hold staat en verzonnen cases toont.
+     * "Nog niet klaar voor een offerte" leidt nu naar de showrooms: eerst eens
+     * langskomen. De CTA op /contact wijst naar het aanbod, dus de drie pagina's
+     * sturen elk ergens anders heen.
+     */
+    public function test_the_page_builder_holds_exactly_one_cta_pointing_at_the_showrooms(): void
     {
         $entry = Entry::query()->where('collection', 'pages')->where('slug', 'offerte')->first();
+        $contact = Entry::query()->where('collection', 'pages')->where('slug', 'contact')->first();
 
         $builder = $entry->get('page_builder');
 
         $this->assertCount(1, $builder);
         $this->assertSame('cta', $builder[0]['type']);
         $this->assertSame('Nog niet klaar voor een offerte?', $builder[0]['title']);
-        $this->assertSame('Naar realisaties', $builder[0]['link'][0]['label']);
+        $this->assertSame('Bezoek een showroom', $builder[0]['link'][0]['label']);
         // Het `entry`-veld in resources/fieldsets/links.yaml heeft max_items: 1
         // en slaat dus een losse id op. De lijstvorm hierboven was handmatig
         // gezaaid; a257ed5 was een CP-save die hem naar de veldvorm trok.
-        $this->assertSame(
-            'c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a03',
-            $builder[0]['link'][0]['entry'],
-        );
+        $this->assertSame($contact->id(), $builder[0]['link'][0]['entry']);
+    }
+
+    /**
+     * De gele kaart van het cta-component staat links over het beeld. Een
+     * dummyfoto viel daardoor niet op: de kaart dekt precies het deel af waar
+     * je naar kijkt.
+     */
+    public function test_the_cta_carries_a_real_photo(): void
+    {
+        $entry = Entry::query()->where('collection', 'pages')->where('slug', 'offerte')->first();
+
+        $image = $entry->get('page_builder')[0]['image'];
+
+        $this->assertStringNotContainsString('dummy-images/', $image);
+        $this->assertStringNotContainsString('placeholder/', $image);
+    }
+
+    public function test_the_copy_speaks_in_the_je_form_without_em_dashes(): void
+    {
+        $entry = Entry::query()->where('collection', 'pages')->where('slug', 'offerte')->first();
+        $cta = $entry->get('page_builder')[0];
+
+        $this->assertSpeaksSiteVoice($entry->get('text'), 'intro');
+        $this->assertSpeaksSiteVoice($cta['title'].' '.$cta['text'], 'cta');
+    }
+
+    /**
+     * Het formulier is de pagina, dus zijn labels en placeholders zijn hier
+     * evengoed lopende tekst.
+     */
+    public function test_the_form_labels_speak_in_the_je_form(): void
+    {
+        $fields = Blueprint::find('forms.offerte')->fields()->all();
+
+        foreach ($fields as $handle => $field) {
+            $this->assertSpeaksSiteVoice($field->display(), "label {$handle}");
+            $this->assertSpeaksSiteVoice($field->get('placeholder') ?? '', "placeholder {$handle}");
+        }
     }
 
     public function test_the_cta_renders_below_the_form(): void

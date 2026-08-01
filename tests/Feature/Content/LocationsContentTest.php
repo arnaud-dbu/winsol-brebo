@@ -13,26 +13,32 @@ class LocationsContentTest extends TestCase
             'winsol-dilbeek' => [
                 'name' => 'Winsol Dilbeek',
                 'street' => 'Ninoofsesteenweg',
+                'number' => '637',
                 'postal_code' => '1700',
                 'city' => 'Dilbeek',
-                'latitude' => 50.8631,
-                'longitude' => 4.2564,
+                'latitude' => 50.842047,
+                'longitude' => 4.237594,
             ],
             'winsol-sint-pieters-leeuw' => [
                 'name' => 'Winsol Sint-Pieters-Leeuw',
                 'street' => 'Bergensesteenweg',
+                'number' => '488',
                 'postal_code' => '1600',
                 'city' => 'Sint-Pieters-Leeuw',
-                'latitude' => 50.7789,
-                'longitude' => 4.2432,
+                'latitude' => 50.777979,
+                'longitude' => 4.269867,
             ],
             'winsol-aartselaar' => [
                 'name' => 'Winsol Aartselaar',
-                'street' => 'Antwerpsesteenweg',
+                // Het ontwerp en de oude seed zeiden Antwerpsesteenweg. Het
+                // echte adres staat op winsoldilbeek.be en in OpenStreetMap,
+                // dat er zelfs "Winsol" op kent.
+                'street' => 'Boomsesteenweg',
+                'number' => '70',
                 'postal_code' => '2630',
                 'city' => 'Aartselaar',
-                'latitude' => 51.1342,
-                'longitude' => 4.3831,
+                'latitude' => 51.114612,
+                'longitude' => 4.370697,
             ],
         ];
 
@@ -45,10 +51,9 @@ class LocationsContentTest extends TestCase
                 $this->assertSame($value, $entry->get($handle), "Veld {$handle} van {$slug} klopt niet");
             }
 
-            // Het huisnummer is in het design een placeholder (`000`). Het staat
-            // hier als string, niet als getal, zodat een leidende nul later niet
-            // wegvalt bij het invullen van het echte nummer.
-            $this->assertSame('000', $entry->get('number'), "Huisnummer van {$slug} klopt niet");
+            // Het huisnummer staat als string en niet als getal, zodat een
+            // leidende nul niet wegvalt.
+            $this->assertIsString($entry->get('number'), "Huisnummer van {$slug} is geen string");
         }
     }
 
@@ -87,13 +92,17 @@ class LocationsContentTest extends TestCase
 
     public function test_every_location_carries_the_designed_opening_hours(): void
     {
-        // Alle drie de vestigingen tonen in het design dezelfde uren. Het zijn
-        // aparte entries en geen gedeelde global, zodat één vestiging later
-        // afwijkende uren kan krijgen zonder codewijziging.
+        // Alle drie de vestigingen tonen dezelfde uren. Het zijn aparte entries
+        // en geen gedeelde global, zodat één vestiging later afwijkende uren kan
+        // krijgen zonder codewijziging.
+        //
+        // Het ontwerp zette maandag en zondag samen op "Gesloten". Op
+        // winsoldilbeek.be is maandag op afspraak, dus die twee zijn gesplitst.
         $expected = [
+            ['day' => 'Maandag', 'time' => 'Op afspraak'],
             ['day' => 'Di - Vr', 'time' => '10:30 - 17:30'],
             ['day' => 'Zaterdag', 'time' => '10:00 - 16:00'],
-            ['day' => 'Zo & Ma', 'time' => 'Gesloten'],
+            ['day' => 'Zondag', 'time' => 'Gesloten'],
         ];
 
         $entries = Entry::query()->where('collection', 'locations')->get();
@@ -104,7 +113,7 @@ class LocationsContentTest extends TestCase
             $hours = $entry->get('opening_hours');
 
             $this->assertIsArray($hours, "Locatie {$entry->slug()} heeft geen openingsuren");
-            $this->assertCount(3, $hours, "Locatie {$entry->slug()} hoort drie regels te tonen");
+            $this->assertCount(4, $hours, "Locatie {$entry->slug()} hoort vier regels te tonen");
 
             foreach ($expected as $i => $row) {
                 $this->assertSame($row['day'], $hours[$i]['day'], "Dag {$i} van {$entry->slug()} klopt niet");

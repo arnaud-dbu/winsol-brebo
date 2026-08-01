@@ -44,6 +44,17 @@
     @apply p-6 md:p-8 lg:p-10 xl:p-12 2xl:p-14;
 }
 
+/*
+ * De ruimste ramp, voor de twee kaarten die náást of óver een foto liggen: de
+ * lichte kaart van `text_image` en de kaart van de cta. Die dragen weinig tekst
+ * op veel breedte, en Figma houdt daar rondom ongeveer 14% van de kaartbreedte
+ * aan (318:3296: 112px op 812px). Rondom gelijk, want een eigen `px` eroverheen
+ * gaf 40px boven en onder tegen 96px links en rechts.
+ */
+@utility card-padding-xl {
+    @apply p-6 md:p-8 lg:p-12 xl:p-16 2xl:p-24;
+}
+
 @utility slider-bleed {
     margin-inline: calc(50% - 50vw);
     padding-inline: calc(50vw - 50%);

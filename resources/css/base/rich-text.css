@@ -1,3 +1,12 @@
 .rich-text {
     @apply text-base;
 }
+
+/*
+ * Bard levert elke alinea als een eigen <p>, en zonder deze regel plakken twee
+ * alinea's aan elkaar tot één blok. Zichtbaar op /over-ons en op de
+ * airco-rangepagina, de twee plekken met meer dan één alinea.
+ */
+.rich-text p + p {
+    @apply mt-4;
+}

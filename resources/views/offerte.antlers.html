@@ -10,8 +10,9 @@
 
             {{ partial:offerteForm }}
             {{ if image }}
+                {{# Geen schaal of negatieve marges: de sectie eromheen snijdt met `overflow-hidden` af wat erbuiten valt, en dat kostte de onderkant van de rolmeter. #}}
                 <div class="offerte-still hidden lg:block">
-                    {{ img :src="image" max_width="1024" sizes="(min-width: 1024px) 30vw, 90vw" class="h-auto w-full scale-120 object-contain -ml-[1.5%] -mb-[5%]" }}
+                    {{ img :src="image" max_width="1024" sizes="(min-width: 1024px) 30vw, 90vw" class="h-auto w-full object-contain" }}
                 </div>
             {{ /if }}
         </div>

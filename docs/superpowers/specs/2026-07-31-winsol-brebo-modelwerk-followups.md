@@ -7,9 +7,9 @@ Wat tijdens de uitvoering is opgemerkt maar bewust is blijven liggen. De
 eindreview heeft dit getrieerd: alles wat vóór samenvoegen moest, is opgelost en
 staat hier niet meer in. Wat hieronder staat, mag wachten.
 
-## Drie tests staan bewust rood
+## Twee tests staan bewust rood
 
-De suite draait op 358 tests met twee failures. Dat is geen verwaarlozing maar
+De suite draait op 365 tests met twee failures. Dat is geen verwaarlozing maar
 een afweging: bij allebei zou elke herschrijving iets vaststellen wat de auteur
 nooit bedoeld heeft.
 
@@ -18,15 +18,21 @@ nooit bedoeld heeft.
   `layout`-argument en `products.antlers.html` rendert `productCard`. De test
   beschrijft een lekroute die er structureel niet is; hem laten slagen betekent
   een nieuwe test schrijven.
-- **`ReparationSectionTest::test_renders_the_decorative_watermark_out_of_the_accessibility_tree`** —
-  het bronmateriaal spreekt zichzelf tegen. Commit `a257ed5` herschreef de
-  assertie naar de svg-vorm én voegde in `test_renders_without_an_image` een
-  assertie toe die zegt dat het watermerk aan het beeld hangt, terwijl de wrapper
-  in `reparation.antlers.html:7` ongewijzigd bleef. Oplossen vergt gokken naar
-  positioneringswaarden die nergens in de repo staan.
 
-Beide verdienen een eigen beslissing van de eigenaar, niet een reparatie
-onderweg.
+Die verdient een eigen beslissing van de eigenaar, niet een reparatie onderweg.
+
+### Opgelost tijdens project 3
+
+- **`ReparationSectionTest::test_renders_the_decorative_watermark_out_of_the_accessibility_tree`** —
+  stond hier als "bronmateriaal spreekt zichzelf tegen", omdat commit `a257ed5`
+  de assertie naar de svg-vorm herschreef terwijl de wrapper in
+  `reparation.antlers.html:7` ongewijzigd bleef. Figma geeft de doorslag: het
+  watermerk (`361:4101`) is een kind van het hele herstellingsframe en niet van
+  de koffer (`361:4112`). Dus niet de markup maar de tests klopten niet. Beide
+  asserties wijzen nu naar de wrapper, en de tegenassertie in
+  `test_renders_without_an_image` is omgekeerd: zonder koffer blíjft het
+  watermerk staan. Die stond groen om de verkeerde reden, want hij mikte op een
+  svg-vorm die nergens bestond.
 
 - **`LocationsTest::test_it_credits_the_tile_providers_outside_the_hidden_map`** —
   de eigenaar heeft de tegelattributie op 2026-08-01 bewust uit
