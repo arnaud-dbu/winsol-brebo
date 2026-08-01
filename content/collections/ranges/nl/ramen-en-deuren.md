@@ -12,10 +12,10 @@ meta_description: 'Ramen en deuren van Winsol in aluminium of pvc, op maat gemaa
 seo_noindex: false
 page_builder:
   -
-    id: rd-materiaal
+    id: rd-ramen
     type: text_image
-    overline: 'Aluminium of pvc'
-    title: 'De keuze zit in het profiel'
+    overline: Ramen
+    title: 'Smallere profielen laten meer daglicht binnen'
     text:
       -
         type: paragraph
@@ -24,7 +24,33 @@ page_builder:
         content:
           -
             type: text
-            text: 'Aluminium geeft de smalste profielen, dus meer glas en meer daglicht. Het is sterk genoeg voor grote schuifpartijen en gaat decennia mee. Pvc is voordeliger, isoleert uitstekend en vraagt nauwelijks onderhoud.'
+            text: 'Aluminium is sterk, dus het profiel kan smaller. Bij dezelfde raamopening houd je daardoor meer glas over en valt er merkbaar meer daglicht binnen. Datzelfde draagvermogen maakt grote schuifpartijen mogelijk. Pvc is voordeliger, isoleert uitstekend en vraagt nauwelijks onderhoud.'
+    media: image
+    image: ramen-en-deuren/realisatie-realisation-allura-81_ardooie-(29).jpg
+    features:
+      -
+        id: rd-r1
+        type: feature
+        label: 'Aluminium of pvc'
+        enabled: true
+      -
+        id: rd-r2
+        type: feature
+        label: 'Geschikt voor grote schuifpartijen'
+        enabled: true
+      -
+        id: rd-r3
+        type: feature
+        label: 'Op maat gemaakt in België'
+        enabled: true
+    background: false
+    enabled: true
+  -
+    id: rd-deuren
+    type: text_image
+    overline: Deuren
+    title: 'De voordeur bepaalt de eerste indruk'
+    text:
       -
         type: paragraph
         attrs:
@@ -32,26 +58,26 @@ page_builder:
         content:
           -
             type: text
-            text: 'Welk van de twee bij jouw woning past, hangt af van de afmetingen, de bouwstijl en je budget. Daar komen we voor langs.'
+            text: 'Een voordeur moet er goed uitzien, maar vooral goed sluiten. Onze deuren zijn leverbaar met inbraakwerend beslag en een cilinder tot klasse RC3, en isoleren even goed als de ramen ernaast. In aluminium kan het paneel vlak in de gevel liggen, in pvc kies je uit een ruim aanbod modellen en kleuren.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation-allura-81_ardooie-(29).jpg
+    image: ramen-en-deuren/realisatie-realisation_allura-81_gent-(4).jpg
     features:
       -
-        id: rd-f1
+        id: rd-d1
         type: feature
-        label: 'Op maat gemaakt in België'
+        label: 'Inbraakwerend tot klasse RC3'
         enabled: true
       -
-        id: rd-f2
+        id: rd-d2
         type: feature
-        label: 'Advies over aluminium of pvc'
+        label: 'Vlak in de gevel of klassiek model'
         enabled: true
       -
-        id: rd-f3
+        id: rd-d3
         type: feature
-        label: 'Eigen plaatsingsteam'
+        label: 'Elke RAL-kleur'
         enabled: true
-    background: false
+    background: true
     enabled: true
   -
     id: rd-producten
@@ -60,6 +86,14 @@ page_builder:
     title: 'Het volledige aanbod'
     products:
       - 9b4f52b1-0001-4c2d-8e6f-4a5b6c7d9e01
+      - 9b4f52b1-0002-4c2d-8e6f-4a5b6c7d9e02
+      - 9b4f52b1-0003-4c2d-8e6f-4a5b6c7d9e03
+      - 9b4f52b1-0004-4c2d-8e6f-4a5b6c7d9e04
+      - 9b4f52b1-0005-4c2d-8e6f-4a5b6c7d9e05
+      - 9b4f52b1-0006-4c2d-8e6f-4a5b6c7d9e06
+      - 9b4f52b1-0007-4c2d-8e6f-4a5b6c7d9e07
+      - 9b4f52b1-0008-4c2d-8e6f-4a5b6c7d9e08
+      - 9b4f52b1-0009-4c2d-8e6f-4a5b6c7d9e09
     enabled: true
   -
     id: rd-cta
