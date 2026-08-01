@@ -7,7 +7,7 @@ Wat tijdens de uitvoering is opgemerkt maar bewust is blijven liggen. De
 eindreview heeft dit getrieerd: alles wat vóór samenvoegen moest, is opgelost en
 staat hier niet meer in. Wat hieronder staat, mag wachten.
 
-## Twee tests staan bewust rood
+## Drie tests staan bewust rood
 
 De suite draait op 358 tests met twee failures. Dat is geen verwaarlozing maar
 een afweging: bij allebei zou elke herschrijving iets vaststellen wat de auteur
@@ -27,6 +27,15 @@ nooit bedoeld heeft.
 
 Beide verdienen een eigen beslissing van de eigenaar, niet een reparatie
 onderweg.
+
+- **`LocationsTest::test_it_credits_the_tile_providers_outside_the_hidden_map`** —
+  de eigenaar heeft de tegelattributie op 2026-08-01 bewust uit
+  `locations.antlers.html` gehaald (commit `b08ede5`) en wil de component zo
+  houden. De test legt echter een licentie-eis vast: OpenStreetMap (ODbL) en
+  CARTO vragen bronvermelding, en `locations-map.js` zet Leaflets eigen
+  `attributionControl` op `false`, dus er staat nu nergens een vermelding. De
+  test is daarom niet geschrapt maar geparkeerd: schrappen zou die eis stil
+  laten verdwijnen. Landt de attributie ergens anders, dan verhuist de test mee.
 
 ## Raakt het contentwerk van project 2
 
