@@ -31,7 +31,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Hij beschermt tegen zon en regen, zodat je bijna het hele jaar door buiten kunt zitten — met dezelfde opbouwkwaliteit als de grotere modellen.'
+            text: 'Hij beschermt tegen zon en regen, zodat je bijna het hele jaar door buiten kunt zitten, met dezelfde opbouwkwaliteit als de grotere modellen.'
     media: image
     image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_pergola-orig!n_render_antracietgrijs.jpg
     features:

@@ -2,7 +2,7 @@
 id: 8c2e41a0-0001-4a1b-9c7d-3e5f6a7b8c01
 blueprint: ranges
 title: Terrasoverkapping
-short_description: 'Van draaibare lamellen tot een uitschuifbaar doek — een overkapping die je terras het hele jaar bruikbaar maakt.'
+short_description: 'Van draaibare lamellen tot een uitschuifbaar doek. Een overkapping die je terras het hele jaar bruikbaar maakt.'
 long_description: 'Wil je wegdromen in de schaduw tijdens een brandende zon, uit de wind zitten, of droog blijven wanneer je op je terras van een drankje geniet? Met de juiste terrasoverkapping wordt je buitenruimte een plek waar je het hele jaar door zit. Wij meten op, adviseren over het daktype dat bij je woning past, en plaatsen met ons eigen team.'
 order: 7
 image: ranges/terrasoverkapping.png

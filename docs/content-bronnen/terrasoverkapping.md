@@ -110,6 +110,12 @@ zonwerings- en outdoor-livingbrochure.
 
 ---
 
+## 4b. Schrijfregels
+
+- **Geen gedachtestreepjes.** Niet `doek — een overkapping`, wel twee zinnen of
+  een komma. Vaste voorkeur van de eigenaar, gegeven bij de review van batch 1.
+  Geldt voor alles wat op de site komt, niet voor commentaar in code.
+
 ## 5. Sectieopbouw volgens winsol.eu
 
 Elke productpagina daar volgt hetzelfde stramien. Overnemen als *structuur*,

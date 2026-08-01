@@ -23,7 +23,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'De Z!P CUBE heeft een volledig horizontale bovenstructuur en rechte lijnen. Is er geen zon, dan zit het doek netjes opgerold in een gesloten kast aan de gevel — net als bij een zonneluifel.'
+            text: 'De Z!P CUBE heeft een volledig horizontale bovenstructuur en rechte lijnen. Is er geen zon, dan zit het doek netjes opgerold in een gesloten kast aan de gevel, net als bij een zonneluifel.'
       -
         type: paragraph
         attrs:
