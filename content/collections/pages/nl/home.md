@@ -7,7 +7,7 @@ home_projects:
 seo_noindex: false
 updated_by: d308c19c-c205-4453-9862-1f62996a3734
 updated_at: 1773327237
-text: 'Ramen, zonwering, rolluiken, pergola''s en meer — op maat gemaakt en geplaatst door je lokale Winsol-team in Dilbeek, Sint-Pieters-Leeuw en Aartselaar.'
+text: 'Ramen, zonwering, rolluiken, pergola''s en meer. Op maat gemaakt en geplaatst door je lokale Winsol-team in Dilbeek, Sint-Pieters-Leeuw en Aartselaar.'
 link:
   -
     type: entry
@@ -15,7 +15,7 @@ link:
       - c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a02
     label: 'Ontdek ons aanbod'
     new_tab: false
-image: dummy-images/test-img-1.jpg
+image: 'ramen-en-deuren/realisatie-realisation-allura-81_ardooie-(39).jpg'
 value_proposition:
   title: 'Waarom Winsol Brebo'
   items:
@@ -25,7 +25,7 @@ value_proposition:
       enabled: true
       icon: flag
       title: 'Belgisch merk'
-      text: 'Producten van Winsol — 145 jaar Belgisch vakmanschap.'
+      text: 'Producten van Winsol, 145 jaar Belgisch vakmanschap.'
     -
       id: vp-maatwerk
       type: value_proposition
@@ -40,5 +40,77 @@ value_proposition:
       icon: headset
       title: 'Lokaal en bereikbaar'
       text: 'Drie showrooms in de buurt, ook lang na de plaatsing.'
+page_builder:
+  -
+    id: homeaanbod
+    type: ranges
+    overline: Aanbod
+    title: 'Waar mogen we mee helpen?'
+    range:
+      - 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
+      - 8c2e41a0-0004-4a1b-9c7d-3e5f6a7b8c04
+      - 8c2e41a0-0001-4a1b-9c7d-3e5f6a7b8c01
+      - 8c2e41a0-0003-4a1b-9c7d-3e5f6a7b8c03
+      - 8c2e41a0-0005-4a1b-9c7d-3e5f6a7b8c05
+      - 8c2e41a0-0006-4a1b-9c7d-3e5f6a7b8c06
+      - 8c2e41a0-0007-4a1b-9c7d-3e5f6a7b8c07
+      - 8c2e41a0-0009-4a1b-9c7d-3e5f6a7b8c09
+      - 8c2e41a0-0008-4a1b-9c7d-3e5f6a7b8c08
+    enabled: true
+  -
+    id: homekijker
+    type: text_image
+    overline: 'In de kijker'
+    title: 'Pergola SO!'
+    text:
+      -
+        type: paragraph
+        attrs:
+          textAlign: left
+        content:
+          -
+            type: text
+            text: 'De pergola met draaibare lamellen die je terras het hele jaar door bruikbaar maakt. Zon, schaduw of beschutting tegen de regen, met een tik op je smartphone.'
+    link:
+      -
+        id: homekijkerlink
+        type: entry
+        entry: 9a3f52b1-0001-4c2d-8e6f-4a5b6c7d8e01
+        label: 'Ontdek Pergola SO!'
+        new_tab: false
+    features:
+      -
+        id: homefeat01
+        type: feature
+        label: 'Automatische lamellen'
+        enabled: true
+      -
+        id: homefeat02
+        type: feature
+        label: 'Bediening via app'
+        enabled: true
+      -
+        id: homefeat03
+        type: feature
+        label: 'Belgisch maatwerk'
+        enabled: true
+    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen6.jpg
+    background: false
+    enabled: true
+  -
+    id: homeoverons
+    type: cta
+    overline: 'Over ons'
+    title: 'Lokale verkooppunten, eigen vakmensen'
+    text: 'Geen anonieme keten, maar drie lokale Winsol-verkooppunten met een vast eigen team. We denken met je mee van het eerste advies tot lang na de plaatsing.'
+    link:
+      -
+        id: homeoveronslink
+        type: entry
+        entry: 559b2b7e-a511-409c-9eec-51d314cec648
+        label: 'Lees ons verhaal'
+        new_tab: false
+    image: service/winsol-2.jpg
+    enabled: true
 template: home
 ---

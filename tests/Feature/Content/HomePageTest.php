@@ -1,0 +1,110 @@
+<?php
+
+namespace Tests\Feature\Content;
+
+use Statamic\Facades\Entry;
+use Tests\Concerns\AssertsSiteVoice;
+use Tests\TestCase;
+
+class HomePageTest extends TestCase
+{
+    use AssertsSiteVoice;
+
+    private function home()
+    {
+        return Entry::query()->where('collection', 'pages')->where('slug', 'home')->first();
+    }
+
+    /**
+     * De page builder stond leeg, waardoor drie blokken uit het ontwerp
+     * ontbraken: de aanbodslider, Pergola SO! en de CTA naar over ons.
+     */
+    public function test_the_page_builder_carries_the_three_blocks_from_the_design(): void
+    {
+        $types = collect($this->home()->get('page_builder'))->pluck('type')->all();
+
+        $this->assertSame(['ranges', 'text_image', 'cta'], $types);
+    }
+
+    public function test_the_blocks_render_in_the_designed_order(): void
+    {
+        $html = $this->get('/')->assertOk()->getContent();
+
+        $ranges = strpos($html, 'data-section="ranges"');
+        $textImage = strpos($html, 'data-section="text_image"');
+        $cta = strpos($html, 'data-section="cta"');
+
+        $this->assertNotFalse($ranges, 'De aanbodslider ontbreekt.');
+        $this->assertLessThan($textImage, $ranges, 'De aanbodslider hoort boven Pergola SO! te staan');
+        $this->assertLessThan($cta, $textImage, 'Pergola SO! hoort boven de CTA te staan');
+    }
+
+    /**
+     * De `ranges`-set heeft geen `text` en geen `link`, dus `sectionHeader` viel
+     * terug op de velden van de pagina zelf: de hero-intro en de knop "Ontdek
+     * ons aanbod" verschenen een tweede keer boven de slider. Dezelfde
+     * lekroute geldt voor products, features, cards, image_gallery en projects.
+     */
+    public function test_the_ranges_header_does_not_inherit_the_hero_intro_and_button(): void
+    {
+        $html = $this->get('/')->getContent();
+
+        $intro = $this->home()->get('text');
+
+        $this->assertSame(
+            1,
+            substr_count($html, $intro),
+            'De hero-intro staat een tweede keer op de pagina.'
+        );
+
+        $this->assertSame(
+            1,
+            substr_count($html, 'Ontdek ons aanbod'),
+            'De heroknop staat een tweede keer op de pagina.'
+        );
+    }
+
+    public function test_the_hero_and_the_blocks_carry_real_photos(): void
+    {
+        $home = $this->home();
+
+        $images = collect($home->get('page_builder'))
+            ->pluck('image')
+            ->filter()
+            ->push($home->get('image'));
+
+        foreach ($images as $image) {
+            $this->assertStringNotContainsString('dummy-images/', $image);
+            $this->assertStringNotContainsString('placeholder/', $image);
+        }
+    }
+
+    public function test_the_copy_speaks_in_the_je_form_without_em_dashes(): void
+    {
+        $home = $this->home();
+
+        $this->assertSpeaksSiteVoice($home->get('title').' '.$home->get('text'), 'hero');
+
+        foreach ($home->get('value_proposition')['items'] as $item) {
+            $this->assertSpeaksSiteVoice($item['title'].' '.$item['text'], "waarom {$item['id']}");
+        }
+
+        foreach ($home->get('page_builder') as $block) {
+            $text = is_array($block['text'] ?? null)
+                ? $this->flattenBard($block['text'])
+                : ($block['text'] ?? '');
+
+            $this->assertSpeaksSiteVoice(($block['title'] ?? '').' '.$text, "blok {$block['id']}");
+        }
+    }
+
+    /**
+     * Figma schrijft "Lees ons overhaal" op de knop van de over-ons-CTA.
+     */
+    public function test_the_over_ons_cta_button_is_spelled_correctly(): void
+    {
+        $cta = collect($this->home()->get('page_builder'))->firstWhere('type', 'cta');
+
+        $this->assertSame('Lees ons verhaal', $cta['link'][0]['label']);
+    }
+}
