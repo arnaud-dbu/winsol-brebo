@@ -216,6 +216,27 @@ maar verklaren rode runs die niet van dit werk komen:
 
 ---
 
+## 8b. Waar project 3 is geëindigd
+
+Branch `vaste-paginas`. Service, offerte, contact, home en over-ons zijn af.
+**Aanbod is overgeslagen**: de eigenaar vond die pagina goed genoeg zoals ze was.
+
+Wat op de eigenaar wacht:
+
+- **Het verhaal van over-ons.** Sinds wanneer, door wie en waarom. Het ontwerp
+  markeert die plek zelf als aan te leveren tekst. De pagina staat er zonder,
+  met alleen wat te onderbouwen viel.
+- **Een foto van het pand in Dilbeek.** Twee beeldplekken op over-ons staan op
+  de placeholder en komen mee in `winsol:image-gaps`.
+- **De heroFoto van home.** Het avondrender uit het ontwerp zit niet in de
+  container; er staat nu een villa uit Ardooie.
+- **Een WhatsApp-nummer.** `contact.mobile` staat leeg, want het ontwerp gaf een
+  verzonnen 0470-nummer. De knop verschijnt zodra er een echt nummer is.
+- **De ontvanger van de formulieren.** Offerte, contact en herstelling mailen
+  naar `hello@stuw.agency`. Hoort naar Winsol voor go-live.
+- **`socials` in de globals** staat nog op `https://test.be`. Wordt nergens
+  gerenderd.
+
 ## 9. Openstaande punten uit eerdere projecten
 
 - De CTA "Vraag brochure aan" is nergens meer zichtbaar, gevolg van
