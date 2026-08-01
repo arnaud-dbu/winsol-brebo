@@ -45,6 +45,24 @@ class TextImageSectionTest extends SectionTestCase
         );
     }
 
+    /**
+     * De lichte kaart had `card-padding` met een eigen `px` eroverheen: 40px
+     * boven en onder tegen 96px links en rechts. Figma houdt alle vier de
+     * kanten gelijk (318:3296), en met gelijke padding staat het tekstblok
+     * vanzelf midden in de kaart.
+     */
+    public function test_the_background_card_pads_all_four_sides_equally(): void
+    {
+        $html = $this->render('{{ partial src="sections/textImage" }}', [
+            'title' => 'Drie lokale verkooppunten, één aanpak',
+            'background' => true,
+        ]);
+
+        $this->assertStringNotContainsString('lg:px-16', $html);
+        $this->assertStringNotContainsString('2xl:px-24', $html);
+        $this->assertMatchesRegularExpression('/class="[^"]*\bp-6\b[^"]*2xl:p-24\b/', $html);
+    }
+
     public function test_adds_background_modifier_when_toggled(): void
     {
         $html = $this->render('{{ partial src="sections/textImage" }}', [
@@ -77,14 +95,6 @@ class TextImageSectionTest extends SectionTestCase
         // volgorde: prettier-plugin-tailwindcss sorteert klassen.
         $this->assertMatchesRegularExpression(
             '/class="(?=[^"]*\bbg-light\b)(?=[^"]*\brounded-sm\b)(?=[^"]*\bjustify-center\b)[^"]*"/',
-            $html
-        );
-
-        // Ruimere zijkanten dan `card-padding` geeft (Figma: ~96px op een kaart
-        // van ~714px). Die twee komen later in de gebouwde CSS dan de
-        // `card-padding`-regels, dus ze winnen bij gelijke specificiteit.
-        $this->assertMatchesRegularExpression(
-            '/class="(?=[^"]*\bcard-padding\b)(?=[^"]*\blg:px-16\b)(?=[^"]*\b2xl:px-24\b)[^"]*"/',
             $html
         );
     }
@@ -188,7 +198,7 @@ class TextImageSectionTest extends SectionTestCase
             'background' => true,
         ]);
 
-        $this->assertStringContainsString('bg-light card-padding', $html);
+        $this->assertStringContainsString('bg-light', $html);
         $this->assertStringContainsString('lg:order-none', $html);
     }
 
