@@ -130,6 +130,11 @@ async function createSwiper(element) {
      * slide. De drempel hieronder is Swipers eigen vuistregel: er moet aan
      * beide kanten een volledige set slides te dupliceren zijn, dus meer dan
      * tweemaal het aantal zichtbare slides.
+     *
+     * En omdat het een páár is, valt `centered` mee weg zodra `loop` afvalt.
+     * Alleen de drempel toepassen liet de eerste slide gecentreerd achter in
+     * een track die niet kan doorschuiven, met een gat ter breedte van een
+     * halve slide ernaast — het probleem verplaatst in plaats van opgelost.
      */
     const responsive = buildResponsive(element);
     const maxPerView = Math.max(
@@ -138,12 +143,13 @@ async function createSwiper(element) {
     );
     const slideCount = element.querySelectorAll('.swiper-slide').length;
     const canLoop = slideCount > Math.ceil(maxPerView) * 2;
+    const looping = Boolean(element.dataset.sliderLoop) && canLoop;
 
     return new Swiper(element, {
         modules: [Navigation, Pagination],
         ...responsive,
-        loop: Boolean(element.dataset.sliderLoop) && canLoop,
-        centeredSlides: Boolean(element.dataset.sliderCentered),
+        loop: looping,
+        centeredSlides: Boolean(element.dataset.sliderCentered) && looping,
         watchOverflow: true,
         a11y: { enabled: true },
         pagination: element.dataset.sliderPagination

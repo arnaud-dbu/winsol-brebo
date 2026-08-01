@@ -128,5 +128,6 @@ page_builder:
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_pergola-orig!n_render_antracietgrijs_solfix.jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_pergola-orig!n_render_kwartsgrijs.jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_pergola-orig!n_render_antracietgrijs.jpg
+      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_pergola-orig!n_render_kwartsgrijs_solfix.jpg
     enabled: true
 ---

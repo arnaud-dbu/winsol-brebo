@@ -123,6 +123,7 @@ page_builder:
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_gent-(1182).jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_-verviers-heusy-(1826).jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_gent-(1181).jpg
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6371).jpg
+      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_-verviers-heusy-(1875).jpg
+      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_gent-(1162).jpg
     enabled: true
 ---

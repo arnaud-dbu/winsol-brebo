@@ -123,5 +123,7 @@ page_builder:
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2193).jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2177).jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2203).jpg
+      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2199).jpg
+      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2126).jpg
     enabled: true
 ---
