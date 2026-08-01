@@ -70,23 +70,27 @@ class OffertePageTest extends TestCase
         $this->assertStringContainsString('<h1 class="header-title">', $html);
     }
 
-    public function test_the_page_builder_holds_exactly_one_cta_pointing_at_realisaties(): void
+    /**
+     * De CTA wees naar realisaties, dat on hold staat en verzonnen cases toont.
+     * "Nog niet klaar voor een offerte" leidt nu naar de showrooms: eerst eens
+     * langskomen. De CTA op /contact wijst naar het aanbod, dus de drie pagina's
+     * sturen elk ergens anders heen.
+     */
+    public function test_the_page_builder_holds_exactly_one_cta_pointing_at_the_showrooms(): void
     {
         $entry = Entry::query()->where('collection', 'pages')->where('slug', 'offerte')->first();
+        $contact = Entry::query()->where('collection', 'pages')->where('slug', 'contact')->first();
 
         $builder = $entry->get('page_builder');
 
         $this->assertCount(1, $builder);
         $this->assertSame('cta', $builder[0]['type']);
         $this->assertSame('Nog niet klaar voor een offerte?', $builder[0]['title']);
-        $this->assertSame('Naar realisaties', $builder[0]['link'][0]['label']);
+        $this->assertSame('Bezoek een showroom', $builder[0]['link'][0]['label']);
         // Het `entry`-veld in resources/fieldsets/links.yaml heeft max_items: 1
         // en slaat dus een losse id op. De lijstvorm hierboven was handmatig
         // gezaaid; a257ed5 was een CP-save die hem naar de veldvorm trok.
-        $this->assertSame(
-            'c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a03',
-            $builder[0]['link'][0]['entry'],
-        );
+        $this->assertSame($contact->id(), $builder[0]['link'][0]['entry']);
     }
 
     /**
