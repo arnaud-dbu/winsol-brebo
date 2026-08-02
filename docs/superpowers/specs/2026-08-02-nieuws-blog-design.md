@@ -65,8 +65,8 @@ content/taxonomies/themes.yaml                              nieuw
 content/taxonomies/themes/*.yaml                            nieuw, vier termen
 resources/blueprints/taxonomies/themes/themes.yaml          nieuw
 content/collections/articles.yaml                           route, mount, sort_dir, taxonomies
-resources/blueprints/collections/articles/article.yaml      veld `theme` erbij
-resources/fieldsets/redactor.yaml                           image-knop + video-set
+resources/blueprints/collections/articles/article.yaml      veld `theme` erbij, import article_redactor
+resources/fieldsets/article_redactor.yaml                    nieuw, image-knop + video-set
 content/collections/articles/nl/*.md                        verse voorbeeldartikels
 content/collections/pages/nl/nieuws.md                      vervangt realisaties.md
 resources/blueprints/collections/pages/articles_overview.yaml  vervangt projects_overview.yaml
@@ -371,11 +371,20 @@ wegvalt — precies de fout die de boilerplate maakte.
 
 ### Redactor-fieldset
 
-`resources/fieldsets/redactor.yaml` krijgt twee toevoegingen: `image` bij de
-buttons, en één set.
+**Een eigen fieldset, niet de gedeelde.** `resources/fieldsets/redactor.yaml`
+wordt door twee blueprints geïmporteerd: `articles/article.yaml` én
+`legal/legal.yaml`. Sets toevoegen aan de gedeelde fieldset zou een videoknop
+in een cookiebeleid zetten. Renderen doet `legal/show.antlers.html` de redactor
+niet — dat template gebruikt alleen `headers/default` en `pageBuilder` — dus er
+breekt niets, maar het veld hoort daar niet.
+
+Daarom een nieuwe `resources/fieldsets/article_redactor.yaml`, die de artikel-
+blueprint importeert in plaats van `redactor`. De handle blijft `redactor`,
+zodat het template `{{ redactor }}` blijft aanroepen. `redactor.yaml` blijft
+ongewijzigd voor legal.
 
 ```yaml
-title: Redactor
+title: 'Article Redactor'
 fields:
   -
     handle: redactor
@@ -403,9 +412,6 @@ terecht en krijgt zijn opmaak dus uit `.article-body`. Video is een blok tússen
 de tekst en wordt gerenderd met de bestaande `partials/video`, die YouTube en
 Vimeo via `is_embeddable` / `embed_url` afhandelt en anders op een HTML5
 `<video>` terugvalt.
-
-Deze fieldset wordt alleen door de artikel-blueprint geïmporteerd, dus de
-wijziging raakt verder niets.
 
 ### `.article-body`
 
