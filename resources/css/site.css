@@ -13,6 +13,8 @@
     --color-black: #121b22;
     --color-dark: #292d2d;
     --color-whatsapp: #25d366;
+    --color-accent-hover: #e9c714; /* accent, ~6% donkerder */
+    --color-black-hover: #23303a; /* zwart, iets lichter */
 
     --spacing-gutter: 2rem; /* 32 */
     --spacing-margin: 2.5rem; /* 40 */
