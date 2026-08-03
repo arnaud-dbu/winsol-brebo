@@ -48,7 +48,7 @@ tabs:
               validate:
                 - required
           -
-            handle: theme
+            handle: themes
             field:
               type: terms
               taxonomies:

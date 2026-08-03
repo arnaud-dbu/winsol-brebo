@@ -15,9 +15,10 @@
             </a>
         </li>
 
-        {{# De thema's waaraan minstens één artikel hangt, ontdubbeld en alfabetisch
-            op titel, zodat een klik nooit een lege grid oplevert. #}}
-        {{ article_themes }}
+        {{# min_count="1" doet wat App\Tags\ProjectRanges vroeger deed: alleen de
+            thema's waaraan minstens één artikel hangt, alfabetisch op titel, zodat
+            een klik nooit een lege grid oplevert. #}}
+        {{ taxonomy:themes collection="articles" min_count="1" sort="title" }}
             <li class="shrink-0">
                 <a
                     href="?theme={{ slug }}"
@@ -30,6 +31,6 @@
                     {{ title | entities }}
                 </a>
             </li>
-        {{ /article_themes }}
+        {{ /taxonomy:themes }}
     </ul>
 </nav>

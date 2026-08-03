@@ -8,7 +8,7 @@ class ArticleCardTest extends SectionTestCase
 {
     public function test_the_overline_of_a_real_article_is_the_theme_and_not_the_title(): void
     {
-        // Array-fixtures dekken deze bug niet af: `theme` heeft `max_items: 1`
+        // Array-fixtures dekken deze bug niet af: `themes` heeft `max_items: 1`
         // en augmenteert naar één term. Een pair scoopt daar niet in en laat
         // `{{ title }}` terugvallen op de artikeltitel. Alleen een echte entry
         // legt dat vast.
@@ -30,7 +30,7 @@ class ArticleCardTest extends SectionTestCase
         $html = $this->render('{{ partial src="articleCard" }}', [
             'title' => 'Zip-screens kiezen voor een nieuwbouw',
             'url' => '/nieuws/zip-screens-kiezen-voor-een-nieuwbouw',
-            'theme' => ['title' => 'Zonwering', 'slug' => 'zonwering'],
+            'themes' => ['title' => 'Zonwering', 'slug' => 'zonwering'],
         ]);
 
         $this->assertStringContainsString('class="article-card', $html);

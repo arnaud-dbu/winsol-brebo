@@ -15,18 +15,18 @@ class ArticlesContentTest extends TestCase
 
         foreach ($articles as $article) {
             $this->assertNotEmpty($article->get('image'), "Artikel {$article->slug()} heeft geen beeld");
-            $this->assertNotEmpty($article->get('theme'), "Artikel {$article->slug()} heeft geen thema");
+            $this->assertNotEmpty($article->get('themes'), "Artikel {$article->slug()} heeft geen thema");
             $this->assertNotEmpty($article->get('redactor'), "Artikel {$article->slug()} heeft een lege redactor");
         }
     }
 
     public function test_every_theme_resolves_to_a_term_of_the_themes_taxonomy(): void
     {
-        // `theme` heeft `max_items: 1` en augmenteert dus naar één term, niet
+        // `themes` heeft `max_items: 1` en augmenteert dus naar één term, niet
         // naar een collectie. Deze test legt dat vast, want de header en de
-        // kaart lezen `theme.title` met dot-notatie.
+        // kaart lezen `themes.title` met dot-notatie.
         foreach (Entry::query()->where('collection', 'articles')->get() as $article) {
-            $term = $article->augmentedValue('theme')->value();
+            $term = $article->augmentedValue('themes')->value();
 
             $this->assertNotNull($term, "Het thema van {$article->slug()} augmenteert niet naar een term");
             $this->assertSame('themes', $term->taxonomy()->handle());
@@ -39,7 +39,7 @@ class ArticlesContentTest extends TestCase
         // Het filter moet zichtbaar iets doen. Met alles onder één thema is
         // een klik niet van "Toon alles" te onderscheiden.
         $slugs = Entry::query()->where('collection', 'articles')->get()
-            ->map(fn ($article) => $article->augmentedValue('theme')->value()->slug())
+            ->map(fn ($article) => $article->augmentedValue('themes')->value()->slug())
             ->unique();
 
         $this->assertGreaterThanOrEqual(3, $slugs->count());
