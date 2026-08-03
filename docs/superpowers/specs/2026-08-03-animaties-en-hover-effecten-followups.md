@@ -40,19 +40,7 @@ Let op: `prettier --write` op dat bestand slaat ook het `{{# … #}}`-blok
 bovenaan plat tot één alinea. Dat blok is bewust gestructureerd. Wie deze
 follow-up oppakt, moet dat commentaar apart terugzetten.
 
-## 2. De pijl van de productkaart beweegt niet mee
-
-`partials/productCard.antlers.html` heeft een permanent gele cirkel met een
-`-rotate-45`-pijl. Sinds dit werk kantelen de pijlen van de nieuwskaart en
-de locatiekaart wél van −45° naar 0°, dus de productkaart is de enige die
-stilstaat.
-
-Alleen die rotatie erbij zetten lost het niet op: daar is de cirkel altijd
-geel in plaats van geel-op-hover, dus je krijgt een vierde dialect in plaats
-van één taal. Dit vraagt een eigen ontwerpbeslissing over wat die kaart op
-hover hoort te doen.
-
-## 3. `MegaMenuTest` pint twee opmaakkeuzes vast
+## 2. `MegaMenuTest` pint twee opmaakkeuzes vast
 
 `test_the_panel_animates_with_a_transform_and_not_with_a_height_collapse`
 assert naast `x-collapse` en `x-transition:enter-start` ook op `origin-top`
@@ -63,7 +51,7 @@ is het "uit de link schuiven" weg. `scale-98` is een afstelwaarde. Wie de
 animatie ooit bijstelt naar `scale-95` maakt daarmee een test rood zonder
 dat er gedrag verandert. Overweeg die ene assertie te laten vallen.
 
-## 4. Drie bekend-rode tests
+## 3. Drie bekend-rode tests
 
 Deze faalden al vóór dit werk en zijn niet aangeraakt:
 
@@ -71,7 +59,7 @@ Deze faalden al vóór dit werk en zijn niet aangeraakt:
 - `CardLayoutCascadeTest::test_a_horizontal_cards_section_does_not_leak_into_a_later_products_section`
 - `LocationsTest::test_it_credits_the_tile_providers_outside_the_hidden_map`
 
-## 5. Nog visueel te beoordelen: de parallax
+## 4. Nog visueel te beoordelen: de parallax
 
 De parallax is mechanisch nagerekend en de code klopt, maar of hij op het
 scherm het juiste doet is niet bevestigd. De metingen tijdens de uitvoering

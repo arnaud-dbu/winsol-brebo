@@ -19,5 +19,5 @@
 }
 
 @utility btn--outline {
-    @apply border border-black/20 text-black hover:border-black hover:bg-black hover:text-white;
+    @apply border border-black/20 text-black hover:border-black hover:bg-light-shape;
 }
