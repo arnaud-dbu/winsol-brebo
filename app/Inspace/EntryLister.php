@@ -16,7 +16,7 @@ class EntryLister
      */
     public function list(array $filters): array
     {
-        $perPage = min((int) ($filters['per_page'] ?? 50), self::MAX_PER_PAGE);
+        $perPage = max(min((int) ($filters['per_page'] ?? 50), self::MAX_PER_PAGE), 1);
         $page = max((int) ($filters['page'] ?? 1), 1);
 
         $entries = collect($this->handles($filters['collection'] ?? null))

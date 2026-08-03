@@ -86,4 +86,38 @@ class PageIndexTest extends TestCase
             ->assertStatus(422)
             ->assertJsonStructure(['errors' => ['site']]);
     }
+
+    /**
+     * `array_slice($offset, -5)` betekent "stop 5 vóór het einde", geen
+     * paginering — een negatieve of nul `per_page` moet dus naar 1 geklemd
+     * worden, niet alleen in `meta.per_page`, maar ook in het werkelijke
+     * aantal rijen dat terugkomt. Vier extra artikelen bovenop de zes uit
+     * `content/collections/articles` maken het verschil aantoonbaar: zonder
+     * de onderkap zou `per_page=-5` vijf rijen teruggeven (10 - 5) in plaats
+     * van 1.
+     */
+    public function test_negative_and_zero_per_page_are_clamped_to_one(): void
+    {
+        foreach (range(1, 4) as $i) {
+            $this->temporaryEntry('articles', "onderkap-test-artikel-{$i}", [
+                'title' => "Onderkap test artikel {$i}",
+                'themes' => ['zonwering'],
+                'date' => '2026-08-04',
+            ]);
+        }
+
+        $negative = $this->withToken(self::TOKEN)
+            ->getJson('/api/inspace/v1/pages?collection=articles&per_page=-5')
+            ->assertOk();
+
+        $this->assertSame(1, $negative->json('meta.per_page'));
+        $this->assertCount(1, $negative->json('data'));
+
+        $zero = $this->withToken(self::TOKEN)
+            ->getJson('/api/inspace/v1/pages?collection=articles&per_page=0')
+            ->assertOk();
+
+        $this->assertSame(1, $zero->json('meta.per_page'));
+        $this->assertCount(1, $zero->json('data'));
+    }
 }
