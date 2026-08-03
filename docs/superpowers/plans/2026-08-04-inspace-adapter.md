@@ -941,7 +941,7 @@ Expected: PASS, 4 tests.
 
 - [ ] **Step 6: Add the `site` parameter**
 
-De spec neemt `site` nu al op zodat er later geen tweede contractversie naar Inspace moet. Winsol-brebo heeft geen `resources/sites.yaml` en draait dus single-site: de parameter wordt geaccepteerd en gevalideerd, niet genegeerd. Stil slikken zou Nova laten geloven dat het naar een FR-site schrijft die niet bestaat.
+De spec neemt `site` nu al op zodat er later geen tweede contractversie naar Inspace moet. Winsol-brebo draait single-site: `resources/sites.yaml` bevat één site met handle **`nl`** (geverifieerd via `Site::default()->handle()`; `Site::multiEnabled()` is `false`). De parameter wordt geaccepteerd en gevalideerd, niet genegeerd — stil slikken zou Nova laten geloven dat het naar een FR-site schrijft die niet bestaat.
 
 Voeg toe aan `app/Inspace/SiteGuard.php`:
 
@@ -995,7 +995,7 @@ Test in `tests/Feature/Inspace/PageIndexTest.php`:
 public function test_the_default_site_is_accepted_and_an_unknown_one_is_rejected(): void
 {
     $this->withToken(self::TOKEN)
-        ->getJson('/api/inspace/v1/pages?site=default&per_page=1')
+        ->getJson('/api/inspace/v1/pages?site=nl&per_page=1')
         ->assertOk();
 
     $this->withToken(self::TOKEN)
@@ -1005,7 +1005,7 @@ public function test_the_default_site_is_accepted_and_an_unknown_one_is_rejected
 }
 ```
 
-Klopt `default` niet als handle, lees de echte waarde uit `Site::default()->handle()` en pas de test daarop aan — die handle staat in `resources/sites.yaml`, dat hier ontbreekt, dus Statamic valt op zijn eigen standaard terug.
+De handle is `nl`, niet `default` — geverifieerd tegen `resources/sites.yaml` en `Site::default()->handle()`.
 
 - [ ] **Step 7: Run the test**
 

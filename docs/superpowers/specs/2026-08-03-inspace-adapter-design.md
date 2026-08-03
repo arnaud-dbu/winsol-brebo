@@ -125,11 +125,15 @@ plek gerepareerd, want er ís maar één plek.
 
 `{id}` is de Statamic entry-UUID, niet de slug. Die overleeft een hernoeming.
 
-Elk endpoint accepteert een optionele `site`-parameter. Winsol-brebo heeft geen
-`resources/sites.yaml` en draait dus single-site, maar de parameter nu opnemen
-kost een default en voorkomt dat we Inspace later een tweede contractversie
-moeten sturen zodra er een FR-site komt. Ontbreekt hij, dan geldt de default
-site.
+Elk endpoint accepteert een optionele `site`-parameter. Winsol-brebo draait
+single-site: `resources/sites.yaml` bevat één site met handle **`nl`**, en
+`Site::multiEnabled()` is `false` sinds commit `cdb5d84` de multisite-opzet
+terugdraaide. De handle is dus `nl` en niet `default` — dat is het soort detail
+waar een testliteral op stukloopt.
+
+De parameter nu al opnemen kost een default en voorkomt dat we Inspace later een
+tweede contractversie moeten sturen zodra er een FR-site komt. Ontbreekt hij, dan
+geldt `nl`.
 
 ### GET /schema
 
