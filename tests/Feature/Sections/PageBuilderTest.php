@@ -8,7 +8,7 @@ class PageBuilderTest extends SectionTestCase
     {
         $types = [
             'cta', 'cards', 'image_gallery', 'technical_details', 'ranges',
-            'text', 'text_image', 'products', 'projects', 'features', 'grid_cta',
+            'text', 'text_image', 'products', 'articles', 'features', 'grid_cta',
         ];
 
         $html = $this->render('{{ partial:pageBuilder }}', [

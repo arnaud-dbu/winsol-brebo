@@ -1,4 +1,4 @@
-<section class="section section--default" data-section="projects">
+<section class="section section--default" data-section="articles">
     <div class="container">
         <div class="section-y-gap">
             {{#
@@ -6,13 +6,13 @@
                 pagina zelf. Op /home zette dat de hero-intro en de knop "Ontdek ons aanbod" boven de aanbodslider.
             #}}
             {{ partial:sectionHeader link_col="true" text="" }}
-            {{ if projects }}
-                {{ partial:slider per_view="1.15,md:2.15" space="24,md:32,lg:40" from="xl" bleed="true"  }}
-                    {{ projects }}
+            {{ if articles }}
+                {{ partial:slider per_view="1.15,md:2.15" space="24,md:32,lg:40" from="xl" bleed="true" }}
+                    {{ articles }}
                         <div class="swiper-slide">
-                            {{ partial:projectCard }}
+                            {{ partial:articleCard }}
                         </div>
-                    {{ /projects }}
+                    {{ /articles }}
                 {{ /partial:slider }}
             {{ /if }}
         </div>

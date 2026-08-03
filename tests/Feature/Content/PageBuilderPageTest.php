@@ -13,7 +13,7 @@ class PageBuilderPageTest extends TestCase
         $response->assertOk();
 
         foreach ([
-            'text', 'text_image', 'ranges', 'cards', 'projects', 'technical_details',
+            'text', 'text_image', 'ranges', 'cards', 'articles', 'technical_details',
             'features', 'grid_cta', 'image_gallery', 'cta', 'products',
         ] as $type) {
             $response->assertSee('data-section="'.$type.'"', false);
@@ -24,7 +24,7 @@ class PageBuilderPageTest extends TestCase
         $response->assertSee('Waar mogen we mee helpen?', false); // ranges title
         $response->assertSee('Alle mogelijkheden op een rij', false); // cards title
         $response->assertSee('aangebouwde Pergola SO!', false); // text body
-        $response->assertSee('Recent gerealiseerd', false); // projects title
+        $response->assertSee('Recent geschreven', false); // articles title
         $response->assertSee('Technische specificaties', false); // technical_details title
         $response->assertSee('Waar we voor staan', false); // features title
         $response->assertSee('Wij werken met Winsol', false); // grid_cta item
@@ -46,7 +46,7 @@ class PageBuilderPageTest extends TestCase
         $this->assertSame(5, substr_count($html, 'from-transparent from-60% to-black'));
 
         // Every slider-backed section renders one `.swiper-slide` per item:
-        // ranges 9 + cards 4 + projects 3 + image_gallery 6. `products` staat
+        // ranges 9 + cards 4 + articles 3 + image_gallery 6. `products` staat
         // sinds 95da753 in een grid en levert er geen enkele meer.
         $this->assertSame(22, substr_count($html, 'swiper-slide'));
     }
