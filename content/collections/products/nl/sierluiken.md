@@ -5,7 +5,7 @@ range:
   - 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
 text: 'Decoratieve luiken die je gevel karakter geven, in aluminium dat niet rot en niet geschilderd hoeft te worden.'
 image: placeholder/beeld-ontbreekt.jpg
-meta_title: 'Sierluiken op maat | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Sierluiken op maat'
 meta_description: 'Sierluiken van Winsol in aluminium: decoratief, onderhoudsarm en op maat van je gevel. Geplaatst door je lokale Winsol-team.'
 seo_noindex: false
 page_builder:

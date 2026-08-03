@@ -7,7 +7,7 @@ order: 5
 image: ranges/rolluiken.png
 range_categories:
   - rondom-je-woning
-meta_title: 'Rolluiken op maat | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Rolluiken op maat'
 meta_description: 'Voorzet-, inbouw- en opbouwrolluiken van Winsol, met klassieke of Fusion-lamellen en optioneel op zonne-energie. Advies en plaatsing door je lokale Winsol-team.'
 seo_noindex: false
 page_builder:

@@ -3,6 +3,8 @@ id: 559b2b7e-a511-409c-9eec-51d314cec648
 blueprint: page
 title: 'Over ons'
 text: 'Samen je huis klaarmaken voor de toekomst: energiebewust, comfortabel en met vakmanschap uit je eigen buurt.'
+meta_title: 'Over ons'
+meta_description: 'Drie lokale Winsol-verkooppunten met een gedeelde werkwijze en een eigen plaatsingsteam. Eerlijk advies, maatwerk en nazorg van mensen uit je eigen buurt.'
 seo_noindex: false
 template: over-ons
 page_builder:

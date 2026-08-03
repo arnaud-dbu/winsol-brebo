@@ -1,11 +1,11 @@
 ---
 id: 9d6f52b1-0001-4c2d-8e6f-4a5b6c7db001
-title: 'Sectionale poorten'
-range:
-  - 8c2e41a0-0005-4a1b-9c7d-3e5f6a7b8c05
+blueprint: products
+title: 'Sectionale garagepoorten'
+range: 8c2e41a0-0005-4a1b-9c7d-3e5f6a7b8c05
 text: 'Verticaal openschuivend, dus je verliest geen ruimte in de garage en je kan tot tegen de poort parkeren.'
-image: 'garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-1.jpg'
-meta_title: 'Sectionale garagepoorten | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+image: garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-9.jpg
+meta_title: 'Sectionale garagepoorten'
 meta_description: 'Sectionale garagepoorten van Winsol in de reeksen Isol-Comfort, Comfort en Comfort-Go. Dubbelwandige panelen, RC2-certificaat en volledig op maat.'
 seo_noindex: false
 page_builder:
@@ -32,7 +32,7 @@ page_builder:
             type: text
             text: 'Bedienen doe je elektrisch, met een afstandsbediening vanuit de auto. Dat is meteen ook de reden dat dit type vandaag zo goed als de standaard is geworden.'
     media: image
-    image: 'garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-2.jpg'
+    image: garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-2.jpg
     features:
       -
         id: sp-r1
@@ -74,7 +74,7 @@ page_builder:
             type: text
             text: 'Comfort is de brede reeks: alle maten, alle afwerkingen, ook met landelijke pastorijafwerking, zodat de poort aansluit bij je ramen en deuren. Comfort-Go is daar het compacte broertje van, gemaakt om een oude kantelpoort te vervangen, met een snellere installatie en maximale afmetingen van 3250 bij 2235 mm.'
     media: image
-    image: 'garagepoorten/2019_Tielt/garagepoorten-portes-de-garage_productnaam_tielt-(10).jpg'
+    image: garagepoorten/2019_Tielt/garagepoorten-portes-de-garage_productnaam_tielt-(10).jpg
     features:
       -
         id: sp-x1
@@ -92,7 +92,7 @@ page_builder:
         label: 'Comfort-Go vervangt een kantelpoort'
         enabled: true
     background: true
-    enabled: true
+    enabled: false
   -
     id: sp-specs
     type: technical_details
@@ -111,7 +111,7 @@ page_builder:
       -
         id: sp-s3
         key: Inbraakwerendheid
-        value: 'RC2-veiligheidscertificaat'
+        value: RC2-veiligheidscertificaat
       -
         id: sp-s4
         key: Bediening
@@ -131,10 +131,26 @@ page_builder:
     overline: Realisaties
     title: 'Sectionale poorten in de praktijk'
     images:
-      - 'garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-1.jpg'
-      - 'garagepoorten/2019_Tielt/garagepoorten-portes-de-garage_productnaam_tielt-(10).jpg'
-      - 'garagepoorten/2019_Kanegem/realisatie-realisation-garagepoorten-portes-de-garage-kanegem-(10).jpg'
-      - 'garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-2.jpg'
-      - 'garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(17).jpg'
+      - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-1.jpg
+      - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-2.jpg
+      - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-3.jpg
+      - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-4.jpg
+      - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-5.jpg
+      - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-6.jpg
+      - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-7.jpg
+      - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-8.jpg
+      - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-9.jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(17).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(18).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(19).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(20).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(21).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(22).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(23).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(24).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(25).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(26).jpg
     enabled: true
+updated_by: d308c19c-c205-4453-9862-1f62996a3734
+updated_at: 1785752307
 ---

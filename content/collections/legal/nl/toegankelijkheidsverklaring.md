@@ -2,6 +2,8 @@
 id: 58d6348d-f950-471b-b4e9-9b018b914d57
 blueprint: legal
 title: Toegankelijkheidsverklaring
+meta_title: 'Toegankelijkheidsverklaring'
+meta_description: 'In welke mate deze website voldoet aan de toegankelijkheidsnormen, waar het nog beter kan en hoe je een probleem meldt.'
 redactor:
   -
     type: paragraph

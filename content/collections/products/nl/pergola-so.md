@@ -6,7 +6,7 @@ range:
 text: 'Leef buiten met het comfort van binnen. Draaibare lamellen die je met de zon meedraait, verlichting en geluid ingebouwd, en alles bedienbaar vanaf je telefoon.'
 image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen6.jpg
 brochure: brochures/winsol-brochure_so-classic-climate_2025_nl.pdf
-meta_title: 'Pergola SO! terrasoverkapping | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Pergola SO! terrasoverkapping'
 meta_description: 'De Pergola SO! van Winsol: een lamellendak dat je met de zon meedraait, met verlichting, geluid en app-bediening. Op maat gemaakt en geplaatst in Dilbeek, Sint-Pieters-Leeuw en Aartselaar.'
 seo_noindex: false
 page_builder:

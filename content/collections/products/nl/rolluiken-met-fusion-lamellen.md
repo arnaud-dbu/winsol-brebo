@@ -6,7 +6,7 @@ range:
 text: 'Lamellen met microperforaties die tot vier keer meer daglicht doorlaten, en die je nog altijd volledig kan sluiten.'
 image: placeholder/beeld-ontbreekt.jpg
 brochure: brochures/winsol-brochure-rolluiken-nl.pdf
-meta_title: 'Rolluiken met Fusion-lamellen | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Rolluiken met Fusion-lamellen'
 meta_description: 'Fusion-lamellen combineren rolluik en screen: tot vier keer meer daglicht, zicht naar buiten, ventileren zonder insecten, en toch volledige verduistering.'
 seo_noindex: false
 page_builder:

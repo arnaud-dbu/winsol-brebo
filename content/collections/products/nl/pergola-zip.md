@@ -6,7 +6,7 @@ range:
 text: 'Een terrasoverkapping met oproldoek en een hellend dak dat de regen via de palen afvoert. Uitrollen voor schaduw, oprollen voor licht.'
 image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_gent-(1182).jpg
 brochure: brochures/winsol-brochure-pergola-zip-nl.pdf
-meta_title: 'Pergola Z!P terrasoverkapping | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Pergola Z!P terrasoverkapping'
 meta_description: 'De Pergola Z!P van Winsol: oproldoek, hellend dak en regenafvoer in de palen. Op maat gemaakt en geplaatst in Dilbeek, Sint-Pieters-Leeuw en Aartselaar.'
 seo_noindex: false
 page_builder:

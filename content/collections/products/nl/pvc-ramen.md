@@ -6,7 +6,7 @@ range:
 text: 'Uitstekend isolerende ramen die nauwelijks onderhoud vragen, in een ruim aanbod kleuren en houtlook-afwerkingen.'
 image: ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(20).jpg
 brochure: brochures/winsol_brochure_ramen-en-deuren-in-pvc_nl.pdf
-meta_title: 'PVC ramen op maat | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'PVC ramen op maat'
 meta_description: 'PVC ramen van Winsol, reeks C+70: een isolatiewaarde tot 1,1 W/m²K, inbraakwerendheid tot RC2 en nauwelijks onderhoud. Op maat geplaatst.'
 seo_noindex: false
 page_builder:

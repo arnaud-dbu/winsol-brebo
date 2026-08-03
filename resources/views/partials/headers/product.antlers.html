@@ -11,7 +11,8 @@
        Zie hero.antlers.html voor waarom dat verloop er staat.
 
     Afgeleid (geen mobiel frame): de vaste hoogte van 752px wordt een ratio
-    per breakpoint, het tekstblok volgt `container` in plaats van 790px vast.
+    per breakpoint met een plafond (`product-frame` in header.css), het
+    tekstblok volgt `container` in plaats van 790px vast.
 
     Schermbreed en zonder afronding: de foto loopt tot tegen alle vier de
     randen, en de nav zweeft eroverheen (`over_hero` in layout.antlers.html).
@@ -28,7 +29,7 @@
 <section class="relative isolate overflow-hidden" data-header="product">
     {{ if image }}
         <div data-header-media>
-            {{ img :src="image" ratio="4/5" sm:ratio="16/9" lg:ratio="7/3" max_width="2560" sizes="100vw" priority="true" class="w-full" }}
+            {{ img :src="image" ratio="4/5" sm:ratio="16/9" lg:ratio="7/3" max_width="2560" sizes="100vw" priority="true" class="product-frame w-full" }}
         </div>
 
         <div class="absolute inset-0 bg-radial from-black to-black/50 opacity-70" aria-hidden="true"></div>

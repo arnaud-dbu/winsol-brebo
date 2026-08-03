@@ -7,5 +7,7 @@ intro: 'Bekijk hier een selectie van ons beste werk en ontdek hoe we digitale pr
 updated_by: d308c19c-c205-4453-9862-1f62996a3734
 updated_at: 1773323937
 template: cases/index
+meta_title: 'Realisaties'
+meta_description: 'Bekijk gerealiseerde projecten van Winsol Brebo: ramen en deuren, rolluiken, zonwering, terrasoverkappingen en garagepoorten bij klanten uit de buurt.'
 seo_noindex: false
 ---

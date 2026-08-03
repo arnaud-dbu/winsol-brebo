@@ -6,7 +6,7 @@ range:
 text: 'Voordeuren en achterdeuren in pvc: goed geïsoleerd, inbraakwerend en in een ruim aanbod modellen en kleuren.'
 image: ramen-en-deuren/realisatie-realisation-pvc-ramen-en-deuren-c-70-portes-et-fenetes-c-70-rolluiken-volets_boutersem46.jpg
 brochure: brochures/winsol_brochure_ramen-en-deuren-in-pvc_nl.pdf
-meta_title: 'PVC deuren op maat | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'PVC deuren op maat'
 meta_description: 'PVC deuren van Winsol: goed geïsoleerd, inbraakwerend beslag tot klasse RC2 en een ruim aanbod modellen. Op maat gemaakt en lokaal geplaatst.'
 seo_noindex: false
 page_builder:

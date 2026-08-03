@@ -4,6 +4,8 @@ blueprint: services_overview
 title: Service
 text: 'Van eerste advies tot lang na de plaatsing kun je op ons rekenen, voor de hele levensduur van je installatie.'
 template: service
+meta_title: 'Service en onderhoud'
+meta_description: 'Advies, opmeting, plaatsing door ons eigen team, periodiek nazicht en garantie. Een vast aanspreekpunt in je buurt, ook jaren na de plaatsing.'
 seo_noindex: false
 services:
   -

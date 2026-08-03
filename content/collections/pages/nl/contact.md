@@ -3,6 +3,8 @@ id: f0ee3161-1534-4986-9ef1-a92fccfba619
 blueprint: contact
 title: Contact
 text: 'Een korte vraag? Bel of mail ons gerust, dan krijg je meteen iemand die je situatie kent. Of spring binnen in een van de drie showrooms.'
+meta_title: 'Contact en showrooms'
+meta_description: 'Bel, mail of spring binnen in een van onze drie showrooms in Dilbeek, Sint-Pieters-Leeuw en Aartselaar. Adressen, openingsuren en het herstelformulier.'
 seo_noindex: false
 updated_by: d308c19c-c205-4453-9862-1f62996a3734
 updated_at: 1773349039

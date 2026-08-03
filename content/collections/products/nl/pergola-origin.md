@@ -6,7 +6,7 @@ range:
 text: 'De meest ingetogen pergola in het gamma. Strak design, bescherming tegen zon en regen, uit te breiden met verwarming en zijafsluiting.'
 image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_pergola-orig!n_render_antracietgrijs.jpg
 brochure: brochures/pergola-origin_2025_nl.pdf
-meta_title: 'Pergola ORIG!N terrasoverkapping | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Pergola ORIG!N terrasoverkapping'
 meta_description: 'De Pergola ORIG!N van Winsol: strak design, tot 5,98 m lang, met ledverlichting en optionele infraroodverwarming. Op maat geplaatst.'
 seo_noindex: false
 page_builder:

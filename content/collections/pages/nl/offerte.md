@@ -4,6 +4,8 @@ blueprint: offerte
 title: 'Vraag een offerte aan'
 text: 'Vrijblijvend en zonder verplichting. Vul kort in wat je zoekt, dan rekent een lokale expert het voor je door en neemt contact op.'
 image: quicklinks/offerte-2.png
+meta_title: 'Vraag een offerte aan'
+meta_description: 'Vertel kort wat je zoekt, dan komt een lokale expert opmeten en rekent alles voor je door. Vrijblijvend en zonder verplichting.'
 seo_noindex: false
 page_builder:
   -

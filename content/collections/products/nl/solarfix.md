@@ -6,7 +6,7 @@ range:
 text: 'Screens op zonne-energie, geplaatst op bestaande ramen zonder kabels en zonder kapwerk.'
 image: 'screens/solarfix/LR/winsol_2020_kortemark_solarfix_screens-(6).jpg'
 brochure: brochures/winsol_brochure_verticale-zonwering_nl.pdf
-meta_title: 'SolarFix screens op zonne-energie | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'SolarFix screens op zonne-energie'
 meta_description: 'SolarFix zonnescreens met twee ingebouwde zonnepanelen en een 4 Ah-batterij. Voor ramen tot 15 m², geplaatst zonder kap- en breekwerk.'
 seo_noindex: false
 page_builder:

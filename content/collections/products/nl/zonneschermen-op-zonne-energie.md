@@ -6,7 +6,7 @@ range:
 text: 'LinaSolar en LumiSolar werken volledig autonoom op ingebouwde zonnepanelen, dus zonder één kabel.'
 image: 'zonwering/LR 2/lumisolar_lr_01.jpg'
 brochure: brochures/winsol_luifel_lina-lumisolar_nl.pdf
-meta_title: 'Zonneschermen op zonne-energie | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Zonneschermen op zonne-energie'
 meta_description: 'LinaSolar en LumiSolar: zonneschermen die volledig op zonne-energie werken, tot 6 op 4 meter, met optionele ledverlichting. Bekroond met iF Design en Red Dot Award 2025.'
 seo_noindex: false
 page_builder:

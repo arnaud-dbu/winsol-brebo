@@ -8,7 +8,7 @@ order: 7
 image: ranges/terrasoverkapping.png
 range_categories:
   - rondom-je-woning
-meta_title: 'Terrasoverkapping op maat | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Terrasoverkapping op maat'
 meta_description: "Terrasoverkappingen en pergola's van Winsol: draaibare lamellen, een uitschuifbaar doek of een glazen dak. Advies, maatwerk en plaatsing door je lokale Winsol-team."
 seo_noindex: false
 page_builder:

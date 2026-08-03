@@ -6,6 +6,7 @@ preferences:
   collections:
     pages:
       view: tree
+      after_save: continue_editing
     articles:
       view: list
     legal:

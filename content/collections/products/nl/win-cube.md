@@ -5,7 +5,7 @@ range:
   - 8c2e41a0-0001-4a1b-9c7d-3e5f6a7b8c01
 text: 'Een overkapping met oproldoek waarvan je de hellingshoek zelf bepaalt, met een extra screen vooraan tegen de laagstaande zon.'
 image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2126).jpg
-meta_title: 'Win Cube terrasoverkapping | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Win Cube terrasoverkapping'
 meta_description: 'De Win Cube van Winsol: oproldoek met instelbare hellingshoek, geïntegreerde windvaste screens en led in de regengoot. Op maat geplaatst.'
 seo_noindex: false
 page_builder:

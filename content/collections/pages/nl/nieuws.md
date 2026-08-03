@@ -4,6 +4,8 @@ blueprint: articles_overview
 title: Nieuws
 text: 'Wat we leren op de werf, vertaald naar keuzes die je thuis kunt maken.'
 template: articles/index
+meta_title: 'Nieuws en advies'
+meta_description: 'Wat we leren op de werf, vertaald naar keuzes die je thuis kunt maken. Advies over ramen, rolluiken, zonwering, terrasoverkapping en energiezuinig wonen.'
 seo_noindex: false
 page_builder:
   -

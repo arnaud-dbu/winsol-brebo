@@ -2,6 +2,8 @@
 id: fc198386-7d57-46f9-8870-fd6ba2a9e9dd
 blueprint: legal
 title: 'Privacy Policy'
+meta_title: 'Privacybeleid'
+meta_description: 'Hoe Winsol Brebo je persoonsgegevens verwerkt, waarvoor we ze gebruiken, hoe lang we ze bewaren en welke rechten je daarbij hebt.'
 redactor:
   -
     type: paragraph

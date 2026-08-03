@@ -6,7 +6,7 @@ range:
 text: 'Een doek bovenop het glazen dak, dat de veranda koel houdt in plaats van de warmte achteraf te bestrijden.'
 image: placeholder/beeld-ontbreekt.jpg
 brochure: brochures/winsol_brochure_verticale-zonwering_nl.pdf
-meta_title: 'Verandazonwering op maat | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Verandazonwering op maat'
 meta_description: 'Verandasol zonwering bovenop het glazen dak van je veranda of erker. Tot 9 m breed en 5 m uitval, met een veersysteem dat het doek strak houdt.'
 seo_noindex: false
 page_builder:

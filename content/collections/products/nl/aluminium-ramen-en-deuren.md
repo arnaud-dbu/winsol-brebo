@@ -6,7 +6,7 @@ range:
 text: 'Ultrasmalle profielen, dus meer glas en meer daglicht. Sterk genoeg voor grote schuifpartijen, en op maat gemaakt in België.'
 image: ramen-en-deuren/realisatie-realisation-allura-81_ardooie-(23).jpg
 brochure: brochures/winsol_brochure_ramen-en-deuren-in-alu_nl.pdf
-meta_title: 'Aluminium ramen en deuren op maat | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Aluminium ramen en deuren op maat'
 meta_description: 'Aluminium ramen en deuren van Winsol: ultrasmalle profielen, inbraakwerendheid tot klasse RC2 en maatwerk uit België. Geplaatst door je lokale Winsol-team.'
 seo_noindex: false
 page_builder:

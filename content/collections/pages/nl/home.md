@@ -2,18 +2,19 @@
 id: e1521336-1bf2-4789-9b9f-7b2e93365671
 blueprint: home
 title: 'Winsol maakt je woning compleet'
+meta_title: "Ramen, zonwering en pergola's op maat"
+meta_description: "Winsol Brebo plaatst ramen, deuren, rolluiken, zonwering, pergola's en garagepoorten op maat. Drie showrooms: Dilbeek, Sint-Pieters-Leeuw en Aartselaar."
 seo_noindex: false
 updated_by: d308c19c-c205-4453-9862-1f62996a3734
-updated_at: 1773327237
-text: 'Ramen, zonwering, rolluiken, pergola''s en meer. Op maat gemaakt en geplaatst door je lokale Winsol-team in Dilbeek, Sint-Pieters-Leeuw en Aartselaar.'
+updated_at: 1785765565
+text: "Ramen, zonwering, rolluiken, pergola's en meer. Op maat gemaakt en geplaatst door je lokale Winsol-team in Dilbeek, Sint-Pieters-Leeuw en Aartselaar."
 link:
   -
+    id: QHScwNSs
     type: entry
-    entry:
-      - c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a02
+    entry: c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a02
     label: 'Ontdek ons aanbod'
     new_tab: false
-image: 'ramen-en-deuren/realisatie-realisation-allura-81_ardooie-(39).jpg'
 value_proposition:
   title: 'Waarom Winsol Brebo'
   items:
@@ -92,9 +93,10 @@ page_builder:
         type: feature
         label: 'Belgisch maatwerk'
         enabled: true
-    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen6.jpg
+    image: pergola-so-terrasoverkapping-realisatie-assebroek-houtlook-lamellen-100.jpg
     background: false
     enabled: true
+    media: image
   -
     id: homeoverons
     type: cta
@@ -108,7 +110,9 @@ page_builder:
         entry: 559b2b7e-a511-409c-9eec-51d314cec648
         label: 'Lees ons verhaal'
         new_tab: false
-    image: service/winsol-2.jpg
     enabled: true
+    align: left
+    image: 20260512_winsolleuven_studiohan-41-scaled.jpg
 template: home
+image: 'aluminium-ramen-&-deuren_portes-&-fenetres_allura_gent_(0722)-(1).jpg'
 ---

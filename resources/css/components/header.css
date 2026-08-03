@@ -17,7 +17,22 @@
  * plaats van eruit te lopen.
  */
 @utility hero-frame {
-    min-height: min(100svh, 56rem); /* 896px */
+    min-height: min(100svh, 64rem); /* 1024px */
+}
+
+/*
+ * De product-header krijgt zijn hoogte uit de ratio van het beeld, en die
+ * groeit mee met de vensterbreedte: 7/3 levert boven ~1307px meer hoogte op
+ * dan een introband nodig heeft. Deze cap zet daar een plafond op, waaronder
+ * de ratio gewoon zijn gang gaat.
+ *
+ * De cap hoort op de `img` zelf: alleen daar kan `object-fit` de overtollige
+ * hoogte wegsnijden. Op een wrapper met `overflow: hidden` zou het beeld van
+ * onderaf worden afgekapt in plaats van gecentreerd bijgesneden.
+ */
+@utility product-frame {
+    max-height: 35rem; /* 560px */
+    object-fit: cover;
 }
 
 .header-title {

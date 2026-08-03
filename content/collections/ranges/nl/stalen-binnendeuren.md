@@ -7,7 +7,7 @@ order: 2
 image: ranges/stalen-binnendeuren.png
 range_categories:
   - voor-je-woning
-meta_title: 'Stalen binnendeuren op maat | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Stalen binnendeuren op maat'
 meta_description: 'Stalen binnendeuren op maat: smalle profielen, veel glas en een indeling naar keuze. Als scheidingswand, schuifdeur of draaideur.'
 seo_noindex: false
 page_builder:

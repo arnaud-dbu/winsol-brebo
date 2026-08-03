@@ -6,7 +6,7 @@ range:
 text: 'Verticale zonwering voor je ramen: houdt de zon tegen, laat je nog altijd naar buiten kijken.'
 image: 'screens/solfix/LR 3/winsol_2022_zottegem_pvc-ramen_screens-(1).jpg'
 brochure: brochures/winsol_brochure_verticale-zonwering_nl.pdf
-meta_title: 'Screens voor ramen | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Screens voor ramen'
 meta_description: 'Verticale zonwering voor ramen van Winsol: SolFix voorzetscreens, SolFix IN inbouwscreens en SolScreen. Windvast tot 6 Beaufort en tot 18 m² per screen.'
 seo_noindex: false
 page_builder:

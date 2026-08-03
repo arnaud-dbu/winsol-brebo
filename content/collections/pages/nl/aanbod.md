@@ -4,6 +4,8 @@ blueprint: range_overview
 title: 'Ons aanbod'
 text: "Van ramen en rolluiken tot pergola's en smart home — alles om uw woning comfortabeler, veiliger en energiezuiniger te maken, op maat gemaakt en geplaatst door ons eigen team."
 template: ranges/index
+meta_title: 'Ons volledige aanbod'
+meta_description: 'Ramen en deuren, rolluiken, zonwering, terrasoverkapping, garagepoorten, airco, VELUX en Somfy smart home. Alles op maat gemaakt en lokaal geplaatst.'
 seo_noindex: false
 page_builder:
   -

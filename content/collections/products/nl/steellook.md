@@ -6,7 +6,7 @@ range:
 text: 'Aluminium profielen met de aanblik van smeedijzer. De cottage-look van stalen ramen, met de isolatie van vandaag.'
 image: ramen-en-deuren/realisatie-realisation-steellook-hi_martelaarslaan-gent-(27).jpg
 brochure: brochures/winsol_brochure_ramen-en-deuren-in-alu_nl.pdf
-meta_title: 'Steellook ramen en deuren | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Steellook ramen en deuren'
 meta_description: 'Steellook van Winsol: aluminium profielen met de uitstraling van smeedijzer, met moderne isolatie. Op maat gemaakt en lokaal geplaatst.'
 seo_noindex: false
 page_builder:

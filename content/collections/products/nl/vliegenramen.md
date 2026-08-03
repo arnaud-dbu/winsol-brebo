@@ -5,7 +5,7 @@ range:
   - 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
 text: 'Ramen en deuren open in de zomer, zonder insecten binnen. Op maat gemaakt voor elk raam en elke deur.'
 image: placeholder/beeld-ontbreekt.jpg
-meta_title: 'Vliegenramen op maat | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Vliegenramen op maat'
 meta_description: 'Vliegenramen en hordeuren van Winsol, op maat gemaakt voor elk raam en elke deur. Geplaatst door je lokale Winsol-team.'
 seo_noindex: false
 page_builder:

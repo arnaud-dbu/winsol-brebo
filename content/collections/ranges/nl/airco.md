@@ -8,7 +8,7 @@ order: 4
 image: ranges/airco.png
 range_categories:
   - voor-je-woning
-meta_title: 'Airco plaatsen | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Airco plaatsen'
 meta_description: 'Airco laten plaatsen bij Winsol Brebo, met exclusieve toestellen van Daikin. Geruisloos, optimaal rendement en ook geschikt om te verwarmen.'
 seo_noindex: false
 page_builder:

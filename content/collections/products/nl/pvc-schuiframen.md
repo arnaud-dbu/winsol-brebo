@@ -6,7 +6,7 @@ range:
 text: 'Schuiframen in pvc: dezelfde bediening en isolatie als een aluminium schuifpartij, tegen een lagere prijs.'
 image: ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(16).jpg
 brochure: brochures/winsol_brochure_ramen-en-deuren-in-pvc_nl.pdf
-meta_title: 'PVC schuiframen op maat | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'PVC schuiframen op maat'
 meta_description: 'PVC schuiframen van Winsol: soepel schuivend, goed geïsoleerd en onderhoudsarm. Op maat gemaakt in België en lokaal geplaatst.'
 seo_noindex: false
 page_builder:

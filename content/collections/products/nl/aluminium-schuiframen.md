@@ -6,7 +6,7 @@ range:
 text: 'Grote schuifpartijen in aluminium, met een profiel dat zo smal is dat het glas het beeld bepaalt.'
 image: ramen-en-deuren/iqon-aluminium-schuifraam-waterstad-6.jpg
 brochure: brochures/winsol_brochure_ramen-en-deuren-in-alu_nl.pdf
-meta_title: 'Aluminium schuiframen op maat | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Aluminium schuiframen op maat'
 meta_description: 'Aluminium schuiframen van Winsol, reeks iQon: grote glaspartijen met een minimaal profiel, soepel schuivend en goed geïsoleerd.'
 seo_noindex: false
 page_builder:

@@ -6,7 +6,7 @@ range:
 text: 'Schaduw boven een etalage of ingang, in een moderne of juist nostalgische vorm.'
 image: placeholder/beeld-ontbreekt.jpg
 brochure: brochures/winsol_brochure_luifels_nl.pdf
-meta_title: 'Uitvalschermen en markiezen | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Uitvalschermen en markiezen'
 meta_description: 'Uitvalschermen en markiezen van Winsol voor etalages, ingangen en ramen. AluBox met semi-cassette, acryldoek en keuze uit 12 RAL-kleuren.'
 seo_noindex: false
 page_builder:

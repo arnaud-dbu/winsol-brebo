@@ -7,7 +7,7 @@ order: 1
 image: ranges/ramen-en-deuren.png
 range_categories:
   - voor-je-woning
-meta_title: 'Ramen en deuren op maat | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Ramen en deuren op maat'
 meta_description: 'Ramen en deuren van Winsol in aluminium of pvc, op maat gemaakt in België. Advies, opmeting en plaatsing door je lokale Winsol-team in Dilbeek, Sint-Pieters-Leeuw en Aartselaar.'
 seo_noindex: false
 page_builder:

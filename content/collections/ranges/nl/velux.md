@@ -8,7 +8,7 @@ order: 3
 image: ranges/velux.png
 range_categories:
   - voor-je-woning
-meta_title: 'VELUX dakramen en toebehoren | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'VELUX dakramen en toebehoren'
 meta_description: 'VELUX dakvensters voor hellende daken, met buitenzonwering en rolluiken op maat. Plaatsing door je lokale team in Dilbeek, Sint-Pieters-Leeuw en Aartselaar.'
 seo_noindex: false
 page_builder:

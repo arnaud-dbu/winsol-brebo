@@ -3,6 +3,8 @@ id: 4f1c9d20-0001-4b3e-9a5c-2d7e8f091a01
 blueprint: page
 title: 'Simuleer je lening'
 text: 'Benieuwd wat je verbouwing maandelijks kost? Simuleer vrijblijvend je lening en vraag ze meteen aan.'
+meta_title: 'Simuleer je lening'
+meta_description: 'Bereken vrijblijvend wat je verbouwing maandelijks kost met de simulator van KBC, en vraag je lening meteen aan via Winsol Brebo.'
 seo_noindex: false
 page_builder:
   -

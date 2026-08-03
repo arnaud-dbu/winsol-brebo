@@ -6,7 +6,7 @@ range:
 text: 'Dezelfde techniek als de Pergola Z!P, maar met een plat dak en strakke, rechte lijnen. Het doek verdwijnt in een gesloten kast aan de gevel.'
 image: terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6222).jpg
 brochure: brochures/winsol-brochure-pergola-zip-nl.pdf
-meta_title: 'Pergola Z!P CUBE terrasoverkapping | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Pergola Z!P CUBE terrasoverkapping'
 meta_description: 'De Pergola Z!P CUBE van Winsol: plat dak, uitschuifbaar doek en een strakke horizontale structuur. Op maat gemaakt en geplaatst.'
 seo_noindex: false
 page_builder:

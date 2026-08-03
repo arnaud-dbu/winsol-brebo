@@ -7,7 +7,7 @@ order: 6
 image: ranges/zonwering.png
 range_categories:
   - rondom-je-woning
-meta_title: 'Zonwering op maat | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Zonwering op maat'
 meta_description: 'Screens, SolarFix, zonneschermen, verandazonwering en uitvalschermen van Winsol. Buitenzonwering op maat die de warmte tegenhoudt voor ze binnen is.'
 seo_noindex: false
 page_builder:

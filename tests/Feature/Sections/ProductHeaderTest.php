@@ -131,6 +131,31 @@ class ProductHeaderTest extends SectionTestCase
         $this->assertStringContainsString('bg-linear-to-b from-black/70', $header);
     }
 
+    /**
+     * De ratio geeft de header zijn hoogte en groeit dus mee met de
+     * vensterbreedte; `product-frame` zet daar een plafond op. De cap hoort op
+     * de `img` zelf — alleen daar snijdt `object-fit` de overtollige hoogte
+     * weg in plaats van het beeld van onderaf af te kappen.
+     */
+    public function test_the_image_carries_the_height_cap(): void
+    {
+        $partial = file_get_contents(resource_path('views/partials/headers/product.antlers.html'));
+
+        $this->assertMatchesRegularExpression(
+            '/\{\{ img [^}]*class="[^"]*\bproduct-frame\b/',
+            $partial,
+            'De cap moet op de img-tag staan, niet op een wrapper.'
+        );
+
+        $css = file_get_contents(resource_path('css/components/header.css'));
+
+        $this->assertMatchesRegularExpression(
+            '/@utility product-frame \{[^}]*max-height:[^}]*object-fit:\s*cover/s',
+            $css,
+            'product-frame moet zowel een max-height als object-fit: cover zetten.'
+        );
+    }
+
     public function test_omits_the_image_wrapper_without_an_image(): void
     {
         config(['app.debug' => false]);

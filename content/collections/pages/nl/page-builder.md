@@ -4,6 +4,9 @@ blueprint: page
 title: Pagebuilder
 text: 'Samen je huis klaarmaken voor de toekomst — energiebewust, comfortabel en met vakmanschap uit je eigen buurt.'
 template: default
+meta_title: 'Pagebuilder'
+meta_description: 'Demopagina met alle beschikbare pagebuilder-secties.'
+seo_noindex: true
 page_builder:
   -
     id: sec01
@@ -376,7 +379,6 @@ page_builder:
       - 9a3f52b1-0004-4c2d-8e6f-4a5b6c7d8e04
       - 9a3f52b1-0005-4c2d-8e6f-4a5b6c7d8e05
     enabled: true
-seo_noindex: false
 updated_by: d308c19c-c205-4453-9862-1f62996a3734
 updated_at: 1785271199
 ---

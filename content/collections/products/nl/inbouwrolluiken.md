@@ -6,7 +6,7 @@ range:
 text: 'Rolluiken die in de spouwmuur verdwijnen, zodat er op de gevel niets van te zien is.'
 image: 'rolluiken/LR/2020_winsol_liedkerke_allura_poort_rolluiken-(36).jpg'
 brochure: brochures/winsol-brochure-rolluiken-nl.pdf
-meta_title: 'Inbouwrolluiken op maat | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Inbouwrolluiken op maat'
 meta_description: 'Inbouwrolluiken van Winsol, weggewerkt in de spouwmuur boven raam of deur. Geen kast op de gevel en een mechanisme dat onbereikbaar is voor inbrekers.'
 seo_noindex: false
 page_builder:

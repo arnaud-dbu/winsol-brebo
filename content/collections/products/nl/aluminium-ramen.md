@@ -6,7 +6,7 @@ range:
 text: 'Ramen met ultrasmalle profielen, dus meer glas per raamopening. Sterk, onderhoudsarm en in elke RAL-kleur te krijgen.'
 image: ramen-en-deuren/realisatie-realisation-allura-81_oekene-(19).jpg
 brochure: brochures/winsol_brochure_ramen-en-deuren-in-alu_nl.pdf
-meta_title: 'Aluminium ramen op maat | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Aluminium ramen op maat'
 meta_description: 'Aluminium ramen van Winsol: ultrasmalle profielen, meer daglicht en inbraakwerendheid tot klasse RC2. Op maat gemaakt in België en lokaal geplaatst.'
 seo_noindex: false
 page_builder:

@@ -6,7 +6,7 @@ range:
 text: 'Een knikarmscherm boven je terras, met een gesloten kast die het doek beschermt als het niet uitstaat.'
 image: 'zonwering/Low Res 7/luifels_stores-bannes_lumisol_deinze_(36).jpg'
 brochure: brochures/winsol_brochure_luifels_nl.pdf
-meta_title: 'Zonneschermen en luifels op maat | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Zonneschermen en luifels op maat'
 meta_description: 'Elektrische zonneschermen van Winsol in de reeksen Linasol, Lumisol, Squaro en Luno. Tot 14 m breed, windklasse 3 en optionele ledverlichting.'
 seo_noindex: false
 page_builder:

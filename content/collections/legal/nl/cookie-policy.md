@@ -2,6 +2,8 @@
 id: 7ed3779c-b274-42ff-aaf6-917627afb57c
 blueprint: legal
 title: 'Cookie Policy'
+meta_title: 'Cookiebeleid'
+meta_description: 'Welke cookies Winsol Brebo gebruikt, waarvoor ze dienen en hoe je je voorkeuren aanpast.'
 redactor:
   -
     type: heading

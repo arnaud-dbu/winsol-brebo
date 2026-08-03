@@ -8,7 +8,7 @@ order: 9
 image: ranges/somfy-smart-home.png
 range_categories:
   - slim-en-comfort
-meta_title: 'Somfy Smart Home met TaHoma | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Somfy Smart Home met TaHoma'
 meta_description: 'Somfy TaHoma verbindt je rolluiken, zonwering, verlichting en garagepoort tot één systeem. Compatibel met bijna 300 producttypes en met spraakassistenten.'
 seo_noindex: false
 page_builder:

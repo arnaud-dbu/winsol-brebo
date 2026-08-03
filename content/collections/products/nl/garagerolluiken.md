@@ -5,7 +5,7 @@ range:
   - 8c2e41a0-0005-4a1b-9c7d-3e5f6a7b8c05
 text: 'De eenvoudigste afsluiting voor een garage, berging of fietsenstalling zonder beglazing.'
 image: placeholder/beeld-ontbreekt.jpg
-meta_title: 'Garagerolluiken | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Garagerolluiken'
 meta_description: 'Garagerolluiken van Winsol in aluminium of staal, conform EN 13241-1, met elektrische bediening en geïntegreerde manuele noodbediening.'
 seo_noindex: false
 page_builder:

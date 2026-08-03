@@ -6,7 +6,7 @@ range:
 text: 'Raam en rolluik als één geheel, in de fabriek gemonteerd en kant-en-klaar geleverd.'
 image: placeholder/beeld-ontbreekt.jpg
 brochure: brochures/winsol-brochure-rolluiken-nl.pdf
-meta_title: 'Opbouwrolluiken op maat | Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+meta_title: 'Opbouwrolluiken op maat'
 meta_description: 'Opbouwrolluiken van Winsol: de rolluikkast zit al op het raamprofiel gemonteerd. Volledig lucht-, water- en winddicht, en bij de best isolerende op de markt.'
 seo_noindex: false
 page_builder:
