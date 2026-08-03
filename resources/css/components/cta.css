@@ -12,5 +12,5 @@
 }
 
 .cta:has(.btn:hover) .cta__media {
-    --parallax-zoom: 1.18;
+    scale: 1.06;
 }
