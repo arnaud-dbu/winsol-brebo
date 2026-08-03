@@ -6,11 +6,14 @@
  * De CTA rendert twee sectionHeaders, een mobiele en een desktopvariant, maar
  * er is er altijd één `hidden`. Een verborgen knop kan niet gehoverd worden,
  * dus de twee bijten elkaar niet.
+ *
+ * De standalone `scale`-property heeft hier gemeten geen effect op dit element;
+ * daarom `transform: scale(...)` in plaats van de losse property.
  */
 .cta__media {
-    transition: scale 400ms ease-out;
+    transition: transform 400ms ease-out;
 }
 
 .cta:has(.btn:hover) .cta__media {
-    scale: 1.06;
+    transform: scale(1.06);
 }
