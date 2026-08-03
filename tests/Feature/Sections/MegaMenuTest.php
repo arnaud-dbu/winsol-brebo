@@ -97,4 +97,18 @@ class MegaMenuTest extends SectionTestCase
 
         $this->assertStringContainsString(':aria-expanded="open.toString()"', $html);
     }
+
+    public function test_the_panel_animates_with_a_transform_and_not_with_a_height_collapse(): void
+    {
+        $html = $this->render('{{ partial:navigation }}');
+
+        // x-collapse animeert de hoogte en zou stil vechten met de scale en de
+        // translate hieronder. Losse assertions op de tokens, niet op de hele
+        // attribuutwaarde: Prettier sorteert `class` wel en `x-transition:*`
+        // niet, en die asymmetrie moet geen test breken.
+        $this->assertStringNotContainsString('x-collapse', $html);
+        $this->assertStringContainsString('x-transition:enter-start', $html);
+        $this->assertStringContainsString('origin-top', $html);
+        $this->assertStringContainsString('scale-98', $html);
+    }
 }
