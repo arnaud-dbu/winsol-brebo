@@ -18,21 +18,18 @@ class CatalogContentTest extends TestCase
         }
     }
 
-    public function test_six_projects_exist_and_reference_a_range(): void
+    public function test_the_projects_collection_is_fully_gone(): void
     {
-        $projects = Entry::query()->where('collection', 'projects')->get();
+        // De realisaties zijn vervangen door /nieuws. Deze assertie vangt een
+        // half opgeruimde staat: een achtergebleven collectie zou stilletjes
+        // blijven routeren op /realisaties/{slug}.
+        $this->assertFileDoesNotExist(base_path('content/collections/projects.yaml'));
+        $this->assertDirectoryDoesNotExist(base_path('content/collections/projects'));
+        $this->assertFileDoesNotExist(app_path('Tags/ProjectRanges.php'));
+        $this->assertFileDoesNotExist(resource_path('views/partials/projectCard.antlers.html'));
+        $this->assertFileDoesNotExist(resource_path('views/partials/headers/project.antlers.html'));
+        $this->assertFileDoesNotExist(resource_path('css/components/project-card.css'));
 
-        $this->assertCount(6, $projects);
-
-        foreach ($projects as $project) {
-            $this->assertNotEmpty($project->get('image'), "Project {$project->slug()} heeft geen beeld");
-            $this->assertNotEmpty($project->get('range'), "Project {$project->slug()} verwijst niet naar een range");
-
-            $relatedRange = $project->augmentedValue('range')->value();
-
-            $this->assertNotNull($relatedRange, "Project {$project->slug()} zijn range-relatie augmenteert niet naar een entry");
-            $this->assertSame('ranges', $relatedRange->collectionHandle(), "Project {$project->slug()} verwijst niet naar de ranges-collectie");
-            $this->assertNotEmpty($relatedRange->get('title'), "De range van project {$project->slug()} heeft geen titel");
-        }
+        $this->assertSame(0, Entry::query()->where('collection', 'projects')->count());
     }
 }
