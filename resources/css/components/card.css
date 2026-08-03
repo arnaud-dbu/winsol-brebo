@@ -1,4 +1,3 @@
-
 .card {
     @apply flex overflow-hidden rounded-md bg-light;
 }
@@ -10,4 +9,16 @@
  */
 [data-section='cards'] .slider:not(.swiper-initialized) .swiper-wrapper {
     @apply md:grid-cols-2 xl:grid-cols-2;
+}
+
+/*
+ * Drie kaarten vullen een rij van drie precies. In twee kolommen valt de derde
+ * alleen naar een tweede rij, waar hij dan halfbreed naast een leeg vak staat.
+ *
+ * `data-card-count` komt uit sections/cards.antlers.html; diezelfde telling
+ * geeft de kaart daar `stacked` mee, want in een derde van de container is er
+ * naast de tekst geen plaats meer voor de beeldkolom.
+ */
+[data-section='cards'][data-card-count='3'] .slider:not(.swiper-initialized) .swiper-wrapper {
+    @apply md:grid-cols-3 xl:grid-cols-3;
 }

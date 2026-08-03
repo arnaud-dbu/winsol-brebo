@@ -52,7 +52,7 @@
  * gaf 40px boven en onder tegen 96px links en rechts.
  */
 @utility card-padding-xl {
-    @apply p-6 md:p-8 lg:p-12 xl:p-16 2xl:p-24;
+    @apply p-6 md:p-8 lg:p-12 xl:p-16 2xl:p-20;
 }
 
 @utility slider-bleed {

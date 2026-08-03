@@ -1,17 +1,24 @@
-<section class="section section--default" data-section="cards">
+{{#
+    `data-card-count` is de haak waarmee card.css bij drie kaarten naar drie kolommen gaat; zie de regel daar. Het telwerk
+    staat hier omdat de sectie de enige plek is die de hele set tegelijk ziet.
+#}}
+<section class="section section--default" data-section="cards" data-card-count="{{ cards | count }}">
     <div class="container">
         <div class="section-y-gap">
             {{#
-                `link` staat niet in deze set, dus zonder expliciete lege waarde valt `sectionHeader` terug op de velden van de
-                pagina zelf. Op /home zette dat de hero-intro en de knop "Ontdek ons aanbod" boven de aanbodslider.
+                `link` staat niet in deze set, dus zonder expliciete lege waarde valt `sectionHeader` terug op de velden van de pagina
+                zelf. Op /home zette dat de hero-intro en de knop "Ontdek ons aanbod" boven de aanbodslider.
             #}}
             {{ partial:sectionHeader is_centered="true" link="" }}
             {{ if cards }}
                 {{ partial:slider per_view="1.15" space="16,lg:24" from="lg" bleed="true" }}
                     {{ cards }}
                         <div class="swiper-slide">
-                            {{# `overline` leeg: zonder dit valt de overline van deze sectie door in elke kaart. #}}
-                            {{ partial:card overline="" }}
+                            {{#
+                                `overline` leeg: zonder dit valt de overline van deze sectie door in elke kaart. `stacked` bij drie kaarten: die staan
+                                naast elkaar in een kolom van drie, en daar is naast de tekst geen breedte meer over voor een beeldkolom.
+                            #}}
+                            {{ partial:card overline="" :stacked="total_results == 3" }}
                         </div>
                     {{ /cards }}
                 {{ /partial:slider }}

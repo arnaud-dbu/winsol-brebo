@@ -30,6 +30,10 @@ p {
     line-height: 1.5;
 }
 
+@utility feature-list {
+    @apply text-base font-semibold;
+}
+
 .overline {
     @apply relative text-sm font-semibold tracking-wide uppercase;
     text-decoration-line: none !important;

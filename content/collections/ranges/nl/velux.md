@@ -1,5 +1,6 @@
 ---
 id: 8c2e41a0-0006-4a1b-9c7d-3e5f6a7b8c06
+blueprint: ranges
 title: 'VELUX dakramen'
 short_description: 'VELUX dakvensters en de zonwering en rolluiken die erbij horen, geplaatst door ons eigen team.'
 long_description: 'Een dakvenster brengt daglicht op plaatsen waar een gevelraam niet kan: onder een hellend dak, in een zolderkamer, in een badkamer tussen twee spanten. We plaatsen VELUX dakvensters en de accessoires die erop passen. Buitenzonwering houdt de zomerse warmte tegen voor ze door het glas is, een rolluik verduistert en isoleert het hele jaar door.'
@@ -13,8 +14,7 @@ seo_noindex: false
 page_builder:
   -
     id: vx-daglicht
-    type: text_image
-    overline: Daglicht
+    type: text
     title: 'Daglicht waar een gevelraam niet komt'
     text:
       -
@@ -32,92 +32,127 @@ page_builder:
         content:
           -
             type: text
+            text: 'Een dakvenster zit bovendien hoger dan een gevelraam en werpt zijn licht daardoor verder de kamer in. Waar een gevelraam vooral de zone bij het raam verlicht, brengt een dakvenster licht tot tegen de achterwand.'
+      -
+        type: paragraph
+        attrs:
+          textAlign: left
+        content:
+          -
+            type: text
             text: 'Bouw of verbouw je, dan is dit het moment om erover na te denken. Achteraf een dakvenster inzetten kan, maar tijdens de werken is het eenvoudiger en goedkoper.'
-    media: image
-    image: placeholder/beeld-ontbreekt.jpg
-    features:
-      -
-        id: vx-d1
-        type: feature
-        label: 'Voor hellende daken'
-        enabled: true
-      -
-        id: vx-d2
-        type: feature
-        label: 'Nieuwbouw en renovatie'
-        enabled: true
-      -
-        id: vx-d3
-        type: feature
-        label: 'Zonwering en rolluik op maat'
-        enabled: true
-    background: false
     enabled: true
   -
-    id: vx-zomer
-    type: text_image
-    overline: Zomer
-    title: 'Een dakvenster vangt de zon het hardst'
-    text:
-      -
-        type: paragraph
-        attrs:
-          textAlign: left
-        content:
-          -
-            type: text
-            text: 'Glas in een hellend dak staat veel directer naar de zon gericht dan een gevelraam. Een zolderkamer zonder zonwering wordt daardoor in de zomer onhoudbaar warm. Buitenzonwering lost dat op door de stralen tegen te houden voor ze het glas bereiken, en dat scheelt merkbaar meer dan een gordijn aan de binnenkant.'
-      -
-        type: paragraph
-        attrs:
-          textAlign: left
-        content:
-          -
-            type: text
-            text: 'Wil je er ook echt donker kunnen maken, bijvoorbeeld in een slaapkamer, dan is een verduisterende versie of een rolluik de juiste keuze. Een rolluik doet er bovendien nog geluidsdemping en winterisolatie bij.'
-    media: image
-    image: placeholder/beeld-ontbreekt.jpg
-    features:
-      -
-        id: vx-z1
-        type: feature
-        label: 'Warmte tegengehouden voor het glas'
-        enabled: true
-      -
-        id: vx-z2
-        type: feature
-        label: 'Verduisterende uitvoering mogelijk'
-        enabled: true
-      -
-        id: vx-z3
-        type: feature
-        label: 'Rolluik isoleert ook in de winter'
-        enabled: true
-    background: true
-    enabled: true
-  -
-    id: vx-producten
-    type: products
-    overline: Producten
+    id: vx-aanbod
+    type: cards
+    overline: Aanbod
     title: 'Het volledige aanbod'
-    products:
-      - 9f8f52b1-0001-4c2d-8e6f-4a5b6c7dd001
-      - 9f8f52b1-0002-4c2d-8e6f-4a5b6c7dd002
-      - 9f8f52b1-0003-4c2d-8e6f-4a5b6c7dd003
+    text: 'Het dakvenster zelf en de twee toebehoren die erop passen. Alles wordt gemaakt op de maat van je venster, en die maat lezen we af van het typeplaatje in het kozijn.'
+    cards:
+      -
+        id: vx-a1
+        type: card
+        title: 'VELUX dakvensters'
+        image: velux/id10098574_142115-01-xxl.webp
+        text:
+          -
+            type: paragraph
+            content:
+              -
+                type: text
+                text: 'Dakvensters voor hellende daken, die daglicht brengen op plaatsen waar een gevelraam niet kan. We zorgen voor een waterdichte aansluiting op de dakbedekking, zowel bij nieuwbouw als bij renovatie.'
+        features:
+          -
+            id: vx-a1f1
+            type: feature
+            label: 'Licht tot diep in de kamer'
+            enabled: true
+          -
+            id: vx-a1f2
+            type: feature
+            label: 'Voor zolder, badkamer of nok'
+            enabled: true
+          -
+            id: vx-a1f3
+            type: feature
+            label: 'Waterdichte aansluiting op het dak'
+            enabled: true
+        enabled: true
+      -
+        id: vx-a2
+        type: card
+        title: 'VELUX buitenzonwering'
+        image: velux/id10155179_xxl.webp
+        text:
+          -
+            type: paragraph
+            content:
+              -
+                type: text
+                text: 'Een doek aan de buitenkant van het dakvenster, dat de warmte tegenhoudt voor ze het glas bereikt. Transparant met behoud van uitzicht, of verduisterend boven een slaapkamer.'
+        features:
+          -
+            id: vx-a2f1
+            type: feature
+            label: 'Transparant of verduisterend'
+            enabled: true
+          -
+            id: vx-a2f2
+            type: feature
+            label: 'Installatie van binnenuit'
+            enabled: true
+          -
+            id: vx-a2f3
+            type: feature
+            label: 'Ook op zonne-energie'
+            enabled: true
+        enabled: true
+      -
+        id: vx-a3
+        type: card
+        title: 'VELUX rolluiken'
+        image: velux/id10169611_xxl.webp
+        text:
+          -
+            type: paragraph
+            content:
+              -
+                type: text
+                text: 'Onderhoudsvrij aluminium dat het hele jaar door werkt. Het verduistert volledig, isoleert in zomer en winter, dempt het geluid van regen en hagel en beschermt het venster zelf.'
+        features:
+          -
+            id: vx-a3f1
+            type: feature
+            label: 'Verduistert volledig'
+            enabled: true
+          -
+            id: vx-a3f2
+            type: feature
+            label: 'Isoleert zomer en winter'
+            enabled: true
+          -
+            id: vx-a3f3
+            type: feature
+            label: 'Dempt regen en hagel'
+            enabled: true
+        enabled: true
     enabled: true
   -
     id: vx-cta
     type: cta
     overline: Advies
     title: 'Een dakvenster plaatsen of vervangen?'
-    text: 'De maat van je dakvenster bepaalt welke zonwering en rolluiken erop passen. Kom langs in een van onze drie toonzalen, of laat ons langskomen om het op te meten.'
-    image: placeholder/beeld-ontbreekt.jpg
+    image: velux/005_velux_total_01_cg_7490-2000x1200.jpg
     link:
       -
+        id: vB1FCTPf
         type: entry
-        entry:
-          - f0ee3161-1534-4986-9ef1-a92fccfba619
+        entry: f0ee3161-1534-4986-9ef1-a92fccfba619
         label: 'Neem contact op'
         new_tab: false
     enabled: true
+    align: left
+    text: 'De maat van je dakvenster bepaalt welke zonwering en rolluiken erop passen. Kom langs in een van onze drie toonzalen, of laat ons langskomen om het op te meten.'
+updated_by: d308c19c-c205-4453-9862-1f62996a3734
+updated_at: 1785699602
 ---

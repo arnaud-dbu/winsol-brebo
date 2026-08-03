@@ -15,3 +15,10 @@ preferences:
       view: tree
     projects:
       view: list
+    products:
+      view: list
+    ranges:
+      view: list
+  assets:
+    assets:
+      mode: grid

@@ -2,6 +2,10 @@
 
 namespace Tests\Feature\Sections;
 
+use Illuminate\Support\Facades\Storage;
+use Statamic\Contracts\Assets\Asset;
+use Statamic\Facades\AssetContainer;
+
 class CardTest extends SectionTestCase
 {
     /**
@@ -47,6 +51,54 @@ class CardTest extends SectionTestCase
         $this->assertStringContainsString('@lg:flex-row', $html);
         $this->assertStringContainsString('@lg:w-1/3', $html);
         $this->assertStringContainsString('@lg:shrink-0', $html);
+    }
+
+    /**
+     * `stacked` zet die omslag uit. Kaarten in een kolom van drie zijn te smal
+     * om beeld en tekst naast elkaar te zetten, en de containerbreedte alleen
+     * beslist dat niet betrouwbaar: hoe breed een derde van de container is,
+     * hangt aan `--breakpoint-2xl` en aan de gutter.
+     */
+    public function test_stacked_keeps_the_image_above_the_text_at_every_width(): void
+    {
+        $html = $this->render('{{ partial:card stacked="true" }}', $this->context);
+
+        $this->assertStringNotContainsString('@lg:flex-row', $html);
+        $this->assertStringNotContainsString('@lg:aspect-auto', $html);
+        $this->assertStringNotContainsString('@lg:w-1/3', $html);
+        $this->assertStringContainsString('aspect-3/2', $html);
+    }
+
+    /**
+     * De portretcrop van `sm:ratio` hoort bij de smalle, hoge beeldkolom van de
+     * horizontale kaart. Boven de tekst staat het beeld in een doos van 3/2, en
+     * daar zou een portretbron alsnog bijgesneden worden.
+     */
+    public function test_stacked_drops_the_portrait_crop_of_the_horizontal_card(): void
+    {
+        $asset = $this->makeImageAsset();
+
+        $horizontal = $this->render('{{ partial:card }}', ['image' => $asset]);
+        $stacked = $this->render('{{ partial:card stacked="true" }}', ['image' => $asset]);
+
+        $this->assertStringContainsString('(min-width: 640px)', $horizontal);
+        $this->assertStringNotContainsString('(min-width: 640px)', $stacked);
+    }
+
+    private function makeImageAsset(): Asset
+    {
+        Storage::fake('r2');
+
+        $container = AssetContainer::make('assets')->disk('r2')->title('Assets');
+        $container->save();
+
+        $image = imagecreatetruecolor(1200, 800);
+        ob_start();
+        imagejpeg($image);
+        Storage::disk('r2')->put('kaart.jpg', ob_get_clean());
+        imagedestroy($image);
+
+        return tap($container->makeAsset('kaart.jpg'))->save();
     }
 
     public function test_omits_feature_list_when_absent(): void

@@ -1,5 +1,6 @@
 ---
 id: 8c2e41a0-0008-4a1b-9c7d-3e5f6a7b8c08
+blueprint: ranges
 title: 'Somfy Smart Home'
 short_description: 'Somfy TaHoma laat je rolluiken, zonwering en poort samenwerken via één app, afstandsbediening of je stem.'
 long_description: 'Elektrische rolluiken, zonwering of een elektrische poort maken het leven thuis al comfortabeler. Somfy Smart Home zet daar een laag connectiviteit bovenop: alles wat je al hebt, komt op één systeem en luistert naar één app. Je bedient het van waar je ook bent, of je laat het zichzelf bedienen op basis van temperatuur, tijdstip of zonlicht.'
@@ -12,10 +13,9 @@ meta_description: 'Somfy TaHoma verbindt je rolluiken, zonwering, verlichting en
 seo_noindex: false
 page_builder:
   -
-    id: sm-centraal
-    type: text_image
-    overline: Centraliseren
-    title: 'Alles in huis met één beweging'
+    id: sm-systeem
+    type: text
+    title: 'Eén systeem voor wat er al hangt'
     text:
       -
         type: paragraph
@@ -24,7 +24,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Met één aanraking op je Smart Control of via de app sluit je bij het vertrekken alles tegelijk: rolluiken, jaloezieën, verlichting. Als je weer thuiskomt, open je ze in één beweging. Het is ook mogelijk om je toestellen met een compatibele spraakassistent te bedienen.'
+            text: 'Heb je elektrische rolluiken, zonwering of een poort, dan zit de motor er al. Somfy TaHoma verbindt die motoren met elkaar en brengt ze samen in één app, zodat je ze niet langer stuk voor stuk hoeft te bedienen.'
       -
         type: paragraph
         attrs:
@@ -32,26 +32,122 @@ page_builder:
         content:
           -
             type: text
-            text: 'Er zijn drie manieren van bedienen, en je gebruikt ze door elkaar. De Smart Control heeft twee knoppen voor je eigen scenario''s, de app werkt van thuis en onderweg, en een spraakassistent zoals Amazon Alexa, Google Assistant of Siri werkt zonder dat je iets in handen hoeft te nemen.'
-    media: image
-    image: placeholder/beeld-ontbreekt.jpg
+            text: 'Dat werkt niet alleen met Somfy. TaHoma spreekt met bijna driehonderd soorten huishoudelijke producten, en via het So Open-programma komen er elk jaar merken en toestellen bij.'
+    enabled: true
+  -
+    id: sm-redenen
+    type: features
+    overline: Voordelen
+    title: 'Vier goede redenen om je huis slim te maken'
     features:
       -
-        id: sm-c1
+        id: sm-r1
         type: feature
-        label: 'Smart Control met scenarioknoppen'
+        icon: squares-four
+        title: 'Alles tegelijk'
+        text: 'Eén aanraking sluit bij het vertrekken je rolluiken, jaloezieën en verlichting. Bij thuiskomst gaat alles in één beweging weer open.'
         enabled: true
       -
-        id: sm-c2
+        id: sm-r2
         type: feature
-        label: 'App voor thuis en onderweg'
+        icon: thermometer-simple
+        title: 'Minder energie'
+        text: 'De rolluiken sluiten zodra het binnen te warm wordt en openen voor de winterzon. Dat stelt het moment uit waarop de airco aan moet.'
         enabled: true
       -
-        id: sm-c3
+        id: sm-r3
         type: feature
-        label: 'Compatibele spraakassistent'
+        icon: device-mobile
+        title: 'Van waar je ook bent'
+        text: 'Onderweg controleer je de stand van je luiken en open je je poort voor een levering, ook als er niemand thuis is.'
         enabled: true
-    background: false
+      -
+        id: sm-r4
+        type: feature
+        icon: shield-check
+        title: 'Alsof je thuis bent'
+        text: 'De aanwezigheidssimulatie laat luiken en lichten hun gewone gang gaan, zodat je woning er van buitenaf niet verlaten bij ligt.'
+        enabled: true
+    enabled: true
+  -
+    id: sm-bedienen
+    type: cards
+    overline: Bediening
+    title: 'Drie manieren om te bedienen'
+    text: 'Je gebruikt ze door elkaar, afhankelijk van waar je bent en wat je in handen hebt.'
+    cards:
+      -
+        id: sm-b1
+        type: card
+        title: 'Smart Control'
+        text:
+          -
+            type: paragraph
+            content:
+              -
+                type: text
+                text: 'Een fysieke bediening met twee knoppen waar je zelf een scenario aan koppelt.'
+        features:
+          -
+            id: sm-b1f1
+            type: feature
+            label: 'Twee scenarioknoppen'
+            enabled: true
+          -
+            id: sm-b1f2
+            type: feature
+            label: 'Werkt zonder smartphone'
+            enabled: true
+        enabled: true
+        image: somfy/google_nest_-_blog_edited-(1).jpg
+      -
+        id: sm-b2
+        type: card
+        title: TaHoma-app
+        text:
+          -
+            type: paragraph
+            content:
+              -
+                type: text
+                text: 'Je volledige installatie op je smartphone, zowel thuis als onderweg.'
+        features:
+          -
+            id: sm-b2f1
+            type: feature
+            label: 'Alle toestellen in één scherm'
+            enabled: true
+          -
+            id: sm-b2f2
+            type: feature
+            label: "Automatische scenario's instellen"
+            enabled: true
+        enabled: true
+        image: somfy/ipad_tahoma2.0_hand_en-scaled.webp
+      -
+        id: sm-b3
+        type: card
+        title: Spraakassistent
+        text:
+          -
+            type: paragraph
+            content:
+              -
+                type: text
+                text: 'Bedienen zonder dat je er iets voor in handen hoeft te nemen.'
+        features:
+          -
+            id: sm-b3f1
+            type: feature
+            label: 'Alexa, Google Assistant of Siri'
+            enabled: true
+          -
+            id: sm-b3f2
+            type: feature
+            label: 'Werkt via je slimme speaker'
+            enabled: true
+        enabled: true
+        image: somfy/banner-tahoma-switch2-new1.jpg
     enabled: true
   -
     id: sm-energie
@@ -66,7 +162,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Je kan je rolluiken en jaloezieën laten reageren op de omstandigheden buiten. In de zomer gaan ze automatisch dicht zodra het binnen boven de 25 graden gaat. Dat beschermt je meubilair, je planten en je huisdieren tegen de felle zon, houdt het huis koel en stelt het moment uit waarop je de airco moet aanzetten.'
+            text: 'In de zomer gaan je rolluiken en jaloezieën automatisch dicht zodra het binnen boven de 25 graden gaat. Dat houdt het huis koel en beschermt je meubilair, je planten en je huisdieren tegen de felle zon.'
       -
         type: paragraph
         attrs:
@@ -74,9 +170,9 @@ page_builder:
         content:
           -
             type: text
-            text: 'In de winter draait dat om. Dan werkt de zon als een extra warmtebron: de rolluiken gaan open om die warmte binnen te laten en sluiten bij zonsondergang om ze binnen te houden.'
+            text: 'In de winter draait dat om. Dan gaan ze open om de zon als extra warmtebron binnen te laten, en dicht bij zonsondergang om die warmte binnen te houden.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: somfy/z-lf-6-woodlook-brown__75947.jpg
     features:
       -
         id: sm-e1
@@ -94,48 +190,6 @@ page_builder:
         label: 'Stelt de airco uit'
         enabled: true
     background: true
-    enabled: true
-  -
-    id: sm-afwezig
-    type: text_image
-    overline: Afwezig
-    title: 'Een huis dat doet alsof je thuis bent'
-    text:
-      -
-        type: paragraph
-        attrs:
-          textAlign: left
-        content:
-          -
-            type: text
-            text: 'De aanwezigheidssimulatie opent je rolluiken automatisch in de ochtend, zoals elke dag. Vallen ''s avonds de luiken dicht en gaan de lichten aan, dan lijkt het van buitenaf alsof er iemand thuis is. Dat is het verschil tussen een woning die er verlaten bij ligt en een die dat niet doet.'
-      -
-        type: paragraph
-        attrs:
-          textAlign: left
-        content:
-          -
-            type: text
-            text: 'Verwacht je een levering, dan open je je poort vanaf je smartphone, ook als je niet thuis bent. Het pakje gaat in de garage, en via een buitencamera controleer je of alles in orde is. Vanuit de auto kan je je poort met een spraakopdracht openen binnen een straal van vijfhonderd meter.'
-    media: image
-    image: placeholder/beeld-ontbreekt.jpg
-    features:
-      -
-        id: sm-a1
-        type: feature
-        label: 'Aanwezigheidssimulatie'
-        enabled: true
-      -
-        id: sm-a2
-        type: feature
-        label: 'Poort openen vanop afstand'
-        enabled: true
-      -
-        id: sm-a3
-        type: feature
-        label: 'Controle via buitencamera'
-        enabled: true
-    background: false
     enabled: true
   -
     id: sm-specs
@@ -158,13 +212,13 @@ page_builder:
         value: 'Amazon Alexa, Google Assistant en Siri via Apple HomeKit'
       -
         id: sm-s4
-        key: Aan te sluiten
+        key: 'Aan te sluiten'
         value: 'Rolluiken, raamdecoratie, terraszonwering en garagepoorten'
       -
         id: sm-s5
         key: Bediening
         value: 'Smart Control, app of spraakassistent'
-    enabled: true
+    enabled: false
   -
     id: sm-cta
     type: cta
@@ -172,12 +226,15 @@ page_builder:
     title: 'Werkt dit met wat je al hebt?'
     text: 'In veel gevallen wel, want TaHoma spreekt met bijna driehonderd producttypes. Laat ons weten welke motoren er bij jou zitten, dan zoeken we het uit.'
     image: placeholder/beeld-ontbreekt.jpg
+    align: left
     link:
       -
+        id: sm-ctalink
         type: entry
-        entry:
-          - f0ee3161-1534-4986-9ef1-a92fccfba619
+        entry: f0ee3161-1534-4986-9ef1-a92fccfba619
         label: 'Neem contact op'
         new_tab: false
     enabled: true
+updated_by: d308c19c-c205-4453-9862-1f62996a3734
+updated_at: 1785701368
 ---

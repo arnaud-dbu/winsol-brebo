@@ -62,6 +62,19 @@ class CtaSectionTest extends SectionTestCase
         $this->assertStringNotContainsString('overline--rule-dark-from', $html);
     }
 
+    /**
+     * Mobiel vult het paneel de volle breedte, dus de uitlijning speelt pas
+     * vanaf `lg`, waar het paneel smaller is dan de foto.
+     */
+    public function test_the_panel_sits_left_unless_the_alignment_says_right(): void
+    {
+        $left = $this->render('{{ partial src="sections/cta" }}', $this->context);
+        $right = $this->render('{{ partial src="sections/cta" }}', $this->context + ['align' => 'right']);
+
+        $this->assertStringNotContainsString('lg:items-end', $left);
+        $this->assertStringContainsString('lg:items-end', $right);
+    }
+
     public function test_each_panel_gets_a_button_that_reads_on_its_own_background(): void
     {
         $html = $this->render('{{ partial src="sections/cta" }}', $this->context + [

@@ -1,5 +1,6 @@
 ---
 id: 8c2e41a0-0007-4a1b-9c7d-3e5f6a7b8c07
+blueprint: ranges
 title: Airco
 short_description: 'Een geruisloze airco die in de zomer koelt en in de tussenseizoenen ook verwarmt.'
 long_description: 'Ons land krijgt steeds vaker met echte hitteperiodes te maken, en dan is een airco in huis een verademing. Wij plaatsen geruisloze toestellen die optimaal renderen, waaronder de exclusieve aircotoestellen van Daikin. Naast koelen kunnen onze toestellen ook verwarmen, en gekoppeld aan een warmtepomp regel je de temperatuur in huis in een handomdraai.'
@@ -34,7 +35,7 @@ page_builder:
             type: text
             text: 'Toch beginnen we het gesprek liefst bij je gevel. Buitenzonwering houdt de warmte tegen voor ze binnen is, waardoor je airco minder hard en minder lang moet draaien. Hoe beter je gevel beschermd is, hoe kleiner het toestel dat je nodig hebt en hoe lager je verbruik.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: airco/rxa-b9_installatie_sfeer-1.webp
     features:
       -
         id: ac-h1
@@ -66,7 +67,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Naast verkoeling kunnen onze airco''s ook verwarmen. Dat is vooral in het voor- en najaar interessant: op die dagen waarop het net te fris is maar de centrale verwarming aanzetten overdreven voelt.'
+            text: "Naast verkoeling kunnen onze airco's ook verwarmen. Dat is vooral in het voor- en najaar interessant: op die dagen waarop het net te fris is maar de centrale verwarming aanzetten overdreven voelt."
       -
         type: paragraph
         attrs:
@@ -76,7 +77,7 @@ page_builder:
             type: text
             text: 'Koppel je de airco aan een warmtepomp, dan pas je de temperatuur in huis in een handomdraai aan je wensen aan, het hele jaar door en met hetzelfde toestel.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: airco/lucht_lucht_warmtepomp_airco.jpeg
     features:
       -
         id: ac-v1
@@ -101,13 +102,16 @@ page_builder:
     overline: Advies
     title: 'Welk toestel heb je nodig?'
     text: 'Dat hangt af van de grootte van de ruimte, de oriëntatie en wat er al aan zonwering hangt. Laat ons langskomen, dan rekenen we het door.'
-    image: placeholder/beeld-ontbreekt.jpg
+    image: airco/qventi_thebrandmen-05964-scaled.webp
     link:
       -
+        id: zizaamCY
         type: entry
-        entry:
-          - f0ee3161-1534-4986-9ef1-a92fccfba619
+        entry: f0ee3161-1534-4986-9ef1-a92fccfba619
         label: 'Neem contact op'
         new_tab: false
     enabled: true
+    align: right
+updated_by: d308c19c-c205-4453-9862-1f62996a3734
+updated_at: 1785698662
 ---
