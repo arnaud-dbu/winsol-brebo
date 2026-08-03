@@ -33,7 +33,8 @@
                                 href="https://wa.me/{{ globals:contact:mobile | replace('+', '') | replace(' ', '') | entities }}"
                                 target="_blank"
                                 rel="noopener">
-                                <span class="contact-circle bg-whatsapp text-white group-hover:bg-black">
+                                <span
+                                    class="contact-circle bg-whatsapp text-white group-hover:bg-black group-focus-visible:bg-black">
                                     {{# Het merkglyph, geen Phosphor-logo. Eigen fill="white" in het bestand, dus de `text-white` hiernaast raakt hem niet. #}}
                                     {{ svg src="whatsapp" aria-hidden="true" class="h-6 w-auto" }}
                                 </span>
@@ -47,7 +48,7 @@
                                 class="group flex items-center gap-3 text-base font-semibold"
                                 href="tel:{{ globals:contact:phone | replace(' ', '') | entities }}">
                                 <span
-                                    class="contact-circle bg-accent text-black group-hover:bg-black group-hover:text-white">
+                                    class="contact-circle bg-accent text-black group-hover:bg-black group-hover:text-white group-focus-visible:bg-black group-focus-visible:text-white">
                                     {{ icon src="phone" aria-hidden="true" class="size-6" }}
                                 </span>
                                 {{ globals:contact:phone | entities }}
@@ -60,7 +61,7 @@
                                 class="group flex items-center gap-3 text-base font-semibold"
                                 href="mailto:{{ globals:contact:email | entities }}">
                                 <span
-                                    class="contact-circle bg-accent text-black group-hover:bg-black group-hover:text-white">
+                                    class="contact-circle bg-accent text-black group-hover:bg-black group-hover:text-white group-focus-visible:bg-black group-focus-visible:text-white">
                                     {{ icon src="envelope" aria-hidden="true" class="size-6" }}
                                 </span>
                                 {{ globals:contact:email | entities }}
