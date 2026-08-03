@@ -124,7 +124,7 @@ Het eerste endpoint, en meteen de volledige authenticatieketen. `/schema` is bew
 **Interfaces:**
 - Consumes: niets
 - Produces:
-  - `config('inspace.writable')` — `array<string, array{blueprint: string, fields: array<string, string>}>`, API-veldnaam → blueprint-handle
+  - `config('inspace.writable')` — `array<string, array{content_field: string, fields: array<string, string>}>`. `content_field` is de blueprint-handle van het Bard-veld; `fields` mapt API-veldnaam → blueprint-handle.
   - `config('inspace.readable')` — `list<string>|null`, `null` betekent alle collecties
   - `config('inspace.assets')` — `array{container: string, folder: string, max_kb: int}`
   - `config('inspace.tokens')` — `array<string, string>`, label → sha256-hash
