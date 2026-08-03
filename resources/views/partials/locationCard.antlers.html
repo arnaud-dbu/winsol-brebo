@@ -1,6 +1,6 @@
 <a
     href="/contact"
-    class="location-card flex h-full items-center justify-between gap-5 rounded-md bg-light card-padding"
+    class="location-card group flex h-full items-center justify-between gap-5 rounded-md bg-light card-padding hover:bg-accent"
     {{ if latitude and longitude }}data-location-lat="{{ latitude }}" data-location-lng="{{ longitude }}"{{ /if }}>
     <span class="flex flex-col gap-1">
         <h3 class="">{{ name }}</h3>
@@ -8,6 +8,6 @@
     </span>
 
     <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-white">
-        {{ svg src="arrow" aria-hidden="true" class="w-3.5 -rotate-45" }}
+        {{ svg src="arrow" aria-hidden="true" class="w-3.5 -rotate-45 transition-transform duration-300 ease-out group-hover:rotate-0" }}
     </span>
 </a>
