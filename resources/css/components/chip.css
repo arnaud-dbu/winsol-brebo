@@ -1,0 +1,17 @@
+/*
+ * Dezelfde pilvorm als `.btn`, maar een maat kleiner: `--text-sm` (13 → 16px)
+ * tegenover `--text-base` (16 → 20px). De kleuren spiegelen `btn--secondary`
+ * en `btn--tertiary`, zodat chip en filterpil uit dezelfde familie komen.
+ * Accentgeel blijft gereserveerd voor knoppen.
+ */
+@utility chip {
+    @apply inline-flex h-fit w-fit items-center rounded-full px-3.5 py-1.5 text-sm font-semibold lg:px-4;
+}
+
+@utility chip--dark {
+    @apply bg-black text-white;
+}
+
+@utility chip--light {
+    @apply bg-light text-black;
+}

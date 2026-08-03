@@ -1,0 +1,29 @@
+{{#
+    Artikelheader — afgeleid van de projectheader (Figma 301:3304), met de eyebrow vervangen door twee chips. Afgeleid (geen
+    mobiel frame): het tekstblok volgt `container` in plaats van 866px vast, en het beeld houdt een ratio per breakpoint
+    aan. `theme` is een terms-veld met `max_items: 1` en augmenteert dus naar één term, niet naar een collectie. Een pair (`
+    {{ theme }}…{{ /theme }}
+    `) scoopt daar niet in: de body rendert één keer met de bovenliggende scope, waardoor `{{ title }}` de artikeltitel
+    teruggeeft in plaats van het thema. `{{ theme.title }}` doet wél een echte variabele-lookup. `isoFormat` en niet
+    `format`: die laatste geeft Engelse maandnamen.
+#}}
+<section class="bg-white" data-header="article">
+    <div class="container flex flex-col items-center gap-6 pt-10 text-center lg:pt-16">
+        <div class="inline-flex items-center gap-2">
+            {{ if themes }}
+                <span class="chip chip--dark">{{ themes.title }}</span>
+            {{ /if }}
+            <span class="chip chip--light">{{ date | isoFormat('D MMMM YYYY') }}</span>
+        </div>
+
+        <h1 class="header-title max-w-[866px]">{{ title }}</h1>
+        {{ if text }}
+            <p class="header-intro max-w-[866px]">{{ text }}</p>
+        {{ /if }}
+    </div>
+    {{ if image }}
+        <div data-header-media class="container mt-10 lg:mt-16">
+            {{ img :src="image" ratio="4/3" lg:ratio="2/1" max_width="2560" sizes="100vw" priority="true" class="w-full rounded-md" }}
+        </div>
+    {{ /if }}
+</section>
