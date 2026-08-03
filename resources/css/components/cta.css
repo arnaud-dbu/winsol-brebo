@@ -1,0 +1,16 @@
+/*
+ * De knop staat in `partials/sectionHeader`, diep in de sectie, en het beeld is
+ * zijn oom. Van kind naar boven selecteren kan alleen met `:has()`, vandaar een
+ * regel op de sectie in plaats van een `group` op de knop.
+ *
+ * De CTA rendert twee sectionHeaders, een mobiele en een desktopvariant, maar
+ * er is er altijd één `hidden`. Een verborgen knop kan niet gehoverd worden,
+ * dus de twee bijten elkaar niet.
+ */
+.cta__media {
+    transition: scale 400ms ease-out;
+}
+
+.cta:has(.btn:hover) .cta__media {
+    --parallax-zoom: 1.18;
+}
