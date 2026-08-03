@@ -1,7 +1,7 @@
 <section class="section section--default" data-section="contact_details">
     <div class="container">
         <div
-            class="relative isolate flex flex-col gap-5 overflow-hidden rounded-md bg-light p-6 lg:gap-6 lg:px-8 lg:py-12 xl:gap-7 2xl:px-12 3xl:px-16 2xl:py-16">
+            class="relative isolate flex flex-col gap-5 overflow-hidden rounded-md bg-light p-6 lg:gap-6 lg:px-8 lg:py-12 xl:gap-7 2xl:px-12 2xl:py-16 3xl:px-16">
             {{ svg src="shape-full" aria-hidden="true" class="pointer-events-none absolute top-[10%] -left-[25%] -z-10 h-auto w-full max-w-none [&_path]:fill-light-shape" }}
             <ul class="grid gap-5 lg:grid-cols-3 lg:gap-6 xl:gap-7">
                 {{ collection:locations }}
@@ -29,12 +29,12 @@
                     {{ if globals:contact:mobile }}
                         <li>
                             <a
-                                class="flex items-center gap-3 text-base font-semibold transition-opacity hover:opacity-70"
+                                class="group flex items-center gap-3 text-base font-semibold"
                                 href="https://wa.me/{{ globals:contact:mobile | replace('+', '') | replace(' ', '') | entities }}"
                                 target="_blank"
                                 rel="noopener">
                                 <span
-                                    class="flex size-10 shrink-0 items-center justify-center rounded-full bg-whatsapp text-white">
+                                    class="contact-circle bg-whatsapp text-white group-hover:bg-black group-focus-visible:bg-black">
                                     {{# Het merkglyph, geen Phosphor-logo. Eigen fill="white" in het bestand, dus de `text-white` hiernaast raakt hem niet. #}}
                                     {{ svg src="whatsapp" aria-hidden="true" class="h-6 w-auto" }}
                                 </span>
@@ -45,10 +45,10 @@
                     {{ if globals:contact:phone }}
                         <li>
                             <a
-                                class="flex items-center gap-3 text-base font-semibold transition-opacity hover:opacity-70"
+                                class="group flex items-center gap-3 text-base font-semibold"
                                 href="tel:{{ globals:contact:phone | replace(' ', '') | entities }}">
                                 <span
-                                    class="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent text-black">
+                                    class="contact-circle bg-accent text-black group-hover:bg-black group-hover:text-white group-focus-visible:bg-black group-focus-visible:text-white">
                                     {{ icon src="phone" aria-hidden="true" class="size-6" }}
                                 </span>
                                 {{ globals:contact:phone | entities }}
@@ -58,10 +58,10 @@
                     {{ if globals:contact:email }}
                         <li>
                             <a
-                                class="flex items-center gap-3 text-base font-semibold transition-opacity hover:opacity-70"
+                                class="group flex items-center gap-3 text-base font-semibold"
                                 href="mailto:{{ globals:contact:email | entities }}">
                                 <span
-                                    class="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent text-black">
+                                    class="contact-circle bg-accent text-black group-hover:bg-black group-hover:text-white group-focus-visible:bg-black group-focus-visible:text-white">
                                     {{ icon src="envelope" aria-hidden="true" class="size-6" }}
                                 </span>
                                 {{ globals:contact:email | entities }}

@@ -5,3 +5,16 @@
     letter-spacing: 0.02em; /* 2% van de fontsize, gemeten in Figma */
     line-height: 1.1;
 }
+
+/*
+ * De radius hoort op de `<picture>` en niet op de `<img>`: `base/global.css`
+ * geeft elke picture een `overflow: hidden`, maar geen radius. Schaalt de img
+ * op met zijn eigen ronde hoeken, dan schuiven die hoeken buiten het vierkante
+ * clipvlak en verschijnen er op hover scherpe hoeken.
+ *
+ * De productkaart heeft dit probleem niet omdat daar de `<a>` zelf
+ * `overflow-hidden rounded-md` draagt en dus de knipper is.
+ */
+.article-card picture {
+    @apply rounded-md;
+}

@@ -156,6 +156,28 @@ class ProductHeaderTest extends SectionTestCase
         );
     }
 
+    /**
+     * `parallax-frame` op de sectie en `parallax-media` op het beeld zijn een
+     * paar (zie base/motion.css): verlies je er één, dan blijft de build
+     * groen en de CSS geldig, en wordt de parallax stilletjes een statische
+     * crop.
+     */
+    public function test_the_section_and_its_image_carry_the_parallax_pairing(): void
+    {
+        $partial = file_get_contents(resource_path('views/partials/headers/product.antlers.html'));
+
+        $this->assertMatchesRegularExpression(
+            '/<section class="[^"]*\bparallax-frame\b[^"]*" data-header="product"/',
+            $partial,
+            'De sectie moet parallax-frame dragen.'
+        );
+        $this->assertMatchesRegularExpression(
+            '/\{\{ img [^}]*class="[^"]*\bparallax-media\b[^"]*"/',
+            $partial,
+            'Het beeld moet parallax-media dragen.'
+        );
+    }
+
     public function test_omits_the_image_wrapper_without_an_image(): void
     {
         config(['app.debug' => false]);

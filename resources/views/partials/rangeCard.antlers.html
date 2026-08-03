@@ -1,11 +1,12 @@
 <div class="@container h-full">
     <a
         href="{{ url }}"
-        class="range-card relative isolate flex h-full flex-col overflow-hidden rounded-sm bg-light card-padding @lg:flex-row @lg:items-center @lg:gap-4">
-        {{ svg src="shape" aria-hidden="true" class="pointer-events-none absolute left-0 top-1/2 -translate-y-1/3 -translate-x-1/4 -z-10 size-full [&_path]:fill-black/3" }}
+        class="range-card group relative isolate flex h-full flex-col overflow-hidden rounded-sm bg-light card-padding @lg:flex-row @lg:items-center @lg:gap-4">
+        {{ svg src="shape" aria-hidden="true" class="pointer-events-none absolute left-0 top-1/2 -z-10 size-full -translate-x-1/4 -translate-y-1/3 transition-transform duration-500 ease-out group-hover:scale-110 [&_path]:fill-black/3" }}
         {{ if image }}
-            <div class="relative z-10 flex shrink-0 items-center w-2/3 @lg:w-1/3  @lg:px-4 @lg:justify-center">
-                {{ img :src="image"  class="size-full object-contain " }}
+            <div
+                class="relative z-10 flex w-2/3 shrink-0 items-center transition-transform duration-500 ease-out group-hover:scale-105 @lg:w-1/3 @lg:justify-center @lg:px-4">
+                {{ img :src="image" class="size-full object-contain " }}
             </div>
         {{ /if }}
         <div class="relative z-10 flex flex-col gap-2 lg:gap-3">

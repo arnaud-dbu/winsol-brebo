@@ -1,0 +1,63 @@
+/*
+ * Scroll-gedreven parallax zonder JavaScript. `view()` bindt aan de
+ * dichtstbijzijnde scrollcontainer van het element zelf, en beide secties die
+ * dit gebruiken staan op `overflow-hidden`. Dat maakt de sectie een
+ * scrollcontainer die zelf nooit scrollt, dus `view()` op het beeld zou
+ * bevriezen op 50% en nooit bewegen. Daarom staat de tijdlijn met
+ * `view-timeline-name` op de sectie (`parallax-frame`): de sectie meet zijn
+ * eigen `view()` tegen zijn dichtstbijzijnde scrollcontainer, en dat is het
+ * document. Het beeld consumeert die naam via `animation-timeline`. Een
+ * browser zonder ondersteuning negeert beide en toont een stilstaand beeld,
+ * de juiste degradatie voor een effect dat sowieso subtiel hoort te zijn.
+ *
+ * De zoom is afgeleid van de shift, niet gekozen: het beeld schuift 6% omhoog
+ * én 6% omlaag, dus er moet aan weerszijden 6% extra hoogte onder de rand
+ * zitten. Verlaagt de shift, dan mag de zoom mee omlaag.
+ *
+ * `--parallax-zoom` staat los van de keyframes zodat een component de zoom kan
+ * bijstellen zonder de beweging te raken; `components/cta.css` doet dat op
+ * hover. `scale` en `translate` zijn losse eigenschappen, dus een transition op
+ * de ene botst niet met een animatie op de andere.
+ *
+ * De hele animatie-shorthand zit achter een `@supports`-check op
+ * `animation-timeline`: zonder die check laat een niet-ondersteunende browser
+ * de tijdlijn en de range vallen als ongeldig, maar behoudt de shorthand, en
+ * bevriest dan op het `to`-keyframe in plaats van het stilstaande beeld dat
+ * hierboven beloofd wordt.
+ */
+@utility parallax-frame {
+    view-timeline-name: --parallax;
+}
+
+@utility parallax-media {
+    @supports (animation-timeline: --parallax) {
+        --parallax-zoom: 1.12;
+        --parallax-shift: 6%;
+
+        scale: var(--parallax-zoom);
+        animation: parallax-rise linear both;
+        animation-timeline: --parallax;
+        animation-range: cover;
+    }
+}
+
+@keyframes parallax-rise {
+    from {
+        translate: 0 calc(var(--parallax-shift) * -1);
+    }
+    to {
+        translate: 0 var(--parallax-shift);
+    }
+}
+
+/*
+ * Een scroll-gedreven animatie leest zijn voortgang uit de tijdlijn en niet uit
+ * `animation-duration`, dus de blanket-regel in base/global.css raakt hem niet.
+ * De tijdlijn losknippen is wat hem wél stilzet.
+ */
+@media (prefers-reduced-motion: reduce) {
+    .parallax-media {
+        animation-timeline: none;
+        scale: 1;
+    }
+}

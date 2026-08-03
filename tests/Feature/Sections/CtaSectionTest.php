@@ -90,4 +90,26 @@ class CtaSectionTest extends SectionTestCase
         $this->assertSame(1, substr_count($html, 'btn btn--primary'));
         $this->assertSame(1, substr_count($html, 'btn btn--secondary'));
     }
+
+    /**
+     * `parallax-frame` op de sectie en `parallax-media` op het beeld zijn een
+     * paar (zie base/motion.css): verlies je er één, dan blijft de build
+     * groen en de CSS geldig, en wordt de parallax stilletjes een statische
+     * crop.
+     */
+    public function test_the_section_and_its_image_carry_the_parallax_pairing(): void
+    {
+        $partial = file_get_contents(resource_path('views/partials/sections/cta.antlers.html'));
+
+        $this->assertMatchesRegularExpression(
+            '/<section class="[^"]*\bparallax-frame\b[^"]*" data-section="cta"/',
+            $partial,
+            'De sectie moet parallax-frame dragen.'
+        );
+        $this->assertMatchesRegularExpression(
+            '/\{\{ img [^}]*class="[^"]*\bparallax-media\b[^"]*"/',
+            $partial,
+            'Het beeld moet parallax-media dragen.'
+        );
+    }
 }

@@ -1,16 +1,17 @@
 <a href="{{ url }}" class="article-card group flex h-full flex-col gap-6">
     {{ if image }}
-        {{ img :src="image" ratio="1/1" sizes="(min-width: 1024px) 33vw, 90vw" class="rounded-md max-h-100" }}
+        {{ img :src="image" ratio="1/1" sizes="(min-width: 1024px) 33vw, 90vw" class="max-h-100 transition-transform duration-500 ease-out group-hover:scale-105 group-focus-visible:scale-105" }}
     {{ /if }}
-
     <div class="flex grow flex-col justify-end gap-2.5">
         {{ if themes }}
             <span class="article-card__category">{{ themes.title }}</span>
         {{ /if }}
         <div class="flex items-end justify-between gap-4">
             <h3>{{ title }}</h3>
-            <span aria-hidden="true" class="contents">
-                {{ icon src="arrow-right" class="size-6 lg:size-7 shrink-0 -rotate-45 transition-transform group-hover:translate-x-1" }}
+            <span
+                aria-hidden="true"
+                class="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent/0 transition-colors duration-200 ease-out group-hover:bg-accent group-focus-visible:bg-accent lg:size-11">
+                {{ icon src="arrow-right" class="size-5 lg:size-6 shrink-0 -rotate-45 transition-transform duration-300 ease-out group-hover:rotate-0 group-focus-visible:rotate-0" }}
             </span>
         </div>
     </div>

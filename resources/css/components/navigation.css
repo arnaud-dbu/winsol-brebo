@@ -33,3 +33,32 @@
 @utility nav-bar {
     height: var(--nav-height);
 }
+
+/*
+ * De pill hangt in de contour van de link. Twee varianten omdat de nav op de
+ * product-header wit over een foto zweeft: daar is zwart-op-transparant
+ * onzichtbaar en andersom.
+ *
+ * De `--open`-varianten houden de pill vast zolang het mega menu openstaat.
+ * Zonder die twee dooft de Aanbod-knop uit terwijl zijn eigen paneel nog
+ * openhangt.
+ */
+@utility nav-link {
+    @apply flex items-center gap-2 rounded-full px-4 py-1.5 text-base transition-colors duration-200 ease-out;
+}
+
+@utility nav-link--dark {
+    @apply hover:bg-black/5 focus-visible:bg-black/5;
+}
+
+@utility nav-link--light {
+    @apply hover:bg-white/12 focus-visible:bg-white/12;
+}
+
+@utility nav-link--open-dark {
+    @apply bg-black/5;
+}
+
+@utility nav-link--open-light {
+    @apply bg-white/12;
+}

@@ -7,7 +7,7 @@
  * renderen.
  */
 .location-card {
-    @apply shadow-md/0 transition-shadow duration-200 ease-out;
+    @apply shadow-md/0 transition duration-200 ease-out;
 }
 
 .location-card:hover,

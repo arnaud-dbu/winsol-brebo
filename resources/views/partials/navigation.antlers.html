@@ -5,6 +5,8 @@
     headers zelf: `navigation` rendert vóór `template_content` en kan dus niet weten wat er onder hem komt.
 #}}
 {{ nav_text_class = inverse ? 'text-white' : 'text-black' }}
+{{ nav_hover_class = inverse ? 'nav-link--light' : 'nav-link--dark' }}
+{{ nav_open_class = inverse ? 'nav-link--open-light' : 'nav-link--open-dark' }}
 {{#
     Tussen de nav-balk en de mega-kaart zit een `pointer-events-none` strook. De cursor die daar oversteekt verlaat de
     header even, dus sluiten gebeurt met een korte vertraging die `openMega` weer opheft — anders klapt het paneel dicht op
@@ -45,14 +47,15 @@
         </a>
 
         <nav class="hidden lg:block" aria-label="{{ trans:site.nav_label }}">
-            <ul class="flex items-center gap-8 xl:gap-10">
+            <ul class="flex items-center gap-2 xl:gap-3">
                 {{ nav:main }}
                     <li>
                         {{ if mega_menu }}
                             <button
                                 type="button"
                                 x-ref="megaToggle"
-                                class="{{ nav_text_class }} flex items-center gap-2 text-base transition-opacity hover:opacity-70 focus-visible:opacity-70"
+                                class="{{ nav_text_class }} {{ nav_hover_class }} nav-link"
+                                :class="{ '{{ nav_open_class }}': open }"
                                 aria-controls="mega-menu-panel"
                                 :aria-expanded="open.toString()"
                                 @mouseenter="openMega()"
@@ -75,7 +78,7 @@
                         {{ else }}
                             <a
                                 href="{{ entry.url }}"
-                                class="{{ nav_text_class }} text-base transition-opacity hover:opacity-70 focus-visible:opacity-70 aria-[current=page]:opacity-60"
+                                class="{{ nav_text_class }} {{ nav_hover_class }} nav-link aria-[current=page]:opacity-60"
                                 @mouseenter="closeMega()"
                                 {{ if entry.url == current_url }}aria-current="page"{{ /if }}>
                                 {{ title }}

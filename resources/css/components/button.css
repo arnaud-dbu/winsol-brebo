@@ -1,25 +1,23 @@
 @utility btn {
-    @apply inline-flex  gap-x-1.5 h-fit w-fit items-center justify-center rounded-full px-5 py-2 text-base font-semibold lg:px-6 lg:py-2.5 xl:px-7;
+    @apply inline-flex h-fit w-fit items-center justify-center gap-x-1.5 rounded-full px-5 py-2 text-base font-semibold transition-colors duration-200 ease-out lg:px-6 lg:py-2.5 xl:px-7;
 
     svg {
         @apply size-5 shrink-0;
     }
-    
 }
 
-
 @utility btn--primary {
-    @apply bg-accent text-black;
+    @apply bg-accent text-black hover:bg-accent-hover;
 }
 
 @utility btn--secondary {
-    @apply bg-black text-white;
+    @apply bg-black text-white hover:bg-black-hover;
 }
 
 @utility btn--tertiary {
-    @apply bg-light text-black;
+    @apply bg-light text-black hover:bg-light-shape;
 }
 
 @utility btn--outline {
-    @apply border border-black/20;
+    @apply border border-black/20 text-black hover:border-black hover:bg-light-shape;
 }

@@ -673,7 +673,7 @@ npm run build
 php -d memory_limit=1G ./vendor/bin/phpunit --filter=LocationsTest
 ```
 
-Verwacht: PASS.
+Verwacht: alle gevallen groen **behalve** `test_it_credits_the_tile_providers_outside_the_hidden_map`, die al rood stond vóór dit plan begon en identiek faalt op `main`. Die hoort bij de kaart-attributie en staat los van dit werk. **Repareer hem niet** en pas de test niet aan; meld hem alleen als hij van foutmelding verandert, want dan heeft jouw wijziging hem wél geraakt.
 
 - [ ] **Step 5: Commit**
 
