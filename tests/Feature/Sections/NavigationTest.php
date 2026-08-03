@@ -11,7 +11,7 @@ class NavigationTest extends SectionTestCase
         // Deze titels komen uit content/trees/navigation/main.yaml, niet uit de
         // template — bewijst dat het menu geen hardcoded lijst links is.
         $this->assertStringContainsString('Aanbod', $html);
-        $this->assertStringContainsString('Realisaties', $html);
+        $this->assertStringContainsString('Nieuws', $html);
         $this->assertStringContainsString('Service', $html);
         $this->assertStringContainsString('Over ons', $html);
         $this->assertStringContainsString('Contact', $html);
@@ -25,7 +25,7 @@ class NavigationTest extends SectionTestCase
         // de items staan één keer in het desktopmenu, in boomvolgorde.
         $positions = [
             'Aanbod' => strpos($html, 'Aanbod'),
-            'Realisaties' => strpos($html, 'Realisaties'),
+            'Nieuws' => strpos($html, 'Nieuws'),
             'Service' => strpos($html, 'Service'),
             'Over ons' => strpos($html, 'Over ons'),
             'Contact' => strpos($html, 'Contact'),

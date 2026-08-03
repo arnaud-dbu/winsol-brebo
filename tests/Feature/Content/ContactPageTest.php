@@ -47,7 +47,7 @@ class ContactPageTest extends TestCase
     }
 
     /**
-     * De CTA wees eerst naar realisaties, net als die op /offerte en met bijna
+     * De CTA wees eerst naar nieuws, net als die op /offerte en met bijna
      * dezelfde tekst. De brief vraagt een unieke CTA per pagina, dus deze wijst
      * naar het aanbod: een andere bestemming én een andere invalshoek.
      */
