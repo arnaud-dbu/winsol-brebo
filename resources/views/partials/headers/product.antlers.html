@@ -26,10 +26,10 @@
     zonder beeld rendert de tekst in de flow, zonder witte-op-wit-tekst.
     Geen vaste hoogte verzonnen — geen Figma-frame dekt deze staat.
 #}}
-<section class="relative isolate overflow-hidden" data-header="product">
+<section class="relative isolate overflow-hidden parallax-frame" data-header="product">
     {{ if image }}
         <div data-header-media>
-            {{ img :src="image" ratio="4/5" sm:ratio="16/9" lg:ratio="7/3" max_width="2560" sizes="100vw" priority="true" class="product-frame w-full" }}
+            {{ img :src="image" ratio="4/5" sm:ratio="16/9" lg:ratio="7/3" max_width="2560" sizes="100vw" priority="true" class="product-frame parallax-media w-full" }}
         </div>
 
         <div class="absolute inset-0 bg-radial from-black to-black/50 opacity-70" aria-hidden="true"></div>
