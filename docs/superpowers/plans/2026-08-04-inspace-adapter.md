@@ -812,7 +812,9 @@ class EntryLister
      */
     public function list(array $filters): array
     {
-        $perPage = min((int) ($filters['per_page'] ?? 50), self::MAX_PER_PAGE);
+        // Ook een ondergrens: array_slice leest een negatieve lengte als
+        // "stop N vóór het einde", wat een 200 met te veel rijen oplevert.
+        $perPage = max(min((int) ($filters['per_page'] ?? 50), self::MAX_PER_PAGE), 1);
         $page = max((int) ($filters['page'] ?? 1), 1);
 
         $entries = collect($this->handles($filters['collection'] ?? null))
