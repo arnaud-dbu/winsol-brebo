@@ -1,12 +1,14 @@
-title: Articles
+title: Nieuws
 icon: collections
 template: articles/show
 layout: layout
-mount: 8cf703da-5dde-4543-89aa-8f2d5c3011d9
+mount: c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a03
 revisions: false
-route: 'articles/{slug}'
+route: '/nieuws/{slug}'
 date: true
-sort_dir: asc
+sort_dir: desc
+taxonomies:
+  - themes
 preview_targets:
   -
     label: Entry

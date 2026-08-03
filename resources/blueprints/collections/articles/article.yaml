@@ -13,7 +13,7 @@ tabs:
       -
         fields:
           -
-            import: redactor
+            import: article_redactor
   preview:
     display: Preview
     sections:
@@ -45,5 +45,17 @@ tabs:
               type: date
               required: true
               default: now
+              validate:
+                - required
+          -
+            handle: theme
+            field:
+              type: terms
+              taxonomies:
+                - themes
+              max_items: 1
+              create: false
+              display: Thema
+              required: true
               validate:
                 - required

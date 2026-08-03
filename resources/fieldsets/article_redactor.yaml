@@ -1,0 +1,30 @@
+title: 'Article Redactor'
+fields:
+  -
+    handle: redactor
+    field:
+      type: bard
+      display: Redactor
+      container: assets
+      remove_empty_nodes: false
+      buttons:
+        - h2
+        - h3
+        - bold
+        - italic
+        - unorderedlist
+        - orderedlist
+        - anchor
+        - table
+        - image
+      sets:
+        content:
+          sets:
+            video:
+              display: Video
+              fields:
+                -
+                  handle: video
+                  field:
+                    type: video
+                    display: Video
