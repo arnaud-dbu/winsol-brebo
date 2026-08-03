@@ -1,7 +1,12 @@
 # Inspace/Nova adapter — ontwerp
 
 Datum: 2026-07-29
-Status: goedgekeurd ontwerp, nog niet geïmplementeerd
+Status: **achterhaald**, vervangen door `2026-08-03-inspace-adapter-design.md`
+
+De bouwplaats is omgedraaid naar winsol-brebo, en drie aannames hieronder kloppen
+niet meer met de codebase: er is geen `image`-set, `articles` heeft wél een
+verplichte `themes`-taxonomie, en de templatebug is hier al opgelost. Bewaard
+voor de redenering, niet om tegen te bouwen.
 
 ## Aanleiding
 
