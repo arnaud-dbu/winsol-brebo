@@ -1546,7 +1546,7 @@ Expected: FAIL — `/nieuws` rendert nog het boilerplate-template met een `grid-
                 {{ collection:articles }}
                     {{# Ternary en geen `{{ if }}`-blok: dit zet één waarde.
                         `projects/index` gebruikte hier nog twee regels. #}}
-                    {{ theme_slug = theme ? theme:slug : '' }}
+                    {{ theme_slug = themes ? themes:slug : '' }}
                     <li
                         {{ if get:theme && get:theme != theme_slug }}hidden{{ /if }}
                         :hidden="!matches('{{ theme_slug }}')">
@@ -1785,7 +1785,7 @@ Expected: FAIL — de partial `headers/article` bestaat niet.
 <section class="bg-white" data-header="article">
     <div class="container flex flex-col items-center gap-6 pt-10 text-center lg:pt-16">
         <div class="inline-flex items-center gap-2">
-            {{ if theme }}<span class="chip chip--dark">{{ theme.title }}</span>{{ /if }}
+            {{ if themes }}<span class="chip chip--dark">{{ themes.title }}</span>{{ /if }}
             <span class="chip chip--light">{{ date | isoFormat('D MMMM YYYY') }}</span>
         </div>
 
@@ -2042,12 +2042,12 @@ class ArticlesSectionTest extends SectionTestCase
                 [
                     'title' => 'Een pergola die het hele jaar bruikbaar is',
                     'url' => '/nieuws/een-pergola-die-het-hele-jaar-bruikbaar-is',
-                    'theme' => ['title' => 'Terrasoverkapping', 'slug' => 'terrasoverkapping'],
+                    'themes' => ['title' => 'Terrasoverkapping', 'slug' => 'terrasoverkapping'],
                 ],
                 [
                     'title' => 'Zip-screens kiezen voor een nieuwbouw',
                     'url' => '/nieuws/zip-screens-kiezen-voor-een-nieuwbouw',
-                    'theme' => ['title' => 'Zonwering', 'slug' => 'zonwering'],
+                    'themes' => ['title' => 'Zonwering', 'slug' => 'zonwering'],
                 ],
             ],
         ]);
