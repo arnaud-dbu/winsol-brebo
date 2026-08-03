@@ -10,7 +10,7 @@
                         `projects/index` gebruikte hier nog twee regels. #}}
                     {{ theme_slug = themes ? themes:slug : '' }}
                     <li
-                        {{ if get:theme && get:theme != theme_slug }}hidden{{ /if }}
+                        {{ (get:theme && get:theme != theme_slug) ? 'hidden' : '' }}
                         :hidden="!matches('{{ theme_slug }}')">
                         {{ partial:articleCard }}
                     </li>

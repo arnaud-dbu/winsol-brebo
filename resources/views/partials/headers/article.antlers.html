@@ -13,7 +13,9 @@
             {{ if themes }}
                 <span class="chip chip--dark">{{ themes.title }}</span>
             {{ /if }}
-            <span class="chip chip--light">{{ date | isoFormat('D MMMM YYYY') }}</span>
+            <time datetime="{{ date | format('Y-m-d') }}" class="chip chip--light">
+                {{ date | isoFormat('D MMMM YYYY') }}
+            </time>
         </div>
 
         <h1 class="header-title max-w-[866px]">{{ title }}</h1>

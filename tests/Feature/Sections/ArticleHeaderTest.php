@@ -43,7 +43,14 @@ class ArticleHeaderTest extends SectionTestCase
         $html = $this->render('{{ partial src="headers/article" }}', $article->toAugmentedArray());
 
         $this->assertStringContainsString('<span class="chip chip--dark">Terrasoverkapping</span>', $html);
-        $this->assertStringContainsString('<span class="chip chip--light">21 juli 2026</span>', $html);
+
+        // Prettier wrapt de `<time>`-tag over meerdere regels (de openings-
+        // tag met `datetime` overschrijdt de printWidth), dus geen exacte
+        // substring-match.
+        $this->assertMatchesRegularExpression(
+            '/<time datetime="2026-07-21" class="chip chip--light">\s*21 juli 2026\s*<\/time>/',
+            $html
+        );
     }
 
     public function test_the_date_is_rendered_in_dutch(): void
