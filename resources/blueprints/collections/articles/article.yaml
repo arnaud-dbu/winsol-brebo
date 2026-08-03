@@ -7,9 +7,6 @@ tabs:
         fields:
           -
             import: page_header_image
-            config:
-              title:
-                required: true
       -
         fields:
           -

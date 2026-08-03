@@ -8,8 +8,11 @@ use App\Listeners\AddDefaultBlueprintTabs;
 use App\Listeners\ClearSitemapCache;
 use App\Listeners\CompressUploadedAsset;
 use App\Services\ImageCompressor;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use League\Glide\Api\Api;
@@ -115,6 +118,11 @@ class AppServiceProvider extends ServiceProvider
 
         View::share('cookie_consent', $this->loadCookieConsent());
         View::share('font_faces', config('fonts.fonts', []));
+
+        RateLimiter::for('inspace', function (Request $request) {
+            return Limit::perMinute((int) config('inspace.rate_limit', 120))
+                ->by((string) $request->attributes->get('inspace_token_label', $request->ip()));
+        });
     }
 
     private function loadCookieConsent(): array
