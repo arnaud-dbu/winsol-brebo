@@ -113,4 +113,19 @@ class NavigationTest extends SectionTestCase
         // `<button>` zonder href, dus die telt niet mee.
         $this->assertSame(2, substr_count($html, 'href="/aanbod"'));
     }
+
+    public function test_the_links_switch_hover_variant_with_the_inverse_flag(): void
+    {
+        // De inverse-tak is op de helft van de pagina's onzichtbaar: alleen de
+        // product-header laat de nav wit over een foto zweven. Een fout daarin
+        // valt op een gewone pagina nooit op.
+        $donker = $this->render('{{ partial:navigation }}');
+        $licht = $this->render('{{ partial:navigation inverse="true" }}');
+
+        $this->assertStringContainsString('nav-link--dark', $donker);
+        $this->assertStringNotContainsString('nav-link--light', $donker);
+
+        $this->assertStringContainsString('nav-link--light', $licht);
+        $this->assertStringNotContainsString('nav-link--dark', $licht);
+    }
 }
