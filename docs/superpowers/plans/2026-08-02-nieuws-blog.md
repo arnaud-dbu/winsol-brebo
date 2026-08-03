@@ -1544,8 +1544,9 @@ Expected: FAIL — `/nieuws` rendert nog het boilerplate-template met een `grid-
             {{ partial:themeFilter }}
             <ul class="grid grid-gutter md:grid-cols-2">
                 {{ collection:articles }}
-                    {{ theme_slug = '' }}
-                    {{ if theme }}{{ theme_slug = theme:slug }}{{ /if }}
+                    {{# Ternary en geen `{{ if }}`-blok: dit zet één waarde.
+                        `projects/index` gebruikte hier nog twee regels. #}}
+                    {{ theme_slug = theme ? theme:slug : '' }}
                     <li
                         {{ if get:theme && get:theme != theme_slug }}hidden{{ /if }}
                         :hidden="!matches('{{ theme_slug }}')">
