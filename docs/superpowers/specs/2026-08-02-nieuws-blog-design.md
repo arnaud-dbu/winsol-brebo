@@ -55,8 +55,8 @@ verwarren:
 4. **`App\Tags\ProjectRanges` bestaat alleen omdat `range` een entries-relatie
    is.** De tag ontdubbelt de ranges van gepubliceerde projecten zodat een klik
    nooit een lege grid oplevert. Met een taxonomie doet Statamic dat native:
-   `{{ taxonomy:themes collection="articles" min_count="1" }}`. De tag verdwijnt
-   zonder vervanging.
+   `{{ taxonomy:themes collection="articles" }}`. De tag verdwijnt zonder
+   vervanging.
 
 ## Bestanden
 
@@ -225,11 +225,14 @@ huidige `projects/index`:
 wijzigingen: `?range=` wordt `?theme=`, en de `{{ project_ranges }}`-lus wordt
 
 ```antlers
-{{ taxonomy:themes collection="articles" min_count="1" sort="title" }}
+{{ taxonomy:themes collection="articles" sort="title" }}
 ```
 
-`min_count="1"` doet het werk waarvoor `ProjectRanges` bestond: alleen thema's
-tonen waar minstens één artikel aan hangt. Pillen blijven `btn btn--secondary`
+`collection="articles"` doet het werk waarvoor `ProjectRanges` bestond: alleen
+thema's tonen waar minstens één artikel aan hangt. Dat zit in de `collection`-
+parameter zelf, die via `TermQueryBuilder::filterUsagesWithinCollections()` op
+de associatie-index filtert. `min_count="1"` is daarnaast overbodig, en stond
+er in een eerdere versie van dit ontwerp ten onrechte bij. Pillen blijven `btn btn--secondary`
 (actief) en `btn btn--tertiary` (inactief), het sticky-gedrag onder `lg:sticky
 lg:top-10` blijft, en de horizontale scrollrij met `-mx-4 px-4` die onder `lg`
 tot de schermrand loopt blijft inclusief haar commentaar.

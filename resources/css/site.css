@@ -78,7 +78,7 @@
 @import './components/link.css';
 @import './components/button.css';
 @import './components/form.css';
-@import './components/badge.css';
+@import './components/chip.css';
 @import './components/hamburger.css';
 @import './components/navigation.css';
 @import './components/mobile-navigation.css';
@@ -86,7 +86,7 @@
 @import './components/slider.css';
 @import './components/card.css';
 @import './components/section-header.css';
-@import './components/project-card.css';
+@import './components/article-card.css';
 @import './components/range-card.css';
 @import './components/header.css';
 @import './components/locations.css';

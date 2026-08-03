@@ -10,3 +10,56 @@
 .rich-text p + p {
     @apply mt-4;
 }
+
+/*
+ * De artikeltekst krijgt een eigen utility in plaats van een uitgebreide
+ * `.rich-text`: die laatste is bewust minimaal en draait ook in `card`,
+ * `sectionHeader` en `sections/text`, waar prose-marges en onderstreepte
+ * links verkeerd vallen.
+ */
+@utility article-body {
+    @apply prose max-w-none;
+
+    /*
+     * Prose's eigen paletvariabelen overschrijven anders het `--color-black`-
+     * token van de rest van de site met zijn gray-scale.
+     */
+    --tw-prose-body: var(--color-black);
+    --tw-prose-headings: var(--color-black);
+    --tw-prose-links: var(--color-black);
+    --tw-prose-bold: var(--color-black);
+    --tw-prose-counters: var(--color-black);
+
+    p,
+    li {
+        @apply text-base;
+    }
+
+    h2,
+    h3 {
+        @apply font-semibold text-balance first-of-type:mt-0;
+    }
+
+    h2 {
+        font-size: var(--text-3xl); /* 31 → 49px */
+        line-height: 1.1;
+    }
+
+    h3 {
+        font-size: var(--text-xl); /* 20 → 31px */
+        line-height: 120%;
+    }
+
+    a {
+        @apply font-semibold underline underline-offset-4 hover:no-underline;
+    }
+
+    img {
+        @apply block w-full rounded-md;
+    }
+
+    /* Een brede tabel mag de pagina niet meesleuren. */
+    table {
+        @apply block w-full overflow-x-auto;
+    }
+}

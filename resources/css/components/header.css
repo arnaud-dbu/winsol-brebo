@@ -28,22 +28,6 @@
     font-size: var(--text-lg); /* 18 → 25px, Figma 293:3545 / 301:3499 / 301:3309 */
 }
 
-/*
- * Het label boven de project-H1 (Figma 301:3307) is NIET de `.overline`-
- * component: die is 12 → 16px met `letter-spacing: 0.125em` en rendert
- * altijd een streepje-span. Dit label is 20px, 0.4px tracking, halftrans-
- * parant zwart en heeft geen streepje. Een zesde `.overline`-variant zou een
- * component uitbreiden dat al te veel bereikbare varianten heeft — zie de
- * page-builder-follow-ups.
- */
-.header-eyebrow {
-    @apply font-semibold text-black/50 uppercase;
-
-    font-size: var(--text-base); /* 16 → 20px */
-    line-height: 1.1;
-    letter-spacing: 0.02em; /* 0.4px op 20px */
-}
-
 /* --- Value proposition (Figma 293:2705) --- */
 
 .value-proposition__title {

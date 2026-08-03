@@ -1,0 +1,37 @@
+<nav class="theme-filter min-w-0 lg:sticky lg:top-10 lg:self-start" aria-label="{{ trans:site.filter_label }}">
+    {{# `-mx-4 px-4` spiegelt de padding van `.container`: onder lg loopt de rij tot de schermrand. #}}
+    {{# Het veld heet `themes` (meervoud) omdat Statamics term-index `$entry->value($taxonomyHandle)`
+        leest; de querystring blijft `?theme=` (enkelvoud). Bewust asymmetrisch, niet gelijktrekken. #}}
+    <ul
+        class="-mx-4 scrollbar-none flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-col lg:items-start lg:gap-4 lg:overflow-x-visible xl:gap-5 lg:px-0">
+        <li class="shrink-0">
+            <a
+                href="{{ url }}"
+                data-theme=""
+                class="{{ get:theme ? 'btn--tertiary' : 'btn--secondary' }} btn whitespace-nowrap"
+                {{ if !get:theme }} aria-current="page"{{ /if }}
+                :class="{ 'btn--secondary': active === 'all', 'btn--tertiary': active !== 'all' }"
+                :aria-current="active === 'all' ? 'page' : false"
+                @click.prevent="select('all')">
+                {{ trans:site.filter_all }}
+            </a>
+        </li>
+
+        {{# collection="articles" doet het werk van App\Tags\ProjectRanges: alleen
+            thema's met minstens één artikel, zodat een klik nooit een lege grid oplevert. #}}
+        {{ taxonomy:themes collection="articles" sort="title" }}
+            <li class="shrink-0">
+                <a
+                    href="?theme={{ slug }}"
+                    data-theme="{{ slug }}"
+                    class="{{ get:theme == slug ? 'btn--secondary' : 'btn--tertiary' }} btn whitespace-nowrap"
+                    {{ if get:theme == slug }} aria-current="page"{{ /if }}
+                    :class="{ 'btn--secondary': active === '{{ slug }}', 'btn--tertiary': active !== '{{ slug }}' }"
+                    :aria-current="active === '{{ slug }}' ? 'page' : false"
+                    @click.prevent="select('{{ slug }}')">
+                    {{ title | entities }}
+                </a>
+            </li>
+        {{ /taxonomy:themes }}
+    </ul>
+</nav>

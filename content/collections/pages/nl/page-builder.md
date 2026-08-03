@@ -201,20 +201,20 @@ page_builder:
     enabled: true
   -
     id: sec05
-    type: projects
-    overline: realisaties
-    title: 'Recent gerealiseerd'
+    type: articles
+    overline: nieuws
+    title: 'Recent geschreven'
     link:
       -
         id: gzejMI7X
         type: entry
-        entry: abe3f0e6-93bd-4c99-9389-393613952117
-        label: 'Bekijk alle realisaties'
+        entry: c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a03
+        label: 'Bekijk alle artikels'
         new_tab: false
-    projects:
-      - b7d4e2c3-0001-4f5a-9b8c-6d7e8f9a0b01
-      - b7d4e2c3-0003-4f5a-9b8c-6d7e8f9a0b03
-      - b7d4e2c3-0005-4f5a-9b8c-6d7e8f9a0b05
+    articles:
+      - a4e8b1c7-0001-4d3f-9a2b-5c6d7e8f9a01
+      - a4e8b1c7-0002-4d3f-9a2b-5c6d7e8f9a02
+      - a4e8b1c7-0003-4d3f-9a2b-5c6d7e8f9a03
     enabled: true
   -
     id: sec06

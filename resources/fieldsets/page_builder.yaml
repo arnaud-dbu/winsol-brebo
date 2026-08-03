@@ -317,8 +317,8 @@ fields:
                     collections:
                       - products
                     display: Products
-            projects:
-              display: Projects
+            articles:
+              display: Articles
               fields:
                 -
                   handle: overline
@@ -333,12 +333,12 @@ fields:
                 -
                   import: link
                 -
-                  handle: projects
+                  handle: articles
                   field:
                     type: entries
                     collections:
-                      - projects
-                    display: Projects
+                      - articles
+                    display: Articles
             features:
               display: Features
               fields:

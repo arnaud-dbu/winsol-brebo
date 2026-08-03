@@ -1,15 +1,15 @@
-{{ partial:headers/default }}
+{{ partial:headers/article }}
 <section class="section section--default">
-    <div class="container-sm">
+    <div class="container-md">
+        {{#
+            `else` en geen tweede `if type == 'text'`: er zijn maar twee knooptypes, en zo kan er geen derde stilzwijgend wegvallen
+            — precies de fout die het boilerplate-template maakte.
+        #}}
         {{ redactor }}
-            {{ if type == "text" }}
-                <div class="rich-text">{{ text }}</div>
-            {{ /if }}
-            {{ if type == "image" }}
-                {{ img :src="image" :alt="image.alt" max_width="960" sizes="(min-width: 768px) 768px, 100vw" }}
-            {{ /if }}
-            {{ if type == "video" }}
-                {{ partial:video }}
+            {{ if type == 'video' }}
+                <div class="my-8 overflow-hidden rounded-md lg:my-12">{{ partial:video }}</div>
+            {{ else }}
+                <div class="article-body">{{ text }}</div>
             {{ /if }}
         {{ /redactor }}
     </div>

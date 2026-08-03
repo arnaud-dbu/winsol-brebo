@@ -2,8 +2,6 @@
 id: e1521336-1bf2-4789-9b9f-7b2e93365671
 blueprint: home
 title: 'Winsol maakt je woning compleet'
-home_projects:
-  highlight: color
 seo_noindex: false
 updated_by: d308c19c-c205-4453-9862-1f62996a3734
 updated_at: 1773327237

@@ -153,7 +153,7 @@ class OffertePageTest extends TestCase
         $quicklink = Entry::query()->where('collection', 'quicklinks')->where('slug', 'vraag-offerte-aan')->first();
         $this->assertSame($offerte->id(), $quicklink->get('link')[0]['entry'][0]);
 
-        $realisaties = Entry::query()->where('collection', 'pages')->where('slug', 'realisaties')->first();
-        $this->assertSame($offerte->id(), $realisaties->get('page_builder')[0]['link'][0]['entry'][0]);
+        $nieuws = Entry::query()->where('collection', 'pages')->where('slug', 'nieuws')->first();
+        $this->assertSame($offerte->id(), $nieuws->get('page_builder')[0]['link'][0]['entry'][0]);
     }
 }
