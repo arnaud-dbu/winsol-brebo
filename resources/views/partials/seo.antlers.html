@@ -11,8 +11,8 @@
         - Canonical URL
 #}}
 
-{{# Meta Title: use meta_title field, fall back to title + site name #}}
-{{ meta_title_computed = meta_title ?? title }}
+{{# Meta Title: use meta_title, fall back to the page title, then the global meta_title #}}
+{{ meta_title_computed = meta_title ?? title ?? seo:meta_title }}
 <title>
     {{ meta_title_computed }}
     {{ if meta_title_computed != site:name }}
@@ -25,10 +25,11 @@
 {{ if meta_description_computed }}
     <meta name="description" content="{{ meta_description_computed }}">
 {{ /if }}
-{{# Robots: noindex / nofollow #}}
-{{ if seo_noindex || seo_nofollow }}
+{{# Robots: de globale schakelaar zet de hele site op noindex, ongeacht de pagina #}}
+{{ noindex_computed = seo_noindex || seo:seo_noindex }}
+{{ if noindex_computed || seo_nofollow }}
     <meta name="robots"
-        content="{{ if seo_noindex }}noindex{{ /if }}{{ if seo_noindex && seo_nofollow }}, {{ /if }}{{ if seo_nofollow }}nofollow{{ /if }}">
+        content="{{ if noindex_computed }}noindex{{ /if }}{{ if noindex_computed && seo_nofollow }}, {{ /if }}{{ if seo_nofollow }}nofollow{{ /if }}">
 {{ /if }}
 {{# Canonical URL #}}
 <link rel="canonical" href="{{ current_url }}">

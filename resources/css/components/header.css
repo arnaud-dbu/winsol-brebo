@@ -35,6 +35,26 @@
     object-fit: cover;
 }
 
+/*
+ * Het bijgesneden range-beeld binnen zijn vierkante referentiebox.
+ *
+ * Die box is even groot als het oorspronkelijke canvas, en `--trim-width` — dat
+ * {{ img }} meegeeft — is het aandeel daarvan dat het product innam. Elk beeld
+ * houdt daardoor exact de schaal die het op het volle canvas had, dus de
+ * onderlinge verhouding tussen de ranges blijft onaangetast. Wat wél verdwijnt
+ * is de transparante rand, en die verschilde sterk: aan de kant van de tekst
+ * liep hij van 5% (pergolas) tot 28% (ramen en deuren) van de canvasbreedte.
+ * Daardoor kan de box nu op de productrand uitlijnen in plaats van op het
+ * canvas, en staat elke range even ver van de tekst.
+ *
+ * De fallback van 100% dekt een beeld zonder transparante rand: dat vult het
+ * canvas al en krijgt dus geen `--trim-width` mee.
+ */
+@utility range-media-image {
+    width: var(--trim-width, 100%);
+    height: auto;
+}
+
 .header-title {
     font-size: var(--text-display); /* 39 → 76px */
 }

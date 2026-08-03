@@ -5,18 +5,41 @@ namespace Tests\Feature\Sections;
 use Illuminate\Support\Facades\Storage;
 use Statamic\Contracts\Assets\Asset;
 use Statamic\Facades\AssetContainer;
+use Statamic\Facades\Glide as GlideManager;
 
 class RangeHeaderTest extends SectionTestCase
 {
-    /** Zelfde opzet als tests/Feature/ImgTagTest.php. */
-    private function makeImageAsset(string $filename = 'pergolas.png'): Asset
+    /**
+     * Zelfde opzet als tests/Feature/ImgTagTest.php.
+     *
+     * `$opaqueInset` zet een transparante rand van die breedte om een dekkend
+     * midden, zoals de echte range-png's die hebben.
+     */
+    private function makeImageAsset(string $filename = 'pergolas.png', int $opaqueInset = 0): Asset
     {
         Storage::fake('r2');
+
+        // De alpha-maten liggen in Statamic's glide-store, en die is een
+        // bestandscache die de test overleeft. Zonder deze flush leest een
+        // volgende test met hetzelfde assetpad de maten van de vorige.
+        GlideManager::cacheStore()->flush();
 
         $container = AssetContainer::make('assets')->disk('r2')->title('Assets');
         $container->save();
 
         $image = imagecreatetruecolor(1200, 1200);
+        imagesavealpha($image, true);
+        imagealphablending($image, false);
+        imagefilledrectangle($image, 0, 0, 1199, 1199, imagecolorallocatealpha($image, 0, 0, 0, 127));
+        imagefilledrectangle(
+            $image,
+            $opaqueInset,
+            $opaqueInset,
+            1199 - $opaqueInset,
+            1199 - $opaqueInset,
+            imagecolorallocatealpha($image, 0, 0, 0, 0)
+        );
+
         ob_start();
         imagepng($image);
         Storage::disk('r2')->put($filename, ob_get_clean());
@@ -98,15 +121,18 @@ class RangeHeaderTest extends SectionTestCase
     }
 
     /**
-     * Elke range-png is een vierkant canvas met het product gecentreerd en
-     * een wisselende hoeveelheid transparante lucht eromheen. Een vierkante
-     * box met `object-contain` is precies wat het optische midden van het
-     * product op het midden van de box legt, ongeacht welke range er staat.
+     * De box blijft vierkant en dus even groot als het bronvlak, maar lijnt
+     * niet langer op dát vlak uit. Glide snijdt de transparante rand weg en de
+     * box zet het product met `justify-end` tegen de tekstkolom, zodat elke
+     * range even ver van de tekst staat.
      *
-     * `ratio` zou dat kapotmaken: die crop't via `crop_focal` en levert per
-     * beeld een ander midden op. Vandaar dat beide kanten hier vastliggen.
+     * Het beeld krijgt via `--trim-width` het aandeel van het canvas terug dat
+     * het innam — hier een inset van 200px op 1200, dus 800/1200 = 66,667%.
+     * Dat is wat de onderlinge schaal tussen de ranges intact houdt: zonder die
+     * breedte zou elk product zijn box vullen en werden de smalle beelden
+     * ineens even groot als de brede.
      */
-    public function test_the_media_is_a_square_contain_box(): void
+    public function test_the_media_box_aligns_on_the_trimmed_product(): void
     {
         config(['app.debug' => false]);
 
@@ -115,7 +141,7 @@ class RangeHeaderTest extends SectionTestCase
         // dan kan de `crop_focal`-assertie hieronder niet meer falen.
         $html = $this->render('{{ partial src="headers/range" }}', [
             'title' => 'Terrasoverkapping',
-            'image' => $this->makeImageAsset(),
+            'image' => $this->makeImageAsset(opaqueInset: 200),
         ]);
 
         $this->assertMatchesRegularExpression(
@@ -123,15 +149,53 @@ class RangeHeaderTest extends SectionTestCase
             $html
         );
         $this->assertMatchesRegularExpression(
-            '/<img[^>]*class="[^"]*object-contain/',
+            '/data-header-media[^>]*class="[^"]*lg:justify-end/',
             $html
         );
+
+        $this->assertMatchesRegularExpression(
+            '/<img[^>]*class="[^"]*range-media-image/',
+            $html
+        );
+        // Het dekkende midden is 800 van 1200 breed, dus 66,667%. De scan
+        // bemonstert met een stap en rekt de gevonden rand daarna met die stap
+        // naar buiten op — liever een paar pixel lucht laten staan dan het
+        // product aansnijden. De uitkomst mag dus iets ruimer zijn, nooit
+        // krapper.
+        $this->assertMatchesRegularExpression('/<img[^>]*style="--trim-width: [\d.]+%"/', $html);
+        preg_match('/--trim-width: ([\d.]+)%/', $html, $trimWidth);
+
+        $this->assertGreaterThanOrEqual(66.667, (float) $trimWidth[1]);
+        $this->assertLessThan(68.0, (float) $trimWidth[1]);
+
+        // De trim moet ook echt in de Glide-url landen, anders krijgt de
+        // browser het volle canvas terug en klopt `--trim-width` niet meer
+        // met wat er staat.
+        $this->assertStringContainsString('trim=1', $html);
 
         // Geen crop: een `ratio` op {{ img }} laat Img::glideUrl()
         // `fit('crop_focal')` zetten, en dat landt als `fit=crop` in de
         // Glide-url — de letterlijke string `crop_focal` haalt de output nooit.
         // Zonder ratio staat er helemaal geen `fit=` in.
         $this->assertStringNotContainsString('fit=', $html);
+    }
+
+    /**
+     * Een beeld zonder transparante rand valt terug op de volle box. Zou de
+     * tag ook dan `trim` meesturen, dan ontstond er een tweede Glide-variant
+     * van een bewerking die niets doet.
+     */
+    public function test_an_image_without_transparent_padding_is_left_alone(): void
+    {
+        config(['app.debug' => false]);
+
+        $html = $this->render('{{ partial src="headers/range" }}', [
+            'title' => 'Terrasoverkapping',
+            'image' => $this->makeImageAsset(opaqueInset: 0),
+        ]);
+
+        $this->assertStringNotContainsString('trim=1', $html);
+        $this->assertStringNotContainsString('--trim-width', $html);
     }
 
     /**

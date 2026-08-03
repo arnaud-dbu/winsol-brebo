@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Imaging\AssetAlphaBounds;
+use App\Imaging\Manipulators\TrimTransparent;
 use App\Listeners\AddDefaultBlueprintTabs;
 use App\Listeners\ClearSitemapCache;
 use App\Listeners\CompressUploadedAsset;
@@ -10,11 +12,15 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use League\Glide\Api\Api;
+use League\Glide\Manipulators\Size;
+use League\Glide\Server;
 use Statamic\Events\AssetUploaded;
 use Statamic\Events\BlueprintSaved;
 use Statamic\Events\CollectionSaved;
 use Statamic\Facades\Collection;
 use Statamic\Facades\Entry;
+use Statamic\Facades\Glide as GlideManager;
 use Statamic\Fieldtypes\Sets;
 
 class AppServiceProvider extends ServiceProvider
@@ -39,6 +45,48 @@ class AppServiceProvider extends ServiceProvider
                 maxWidth: (int) config('image-compression.max_width'),
                 jpegQuality: (int) config('image-compression.jpeg_quality'),
             );
+        });
+
+        $this->app->singleton(AssetAlphaBounds::class, function () {
+            // Statamic's eigen glide-store, zodat het legen van de beeldcache
+            // ook deze maten meeneemt. Via de facade en niet Cache::store(),
+            // want die store wordt pas daar in de config gezet.
+            return new AssetAlphaBounds(GlideManager::cacheStore());
+        });
+
+        $this->registerTrimManipulator();
+    }
+
+    /**
+     * Hang de trim-manipulator in Glide's keten.
+     *
+     * League\Glide\ServerFactory bakt zijn manipulatorlijst hard in, dus de
+     * enige ingang is de opgebouwde server. `extend` en niet opnieuw `bind`:
+     * Statamic registreert de server in een uitgestelde provider, en zo blijft
+     * die opzet intact.
+     */
+    private function registerTrimManipulator(): void
+    {
+        $this->app->extend(Server::class, function (Server $server) {
+            $api = $server->getApi();
+            $manipulators = [];
+
+            foreach ($api->getManipulators() as $manipulator) {
+                // Vóór Size, want anders zou `w` op het canvas slaan en het
+                // bijgesneden beeld daarna weer opgeblazen worden.
+                if ($manipulator instanceof Size) {
+                    $manipulators[] = new TrimTransparent;
+                }
+
+                $manipulators[] = $manipulator;
+            }
+
+            // Een nieuwe Api en geen setManipulators(): alleen de constructor
+            // draait setApiParams(), en zonder die herberekening kent Glide
+            // `trim` niet en filtert hij hem alsnog weg.
+            $server->setApi(new Api($api->getImageManager(), $manipulators, $api->getEncoder()));
+
+            return $server;
         });
     }
 

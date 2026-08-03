@@ -31,8 +31,9 @@ page_builder:
             text: 'De drie punten delen één werkwijze en één plaatsingsteam. Wie in Dilbeek langskomt krijgt hetzelfde advies en dezelfde vakmensen over de vloer als wie in Sint-Pieters-Leeuw of Aartselaar binnenstapt.'
     background: true
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: winsol-team.jpg
     enabled: true
+    overline: 'Ons verhaal'
   -
     id: overonsaanpak
     type: features
@@ -71,7 +72,7 @@ page_builder:
   -
     id: overonsgrid
     type: grid_cta
-    image: 'team-(4).png'
+    image: team-(1).webp
     grid:
       -
         id: overonsgrid1
@@ -113,8 +114,9 @@ page_builder:
         entry: b7c8d9e0-0003-4f5a-8b6c-7d8e9f0a1b02
         label: 'Vraag offerte aan'
         new_tab: false
-    image: placeholder/beeld-ontbreekt.jpg
     enabled: true
+    align: left
+    image: n85_2755.jpg
 updated_by: d308c19c-c205-4453-9862-1f62996a3734
-updated_at: 1773323972
+updated_at: 1785788348
 ---

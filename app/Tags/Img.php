@@ -2,6 +2,8 @@
 
 namespace App\Tags;
 
+use App\Imaging\AlphaBounds;
+use App\Imaging\AssetAlphaBounds;
 use Statamic\Contracts\Assets\Asset;
 use Statamic\Facades\Asset as AssetFacade;
 use Statamic\Facades\Image;
@@ -55,23 +57,31 @@ class Img extends Tags
         $alt = trim((string) ($this->params->get('alt') ?? $asset->get('alt') ?? ''));
 
         $ratios = $this->ratios();
+        $trim = $this->trimBounds($asset);
 
-        $fallbackWidth = min($maxWidth, $asset->width());
-        $widths = $this->srcsetWidths($asset->width(), $maxWidth);
+        // Na een trim slaan alle maten op het bijgesneden beeld: Glide zet de
+        // trim vóór Size, dus `w` levert die breedte ook echt op. Zou hier het
+        // canvas blijven staan, dan vroegen we breedtes op die de bron niet
+        // heeft en blies Glide het product op.
+        $sourceWidth = $trim?->width ?? $asset->width();
+        $sourceHeight = $trim?->height ?? $asset->height();
+
+        $fallbackWidth = min($maxWidth, $sourceWidth);
+        $widths = $this->srcsetWidths($sourceWidth, $maxWidth);
         $fallbackHeight = $ratios['base']
             ? (int) round($fallbackWidth / $ratios['base'])
-            : (int) round($fallbackWidth * $asset->height() / $asset->width());
+            : (int) round($fallbackWidth * $sourceHeight / $sourceWidth);
 
         $sources = collect($ratios['breakpoints'])
             ->map(fn (array $bp) => [
                 'media' => "(min-width: {$bp['min']}px)",
-                'srcset' => $this->srcset($asset, $widths, $bp['ratio'], 'webp', $quality),
+                'srcset' => $this->srcset($asset, $widths, $bp['ratio'], 'webp', $quality, $trim),
                 'width' => $fallbackWidth,
                 'height' => (int) round($fallbackWidth / $bp['ratio']),
             ])
             ->push([
                 'media' => null,
-                'srcset' => $this->srcset($asset, $widths, $ratios['base'], 'webp', $quality),
+                'srcset' => $this->srcset($asset, $widths, $ratios['base'], 'webp', $quality, $trim),
                 'width' => $fallbackWidth,
                 'height' => $fallbackHeight,
             ])
@@ -86,8 +96,8 @@ class Img extends Tags
         return view('components.img', [
             'passthrough' => false,
             'sources' => $sources,
-            'fallback_src' => $this->glideUrl($asset, $fallbackWidth, $ratios['base'], 'jpg', $quality),
-            'fallback_srcset' => $this->srcset($asset, $widths, $ratios['base'], 'jpg', $quality),
+            'fallback_src' => $this->glideUrl($asset, $fallbackWidth, $ratios['base'], 'jpg', $quality, $trim),
+            'fallback_srcset' => $this->srcset($asset, $widths, $ratios['base'], 'jpg', $quality, $trim),
             'width' => $fallbackWidth,
             'height' => $fallbackHeight,
             'sizes' => $sizes,
@@ -96,8 +106,27 @@ class Img extends Tags
             'priority' => $this->params->bool('priority', false),
             'fill' => $fill,
             'focus_css' => $this->focusCss($asset),
+            'trim_width' => $trim ? round($trim->widthRatio() * 100, 3).'%' : null,
             'data_speed' => $this->params->get('data_speed'),
         ])->render();
+    }
+
+    /**
+     * De omhullende van het zichtbare deel, als `trim` aanstaat.
+     *
+     * Geeft `null` zodra er niets te winnen valt — geen png, geen alpha, of een
+     * product dat het canvas al vult — zodat de `trim`-parameter dan ook niet
+     * in de Glide-url belandt en er geen tweede cachevariant ontstaat.
+     */
+    private function trimBounds(Asset $asset): ?AlphaBounds
+    {
+        if (! $this->params->bool('trim', false)) {
+            return null;
+        }
+
+        $bounds = app(AssetAlphaBounds::class)->for($asset);
+
+        return $bounds?->coversWholeCanvas() ? null : $bounds;
     }
 
     private function passthrough(string $url, string $assetAlt = ''): string
@@ -190,14 +219,14 @@ class Img extends Tags
         return $widths ?: [$cap];
     }
 
-    private function srcset(Asset $asset, array $widths, ?float $ratio, string $format, int $quality): string
+    private function srcset(Asset $asset, array $widths, ?float $ratio, string $format, int $quality, ?AlphaBounds $trim): string
     {
         return collect($widths)
-            ->map(fn (int $w) => $this->glideUrl($asset, $w, $ratio, $format, $quality)." {$w}w")
+            ->map(fn (int $w) => $this->glideUrl($asset, $w, $ratio, $format, $quality, $trim)." {$w}w")
             ->implode(', ');
     }
 
-    private function glideUrl(Asset $asset, int $width, ?float $ratio, string $format, int $quality): string
+    private function glideUrl(Asset $asset, int $width, ?float $ratio, string $format, int $quality, ?AlphaBounds $trim): string
     {
         $manipulator = Image::manipulate($asset)
             ->width($width)
@@ -208,6 +237,12 @@ class Img extends Tags
             $manipulator
                 ->height((int) round($width / $ratio))
                 ->fit('crop_focal');
+        }
+
+        if ($trim) {
+            // Via params() en niet setParam(): die laatste toetst aan Glide's
+            // eigen parameterlijst en kent onze TrimTransparent niet.
+            $manipulator->params($manipulator->getParams() + ['trim' => 1]);
         }
 
         return $manipulator->build();
