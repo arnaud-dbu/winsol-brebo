@@ -51,9 +51,9 @@ class ArticleHeaderTest extends SectionTestCase
         config(['app.debug' => false]);
 
         // `isoFormat` en niet `format`: `format` geeft rauwe PHP-opmaak met
-        // Engelse maandnamen. `isoFormat` gaat via Carbon, dat zijn locale
-        // krijgt uit `app()->setLocale($site->lang())` in Statamics
-        // Localize-middleware. Deze test verifieert die keten.
+        // Engelse maandnamen. De Nederlandse maandnaam komt hier uit
+        // `config('app.locale')` (= `nl`); `render()` doet geen HTTP-request,
+        // dus Statamics Localize-middleware draait in dit testpad niet.
         $article = Entry::query()
             ->where('collection', 'articles')
             ->where('slug', 'slimme-sturing-zonder-je-hele-huis-te-vernieuwen')
