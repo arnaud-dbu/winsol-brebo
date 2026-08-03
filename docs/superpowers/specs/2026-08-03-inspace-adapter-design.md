@@ -145,17 +145,26 @@ per klant" waarmaakt.
       "writable": true,
       "route": "/nieuws/{slug}",
       "fields": {
-        "title":   { "type": "string", "required": true },
-        "intro":   { "type": "string", "required": false },
-        "theme":   { "type": "enum", "required": true,
-                     "values": ["energie-en-comfort", "ramen-en-deuren",
-                                "terrasoverkapping", "zonwering"] },
-        "image":   { "type": "asset", "required": true },
-        "content": { "type": "blocks",
-                     "writable_types": ["text"],
-                     "opaque_types": ["video"],
-                     "allowed_html": ["h2","h3","strong","em","ul","ol",
-                                      "li","a","table","img"] }
+        "title":            { "type": "string", "required": true },
+        "intro":            { "type": "string", "required": false },
+        "theme":            { "type": "enum", "required": true,
+                              "values": ["energie-en-comfort", "ramen-en-deuren",
+                                         "terrasoverkapping", "zonwering"] },
+        "image":            { "type": "asset", "required": true },
+        "content":          { "type": "blocks", "required": true,
+                              "writable_types": ["text"],
+                              "opaque_types": ["video"],
+                              "allowed_html": ["h2","h3","strong","em","ul","ol",
+                                               "li","a","table","img"] },
+        "slug":             { "type": "string", "required": false },
+        "date":             { "type": "date",   "required": false },
+        "status":           { "type": "enum",   "required": false,
+                              "values": ["draft", "published"] },
+        "external_id":      { "type": "string", "required": false },
+        "meta_title":       { "type": "string", "required": false, "max": 60 },
+        "meta_description": { "type": "string", "required": false, "max": 160 },
+        "meta_image":       { "type": "asset",  "required": false },
+        "seo_noindex":      { "type": "bool",   "required": false }
       }
     }
   }
@@ -325,9 +334,15 @@ sanitizer met comments doet, en faalt stil).
 
 **Video's zijn een dichte doos.** Nova hoeft ze niet te kunnen schrijven, maar ze
 mogen ook niet sneuvelen. Ze komen terug als `{"type": "video", "id": "…",
-"opaque": true}`, zonder inhoud. Nova mag ze herordenen of verwijderen en stuurt
-ze verder ongewijzigd terug; de adapter zet de originele inhoud terug. Ditzelfde
-mechanisme dekt straks de page-builder-sets van fase 2.
+"opaque": true}` en dragen verder niets: de URL, de row-ID en de `enabled`-vlag
+uit `attrs` blijven aan onze kant. Bij een `PATCH` zoekt de adapter de originele
+set terug op `id` en zet die ongewijzigd op de plaats waar Nova de doos liet
+staan.
+
+Nova mag een doos dus herordenen of weglaten — weglaten betekent verwijderen —
+maar niet wijzigen. Een doos met een onbekende `id` geeft `422`; zo kan Nova geen
+set verzinnen die niet bestond. Ditzelfde mechanisme dekt straks de
+page-builder-sets van fase 2.
 
 ### Alleen gewijzigde blokken worden herschreven
 
@@ -336,10 +351,12 @@ ProseMirror is **structureel verliesvrij maar normaliseert**. 5 nodes in, 5
 nodes uit, tekst en opmaak identiek — maar hij zet `textAlign: "left"` op elke
 paragraaf en kop. Dat attribuut staat vandaag in geen van de zes artikels.
 
-De adapter vergelijkt daarom de binnenkomende `html` per blok met wat hij zelf
-uitstuurde. Is die byte-identiek, dan blijft de opgeslagen ProseMirror
-onaangeroerd. Een `PATCH` die alleen `meta_title` wijzigt laat de body dus
-letterlijk met rust, en alleen echt herschreven blokken normaliseren.
+De adapter houdt daarvoor geen state bij. Bij een `PATCH` rendert hij de
+opgeslagen ProseMirror opnieuw naar HTML — exact wat een `GET` op dat moment zou
+teruggeven — en vergelijkt dat per blok met de binnenkomende `html`. Is die
+byte-identiek, dan blijft de opgeslagen ProseMirror onaangeroerd. Een `PATCH` die
+alleen `meta_title` wijzigt laat de body dus letterlijk met rust, en alleen echt
+herschreven blokken normaliseren.
 
 Zonder deze regel is "`GET` → ongewijzigde `PATCH` levert identieke opslag" niet
 haalbaar, want de normalisatie is inherent aan Statamic's conversie.
@@ -434,8 +451,8 @@ JSON, consistent van vorm:
 - `403` schrijven op een niet-schrijfbare entry, met de wél schrijfbare
   collecties erbij
 - `404` onbekende entry
-- `422` validatiefout, onbekend veld, onbekend thema of externe afbeeldings-URL,
-  met `errors` per veld
+- `422` validatiefout, onbekend veld, onbekend thema, externe afbeeldings-URL of
+  een opaque blok met een onbekende `id`, met `errors` per veld
 - `429` rate limit
 
 Naast `errors` kan elke succesvolle schrijfrespons een `warnings`-array dragen
@@ -459,6 +476,8 @@ Via `vendor/bin/phpunit` met 1G geheugen, nooit `php artisan test`.
   geen `textAlign` op onaangeroerde blokken
 - een herschreven blok normaliseert wél, en alleen dat blok
 - de `video`-set overleeft een update, inclusief row-ID en `enabled: false`
+- een weggelaten opaque blok verdwijnt, een herordend blok verhuist mee, en een
+  onbekende `id` geeft `422`
 - `theme`: onbekende waarde geeft `422` mét de geldige lijst; ontbrekend geeft
   `422`
 - afbeeldingen: bekende asset-URL wordt `asset::<uuid>`, externe URL geeft `422`
