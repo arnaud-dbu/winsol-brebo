@@ -31,6 +31,34 @@ return [
     'writable' => [
         'articles' => [
             'content_field' => 'redactor',
+
+            /*
+            | Canonieke bron voor "verplicht bij het aanmaken". Dit is een
+            | contractkeuze (wat POST /pages eist), geen bladwijzer naar het
+            | CMS-blueprint: `image` en `content` zijn hier bijvoorbeeld
+            | verplicht terwijl hun blueprintveld dat niet is. Zowel
+            | `PayloadValidator` als `SchemaBuilder` lezen uitsluitend hier,
+            | zodat GET /schema nooit meer iets anders beweert dan wat
+            | POST /pages afdwingt.
+            */
+            'required_on_create' => ['title', 'theme', 'image', 'content'],
+
+            /*
+            | Canonieke bron voor tekenlimieten die de API zelf afdwingt,
+            | los van een eventuele `character_limit` op het blueprintveld.
+            | `title` en `slug` hebben geen `character_limit` in het
+            | blueprint; zonder deze lijst zou GET /schema daar stil een
+            | lagere of ontbrekende `max` tonen dan wat POST /pages en
+            | PATCH /pages/{id} echt afdwingen.
+            */
+            'max_lengths' => [
+                'title' => 255,
+                'slug' => 200,
+                'external_id' => 255,
+                'meta_title' => 60,
+                'meta_description' => 160,
+            ],
+
             'fields' => [
                 'title' => 'title',
                 'intro' => 'text',

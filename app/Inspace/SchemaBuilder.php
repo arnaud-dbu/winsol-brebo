@@ -38,6 +38,8 @@ class SchemaBuilder
     {
         $blueprint = Collection::findByHandle($handle)->entryBlueprint();
         $mapping = config("inspace.writable.{$handle}.fields", []);
+        $requiredOnCreate = config("inspace.writable.{$handle}.required_on_create", []);
+        $maxLengths = config("inspace.writable.{$handle}.max_lengths", []);
         $out = [];
 
         foreach ($mapping as $apiName => $blueprintHandle) {
@@ -47,21 +49,47 @@ class SchemaBuilder
                 continue;
             }
 
-            $out[$apiName] = $this->describe($field);
+            $out[$apiName] = $this->describe(
+                $field,
+                in_array($apiName, $requiredOnCreate, true),
+                $maxLengths[$apiName] ?? null
+            );
         }
 
         $out['status'] = ['type' => 'enum', 'required' => false, 'values' => ['draft', 'published']];
-        $out['external_id'] = ['type' => 'string', 'required' => false];
+        $out['external_id'] = array_filter([
+            'type' => 'string',
+            'required' => in_array('external_id', $requiredOnCreate, true),
+            'max' => $maxLengths['external_id'] ?? null,
+        ], fn ($v) => $v !== null);
 
         return $out;
     }
 
     /**
+     * `$requiredOnCreate` komt uit `config('inspace.writable.<collectie>.required_on_create')`
+     * — dezelfde lijst waar `PayloadValidator::rules()` uit leest — en is
+     * bewust de enige bron voor `required` hier, niet een unie met
+     * `$field->isRequired()`. Die twee liepen namelijk niet alleen uiteen in
+     * de richting die deze fixronde aanleiding gaf (`image`/`content` zijn
+     * blueprint-optioneel maar contract-verplicht): `date` is in het
+     * blueprint wél verplicht (voor de CP-publiceerform) maar in het
+     * contract bewust optioneel, want `EntryWriter::create()` valt terug op
+     * `now()` als het ontbreekt. Een `||`-unie zou dat tweede geval stil
+     * verkeerd melden. `required_on_create` is dus niet "extra bovenop het
+     * blueprint" maar de volledige en enige waarheid over wat `POST /pages`
+     * verplicht stelt.
+     *
+     * `$maxOverride` komt uit dezelfde config (`max_lengths`) en wint van het
+     * `character_limit` op het blueprintveld: `title` heeft daar geen
+     * `character_limit` maar wordt wel met `max:255` gevalideerd, en zonder
+     * deze override zou `GET /schema` daar stil geen `max` tonen.
+     *
      * @return array<string, mixed>
      */
-    private function describe(Field $field): array
+    private function describe(Field $field, bool $requiredOnCreate, ?int $maxOverride = null): array
     {
-        $required = $field->isRequired();
+        $required = $requiredOnCreate;
 
         return match ($field->type()) {
             'bard' => [
@@ -82,7 +110,7 @@ class SchemaBuilder
             default => array_filter([
                 'type' => 'string',
                 'required' => $required,
-                'max' => $field->get('character_limit'),
+                'max' => $maxOverride ?? $field->get('character_limit'),
             ], fn ($v) => $v !== null),
         };
     }

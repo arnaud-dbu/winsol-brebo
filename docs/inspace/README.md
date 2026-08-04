@@ -27,13 +27,11 @@ that contract looks like. That question is still open.
 2. `POST /media`: upload your image, keep the returned `id`.
 3. `POST /pages`: the article itself.
 
-One caveat on step 1: the `required` flag in `GET /schema` reflects the CMS
-blueprint configuration, not necessarily what `POST /pages` enforces at
-write time. As of this document, `title` and `theme` are required in both
-places, but `image` and `content` are required by `POST /pages` even though
-the blueprint does not mark them as required. Treat the description under
-`ArticleWrite` in `openapi.yaml` as the source of truth for what a create
-call needs.
+The `required` and `max` values in `GET /schema` are guaranteed to match what
+`POST /pages` and `PATCH /pages/{id}` actually enforce: both read from the
+same configuration, and a test in our suite fails the build if they ever
+drift apart. You can rely on `/schema` as the live source of truth instead of
+re-checking `ArticleWrite` in `openapi.yaml` by hand.
 
 The smallest possible call:
 
@@ -55,7 +53,11 @@ one element long, and all your HTML sits in `html`: headings, bold text,
 lists, links, tables and inline images. The list exists because an article
 can also contain blocks that are not HTML, for example a video. Those come
 back as a closed box with only a `type` and an `id`. Send them back
-unchanged; reordering is fine, leaving one out means deleting it.
+unchanged; reordering is fine, leaving one out means deleting it. You can
+never create one from scratch: the `id` only exists because we matched it
+against a block that was already stored, so a brand new article can only
+contain `text` blocks. Send an opaque block on `POST /pages` and you get a
+`422`, not a working video.
 
 **Alt text belongs to the file, not the placement.** Statamic stores alt
 text on the asset, not on where it is used. Set it on `POST /media`. An
@@ -81,7 +83,7 @@ through as intended. Log them.
 | 401 | Missing or invalid bearer token. |
 | 403 | The collection you are writing to is not `articles` (only returned by `PATCH`, since `POST /pages` always targets `articles`). |
 | 404 | `GET`/`PATCH /pages/{id}` with an id that does not exist. |
-| 422 | A validation problem: unknown field, unknown theme, disallowed content, an image that was never uploaded, or an unknown/missing block id on `PATCH`. The response body always has an `errors` object keyed by field. |
+| 422 | A validation problem: unknown field, unknown theme, disallowed content, an image that was never uploaded, or an opaque block with an unknown or missing id. The response body always has an `errors` object keyed by field. |
 | 429 | Rate limit exceeded. The default is 120 requests per minute per token. |
 | 503 | The write could not go through for a reason that has nothing to do with your payload (see below). Retry unchanged. |
 

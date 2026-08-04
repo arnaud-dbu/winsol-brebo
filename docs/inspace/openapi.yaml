@@ -2,18 +2,21 @@ openapi: 3.1.0
 info:
   title: Inspace adapter — Winsol Brebo
   version: 1.0.0
+  license:
+    name: Proprietary
   description: |
     Schrijf-API voor SEO-content op een Statamic-site. Fase 1 dekt de
     blogcollectie `articles`. Alle andere collecties zijn wel leesbaar
     (`GET /pages`) maar nog niet schrijfbaar; die volgen in een latere fase.
 
     Vraag `GET /schema` op vóór je begint: dat endpoint geeft per collectie
-    de schrijfbare velden, welke verplicht zijn volgens het CMS-blueprint, en
-    de toegestane themawaarden. Die lijst is per site verschillend en
-    verandert zonder dat dit document meebeweegt. Let op: de `required`-vlag
-    van dat endpoint volgt het CMS-blueprint, niet per se de validatie die
-    `POST /pages` toepast — zie de beschrijving bij `ArticleWrite` voor wat
-    er bij het aanmaken echt verplicht is.
+    de schrijfbare velden, welke verplicht zijn bij het aanmaken, en de
+    toegestane themawaarden. Die lijst is per site verschillend en verandert
+    zonder dat dit document meebeweegt. De `required`- en `max`-vlaggen
+    komen uit dezelfde configuratie als waarmee `POST /pages` en
+    `PATCH /pages/{id}` zelf valideren, niet uit het CMS-blueprint: die twee
+    kunnen bewust uiteenlopen (een blueprintveld kan optioneel zijn terwijl
+    de API het bij het aanmaken wél eist, of andersom).
 
     Elke schrijfactie (`POST /pages`, `PATCH /pages/{id}`, `POST /media`) kan
     met `503` antwoorden in twee gevallen die niets met de payload te maken
@@ -31,6 +34,7 @@ paths:
   /schema:
     get:
       summary: Schrijfbare collecties, velden en toegestane waarden
+      operationId: getSchema
       responses:
         '200':
           description: OK
@@ -42,6 +46,7 @@ paths:
   /pages:
     get:
       summary: Entries over alle leesbare collecties
+      operationId: listPages
       description: |
         Leesbaar is alles: elke collectie op de site komt hier terug, niet
         alleen `articles`. `editable` in de respons vertelt welke rijen ook
@@ -70,6 +75,7 @@ paths:
         '429': { $ref: '#/components/responses/TooManyRequests' }
     post:
       summary: Nieuw artikel
+      operationId: createPage
       requestBody:
         required: true
         content:
@@ -98,6 +104,7 @@ paths:
   /pages/{id}:
     get:
       summary: Detail van een entry
+      operationId: getPage
       parameters:
         - { name: id, in: path, required: true, schema: { type: string } }
       responses:
@@ -117,6 +124,7 @@ paths:
         '429': { $ref: '#/components/responses/TooManyRequests' }
     patch:
       summary: Artikel bijwerken, partieel
+      operationId: updatePage
       parameters:
         - { name: id, in: path, required: true, schema: { type: string } }
       requestBody:
@@ -143,6 +151,7 @@ paths:
   /media:
     post:
       summary: Afbeelding uploaden
+      operationId: uploadMedia
       requestBody:
         required: true
         content:
@@ -210,12 +219,22 @@ components:
         aanstaan. Geen clientfout — retry zonder de payload aan te passen.
       content:
         application/json:
-          schema: { $ref: '#/components/schemas/MessageBody' }
+          schema: { $ref: '#/components/schemas/WriteUnavailableBody' }
   schemas:
     MessageBody:
       type: object
       properties:
         message: { type: string }
+    WriteUnavailableBody:
+      type: object
+      properties:
+        message: { type: string }
+        collection:
+          type: string
+          description: >-
+            Alleen aanwezig als de oorzaak de revisions-guard is (een
+            schrijfbare collectie met revisions aan); ontbreekt bij een
+            lock-timeout.
     ValidationErrorBody:
       type: object
       properties:
@@ -283,7 +302,7 @@ components:
         velden.
       properties:
         title: { type: string, maxLength: 255 }
-        intro: { type: string, nullable: true }
+        intro: { type: [string, 'null'] }
         content:
           type: array
           items: { $ref: '#/components/schemas/Block' }
@@ -296,22 +315,20 @@ components:
           description: >-
             Vraag de actuele lijst op via GET /schema; deze enum kan
             verouderen zonder dat de API dat meldt.
-        slug: { type: string, maxLength: 200, nullable: true }
-        date: { type: string, format: date, nullable: true }
+        slug: { type: [string, 'null'], maxLength: 200 }
+        date: { type: [string, 'null'], format: date }
         status: { type: string, enum: [draft, published], default: draft }
         external_id:
-          type: string
-          nullable: true
+          type: [string, 'null']
           maxLength: 255
           description: |
             Jullie eigen identifier. Stuur hem mee bij het aanmaken: een
             tweede POST met dezelfde waarde geeft 200 en het bestaande
             artikel terug in plaats van een duplicaat na een timeout.
-        meta_title: { type: string, maxLength: 60, nullable: true }
-        meta_description: { type: string, maxLength: 160, nullable: true }
+        meta_title: { type: [string, 'null'], maxLength: 60 }
+        meta_description: { type: [string, 'null'], maxLength: 160 }
         meta_image:
-          type: string
-          nullable: true
+          type: [string, 'null']
           description: Asset-id uit `POST /media`.
         seo_noindex: { type: boolean }
         site:
@@ -327,14 +344,13 @@ components:
       properties:
         id: { type: string }
         collection: { type: string }
-        title: { type: string, nullable: true }
+        title: { type: [string, 'null'] }
         url:
-          type: string
-          nullable: true
+          type: [string, 'null']
           description: >-
             `null` voor collecties zonder eigen route (bv. `quicklinks`).
         status: { type: string, enum: [draft, published] }
-        updated_at: { type: string, format: date-time, nullable: true }
+        updated_at: { type: [string, 'null'], format: date-time }
         editable:
           type: boolean
           description: Of deze rij ook via POST/PATCH te wijzigen is.
@@ -361,13 +377,13 @@ components:
         collection: { type: string }
         editable: { type: boolean, const: false }
         status: { type: string, enum: [draft, published] }
-        url: { type: string, nullable: true }
-        title: { type: string, nullable: true }
-        updated_at: { type: string, format: date-time, nullable: true }
+        url: { type: [string, 'null'] }
+        title: { type: [string, 'null'] }
+        updated_at: { type: [string, 'null'], format: date-time }
         content: { type: 'null' }
-        meta_title: { type: string, nullable: true }
-        meta_description: { type: string, nullable: true }
-        meta_image: { type: string, nullable: true }
+        meta_title: { type: [string, 'null'] }
+        meta_description: { type: [string, 'null'] }
+        meta_image: { type: [string, 'null'] }
         seo_noindex: { type: boolean }
     ArticleDetail:
       type: object
@@ -380,21 +396,21 @@ components:
         collection: { type: string }
         editable: { type: boolean, const: true }
         status: { type: string, enum: [draft, published] }
-        url: { type: string, nullable: true }
-        title: { type: string, nullable: true }
-        updated_at: { type: string, format: date-time, nullable: true }
-        external_id: { type: string, nullable: true }
-        intro: { type: string, nullable: true }
+        url: { type: [string, 'null'] }
+        title: { type: [string, 'null'] }
+        updated_at: { type: [string, 'null'], format: date-time }
+        external_id: { type: [string, 'null'] }
+        intro: { type: [string, 'null'] }
         content:
           type: array
           items: { $ref: '#/components/schemas/Block' }
-        image: { type: string, nullable: true }
-        theme: { type: string, nullable: true }
+        image: { type: [string, 'null'] }
+        theme: { type: [string, 'null'] }
         slug: { type: string }
-        date: { type: string, format: date, nullable: true }
-        meta_title: { type: string, nullable: true }
-        meta_description: { type: string, nullable: true }
-        meta_image: { type: string, nullable: true }
+        date: { type: [string, 'null'], format: date }
+        meta_title: { type: [string, 'null'] }
+        meta_description: { type: [string, 'null'] }
+        meta_image: { type: [string, 'null'] }
         seo_noindex: { type: boolean }
     ArticleWriteResult:
       description: Wat `POST /pages` en `PATCH /pages/{id}` teruggeven.
@@ -417,7 +433,7 @@ components:
         width: { type: integer }
         height: { type: integer }
         filename: { type: string }
-        alt: { type: string, nullable: true }
+        alt: { type: [string, 'null'] }
     SchemaResponse:
       type: object
       properties:
@@ -428,8 +444,7 @@ components:
             properties:
               writable: { type: boolean }
               route:
-                type: string
-                nullable: true
+                type: [string, 'null']
                 description: Urlpatroon van de collectie, bv. `/nieuws/{slug}`.
               fields:
                 type: object
@@ -437,8 +452,9 @@ components:
     SchemaField:
       type: object
       description: >-
-        Vorm verschilt per `type`. `required` volgt het CMS-blueprint, niet
-        per se de validatie van `POST /pages` — zie `ArticleWrite`.
+        Vorm verschilt per `type`. `required` en `max` weerspiegelen exact
+        wat `POST /pages` en `PATCH /pages/{id}` afdwingen, niet per se het
+        CMS-blueprint van het veld.
       properties:
         type:
           type: string
