@@ -18,14 +18,32 @@ class PageCreateTest extends TestCase
     /** @var list<string> */
     private array $created = [];
 
+    /**
+     * Momentopname van wat er vóór de test al bestond. Zuiver op zichzelf
+     * volstaat "alleen bij 201 tracken" niet als vangnet: mocht de
+     * duplicaatdetectie ooit tóch een bestaand artikel matchen en dat id
+     * alsnog in `$created` belandt, dan mag de opruiming dat artikel nooit
+     * verwijderen. Deze snapshot is onafhankelijk van hoe `$created` gevuld
+     * raakt en beschermt dus ook tegen een fout die hierin zelf zou sluipen.
+     *
+     * @var list<string>
+     */
+    private array $preExistingArticleIds = [];
+
     protected function setUp(): void
     {
         parent::setUp();
 
         config()->set('inspace.tokens', ['test' => hash('sha256', self::TOKEN)]);
 
+        $this->preExistingArticleIds = Entry::query()->where('collection', 'articles')->get()->map->id()->all();
+
         $this->beforeApplicationDestroyed(function (): void {
             foreach ($this->created as $id) {
+                if (in_array($id, $this->preExistingArticleIds, true)) {
+                    continue;
+                }
+
                 Entry::find($id)?->delete();
             }
         });
@@ -55,7 +73,11 @@ class PageCreateTest extends TestCase
     {
         $response = $this->withToken(self::TOKEN)->postJson('/api/inspace/v1/pages', $payload);
 
-        if ($response->json('id') !== null) {
+        // Alleen een 201 betekent dat dit endpoint zelf een nieuwe entry
+        // aanmaakte. Een 200 is het "bestond al"-pad van de
+        // duplicaatdetectie: dat id kan een artikel zijn dat allang bestond
+        // en dat deze test dus niet mag opruimen.
+        if ($response->status() === 201) {
             $this->created[] = $response->json('id');
         }
 
@@ -174,10 +196,20 @@ class PageCreateTest extends TestCase
         $writer = app(EntryWriter::class);
 
         $first = $writer->create('articles', $this->payload(['external_id' => '']));
-        $this->created[] = $first['entry']->id();
+
+        // Alleen tracken wat deze aanroep zelf aanmaakte: `existing` vertelt
+        // precies of dat zo is. Was de duplicaatcheck onverhoopt tóch
+        // uitgekomen bij een bestaand artikel, dan mag dat artikel hier niet
+        // in de opruimlijst belanden.
+        if (! $first['existing']) {
+            $this->created[] = $first['entry']->id();
+        }
 
         $second = $writer->create('articles', $this->payload(['external_id' => '']));
-        $this->created[] = $second['entry']->id();
+
+        if (! $second['existing']) {
+            $this->created[] = $second['entry']->id();
+        }
 
         $this->assertNotSame($first['entry']->id(), $second['entry']->id());
         $this->assertFalse($first['existing']);
