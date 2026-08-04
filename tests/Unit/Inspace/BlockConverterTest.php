@@ -135,7 +135,7 @@ class BlockConverterTest extends TestCase
         $this->assertSame(['<p>Anders.</p>'], $seen);
     }
 
-    public function test_ambiguous_runs_with_identical_html_are_reparsed_not_swapped(): void
+    public function test_ambiguous_runs_with_identical_html_survive_an_unchanged_round_trip(): void
     {
         $converter = $this->converter();
 
@@ -143,7 +143,8 @@ class BlockConverterTest extends TestCase
         // overgeslagen: beide prozalopen renderen naar exact "<p>Ja.</p>",
         // terwijl de eerste loop er in werkelijkheid ook mysteryNode bij
         // heeft. Dat maakt de twee runs voor de HTML-vergelijking identiek
-        // terwijl hun opgeslagen nodes dat niet zijn.
+        // terwijl hun opgeslagen nodes dat niet zijn — de acceptatieprobe
+        // voor C1: een ongewijzigde ronde mag hier nooit inhoud verliezen.
         $nodes = [
             ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => 'Ja.']]],
             ['type' => 'mysteryNode', 'attrs' => ['foo' => 'bar']],
@@ -157,17 +158,59 @@ class BlockConverterTest extends TestCase
 
         $back = $converter->toProsemirror($blocks, $nodes);
 
-        // Zonder de fix zou de sleutel van run 2 die van run 1 overschrijven:
-        // beide blokken zouden dan de rauwe opslag van run 2 teruggeven — een
-        // paragraaf zónder textAlign, alsof het een geldige, ongewijzigde
-        // hergebruik-ronde was. Met de fix is de sleutel dubbelzinnig, dus
-        // wordt allebei herparseerd (en dus genormaliseerd) in plaats van
-        // dat de een de inhoud van de ander leent.
-        $this->assertSame('Ja.', $back[0]['content'][0]['text']);
-        $this->assertSame('left', $back[0]['attrs']['textAlign'], 'Dubbelzinnig blok moet herparseerd zijn, niet ruw hergebruikt.');
-        $this->assertSame($nodes[2], $back[1], 'De set blijft ongewijzigd.');
-        $this->assertSame('Ja.', $back[2]['content'][0]['text']);
-        $this->assertSame('left', $back[2]['attrs']['textAlign'], 'Dubbelzinnig blok moet herparseerd zijn, niet ruw hergebruikt.');
+        // De blokken komen in dezelfde volgorde binnen als waarin ze
+        // gesplitst zijn: elke run claimt zo de eerstvolgende kandidaat
+        // onder zijn HTML-sleutel en krijgt exact zijn eigen nodes terug,
+        // inclusief mysteryNode — byte-identiek, geen normalisatie.
+        $this->assertSame(
+            json_encode($nodes),
+            json_encode($back),
+            'Een ongewijzigde ronde blijft byte-identiek, ook als twee runs toevallig dezelfde HTML opleveren.'
+        );
+    }
+
+    public function test_reordering_a_box_relative_to_ambiguous_runs_never_loses_content(): void
+    {
+        $converter = $this->converter();
+
+        // Twee prozalopen renderen weer identiek ("<p>Ja.</p>"), nu
+        // gescheiden door twee dozen. Beide dozen naar het einde
+        // verplaatsen is een echte structurele wijziging, geen
+        // ongewijzigde ronde.
+        $nodes = [
+            ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => 'Ja.']]],
+            ['type' => 'mysteryNode', 'attrs' => ['foo' => 'bar']],
+            ['type' => 'set', 'attrs' => ['id' => 'vid01', 'values' => ['type' => 'video', 'video' => 'https://youtu.be/x']]],
+            ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => 'Ja.']]],
+            ['type' => 'set', 'attrs' => ['id' => 'vid02', 'values' => ['type' => 'video', 'video' => 'https://youtu.be/y']]],
+            ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => 'Nee.']]],
+        ];
+
+        $blocks = $converter->toBlocks($nodes);
+
+        // Client groepeert de twee dubbelzinnige tekstblokken vóór beide
+        // dozen in plaats van dat elke doos zijn eigen run scheidt.
+        $reordered = [$blocks[0], $blocks[2], $blocks[1], $blocks[3], $blocks[4]];
+
+        $back = $converter->toProsemirror($reordered, $nodes);
+
+        // Elk binnenkomend blok claimt de eerstvolgende kandidaat onder
+        // zijn sleutel: het eerste dubbelzinnige blok krijgt run 1 (met
+        // mysteryNode), het tweede krijgt run 2. Geen enkele opgeslagen
+        // node gaat verloren — alleen de positie van run 2 ten opzichte
+        // van de eerste doos verschuift mee met de nieuwe structuur.
+        $this->assertSame($nodes[0], $back[0], 'Paragraaf van run 1.');
+        $this->assertSame($nodes[1], $back[1], 'mysteryNode van run 1 blijft behouden.');
+        $this->assertSame($nodes[3], $back[2], 'Het tweede dubbelzinnige blok claimt run 2, niet run 1 nogmaals.');
+        $this->assertSame($nodes[2], $back[3], 'De eerste doos blijft zichzelf, ongeacht zijn nieuwe positie.');
+        $this->assertSame($nodes[4], $back[4]);
+        $this->assertSame($nodes[5], $back[5]);
+
+        $this->assertEqualsCanonicalizing(
+            array_map('json_encode', $nodes),
+            array_map('json_encode', $back),
+            'Herordening verplaatst content, maar verliest er nooit een node van.'
+        );
     }
 
     public function test_an_emptied_text_block_produces_no_nodes_instead_of_crashing(): void

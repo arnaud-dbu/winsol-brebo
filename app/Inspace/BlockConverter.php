@@ -67,8 +67,7 @@ class BlockConverter
      */
     public function toProsemirror(array $blocks, array $originalNodes): array
     {
-        $sets = $this->setsById($originalNodes);
-        $candidatesByHtml = $this->runsByHtml($originalNodes);
+        ['sets' => $sets, 'runQueues' => $runQueues] = $this->index($originalNodes);
         $usedSetIds = [];
         $out = [];
 
@@ -80,8 +79,16 @@ class BlockConverter
 
                 // De vergelijking gebeurt op de binnenkomende HTML zoals die
                 // is, vóór enige transformatie: alleen dan staat hij naast
-                // wat een GET op dit moment zou teruggeven.
-                $out = array_merge($out, $this->reuseOrParse($html, $candidatesByHtml[$html] ?? []));
+                // wat een GET op dit moment zou teruggeven. Renderen twee
+                // runs identieke HTML, dan claimt elk binnenkomend blok de
+                // eerstvolgende nog niet opgehaalde kandidaat onder die
+                // sleutel — bij een ongewijzigde ronde komen de blokken in
+                // dezelfde volgorde binnen als waarin ze gesplitst zijn, dus
+                // krijgt elke run exact zijn eigen nodes terug.
+                $out = array_merge(
+                    $out,
+                    empty($runQueues[$html]) ? $this->parse($html) : array_shift($runQueues[$html])
+                );
 
                 continue;
             }
@@ -113,8 +120,8 @@ class BlockConverter
 
     /**
      * Splitst de opgeslagen nodes op elke set in aaneengesloten prozalopen en
-     * losse set-knopen. Gedeeld door toBlocks() en setsById()/runsByHtml() zodat
-     * de splitslogica niet dubbel met de hand in sync gehouden hoeft te worden.
+     * losse set-knopen. Gedeeld door toBlocks() en index() zodat de
+     * splitslogica niet dubbel met de hand in sync gehouden hoeft te worden.
      *
      * @param  list<array<string, mixed>>  $nodes
      * @return list<array{kind: string, nodes?: list<array<string, mixed>>, node?: array<string, mixed>}>
@@ -157,75 +164,38 @@ class BlockConverter
     }
 
     /**
+     * Loopt segments() precies één keer en leidt er zowel de set-index als de
+     * per-HTML wachtrijen van prozalopen uit af, zodat toProsemirror() de
+     * opslag niet twee keer hoeft te splitsen (en de id-validatie in
+     * segments() niet twee keer hoeft te herhalen).
+     *
+     * De wachtrij bewaart de kandidaten in documentvolgorde: renderen twee
+     * runs toevallig dezelfde HTML (bv. een onrenderbare knoop maakt de ene
+     * run onderscheidbaar van de andere met exact dezelfde zichtbare
+     * inhoud), dan claimt elk binnenkomend blok de eerstvolgende kandidaat
+     * onder die sleutel in plaats van dat er één de rest overschrijft.
+     *
      * @param  list<array<string, mixed>>  $nodes
-     * @return array<string, array<string, mixed>>
+     * @return array{sets: array<string, array<string, mixed>>, runQueues: array<string, list<list<array<string, mixed>>>>}
      *
      * @throws MissingBlockIdException
      */
-    private function setsById(array $nodes): array
+    private function index(array $nodes): array
     {
         $sets = [];
+        $runQueues = [];
 
         foreach ($this->segments($nodes) as $segment) {
             if ($segment['kind'] === 'set') {
                 $sets[(string) $segment['node']['attrs']['id']] = $segment['node'];
+
+                continue;
             }
+
+            $runQueues[$this->render($segment['nodes'])][] = $segment['nodes'];
         }
 
-        return $sets;
-    }
-
-    /**
-     * De HTML van elke prozaloop naar de nodes die hem opleverden, zodat een
-     * ongewijzigd blok zijn opslag terugkrijgt in plaats van een geparste
-     * kopie met textAlign erop. Meerdere runs kunnen naar dezelfde HTML
-     * renderen (bv. twee lege alinea's rond een video); daarom houdt dit alle
-     * kandidaten per sleutel bij in plaats van er één te laten overschrijven.
-     *
-     * @param  list<array<string, mixed>>  $nodes
-     * @return array<string, list<list<array<string, mixed>>>>
-     *
-     * @throws MissingBlockIdException
-     */
-    private function runsByHtml(array $nodes): array
-    {
-        $runs = [];
-
-        foreach ($this->segments($nodes) as $segment) {
-            if ($segment['kind'] === 'run') {
-                $runs[$this->render($segment['nodes'])][] = $segment['nodes'];
-            }
-        }
-
-        return $runs;
-    }
-
-    /**
-     * Hergebruikt de opgeslagen nodes alleen als elke kandidaat onder deze
-     * HTML-sleutel identiek is. Renderen twee verschillende runs toevallig
-     * dezelfde HTML (een onrenderbare knoop maakt zo'n run onderscheidbaar
-     * van een andere met exact dezelfde zichtbare inhoud), dan is niet meer
-     * vast te stellen welke kandidaat bij dit blok hoort — reuse zou dan de
-     * verkeerde inhoud kunnen teruggeven, dus valt dit terug op parse().
-     *
-     * @param  list<list<array<string, mixed>>>  $candidates
-     * @return list<array<string, mixed>>
-     */
-    private function reuseOrParse(string $html, array $candidates): array
-    {
-        if ($candidates === []) {
-            return $this->parse($html);
-        }
-
-        $first = json_encode($candidates[0]);
-
-        foreach ($candidates as $candidate) {
-            if (json_encode($candidate) !== $first) {
-                return $this->parse($html);
-            }
-        }
-
-        return $candidates[0];
+        return ['sets' => $sets, 'runQueues' => $runQueues];
     }
 
     /**
