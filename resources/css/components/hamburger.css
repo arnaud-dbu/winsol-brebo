@@ -4,7 +4,7 @@
     --hamburger-height: calc(45px * var(--hamburger-scale));
     --hamburger-line-height: calc(3px * var(--hamburger-scale));
     --hamburger-line-radius: calc(0px * var(--hamburger-scale));
-    --hamburger-color: #000;
+    --hamburger-color: var(--color-black);
 
     position: absolute;
     z-index: 100;
@@ -17,6 +17,16 @@
     cursor: pointer;
     transform: rotate(0deg);
     transition: 0.5s ease-in-out;
+}
+
+/*
+ * Boven een donkere foto moeten de streepjes wit. Dat moet een klasse uit dít
+ * bestand zijn en geen Tailwind-utility: `.hamburger` staat hier ongelaagd en
+ * verslaat daarmee alles uit `@layer utilities`, ongeacht specificiteit. Een
+ * arbitraire property stond wél in de HTML maar deed niets.
+ */
+.hamburger--light {
+    --hamburger-color: var(--color-white);
 }
 
 .hamburger:focus-visible {

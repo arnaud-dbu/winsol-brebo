@@ -114,6 +114,42 @@ class NavigationTest extends SectionTestCase
         $this->assertSame(2, substr_count($html, 'href="/aanbod"'));
     }
 
+    public function test_the_mobile_quote_button_uses_an_existing_button_variant(): void
+    {
+        $html = $this->render('{{ partial:navigation }}');
+
+        // `btn--accent` bestond niet in button.css: de knop viel terug op de
+        // kale `btn` en stond zonder vlak in het paneel. Een klasse die nergens
+        // wordt gedefinieerd faalt geruisloos, vandaar de expliciete claim.
+        $this->assertStringContainsString('btn btn--primary', $html);
+        $this->assertStringNotContainsString('btn--accent', $html);
+    }
+
+    public function test_the_mobile_panel_pill_stays_light_on_a_dark_page(): void
+    {
+        // Het paneel is zwart, ook op een pagina waar de nav zelf zwart is. Zou
+        // de pill de scope van de partial erven, dan werd hij zwart-op-zwart —
+        // precies wat er gebeurde toen `inverse` niet expliciet werd meegegeven.
+        $html = $this->render('{{ partial:navigation }}');
+
+        $this->assertStringContainsString('nav-link--dark', $html);
+        $this->assertStringContainsString('border-white/40 text-white', $html);
+    }
+
+    public function test_the_hamburger_switches_colour_with_the_inverse_flag(): void
+    {
+        // `.hamburger` staat ongelaagd in hamburger.css en verslaat daarmee elke
+        // Tailwind-utility uit `@layer utilities`. De arbitraire property die
+        // hier stond stond dus wél in de HTML maar deed niets: zwarte streepjes
+        // over een donkere foto. Alleen een klasse uit hetzelfde bestand wint.
+        $donker = $this->render('{{ partial:navigation }}');
+        $licht = $this->render('{{ partial:navigation inverse="true" }}');
+
+        $this->assertStringNotContainsString('hamburger--light', $donker);
+        $this->assertStringContainsString('hamburger--light', $licht);
+        $this->assertStringNotContainsString('--hamburger-color', $licht);
+    }
+
     public function test_the_links_switch_hover_variant_with_the_inverse_flag(): void
     {
         // De inverse-tak is op de helft van de pagina's onzichtbaar: alleen de

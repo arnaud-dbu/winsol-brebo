@@ -1,12 +1,13 @@
 <div class="lg:hidden" data-mobile-nav>
     {{#
-        `--hamburger-color` is de enige kleurknop van de hamburger
-        (hamburger.css). Boven een donkere foto moeten de streepjes wit,
-        vandaar de arbitrary property i.p.v. een tweede hamburger-variant.
+        Twee bronnen sturen `--hamburger-color`: de header eronder (wit boven een
+        donkere foto) en het open paneel (altijd wit boven zwart). Beide zetten
+        die knop vanuit hamburger.css / mobile-navigation.css en niet met een
+        utility — `.hamburger` staat ongelaagd en verslaat elke `@layer utilities`.
     #}}
     {{ partial:hamburger
         version="3"
-        class="top-1/2 right-3 -translate-y-1/2 {{ inverse ? '[--hamburger-color:#fff]' : '' }}"
+        class="top-1/2 right-4 -translate-y-1/2 {{ inverse ? 'hamburger--light' : '' }}"
         aria_label="{{ trans:site.nav_open }}"
         label_open="{{ trans:site.nav_open }}"
         label_close="{{ trans:site.nav_close }}"
@@ -17,18 +18,31 @@
 
         <aside id="mobile-navigation-panel" class="mobile-navigation__panel" data-mobile-nav-panel role="dialog"
             aria-label="{{ trans:site.nav_label }}" aria-modal="true" aria-hidden="true" tabindex="-1">
-            <div class="mobile-navigation__content">
+            {{#
+                Dezelfde `container` en `nav-bar` als de balk eronder, zodat het
+                logo op de plek blijft staan waar het stond voordat het paneel
+                openging. Een eigen padding hier zou bij elke wijziging aan de nav
+                stilzwijgend uit de pas gaan lopen.
+            #}}
+            <div class="container flex nav-bar shrink-0 items-center border-b border-white/12">
+                <a href="/" class="flex items-center">
+                    <span class="sr-only">Home Link</span>
+                    {{ svg src="logo-inverse" class="h-8 w-auto sm:h-10" }}
+                </a>
+            </div>
+
+            <div class="mobile-navigation__content container">
                 <p class="sr-only" id="mobile-navigation-title">{{ trans:site.nav_label }}</p>
                 <nav aria-labelledby="mobile-navigation-title">
                     <ul class="mobile-navigation__list">
                         {{ nav:main }}
                             <li>
-                                <a href="{{ entry.url }}" class="text-black">{{ title }}</a>
+                                <a href="{{ entry.url }}" class="mobile-navigation__link">{{ title }}</a>
                                 {{ if children }}
-                                    <ul class="mt-2 ml-4 flex flex-col gap-2 border-l border-black/10 pl-4">
+                                    <ul class="mobile-navigation__sublist">
                                         {{ children }}
                                             <li>
-                                                <a href="{{ entry.url }}" class="inline-block text-base text-black">{{ title }}</a>
+                                                <a href="{{ entry.url }}" class="mobile-navigation__sublink">{{ title }}</a>
                                             </li>
                                         {{ /children }}
                                     </ul>
@@ -37,9 +51,10 @@
                         {{ /nav:main }}
                     </ul>
                 </nav>
-                <div class="mt-8 flex flex-col items-start gap-4">
-                    <a href="/offerte" class="btn btn--accent w-full">{{ trans:site.nav_quote }}</a>
-                    {{ partial:languagePill }}
+                <div class="mt-auto flex flex-col items-start gap-4 pt-10">
+                    <a href="/offerte" class="btn btn--primary w-full">{{ trans:site.nav_quote }}</a>
+                    {{# `inverse` staat vast en erft niet van de pagina: het paneel is zwart, ook op een pagina waar de nav zelf zwart is. #}}
+                    {{ partial:languagePill inverse="true" }}
                 </div>
             </div>
         </aside>

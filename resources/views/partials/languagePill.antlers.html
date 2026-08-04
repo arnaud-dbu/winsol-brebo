@@ -1,5 +1,5 @@
 <span
-    class="flex items-center gap-0.5 rounded-full border text-base font-semibold lg:px-5 xl:px-5 lg:py-2.5 {{ inverse ? 'border-white/40 text-white' : 'border-black/25 text-black' }}">
+    class="{{ inverse ? 'border-white/40 text-white' : 'border-black/25 text-black' }} flex items-center gap-0.5 rounded-full border px-5 py-2 text-base font-semibold lg:py-2.5">
     <span class="sr-only">{{ trans:site.nav_language }}</span>
     <span aria-hidden="true">{{ trans:site.nav_language_short }}</span>
     {{ icon src="caret-down" class="size-4" }}
