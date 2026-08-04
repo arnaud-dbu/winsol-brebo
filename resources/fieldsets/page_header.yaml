@@ -6,7 +6,7 @@ fields:
       type: text
       display: Title
   -
-    handle: intro
+    handle: text
     field:
       type: textarea
       display: Intro
