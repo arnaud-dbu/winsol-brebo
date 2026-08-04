@@ -14,12 +14,16 @@ page_builder:
     overline: Offerte
     title: 'Zin om verder te praten?'
     text: 'Vraag vrijblijvend een offerte aan. We komen langs, meten na en rekenen de opties voor je door.'
-    image: dummy-images/test-img-14.jpg
+    image: 20260512_winsolleuven_studiohan-41-scaled.jpg
     link:
       -
+        id: dklxt2mD
         type: entry
-        entry:
-          - b7c8d9e0-0003-4f5a-8b6c-7d8e9f0a1b02
+        entry: b7c8d9e0-0003-4f5a-8b6c-7d8e9f0a1b02
         label: 'Vraag offerte aan'
         new_tab: false
+    align: left
+    enabled: true
+updated_by: d308c19c-c205-4453-9862-1f62996a3734
+updated_at: 1785831258
 ---
