@@ -321,7 +321,7 @@ components:
           example: 'assets::inspace/foto.jpg'
         theme:
           type: string
-          enum: [energie-en-comfort, ramen-en-deuren, terrasoverkapping, zonwering]
+          enum: [bedrijfsnieuws, events, producten, realisaties, showroom]
           description: >-
             Vraag de actuele lijst op via GET /schema; deze enum kan
             verouderen zonder dat de API dat meldt.

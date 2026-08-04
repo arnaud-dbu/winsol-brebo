@@ -24,7 +24,7 @@ class PageShowTest extends TestCase
         $entry = $this->temporaryEntry('articles', 'detailtest-artikel', [
             'title' => 'Detailtest',
             'text' => 'De intro.',
-            'themes' => ['zonwering'],
+            'themes' => ['realisaties'],
             'date' => '2026-08-04',
             'meta_title' => 'Meta',
             'redactor' => [
@@ -40,7 +40,7 @@ class PageShowTest extends TestCase
             ->assertJsonPath('editable', true)
             ->assertJsonPath('title', 'Detailtest')
             ->assertJsonPath('intro', 'De intro.')
-            ->assertJsonPath('theme', 'zonwering')
+            ->assertJsonPath('theme', 'realisaties')
             ->assertJsonPath('meta_title', 'Meta')
             ->assertJsonPath('content.0.type', 'text')
             ->assertJsonPath('content.0.html', '<p>Body.</p>');
@@ -50,7 +50,7 @@ class PageShowTest extends TestCase
     {
         $entry = $this->temporaryEntry('articles', 'detailtest-video', [
             'title' => 'Video',
-            'themes' => ['zonwering'],
+            'themes' => ['realisaties'],
             'date' => '2026-08-04',
             'redactor' => [
                 ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => 'Voor.']]],

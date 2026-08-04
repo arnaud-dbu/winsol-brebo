@@ -39,7 +39,7 @@ class SchemaTest extends TestCase
         sort($values);
 
         $this->assertSame(
-            ['energie-en-comfort', 'ramen-en-deuren', 'terrasoverkapping', 'zonwering'],
+            ['bedrijfsnieuws', 'events', 'producten', 'realisaties', 'showroom'],
             $values,
             'De themawaarden moeten uit de taxonomie komen, niet uit config.'
         );
@@ -83,7 +83,7 @@ class SchemaTest extends TestCase
             'intro' => 'Intro.',
             'content' => [['type' => 'text', 'html' => '<p>Body.</p>']],
             'image' => 'irrelevant-voor-validatie',
-            'theme' => 'zonwering',
+            'theme' => 'realisaties',
             'slug' => 'consistentiecheck',
             'date' => '2026-08-04',
             'meta_title' => 'Meta',

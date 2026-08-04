@@ -22,7 +22,7 @@ class PageIndexTest extends TestCase
     {
         $entry = $this->temporaryEntry('articles', 'lijsttest-artikel', [
             'title' => 'Lijsttest artikel',
-            'themes' => ['zonwering'],
+            'themes' => ['realisaties'],
             'date' => '2026-08-04',
         ]);
 
@@ -101,7 +101,7 @@ class PageIndexTest extends TestCase
         foreach (range(1, 4) as $i) {
             $this->temporaryEntry('articles', "onderkap-test-artikel-{$i}", [
                 'title' => "Onderkap test artikel {$i}",
-                'themes' => ['zonwering'],
+                'themes' => ['realisaties'],
                 'date' => '2026-08-04',
             ]);
         }

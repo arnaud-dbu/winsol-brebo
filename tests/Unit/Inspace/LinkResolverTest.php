@@ -14,7 +14,7 @@ class LinkResolverTest extends TestCase
     {
         $entry = $this->temporaryEntry('articles', 'linktest-artikel', [
             'title' => 'Linktest',
-            'themes' => ['zonwering'],
+            'themes' => ['realisaties'],
             'date' => '2026-08-04',
         ]);
 
@@ -27,7 +27,7 @@ class LinkResolverTest extends TestCase
     {
         $entry = $this->temporaryEntry('articles', 'linktest-absoluut', [
             'title' => 'Absoluut',
-            'themes' => ['zonwering'],
+            'themes' => ['realisaties'],
             'date' => '2026-08-04',
         ]);
 
@@ -47,7 +47,7 @@ class LinkResolverTest extends TestCase
     {
         $entry = $this->temporaryEntry('articles', 'linktest-vreemde-host', [
             'title' => 'Vreemde host',
-            'themes' => ['zonwering'],
+            'themes' => ['realisaties'],
             'date' => '2026-08-04',
         ]);
 
@@ -71,7 +71,7 @@ class LinkResolverTest extends TestCase
     {
         $entry = $this->temporaryEntry('articles', 'linktest-enkel-quote', [
             'title' => 'Enkel citaat',
-            'themes' => ['zonwering'],
+            'themes' => ['realisaties'],
             'date' => '2026-08-04',
         ]);
 
@@ -84,7 +84,7 @@ class LinkResolverTest extends TestCase
     {
         $entry = $this->temporaryEntry('articles', 'linktest-hoofdletters', [
             'title' => 'Hoofdletters',
-            'themes' => ['zonwering'],
+            'themes' => ['realisaties'],
             'date' => '2026-08-04',
         ]);
 
@@ -97,7 +97,7 @@ class LinkResolverTest extends TestCase
     {
         $entry = $this->temporaryEntry('articles', 'linktest-attributen', [
             'title' => 'Attributen',
-            'themes' => ['zonwering'],
+            'themes' => ['realisaties'],
             'date' => '2026-08-04',
         ]);
 

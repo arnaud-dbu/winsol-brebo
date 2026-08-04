@@ -56,7 +56,7 @@ class PageCreateTest extends TestCase
     {
         return array_merge([
             'title' => 'Nova schrijft een artikel',
-            'theme' => 'zonwering',
+            'theme' => 'realisaties',
             'image' => $this->anyAssetId(),
             'content' => [['type' => 'text', 'html' => '<h2>Kop</h2><p>Body.</p>']],
             'status' => 'draft',
@@ -91,7 +91,7 @@ class PageCreateTest extends TestCase
 
         $this->assertNotNull($entry);
         $this->assertSame('Nova schrijft een artikel', $entry->value('title'));
-        $this->assertSame(['zonwering'], $entry->get('themes'));
+        $this->assertSame(['realisaties'], $entry->get('themes'));
         $this->assertFalse($entry->published());
         $this->assertSame('nova-schrijft-een-artikel', $entry->slug());
         $this->assertNotNull($response->json('url'));
@@ -111,7 +111,7 @@ class PageCreateTest extends TestCase
     {
         $this->postPage($this->payload(['theme' => 'bestaat-niet']))
             ->assertStatus(422)
-            ->assertJsonPath('errors.theme.0', 'Onbekend thema. Geldige waarden: energie-en-comfort, ramen-en-deuren, terrasoverkapping, zonwering.');
+            ->assertJsonPath('errors.theme.0', 'Onbekend thema. Geldige waarden: bedrijfsnieuws, events, producten, realisaties, showroom.');
     }
 
     public function test_a_missing_image_gives_422(): void

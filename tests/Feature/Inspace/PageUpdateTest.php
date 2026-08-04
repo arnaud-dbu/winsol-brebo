@@ -35,7 +35,7 @@ class PageUpdateTest extends TestCase
 
         $entry = $this->temporaryEntry('articles', 'updatetest-artikel', [
             'title' => 'Updatetest',
-            'themes' => ['zonwering'],
+            'themes' => ['realisaties'],
             'date' => '2026-08-04',
             'redactor' => $nodes,
         ]);
@@ -150,7 +150,7 @@ class PageUpdateTest extends TestCase
     {
         $entry = $this->temporaryEntry('articles', 'updatetest-corrupt', [
             'title' => 'Corrupt',
-            'themes' => ['zonwering'],
+            'themes' => ['realisaties'],
             'date' => '2026-08-04',
             'redactor' => [
                 ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => 'Voor.']]],
@@ -195,7 +195,7 @@ class PageUpdateTest extends TestCase
 
         $other = $this->temporaryEntry('articles', 'ander-artikel', [
             'title' => 'Ander artikel',
-            'themes' => ['zonwering'],
+            'themes' => ['realisaties'],
             'date' => '2026-08-04',
             'redactor' => [],
         ]);

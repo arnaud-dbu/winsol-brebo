@@ -56,7 +56,7 @@ The smallest possible call:
 ```json
 {
   "title": "Choosing zip screens for a new build",
-  "theme": "zonwering",
+  "theme": "realisaties",
   "image": "3f2a...",
   "content": [{ "type": "text", "html": "<h2>Keeping the outside out</h2><p>...</p>" }],
   "status": "draft",

@@ -79,7 +79,7 @@ class AssetReferenceTest extends TestCase
     {
         $response = $this->withToken(self::TOKEN)->postJson('/api/inspace/v1/pages', array_merge([
             'title' => 'Nova koppelt een beeld',
-            'theme' => 'zonwering',
+            'theme' => 'realisaties',
             'content' => [['type' => 'text', 'html' => '<p>Body.</p>']],
             'status' => 'draft',
         ], $overrides));
