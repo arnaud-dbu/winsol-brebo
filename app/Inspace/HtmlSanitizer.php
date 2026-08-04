@@ -6,6 +6,14 @@ use DOMDocument;
 use DOMElement;
 use DOMNode;
 
+/**
+ * Filtert alleen op tagnaam, niet op attributen: wat hier doorheen komt gaat
+ * verderop in de keten nog door de ProseMirror-parse, die alleen bekende
+ * knopen en attributen overhoudt (`onclick`/`onerror` vallen daar al buiten
+ * het schema, `javascript:`/`data:`-hrefs op `LinkMark::allowedProtocols`).
+ * Gebruik je deze klasse ooit buiten die keten, dan vervalt die aanname en
+ * moet attribuutfiltering alsnog worden toegevoegd.
+ */
 class HtmlSanitizer
 {
     /**
@@ -19,6 +27,13 @@ class HtmlSanitizer
     private array $warnings = [];
 
     /**
+     * De charset-meta die `clean()` zelf vooraan plakt. Uitsluiten op
+     * identiteit, niet op tagnaam: anders omzeilt elke andere `<meta>` in de
+     * input de whitelist stilzwijgend.
+     */
+    private ?DOMNode $injectedMeta = null;
+
+    /**
      * @param  list<string>  $allowedTags
      */
     public function __construct(private readonly array $allowedTags) {}
@@ -26,6 +41,7 @@ class HtmlSanitizer
     public function clean(string $html): string
     {
         $this->warnings = [];
+        $this->injectedMeta = null;
 
         if (trim($html) === '') {
             return '';
@@ -45,12 +61,14 @@ class HtmlSanitizer
         libxml_clear_errors();
         libxml_use_internal_errors($previous);
 
+        $this->injectedMeta = $document->firstChild;
+
         $this->walk($document);
 
         $out = '';
 
         foreach (iterator_to_array($document->childNodes) as $child) {
-            if ($child instanceof DOMElement && strtolower($child->nodeName) === 'meta') {
+            if ($child === $this->injectedMeta) {
                 continue;
             }
 
@@ -75,9 +93,15 @@ class HtmlSanitizer
                 continue;
             }
 
+            if ($child === $this->injectedMeta) {
+                $this->walk($child);
+
+                continue;
+            }
+
             $tag = strtolower($child->nodeName);
 
-            if ($tag === 'meta' || in_array($tag, $this->allowedTags, true)) {
+            if (in_array($tag, $this->allowedTags, true)) {
                 $this->walk($child);
 
                 continue;

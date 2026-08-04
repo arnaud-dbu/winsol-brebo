@@ -88,4 +88,18 @@ class HtmlSanitizerTest extends TestCase
         $this->assertStringNotContainsString('alert', $out);
         $this->assertStringContainsString('<p>Blijft.</p>', $out);
     }
+
+    public function test_a_meta_tag_hidden_inside_the_input_is_stripped_and_reported(): void
+    {
+        $sanitizer = $this->sanitizer();
+
+        $out = $sanitizer->clean(
+            '<p>Voor</p><p><meta http-equiv="refresh" content="0;url=http://evil.example">Na</p>'
+        );
+
+        $this->assertStringNotContainsString('<meta', $out, 'Een ingesloten meta-tag mag de whitelist niet omzeilen.');
+        $this->assertStringContainsString('Voor', $out);
+        $this->assertStringContainsString('Na', $out);
+        $this->assertSame(['Tag <meta> is niet toegestaan en is verwijderd.'], $sanitizer->warnings());
+    }
 }
