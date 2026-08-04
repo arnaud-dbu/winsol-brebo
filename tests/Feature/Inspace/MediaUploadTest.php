@@ -3,6 +3,7 @@
 namespace Tests\Feature\Inspace;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Statamic\Facades\Asset;
 use Tests\Concerns\CreatesTemporaryContent;
 use Tests\TestCase;
@@ -84,45 +85,6 @@ class MediaUploadTest extends TestCase
         );
     }
 
-    public function test_a_filename_with_a_path_traversal_segment_stays_inside_the_folder(): void
-    {
-        $file = UploadedFile::fake()->image('nova.jpg', 100, 100);
-
-        // getClientOriginalName() geeft ongefilterd terug wat de client
-        // meestuurt. Zonder basename() belandt deze string rechtstreeks in
-        // Asset::path(), die op een `../`-segment een ongevangen
-        // PathTraversalDetected-exception gooit (500) in plaats van gewoon
-        // een asset in de eigen map te zetten.
-        $response = $this->withToken(self::TOKEN)->postJson('/api/inspace/v1/media', [
-            'file' => $this->renameUploadedFile($file, '../../../etc/evil.jpg'),
-        ]);
-
-        $response->assertStatus(201);
-
-        $asset = Asset::find($response->json('id'));
-
-        $this->assertNotNull($asset);
-        $this->assertStringStartsWith(config('inspace.assets.folder').'/', $asset->path());
-        $this->assertStringNotContainsString('..', $asset->path());
-    }
-
-    public function test_a_filename_with_a_subfolder_segment_stays_inside_the_folder(): void
-    {
-        $file = UploadedFile::fake()->image('nova.jpg', 100, 100);
-
-        $response = $this->withToken(self::TOKEN)->postJson('/api/inspace/v1/media', [
-            'file' => $this->renameUploadedFile($file, 'legal/cookie-policy.jpg'),
-        ]);
-
-        $response->assertStatus(201);
-
-        $asset = Asset::find($response->json('id'));
-
-        $this->assertNotNull($asset);
-        $this->assertStringStartsWith(config('inspace.assets.folder').'/', $asset->path());
-        $this->assertStringNotContainsString('/', $asset->basename());
-    }
-
     public function test_a_second_upload_with_the_same_filename_does_not_overwrite_the_first(): void
     {
         $first = $this->withToken(self::TOKEN)->postJson('/api/inspace/v1/media', [
@@ -144,11 +106,113 @@ class MediaUploadTest extends TestCase
         $this->assertTrue($secondAsset->disk()->exists($secondAsset->path()));
     }
 
+    public function test_a_filename_that_reduces_to_a_dot_is_rejected(): void
+    {
+        // Zonder deze check bouwt de controller `folder/.`, wat via
+        // pathinfo() neerkomt op de map zelf: de schrijfactie mikt dan op de
+        // map in plaats van een bestand daarin ("Is a directory").
+        //
+        // `$source` blijft hier als losse variabele staan (in plaats van
+        // inline doorgegeven te worden): het onderliggende `tmpfile()` van
+        // `UploadedFile::fake()` verdwijnt van disk zodra dat object geen
+        // referenties meer heeft, en `renameUploadedFile()` bouwt alleen een
+        // nieuwe wrapper om hetzelfde pad — de bytes moeten dus blijven
+        // bestaan tot ná de request.
+        $source = UploadedFile::fake()->image('nova.jpg', 100, 100);
+
+        $this->withToken(self::TOKEN)
+            ->postJson('/api/inspace/v1/media', [
+                'file' => $this->renameUploadedFile($source, '.'),
+            ])
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors' => ['file']]);
+
+        $this->assertContainerIsEmpty();
+    }
+
+    public function test_a_filename_that_reduces_to_dot_dot_is_rejected(): void
+    {
+        $source = UploadedFile::fake()->image('nova.jpg', 100, 100);
+
+        $this->withToken(self::TOKEN)
+            ->postJson('/api/inspace/v1/media', [
+                'file' => $this->renameUploadedFile($source, '..'),
+            ])
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors' => ['file']]);
+
+        $this->assertContainerIsEmpty();
+    }
+
+    public function test_an_empty_filename_is_rejected(): void
+    {
+        // Een lege naam laat de controller buiten `folder` schrijven (het
+        // pad valt terug op de map zelf als bestandsnaam) en leverde vóór
+        // deze fix een 201 op met een asset dat er in de praktijk niet echt
+        // "is" — nergens vindbaar onder de eigen map, met een onzinnige id.
+        $source = UploadedFile::fake()->image('nova.jpg', 100, 100);
+
+        $this->withToken(self::TOKEN)
+            ->postJson('/api/inspace/v1/media', [
+                'file' => $this->renameUploadedFile($source, ''),
+            ])
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors' => ['file']]);
+
+        $this->assertContainerIsEmpty();
+    }
+
+    public function test_a_corrupt_image_body_is_rejected_and_leaves_no_orphan_asset(): void
+    {
+        // Geldige magic bytes (finfo herkent dit als image/jpeg, dus `mimes`
+        // laat het door) maar een afgekapte body. Statamic decodeert de
+        // bytes synchroon tijdens save() voor de dimensies/preview
+        // (Imaging\ImageGenerator), en dat gooit hier een DecoderException
+        // ná het wegschrijven van het bestand.
+        $this->withToken(self::TOKEN)
+            ->postJson('/api/inspace/v1/media', [
+                'file' => $this->corruptJpeg(),
+            ])
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors' => ['file']]);
+
+        $this->assertContainerIsEmpty();
+    }
+
     /**
-     * `UploadedFile::fake()` staat geen `/` in zijn eigen naam toe, dus om een
-     * naam met schuine strepen of `../` te simuleren zoals een echte client
-     * die zou meesturen, wordt hier alsnog met reflectie de originele
-     * bestandsnaam overschreven.
+     * Telt bestanden op de faked disk zelf, niet via `$container->assets()`:
+     * die query leest Stache's eigen store, wat een cache is van de
+     * productieschijf en dus geen rekening houdt met `Storage::fake()`.
+     */
+    private function assertContainerIsEmpty(): void
+    {
+        $this->assertEmpty(Storage::disk('r2')->allFiles());
+    }
+
+    /**
+     * Een bestand met een geldige JPEG-header maar zonder de rest van de
+     * beeldgegevens: genoeg voor `finfo`/`mimes` om het als `image/jpeg` te
+     * herkennen, te weinig voor GD om het te decoderen.
+     */
+    private function corruptJpeg(): UploadedFile
+    {
+        $image = imagecreatetruecolor(50, 50);
+        imagefill($image, 0, 0, imagecolorallocate($image, 255, 0, 0));
+        ob_start();
+        imagejpeg($image);
+        $bytes = substr(ob_get_clean(), 0, 50);
+        imagedestroy($image);
+
+        $path = tempnam(sys_get_temp_dir(), 'corrupt').'.jpg';
+        file_put_contents($path, $bytes);
+
+        return new UploadedFile($path, 'corrupt.jpg', 'image/jpeg', test: true);
+    }
+
+    /**
+     * `UploadedFile::fake()` staat geen `.`, `..` of een lege naam als eigen
+     * naam toe, dus om zo'n clientnaam te simuleren wordt hier de originele
+     * bestandsnaam overschreven op een al bestaand (geldig) bestand.
      */
     private function renameUploadedFile(UploadedFile $file, string $name): UploadedFile
     {
