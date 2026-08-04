@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\InspaceRevisionsGuard;
 use App\Http\Middleware\InspaceToken;
+use App\Http\Middleware\NoIndexHeader;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -21,6 +22,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'inspace.token' => InspaceToken::class,
             'inspace.revisions' => InspaceRevisionsGuard::class,
         ]);
+
+        // Globaal en niet alleen op `web`: ook de API en het control panel
+        // horen op een afgeschermde omgeving uit de index te blijven.
+        $middleware->append(NoIndexHeader::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
