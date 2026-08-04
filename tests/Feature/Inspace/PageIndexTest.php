@@ -120,4 +120,26 @@ class PageIndexTest extends TestCase
         $this->assertSame(1, $zero->json('meta.per_page'));
         $this->assertCount(1, $zero->json('data'));
     }
+
+    /**
+     * `collection` en `site` zijn de enige queryparameters die ongefilterd
+     * in een typed `?string`-parameter belanden (`EntryLister::handles()`,
+     * `SiteGuard::resolve()`). Vóór de fix gaf een array hier een kale 500
+     * TypeError in plaats van een 422.
+     */
+    public function test_an_array_collection_query_parameter_gives_422_instead_of_a_500(): void
+    {
+        $this->withToken(self::TOKEN)
+            ->getJson('/api/inspace/v1/pages?collection[]=a')
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors' => ['collection']]);
+    }
+
+    public function test_an_array_site_query_parameter_gives_422_instead_of_a_500(): void
+    {
+        $this->withToken(self::TOKEN)
+            ->getJson('/api/inspace/v1/pages?site[]=nl')
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors' => ['site']]);
+    }
 }

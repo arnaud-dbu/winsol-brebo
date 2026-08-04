@@ -75,6 +75,26 @@ class PageUpdateTest extends TestCase
         $this->assertSame(json_encode($nodes), json_encode($fresh->get('redactor')));
     }
 
+    /**
+     * Reviewfixronde: `PATCH` met een tekstblok zonder `html` gaf vóór de fix
+     * een `200` met lege `warnings` en overschreef de opgeslagen `redactor`
+     * met `[]` — geruisloos contentverlies op een gepubliceerd artikel, mét
+     * succesantwoord. `content.*.html` is nu verplicht zodra `type` `text` is.
+     */
+    public function test_a_text_block_without_html_gives_422_and_leaves_the_body_untouched(): void
+    {
+        [$entry, $nodes] = $this->article();
+
+        $this->withToken(self::TOKEN)
+            ->patchJson('/api/inspace/v1/pages/'.$entry->id(), ['content' => [['type' => 'text']]])
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors' => ['content.0.html']]);
+
+        $fresh = Entry::find($entry->id());
+
+        $this->assertSame(json_encode($nodes), json_encode($fresh->get('redactor')));
+    }
+
     public function test_the_disabled_video_set_survives_a_rewrite(): void
     {
         [$entry, $nodes] = $this->article();

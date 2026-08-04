@@ -6,7 +6,10 @@ use App\Http\Controllers\Inspace\SchemaController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('api/inspace/v1')
-    ->middleware(['inspace.token', 'throttle:inspace'])
+    // throttle vóór token: een ongeldig token moet ook meetellen, anders telt
+    // een brute-force van foute tokens nooit mee tegen de limiet (elke poging
+    // eindigt al bij `inspace.token` vóórdat de throttle ooit draait).
+    ->middleware(['throttle:inspace', 'inspace.token'])
     ->group(function () {
         Route::get('schema', SchemaController::class);
         Route::get('pages', [PageController::class, 'index']);

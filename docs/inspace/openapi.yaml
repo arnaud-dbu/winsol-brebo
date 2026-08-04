@@ -308,7 +308,12 @@ components:
           items: { $ref: '#/components/schemas/Block' }
         image:
           type: string
-          description: Asset-id uit `POST /media`.
+          description: |
+            De `id` (bv. `assets::inspace/foto.jpg`) of de `url` uit het
+            antwoord van `POST /media` — allebei worden geaccepteerd en
+            intern naar dezelfde opslagvorm vertaald. Een waarde die niet
+            naar een geüpload asset wijst geeft 422 op dit veld.
+          example: 'assets::inspace/foto.jpg'
         theme:
           type: string
           enum: [energie-en-comfort, ramen-en-deuren, terrasoverkapping, zonwering]
@@ -329,7 +334,10 @@ components:
         meta_description: { type: [string, 'null'], maxLength: 160 }
         meta_image:
           type: [string, 'null']
-          description: Asset-id uit `POST /media`.
+          description: |
+            Zelfde vorm als `image`: de `id` óf de `url` uit `POST /media`,
+            allebei geaccepteerd. Een waarde die niet naar een geüpload asset
+            wijst geeft 422 op dit veld.
         seo_noindex: { type: boolean }
         site:
           type: string
@@ -430,8 +438,13 @@ components:
       properties:
         id: { type: string }
         url: { type: string }
-        width: { type: integer }
-        height: { type: integer }
+        width:
+          type: [integer, 'null']
+          description: >-
+            `null` als het bestand een geldige mime-extensie heeft maar geen
+            afmetingen op te leveren zijn (bv. een verkeerde extensie op een
+            niet-afbeelding).
+        height: { type: [integer, 'null'] }
         filename: { type: string }
         alt: { type: [string, 'null'] }
     SchemaResponse:

@@ -60,6 +60,12 @@ class PayloadValidator
             'image' => [...$required('image'), 'string'],
             'content' => [...$required('content'), 'array'],
             'content.*.type' => ['required', 'string'],
+            // Een opaque blok (bv. video) heeft geen `html`; alleen een blok
+            // van `type: text` moet het dragen. Zonder deze regel gooit
+            // `BlockConverter`/tiptap een kale 500 op een niet-stringwaarde,
+            // en `html` ontbreken geeft stil lege content terug (200, content
+            // weg) in plaats van een 422.
+            'content.*.html' => ['required_if:content.*.type,text', 'string'],
             'intro' => ['sometimes', 'nullable', 'string'],
             'slug' => ['sometimes', 'nullable', 'string', 'max:'.$this->maxLength($collection, 'slug', 200)],
             'date' => ['sometimes', 'nullable', 'date'],
@@ -69,6 +75,7 @@ class PayloadValidator
             'meta_description' => ['sometimes', 'nullable', 'string', 'max:'.$this->maxLength($collection, 'meta_description', 160)],
             'meta_image' => ['sometimes', 'nullable', 'string'],
             'seo_noindex' => ['sometimes', 'boolean'],
+            'site' => ['sometimes', 'nullable', 'string'],
         ];
     }
 

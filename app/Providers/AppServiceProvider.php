@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\InspaceToken;
 use App\Imaging\AssetAlphaBounds;
 use App\Imaging\Manipulators\TrimTransparent;
 use App\Listeners\AddDefaultBlueprintTabs;
@@ -120,8 +121,17 @@ class AppServiceProvider extends ServiceProvider
         View::share('font_faces', config('fonts.fonts', []));
 
         RateLimiter::for('inspace', function (Request $request) {
+            // De throttle draait vóór `InspaceToken` in de route (zodat een
+            // ongeldig token ook telt, zie routes/inspace.php), dus die
+            // middleware heeft `inspace_token_label` op dit moment nog niet
+            // gezet. `labelFor()` leidt het label zelf af, onafhankelijk van
+            // die volgorde: een geldig token blijft zo per token gelimiteerd,
+            // en alleen een ontbrekend of ongeldig token valt terug op het ip.
+            $label = $request->attributes->get('inspace_token_label')
+                ?? app(InspaceToken::class)->labelFor($request);
+
             return Limit::perMinute((int) config('inspace.rate_limit', 120))
-                ->by((string) $request->attributes->get('inspace_token_label', $request->ip()));
+                ->by((string) ($label ?? $request->ip()));
         });
     }
 

@@ -25,7 +25,11 @@ that contract looks like. That question is still open.
 1. `GET /schema`: which fields are writable, which are required, and which
    theme values exist. That list is site-specific and can change.
 2. `POST /media`: upload your image, keep the returned `id`.
-3. `POST /pages`: the article itself.
+3. `POST /pages`: the article itself. Put that `id` (or the `url` from the
+   same response — both work) straight into `image`; do the same for
+   `meta_image` if you set one. A reference that does not resolve to an
+   uploaded asset gives a `422` on that field instead of publishing without
+   a hero image.
 
 The `required` and `max` values in `GET /schema` are guaranteed to match what
 `POST /pages` and `PATCH /pages/{id}` actually enforce: both read from the
@@ -106,7 +110,9 @@ If a stored article ever has a corrupted content block (missing the
 internal id it needs to be found again on save), a write to that article
 returns a plain `500`, not a `422`. We do this on purpose: that is a defect
 in how the content was stored, not something your request caused or can fix
-by changing it. If you see a `500` on `PATCH /pages/{id}`, it is on us to
+by changing it. The same defect also surfaces as a plain `500` on a `GET
+/pages/{id}` of that article, since reading it back has to look up that same
+id. If you see a `500` on `GET`/`PATCH /pages/{id}`, it is on us to
 investigate; retrying with the same payload will not help, but please send
 us the entry id and timestamp so we can look at the stored content.
 

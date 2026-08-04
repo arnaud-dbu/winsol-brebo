@@ -8,13 +8,10 @@ use Illuminate\Support\Sleep;
 use Illuminate\Testing\TestResponse;
 use Statamic\Facades\AssetContainer;
 use Statamic\Facades\Entry;
-use Tests\Concerns\CreatesTemporaryContent;
 use Tests\TestCase;
 
 class PageCreateTest extends TestCase
 {
-    use CreatesTemporaryContent;
-
     private const TOKEN = 'test-token-abc';
 
     /** @var list<string> */
@@ -139,6 +136,41 @@ class PageCreateTest extends TestCase
         ]))->assertStatus(422)->assertJsonStructure(['errors' => ['content']]);
     }
 
+    public function test_content_html_as_an_object_gives_422(): void
+    {
+        $this->postPage($this->payload(['content' => [['type' => 'text', 'html' => ['a' => 'b']]]]))
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors' => ['content.0.html']]);
+    }
+
+    public function test_content_html_as_a_list_gives_422(): void
+    {
+        $this->postPage($this->payload(['content' => [['type' => 'text', 'html' => ['x']]]]))
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors' => ['content.0.html']]);
+    }
+
+    public function test_content_html_as_an_integer_gives_422(): void
+    {
+        $this->postPage($this->payload(['content' => [['type' => 'text', 'html' => 5]]]))
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors' => ['content.0.html']]);
+    }
+
+    public function test_content_html_as_a_boolean_gives_422(): void
+    {
+        $this->postPage($this->payload(['content' => [['type' => 'text', 'html' => true]]]))
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors' => ['content.0.html']]);
+    }
+
+    public function test_a_missing_html_on_a_text_block_gives_422(): void
+    {
+        $this->postPage($this->payload(['content' => [['type' => 'text']]]))
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors' => ['content.0.html']]);
+    }
+
     public function test_a_slug_collision_gets_a_suffix_and_overwrites_nothing(): void
     {
         $first = $this->postPage($this->payload())->assertStatus(201)->json('id');
@@ -256,6 +288,18 @@ class PageCreateTest extends TestCase
     public function test_an_unknown_site_gives_422(): void
     {
         $this->postPage($this->payload(['site' => 'fr']))
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors' => ['site']]);
+    }
+
+    /**
+     * `site` was het enige payloadveld zonder `string`-regel en belandde
+     * ongefilterd in `SiteGuard::resolve(?string)`, wat een kale 500
+     * TypeError gaf op een array in plaats van een 422.
+     */
+    public function test_an_array_site_payload_value_gives_422_instead_of_a_500(): void
+    {
+        $this->postPage($this->payload(['site' => ['nl']]))
             ->assertStatus(422)
             ->assertJsonStructure(['errors' => ['site']]);
     }

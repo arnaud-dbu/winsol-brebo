@@ -6,6 +6,7 @@ use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Statamic\Contracts\Entries\Entry as EntryContract;
+use Statamic\Facades\Asset;
 use Statamic\Facades\Collection;
 use Statamic\Facades\Entry;
 use Statamic\Fields\Blueprint;
@@ -131,21 +132,46 @@ class EntryWriter
                 continue;
             }
 
-            $entry->set($handle, $this->normalize($blueprint, $handle, $value));
+            $entry->set($handle, $this->normalize($blueprint, $apiName, $handle, $value));
         }
 
         return array_values(array_unique($warnings));
     }
 
-    private function normalize(Blueprint $blueprint, string $handle, mixed $value): mixed
+    /**
+     * @throws UnresolvableAssetException
+     */
+    private function normalize(Blueprint $blueprint, string $apiName, string $handle, mixed $value): mixed
     {
         $field = $blueprint->field($handle);
 
         return match ($field?->type()) {
-            'assets', 'terms' => $value === null ? null : [$value],
+            'assets' => $value === null ? null : [$this->assetPath($apiName, (string) $value)],
+            'terms' => $value === null ? null : [$value],
             'toggle' => (bool) $value,
             default => $value,
         };
+    }
+
+    /**
+     * Een assets-veld accepteert twee vormen: de `id` (`container::pad`) die
+     * `POST /media` teruggeeft, en de `url` uit datzelfde antwoord —
+     * `Asset::find()` herkent en vertaalt allebei. Het fieldtype zelf
+     * verwacht geen van beide, maar het containerpad; die vertaling gebeurt
+     * hier, niet in `MediaController`, want een inline `<img>` in `content`
+     * heeft juist wél de id-vorm nodig (zie `ImageResolver`).
+     *
+     * @throws UnresolvableAssetException
+     */
+    private function assetPath(string $apiName, string $reference): string
+    {
+        $asset = Asset::find($reference);
+
+        if ($asset === null) {
+            throw new UnresolvableAssetException($apiName, $reference);
+        }
+
+        return (string) $asset->path();
     }
 
     /**
