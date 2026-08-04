@@ -1,4 +1,9 @@
+{{ if indexable }}
 User-agent: *
 Disallow:
 
-Sitemap: {{ config:app:url }}/sitemap.xml
+Sitemap: {{ site_url }}/sitemap.xml
+{{ else }}
+User-agent: *
+Disallow: /
+{{ /if }}

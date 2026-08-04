@@ -1,10 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SitemapController;
+use Illuminate\Support\Facades\Route;
 
+// De view wordt hier buiten Statamic's cascade gerenderd, dus `{{ config:… }}`
+// is er leeg. Alles wat de template nodig heeft gaat daarom expliciet mee.
 Route::get('robots.txt', function () {
-    return response(view('robots'), 200, ['Content-Type' => 'text/plain']);
+    return response(view('robots', [
+        'indexable' => (bool) config('app.indexable'),
+        'site_url' => config('app.url'),
+    ]), 200, ['Content-Type' => 'text/plain']);
 });
 
 Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');

@@ -56,6 +56,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Indexeerbaar
+    |--------------------------------------------------------------------------
+    |
+    | Staat dit uit, dan sluit robots.txt de hele site af. Bedoeld voor
+    | staging: daar maakt de Inspace-koppeling echte artikels aan, en die
+    | mogen niet geïndexeerd raken als duplicaat van de live site.
+    |
+    | Niet af te leiden uit APP_ENV, want staging draait daar ook op
+    | `production`. Vandaar een eigen vlag.
+    |
+    */
+
+    'indexable' => env('SITE_INDEXABLE', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |
