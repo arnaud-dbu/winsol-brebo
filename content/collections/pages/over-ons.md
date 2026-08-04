@@ -31,7 +31,7 @@ page_builder:
             text: 'De drie punten delen één werkwijze en één plaatsingsteam. Wie in Dilbeek langskomt krijgt hetzelfde advies en dezelfde vakmensen over de vloer als wie in Sint-Pieters-Leeuw of Aartselaar binnenstapt.'
     background: true
     media: image
-    image: winsol-2.jpg
+    image: winsol-2.webp
     enabled: true
     overline: 'Ons verhaal'
   -
