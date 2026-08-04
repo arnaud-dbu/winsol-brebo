@@ -1211,6 +1211,8 @@ class UnknownBlockException extends RuntimeException
 
 - [ ] **Step 4: Write the converter**
 
+> **Achteraf gecorrigeerd — de code hieronder is niet de eindversie.** De review vond twee Criticals in precies dit blok. Ten eerste sleutelde `runsByHtml()` op gerenderde HTML, waardoor twee identiek renderende runs elkaar overschreven en er inhoud verdween bij een ongewijzigde `PATCH`; de werkende aanpak is een **FIFO-wachtrij per HTML-sleutel die in documentvolgorde geconsumeerd wordt**, niet een vergelijking op inhoud. Ten tweede gooide een leeg text-blok (`html: ""`) een `TypeError` uit tiptap in plaats van een lege knopenlijst op te leveren. Zie `app/Inspace/BlockConverter.php` voor de versie die geldt, en `tests/Unit/Inspace/BlockConverterTest.php` voor de vijftien tests die de eigenschappen vastleggen.
+
 ```php
 <?php
 
