@@ -14,7 +14,7 @@ page_builder:
     overline: 'In de kijker'
     title: 'Nog niet klaar voor een offerte?'
     text: 'Kom eerst eens kijken en voelen. In Dilbeek, Sint-Pieters-Leeuw en Aartselaar staat alles opgesteld.'
-    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen10.jpg
+    image: 20260512_winsolleuven_studiohan-41-scaled.jpg
     link:
       -
         id: JTH715nT
@@ -23,7 +23,8 @@ page_builder:
         label: 'Bezoek een showroom'
         new_tab: false
     enabled: true
+    align: left
 template: offerte
 updated_by: d308c19c-c205-4453-9862-1f62996a3734
-updated_at: 1785349144
+updated_at: 1785828629
 ---

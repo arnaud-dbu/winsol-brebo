@@ -13,10 +13,7 @@
             {{ if text }}
                 <p>{{ text }}</p>
             {{ /if }}
-            {{#
-                De `if` is nodig, niet cosmetisch: `partial:link` rendert bij een lege `link` alleen witruimte, en een tekstnode in een
-                flexcontainer wordt een anonieme flex-item — dat zou een lege `gap` onderaan de kaart achterlaten.
-            #}}
+
             {{ if link }}
                 <div data-header-action>
                     {{ partial:link style="btn btn--outline" }}

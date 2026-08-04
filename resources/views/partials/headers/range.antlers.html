@@ -1,81 +1,17 @@
-{{#
-    Range-header — Figma 293:3540 (desktop) en 457:6978 (mobiel).
-    
-    De nav zweeft over deze header (`floating` in layout.antlers.html), dus
-    het lichte vlak loopt door achter de nav en `header-under-nav` slaat die
-    hoogte over. Zwart, niet inverse: de achtergrond is licht.
-    
-    Twee achtergrondlagen met tegengesteld overloopgedrag, en dát is de reden
-    voor de nesting hieronder:
-    
-    - Het W-watermerk WORDT geklipt: `overflow-clip` staat expliciet op het
-      Figma-frame. Het zit daarom in een eigen `overflow-hidden`-wrapper, met
-      dezelfde `rounded-md` als de sectie — anders kunnen de hoeken van het
-      watermerk voorbij de afgeronde sectiehoek steken.
-    - De range-png wordt NIET geklipt: hij steekt links voorbij de
-      paginamarge, het beeld uit.
-    
-    Watermerkpositionering: `{{ svg }}` string-replaced alleen de `<svg`-tag
-    en behoudt de eigen `width="1134" height="512"` van het bestand. Zonder
-    `h-auto` bleef de hoogte dus 512px vast op elke breedte terwijl de breedte
-    wél schaalde — dat klopte toevallig alleen bij precies 1744px. Met
-    `h-auto` volgt de hoogte de breedte via de intrinsieke ratio (1134:512,
-    gelijk aan de mobiele 609:275).
-    
-    De positionering zelf is proportioneel in plaats van in pixels: Figma
-    geeft alleen exacte offsets voor 402px en 1744px, en daartussen zou een
-    vaste pixelwaarde verlopen.
-    
-    Desktop (1744x564-frame, merk op top:119 left:-321 breedte:1134):
-    119/564 = 21,1% top, -321/1744 = -18,4% left, 1134/1744 = 65,0% breedte.
-    
-    Mobiel telt het Figma-frame (402x676) de 75px hoge zwevende nav mee; onze
-    nav staat in de flow, dus de header-box zelf is 676-75 = 601px hoog. Het
-    merk staat op top:139 t.o.v. de vólledige frame, dus t.o.v. de header-box
-    139-75 = 64px: 64/601 = 10,65% top. Links en breedte blijven -218/402 =
-    -54,2% en 609/402 = 151,5%.
-#}}
 <section class="relative isolate rounded-md bg-light" data-header="range">
-    {{#
-        `data-header-watermark` staat vóór `class` omdat RangeHeaderTest de volgorde attribuut-dan-class matcht om te bewijzen
-        dat déze wrapper klipt en die van de png niet.
-    #}}
-    <div
-        data-header-watermark
-        class="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-md"
-        aria-hidden="true">
-        {{ svg src="watermark" class="absolute top-[10.65%] -left-[54%] w-[152%] h-auto lg:top-[21%] lg:-left-[18%] lg:w-[65%]" }}
-    </div>
 
-    <div class="container flex flex-col header-under-nav pb-14 lg:flex-row lg:items-center lg:justify-between lg:pb-20">
+        {{ svg src="shape-full" aria-hidden="true" class="pointer-events-none absolute left-0 bottom-0 h-[60%] sm:h-[85%] -translate-x-[35%] w-auto [&_path]:fill-black/3" }}
+
+    <div class="container flex flex-col pt-16 lg:pt-32 pb-14 sm:flex-row sm:items-center sm:gap-8 lg:gap-16 xl:gap-20">
         {{ if image }}
-            {{#
-                Elke range-png is een vierkant canvas met het product gecentreerd en een wisselende hoeveelheid transparante lucht
-                eromheen — de pergola staat ruim, het rolluik vult bijna het hele vlak. Zolang de box op dát canvas uitlijnde, landde
-                het product per range ergens anders: aan de kant van de tekst was de rand 5% breed bij pergolas en 28% bij ramen en
-                deuren. `trim` laat Glide die rand wegsnijden, waarna de box uitlijnt op het product zelf. De box blijft vierkant en dus
-                even groot als het canvas, en het beeld krijgt via `--trim-width` precies het aandeel daarvan terug dat het eerder innam
-                — de onderlinge schaal tussen de ranges verandert daardoor niet, alleen de lucht eromheen verdwijnt. Zie
-                `range-media-image`. `justify-end` op desktop zet elk product met zijn rechterrand tegen de tekstkolom, zodat de afstand
-                tot de tekst voor alle ranges gelijk is. Mobiel staat de png in de flow bóven de titel (457:6984), net als in rangeCard,
-                en lijnt hij links uit met de tekst eronder. Geen `ratio`: die zou croppen op het focuspunt en het product aansnijden.
-                `-ml-40` trekt het beeld 160px voorbij de paginamarge naar links, zodat het los van het lichte vlak lijkt te zweven. Op
-                smallere schermen loopt het daarmee het beeld uit; dat is de bedoeling en veroorzaakt geen scrollbar, want overflow naar
-                links telt in LTR niet mee voor de scrollbreedte.
-            #}}
-            <div
-                data-header-media
-                class="mb-8 flex aspect-square w-2/3 max-w-xs shrink-0 items-center justify-start lg:mb-0 lg:-ml-40 lg:w-1/2 lg:max-w-none lg:justify-end">
-                {{#
-                    `priority` omdat dit beeld boven de vouw staat, zoals de andere headerbeelden.
-                #}}
-                {{ img :src="image" trim="true" max_width="1280" sizes="(min-width: 1024px) 50vw, 66vw" priority="true" class="range-media-image" }}
+            <div data-header-media class="mb-4 h-auto w-3/4 max-w-xs lg:max-w-none lg:w-1/3 z-20">
+                {{ img :src="image" max_width="1280" sizes="(min-width: 1024px) 42vw, 66vw" priority="true" class="range-media-image" }}
             </div>
         {{ /if }}
-        <div class="relative z-10 flex flex-col gap-5 lg:w-1/2 lg:shrink-0 lg:gap-9">
+        <div class="relative z-10 section-header-gap lg:flex-1 lg:mr-[10%] ">
             <h1 class="header-title">{{ title }}</h1>
             {{ if short_description }}
-                <p class="header-intro">{{ short_description }}</p>
+                <p class="header-intro text-balance">{{ short_description }}</p>
             {{ /if }}
         </div>
     </div>

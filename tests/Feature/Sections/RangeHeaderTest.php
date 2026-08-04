@@ -121,10 +121,11 @@ class RangeHeaderTest extends SectionTestCase
     }
 
     /**
-     * De box blijft vierkant en dus even groot als het bronvlak, maar lijnt
-     * niet langer op dát vlak uit. Glide snijdt de transparante rand weg en de
-     * box zet het product met `justify-end` tegen de tekstkolom, zodat elke
-     * range even ver van de tekst staat.
+     * De box blijft vierkant en dus even groot als het bronvlak, maar centreert
+     * niet langer dát vlak. Glide snijdt de transparante rand weg, waarna de
+     * box het product zelf centreert. Dat scheelt: de rand is per beeld anders
+     * en niet exact symmetrisch — bij stalen-binnendeuren 254px links tegen
+     * 229px rechts — dus het canvas centreren zet het product ernaast.
      *
      * Het beeld krijgt via `--trim-width` het aandeel van het canvas terug dat
      * het innam — hier een inset van 200px op 1200, dus 800/1200 = 66,667%.
@@ -149,7 +150,7 @@ class RangeHeaderTest extends SectionTestCase
             $html
         );
         $this->assertMatchesRegularExpression(
-            '/data-header-media[^>]*class="[^"]*lg:justify-end/',
+            '/data-header-media[^>]*class="[^"]*lg:justify-center/',
             $html
         );
 
@@ -199,13 +200,17 @@ class RangeHeaderTest extends SectionTestCase
     }
 
     /**
-     * Het beeld steekt links voorbij de paginamarge het beeld uit. Dat kan
-     * alleen als niets ertussen klipt — de sectie niet (dat pint de test
-     * hierboven) en de container niet. Zonder deze assertie zou een
-     * `overflow-hidden` op de container het beeld stilletjes bijsnijden op
-     * exact de marge, wat er "bijna goed" uitziet.
+     * De shape staat op dezelfde manier als in rangeCard. Die eis is het punt
+     * van deze test: gaat de card ooit anders staan, dan moet iemand hier
+     * bewust langs in plaats van de twee stil uit elkaar te laten lopen.
+     *
+     * De x-verschuiving hoort er níét bij en verschilt met opzet. `shape.svg`
+     * heeft een strakke viewBox om de W (`0 0 837 815`), `shape-full.svg` zet
+     * er 681 eenheden leegte links naast (`-681 0 1518 815`). Dezelfde W, maar
+     * hij begint pas op 44,9% van de breedte, dus `-translate-x-1/4` uit de
+     * card zou hem hier middenin de sectie zetten.
      */
-    public function test_the_media_bleeds_past_the_page_margin(): void
+    public function test_the_shape_sits_the_same_way_as_in_the_card(): void
     {
         config(['app.debug' => false]);
 
@@ -214,15 +219,39 @@ class RangeHeaderTest extends SectionTestCase
             'image' => '/img/pergolas.png',
         ]);
 
-        $this->assertMatchesRegularExpression(
-            '/data-header-media[^>]*class="[^"]*lg:-ml-/',
-            $html
-        );
+        $card = file_get_contents(resource_path('views/partials/rangeCard.antlers.html'));
 
-        // Precies één klippende laag in deze header, en dat is die van het
-        // watermerk. Een `overflow-hidden` erbij — op de sectie, de container
-        // of de media zelf — snijdt het beeld af op exact de marge, wat er
-        // "bijna goed" uitziet en dus makkelijk ongemerkt binnenglipt.
+        // Alleen de opzet, niet de exacte verschuiving: hoe ver de shape
+        // omhoog getrokken staat is een waarde die je bijstelt op wat je ziet,
+        // en die hoort de suite niet rood te maken.
+        foreach (['absolute', 'top-1/2', 'left-0', 'size-full'] as $class) {
+            $this->assertStringContainsString(
+                $class,
+                $card,
+                "rangeCard gebruikt `{$class}` niet meer; de header spiegelt zich daaraan."
+            );
+            $this->assertMatchesRegularExpression(
+                '/<svg[^>]*class="[^"]*'.preg_quote($class, '/').'/',
+                $html,
+                "De shape in de header mist `{$class}`."
+            );
+        }
+
+        // De bron hoort shape-full te zijn, niet shape: die viewBox is wat de
+        // afwijkende x-verschuiving hieronder verklaart.
+        $this->assertMatchesRegularExpression('/<svg[^>]*viewBox="-681 0 1518 815"/', $html);
+
+        // Zowel de card als de header trekken de shape omhoog en naar links;
+        // hoevéél verschilt en mag verschillen.
+        $this->assertMatchesRegularExpression('/<svg[^>]*class="[^"]*-translate-y-/', $html);
+        $this->assertMatchesRegularExpression('/<svg[^>]*class="[^"]*-translate-x-/', $html);
+        $this->assertStringContainsString('-translate-y-', $card);
+        $this->assertStringContainsString('-translate-x-', $card);
+
+        // Precies één klippende laag in deze header, en dat is die van de
+        // shape — die loopt onderaan de sectie uit en moet daar afgesneden
+        // worden. Een `overflow-hidden` erbij, op de sectie of de container,
+        // zou ook de range-png meenemen.
         $this->assertSame(1, substr_count($html, 'overflow-'));
     }
 
