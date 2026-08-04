@@ -51,6 +51,8 @@ class PageController extends Controller
             return response()->json(['message' => 'Deze collectie is niet schrijfbaar.'], 403);
         }
 
+        app(SiteGuard::class)->resolve($request->input('site'));
+
         $validator->validate($collection, $request->all(), creating: true);
 
         try {

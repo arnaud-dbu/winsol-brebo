@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Inspace;
 
+use App\Inspace\EntryWriter;
 use Illuminate\Testing\TestResponse;
 use Statamic\Facades\AssetContainer;
 use Statamic\Facades\Entry;
@@ -144,19 +145,84 @@ class PageCreateTest extends TestCase
 
     public function test_an_empty_slug_source_still_creates_a_reachable_entry(): void
     {
-        $response = $this->postPage($this->payload(['title' => '!!!']))->assertStatus(201);
+        $first = Entry::find($this->postPage($this->payload(['title' => '!!!']))->assertStatus(201)->json('id'));
+        $second = Entry::find($this->postPage($this->payload(['title' => '???']))->assertStatus(201)->json('id'));
 
-        $entry = Entry::find($response->json('id'));
+        // `assertNotSame('', ...)` verdraagt ook een `null`-slug: Statamic's
+        // slug-setter maakt van een lege string géén lege slug maar geen
+        // slug tout court, waarmee de entry terugvalt op de mount-url van de
+        // collectie ("/nieuws") in plaats van zijn eigen, bereikbare pagina.
+        // Vandaar hier expliciet een vorm-check én een url-check, in plaats
+        // van alleen "niet gelijk aan lege string".
+        $this->assertMatchesRegularExpression('/^[a-z0-9]+(-[a-z0-9]+)*$/', (string) $first->slug());
+        $this->assertNotSame('/nieuws', $first->url());
 
-        $this->assertNotNull($entry);
-        $this->assertNotSame('', $entry->slug());
+        // Twee entries die allebei op een lege slugbasis uitkomen mogen
+        // elkaar niet overschrijven of dezelfde willekeurige basis delen.
+        $this->assertNotSame($first->slug(), $second->slug());
     }
 
     public function test_an_empty_external_id_does_not_collide_with_a_later_empty_external_id(): void
     {
-        $first = $this->postPage($this->payload(['external_id' => '']))->assertStatus(201)->json('id');
-        $second = $this->postPage($this->payload(['external_id' => '']))->assertStatus(201)->json('id');
+        // Over HTTP bereikt een lege string dit veld nooit: de globale
+        // `ConvertEmptyStringsToNull`-middleware zet 'm al om naar `null`
+        // vóór de request de controller bereikt (geverifieerd tegen
+        // `Illuminate\Foundation\Configuration\Middleware::getGlobalMiddleware()`,
+        // niet uitgezet in `bootstrap/app.php`). Dit pad is dus alleen
+        // bereikbaar door `EntryWriter::create()` rechtstreeks aan te
+        // roepen, zoals een toekomstige console-aanroeper zou doen.
+        $writer = app(EntryWriter::class);
 
-        $this->assertNotSame($first, $second);
+        $first = $writer->create('articles', $this->payload(['external_id' => '']));
+        $this->created[] = $first['entry']->id();
+
+        $second = $writer->create('articles', $this->payload(['external_id' => '']));
+        $this->created[] = $second['entry']->id();
+
+        $this->assertNotSame($first['entry']->id(), $second['entry']->id());
+        $this->assertFalse($first['existing']);
+        $this->assertFalse($second['existing']);
+    }
+
+    public function test_multiple_changed_blocks_all_report_their_warnings(): void
+    {
+        $response = $this->postPage($this->payload([
+            'content' => [
+                ['type' => 'text', 'html' => '<h1>Te groot</h1><p>Eerste.</p>'],
+                ['type' => 'text', 'html' => '<p><img src="asset::'.$this->anyAssetId().'" alt="Genegeerd"></p>'],
+            ],
+        ]))->assertStatus(201);
+
+        $warnings = $response->json('warnings');
+
+        $this->assertContains('Tag <h1> is niet toegestaan en is verwijderd.', $warnings);
+        $this->assertContains('Het alt-attribuut op een <img> is genegeerd. Zet de alt-tekst bij de upload via POST /media.', $warnings);
+    }
+
+    public function test_multiple_changed_blocks_report_warnings_in_reverse_order_too(): void
+    {
+        $response = $this->postPage($this->payload([
+            'content' => [
+                ['type' => 'text', 'html' => '<p><img src="asset::'.$this->anyAssetId().'" alt="Genegeerd"></p>'],
+                ['type' => 'text', 'html' => '<h1>Te groot</h1><p>Tweede.</p>'],
+            ],
+        ]))->assertStatus(201);
+
+        $warnings = $response->json('warnings');
+
+        $this->assertContains('Tag <h1> is niet toegestaan en is verwijderd.', $warnings);
+        $this->assertContains('Het alt-attribuut op een <img> is genegeerd. Zet de alt-tekst bij de upload via POST /media.', $warnings);
+    }
+
+    public function test_a_valid_site_is_accepted(): void
+    {
+        $this->postPage($this->payload(['site' => 'nl']))->assertStatus(201);
+    }
+
+    public function test_an_unknown_site_gives_422(): void
+    {
+        $this->postPage($this->payload(['site' => 'fr']))
+            ->assertStatus(422)
+            ->assertJsonStructure(['errors' => ['site']]);
     }
 }

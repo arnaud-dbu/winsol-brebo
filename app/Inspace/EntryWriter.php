@@ -99,11 +99,19 @@ class EntryWriter
             }
 
             if ($apiName === 'external_id') {
-                // Een lege string is voor de duplicaatcheck hetzelfde als
-                // "geen external_id": zonder deze normalisatie zou elke
-                // aanroep met een lege string dezelfde placeholder
-                // wegschrijven en een latere aanroep met eveneens een lege
-                // string die eerste entry ten onrechte als duplicaat zien.
+                // Over HTTP komt een lege string hier nooit binnen: de
+                // globale `ConvertEmptyStringsToNull`-middleware zet 'm al om
+                // naar null vóór de request de controller bereikt. Deze
+                // normalisatie is dus puur defensief voor een aanroeper die
+                // `create()`/`update()` rechtstreeks aanroept (buiten die
+                // middleware om). Zonder deze guard is het gevolg niet zomaar
+                // "een lege string als duplicaatsleutel": `Query\Builder::
+                // filterTestEquals()` vergelijkt met `strtolower($item ?? '')
+                // === strtolower($value ?? '')`, dus `where('external_id',
+                // '')` matcht daarmee élke entry die het veld nooit heeft
+                // gezet (dus vrijwel elk bestaand artikel) — empirisch
+                // bevestigd toen een reproductie hiervan zonder guard tijdens
+                // testopruiming een echt, bestaand artikel wegverwijderde.
                 $entry->set('external_id', $value === '' ? null : $value);
 
                 continue;
@@ -177,8 +185,12 @@ class EntryWriter
 
     private function findByExternalId(string $collection, ?string $externalId): ?EntryContract
     {
-        // Een lege string telt als "geen external_id" (zie de normalisatie in
-        // apply()), anders zou een lege string zichzelf als duplicaat vinden.
+        // Zelfde reden als in apply(): over HTTP is een lege string hier
+        // onbereikbaar (ConvertEmptyStringsToNull maakt er al null van), maar
+        // een rechtstreekse aanroep van create() zonder deze guard zou
+        // `where('external_id', '')` laten matchen op élke entry zonder dat
+        // veld (zie de toelichting in apply()) — dus mogelijk een willekeurig
+        // bestaand artikel teruggeven als "duplicaat".
         if ($externalId === null || $externalId === '') {
             return null;
         }
