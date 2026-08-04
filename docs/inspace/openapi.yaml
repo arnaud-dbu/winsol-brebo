@@ -310,9 +310,14 @@ components:
           type: string
           description: |
             De `id` (bv. `assets::inspace/foto.jpg`) of de `url` uit het
-            antwoord van `POST /media` — allebei worden geaccepteerd en
-            intern naar dezelfde opslagvorm vertaald. Een waarde die niet
-            naar een geüpload asset wijst geeft 422 op dit veld.
+            antwoord van `POST /media`, of de vorm die `GET /pages/{id}` zelf
+            in dit veld teruggeeft (zie `ArticleDetail.image`) — alle drie
+            worden geaccepteerd en intern naar dezelfde opslagvorm vertaald.
+            Dat laatste is bewust: de normale manier om één veld te wijzigen
+            is een artikel op te halen en helemaal terug te sturen, dus
+            `image` reist meestal in zijn `GET`-vorm door deze API, niet in
+            zijn `POST /media`-vorm. Een waarde die in geen van de drie
+            vormen naar een geüpload asset wijst geeft 422 op dit veld.
           example: 'assets::inspace/foto.jpg'
         theme:
           type: string
@@ -335,9 +340,10 @@ components:
         meta_image:
           type: [string, 'null']
           description: |
-            Zelfde vorm als `image`: de `id` óf de `url` uit `POST /media`,
-            allebei geaccepteerd. Een waarde die niet naar een geüpload asset
-            wijst geeft 422 op dit veld.
+            Zelfde drie vormen als `image` (zie daar): de `id` of `url` uit
+            `POST /media`, of de vorm die `GET` teruggeeft. Een waarde die in
+            geen van de drie naar een geüpload asset wijst geeft 422 op dit
+            veld.
         seo_noindex: { type: boolean }
         site:
           type: string
@@ -412,13 +418,21 @@ components:
         content:
           type: array
           items: { $ref: '#/components/schemas/Block' }
-        image: { type: [string, 'null'] }
+        image:
+          type: [string, 'null']
+          description: >-
+            De interne opslagvorm (een pad, geen `id` en geen `url`), niet
+            een van de twee vormen die `POST /media` teruggeeft. Stuur deze
+            waarde ongewijzigd terug in `ArticleWrite.image` en hij blijft
+            naar hetzelfde asset wijzen — zie de toelichting daar.
         theme: { type: [string, 'null'] }
         slug: { type: string }
         date: { type: [string, 'null'], format: date }
         meta_title: { type: [string, 'null'] }
         meta_description: { type: [string, 'null'] }
-        meta_image: { type: [string, 'null'] }
+        meta_image:
+          type: [string, 'null']
+          description: Zelfde vorm als `image` hierboven.
         seo_noindex: { type: boolean }
     ArticleWriteResult:
       description: Wat `POST /pages` en `PATCH /pages/{id}` teruggeven.

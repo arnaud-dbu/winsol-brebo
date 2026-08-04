@@ -18,6 +18,17 @@ class AssetReferenceTest extends TestCase
     /** @var list<string> */
     private array $created = [];
 
+    /**
+     * Zelfde vangnet als `PageCreateTest`: een snapshot van wat er vóór de
+     * test al bestond, onafhankelijk van hoe `$created` gevuld raakt. Deze
+     * suite raakt echte contentbestanden, en in dit traject heeft een test
+     * al twee keer een écht artikel verwijderd omdat de opruiming blind elk
+     * getrackt id wiste.
+     *
+     * @var list<string>
+     */
+    private array $preExistingArticleIds = [];
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -31,8 +42,14 @@ class AssetReferenceTest extends TestCase
         // heeft een echte url nodig, dus hier opnieuw faken mét een url.
         Storage::fake('r2', ['url' => 'https://cdn.test/assets']);
 
+        $this->preExistingArticleIds = Entry::query()->where('collection', 'articles')->get()->map->id()->all();
+
         $this->beforeApplicationDestroyed(function (): void {
             foreach ($this->created as $id) {
+                if (in_array($id, $this->preExistingArticleIds, true)) {
+                    continue;
+                }
+
                 Entry::find($id)?->delete();
             }
         });
@@ -134,5 +151,74 @@ class AssetReferenceTest extends TestCase
             'image' => $this->uploadMedia('meta-check.jpg')['id'],
             'meta_image' => 'bestaat/ook/niet.jpg',
         ])->assertStatus(422)->assertJsonStructure(['errors' => ['meta_image']]);
+    }
+
+    /**
+     * De regressie uit de re-review: `GET /pages/{id}` geeft `image` terug
+     * als het opgeslagen containerpad (`EntryMapper::read()` doet geen
+     * omgekeerde vertaling naar id of url), niet in een van de twee vormen
+     * die `POST /pages` accepteerde. Een integrator die een gelezen artikel
+     * ongewijzigd terugstuurt — het normale patroon van een partiële update
+     * — stuurt dus die derde vorm mee, ook als hij `image` niet eens wil
+     * wijzigen, en liep vóór deze fix vast op een 422.
+     */
+    public function test_reading_back_an_image_and_patching_it_unchanged_still_works(): void
+    {
+        $media = $this->uploadMedia('roundtrip-image.jpg');
+        $entryId = $this->postPage(['image' => $media['id']])->assertStatus(201)->json('id');
+
+        $readBack = $this->withToken(self::TOKEN)
+            ->getJson('/api/inspace/v1/pages/'.$entryId)
+            ->json('image');
+
+        $this->assertNotSame(
+            $media['id'],
+            $readBack,
+            'GET moet het containerpad teruggeven, niet de id-vorm — anders bewijst deze test niets.'
+        );
+
+        $this->withToken(self::TOKEN)
+            ->patchJson('/api/inspace/v1/pages/'.$entryId, [
+                'image' => $readBack,
+                'meta_title' => 'Nieuw',
+            ])
+            ->assertOk();
+
+        $asset = Entry::find($entryId)->augmentedValue('image');
+
+        $this->assertNotNull($asset);
+        $this->assertSame($media['id'], $asset->id());
+    }
+
+    /**
+     * Hetzelfde round-trip-scenario voor `meta_image`.
+     */
+    public function test_reading_back_a_meta_image_and_patching_it_unchanged_still_works(): void
+    {
+        $image = $this->uploadMedia('roundtrip-image-2.jpg');
+        $metaImage = $this->uploadMedia('roundtrip-meta.jpg');
+
+        $entryId = $this->postPage([
+            'image' => $image['id'],
+            'meta_image' => $metaImage['id'],
+        ])->assertStatus(201)->json('id');
+
+        $readBack = $this->withToken(self::TOKEN)
+            ->getJson('/api/inspace/v1/pages/'.$entryId)
+            ->json('meta_image');
+
+        $this->assertNotSame($metaImage['id'], $readBack);
+
+        $this->withToken(self::TOKEN)
+            ->patchJson('/api/inspace/v1/pages/'.$entryId, [
+                'meta_image' => $readBack,
+                'meta_title' => 'Nieuw',
+            ])
+            ->assertOk();
+
+        $asset = Entry::find($entryId)->augmentedValue('meta_image');
+
+        $this->assertNotNull($asset);
+        $this->assertSame($metaImage['id'], $asset->id());
     }
 }

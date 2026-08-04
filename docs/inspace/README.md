@@ -31,6 +31,20 @@ that contract looks like. That question is still open.
    uploaded asset gives a `422` on that field instead of publishing without
    a hero image.
 
+**What "an asset reference" means.** `image` and `meta_image` accept two
+shapes as input: the `id` and the `url` that `POST /media` returns for the
+same upload. `GET /pages/{id}` echoes a third, internal shape back in those
+same fields — it is not one of the two input shapes, but it is safe to send
+straight back. This matters because the normal way to change one field on an
+article is to `GET` it, edit what you want to change, and `PATCH` the whole
+thing back — and that means `image`/`meta_image` usually travel through this
+API in their `GET` shape, not the `POST /media` shape. All three shapes
+round-trip: read an article, send it back completely unchanged (even a field
+you have no intention of touching), and it keeps pointing at the same asset.
+A reference that does not resolve to any uploaded asset — in any of the
+three shapes — gives a `422` on that field instead of silently publishing
+without an image.
+
 The `required` and `max` values in `GET /schema` are guaranteed to match what
 `POST /pages` and `PATCH /pages/{id}` actually enforce: both read from the
 same configuration, and a test in our suite fails the build if they ever

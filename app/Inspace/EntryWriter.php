@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Statamic\Contracts\Entries\Entry as EntryContract;
 use Statamic\Facades\Asset;
+use Statamic\Facades\AssetContainer;
 use Statamic\Facades\Collection;
 use Statamic\Facades\Entry;
 use Statamic\Fields\Blueprint;
@@ -154,18 +155,28 @@ class EntryWriter
     }
 
     /**
-     * Een assets-veld accepteert twee vormen: de `id` (`container::pad`) die
-     * `POST /media` teruggeeft, en de `url` uit datzelfde antwoord —
-     * `Asset::find()` herkent en vertaalt allebei. Het fieldtype zelf
-     * verwacht geen van beide, maar het containerpad; die vertaling gebeurt
-     * hier, niet in `MediaController`, want een inline `<img>` in `content`
-     * heeft juist wél de id-vorm nodig (zie `ImageResolver`).
+     * Een assets-veld accepteert drie vormen: de `id` (`container::pad`) en
+     * de `url` die `POST /media` teruggeeft — `Asset::find()` herkent en
+     * vertaalt allebei — en het containerpad zelf, dat `GET /pages/{id}`
+     * teruggeeft (`EntryMapper::read()` doet geen omgekeerde vertaling). Een
+     * integrator die een gelezen artikel ongewijzigd terugstuurt (het
+     * normale patroon van een partiële update) stuurt dus die derde vorm
+     * mee, ook als hij `image` niet eens wil wijzigen. `Asset::find()` valt
+     * voor een bestaand containerpad terug op `findByUrl()`, herkent het
+     * niet als url en geeft `null`; pas daarna proberen we het letterlijk als
+     * pad in de geconfigureerde container.
+     *
+     * Het fieldtype zelf verwacht geen van de drie, maar het containerpad;
+     * die vertaling gebeurt hier, niet in `MediaController`, want een inline
+     * `<img>` in `content` heeft juist wél de id-vorm nodig (zie
+     * `ImageResolver`).
      *
      * @throws UnresolvableAssetException
      */
     private function assetPath(string $apiName, string $reference): string
     {
-        $asset = Asset::find($reference);
+        $asset = Asset::find($reference)
+            ?? AssetContainer::find((string) config('inspace.assets.container'))?->asset($reference);
 
         if ($asset === null) {
             throw new UnresolvableAssetException($apiName, $reference);
