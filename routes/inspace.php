@@ -9,4 +9,5 @@ Route::prefix('api/inspace/v1')
     ->group(function () {
         Route::get('schema', SchemaController::class);
         Route::get('pages', [PageController::class, 'index']);
+        Route::get('pages/{id}', [PageController::class, 'show']);
     });
