@@ -97,6 +97,8 @@ class PageController extends Controller
             $result = $writer->update($entry, $request->all());
         } catch (ExternalImageException|UnknownBlockException $e) {
             throw ValidationException::withMessages(['content' => $e->getMessage()]);
+        } catch (WriteLockTimeoutException $e) {
+            return response()->json(['message' => $e->getMessage()], 503);
         }
 
         $this->logWrite($request, $result['entry']->id());

@@ -3,6 +3,8 @@
 namespace Tests\Feature\Inspace;
 
 use App\Inspace\EntryWriter;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Sleep;
 use Illuminate\Testing\TestResponse;
 use Statamic\Facades\AssetContainer;
 use Statamic\Facades\Entry;
@@ -256,5 +258,27 @@ class PageCreateTest extends TestCase
         $this->postPage($this->payload(['site' => 'fr']))
             ->assertStatus(422)
             ->assertJsonStructure(['errors' => ['site']]);
+    }
+
+    /**
+     * Reviewfixronde task 10, punt 2: dit pad ontbrak nog als test op deze
+     * kant van de lock — `store()` ving `WriteLockTimeoutException` al af,
+     * maar zonder test die dat daadwerkelijk aantoonde. `Sleep::fake(true,
+     * true)` synct de faked sleep met Carbon zodat `Cache\Lock::block()` zijn
+     * eigen timeout-venster "doorloopt" zonder er echt 10 seconden op te
+     * wachten.
+     */
+    public function test_a_lock_held_by_another_write_gives_503_instead_of_a_500(): void
+    {
+        Sleep::fake(true, true);
+
+        $lock = Cache::lock('inspace:write:articles', 30);
+        $this->assertTrue($lock->get());
+
+        try {
+            $this->postPage($this->payload())->assertStatus(503);
+        } finally {
+            $lock->release();
+        }
     }
 }

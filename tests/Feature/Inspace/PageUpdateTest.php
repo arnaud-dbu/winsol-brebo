@@ -2,11 +2,8 @@
 
 namespace Tests\Feature\Inspace;
 
-use App\Providers\InspaceServiceProvider;
-use Mockery;
-use RuntimeException;
-use Statamic\Contracts\Entries\Collection as CollectionContract;
-use Statamic\Facades\Collection;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Sleep;
 use Statamic\Facades\Entry;
 use Tests\Concerns\CreatesTemporaryContent;
 use Tests\TestCase;
@@ -223,35 +220,27 @@ class PageUpdateTest extends TestCase
     }
 
     /**
-     * Kritisch punt 4: `articles.yaml` zet `revisions: false` hard, dus een
-     * test die alleen `config('statamic.revisions.enabled')` omzet raakt de
-     * guard nooit (zie de weggelaten, zichzelf overslaande variant uit de
-     * brief). Door `Collection::findByHandle()` te mocken testen we de
-     * eigen logica van de provider — "gooi als een schrijfbare collectie
-     * revisions aan heeft" — los van of er in dít project toevallig een
-     * collectie met revisions aan geconfigureerd staat.
+     * Punt 2 uit de reviewfixronde: `store()` ving `WriteLockTimeoutException`
+     * al af en gaf een 503 met "probeer opnieuw"; `update()` deed dat niet en
+     * liet 'm ongevangen doorlopen naar een kale 500. `Sleep::fake(true, true)`
+     * synct de faked sleep met Carbon zodat `Cache\Lock::block()` zijn eigen
+     * timeout-venster "doorloopt" zonder er echt 10 seconden op te wachten.
      */
-    public function test_the_guard_refuses_when_a_writable_collection_has_revisions_enabled(): void
+    public function test_a_lock_held_by_another_write_gives_503_instead_of_a_500(): void
     {
-        $collection = Mockery::mock(CollectionContract::class);
-        $collection->shouldReceive('revisionsEnabled')->andReturn(true);
+        [$entry] = $this->article();
 
-        Collection::shouldReceive('findByHandle')->with('articles')->andReturn($collection);
+        Sleep::fake(true, true);
 
-        $this->expectException(RuntimeException::class);
+        $lock = Cache::lock('inspace:write:articles', 30);
+        $this->assertTrue($lock->get());
 
-        (new InspaceServiceProvider($this->app))->boot();
-    }
-
-    public function test_the_guard_lets_the_app_boot_when_revisions_are_disabled(): void
-    {
-        $collection = Mockery::mock(CollectionContract::class);
-        $collection->shouldReceive('revisionsEnabled')->andReturn(false);
-
-        Collection::shouldReceive('findByHandle')->with('articles')->andReturn($collection);
-
-        (new InspaceServiceProvider($this->app))->boot();
-
-        $this->assertTrue(true);
+        try {
+            $this->withToken(self::TOKEN)
+                ->patchJson('/api/inspace/v1/pages/'.$entry->id(), ['meta_title' => 'Nieuw'])
+                ->assertStatus(503);
+        } finally {
+            $lock->release();
+        }
     }
 }
