@@ -9,6 +9,9 @@ class BlockConverter
 {
     private Augmentor $augmentor;
 
+    /** @var list<string> */
+    private array $setTypes;
+
     /** @var ?callable(string): string */
     private $transformHtml;
 
@@ -17,6 +20,7 @@ class BlockConverter
         // Uit het echte veld, niet uit een handgemaakte Field: alleen zo
         // dragen de buttons en de sets de configuratie van deze site.
         $this->augmentor = new Augmentor($field->fieldtype());
+        $this->setTypes = (new SetTypes)->of($field);
         $this->transformHtml = $transformHtml;
     }
 
@@ -26,11 +30,100 @@ class BlockConverter
      * type en row-id draagt.
      *
      * @param  list<array<string, mixed>>  $nodes
-     * @return list<array<string, mixed>>
+     * @return list<array{type: string, html?: string, id?: string, opaque?: bool}>
+     *
+     * @throws MissingBlockIdException
      */
     public function toBlocks(array $nodes): array
     {
         $blocks = [];
+
+        foreach ($this->segments($nodes) as $segment) {
+            if ($segment['kind'] === 'run') {
+                $blocks[] = ['type' => 'text', 'html' => $this->render($segment['nodes'])];
+
+                continue;
+            }
+
+            $node = $segment['node'];
+
+            $blocks[] = [
+                'type' => (string) ($node['attrs']['values']['type'] ?? 'unknown'),
+                'id' => (string) $node['attrs']['id'],
+                'opaque' => true,
+            ];
+        }
+
+        return $blocks;
+    }
+
+    /**
+     * @param  list<array{type: string, html?: string, id?: string, opaque?: bool}>  $blocks
+     * @param  list<array<string, mixed>>  $originalNodes
+     * @return list<array<string, mixed>>
+     *
+     * @throws MissingBlockIdException
+     * @throws UnknownBlockException
+     */
+    public function toProsemirror(array $blocks, array $originalNodes): array
+    {
+        $sets = $this->setsById($originalNodes);
+        $candidatesByHtml = $this->runsByHtml($originalNodes);
+        $usedSetIds = [];
+        $out = [];
+
+        foreach ($blocks as $block) {
+            $type = $block['type'] ?? null;
+
+            if ($type === 'text') {
+                $html = (string) ($block['html'] ?? '');
+
+                // De vergelijking gebeurt op de binnenkomende HTML zoals die
+                // is, vóór enige transformatie: alleen dan staat hij naast
+                // wat een GET op dit moment zou teruggeven.
+                $out = array_merge($out, $this->reuseOrParse($html, $candidatesByHtml[$html] ?? []));
+
+                continue;
+            }
+
+            if (! is_string($type) || ! in_array($type, $this->setTypes, true)) {
+                throw new UnknownBlockException(null, is_string($type) ? $type : null);
+            }
+
+            $id = $block['id'] ?? null;
+
+            if (! is_string($id) && ! is_int($id)) {
+                throw new UnknownBlockException(null);
+            }
+
+            $key = (string) $id;
+
+            // Een dubbel gebruikte id zou twee Bard-rijen met dezelfde
+            // sleutel opleveren — iets wat de CP zelf nooit maakt.
+            if (! isset($sets[$key]) || isset($usedSetIds[$key])) {
+                throw new UnknownBlockException($key);
+            }
+
+            $usedSetIds[$key] = true;
+            $out[] = $sets[$key];
+        }
+
+        return $out;
+    }
+
+    /**
+     * Splitst de opgeslagen nodes op elke set in aaneengesloten prozalopen en
+     * losse set-knopen. Gedeeld door toBlocks() en setsById()/runsByHtml() zodat
+     * de splitslogica niet dubbel met de hand in sync gehouden hoeft te worden.
+     *
+     * @param  list<array<string, mixed>>  $nodes
+     * @return list<array{kind: string, nodes?: list<array<string, mixed>>, node?: array<string, mixed>}>
+     *
+     * @throws MissingBlockIdException
+     */
+    private function segments(array $nodes): array
+    {
+        $segments = [];
         $run = [];
 
         foreach ($nodes as $node) {
@@ -41,72 +134,41 @@ class BlockConverter
             }
 
             if ($run !== []) {
-                $blocks[] = ['type' => 'text', 'html' => $this->render($run)];
+                $segments[] = ['kind' => 'run', 'nodes' => $run];
                 $run = [];
             }
 
-            $blocks[] = [
-                'type' => (string) ($node['attrs']['values']['type'] ?? 'unknown'),
-                'id' => (string) ($node['attrs']['id'] ?? ''),
-                'opaque' => true,
-            ];
+            $id = $node['attrs']['id'] ?? null;
+
+            if (! is_string($id) || $id === '') {
+                $blockType = $node['attrs']['values']['type'] ?? null;
+
+                throw new MissingBlockIdException(is_string($blockType) ? $blockType : null);
+            }
+
+            $segments[] = ['kind' => 'set', 'node' => $node];
         }
 
         if ($run !== []) {
-            $blocks[] = ['type' => 'text', 'html' => $this->render($run)];
+            $segments[] = ['kind' => 'run', 'nodes' => $run];
         }
 
-        return $blocks;
-    }
-
-    /**
-     * @param  list<array<string, mixed>>  $blocks
-     * @param  list<array<string, mixed>>  $originalNodes
-     * @return list<array<string, mixed>>
-     *
-     * @throws UnknownBlockException
-     */
-    public function toProsemirror(array $blocks, array $originalNodes): array
-    {
-        $sets = $this->setsById($originalNodes);
-        $unchanged = $this->runsByHtml($originalNodes);
-        $out = [];
-
-        foreach ($blocks as $block) {
-            if (($block['type'] ?? null) === 'text') {
-                $html = (string) ($block['html'] ?? '');
-
-                // De vergelijking gebeurt op de binnenkomende HTML zoals die
-                // is, vóór enige transformatie: alleen dan staat hij naast
-                // wat een GET op dit moment zou teruggeven.
-                $out = array_merge($out, $unchanged[$html] ?? $this->parse($html));
-
-                continue;
-            }
-
-            $id = $block['id'] ?? null;
-
-            if ($id === null || ! isset($sets[$id])) {
-                throw new UnknownBlockException($id === null ? null : (string) $id);
-            }
-
-            $out[] = $sets[$id];
-        }
-
-        return $out;
+        return $segments;
     }
 
     /**
      * @param  list<array<string, mixed>>  $nodes
      * @return array<string, array<string, mixed>>
+     *
+     * @throws MissingBlockIdException
      */
     private function setsById(array $nodes): array
     {
         $sets = [];
 
-        foreach ($nodes as $node) {
-            if (($node['type'] ?? null) === 'set' && isset($node['attrs']['id'])) {
-                $sets[(string) $node['attrs']['id']] = $node;
+        foreach ($this->segments($nodes) as $segment) {
+            if ($segment['kind'] === 'set') {
+                $sets[(string) $segment['node']['attrs']['id']] = $segment['node'];
             }
         }
 
@@ -116,34 +178,54 @@ class BlockConverter
     /**
      * De HTML van elke prozaloop naar de nodes die hem opleverden, zodat een
      * ongewijzigd blok zijn opslag terugkrijgt in plaats van een geparste
-     * kopie met textAlign erop.
+     * kopie met textAlign erop. Meerdere runs kunnen naar dezelfde HTML
+     * renderen (bv. twee lege alinea's rond een video); daarom houdt dit alle
+     * kandidaten per sleutel bij in plaats van er één te laten overschrijven.
      *
      * @param  list<array<string, mixed>>  $nodes
-     * @return array<string, list<array<string, mixed>>>
+     * @return array<string, list<list<array<string, mixed>>>>
+     *
+     * @throws MissingBlockIdException
      */
     private function runsByHtml(array $nodes): array
     {
         $runs = [];
-        $run = [];
 
-        foreach ($nodes as $node) {
-            if (($node['type'] ?? null) !== 'set') {
-                $run[] = $node;
-
-                continue;
+        foreach ($this->segments($nodes) as $segment) {
+            if ($segment['kind'] === 'run') {
+                $runs[$this->render($segment['nodes'])][] = $segment['nodes'];
             }
-
-            if ($run !== []) {
-                $runs[$this->render($run)] = $run;
-                $run = [];
-            }
-        }
-
-        if ($run !== []) {
-            $runs[$this->render($run)] = $run;
         }
 
         return $runs;
+    }
+
+    /**
+     * Hergebruikt de opgeslagen nodes alleen als elke kandidaat onder deze
+     * HTML-sleutel identiek is. Renderen twee verschillende runs toevallig
+     * dezelfde HTML (een onrenderbare knoop maakt zo'n run onderscheidbaar
+     * van een andere met exact dezelfde zichtbare inhoud), dan is niet meer
+     * vast te stellen welke kandidaat bij dit blok hoort — reuse zou dan de
+     * verkeerde inhoud kunnen teruggeven, dus valt dit terug op parse().
+     *
+     * @param  list<list<array<string, mixed>>>  $candidates
+     * @return list<array<string, mixed>>
+     */
+    private function reuseOrParse(string $html, array $candidates): array
+    {
+        if ($candidates === []) {
+            return $this->parse($html);
+        }
+
+        $first = json_encode($candidates[0]);
+
+        foreach ($candidates as $candidate) {
+            if (json_encode($candidate) !== $first) {
+                return $this->parse($html);
+            }
+        }
+
+        return $candidates[0];
     }
 
     /**
@@ -159,10 +241,24 @@ class BlockConverter
      */
     private function parse(string $html): array
     {
+        // Een leeggemaakt text-blok (de tekst tussen twee video's wissen) mag
+        // niet naar Tiptap's HTML-parser: die verwacht een documentbody en
+        // gooit een TypeError op lege of ontbrekende HTML.
+        if (trim($html) === '') {
+            return [];
+        }
+
         if ($this->transformHtml !== null) {
             $html = ($this->transformHtml)($html);
         }
 
-        return $this->augmentor->renderHtmlToProsemirror($html)['content'] ?? [];
+        $content = $this->augmentor->renderHtmlToProsemirror($html)['content'] ?? [];
+
+        // Statamic's eigen serialisatie schrijft een set weg als een lege
+        // <set>-marker zonder data; komt zo'n marker via client-HTML terug,
+        // dan levert parsen een set-knoop zonder attrs op die de pagina
+        // stuk rendert. Zo'n knoop hoort hier nooit uit te komen: sets lopen
+        // uitsluitend via de opaque doos, nooit via tekst-HTML.
+        return array_values(array_filter($content, fn (array $node): bool => ($node['type'] ?? null) !== 'set'));
     }
 }
