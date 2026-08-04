@@ -71,6 +71,39 @@ class PageController extends Controller
         );
     }
 
+    public function update(
+        string $id,
+        Request $request,
+        PayloadValidator $validator,
+        EntryWriter $writer,
+        EntryMapper $mapper
+    ): JsonResponse {
+        $entry = Entry::find($id);
+
+        if ($entry === null) {
+            return response()->json(['message' => 'Onbekende entry.'], 404);
+        }
+
+        if (! $mapper->isWritable($entry->collectionHandle())) {
+            return response()->json([
+                'message' => 'Deze collectie is niet schrijfbaar.',
+                'writable_collections' => array_keys(config('inspace.writable', [])),
+            ], 403);
+        }
+
+        $validator->validate($entry->collectionHandle(), $request->all(), creating: false);
+
+        try {
+            $result = $writer->update($entry, $request->all());
+        } catch (ExternalImageException|UnknownBlockException $e) {
+            throw ValidationException::withMessages(['content' => $e->getMessage()]);
+        }
+
+        $this->logWrite($request, $result['entry']->id());
+
+        return response()->json($mapper->toApi($result['entry']) + ['warnings' => $result['warnings']]);
+    }
+
     private function logWrite(Request $request, string $entryId): void
     {
         Log::info('inspace.write', [

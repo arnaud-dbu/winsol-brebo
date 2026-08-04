@@ -12,5 +12,6 @@ Route::prefix('api/inspace/v1')
         Route::get('pages', [PageController::class, 'index']);
         Route::get('pages/{id}', [PageController::class, 'show']);
         Route::post('pages', [PageController::class, 'store']);
+        Route::patch('pages/{id}', [PageController::class, 'update']);
         Route::post('media', [MediaController::class, 'store']);
     });
