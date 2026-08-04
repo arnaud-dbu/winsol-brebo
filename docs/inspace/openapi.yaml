@@ -26,7 +26,7 @@ info:
     beide gevallen mag de aanroeper het ongewijzigd opnieuw proberen; het is
     geen fout in de payload.
 servers:
-  - url: https://staging.winsol-brebo.be/api/inspace/v1
+  - url: https://winsol-brebo.stuw.agency/api/inspace/v1
     description: Staging — wegwerpbaar, niet indexeerbaar
 security:
   - bearerAuth: []
