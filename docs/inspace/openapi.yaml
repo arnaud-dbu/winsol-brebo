@@ -1,0 +1,465 @@
+openapi: 3.1.0
+info:
+  title: Inspace adapter — Winsol Brebo
+  version: 1.0.0
+  description: |
+    Schrijf-API voor SEO-content op een Statamic-site. Fase 1 dekt de
+    blogcollectie `articles`. Alle andere collecties zijn wel leesbaar
+    (`GET /pages`) maar nog niet schrijfbaar; die volgen in een latere fase.
+
+    Vraag `GET /schema` op vóór je begint: dat endpoint geeft per collectie
+    de schrijfbare velden, welke verplicht zijn volgens het CMS-blueprint, en
+    de toegestane themawaarden. Die lijst is per site verschillend en
+    verandert zonder dat dit document meebeweegt. Let op: de `required`-vlag
+    van dat endpoint volgt het CMS-blueprint, niet per se de validatie die
+    `POST /pages` toepast — zie de beschrijving bij `ArticleWrite` voor wat
+    er bij het aanmaken echt verplicht is.
+
+    Elke schrijfactie (`POST /pages`, `PATCH /pages/{id}`, `POST /media`) kan
+    met `503` antwoorden in twee gevallen die niets met de payload te maken
+    hebben: een schrijflock die niet op tijd vrijkomt onder gelijktijdige
+    schrijfacties, of een schrijfbare collectie waarop revisions aanstaan
+    (dan zou opslaan een working copy maken in plaats van te publiceren). In
+    beide gevallen mag de aanroeper het ongewijzigd opnieuw proberen; het is
+    geen fout in de payload.
+servers:
+  - url: https://staging.winsol-brebo.be/api/inspace/v1
+    description: Staging — wegwerpbaar, niet indexeerbaar
+security:
+  - bearerAuth: []
+paths:
+  /schema:
+    get:
+      summary: Schrijfbare collecties, velden en toegestane waarden
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SchemaResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+  /pages:
+    get:
+      summary: Entries over alle leesbare collecties
+      description: |
+        Leesbaar is alles: elke collectie op de site komt hier terug, niet
+        alleen `articles`. `editable` in de respons vertelt welke rijen ook
+        via `POST`/`PATCH` te wijzigen zijn.
+      parameters:
+        - { name: collection, in: query, schema: { type: string }, description: 'Collectiehandle, bv. `articles` of `products`. Onbekend of leeg laat je weg voor alle collecties.' }
+        - { name: editable, in: query, schema: { type: boolean }, description: 'Filtert op schrijfbare (`true`) of alleen-leesbare (`false`) rijen.' }
+        - { name: status, in: query, schema: { type: string, enum: [draft, published] } }
+        - { name: page, in: query, schema: { type: integer, default: 1, minimum: 1 } }
+        - { name: per_page, in: query, schema: { type: integer, default: 50, maximum: 200, minimum: 1 }, description: 'Wordt geklemd tussen 1 en 200; een waarde erbuiten geeft geen fout, alleen een geklemd resultaat.' }
+        - name: site
+          in: query
+          schema: { type: string }
+          description: |
+            Deze site is eentalig, dus laat hem weg. De parameter staat er
+            voor sites met meerdere talen; een onbekende waarde geeft 422 in
+            plaats van stil de standaardtaal te gebruiken.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PageListResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+    post:
+      summary: Nieuw artikel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ArticleWrite' }
+      responses:
+        '201':
+          description: Aangemaakt
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ArticleWriteResult' }
+        '200':
+          description: Bestond al, gevonden op `external_id`
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ArticleWriteResult' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403':
+          description: Collectie is niet schrijfbaar
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/NotWritableError' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '503': { $ref: '#/components/responses/WriteUnavailable' }
+  /pages/{id}:
+    get:
+      summary: Detail van een entry
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ArticleDetail'
+                  - $ref: '#/components/schemas/PageDetail'
+                description: >-
+                  `ArticleDetail` wanneer `editable: true`, anders
+                  `PageDetail`.
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+    patch:
+      summary: Artikel bijwerken, partieel
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ArticleWrite' }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ArticleWriteResult' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403':
+          description: Collectie is niet schrijfbaar
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/NotWritableErrorWithList' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '503': { $ref: '#/components/responses/WriteUnavailable' }
+  /media:
+    post:
+      summary: Afbeelding uploaden
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file: { type: string, format: binary }
+                alt:
+                  type: string
+                  maxLength: 255
+                  description: |
+                    De alt-tekst hoort bij het bestand, niet bij de plaatsing.
+                    Een alt-attribuut op een <img> in `content` wordt genegeerd.
+      responses:
+        '201':
+          description: Geüpload
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MediaAsset' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '422':
+          description: >-
+            Afgewezen: onbekend of te groot bestandstype, onbruikbare
+            bestandsnaam, of een bestand dat niet als afbeelding leesbaar is.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ValidationErrorBody' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '503': { $ref: '#/components/responses/WriteUnavailable' }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  responses:
+    Unauthorized:
+      description: Ontbrekend of ongeldig bearer-token.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/MessageBody' }
+    NotFound:
+      description: Onbekende entry.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/MessageBody' }
+    TooManyRequests:
+      description: >-
+        Rate limit overschreden. Standaard 120 requests per minuut per token
+        (`config('inspace.rate_limit')`); Laravel's ingebouwde melding, geen
+        projectspecifieke tekst.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/MessageBody' }
+    ValidationError:
+      description: Validatiefout.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ValidationErrorBody' }
+    WriteUnavailable:
+      description: >-
+        Tijdelijk niet beschikbaar: een schrijflock op deze collectie kon
+        niet op tijd verkregen worden, of de collectie heeft revisions
+        aanstaan. Geen clientfout — retry zonder de payload aan te passen.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/MessageBody' }
+  schemas:
+    MessageBody:
+      type: object
+      properties:
+        message: { type: string }
+    ValidationErrorBody:
+      type: object
+      properties:
+        message: { type: string }
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items: { type: string }
+    NotWritableError:
+      type: object
+      properties:
+        message: { type: string }
+    NotWritableErrorWithList:
+      type: object
+      properties:
+        message: { type: string }
+        writable_collections:
+          type: array
+          items: { type: string }
+          description: De collecties die op dit moment wél schrijfbaar zijn.
+    Block:
+      oneOf:
+        - $ref: '#/components/schemas/TextBlock'
+        - $ref: '#/components/schemas/OpaqueBlock'
+    TextBlock:
+      type: object
+      required: [type, html]
+      properties:
+        type: { type: string, const: text }
+        html:
+          type: string
+          description: |
+            Gewone HTML. Alle opmaak — koppen, vet, lijsten, links, tabellen
+            en inline afbeeldingen — zit hierin. Welke tags precies zijn
+            toegestaan verschilt per collectie (afgeleid van de
+            Bard-knoppenconfiguratie); vraag de actuele lijst op via
+            `GET /schema` (`collections.<handle>.fields.content.allowed_html`).
+            Wat buiten die lijst valt wordt gestript en gemeld in `warnings`,
+            behalve `script`, `style`, `iframe`, `object` en `embed`: die tags
+            verdwijnen mét hun inhoud. Elke `<img src>` moet naar een asset uit
+            `POST /media` wijzen (of een `asset::<id>`-referentie); een
+            externe URL geeft 422. Een `alt`-attribuut op een `<img>` wordt
+            genegeerd en gemeld in `warnings` — de alt-tekst hoort bij het
+            bestand (`POST /media`), niet bij de plaatsing.
+    OpaqueBlock:
+      type: object
+      required: [type, id, opaque]
+      description: |
+        Een blok dat deze site kent maar jij niet (bijvoorbeeld een video).
+        Stuur hem ongewijzigd terug zoals je hem van `GET`/`POST`/`PATCH`
+        kreeg. Herordenen mag, weglaten betekent verwijderen, en een
+        verzonnen of hergebruikt `id` geeft 422.
+      properties:
+        type: { type: string }
+        id: { type: string }
+        opaque: { type: boolean, const: true }
+    ArticleWrite:
+      type: object
+      description: |
+        Gedeeld schema voor `POST /pages` en `PATCH /pages/{id}`. Bij het
+        aanmaken zijn `title`, `theme`, `image` en `content` verplicht; bij
+        het bijwerken is elk veld optioneel en wijzigt alleen wat je
+        meestuurt. Een onbekend veld geeft 422 met de lijst van geldige
+        velden.
+      properties:
+        title: { type: string, maxLength: 255 }
+        intro: { type: string, nullable: true }
+        content:
+          type: array
+          items: { $ref: '#/components/schemas/Block' }
+        image:
+          type: string
+          description: Asset-id uit `POST /media`.
+        theme:
+          type: string
+          enum: [energie-en-comfort, ramen-en-deuren, terrasoverkapping, zonwering]
+          description: >-
+            Vraag de actuele lijst op via GET /schema; deze enum kan
+            verouderen zonder dat de API dat meldt.
+        slug: { type: string, maxLength: 200, nullable: true }
+        date: { type: string, format: date, nullable: true }
+        status: { type: string, enum: [draft, published], default: draft }
+        external_id:
+          type: string
+          nullable: true
+          maxLength: 255
+          description: |
+            Jullie eigen identifier. Stuur hem mee bij het aanmaken: een
+            tweede POST met dezelfde waarde geeft 200 en het bestaande
+            artikel terug in plaats van een duplicaat na een timeout.
+        meta_title: { type: string, maxLength: 60, nullable: true }
+        meta_description: { type: string, maxLength: 160, nullable: true }
+        meta_image:
+          type: string
+          nullable: true
+          description: Asset-id uit `POST /media`.
+        seo_noindex: { type: boolean }
+        site:
+          type: string
+          description: >-
+            Alleen relevant bij `POST /pages`, waar een onbekende waarde 422
+            geeft. `PATCH /pages/{id}` accepteert het veld zonder foutmelding
+            maar negeert het: de site van een bestaande entry wijzigt niet
+            via dit endpoint.
+    PageSummary:
+      type: object
+      description: Eén rij uit `GET /pages`.
+      properties:
+        id: { type: string }
+        collection: { type: string }
+        title: { type: string, nullable: true }
+        url:
+          type: string
+          nullable: true
+          description: >-
+            `null` voor collecties zonder eigen route (bv. `quicklinks`).
+        status: { type: string, enum: [draft, published] }
+        updated_at: { type: string, format: date-time, nullable: true }
+        editable:
+          type: boolean
+          description: Of deze rij ook via POST/PATCH te wijzigen is.
+    PageListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items: { $ref: '#/components/schemas/PageSummary' }
+        meta:
+          type: object
+          properties:
+            page: { type: integer }
+            per_page: { type: integer }
+            total: { type: integer }
+    PageDetail:
+      type: object
+      description: >-
+        Antwoord van `GET /pages/{id}` voor een entry buiten een schrijfbare
+        collectie (`editable: false`). Geen van de schrijfbare velden komt
+        hierin terug.
+      properties:
+        id: { type: string }
+        collection: { type: string }
+        editable: { type: boolean, const: false }
+        status: { type: string, enum: [draft, published] }
+        url: { type: string, nullable: true }
+        title: { type: string, nullable: true }
+        updated_at: { type: string, format: date-time, nullable: true }
+        content: { type: 'null' }
+        meta_title: { type: string, nullable: true }
+        meta_description: { type: string, nullable: true }
+        meta_image: { type: string, nullable: true }
+        seo_noindex: { type: boolean }
+    ArticleDetail:
+      type: object
+      description: >-
+        Antwoord van `GET /pages/{id}` voor een entry in een schrijfbare
+        collectie (`editable: true`), en de basis van wat `POST /pages` en
+        `PATCH /pages/{id}` teruggeven.
+      properties:
+        id: { type: string }
+        collection: { type: string }
+        editable: { type: boolean, const: true }
+        status: { type: string, enum: [draft, published] }
+        url: { type: string, nullable: true }
+        title: { type: string, nullable: true }
+        updated_at: { type: string, format: date-time, nullable: true }
+        external_id: { type: string, nullable: true }
+        intro: { type: string, nullable: true }
+        content:
+          type: array
+          items: { $ref: '#/components/schemas/Block' }
+        image: { type: string, nullable: true }
+        theme: { type: string, nullable: true }
+        slug: { type: string }
+        date: { type: string, format: date, nullable: true }
+        meta_title: { type: string, nullable: true }
+        meta_description: { type: string, nullable: true }
+        meta_image: { type: string, nullable: true }
+        seo_noindex: { type: boolean }
+    ArticleWriteResult:
+      description: Wat `POST /pages` en `PATCH /pages/{id}` teruggeven.
+      allOf:
+        - $ref: '#/components/schemas/ArticleDetail'
+        - type: object
+          properties:
+            warnings:
+              type: array
+              items: { type: string }
+              description: >-
+                Gestripte HTML-tags en genegeerde alt-attributen. Geen
+                fouten, maar wel het enige signaal dat er iets niet is
+                overgekomen zoals bedoeld.
+    MediaAsset:
+      type: object
+      properties:
+        id: { type: string }
+        url: { type: string }
+        width: { type: integer }
+        height: { type: integer }
+        filename: { type: string }
+        alt: { type: string, nullable: true }
+    SchemaResponse:
+      type: object
+      properties:
+        collections:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              writable: { type: boolean }
+              route:
+                type: string
+                nullable: true
+                description: Urlpatroon van de collectie, bv. `/nieuws/{slug}`.
+              fields:
+                type: object
+                additionalProperties: { $ref: '#/components/schemas/SchemaField' }
+    SchemaField:
+      type: object
+      description: >-
+        Vorm verschilt per `type`. `required` volgt het CMS-blueprint, niet
+        per se de validatie van `POST /pages` — zie `ArticleWrite`.
+      properties:
+        type:
+          type: string
+          enum: [string, enum, bool, date, asset, blocks]
+        required: { type: boolean }
+        max:
+          type: integer
+          description: Alleen aanwezig als het veld een tekenlimiet heeft.
+        values:
+          type: array
+          items: { type: string }
+          description: 'Alleen bij `type: enum`, bv. de themawaarden.'
+        writable_types:
+          type: array
+          items: { type: string }
+          description: 'Alleen bij `type: blocks`. Momenteel altijd `["text"]`.'
+        opaque_types:
+          type: array
+          items: { type: string }
+          description: 'Alleen bij `type: blocks`: de geregistreerde setnamen, bv. `video`.'
+        allowed_html:
+          type: array
+          items: { type: string }
+          description: 'Alleen bij `type: blocks`: toegestane HTML-tags binnen een tekstblok.'
