@@ -7,11 +7,11 @@ use Tests\TestCase;
 
 class ArticlesContentTest extends TestCase
 {
-    public function test_six_articles_exist_with_an_image_a_theme_and_a_body(): void
+    public function test_eight_articles_exist_with_an_image_a_theme_and_a_body(): void
     {
         $articles = Entry::query()->where('collection', 'articles')->get();
 
-        $this->assertCount(6, $articles);
+        $this->assertCount(8, $articles);
 
         foreach ($articles as $article) {
             $this->assertNotEmpty($article->get('image'), "Artikel {$article->slug()} heeft geen beeld");
@@ -34,15 +34,22 @@ class ArticlesContentTest extends TestCase
         }
     }
 
-    public function test_the_articles_cover_at_least_three_themes(): void
+    public function test_the_articles_cover_every_theme(): void
     {
-        // Het filter moet zichtbaar iets doen. Met alles onder één thema is
-        // een klik niet van "Toon alles" te onderscheiden.
+        // Het filter toont alleen thema's met minstens één artikel. Blijft er
+        // eentje leeg, dan verdwijnt die pil en houdt het overzicht er minder
+        // over dan de vijf categorieën die de taxonomie belooft.
         $slugs = Entry::query()->where('collection', 'articles')->get()
             ->map(fn ($article) => $article->augmentedValue('themes')->value()->slug())
-            ->unique();
+            ->unique()
+            ->sort()
+            ->values()
+            ->all();
 
-        $this->assertGreaterThanOrEqual(3, $slugs->count());
+        $this->assertSame(
+            ['bedrijfsnieuws', 'events', 'producten', 'realisaties', 'showroom'],
+            $slugs
+        );
     }
 
     public function test_at_least_one_article_carries_a_video_block_and_one_an_inline_image(): void

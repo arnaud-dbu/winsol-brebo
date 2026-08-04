@@ -11,12 +11,12 @@ class ThemeFilterTest extends SectionTestCase
         $this->assertStringContainsString('<nav class="theme-filter', $html);
         $this->assertStringContainsString('Toon alles', $html);
 
-        // Eén knop voor "Toon alles" plus één per gebruikt thema. Vier thema's
-        // bestaan er, en alle vier hangt er minstens één artikel aan.
-        $this->assertSame(5, substr_count($html, 'data-theme='));
+        // Eén knop voor "Toon alles" plus één per gebruikt thema. Vijf thema's
+        // bestaan er, en aan alle vijf hangt er minstens één artikel.
+        $this->assertSame(6, substr_count($html, 'data-theme='));
 
         $this->assertLessThan(
-            strpos($html, 'data-theme="energie-en-comfort"'),
+            strpos($html, 'data-theme="bedrijfsnieuws"'),
             strpos($html, 'data-theme=""'),
             '"Toon alles" hoort vooraan te staan'
         );
@@ -26,10 +26,10 @@ class ThemeFilterTest extends SectionTestCase
     {
         $html = $this->render('{{ partial src="themeFilter" }}');
 
-        $order = ['energie-en-comfort', 'ramen-en-deuren', 'terrasoverkapping', 'zonwering'];
+        $order = ['bedrijfsnieuws', 'events', 'producten', 'realisaties', 'showroom'];
 
         $positions = array_map(
-            fn ($slug) => strpos($html, 'data-theme="' . $slug . '"'),
+            fn ($slug) => strpos($html, 'data-theme="'.$slug.'"'),
             $order
         );
 
@@ -54,9 +54,9 @@ class ThemeFilterTest extends SectionTestCase
         );
 
         $this->assertDoesNotMatchRegularExpression(
-            '/data-theme="zonwering"\s+class="[^"]*btn--secondary[^"]*"/',
+            '/data-theme="producten"\s+class="[^"]*btn--secondary[^"]*"/',
             $html,
-            'Zonder ?theme hoort de zonwering-knop niet actief te staan'
+            'Zonder ?theme hoort de producten-knop niet actief te staan'
         );
     }
 
@@ -85,7 +85,7 @@ class ThemeFilterTest extends SectionTestCase
     {
         $html = $this->render('{{ partial src="themeFilter" }}');
 
-        $this->assertStringContainsString('href="?theme=zonwering"', $html);
-        $this->assertStringContainsString("select('zonwering')", $html);
+        $this->assertStringContainsString('href="?theme=producten"', $html);
+        $this->assertStringContainsString("select('producten')", $html);
     }
 }

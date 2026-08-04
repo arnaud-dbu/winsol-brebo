@@ -8,17 +8,17 @@ class ArticleShowPageTest extends TestCase
 {
     public function test_the_article_renders_with_its_header_and_chips(): void
     {
-        $response = $this->get('/nieuws/zip-screens-kiezen-voor-een-nieuwbouw');
+        $response = $this->get('/nieuws/showroom-aartselaar-is-opnieuw-open');
 
         $response->assertOk();
         $response->assertSee('data-header="article"', false);
-        $response->assertSee('<span class="chip chip--dark">Zonwering</span>', false);
-        $response->assertSee('28 juli 2026', false);
+        $response->assertSee('<span class="chip chip--dark">Showroom</span>', false);
+        $response->assertSee('16 juli 2026', false);
     }
 
     public function test_the_body_is_centered_and_carries_the_prose_utility(): void
     {
-        $html = $this->get('/nieuws/zip-screens-kiezen-voor-een-nieuwbouw')->getContent();
+        $html = $this->get('/nieuws/showroom-aartselaar-is-opnieuw-open')->getContent();
 
         $this->assertStringContainsString('container-md', $html);
         $this->assertStringContainsString('class="article-body"', $html);
@@ -36,9 +36,9 @@ class ArticleShowPageTest extends TestCase
         // Dit is precies wat in de boilerplate stilzwijgend kapot was: het
         // template loopte op type-namen terwijl de fieldset geen sets had, dus
         // Bard leverde één HTML-string en de lus gaf niets terug.
-        $html = $this->get('/nieuws/zip-screens-kiezen-voor-een-nieuwbouw')->getContent();
+        $html = $this->get('/nieuws/showroom-aartselaar-is-opnieuw-open')->getContent();
 
-        $this->assertStringContainsString('Buiten tegenhouden, niet binnen', $html);
+        $this->assertStringContainsString('Twaalf opstellingen op ware grootte', $html);
         $this->assertStringContainsString('<h2', $html);
         $this->assertStringContainsString('<ul', $html);
 
@@ -48,7 +48,7 @@ class ArticleShowPageTest extends TestCase
 
     public function test_a_video_node_renders_through_the_video_partial(): void
     {
-        $html = $this->get('/nieuws/zip-screens-kiezen-voor-een-nieuwbouw')->getContent();
+        $html = $this->get('/nieuws/showroom-aartselaar-is-opnieuw-open')->getContent();
 
         $this->assertStringContainsString('<iframe', $html);
 
@@ -60,15 +60,15 @@ class ArticleShowPageTest extends TestCase
 
     public function test_an_inline_image_survives_inside_the_text_node(): void
     {
-        $html = $this->get('/nieuws/een-pergola-die-het-hele-jaar-bruikbaar-is')->getContent();
+        $html = $this->get('/nieuws/achttien-ramen-en-een-pergola-in-een-werf')->getContent();
 
         $this->assertStringContainsString('<img', $html);
-        $this->assertStringContainsString('Pergola met draaibare lamellen boven een terras', $html);
+        $this->assertStringContainsString('Aangebouwde pergola met draaibare lamellen naast een hefschuifraam', $html);
     }
 
     public function test_the_page_carries_no_page_builder(): void
     {
-        $html = $this->get('/nieuws/een-pergola-die-het-hele-jaar-bruikbaar-is')->getContent();
+        $html = $this->get('/nieuws/achttien-ramen-en-een-pergola-in-een-werf')->getContent();
 
         $this->assertStringNotContainsString('data-section="cta"', $html);
         $this->assertStringNotContainsString('data-section="text_image"', $html);

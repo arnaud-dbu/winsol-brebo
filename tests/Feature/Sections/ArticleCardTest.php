@@ -14,14 +14,33 @@ class ArticleCardTest extends SectionTestCase
         // legt dat vast.
         $article = Entry::query()
             ->where('collection', 'articles')
-            ->where('slug', 'een-pergola-die-het-hele-jaar-bruikbaar-is')
+            ->where('slug', 'achttien-ramen-en-een-pergola-in-een-werf')
             ->first();
 
         $html = $this->render('{{ partial src="articleCard" }}', $article->toAugmentedArray());
 
         $this->assertStringContainsString(
-            '<span class="article-card__category">Terrasoverkapping</span>',
+            '<span class="article-card__category">Realisaties</span>',
             $html
+        );
+    }
+
+    public function test_the_height_cap_crops_the_image_instead_of_stretching_it(): void
+    {
+        // `max-h-100` knijpt alleen de hoogte af; de breedte blijft de volle
+        // kaart. Zonder object-fit rekt de browser het vierkante beeld dan
+        // uit. Deze combinatie is dus geen stijlkwestie maar de fix zelf.
+        $article = Entry::query()
+            ->where('collection', 'articles')
+            ->where('slug', 'showroom-aartselaar-is-opnieuw-open')
+            ->first();
+
+        $html = $this->render('{{ partial src="articleCard" }}', $article->toAugmentedArray());
+
+        $this->assertMatchesRegularExpression(
+            '/<img[^>]*class="[^"]*max-h-100[^"]*object-cover[^"]*"/',
+            $html,
+            'Een hoogtecap zonder object-cover vervormt het beeld'
         );
     }
 

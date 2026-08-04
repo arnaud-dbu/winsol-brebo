@@ -2,10 +2,10 @@
 id: c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a03
 blueprint: articles_overview
 title: Nieuws
-text: 'Wat we leren op de werf, vertaald naar keuzes die je thuis kunt maken.'
+text: 'Wat er beweegt in onze showrooms, op de werf en bij Winsol zelf.'
 template: articles/index
-meta_title: 'Nieuws en advies'
-meta_description: 'Wat we leren op de werf, vertaald naar keuzes die je thuis kunt maken. Advies over ramen, rolluiken, zonwering, terrasoverkapping en energiezuinig wonen.'
+meta_title: Nieuws
+meta_description: 'Nieuws uit onze showrooms in Aartselaar, Dilbeek en Sint-Pieters-Leeuw, realisaties van de werf, productnieuws van Winsol en events waar je ons vindt.'
 seo_noindex: false
 page_builder:
   -

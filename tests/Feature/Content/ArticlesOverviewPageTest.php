@@ -21,17 +21,18 @@ class ArticlesOverviewPageTest extends TestCase
 
         $this->assertStringContainsString('Toon alles', $html);
 
-        $this->assertStringContainsString('data-theme="energie-en-comfort"', $html);
-        $this->assertStringContainsString('data-theme="ramen-en-deuren"', $html);
-        $this->assertStringContainsString('data-theme="terrasoverkapping"', $html);
-        $this->assertStringContainsString('data-theme="zonwering"', $html);
+        $this->assertStringContainsString('data-theme="bedrijfsnieuws"', $html);
+        $this->assertStringContainsString('data-theme="events"', $html);
+        $this->assertStringContainsString('data-theme="producten"', $html);
+        $this->assertStringContainsString('data-theme="realisaties"', $html);
+        $this->assertStringContainsString('data-theme="showroom"', $html);
     }
 
     public function test_it_renders_every_article_as_a_card_without_a_slider(): void
     {
         $html = $this->get('/nieuws')->getContent();
 
-        $this->assertSame(6, substr_count($html, 'article-card '));
+        $this->assertSame(8, substr_count($html, 'article-card '));
         $this->assertStringNotContainsString('data-slider', $html);
         $this->assertStringNotContainsString('swiper-slide', $html);
     }
@@ -45,29 +46,29 @@ class ArticlesOverviewPageTest extends TestCase
 
     public function test_a_theme_query_string_hides_the_others_without_dropping_them(): void
     {
-        $html = $this->get('/nieuws?theme=zonwering')->getContent();
+        $html = $this->get('/nieuws?theme=producten')->getContent();
 
-        // Alle zes kaarten blijven in de DOM staan — Alpine moet ze terug
+        // Alle acht kaarten blijven in de DOM staan; Alpine moet ze terug
         // kunnen tonen zonder nieuwe request.
-        $this->assertSame(6, substr_count($html, 'article-card '));
+        $this->assertSame(8, substr_count($html, 'article-card '));
 
-        // Twee artikels hangen aan `zonwering`, dus vier staan er verborgen.
-        $this->assertSame(4, preg_match_all('/<li\s+hidden/', $html));
+        // Twee artikels hangen aan `producten`, dus zes staan er verborgen.
+        $this->assertSame(6, preg_match_all('/<li\s+hidden/', $html));
 
-        $this->assertStringContainsString('Zip-screens kiezen voor een nieuwbouw', $html);
+        $this->assertStringContainsString('QUBIC Slide haalt waterdichtheidsklasse 9A', $html);
     }
 
     public function test_a_theme_query_string_marks_that_button_active(): void
     {
-        $html = $this->get('/nieuws?theme=zonwering')->getContent();
+        $html = $this->get('/nieuws?theme=producten')->getContent();
 
         // Doelt op de statische `class`-attribuutwaarde zelf, niet op een
         // substring-scan over de hele tag: `:class`-Alpine-bindings noemen
         // "btn--secondary" ook letterlijk in knoppen die niet actief zijn.
         $this->assertMatchesRegularExpression(
-            '/data-theme="zonwering"\s+class="[^"]*btn--secondary[^"]*"/',
+            '/data-theme="producten"\s+class="[^"]*btn--secondary[^"]*"/',
             $html,
-            'De zonwering-knop hoort actief te staan'
+            'De producten-knop hoort actief te staan'
         );
     }
 
@@ -75,10 +76,10 @@ class ArticlesOverviewPageTest extends TestCase
     {
         // Zonder JavaScript en vóór Alpine boot is `aria-current` de enige
         // programmatische actieve staat, dus die moet uit de server komen.
-        $html = $this->get('/nieuws?theme=zonwering')->getContent();
+        $html = $this->get('/nieuws?theme=producten')->getContent();
 
         $this->assertMatchesRegularExpression(
-            '/data-theme="zonwering"\s+class="[^"]*btn--secondary[^"]*"\s+aria-current="page"/',
+            '/data-theme="producten"\s+class="[^"]*btn--secondary[^"]*"\s+aria-current="page"/',
             $html,
             'De actieve knop hoort server-side aria-current="page" te dragen'
         );
@@ -87,7 +88,7 @@ class ArticlesOverviewPageTest extends TestCase
         $this->assertDoesNotMatchRegularExpression(
             '/data-theme=""\s+class="[^"]*"\s+aria-current=/',
             $html,
-            '"Toon alles" hoort niet actief te zijn bij ?theme=zonwering'
+            '"Toon alles" hoort niet actief te zijn bij ?theme=producten'
         );
     }
 
@@ -126,8 +127,8 @@ class ArticlesOverviewPageTest extends TestCase
         $html = $this->get('/nieuws')->getContent();
 
         $this->assertLessThan(
-            strpos($html, 'Slimme sturing zonder je hele huis te vernieuwen'),
-            strpos($html, 'Zip-screens kiezen voor een nieuwbouw'),
+            strpos($html, 'Winsol investeert in een nieuwe lakkerij'),
+            strpos($html, 'Onze showroom in Aartselaar is opnieuw open'),
             'De collectie hoort op datum aflopend te sorteren'
         );
     }

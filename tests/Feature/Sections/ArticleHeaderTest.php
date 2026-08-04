@@ -37,18 +37,18 @@ class ArticleHeaderTest extends SectionTestCase
         // `{{ title }}` terugvallen op de artikeltitel.
         $article = Entry::query()
             ->where('collection', 'articles')
-            ->where('slug', 'een-pergola-die-het-hele-jaar-bruikbaar-is')
+            ->where('slug', 'achttien-ramen-en-een-pergola-in-een-werf')
             ->first();
 
         $html = $this->render('{{ partial src="headers/article" }}', $article->toAugmentedArray());
 
-        $this->assertStringContainsString('<span class="chip chip--dark">Terrasoverkapping</span>', $html);
+        $this->assertStringContainsString('<span class="chip chip--dark">Realisaties</span>', $html);
 
         // Prettier wrapt de `<time>`-tag over meerdere regels (de openings-
         // tag met `datetime` overschrijdt de printWidth), dus geen exacte
         // substring-match.
         $this->assertMatchesRegularExpression(
-            '/<time datetime="2026-07-21" class="chip chip--light">\s*21 juli 2026\s*<\/time>/',
+            '/<time datetime="2026-06-25" class="chip chip--light">\s*25 juni 2026\s*<\/time>/',
             $html
         );
     }
@@ -63,12 +63,12 @@ class ArticleHeaderTest extends SectionTestCase
         // dus Statamics Localize-middleware draait in dit testpad niet.
         $article = Entry::query()
             ->where('collection', 'articles')
-            ->where('slug', 'slimme-sturing-zonder-je-hele-huis-te-vernieuwen')
+            ->where('slug', 'qubic-slide-haalt-waterdichtheidsklasse-9a')
             ->first();
 
         $html = $this->render('{{ partial src="headers/article" }}', $article->toAugmentedArray());
 
-        $this->assertStringContainsString('30 mei 2026', $html);
+        $this->assertStringContainsString('21 mei 2026', $html);
         $this->assertStringNotContainsString('May', $html);
     }
 

@@ -1,6 +1,11 @@
 <a href="{{ url }}" class="article-card group flex h-full flex-col gap-6">
     {{ if image }}
-        {{ img :src="image" ratio="1/1" sizes="(min-width: 1024px) 33vw, 90vw" class="max-h-100 transition-transform duration-500 ease-out group-hover:scale-105 group-focus-visible:scale-105" }}
+        {{#
+    `object-cover` hoort bij `max-h-100`: de tag levert een vierkant beeld, maar de cap knijpt de hoogte af zonder de
+    breedte mee te nemen. Zonder object-fit rekt de browser dat vierkant dan uit tot de volle kaartbreedte. Met cover snijdt
+    hij in plaats van te vervormen.
+#}}
+        {{ img :src="image" ratio="1/1" sizes="(min-width: 1024px) 33vw, 90vw" class="max-h-100 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 group-focus-visible:scale-105" }}
     {{ /if }}
     <div class="flex grow flex-col justify-end gap-2.5">
         {{ if themes }}

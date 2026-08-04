@@ -55,7 +55,7 @@ tabs:
                 - themes
               max_items: 1
               create: false
-              display: Thema
+              display: Categorie
               required: true
               validate:
                 - required

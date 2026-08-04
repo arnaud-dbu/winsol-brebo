@@ -7,11 +7,11 @@ use Tests\TestCase;
 
 class ThemesContentTest extends TestCase
 {
-    public function test_the_four_themes_exist_with_a_title(): void
+    public function test_the_five_themes_exist_with_a_title(): void
     {
         $themes = Term::query()->where('taxonomy', 'themes')->get();
 
-        $this->assertCount(4, $themes);
+        $this->assertCount(5, $themes);
 
         foreach ($themes as $theme) {
             $this->assertNotEmpty($theme->get('title'), "Thema {$theme->slug()} heeft geen titel");
@@ -27,7 +27,7 @@ class ThemesContentTest extends TestCase
             ->all();
 
         $this->assertSame(
-            ['energie-en-comfort', 'ramen-en-deuren', 'terrasoverkapping', 'zonwering'],
+            ['bedrijfsnieuws', 'events', 'producten', 'realisaties', 'showroom'],
             $slugs
         );
     }
