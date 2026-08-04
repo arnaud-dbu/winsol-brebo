@@ -43,6 +43,23 @@ class LinkResolverTest extends TestCase
         $this->assertSame($html, (new LinkResolver)->toStatamic($html));
     }
 
+    public function test_a_foreign_host_with_a_path_matching_a_real_entry_is_left_alone(): void
+    {
+        $entry = $this->temporaryEntry('articles', 'linktest-vreemde-host', [
+            'title' => 'Vreemde host',
+            'themes' => ['zonwering'],
+            'date' => '2026-08-04',
+        ]);
+
+        $html = '<p><a href="https://evil.example'.$entry->url().'">extern</a></p>';
+
+        $this->assertSame(
+            $html,
+            (new LinkResolver)->toStatamic($html),
+            'Het pad bestaat lokaal, maar de host is vreemd: de hostcontrole moet dit tegenhouden.'
+        );
+    }
+
     public function test_an_unknown_internal_path_is_left_alone(): void
     {
         $html = '<p><a href="/bestaat-niet-12345">x</a></p>';
