@@ -45,14 +45,52 @@ Inhoudelijk bevestigd op de productpagina:
 5. **`url` per vestiging.** De `LocalBusiness`-nodes hebben nu alleen een `@id`-fragment. Komen er
    vestigingspagina's (fase 3 van het actieplan), dan krijgt elke node zijn eigen `url`.
 
-## Openstaande minors uit de reviews
 
-Alle vijf gemeld tijdens de taakreviews, geen ervan blokkerend:
+## Bevindingen uit de eindreview
 
-- `SchemaGraph`: nodes zonder `@id` krijgen een int-key naast string-`@id`-keys; theoretische botsing.
-- `LocationsSchema`: geen test die borgt dat een vestiging **geen** `telephone` draagt, terwijl dat een
-  expliciet besluit is.
-- `OrganizationSchema`: `sameAs` wordt niet end-to-end op `node()` getoetst, alleen via de unittests.
-- `ServiceSchema`: `areaServed()` kan `[]` teruggeven bij een lege locations-collectie.
-- `SchemaMarkupTest`: `test_the_placeholder_socials_never_reach_the_output` slaagt ook zonder de tag,
-  want `test.be` stond sowieso nergens in de uitvoer. Hij bewaakt de host-regel, niet de tag.
+De eindreview over de hele branch gaf **ship**. De escaping-garantie is empirisch getoetst, niet
+gelezen: een artikeltitel met `</script>`, een `onerror`-payload, een Antlers-expressie en U+2028 komt
+er correct geëscaped uit, en Antlers parseert de teruggegeven string niet opnieuw. Alle 57
+sitemap-URL's zijn gesweept: overal precies één blok, overal geldige JSON, nergens een dangling
+`@id`-verwijzing. Een 404 valt netjes terug op Organization + 3× LocalBusiness zonder exception.
+
+### Opgelost in de fix-golf (commit 7c711ff)
+
+| # | Bevinding | Oplossing |
+|---|---|---|
+| 1 | Geen exception-boundary: een throw in deze head-laag gaf een 500 op élke pagina | `index()` vangt `\Throwable`, logt een warning en geeft `''` terug |
+| 2 | `Article` was half gevuld | `image` en `dateModified` toegevoegd; beide bestonden al, geen blueprint-wijziging |
+| 3 | `ServiceSchema` groef de JSON-LD-uitvoervorm van een andere builder af | `LocationsSchema::cities()` leest `city` rechtstreeks; scheelt ook een Stache-query per pagina |
+| 4 | `ListItem` kon zonder `name` de uitvoer halen | Laatste segment krijgt dezelfde slug-fallback als de tussenniveaus |
+| 5 | Geen borging dat `LocalBusiness` géén `telephone` draagt | Assertie toegevoegd |
+| 6 | `sameAs`-bedrading ongetoetst | Test die `socials` tegen `contact` onderscheidt, zodat een verwisseling opvalt |
+| 7 | Vacuüme socials-test | Herschreven naar een falsifieerbare assertie op de graph |
+| 8 | `SiteUrlTest` toetste tegen een andere bron dan de code leest | Toetst nu tegen `Site::current()->absoluteUrl()` |
+
+### Bewust niet opgelost
+
+- **`SchemaGraph`: int-key naast string-`@id`-keys.** Onbereikbaar: elke `@id` komt uit `SiteUrl` en
+  begint met `http`, dus nooit een numerieke string. Alle vijf de nodetypes dragen bovendien een `@id`.
+- **`areaServed()` kan `[]` teruggeven.** `SchemaGraph::prune()` verwijdert de lege sleutel vóór de
+  uitvoer. De invariant "nooit leeg" is dus een eigenschap van **`SchemaGraph`**, niet van de builders;
+  builder-uitvoer mag bewust lege waarden bevatten. Dat onderscheid is de moeite waard om te onthouden.
+- **`LocationsSchema::cities()` filtert geen vestigingen met een lege `name`,** waar `nodes()` dat
+  impliciet wel doet. Nu zonder gevolg omdat alle drie de entries een naam hebben.
+- **Testsuite is gekoppeld aan productie-contentwaarden** (telefoonnummer, `Inbouwrolluiken`,
+  `Ons aanbod`, drie adressen, zes coördinaten). Een redacteur die een entry hernoemt maakt de build
+  rood zonder dat er code wijzigt. De coördinaten- en adrescontroles moeten juist blijven; de
+  titel-assertions zouden vormcontroles kunnen worden, zoals `ArticleSchema`'s test al doet.
+- **`SiteUrlTest` en `OrganizationSchemaTest` staan onder `tests/Unit` maar booten de app,** in strijd
+  met §5 van de spec die de unit-laag definieert als "snel, zonder Statamic". Verplaatsen is churn
+  zonder gedragswinst, maar de indeling klopt niet.
+- **Trailing slash verschilt tussen de twee head-lagen:** `Organization.url` en het Home-item van de
+  breadcrumb eindigen op een slash, `canonical` en `og:url` niet. Google normaliseert dit, dus geen
+  ranking-gevolg, maar het leest als een bug voor wie de twee naast elkaar legt.
+- **`LocalBusiness.image` ontbreekt,** net zoals `Article.image` ontbrak. Zelfde argument, lagere inzet.
+
+### Interactie met de parallelle werkstroom
+
+Deze branch draagt ook vier commits van een gelijktijdige sessie (security headers, trailing-slash-301,
+`og:type`, favicon en security.txt). Gecontroleerd op botsingen: `RedirectTrailingSlash` zondert `/` uit,
+dus de slash in `Organization.url` wijst niet naar een 301. `SecurityHeaders` zet geen CSP, dus niets
+beperkt het inline `ld+json`-blok — wel iets om te onthouden als CSP later alsnog landt.
