@@ -8,6 +8,7 @@ use App\Schema\LocationsSchema;
 use App\Schema\OrganizationSchema;
 use App\Schema\SchemaGraph;
 use App\Schema\ServiceSchema;
+use Illuminate\Support\Facades\Log;
 use Statamic\Contracts\Entries\Entry as EntryContract;
 use Statamic\Facades\Entry;
 use Statamic\Tags\Tags;
@@ -22,34 +23,44 @@ class Schema extends Tags
 
     private const SERVICE_COLLECTIONS = ['products', 'ranges'];
 
+    /**
+     * Deze laag is decoratief en staat in de <head> van élke pagina: een fout
+     * hier mag alleen het JSON-LD-blok kosten, nooit de rest van de pagina.
+     */
     public function index(): string
     {
-        $graph = (new SchemaGraph)
-            ->add(OrganizationSchema::node())
-            ->addAll(LocationsSchema::nodes());
+        try {
+            $graph = (new SchemaGraph)
+                ->add(OrganizationSchema::node())
+                ->addAll(LocationsSchema::nodes());
 
-        $entry = $this->currentEntry();
+            $entry = $this->currentEntry();
 
-        if ($entry !== null) {
-            $graph->add(BreadcrumbSchema::node(
-                (string) $entry->uri(),
-                (string) $entry->get('title'),
-            ));
+            if ($entry !== null) {
+                $graph->add(BreadcrumbSchema::node(
+                    (string) $entry->uri(),
+                    (string) $entry->get('title'),
+                ));
 
-            $collection = $entry->collection()?->handle();
+                $collection = $entry->collection()?->handle();
 
-            if (in_array($collection, self::SERVICE_COLLECTIONS, true)) {
-                $graph->add(ServiceSchema::node($entry));
-            } elseif ($collection === 'articles') {
-                $graph->add(ArticleSchema::node($entry));
+                if (in_array($collection, self::SERVICE_COLLECTIONS, true)) {
+                    $graph->add(ServiceSchema::node($entry));
+                } elseif ($collection === 'articles') {
+                    $graph->add(ArticleSchema::node($entry));
+                }
             }
-        }
 
-        if ($graph->isEmpty()) {
+            if ($graph->isEmpty()) {
+                return '';
+            }
+
+            return '<script type="application/ld+json">'.$graph->toJson().'</script>';
+        } catch (\Throwable $e) {
+            Log::warning('JSON-LD-graph kon niet gebouwd worden: '.$e->getMessage());
+
             return '';
         }
-
-        return '<script type="application/ld+json">'.$graph->toJson().'</script>';
     }
 
     /**

@@ -3,6 +3,10 @@
 namespace Tests\Unit\Schema;
 
 use App\Schema\OrganizationSchema;
+use Mockery;
+use Statamic\Contracts\Globals\GlobalSet as GlobalSetContract;
+use Statamic\Contracts\Globals\Variables as VariablesContract;
+use Statamic\Facades\GlobalSet;
 use Tests\TestCase;
 
 class OrganizationSchemaTest extends TestCase
@@ -15,6 +19,35 @@ class OrganizationSchemaTest extends TestCase
         $this->assertSame('Winsol Brebo', $node['name']);
         $this->assertSame('+32 2 308 02 26', $node['telephone']);
         $this->assertStringEndsWith('/#organization', $node['@id']);
+    }
+
+    /**
+     * `sameAs()` zelf is elders getest, maar niet of `node()` hem ook echt
+     * voedt met `socials` in plaats van `contact`. Beide arrays krijgen hier
+     * een geldige maar verschillende facebook-URL, zodat een verwisseling
+     * (`self::sameAs($contact)`) een andere waarde oplevert en de test rood
+     * maakt in plaats van gewoon te slagen omdat allebei "iets" teruggeven.
+     */
+    public function test_the_node_wires_sameas_to_socials_and_not_to_contact(): void
+    {
+        $variables = Mockery::mock(VariablesContract::class);
+        $variables->shouldReceive('get')->with('contact')->andReturn([
+            'phone' => '+32 2 000 00 00',
+            'email' => 'info@example.test',
+            'facebook' => 'https://facebook.com/verkeerde-bron',
+        ]);
+        $variables->shouldReceive('get')->with('socials')->andReturn([
+            'facebook' => 'https://www.facebook.com/winsolbrebo',
+        ]);
+
+        $globalSet = Mockery::mock(GlobalSetContract::class);
+        $globalSet->shouldReceive('inCurrentSite')->andReturn($variables);
+
+        GlobalSet::shouldReceive('findByHandle')->with('globals')->andReturn($globalSet);
+
+        $node = OrganizationSchema::node();
+
+        $this->assertSame(['https://www.facebook.com/winsolbrebo'], $node['sameAs']);
     }
 
     /**

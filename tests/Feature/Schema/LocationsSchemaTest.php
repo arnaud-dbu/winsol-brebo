@@ -48,4 +48,15 @@ class LocationsSchemaTest extends TestCase
 
         $this->assertSame($ids, array_unique($ids));
     }
+
+    /**
+     * Het gedeelde nummer staat bewust op Organization, niet op de drie
+     * vestigingen (zie het ontwerpdocument, open punt 2).
+     */
+    public function test_no_node_carries_its_own_telephone(): void
+    {
+        foreach (LocationsSchema::nodes() as $node) {
+            $this->assertArrayNotHasKey('telephone', $node);
+        }
+    }
 }

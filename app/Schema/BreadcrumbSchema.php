@@ -22,12 +22,15 @@ class BreadcrumbSchema
         $segments = explode('/', trim($uri, '/'));
         $last = count($segments) - 1;
         $path = '';
+        $currentTitle = trim($currentTitle);
 
         foreach ($segments as $index => $segment) {
             $path .= '/'.$segment;
 
             $items[] = [
-                'name' => $index === $last ? $currentTitle : self::titleFor($path, $segment),
+                'name' => $index === $last && $currentTitle !== ''
+                    ? $currentTitle
+                    : self::titleFor($path, $segment),
                 'item' => SiteUrl::absolute($path),
             ];
         }

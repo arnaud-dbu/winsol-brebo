@@ -50,6 +50,24 @@ class ServiceAndArticleSchemaTest extends TestCase
         $this->assertSame(OrganizationSchema::id(), $node['publisher']['@id']);
     }
 
+    /**
+     * `image` en `dateModified` bestaan vandaag al op artikelentries (de
+     * page-header-imagefieldset resp. `updated_at`), dus horen ze in de
+     * node te staan zonder dat er een blueprint bij hoefde te veranderen.
+     */
+    public function test_an_article_carries_its_image_and_modification_date(): void
+    {
+        $entry = Entry::query()->where('collection', 'articles')->first();
+        $this->assertNotNull($entry, 'Verwacht minstens één entry in de collectie articles.');
+        $this->assertNotEmpty($entry->get('image'), 'Verwacht een gevulde image op deze fixture-entry.');
+
+        $node = ArticleSchema::node($entry);
+
+        $this->assertNotEmpty($node['image']);
+        $this->assertStringStartsWith('http', $node['image']);
+        $this->assertNotEmpty($node['dateModified']);
+    }
+
     public function test_a_null_entry_yields_no_node(): void
     {
         $this->assertNull(ServiceSchema::node(null));

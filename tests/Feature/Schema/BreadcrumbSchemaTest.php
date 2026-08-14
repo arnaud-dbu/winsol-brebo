@@ -48,4 +48,16 @@ class BreadcrumbSchemaTest extends TestCase
 
         $this->assertSame('Bestaat niet', $node['itemListElement'][1]['name']);
     }
+
+    /**
+     * Een leeg getitelde entry mag geen ListItem zonder `name` opleveren: dan
+     * snoeit SchemaGraph de sleutel weg en verdwijnt de `@type`-prune-regel
+     * niet in werking omdat er nog `position` en `item` overblijven.
+     */
+    public function test_a_blank_current_title_falls_back_to_the_slug_too(): void
+    {
+        $node = BreadcrumbSchema::node('/aanbod/rolluiken/inbouwrolluiken', '');
+
+        $this->assertSame('Inbouwrolluiken', $node['itemListElement'][3]['name']);
+    }
 }

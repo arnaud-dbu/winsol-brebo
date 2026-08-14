@@ -23,6 +23,27 @@ class LocationsSchema
     }
 
     /**
+     * De vestigingssteden, ontdubbeld, rechtstreeks uit de entries — niet uit
+     * de schema.org-vorm van `nodes()`.
+     *
+     * @return list<string>
+     */
+    public static function cities(): array
+    {
+        $cities = [];
+
+        foreach (Entry::query()->where('collection', 'locations')->orderBy('order')->get() as $entry) {
+            $city = trim((string) $entry->get('city'));
+
+            if ($city !== '' && ! in_array($city, $cities, true)) {
+                $cities[] = $city;
+            }
+        }
+
+        return $cities;
+    }
+
+    /**
      * @return array<string, mixed>|null
      */
     private static function node(EntryContract $entry): ?array

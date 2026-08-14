@@ -35,29 +35,8 @@ class ServiceSchema
             'name' => $title,
             'serviceType' => 'Plaatsing van '.$title,
             'provider' => ['@id' => OrganizationSchema::id()],
-            'areaServed' => self::areaServed(),
+            'areaServed' => LocationsSchema::cities(),
             'url' => SiteUrl::absolute($uri),
         ];
-    }
-
-    /**
-     * De gemeentes komen uit dezelfde bron als de LocalBusiness-nodes, zodat
-     * er maar één plek is waar het werkgebied vandaan komt.
-     *
-     * @return list<string>
-     */
-    private static function areaServed(): array
-    {
-        $cities = [];
-
-        foreach (LocationsSchema::nodes() as $node) {
-            $city = $node['address']['addressLocality'] ?? '';
-
-            if ($city !== '' && ! in_array($city, $cities, true)) {
-                $cities[] = $city;
-            }
-        }
-
-        return $cities;
     }
 }

@@ -2,7 +2,10 @@
 
 namespace Tests\Feature\Schema;
 
+use Illuminate\Support\Facades\Log;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Statamic\Facades\Antlers;
+use Statamic\Facades\GlobalSet;
 use Tests\TestCase;
 
 class SchemaMarkupTest extends TestCase
@@ -82,9 +85,45 @@ class SchemaMarkupTest extends TestCase
         }
     }
 
+    /**
+     * `test.be` staat er sowieso nooit in de output, ook zonder deze functie:
+     * dat kan geen kapotte implementatie betrappen. Wat wél falsifieerbaar
+     * is: zolang de globals op placeholders staan, mag geen enkele node in de
+     * graph een `sameAs`-sleutel dragen.
+     */
     public function test_the_placeholder_socials_never_reach_the_output(): void
     {
-        $this->assertStringNotContainsString('test.be', $this->get('/')->getContent());
+        $globals = GlobalSet::findByHandle('globals')?->inCurrentSite();
+        $socials = (array) ($globals?->get('socials') ?? []);
+
+        $this->assertNotEmpty($socials, 'Verwacht placeholder-socials in de globals om dit te kunnen toetsen.');
+
+        $graph = $this->graphFrom('/');
+
+        foreach ($graph as $node) {
+            $this->assertArrayNotHasKey(
+                'sameAs',
+                $node,
+                "{$node['@type']} draagt sameAs terwijl de globals nog op placeholders staan.",
+            );
+        }
+    }
+
+    /**
+     * De laag zit in de <head> van élke pagina: een gooiende bouwer mag
+     * alleen het JSON-LD-blok kosten, nooit de rest van de pagina. Getest op
+     * de tag zelf, niet via een volledige paginarequest — anders breekt ook
+     * elk ander gebruik van `{{ globals:... }}` op de pagina mee, en toetst
+     * de test niet meer specifiek de foutafhandeling van `Tags\Schema`.
+     */
+    public function test_a_throwing_builder_degrades_to_an_empty_string_instead_of_a_500(): void
+    {
+        GlobalSet::shouldReceive('findByHandle')->with('globals')->andThrow(new \RuntimeException('kapotte globals'));
+        Log::shouldReceive('warning')->once()->with(\Mockery::pattern('/kapotte globals/'));
+
+        $html = Antlers::parse('{{ schema }}', []);
+
+        $this->assertSame('', trim((string) $html));
     }
 
     /**

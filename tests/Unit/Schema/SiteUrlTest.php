@@ -3,14 +3,22 @@
 namespace Tests\Unit\Schema;
 
 use App\Schema\SiteUrl;
+use Statamic\Facades\Site;
 use Tests\TestCase;
 
 class SiteUrlTest extends TestCase
 {
+    /**
+     * Toetst tegen `Site::current()->absoluteUrl()`, de bron die de
+     * implementatie zelf leest. `config('app.url')` klopt daar nu toevallig
+     * mee omdat `resources/sites.yaml` `url: /` heeft — verandert dat, dan
+     * moet deze test dat volgen in plaats van eigenwijs `config('app.url')`
+     * te blijven controleren.
+     */
     public function test_it_builds_an_absolute_url_without_double_slashes(): void
     {
         $this->assertSame(
-            rtrim(config('app.url'), '/').'/aanbod/rolluiken',
+            rtrim(Site::current()->absoluteUrl(), '/').'/aanbod/rolluiken',
             SiteUrl::absolute('/aanbod/rolluiken'),
         );
     }
@@ -25,6 +33,6 @@ class SiteUrlTest extends TestCase
 
     public function test_the_root_keeps_exactly_one_trailing_slash(): void
     {
-        $this->assertSame(rtrim(config('app.url'), '/').'/', SiteUrl::absolute('/'));
+        $this->assertSame(rtrim(Site::current()->absoluteUrl(), '/').'/', SiteUrl::absolute('/'));
     }
 }
