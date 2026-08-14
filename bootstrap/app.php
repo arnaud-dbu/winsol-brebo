@@ -4,6 +4,7 @@ use App\Http\Middleware\InspaceRevisionsGuard;
 use App\Http\Middleware\InspaceToken;
 use App\Http\Middleware\NoIndexHeader;
 use App\Http\Middleware\RedirectTrailingSlash;
+use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -25,13 +26,15 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         // Globaal en niet alleen op `web`: ook de API en het control panel
-        // horen op een afgeschermde omgeving uit de index te blijven.
+        // horen op een afgeschermde omgeving uit de index te blijven. Dat
+        // geldt net zo voor de beveiligingsheaders.
         //
         // Append en niet prepend: de omleiding bouwt een absolute URL op basis
         // van het request, en pas ná Laravel's eigen globale middleware staat
         // het schema achter een proxy correct op https.
         $middleware->append(RedirectTrailingSlash::class);
         $middleware->append(NoIndexHeader::class);
+        $middleware->append(SecurityHeaders::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
