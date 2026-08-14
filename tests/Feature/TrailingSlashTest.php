@@ -43,6 +43,51 @@ class TrailingSlashTest extends TestCase
             ->assertRedirect('http://localhost/aanbod/rolluiken?range=screens');
     }
 
+    /**
+     * `getQueryString()` sorteert parameters alfabetisch en voegt `=` toe aan
+     * een waardeloze sleutel. Een campagne-URL met `?b=2&a=1` of `?0` zou zo
+     * op een andere querystring landen dan de gedeelde link.
+     */
+    public function test_the_query_string_keeps_its_original_order_and_shape(): void
+    {
+        $this->request('/aanbod/rolluiken/?b=2&a=1')
+            ->assertStatus(301)
+            ->assertRedirect('http://localhost/aanbod/rolluiken?b=2&a=1');
+    }
+
+    /**
+     * `Request::create('//evil.example.com/')` volstaat hier niet: Symfony
+     * leest dat als een schemaloze absolute URL en `getPathInfo()` geeft dan
+     * gewoon `/` terug. Pas een volledige URL met een dubbele slash ná de
+     * host — `http://winsol-brebo.test//evil.example.com/` — laat
+     * `getPathInfo()` echt `//evil.example.com/` teruggeven, precies zoals
+     * het live geconstateerde verzoek dat deed.
+     */
+    public function test_a_double_slash_path_does_not_redirect_off_host(): void
+    {
+        $response = TestResponse::fromBaseResponse(
+            $this->app->make(Kernel::class)->handle(
+                Request::create('http://winsol-brebo.test//evil.example.com/')
+            )
+        );
+
+        $response->assertStatus(301);
+
+        $location = $response->headers->get('Location');
+
+        $this->assertNotNull($location);
+        $this->assertStringStartsWith(
+            'http://winsol-brebo.test/',
+            $location,
+            "De omleiding wees naar een ander host: {$location}"
+        );
+        $this->assertStringNotContainsString(
+            '//evil.example.com',
+            $location,
+            "De omleiding is nog steeds protocol-relatief: {$location}"
+        );
+    }
+
     public function test_the_homepage_keeps_its_slash(): void
     {
         $this->request('/')->assertOk();

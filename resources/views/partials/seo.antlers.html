@@ -14,7 +14,7 @@
 {{# Meta Title: use meta_title, fall back to the page title, then the global meta_title #}}
 {{ meta_title_computed = meta_title ?? title ?? seo:meta_title }}
 {{# Op één regel: newlines en inspringing belanden anders letterlijk in het element en tellen mee bij tooling dat de titellengte meet. #}}
-{{ title_tag = meta_title_computed == site:name ? meta_title_computed : meta_title_computed + ' | ' + site:name }}
+{{ title_tag = meta_title_computed == site:name ? meta_title_computed : (meta_title_computed + ' | ' + site:name) }}
 <title>{{ title_tag }}</title>
 
 {{# Meta Description: use meta_description, fall back to intro, then global meta_description #}}

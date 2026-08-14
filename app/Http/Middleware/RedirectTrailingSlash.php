@@ -21,13 +21,19 @@ class RedirectTrailingSlash
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $path = $request->getPathInfo();
+        // Eén leidende slash, altijd: `getPathInfo()` laat een pad als
+        // `//evil.example.com/` ongemoeid, en `redirect()->to()` leest zo'n
+        // string als protocol-relatieve URL en stuurt door naar die host.
+        $path = '/'.ltrim($request->getPathInfo(), '/');
 
         if (! $request->isMethodCacheable() || $path === '/' || ! str_ends_with($path, '/')) {
             return $next($request);
         }
 
-        $query = $request->getQueryString();
+        // `getQueryString()` sorteert parameters alfabetisch en voegt `=` toe
+        // aan waardeloze sleutels; dat verandert een campagne-URL die met een
+        // slash gedeeld is. De ruwe querystring blijft ongewijzigd.
+        $query = $request->server->get('QUERY_STRING');
 
         return redirect()->to(rtrim($path, '/').($query ? '?'.$query : ''), 301);
     }

@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Http\Request;
+use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 class NoIndexHeaderTest extends TestCase
@@ -11,6 +14,24 @@ class NoIndexHeaderTest extends TestCase
         config()->set('app.indexable', false);
 
         $this->get('/nieuws')->assertHeader('X-Robots-Tag', 'noindex, nofollow');
+    }
+
+    /**
+     * `RedirectTrailingSlash` retourneert een 301 zonder `$next` aan te
+     * roepen. Stond hij vóór `NoIndexHeader`, dan liep die nooit en kroop een
+     * afgeschermde omgeving alsnog via de omleiding de index in.
+     */
+    public function test_the_trailing_slash_redirect_stays_noindex_too(): void
+    {
+        config()->set('app.indexable', false);
+
+        $response = TestResponse::fromBaseResponse(
+            $this->app->make(Kernel::class)->handle(
+                Request::create('http://winsol-brebo.test/nieuws/')
+            )
+        );
+
+        $response->assertStatus(301)->assertHeader('X-Robots-Tag', 'noindex, nofollow');
     }
 
     /**

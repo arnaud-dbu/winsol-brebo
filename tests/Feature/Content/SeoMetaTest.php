@@ -35,10 +35,22 @@ class SeoMetaTest extends TestCase
         );
     }
 
+    /**
+     * Geen enkele pagina in de contentset heet toevallig "Winsol Brebo", dus
+     * een test op een echte route oefent de `==`-tak in de partial nooit uit
+     * — de titel wordt daar altijd aangevuld met `| Winsol Brebo`. Render de
+     * partial daarom direct, met een titel die wél gelijk is aan de sitenaam.
+     */
     public function test_a_page_that_is_named_after_the_site_does_not_repeat_the_site_name(): void
     {
-        preg_match('/<title>(.*?)<\/title>/s', $this->html('/'), $match);
+        $html = view('partials.seo', [
+            'meta_title' => 'Winsol Brebo',
+            'site' => ['name' => 'Winsol Brebo'],
+        ])->render();
 
+        preg_match('/<title>(.*?)<\/title>/s', $html, $match);
+
+        $this->assertSame('Winsol Brebo', $match[1] ?? '');
         $this->assertStringNotContainsString('| Winsol Brebo | Winsol Brebo', $match[1] ?? '');
     }
 

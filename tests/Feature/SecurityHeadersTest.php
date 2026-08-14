@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Http\Request;
+use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 class SecurityHeadersTest extends TestCase
@@ -9,6 +12,24 @@ class SecurityHeadersTest extends TestCase
     public function test_every_response_limits_what_leaks_to_other_domains(): void
     {
         $this->get('/nieuws')->assertHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    }
+
+    /**
+     * `RedirectTrailingSlash` retourneert een 301 zonder `$next` aan te
+     * roepen. Stond hij vóór de headermiddleware, dan liep die nooit — de
+     * omleiding zelf droeg dan geen enkele beveiligingsheader.
+     */
+    public function test_the_trailing_slash_redirect_still_carries_the_headers(): void
+    {
+        $response = TestResponse::fromBaseResponse(
+            $this->app->make(Kernel::class)->handle(
+                Request::create('http://winsol-brebo.test/nieuws/')
+            )
+        );
+
+        $response->assertStatus(301)
+            ->assertHeader('Referrer-Policy', 'strict-origin-when-cross-origin')
+            ->assertHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
     }
 
     public function test_every_response_closes_the_device_apis_the_site_never_uses(): void

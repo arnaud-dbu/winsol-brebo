@@ -29,12 +29,20 @@ return Application::configure(basePath: dirname(__DIR__))
         // horen op een afgeschermde omgeving uit de index te blijven. Dat
         // geldt net zo voor de beveiligingsheaders.
         //
-        // Append en niet prepend: de omleiding bouwt een absolute URL op basis
-        // van het request, en pas ná Laravel's eigen globale middleware staat
-        // het schema achter een proxy correct op https.
-        $middleware->append(RedirectTrailingSlash::class);
+        // Het schema staat hier al correct op https: TLS termineert op
+        // dezelfde host als php-fpm, dus `$request->secure()` klopt zonder
+        // `trustProxies`. Komt er ooit een CDN of load balancer vóór de site,
+        // dan moet `trustProxies` alsnog geconfigureerd worden — anders stopt
+        // HSTS geruisloos met versturen en downgrade de trailing-slash-
+        // omleiding bezoekers stilzwijgend naar `http://`.
+        //
+        // NoIndexHeader en SecurityHeaders staan vóór RedirectTrailingSlash:
+        // die laatste retourneert een 301 zonder `$next` aan te roepen, dus
+        // alleen middleware die er vóór staat wikkelt zich nog om die respons
+        // heen.
         $middleware->append(NoIndexHeader::class);
         $middleware->append(SecurityHeaders::class);
+        $middleware->append(RedirectTrailingSlash::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
