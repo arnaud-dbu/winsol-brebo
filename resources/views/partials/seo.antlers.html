@@ -13,12 +13,9 @@
 
 {{# Meta Title: use meta_title, fall back to the page title, then the global meta_title #}}
 {{ meta_title_computed = meta_title ?? title ?? seo:meta_title }}
-<title>
-    {{ meta_title_computed }}
-    {{ if meta_title_computed != site:name }}
-        | {{ site:name }}
-    {{ /if }}
-</title>
+{{# Op één regel: newlines en inspringing belanden anders letterlijk in het element en tellen mee bij tooling dat de titellengte meet. #}}
+{{ title_tag = meta_title_computed == site:name ? meta_title_computed : meta_title_computed + ' | ' + site:name }}
+<title>{{ title_tag }}</title>
 
 {{# Meta Description: use meta_description, fall back to intro, then global meta_description #}}
 {{ meta_description_computed = meta_description ?? intro ?? seo:meta_description }}
@@ -35,7 +32,11 @@
 <link rel="canonical" href="{{ current_url }}">
 
 {{# ── Open Graph (Facebook, LinkedIn, etc.) ── #}}
-<meta property="og:type" content="website">
+{{ og_type = collection:handle == 'articles' ? 'article' : 'website' }}
+<meta property="og:type" content="{{ og_type }}">
+{{ if og_type == 'article' && date }}
+    <meta property="article:published_time" content="{{ date format='c' }}">
+{{ /if }}
 <meta property="og:title" content="{{ meta_title_computed }}">
 <meta property="og:url" content="{{ current_url }}">
 {{ if meta_description_computed }}
