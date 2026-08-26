@@ -1,0 +1,35 @@
+{{#
+    Filterpillen bovenaan (Jimmy: "filters bovenaan op productgroep"), niet in een zijkolom zoals themeFilter. De actieve
+    staat werkt identiek aan themeFilter: server-side via ?groep=, client-side via articleFilter.
+#}}
+<nav aria-label="{{ trans:site.realisaties_filter_label }}">
+    {{# `-mx-4 px-4` spiegelt de padding van `.container`: onder lg loopt de rij tot de schermrand. #}}
+    <ul
+        class="-mx-4 scrollbar-none flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:gap-3 lg:overflow-x-visible lg:px-0">
+        <li class="shrink-0">
+            <a
+                href="{{ url }}"
+                class="{{ get:groep ? 'btn--tertiary' : 'btn--secondary' }} btn whitespace-nowrap"
+                {{ if !get:groep }} aria-current="page"{{ /if }}
+                :class="{ 'btn--secondary': active === 'all', 'btn--tertiary': active !== 'all' }"
+                :aria-current="active === 'all' ? 'page' : false"
+                @click.prevent="select('all')">
+                {{ trans:site.filter_all }}
+            </a>
+        </li>
+
+        {{ realisatie_ranges }}
+            <li class="shrink-0">
+                <a
+                    href="?groep={{ slug }}"
+                    class="{{ get:groep == slug ? 'btn--secondary' : 'btn--tertiary' }} btn whitespace-nowrap"
+                    {{ if get:groep == slug }} aria-current="page"{{ /if }}
+                    :class="{ 'btn--secondary': active === '{{ slug }}', 'btn--tertiary': active !== '{{ slug }}' }"
+                    :aria-current="active === '{{ slug }}' ? 'page' : false"
+                    @click.prevent="select('{{ slug }}')">
+                    {{ title | entities }}
+                </a>
+            </li>
+        {{ /realisatie_ranges }}
+    </ul>
+</nav>

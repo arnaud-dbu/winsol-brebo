@@ -21,13 +21,17 @@ class NavigationTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:navigation }}');
 
-        // De volgorde uit Figma 332:3244. `strpos` op de eerste treffer volstaat:
-        // de items staan één keer in het desktopmenu, in boomvolgorde.
+        // De boomvolgorde uit content/trees/navigation/main.yaml — die wijkt
+        // sinds de "Update UI"-commits af van Figma 332:3244 (Over ons staat
+        // vroeger); Realisaties kwam er op 26-08 bij, vóór Nieuws (feedback
+        // Jimmy). `strpos` op de eerste treffer volstaat: de items staan één
+        // keer in het desktopmenu, in boomvolgorde.
         $positions = [
             'Aanbod' => strpos($html, 'Aanbod'),
-            'Nieuws' => strpos($html, 'Nieuws'),
-            'Service' => strpos($html, 'Service'),
             'Over ons' => strpos($html, 'Over ons'),
+            'Service' => strpos($html, 'Service'),
+            'Realisaties' => strpos($html, 'Realisaties'),
+            'Nieuws' => strpos($html, 'Nieuws'),
             'Contact' => strpos($html, 'Contact'),
         ];
 

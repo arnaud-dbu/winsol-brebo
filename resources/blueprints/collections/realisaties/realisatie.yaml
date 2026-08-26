@@ -1,0 +1,46 @@
+title: Realisatie
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              display: Titel
+              instructions: 'Product en plaats, bv. "Pergola SO! in Drongen". Dit is het bijschrift op de kaart.'
+              validate:
+                - required
+          -
+            handle: image
+            field:
+              type: assets
+              container: assets
+              max_files: 1
+              display: Foto
+              validate:
+                - required
+          -
+            handle: range
+            field:
+              type: entries
+              collections:
+                - ranges
+              max_items: 1
+              display: Productgroep
+              instructions: 'Bepaalt onder welke filter de realisatie valt.'
+              validate:
+                - required
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate: 'max:200'

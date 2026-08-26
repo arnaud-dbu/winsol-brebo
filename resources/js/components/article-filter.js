@@ -18,28 +18,30 @@
  * blijven wel bestaan, want die belanden in een HTML-attribuutwaarde of een
  * klassevergelijking, niet in JS-code.
  */
-export function articleFilter() {
-    const initial = new URLSearchParams(window.location.search).get('theme')
+export function articleFilter(param = 'theme') {
+    // `param` is een letterlijke naam uit de template ('theme', 'groep'),
+    // nooit bezoekersinvoer — de XSS-afweging hierboven blijft dus gelden.
+    const initial = new URLSearchParams(window.location.search).get(param);
 
     return {
         active: initial || 'all',
 
         matches(slug) {
-            return this.active === 'all' || this.active === slug
+            return this.active === 'all' || this.active === slug;
         },
 
         select(slug) {
-            this.active = slug || 'all'
+            this.active = slug || 'all';
 
-            const url = new URL(window.location)
+            const url = new URL(window.location);
 
             if (this.active === 'all') {
-                url.searchParams.delete('theme')
+                url.searchParams.delete(param);
             } else {
-                url.searchParams.set('theme', this.active)
+                url.searchParams.set(param, this.active);
             }
 
-            window.history.replaceState({}, '', url)
+            window.history.replaceState({}, '', url);
         },
-    }
+    };
 }

@@ -1,0 +1,27 @@
+{{ partial:headers/default divider="true" }}
+<section class="section section--default" data-section="realisaties-overview" x-data="articleFilter('groep')">
+    <div class="container">
+        <div class="section-y-gap">
+            {{ partial:realisatieFilter }}
+            <ul class="grid grid-gutter sm:grid-cols-2 lg:grid-cols-3">
+                {{ collection:realisaties }}
+                    {{ groep_slug = range:slug ?? '' }}
+                    <li
+                        {{ (get:groep && get:groep != groep_slug)
+ ? 'hidden' : '' }}
+                        :hidden="!matches('{{ groep_slug }}')">
+                        <figure class="flex h-full flex-col gap-3">
+                            {{ img :src="image" max_width="960" sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw" class="aspect-4/3 w-full rounded-md object-cover" }}
+                            <figcaption class="flex flex-col text-base">
+                                <span class="font-semibold">{{ title | entities }}</span>
+                                <span class="text-black/60">{{ range:title | entities }}</span>
+                            </figcaption>
+                        </figure>
+                    </li>
+                {{ /collection:realisaties }}
+            </ul>
+        </div>
+    </div>
+</section>
+
+{{ partial:pageBuilder }}

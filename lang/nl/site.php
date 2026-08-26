@@ -19,4 +19,5 @@ return [
     'footer_copyright' => 'Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar',
     'filter_all' => 'Toon alles',
     'filter_label' => 'Filter artikels op thema',
+    'realisaties_filter_label' => 'Filter realisaties op productgroep',
 ];
