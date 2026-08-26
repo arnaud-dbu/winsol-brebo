@@ -6,7 +6,7 @@
                     {{ fields }}
                         {{ if handle == "brochures" }}
                             <div class="offerte-products">
-                                <span class="form-label" id="{{ id }}-label">{{ display }} (verplicht)</span>
+                                <span class="form-label" id="{{ id }}-label">{{ trans :key="display" }} {{ trans key="(verplicht)" }}</span>
 
                                 <ul
                                     class="offerte-pills"
@@ -43,7 +43,8 @@
                                         class="mt-1 size-4 accent-black"
                                         {{ if value }} checked{{ /if }}
                                         {{ if error }} aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }} />
-                                    <span>Ik ga akkoord met de verwerking van mijn gegevens zoals vermeld in het <a href="/privacy-policy" class="underline">privacybeleid</a>.</span>
+                                    {{ site_prefix = site:url == '/' ? '' : site:url }}
+                                    <span>{{ trans key="Ik ga akkoord met de verwerking van mijn gegevens zoals vermeld in het" }} <a href="{{ site_prefix }}/privacy-policy" class="underline">{{ trans key="privacybeleid" }}</a>.</span>
                                 </label>
                                 {{ if error }}
                                     <p class="form-error" id="{{ id }}-error">{{ error }}</p>
@@ -51,7 +52,7 @@
                             </div>
                         {{ else }}
                             <div class="form-field{{ if width == 50 }} form-field--half{{ /if }}">
-                                <label class="form-label" for="{{ id }}">{{ display }}</label>
+                                <label class="form-label" for="{{ id }}">{{ trans :key="display" }}</label>
                                 {{ if handle == "address" }}
                                     {{ partial:addressField }}
                                 {{ else }}
@@ -70,13 +71,10 @@
     {{ /unless }}
     {{ if success }}
         <div class="offerte-success">
-            <h2>Je brochures zijn onderweg</h2>
-            <p>
-                Check je mailbox: de downloadlinks staan erin, samen met de volgende stappen als je verder wil. Geen
-                mail gekregen? Kijk even bij je ongewenste post.
-            </p>
+            <h2>{{ trans key="Je brochures zijn onderweg" }}</h2>
+            <p>{{ trans key="Check je mailbox: de downloadlinks staan erin, samen met de volgende stappen als je verder wil. Geen mail gekregen? Kijk even bij je ongewenste post." }}</p>
         </div>
     {{ else }}
-        <button type="submit" class="btn btn--primary">Brochures ontvangen</button>
+        <button type="submit" class="btn btn--primary">{{ trans key="Brochures ontvangen" }}</button>
     {{ /if }}
 {{ /form:brochure }}

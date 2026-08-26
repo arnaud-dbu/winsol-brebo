@@ -5,6 +5,7 @@ namespace App\Inspace;
 use Statamic\Contracts\Entries\Entry as EntryContract;
 use Statamic\Facades\Collection;
 use Statamic\Facades\Entry;
+use Statamic\Facades\Site;
 
 class EntryLister
 {
@@ -20,7 +21,7 @@ class EntryLister
         $page = max((int) ($filters['page'] ?? 1), 1);
 
         $entries = collect($this->handles($filters['collection'] ?? null))
-            ->flatMap(fn (string $handle) => Entry::query()->where('collection', $handle)->get()->all())
+            ->flatMap(fn (string $handle) => Entry::query()->where('collection', $handle)->where('site', Site::default()->handle())->get()->all())
             ->filter(fn (EntryContract $entry) => $this->visible($entry, $filters))
             ->values();
 

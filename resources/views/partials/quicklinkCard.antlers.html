@@ -18,8 +18,9 @@
             {{ /if }}
             {{ if is_brochure }}
                 {{# Gated (Jimmy, werkoverleg 21/24-08): niet de pdf zelf maar het brochureformulier. #}}
+                {{ site_prefix = site:url == '/' ? '' : site:url }}
                 <a
-                    href="/brochures{{ if brochure:path }}?brochure={{ brochure:path }}{{ /if }}"
+                    href="{{ site_prefix }}/brochures{{ if brochure:path }}?brochure={{ brochure:path }}{{ /if }}"
                     class="{{ link_style == 'outline' ? 'btn btn--outline' : 'btn btn--primary' }}">
                     {{ link.0.label ?? 'Ontvang de brochure' }}
                 </a>

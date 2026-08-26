@@ -18,11 +18,10 @@
                 style="max-width: 560px; width: 100%">
                 <tr>
                     <td style="padding: 32px 24px">
-                        <p style="margin: 0 0 16px">Dag {{ name }},</p>
+                        {{ mail_prefix = site == 'nl' ? '' : '/' + site }}
+                        <p style="margin: 0 0 16px">{{ trans:site.mail_greeting }} {{ name }},</p>
 
-                        <p style="margin: 0 0 16px">
-                            Bedankt voor je interesse. Dit zijn de brochures die je aanvroeg:
-                        </p>
+                        <p style="margin: 0 0 16px">{{ trans:site.mail_brochure_intro }}</p>
 
                         <ul style="margin: 0 0 24px; padding-left: 20px">
                             {{ brochures }}
@@ -32,33 +31,33 @@
                             {{ /brochures }}
                         </ul>
 
-                        <p style="margin: 0 0 12px"><strong>Klaar voor de volgende stap?</strong></p>
+                        <p style="margin: 0 0 12px"><strong>{{ trans:site.mail_brochure_next }}</strong></p>
 
                         <ol style="margin: 0 0 24px; padding-left: 20px">
                             <li style="margin-bottom: 12px">
                                 <strong>
-                                    <a href="{{ config:app:url }}/contact" style="color: #1a1a1a">
-                                        Bezoek een showroom
+                                    <a href="{{ config:app:url }}{{ mail_prefix }}/contact" style="color: #1a1a1a">
+                                        {{ trans:site.mail_route_showroom }}
                                     </a>
                                 </strong>
-                                — bekijk de mogelijkheden ter plaatse in Dilbeek, Sint-Pieters-Leeuw of Aartselaar.
+                                — {{ trans:site.mail_route_showroom_text }}
                             </li>
                             <li style="margin-bottom: 12px">
-                                <a href="{{ config:app:url }}/contact" style="color: #1a1a1a">
-                                    Vraag een bezoek van een vertegenwoordiger
+                                <a href="{{ config:app:url }}{{ mail_prefix }}/contact" style="color: #1a1a1a">
+                                    {{ trans:site.mail_route_rep }}
                                 </a>
-                                — persoonlijk advies bij jou thuis.
+                                — {{ trans:site.mail_route_rep_text }}
                             </li>
                             <li style="margin-bottom: 12px">
-                                <a href="{{ config:app:url }}/offerte" style="color: #1a1a1a">
-                                    Vraag een vrijblijvende offerte
+                                <a href="{{ config:app:url }}{{ mail_prefix }}/offerte" style="color: #1a1a1a">
+                                    {{ trans:site.mail_route_quote }}
                                 </a>
-                                — enkele korte vragen en je kent je richtprijs.
+                                — {{ trans:site.mail_route_quote_text }}
                             </li>
                         </ol>
 
                         <p style="margin: 0">
-                            Tot binnenkort,
+                            {{ trans:site.mail_closing }}
                             <br />
                             Winsol Brebo
                         </p>

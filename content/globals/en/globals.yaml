@@ -1,0 +1,16 @@
+company:
+  name: 'Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar'
+  street: Ninoofsesteenweg
+  number: '637'
+  postal: '1700'
+  city: Dilbeek
+contact:
+  mobile: ''
+  phone_brussels: '+32 2 308 02 26'
+  phone_antwerp: '+32 3 880 85 65'
+  email: info@winsoldilbeek.be
+socials:
+  facebook: 'https://test.be'
+  instagram: 'https://test.be'
+  linkedin: 'https://test.be'
+  youtube: 'https://test.be'

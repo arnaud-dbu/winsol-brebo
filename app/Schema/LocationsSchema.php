@@ -4,6 +4,7 @@ namespace App\Schema;
 
 use Statamic\Contracts\Entries\Entry as EntryContract;
 use Statamic\Facades\Entry;
+use Statamic\Facades\Site;
 
 class LocationsSchema
 {
@@ -12,8 +13,11 @@ class LocationsSchema
      */
     public static function nodes(): array
     {
+        // Bewust de defaultsite: één LocalBusiness per vestiging (niet per
+        // taal), en OpeningHours parseert de Nederlandse dagnamen.
         return Entry::query()
             ->where('collection', 'locations')
+            ->where('site', Site::default()->handle())
             ->orderBy('order')
             ->get()
             ->map(fn (EntryContract $entry) => self::node($entry))
@@ -32,7 +36,7 @@ class LocationsSchema
     {
         $cities = [];
 
-        foreach (Entry::query()->where('collection', 'locations')->orderBy('order')->get() as $entry) {
+        foreach (Entry::query()->where('collection', 'locations')->where('site', Site::default()->handle())->orderBy('order')->get() as $entry) {
             $city = trim((string) $entry->get('city'));
 
             if ($city !== '' && ! in_array($city, $cities, true)) {

@@ -1,16 +1,17 @@
-Dag {{ name }},
+{{ mail_prefix = site == 'nl' ? '' : '/' + site }}
+{{ trans:site.mail_greeting }} {{ name }},
 
-Bedankt voor je interesse. Dit zijn de brochures die je aanvroeg:
+{{ trans:site.mail_brochure_intro }}
 
 {{ brochures }}
 - {{ label }}: {{ url }}
 {{ /brochures }}
 
-Klaar voor de volgende stap?
+{{ trans:site.mail_brochure_next }}
 
-1. Bezoek een showroom in Dilbeek, Sint-Pieters-Leeuw of Aartselaar en bekijk de mogelijkheden ter plaatse: {{ config:app:url }}/contact
-2. Vraag een bezoek van een vertegenwoordiger, voor persoonlijk advies bij jou thuis: {{ config:app:url }}/contact
-3. Vraag een vrijblijvende offerte, enkele korte vragen en je kent je richtprijs: {{ config:app:url }}/offerte
+1. {{ trans:site.mail_route_showroom }} — {{ trans:site.mail_route_showroom_text }} {{ config:app:url }}{{ mail_prefix }}/contact
+2. {{ trans:site.mail_route_rep }} — {{ trans:site.mail_route_rep_text }} {{ config:app:url }}{{ mail_prefix }}/contact
+3. {{ trans:site.mail_route_quote }} — {{ trans:site.mail_route_quote_text }} {{ config:app:url }}{{ mail_prefix }}/offerte
 
-Tot binnenkort,
+{{ trans:site.mail_closing }}
 Winsol Brebo

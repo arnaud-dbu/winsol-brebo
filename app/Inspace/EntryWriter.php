@@ -10,6 +10,7 @@ use Statamic\Facades\Asset;
 use Statamic\Facades\AssetContainer;
 use Statamic\Facades\Collection;
 use Statamic\Facades\Entry;
+use Statamic\Facades\Site;
 use Statamic\Fields\Blueprint;
 
 class EntryWriter
@@ -234,6 +235,7 @@ class EntryWriter
 
         return Entry::query()
             ->where('collection', $collection)
+            ->where('site', Site::default()->handle())
             ->where('external_id', $externalId)
             ->first();
     }
@@ -254,7 +256,7 @@ class EntryWriter
         $slug = $base;
         $suffix = 1;
 
-        while (($found = Entry::query()->where('collection', $collection)->where('slug', $slug)->first()) !== null
+        while (($found = Entry::query()->where('collection', $collection)->where('site', Site::default()->handle())->where('slug', $slug)->first()) !== null
             && $found->id() !== $ignoreId) {
             $suffix++;
             $slug = $base.'-'.$suffix;

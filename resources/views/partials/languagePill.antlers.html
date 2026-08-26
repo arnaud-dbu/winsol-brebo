@@ -1,6 +1,32 @@
-<span
-    class="{{ inverse ? 'border-white/40 text-white' : 'border-black/25 text-black' }} flex items-center gap-0.5 rounded-full border px-5 py-2 text-base font-semibold lg:py-2.5">
-    <span class="sr-only">{{ trans:site.nav_language }}</span>
-    <span aria-hidden="true">{{ trans:site.nav_language_short }}</span>
-    {{ icon src="caret-down" class="size-4" }}
-</span>
+{{#
+    Taalwissel: elke taal linkt naar de vertaling van de huidige pagina; bestaat die niet, dan valt `all="true"` terug op de
+    root van die taal. Buiten entries (bv. een 404) rendert de locales-tag niets en blijft alleen de pil staan.
+#}}
+<div x-data="{ open: false }" @click.outside="open = false" @keydown.escape="open = false" class="relative">
+    <button
+        type="button"
+        @click="open = !open"
+        :aria-expanded="open"
+        class="{{ inverse ? 'border-white/40 text-white' : 'border-black/25 text-black' }} flex items-center gap-0.5 rounded-full border px-5 py-2 text-base font-semibold lg:py-2.5">
+        <span class="sr-only">{{ trans:site.nav_language }}</span>
+        <span aria-hidden="true">{{ trans:site.nav_language_short }}</span>
+        {{ icon src="caret-down" class="size-4" }}
+    </button>
+
+    <ul
+        x-cloak
+        x-show="open"
+        class="absolute top-full right-0 z-30 mt-2 flex min-w-full flex-col overflow-hidden rounded-md border border-black/10 bg-white py-1 shadow-lg">
+        {{ locales all="true" }}
+            {{ unless is_current }}
+                <li>
+                    <a
+                        href="{{ permalink }}"
+                        class="block px-4 py-2 text-base font-semibold text-black hover:bg-black/3">
+                        {{ locale:key | upper }}
+                    </a>
+                </li>
+            {{ /unless }}
+        {{ /locales }}
+    </ul>
+</div>

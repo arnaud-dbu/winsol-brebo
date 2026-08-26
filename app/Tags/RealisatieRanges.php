@@ -3,6 +3,7 @@
 namespace App\Tags;
 
 use Statamic\Facades\Entry;
+use Statamic\Facades\Site;
 use Statamic\Tags\Tags;
 
 /**
@@ -19,21 +20,25 @@ class RealisatieRanges extends Tags
      */
     public function index(): array
     {
+        $site = Site::current()->handle();
+
+        // `value('range')` erft van de origin: fr/en-localisaties dragen het
+        // veld niet zelf en verwijzen dus naar het nl-range-id. Dat id wordt
+        // hieronder per site naar de juiste taalversie geresolven.
         $used = Entry::query()
             ->where('collection', 'realisaties')
+            ->where('site', $site)
             ->get()
-            ->map(fn ($entry) => $entry->get('range'))
+            ->map(fn ($entry) => $entry->value('range'))
             ->filter()
-            ->unique()
-            ->all();
+            ->unique();
 
-        return Entry::query()
-            ->where('collection', 'ranges')
-            ->whereStatus('published')
-            ->whereIn('id', $used)
-            ->orderBy('order')
-            ->get()
-            ->map(fn ($entry) => ['slug' => $entry->slug(), 'title' => $entry->get('title')])
+        return $used
+            ->map(fn ($id) => Entry::find($id)?->in($site))
+            ->filter()
+            ->filter(fn ($entry) => $entry->published())
+            ->sortBy(fn ($entry) => $entry->value('order'))
+            ->map(fn ($entry) => ['slug' => $entry->slug(), 'title' => $entry->value('title')])
             ->values()
             ->all();
     }

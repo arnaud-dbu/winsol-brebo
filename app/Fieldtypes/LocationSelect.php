@@ -3,6 +3,7 @@
 namespace App\Fieldtypes;
 
 use Statamic\Facades\Entry;
+use Statamic\Facades\Site;
 use Statamic\Fieldtypes\Select;
 
 /**
@@ -37,6 +38,7 @@ class LocationSelect extends Select
     {
         return Entry::query()
             ->where('collection', 'locations')
+            ->where('site', Site::current()->handle())
             ->orderBy('order')
             ->get();
     }

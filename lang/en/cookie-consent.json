@@ -1,0 +1,24 @@
+{
+    "enabled": true,
+    "consent_mode_v2": true,
+    "cookie_version": "1",
+
+    "title": "May we use cookies?",
+    "intro_before": "They help us improve the site. Choose what you allow in the ",
+    "intro_link": "preferences",
+    "intro_after": ".",
+
+    "accept_label": "Accept",
+    "deny_label": "Decline",
+    "confirm_label": "Confirm preferences",
+    "revoke_label": "Cookie settings",
+
+    "marketing_title": "Marketing",
+    "marketing_description": "Used to make adverts more relevant to you and to measure their performance.",
+
+    "personalization_title": "Personalisation",
+    "personalization_description": "Remembers your preferences so the site better suits your visit.",
+
+    "analytics_title": "Analytics",
+    "analytics_description": "Helps us understand how visitors use the site, so we can improve it."
+}

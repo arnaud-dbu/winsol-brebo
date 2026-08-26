@@ -6,7 +6,7 @@
                     {{ fields }}
                         {{ if handle == "products" }}
                             <div class="offerte-products">
-                                <span class="form-label" id="{{ id }}-label">{{ display }} (verplicht)</span>
+                                <span class="form-label" id="{{ id }}-label">{{ trans :key="display" }} {{ trans key="(verplicht)" }}</span>
 
                                 <ul
                                     class="offerte-pills"
@@ -32,7 +32,7 @@
                             </div>
                         {{ else }}
                             <div class="form-field{{ if width == 50 }} form-field--half{{ /if }}">
-                                <label class="form-label" for="{{ id }}">{{ display }}</label>
+                                <label class="form-label" for="{{ id }}">{{ trans :key="display" }}</label>
                                 {{ if handle == "location" }}
                                     <div class="form-select-wrap">
                                         {{ field }}
@@ -41,7 +41,7 @@
                                 {{ elseif handle == "attachment" }}
                                     <div class="form-dropzone">
                                         {{ icon src="upload" class="size-7" }}
-                                        <span>Sleep een foto hierheen of klik om te uploaden</span>
+                                        <span>{{ trans key="Sleep een foto hierheen of klik om te uploaden" }}</span>
                                         {{ field }}
                                     </div>
                                 {{ elseif handle == "address" }}
@@ -62,15 +62,20 @@
     {{ /unless }}
     {{ if success }}
         <div class="offerte-success">
-            <h2>Je aanvraag is verstuurd</h2>
-            <p>
-                Een lokale expert bekijkt je vraag en neemt binnen twee werkdagen contact op. Ondertussen lees je op
-                onze nieuwspagina artikels over de keuzes waar je voor staat, geschreven vanuit wat onze installateurs
-                ter plaatse zien.
-            </p>
-            <a class="btn btn--primary" href="/nieuws">Naar nieuws</a>
+            <h2>{{ trans key="Je aanvraag is verstuurd" }}</h2>
+            {{ if site:handle == 'nl' }}
+                <p>
+                    Een lokale expert bekijkt je vraag en neemt binnen twee werkdagen contact op. Ondertussen lees je
+                    op onze nieuwspagina artikels over de keuzes waar je voor staat, geschreven vanuit wat onze
+                    installateurs ter plaatse zien.
+                </p>
+                <a class="btn btn--primary" href="/nieuws">Naar nieuws</a>
+            {{ else }}
+                {{# Nieuws bestaat alleen in het Nederlands; fr/en krijgen de bevestiging zonder die doorverwijzing. #}}
+                <p>{{ trans key="Een lokale expert bekijkt je vraag en neemt binnen twee werkdagen contact op." }}</p>
+            {{ /if }}
         </div>
     {{ else }}
-        <button type="submit" class="btn btn--primary">Vraag offerte aan</button>
+        <button type="submit" class="btn btn--primary">{{ trans key="Vraag offerte aan" }}</button>
     {{ /if }}
 {{ /form:offerte }}

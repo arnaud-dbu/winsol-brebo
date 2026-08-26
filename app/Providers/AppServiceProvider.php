@@ -102,11 +102,16 @@ class AppServiceProvider extends ServiceProvider
         Sets::useIcons('icons', resource_path('svg/icons/regular'));
 
         // Het `range`-veld is een entries-veld en levert een id, geen slug. De route
-        // heeft de slug nodig, dus die wordt hier afgeleid.
+        // heeft de slug nodig, dus die wordt hier afgeleid. `value()` en niet
+        // `get()`: fr/en-localisaties dragen het veld niet zelf en erven het
+        // van hun origin — met `get()` kreeg elke vertaalde productpagina
+        // range-onbekend in zijn url.
         Collection::computed('products', 'range_slug', function (\Statamic\Contracts\Entries\Entry $entry): string {
-            $id = Arr::first(Arr::wrap($entry->get('range')));
+            $id = Arr::first(Arr::wrap($entry->value('range')));
+            $range = $id ? Entry::find($id) : null;
+            $range = $range?->in($entry->locale()) ?? $range;
 
-            return ($id ? Entry::find($id)?->slug() : null) ?? self::UNRESOLVED_RANGE_SLUG;
+            return $range?->slug() ?? self::UNRESOLVED_RANGE_SLUG;
         });
 
         Event::listen(BlueprintSaved::class, AddDefaultBlueprintTabs::class);
