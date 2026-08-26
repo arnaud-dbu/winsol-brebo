@@ -64,6 +64,12 @@ class HomePageTest extends TestCase
         );
     }
 
+    /**
+     * De over-ons-sectie wacht op een teamfoto die ter plaatse gemaakt wordt;
+     * het Winsol-beeld dat er stond mag niet gebruikt worden. Die ene plek
+     * staat bewust op de placeholder, zodat `winsol:image-gaps` ze oplijst;
+     * een dummyfoto zou dat verbergen.
+     */
     public function test_the_hero_and_the_blocks_carry_real_photos(): void
     {
         $home = $this->home();
@@ -75,8 +81,13 @@ class HomePageTest extends TestCase
 
         foreach ($images as $image) {
             $this->assertStringNotContainsString('dummy-images/', $image);
-            $this->assertStringNotContainsString('placeholder/', $image);
         }
+
+        $this->assertSame(
+            1,
+            $images->filter(fn ($image) => str_starts_with($image, 'placeholder/'))->count(),
+            'Het aantal open beeldplekken is veranderd.'
+        );
     }
 
     public function test_the_copy_speaks_in_the_je_form_without_em_dashes(): void

@@ -112,7 +112,7 @@ page_builder:
         new_tab: false
     enabled: true
     align: left
-    image: 20260512_winsolleuven_studiohan-41-scaled.jpg
+    image: placeholder/beeld-ontbreekt.jpg
 template: home
 image: 'aluminium-ramen-&-deuren_portes-&-fenetres_allura_gent_(0722)-(1).jpg'
 ---
