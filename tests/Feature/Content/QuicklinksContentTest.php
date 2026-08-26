@@ -17,8 +17,8 @@ class QuicklinksContentTest extends TestCase
                 'link_style' => 'primary',
             ],
             'vraag-brochure-aan' => [
-                'title' => 'Bekijk de brochure',
-                'label' => 'Open de brochure',
+                'title' => 'Ontvang de brochure',
+                'label' => 'Ontvang de brochure',
                 'link_style' => 'outline',
             ],
             'bezoek-een-showroom' => [

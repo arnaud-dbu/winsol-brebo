@@ -1,0 +1,53 @@
+title: Brochure
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: brochures
+            field:
+              type: brochure_checkboxes
+              display: 'Welke brochures wil je ontvangen?'
+              validate:
+                - required
+          -
+            handle: name
+            field:
+              type: text
+              display: Naam
+              placeholder: 'Voor- en achternaam'
+              width: 50
+              validate:
+                - required
+          -
+            handle: phone
+            field:
+              type: text
+              input_type: tel
+              display: Telefoon
+              placeholder: '+32 …'
+              width: 50
+              validate:
+                - required
+          -
+            handle: email
+            field:
+              type: text
+              input_type: email
+              display: E-mail
+              placeholder: 'naam@voorbeeld.be'
+              width: 50
+              validate:
+                - required
+                - email
+          -
+            handle: address
+            field:
+              type: text
+              display: Adres
+              placeholder: 'Straat en nummer, gemeente'
+              width: 50
+              validate:
+                - required

@@ -1,11 +1,10 @@
 {{#
-    `brochure` komt niet uit de quicklink zelf maar uit de pagina eromheen, en wordt expliciet doorgegeven door
-    `quicklinks` en `pageQuicklinks`. Een brochurekaart zonder brochure-asset rendert niets — dan is er niets te bekijken.
-
-    De `<li>` staat hier en niet op de aanroepplek, juist omdat deze kaart zichzelf kan onderdrukken. Stond de wrapper in
-    de lus van `quicklinks`/`pageQuicklinks`, dan bleef er bij een ontbrekende brochure een lege `<li>` staan — die telt
-    als gridcel, dus in twee kolommen kwam de derde kaart op een tweede rij te staan met een gat ernaast. Onzichtbaar
-    zolang elk product een pdf heeft, zichtbaar zodra er eentje ontbreekt.
+    `brochure` komt niet uit de quicklink zelf maar uit de pagina eromheen, en wordt expliciet doorgegeven door `quicklinks`
+    en `pageQuicklinks`. Een brochurekaart zonder brochure-asset rendert niets — dan is er niets aan te vragen. Het
+    li-element staat hier en niet op de aanroepplek, juist omdat deze kaart zichzelf kan onderdrukken. Stond de wrapper in
+    de lus van `quicklinks`/`pageQuicklinks`, dan bleef er bij een ontbrekende brochure een leeg li-element staan — dat telt
+    als gridcel, dus in twee kolommen kwam de derde kaart op een tweede rij te staan met een gat ernaast. Onzichtbaar zolang
+    elk product een pdf heeft, zichtbaar zodra er eentje ontbreekt.
 #}}
 {{ is_brochure = type == 'brochure' }}
 {{ if not is_brochure or brochure:url }}
@@ -21,12 +20,11 @@
                 <p>{{ text | entities }}</p>
             {{ /if }}
             {{ if is_brochure }}
+                {{# Gated (Jimmy, werkoverleg 21/24-08): niet de pdf zelf maar het brochureformulier, met deze pdf voorgeselecteerd. #}}
                 <a
-                    href="{{ brochure:url }}"
-                    target="_blank"
-                    rel="noopener"
+                    href="/brochures?brochure={{ brochure:path }}"
                     class="{{ link_style == 'outline' ? 'btn btn--outline' : 'btn btn--primary' }}">
-                    {{ link.0.label ?? 'Bekijk de brochure' }}
+                    {{ link.0.label ?? 'Ontvang de brochure' }}
                 </a>
             {{ elseif link }}
                 {{ partial:link :style="link_style == 'outline' ? 'btn btn--outline' : 'btn btn--primary'" }}

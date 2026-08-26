@@ -12,7 +12,7 @@ class QuicklinksTest extends SectionTestCase
      */
     private function withBrochure(): array
     {
-        return ['brochure' => ['url' => '/assets/brochures/pergola-so.pdf']];
+        return ['brochure' => ['url' => '/assets/brochures/pergola-so.pdf', 'path' => 'brochures/pergola-so.pdf']];
     }
 
     public function test_the_brochure_only_reaches_the_card_when_passed_explicitly(): void
@@ -23,10 +23,10 @@ class QuicklinksTest extends SectionTestCase
         // geeft hem alleen door via `:brochure="pdf"` op de aanroep — zonder
         // die doorgifte bestaat er nergens een variabele die `brochure` heet.
         $html = $this->render('{{ partial:quicklinks :brochure="pdf" }}', [
-            'pdf' => ['url' => '/assets/brochures/pergola-so.pdf'],
+            'pdf' => ['url' => '/assets/brochures/pergola-so.pdf', 'path' => 'brochures/pergola-so.pdf'],
         ]);
 
-        $this->assertStringContainsString('/assets/brochures/pergola-so.pdf', $html);
+        $this->assertStringContainsString('/brochures?brochure=brochures/pergola-so.pdf', $html);
     }
 
     public function test_it_renders_a_card_per_quicklink_under_the_hardcoded_title(): void
@@ -43,9 +43,9 @@ class QuicklinksTest extends SectionTestCase
         $html = $this->render('{{ partial:quicklinks }}', $this->withBrochure());
 
         $this->assertStringContainsString('Vraag offerte aan', $html);
-        $this->assertStringContainsString('Bekijk de brochure', $html);
+        $this->assertStringContainsString('Ontvang de brochure', $html);
         $this->assertStringContainsString('Bezoek een showroom', $html);
-        $this->assertStringContainsString('De volledige brochure met alle opties, maten en kleuren. Opent als pdf.', $html);
+        $this->assertStringContainsString('De volledige brochure met alle opties, maten en kleuren. Meteen in je mailbox.', $html);
         $this->assertStringContainsString('Plan een bezoek', $html);
     }
 
@@ -70,7 +70,7 @@ class QuicklinksTest extends SectionTestCase
         $html = $this->render('{{ partial:quicklinks }}', $this->withBrochure());
 
         $offerte = strpos($html, 'Vraag offerte aan');
-        $brochure = strpos($html, 'Bekijk de brochure');
+        $brochure = strpos($html, 'Ontvang de brochure');
         $showroom = strpos($html, 'Bezoek een showroom');
 
         $this->assertLessThan($brochure, $offerte, 'Offerte hoort eerst te staan');

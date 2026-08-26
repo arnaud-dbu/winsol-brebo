@@ -1,0 +1,70 @@
+{{#
+    Bevestigingsmail na een brochureaanvraag. Inline styles en tabellen omdat mailclients geen extern css laden; de drie
+    vervolgroutes staan in de volgorde die Jimmy bewust koos — showroom eerst, dat converteert het best.
+#}}
+<table
+    role="presentation"
+    width="100%"
+    cellpadding="0"
+    cellspacing="0"
+    style="font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; line-height: 1.6; font-size: 16px">
+    <tr>
+        <td align="center">
+            <table
+                role="presentation"
+                width="560"
+                cellpadding="0"
+                cellspacing="0"
+                style="max-width: 560px; width: 100%">
+                <tr>
+                    <td style="padding: 32px 24px">
+                        <p style="margin: 0 0 16px">Dag {{ name }},</p>
+
+                        <p style="margin: 0 0 16px">
+                            Bedankt voor je interesse. Dit zijn de brochures die je aanvroeg:
+                        </p>
+
+                        <ul style="margin: 0 0 24px; padding-left: 20px">
+                            {{ brochures }}
+                                <li style="margin-bottom: 8px">
+                                    <a href="{{ url }}" style="color: #1a1a1a">{{ label }} (pdf)</a>
+                                </li>
+                            {{ /brochures }}
+                        </ul>
+
+                        <p style="margin: 0 0 12px"><strong>Klaar voor de volgende stap?</strong></p>
+
+                        <ol style="margin: 0 0 24px; padding-left: 20px">
+                            <li style="margin-bottom: 12px">
+                                <strong>
+                                    <a href="{{ config:app:url }}/contact" style="color: #1a1a1a">
+                                        Bezoek een showroom
+                                    </a>
+                                </strong>
+                                — bekijk de mogelijkheden ter plaatse in Dilbeek, Sint-Pieters-Leeuw of Aartselaar.
+                            </li>
+                            <li style="margin-bottom: 12px">
+                                <a href="{{ config:app:url }}/contact" style="color: #1a1a1a">
+                                    Vraag een bezoek van een vertegenwoordiger
+                                </a>
+                                — persoonlijk advies bij jou thuis.
+                            </li>
+                            <li style="margin-bottom: 12px">
+                                <a href="{{ config:app:url }}/offerte" style="color: #1a1a1a">
+                                    Vraag een vrijblijvende offerte
+                                </a>
+                                — enkele korte vragen en je kent je richtprijs.
+                            </li>
+                        </ol>
+
+                        <p style="margin: 0">
+                            Tot binnenkort,
+                            <br />
+                            Winsol Brebo
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

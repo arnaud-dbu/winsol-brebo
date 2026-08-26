@@ -1,0 +1,13 @@
+title: Brochure
+email:
+  -
+    id: brochure-delivery
+    to: '{{ email }}'
+    subject: 'Je Winsol-brochures liggen klaar'
+    html: emails/brochure
+    text: emails/brochure_text
+  -
+    id: brochure-notification
+    to: hello@stuw.agency
+    reply_to: '{{ email }}'
+    subject: 'Nieuwe brochureaanvraag van {{ name }}'
