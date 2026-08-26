@@ -24,7 +24,7 @@ value_proposition:
       enabled: true
       icon: flag
       title: 'Belgisch merk'
-      text: 'Producten van Winsol, 145 jaar Belgisch vakmanschap.'
+      text: 'Producten van Winsol, 150 jaar Belgisch vakmanschap.'
     -
       id: vp-maatwerk
       type: value_proposition

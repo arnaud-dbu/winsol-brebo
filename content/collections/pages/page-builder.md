@@ -300,7 +300,7 @@ page_builder:
         id: grid01
         type: item
         title: 'Wij werken met Winsol'
-        text: 'Onze producten komen van Winsol, een Belgisch merk met 145 jaar vakmanschap. Het merk maakt en ontwikkelt; wij zijn de lokale verkooppunten die adviseren, plaatsen en u na de verkoop verderhelpen.'
+        text: 'Onze producten komen van Winsol, een Belgisch merk met 150 jaar vakmanschap. Het merk maakt en ontwikkelt; wij zijn de lokale verkooppunten die adviseren, plaatsen en u na de verkoop verderhelpen.'
         link:
           -
             id: A0Gwv5ma
