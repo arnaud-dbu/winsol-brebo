@@ -9,6 +9,7 @@ tabs:
             handle: title
             field:
               type: text
+              required: true
               display: Titel
               instructions: 'Product en plaats, bv. "Pergola SO! in Drongen". Dit is het bijschrift op de kaart.'
               validate:
@@ -44,3 +45,17 @@ tabs:
               type: slug
               localizable: true
               validate: 'max:200'
+  preview:
+    display: Preview
+    sections:
+      -
+        fields:
+          -
+            import: preview
+  seo:
+    display: SEO
+    sections:
+      -
+        fields:
+          -
+            import: seo

@@ -3,14 +3,16 @@ icon: collections
 template: articles/show
 layout: layout
 mount: c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a03
+taxonomies:
+  - themes
 revisions: false
 route: '/nieuws/{slug}'
 date: true
 sort_dir: desc
-taxonomies:
-  - themes
 preview_targets:
   -
     label: Entry
     url: '{permalink}'
     refresh: true
+sites:
+  - nl

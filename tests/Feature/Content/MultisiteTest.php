@@ -8,13 +8,21 @@ use Tests\TestCase;
 
 class MultisiteTest extends TestCase
 {
-    public function test_there_is_exactly_one_site_and_it_is_dutch(): void
+    /**
+     * Drie talen sinds 26-08 (werkoverleg Jimmy): Nederlands op de root,
+     * Frans onder /fr en Engels onder /en, met Nederlands als default.
+     */
+    public function test_there_are_three_sites_with_dutch_as_default(): void
     {
         $sites = Site::all();
 
-        $this->assertCount(1, $sites);
+        $this->assertCount(3, $sites);
         $this->assertSame('nl', Site::default()->handle());
         $this->assertSame('nl_BE', Site::default()->locale());
+        $this->assertSame('/fr', Site::get('fr')->url());
+        $this->assertSame('fr_BE', Site::get('fr')->locale());
+        $this->assertSame('/en', Site::get('en')->url());
+        $this->assertSame('en_GB', Site::get('en')->locale());
     }
 
     public function test_existing_entries_still_resolve_after_the_conversion(): void

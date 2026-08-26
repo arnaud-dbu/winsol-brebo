@@ -1,11 +1,3 @@
-# admin:
-#   title: Administrator
-#   permissions:
-#     - super
-
-# Voor de koppelende partij op staging: genoeg om te zien waar hun via de API
-# aangemaakte content landt, en niets meer. Bewust geen `super`, want dat geeft
-# ook het recht om content en gebruikers te verwijderen.
 inspace:
   title: Inspace
   permissions:
@@ -15,3 +7,4 @@ inspace:
     - 'view themes terms'
     - 'view assets assets'
     - 'upload assets assets'
+    - 'access nl site'

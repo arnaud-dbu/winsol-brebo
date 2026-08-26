@@ -20,13 +20,18 @@ class NieuwsPageTest extends TestCase
         $this->assertSame('articles/index', $page->get('template'));
     }
 
-    public function test_realisaties_is_gone(): void
+    /**
+     * De boilerplate-realisatiespagina ging er destijds uit; op 26-08 kwam
+     * er een echte voor terug (werkoverleg Jimmy). Zie RealisatiesPageTest
+     * voor de inhoud; hier alleen dat hij bestaat en rendert.
+     */
+    public function test_realisaties_is_back_as_a_real_page(): void
     {
-        $this->assertNull(
+        $this->assertNotNull(
             Entry::query()->where('collection', 'pages')->where('slug', 'realisaties')->first()
         );
 
-        $this->get('/realisaties')->assertNotFound();
+        $this->get('/realisaties')->assertOk();
     }
 
     public function test_the_collection_is_mounted_on_this_page(): void
@@ -41,7 +46,6 @@ class NieuwsPageTest extends TestCase
         $html = $this->get('/')->getContent();
 
         $this->assertStringContainsString('href="/nieuws"', $html);
-        $this->assertStringNotContainsString('href="/realisaties"', $html);
     }
 
     public function test_the_dead_boilerplate_mount_is_out_of_the_page_tree(): void

@@ -2,3 +2,7 @@ title: Products
 template: products/show
 revisions: false
 route: '/aanbod/{{ range_slug }}/{{ slug }}'
+sites:
+  - nl
+  - fr
+  - en

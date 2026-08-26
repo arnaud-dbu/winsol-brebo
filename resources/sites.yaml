@@ -2,3 +2,14 @@ nl:
   name: 'Winsol Brebo'
   url: /
   locale: nl_BE
+  lang: nl
+fr:
+  name: 'Winsol Brebo'
+  url: /fr
+  locale: fr_BE
+  lang: fr
+en:
+  name: 'Winsol Brebo'
+  url: /en
+  locale: en_GB
+  lang: en
