@@ -22,7 +22,7 @@
                     </li>
                 {{ /collection:locations }}
             </ul>
-            {{ if globals:contact:mobile or globals:contact:phone or globals:contact:email }}
+            {{ if globals:contact:mobile or globals:contact:phone_brussels or globals:contact:phone_antwerp or globals:contact:email }}
                 <ul
                     class="flex flex-col gap-4 rounded-md bg-white px-6 py-5 md:flex-row md:items-center md:justify-center md:gap-10 lg:gap-28"
                     data-contact-bar>
@@ -42,16 +42,36 @@
                             </a>
                         </li>
                     {{ /if }}
-                    {{ if globals:contact:phone }}
+                    {{# Twee gescheiden centrales (Jimmy): 02 = Brussel links, 03 = Antwerpen rechts. Klanten bellen nooit de andere regio. #}}
+                    {{ if globals:contact:phone_brussels }}
                         <li>
                             <a
                                 class="group flex items-center gap-3 text-base font-semibold"
-                                href="tel:{{ globals:contact:phone | replace(' ', '') | entities }}">
+                                href="tel:{{ globals:contact:phone_brussels | replace(' ', '') | entities }}">
                                 <span
                                     class="contact-circle bg-accent text-black group-hover:bg-black group-hover:text-white group-focus-visible:bg-black group-focus-visible:text-white">
                                     {{ icon src="phone" aria-hidden="true" class="size-6" }}
                                 </span>
-                                {{ globals:contact:phone | entities }}
+                                <span class="flex flex-col">
+                                    <span class="text-sm font-normal text-black/60">{{ trans:site.contact_region_brussels }}</span>
+                                    {{ globals:contact:phone_brussels | entities }}
+                                </span>
+                            </a>
+                        </li>
+                    {{ /if }}
+                    {{ if globals:contact:phone_antwerp }}
+                        <li>
+                            <a
+                                class="group flex items-center gap-3 text-base font-semibold"
+                                href="tel:{{ globals:contact:phone_antwerp | replace(' ', '') | entities }}">
+                                <span
+                                    class="contact-circle bg-accent text-black group-hover:bg-black group-hover:text-white group-focus-visible:bg-black group-focus-visible:text-white">
+                                    {{ icon src="phone" aria-hidden="true" class="size-6" }}
+                                </span>
+                                <span class="flex flex-col">
+                                    <span class="text-sm font-normal text-black/60">{{ trans:site.contact_region_antwerp }}</span>
+                                    {{ globals:contact:phone_antwerp | entities }}
+                                </span>
                             </a>
                         </li>
                     {{ /if }}

@@ -8,17 +8,18 @@ use Tests\TestCase;
 class ContactGlobalsTest extends TestCase
 {
     /**
-     * De waarden uit het ontwerp waren onbetrouwbaar (`03 000 00 00`,
-     * `info@winsolbrebo.be`); deze komen van winsoldilbeek.be. Dilbeek is het
-     * hoofdverkooppunt, dus zijn nummer en adres staan in de globals. De twee
-     * andere filialen hebben een eigen nummer en staan in de
-     * locations-collectie.
+     * Twee gescheiden centrales (Jimmy, werkoverleg 21/24-08): wie het
+     * Brusselse 02-nummer belt komt bij de Brusselse verkoper terecht, wie
+     * het Antwerpse 03-nummer belt bij de Antwerpse. Beide nummers zijn door
+     * Quinten aangeleverd op 26-08; het mailadres komt van winsoldilbeek.be
+     * (het hoofdverkooppunt).
      */
-    public function test_the_contact_details_come_from_the_real_site(): void
+    public function test_the_contact_details_carry_both_regional_numbers(): void
     {
         $contact = GlobalSet::findByHandle('globals')->inDefaultSite()->get('contact');
 
-        $this->assertSame('+32 2 308 02 26', $contact['phone']);
+        $this->assertSame('+32 2 308 02 26', $contact['phone_brussels']);
+        $this->assertSame('+32 3 880 85 65', $contact['phone_antwerp']);
         $this->assertSame('info@winsoldilbeek.be', $contact['email']);
     }
 

@@ -26,7 +26,9 @@ tabs:
               keys:
                 - key: mobile
                   value: null
-                - key: phone
+                - key: phone_brussels
+                  value: null
+                - key: phone_antwerp
                   value: null
                 - key: email
                   value: null
