@@ -10,28 +10,36 @@ tabs:
             handle: product
             field:
               type: text
-              display: 'Welk product gaat het over?'
+              display: 'Over welk product gaat het?'
               placeholder: 'bv. Pergola SO!, rolluik, raam…'
               width: 50
+              validate:
+                - required
           -
             handle: installed
             field:
               type: text
-              display: 'Ongeveer wanneer geplaatst?'
+              display: 'Wanneer werd het ongeveer geplaatst?'
               placeholder: 'bv. 2021'
               width: 50
+              validate:
+                - required
           -
             handle: problem
             field:
               type: textarea
               display: 'Wat is er aan de hand?'
               placeholder: 'Beschrijf het probleem zo concreet mogelijk.'
+              validate:
+                - required
           -
             handle: branch
             field:
               type: select
               display: 'Naar welk filiaal?'
               placeholder: 'Kies een filiaal…'
+              validate:
+                - required
           -
             handle: photo
             field:
@@ -64,6 +72,9 @@ tabs:
               input_type: email
               display: E-mail
               placeholder: 'naam@voorbeeld.be'
+              validate:
+                - required
+                - email
           -
             handle: name
             field:
@@ -71,6 +82,8 @@ tabs:
               display: Naam
               placeholder: 'Voor- en achternaam'
               width: 50
+              validate:
+                - required
           -
             handle: phone
             field:
@@ -78,6 +91,8 @@ tabs:
               display: Telefoon
               placeholder: '+32 …'
               width: 50
+              validate:
+                - required
           -
             handle: address
             field:

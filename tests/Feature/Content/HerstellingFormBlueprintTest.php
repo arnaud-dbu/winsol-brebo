@@ -22,6 +22,24 @@ class HerstellingFormBlueprintTest extends TestCase
     }
 
     /**
+     * Alles verplicht behalve de uploads (Quinten, 26-08). De uploads
+     * blijven optioneel: niet iedereen heeft de factuur of een bruikbare
+     * foto bij de hand, en een verplichte bijlage blokkeert de aanvraag.
+     */
+    public function test_every_field_but_the_uploads_is_required(): void
+    {
+        $fields = Form::find('herstelling')->blueprint()->fields()->all();
+
+        foreach (['product', 'installed', 'problem', 'branch', 'email', 'name', 'phone', 'address'] as $handle) {
+            $this->assertTrue($fields->get($handle)->isRequired(), "{$handle} hoort verplicht te zijn.");
+        }
+
+        foreach (['photo', 'invoice'] as $handle) {
+            $this->assertFalse($fields->get($handle)->isRequired(), "{$handle} hoort optioneel te zijn.");
+        }
+    }
+
+    /**
      * Probleemfoto's en zeker facturen (naam, adres, aankoopbedrag) horen
      * niet op een raadbare publieke URL. Zie de gelijknamige test op het
      * offerteformulier voor waarom `private()` de eigenlijke garantie is.
