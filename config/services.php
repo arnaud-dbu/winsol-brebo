@@ -42,4 +42,10 @@ return [
         'threshold' => env('RECAPTCHA_V3_THRESHOLD', 0.5),
     ],
 
+    'google' => [
+        // Client-side key voor Places Autocomplete (New); hoort in Google
+        // Cloud op referer-restrictie te staan omdat hij in de HTML zichtbaar is.
+        'maps_key' => env('GOOGLE_MAPS_API_KEY'),
+    ],
+
 ];

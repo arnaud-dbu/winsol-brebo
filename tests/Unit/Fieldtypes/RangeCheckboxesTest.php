@@ -26,7 +26,7 @@ class RangeCheckboxesTest extends TestCase
             'airco' => 'Airco',
             'rolluiken' => 'Rolluiken',
             'zonwering' => 'Zonwering',
-            'terrasoverkapping' => "Terrasoverkapping",
+            'terrasoverkapping' => 'Terrasoverkapping',
             'garagepoorten' => 'Garagepoorten',
             'somfy-smart-home' => 'Somfy Smart Home',
         ], $field->fieldtype()->extraRenderableFieldData()['options']);
@@ -58,7 +58,7 @@ class RangeCheckboxesTest extends TestCase
 
         $this->assertFalse(
             Validator::make(
-                ['products' => ['rolluiken', 'airco'], 'name' => 'Jan', 'email' => 'jan@voorbeeld.be'],
+                ['products' => ['rolluiken', 'airco'], 'name' => 'Jan', 'email' => 'jan@voorbeeld.be', 'address' => 'Teststraat 1, 1700 Dilbeek'],
                 $rules,
             )->fails(),
             'Twee echte slugs horen door te komen.',

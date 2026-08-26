@@ -47,12 +47,14 @@ tabs:
                 - required
                 - email
           -
-            handle: postal_code
+            handle: address
             field:
               type: text
-              display: Postcode
-              placeholder: 'bv. 1700'
+              display: Adres
+              placeholder: 'Straat en nummer, gemeente'
               width: 50
+              validate:
+                - required
           -
             handle: project
             field:

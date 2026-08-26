@@ -27,6 +27,8 @@
                                 <span>Sleep een foto hierheen of klik om te uploaden</span>
                                 {{ field }}
                             </div>
+                        {{ elseif handle == "address" }}
+                            {{ partial:addressField }}
                         {{ else }}
                             {{ field }}
                         {{ /if }}

@@ -21,18 +21,20 @@ class OfferteFormBlueprintTest extends TestCase
     }
 
     /**
-     * Naam, e-mail en minstens een product zijn verplicht; de andere vijf
-     * niet. Verhardt de drempel per ongeluk, dan kost dat conversie.
+     * Naam, e-mail, adres en minstens een product zijn verplicht; de andere
+     * vier niet. Het adres staat er sinds het werkoverleg van 21/24-08 bij:
+     * zonder adres is een lead maar half en moet hij manueel verrijkt worden.
+     * Verhardt de drempel verder per ongeluk, dan kost dat conversie.
      */
-    public function test_exactly_three_fields_are_required(): void
+    public function test_exactly_four_fields_are_required(): void
     {
         $fields = Form::find('offerte')->blueprint()->fields()->all();
 
-        foreach (['products', 'name', 'email'] as $handle) {
+        foreach (['products', 'name', 'email', 'address'] as $handle) {
             $this->assertTrue($fields->get($handle)->isRequired(), "{$handle} hoort verplicht te zijn.");
         }
 
-        foreach (['location', 'phone', 'postal_code', 'project', 'attachment'] as $handle) {
+        foreach (['location', 'phone', 'project', 'attachment'] as $handle) {
             $this->assertFalse($fields->get($handle)->isRequired(), "{$handle} hoort optioneel te zijn.");
         }
     }

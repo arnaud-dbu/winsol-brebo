@@ -11,7 +11,7 @@ class OfferteFormTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:offerteForm }}');
 
-        foreach (['location', 'name', 'phone', 'email', 'postal_code', 'project', 'attachment'] as $handle) {
+        foreach (['location', 'name', 'phone', 'email', 'address', 'project', 'attachment'] as $handle) {
             $this->assertStringContainsString('name="'.$handle.'"', $html, "Veld {$handle} ontbreekt.");
         }
 
@@ -45,7 +45,7 @@ class OfferteFormTest extends SectionTestCase
     }
 
     /**
-     * name+phone en email+postal_code staan in het ontwerp naast elkaar. De
+     * name+phone en email+address staan in het ontwerp naast elkaar. De
      * klasse volgt uit `width: 50` in het blueprint, niet uit het template.
      */
     public function test_marks_exactly_the_four_paired_fields_as_half_width(): void
@@ -53,6 +53,25 @@ class OfferteFormTest extends SectionTestCase
         $html = $this->render('{{ partial:offerteForm }}');
 
         $this->assertSame(4, substr_count($html, 'form-field--half'));
+    }
+
+    /**
+     * Het adresveld is de eigen combobox uit partials/addressField, niet
+     * Statamic's kale text-input: mét autocomplete-component, suggestielijst
+     * en required-attribuut. Valt de partial-aanroep weg, dan rendert het
+     * veld stil als gewoon tekstveld en is de Google-laag geruisloos weg.
+     */
+    public function test_the_address_field_is_the_autocomplete_combobox(): void
+    {
+        $html = $this->render('{{ partial:offerteForm }}');
+
+        $addressInput = strpos($html, 'name="address"');
+
+        $this->assertNotFalse($addressInput, 'Het adresveld ontbreekt.');
+        $this->assertStringContainsString('addressAutocomplete(', $html);
+        $this->assertStringContainsString('role="combobox"', $html);
+        $this->assertStringContainsString('role="listbox"', $html);
+        $this->assertMatchesRegularExpression('/name="address"[^>]*required/', $html);
     }
 
     /**

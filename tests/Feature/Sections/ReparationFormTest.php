@@ -15,7 +15,7 @@ class ReparationFormTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:reparationForm }}');
 
-        foreach (['product', 'installed', 'problem', 'branch', 'photo', 'email', 'name', 'phone'] as $handle) {
+        foreach (['product', 'installed', 'problem', 'branch', 'photo', 'email', 'name', 'phone', 'address'] as $handle) {
             $this->assertStringContainsString('name="'.$handle.'"', $html, "Veld {$handle} ontbreekt.");
         }
     }

@@ -64,3 +64,11 @@ tabs:
               display: Telefoon
               placeholder: '+32 …'
               width: 50
+          -
+            handle: address
+            field:
+              type: text
+              display: Adres
+              placeholder: 'Straat en nummer, gemeente'
+              validate:
+                - required

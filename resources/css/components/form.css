@@ -105,3 +105,24 @@
 .form-error {
     @apply text-sm text-red-600;
 }
+
+.form-autocomplete {
+    @apply relative;
+}
+
+.form-autocomplete-list {
+    @apply absolute inset-x-0 top-full z-20 mt-2 overflow-hidden rounded-md border border-black/10 bg-white py-2 shadow-lg;
+}
+
+.form-autocomplete-list button {
+    @apply w-full px-6 py-2 text-left text-black;
+}
+
+.form-autocomplete-list button:hover,
+.form-autocomplete-list button.is-active {
+    @apply bg-black/3;
+}
+
+.form-autocomplete-attribution {
+    @apply px-6 pt-2 text-xs text-black/40;
+}
