@@ -30,6 +30,10 @@ class BrochureFormBlueprintTest extends TestCase
         foreach (['brochures', 'name', 'phone', 'email', 'address'] as $handle) {
             $this->assertTrue($fields->get($handle)->isRequired(), "{$handle} hoort verplicht te zijn.");
         }
+
+        // `accepted` in plaats van `required`: de regel eist dat de checkbox
+        // ook echt aangevinkt is, niet enkel dat het veld meegepost wordt.
+        $this->assertContains('accepted', $fields->get('gdpr')->get('validate'), 'gdpr hoort accepted te zijn.');
     }
 
     /**

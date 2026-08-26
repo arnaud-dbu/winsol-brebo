@@ -59,6 +59,7 @@ class BrochureCheckboxesTest extends TestCase
                     'email' => 'jan@voorbeeld.be',
                     'phone' => '+32 470 00 00 00',
                     'address' => 'Teststraat 1, 1700 Dilbeek',
+                    'gdpr' => '1',
                 ],
                 $rules,
             )->fails(),

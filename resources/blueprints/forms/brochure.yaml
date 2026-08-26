@@ -51,3 +51,10 @@ tabs:
               width: 50
               validate:
                 - required
+          -
+            handle: gdpr
+            field:
+              type: toggle
+              display: 'Akkoord met de verwerking van mijn gegevens'
+              validate:
+                - accepted

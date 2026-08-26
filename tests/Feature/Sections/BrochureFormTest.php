@@ -34,6 +34,19 @@ class BrochureFormTest extends SectionTestCase
         $this->assertStringContainsString('role="combobox"', $html);
     }
 
+    /**
+     * Zelfde eis als op winsol.eu: geen brochure zonder expliciet akkoord
+     * met de gegevensverwerking, met de link naar het privacybeleid erbij.
+     */
+    public function test_carries_a_required_gdpr_checkbox_linking_the_privacy_policy(): void
+    {
+        $html = $this->render('{{ partial:brochureForm }}');
+
+        $this->assertMatchesRegularExpression('/name="gdpr"[^>]*required/', $html);
+        $this->assertStringContainsString('href="/privacy-policy"', $html);
+        $this->assertStringContainsString('privacybeleid', $html);
+    }
+
     public function test_carries_a_honeypot(): void
     {
         $html = $this->render('{{ partial:brochureForm }}');
