@@ -56,7 +56,8 @@ class ServiceNavTest extends SectionTestCase
         // De pills zijn sinds a257ed5 gewone `btn--outline`-knoppen: die utility
         // kreeg in 95da753 `border-black/20`, precies de lichte rand waarvoor
         // section-nav.css eerder een eigen klasse aanhield.
-        $this->assertSame(1, substr_count($html, 'class="btn--outline btn"'));
+        // Prettier sorteert de utilities: btn voor btn--outline.
+        $this->assertSame(1, substr_count($html, 'class="btn btn--outline"'));
         $this->assertStringNotContainsString('href="#"', $html);
     }
 

@@ -27,7 +27,7 @@ class FooterTest extends SectionTestCase
         // haalde de dubbel weg; wat blijft is de homelink met zijn toegankelijke
         // naam en het logo erin.
         $this->assertMatchesRegularExpression(
-            '~<a href="/"[^>]*>\s*<span class="sr-only">Home Link</span>\s*<svg~',
+            '~<a href="/"[^>]*>\s*<span class="sr-only">Home</span>\s*<svg~',
             $html
         );
 

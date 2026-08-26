@@ -2,7 +2,7 @@
     <div class="container flex flex-col gap-10">
         <div class="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
             <div class="flex flex-col items-start gap-5">
-                <a href="{{ site:url }}" class="flex flex-col items-start gap-2">
+                <a href="{{ site:url ? site:url : '/' }}" class="flex flex-col items-start gap-2">
                     <span class="sr-only">Home</span>
                     {{ svg src="logo-inverse" class="w-3/4 h-auto max-w-xs xl *:max-w-lg xl:w-full" }}
                 </a>
