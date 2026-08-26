@@ -121,14 +121,14 @@ page_builder:
         content:
           -
             type: text
-            text: 'Un éclairage led dimmable dans les poutres, un ciel étoilé led pour le soir, un système audio Bluetooth et des points de charge USB et USB-C. Une prise 230 V est intégrée dans le poteau de votre choix : plus besoin de tirer une rallonge à travers la terrasse.'
+            text: 'Un éclairage LED dimmable dans les poutres, un ciel étoilé LED pour le soir, un système audio Bluetooth et des points de charge USB et USB-C. Une prise 230 V est intégrée dans le poteau de votre choix : plus besoin de tirer une rallonge à travers la terrasse.'
     media: image
     image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-oostkamp-(39).jpg
     features:
       -
         id: so-c1
         type: feature
-        label: 'Led dimmable et ciel étoilé'
+        label: 'LED dimmable et ciel étoilé'
         enabled: true
       -
         id: so-c2

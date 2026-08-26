@@ -2,7 +2,7 @@
 id: 884ef8fe-db19-4798-9f12-d0805f1dfe32
 origin: 9b4f52b1-0003-4c2d-8e6f-4a5b6c7d9e03
 title: 'PVC windows'
-text: 'Superbly insulating windows that need hardly any maintenance, in a wide range of colours and woodlook finishes.'
+text: 'Superbly insulating windows that need hardly any maintenance, in a wide range of colours and wood-effect finishes.'
 meta_title: 'Made-to-measure PVC windows'
 meta_description: 'PVC windows from Winsol, C+70 range: an insulation value up to 1.1 W/m²K, burglar resistance up to RC2 and hardly any maintenance. Fitted to measure.'
 page_builder:
@@ -44,7 +44,7 @@ page_builder:
       -
         id: pvr-f3
         type: feature
-        label: 'Wide range of colours and woodlook'
+        label: 'Wide range of colours and wood-effect finishes'
         enabled: true
     background: false
     enabled: true

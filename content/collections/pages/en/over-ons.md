@@ -4,12 +4,12 @@ origin: 559b2b7e-a511-409c-9eec-51d314cec648
 title: 'About us'
 text: 'Getting your home ready for the future together: energy-conscious, comfortable and with craftsmanship from your own neighbourhood.'
 meta_title: 'About us'
-meta_description: 'Three local Winsol sales points with a shared approach and their own installation team. Honest advice, made-to-measure work and aftercare from people in your neighbourhood.'
+meta_description: 'Three local Winsol showrooms with a shared approach and their own installation team. Honest advice, made-to-measure work and aftercare from people in your neighbourhood.'
 page_builder:
   -
     id: overonsverhaal
     type: text_image
-    title: 'Three local sales points, one approach'
+    title: 'Three local showrooms, one approach'
     text:
       -
         type: paragraph
@@ -18,7 +18,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Winsol Dilbeek, Sint-Pieters-Leeuw and Aartselaar are three independent, local sales points. Not an anonymous branch of a chain, but people from your neighbourhood who know your home and think it through with you, from the first advice until long after installation.'
+            text: 'Winsol Dilbeek, Sint-Pieters-Leeuw and Aartselaar are three independent, local showrooms. Not an anonymous branch of a chain, but people from your neighbourhood who know your home and think it through with you, from your very first consultation until long after installation.'
       -
         type: paragraph
         attrs:
@@ -26,7 +26,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'The three sales points share one way of working and one installation team. Whether you call in at Dilbeek, Sint-Pieters-Leeuw or Aartselaar, you get the same advice and the same craftsmen at your door.'
+            text: 'The three showrooms share one way of working and one installation team. Whether you call in at Dilbeek, Sint-Pieters-Leeuw or Aartselaar, you get the same advice and the same craftsmen at your door.'
     background: true
     media: image
     image: winsol-2.webp
@@ -44,7 +44,7 @@ page_builder:
         enabled: true
         icon: map-pin
         title: 'Locally rooted'
-        text: 'Three neighbourhood sales points, with personal and approachable contact.'
+        text: 'Three neighbourhood showrooms, with personal and approachable contact.'
       -
         id: overonsf2
         type: feature
@@ -77,7 +77,7 @@ page_builder:
         type: item
         enabled: true
         title: 'We work with Winsol'
-        text: 'Our products come from Winsol, a Belgian brand with 150 years of craftsmanship. The brand develops and manufactures; we are the local sales points that advise, install and keep helping you after the sale.'
+        text: 'Our products come from Winsol, a Belgian brand with 150 years of craftsmanship. The brand develops and manufactures; we are the local showrooms that advise, install and keep helping you after the sale.'
         link:
           -
             id: overonsgridlink1

@@ -6,7 +6,7 @@ opening_hours:
     day: Lundi
     time: 'Sur rendez-vous'
   -
-    day: 'Ma - Ve'
+    day: 'Mar - Ven'
     time: '10:30 - 17:30'
   -
     day: Samedi

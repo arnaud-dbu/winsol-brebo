@@ -27,7 +27,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Having the shutter entirely on the outside also brings an insulation gain. A window with a surface-mounted roller shutter insulates up to 32 % better than the same window without one, precisely because no holes are needed in the interior wall for heat to escape through.'
+            text: 'Having the shutter entirely on the outside also brings an insulation gain. A window with a surface-mounted roller shutter insulates up to 32% better than the same window without one, precisely because no holes are needed in the interior wall for heat to escape through.'
     media: image
     image: 'rolluiken/OneDrive_2_31-07-2026/voorzetrolluiken-volets-roulants-mini-caisson-1.jpg'
     features:
@@ -44,7 +44,7 @@ page_builder:
       -
         id: vzr-f3
         type: feature
-        label: 'Up to 32 % better-insulating window'
+        label: 'Up to 32% better-insulating window'
         enabled: true
     background: false
     enabled: true

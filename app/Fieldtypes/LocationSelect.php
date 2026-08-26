@@ -20,7 +20,7 @@ class LocationSelect extends Select
     protected function getOptions(): array
     {
         return $this->locations()
-            ->map(fn ($entry) => ['value' => $entry->slug(), 'label' => $entry->get('name')])
+            ->map(fn ($entry) => ['value' => $entry->slug(), 'label' => $entry->value('name')])
             ->values()
             ->all();
     }

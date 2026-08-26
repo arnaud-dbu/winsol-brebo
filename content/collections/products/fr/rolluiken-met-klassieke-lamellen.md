@@ -69,7 +69,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Si vous ne le souhaitez pas partout, il existe des lames à fentes de lumière. Vous choisissez vous-même si vous en voulez et la taille de l''ouverture. Pour une pièce de vie, c''est souvent le meilleur choix ; pour une chambre d''enfant, généralement pas.'
+            text: 'Si vous ne le souhaitez pas partout, il existe des lames à fentes de lumière. Vous choisissez d''en prévoir ou non, ainsi que la taille de l''ouverture. Pour une pièce de vie, c''est souvent le meilleur choix ; pour une chambre d''enfant, généralement pas.'
     media: image
     image: 'rolluiken/2019 onbekend, Izegem/realisatie-realisation-rolluiken-solar-volets-solar-(10).jpg'
     features:

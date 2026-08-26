@@ -66,7 +66,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'The pergola with rotating louvres that makes your terrace usable all year round. Sun, shade or shelter from the rain, with a tap on your smartphone.'
+            text: 'The pergola with rotating louvres that makes your patio usable all year round. Sun, shade or shelter from the rain, with a tap on your smartphone.'
     link:
       -
         id: homekijkerlink
@@ -98,8 +98,8 @@ page_builder:
     id: homeoverons
     type: cta
     overline: 'About us'
-    title: 'Local sales points, our own specialists'
-    text: 'Not an anonymous chain, but three local Winsol sales points, each with its own permanent team. We''re there for you from the very first advice until long after installation.'
+    title: 'Local showrooms, our own specialists'
+    text: 'Not an anonymous chain, but three local Winsol showrooms, each with its own permanent team. We''re there for you from your very first consultation until long after installation.'
     link:
       -
         id: homeoveronslink

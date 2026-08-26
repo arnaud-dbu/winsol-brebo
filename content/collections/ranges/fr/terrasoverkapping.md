@@ -2,7 +2,7 @@
 id: 46aae044-d876-40ab-b260-8af580038d2a
 origin: 8c2e41a0-0001-4a1b-9c7d-3e5f6a7b8c01
 title: 'Couverture de terrasse'
-short_description: 'Des lames orientables à la toile rétractable. Une couverture qui rend votre terrasse utilisable toute l''année.'
+short_description: 'De la lame orientable à la toile rétractable. Une couverture qui rend votre terrasse utilisable toute l''année.'
 long_description: 'Envie de rêvasser à l''ombre sous un soleil brûlant, de vous abriter du vent ou de rester au sec en savourant un verre sur votre terrasse ? Avec la bonne couverture de terrasse, votre espace extérieur devient un endroit où vous vous installez toute l''année. Nous prenons les mesures, vous conseillons sur le type de toit qui convient à votre habitation, et assurons la pose avec notre propre équipe.'
 meta_title: 'Couverture de terrasse sur mesure'
 meta_description: 'Couvertures de terrasse et pergolas de Winsol : lames orientables, toile rétractable ou toit vitré. Conseil, fabrication sur mesure et pose par votre équipe Winsol locale.'

@@ -34,7 +34,7 @@ page_builder:
       -
         id: scr-w1
         type: feature
-        label: 'Light transmission of 1, 5 or 10 %'
+        label: 'Light transmission of 1, 5 or 10%'
         enabled: true
       -
         id: scr-w2
@@ -112,7 +112,7 @@ page_builder:
       -
         id: scr-s4
         key: 'Light transmission'
-        value: '1, 5 or 10 % depending on the fabric'
+        value: '1, 5 or 10% depending on the fabric'
       -
         id: scr-s5
         key: 'Wind resistance'

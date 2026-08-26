@@ -120,6 +120,6 @@ page_builder:
       -
         id: kla-s6
         key: Installation
-        value: 'Front-mounted, built-in or surface-mounted roller shutter'
+        value: 'Surface-mounted, built-in or window-mounted roller shutter'
     enabled: true
 ---

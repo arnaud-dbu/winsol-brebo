@@ -44,7 +44,7 @@ page_builder:
       -
         id: sfx-k3
         type: feature
-        label: '100 % green energy'
+        label: '100% green energy'
         enabled: true
     background: false
     enabled: true
@@ -111,7 +111,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'For glazed sections up to 15 m², we use a more powerful 20 Newton motor and a different roller tube. The design was honoured with a Red Dot Design Award.'
+            text: 'For glazed sections up to 15 m², we use a more powerful 20 N motor and a different roller tube. The design was honoured with a Red Dot Design Award.'
     media: image
     image: 'screens/solarfix/LR/winsol_2020_kortemark_solarfix_screens-(25).jpg'
     features:
@@ -154,7 +154,7 @@ page_builder:
       -
         id: sfx-s4
         key: 'Maximum surface area'
-        value: 'Up to 15 m², with a 20 Newton motor'
+        value: 'Up to 15 m², with a 20 N motor'
       -
         id: sfx-s5
         key: 'Fabric system'

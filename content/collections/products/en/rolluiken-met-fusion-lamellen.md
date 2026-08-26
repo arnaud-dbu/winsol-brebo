@@ -116,7 +116,7 @@ page_builder:
       -
         id: fus-s5
         key: Installation
-        value: 'Front-mounted roller shutter'
+        value: 'Surface-mounted roller shutter'
       -
         id: fus-s6
         key: Operation

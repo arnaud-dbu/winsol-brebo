@@ -4,7 +4,7 @@ origin: 9e7f52b1-0004-4c2d-8e6f-4a5b6c7dc004
 title: 'Tentes solaires à énergie solaire'
 text: 'LinaSolar et LumiSolar fonctionnent en toute autonomie grâce à des panneaux solaires intégrés, donc sans le moindre câble.'
 meta_title: 'Tentes solaires à énergie solaire'
-meta_description: 'LinaSolar et LumiSolar : des tentes solaires fonctionnant entièrement à l''énergie solaire, jusqu''à 6 mètres sur 4, avec éclairage led en option. Récompensées par l''iF Design Award et le Red Dot Award 2025.'
+meta_description: 'LinaSolar et LumiSolar : des tentes solaires fonctionnant entièrement à l''énergie solaire, jusqu''à 6 mètres sur 4, avec éclairage LED en option. Récompensées par l''iF Design Award et le Red Dot Award 2025.'
 page_builder:
   -
     id: zsz-autonoom
@@ -27,7 +27,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Les deux modèles peuvent recevoir en option un éclairage led, intégré dans le coffre, les bras ou la barre de charge. Lui aussi fonctionne à l''énergie solaire.'
+            text: 'Les deux modèles peuvent recevoir en option un éclairage LED, intégré dans le coffre, les bras ou la barre de charge. Lui aussi fonctionne à l''énergie solaire.'
     media: image
     image: 'zonwering/OneDrive_3_31-07-2026/luifels_stores-bannes_linasolar_showroom-zaventem-(0173).jpg'
     features:
@@ -44,7 +44,7 @@ page_builder:
       -
         id: zsz-a3
         type: feature
-        label: 'Éclairage led en option'
+        label: 'Éclairage LED en option'
         enabled: true
     background: false
     enabled: true
@@ -116,7 +116,7 @@ page_builder:
       -
         id: zsz-s5
         key: Éclairage
-        value: 'Led en option dans le coffre, les bras ou la barre de charge'
+        value: 'LED en option dans le coffre, les bras ou la barre de charge'
       -
         id: zsz-s6
         key: Distinctions

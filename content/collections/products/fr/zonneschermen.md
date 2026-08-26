@@ -4,7 +4,7 @@ origin: 9e7f52b1-0003-4c2d-8e6f-4a5b6c7dc003
 title: 'Tentes solaires'
 text: 'Une tente solaire à bras articulés au-dessus de votre terrasse, avec un coffre fermé qui protège la toile quand elle est repliée.'
 meta_title: 'Tentes solaires et stores bannes sur mesure'
-meta_description: 'Tentes solaires électriques de Winsol dans les séries Linasol, Lumisol, Squaro et Luno. Jusqu''à 14 m de large, classe de vent 3 et éclairage led en option.'
+meta_description: 'Tentes solaires électriques de Winsol dans les séries Linasol, Lumisol, Squaro et Luno. Jusqu''à 14 m de large, classe de vent 3 et éclairage LED en option.'
 page_builder:
   -
     id: zs-kast
@@ -69,7 +69,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Luno est la série compacte au design arrondi et à l''allure plus chaleureuse, disponible en douze couleurs populaires et en largeurs par multiples de 30 cm. Elle offre une zone d''ombre jusqu''à 21 m². Sur les quatre séries, l''éclairage led dans le coffre, les bras ou la barre de charge est disponible en option.'
+            text: 'Luno est la série compacte au design arrondi et à l''allure plus chaleureuse, disponible en douze couleurs populaires et en largeurs par multiples de 30 cm. Elle offre une zone d''ombre jusqu''à 21 m². Sur les quatre séries, l''éclairage LED dans le coffre, les bras ou la barre de charge est disponible en option.'
     media: image
     image: 'zonwering/Low Res 9/luifels-store-bannes_squaro_itegem-(01).jpg'
     features:
@@ -95,7 +95,7 @@ page_builder:
     type: technical_details
     overline: Technique
     title: 'Les chiffres'
-    text: 'Extrait de la brochure stores bannes. La dimension maximale varie selon la série ; ce qui convient à votre façade, nous le déterminons lors de la prise de mesures.'
+    text: 'Extrait de la brochure tentes solaires. La dimension maximale varie selon la série ; ce qui convient à votre façade, nous le déterminons lors de la prise de mesures.'
     technical_details:
       -
         id: zs-s1
@@ -116,7 +116,7 @@ page_builder:
       -
         id: zs-s5
         key: Éclairage
-        value: 'Led en option dans le coffre, les bras ou la barre de charge'
+        value: 'LED en option dans le coffre, les bras ou la barre de charge'
       -
         id: zs-s6
         key: Couleurs

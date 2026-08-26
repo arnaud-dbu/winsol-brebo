@@ -19,7 +19,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'La Z!P CUBE présente une structure supérieure entièrement horizontale et des lignes droites. Pas de soleil ? La toile reste alors soigneusement enroulée dans un caisson fermé contre la façade, comme pour un store banne.'
+            text: 'La Z!P CUBE présente une structure supérieure entièrement horizontale et des lignes droites. Pas de soleil ? La toile reste alors soigneusement enroulée dans un caisson fermé contre la façade, comme pour une tente solaire.'
       -
         type: paragraph
         attrs:
@@ -61,7 +61,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Avec le capteur de pluie en option, la toile s''enroule automatiquement dès qu''il commence à pleuvoir, même en votre absence. Un éclairage led dans la structure et des parois d''ambiance comme la paroi à lames Ambiente parachèvent la terrasse en soirée.'
+            text: 'Avec le capteur de pluie en option, la toile s''enroule automatiquement dès qu''il commence à pleuvoir, même en votre absence. Un éclairage LED dans la structure et des parois d''ambiance comme la paroi à lames Ambiente parachèvent la terrasse en soirée.'
     media: image
     image: terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6278).jpg
     features:
@@ -73,7 +73,7 @@ page_builder:
       -
         id: cubec-f2
         type: feature
-        label: 'Éclairage led dans la structure'
+        label: 'Éclairage LED dans la structure'
         enabled: true
       -
         id: cubec-f3
@@ -92,7 +92,7 @@ page_builder:
       -
         id: cube-s1
         key: Toit
-        value: 'Plat, avec toile enroulable rétractable'
+        value: 'Plat, avec toile enroulable'
       -
         id: cube-s2
         key: 'Caisson de la toile'

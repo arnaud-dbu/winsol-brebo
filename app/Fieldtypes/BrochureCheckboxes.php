@@ -4,6 +4,7 @@ namespace App\Fieldtypes;
 
 use Statamic\Facades\Asset;
 use Statamic\Facades\GlobalSet;
+use Statamic\Facades\Site;
 use Statamic\Fieldtypes\Checkboxes;
 
 /**
@@ -52,6 +53,12 @@ class BrochureCheckboxes extends Checkboxes
 
     private function items()
     {
-        return collect(GlobalSet::findByHandle('brochures')?->inDefaultSite()?->get('items') ?? []);
+        $set = GlobalSet::findByHandle('brochures');
+
+        // De labels volgen de taal van de bezoeker; de pdf-paden zijn in elke
+        // taal dezelfde. Zonder localisatie valt de site terug op de default.
+        $variables = $set?->in(Site::current()->handle()) ?? $set?->inDefaultSite();
+
+        return collect($variables?->get('items') ?? []);
     }
 }

@@ -15,3 +15,7 @@ socials:
   instagram: null
   linkedin: null
   youtube: null
+sites:
+  nl: null
+  fr: nl
+  en: nl

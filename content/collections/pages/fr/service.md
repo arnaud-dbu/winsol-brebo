@@ -67,12 +67,12 @@ services:
         content:
           -
             type: text
-            text: 'Chaque installation bénéficie à la fois de la garantie d''usine et de la garantie de pose. Et même après la pose, nous restons tout simplement joignables. Vous avez un seul interlocuteur fixe près de chez vous, même des années plus tard. Une question ou un problème? Nous assurons un suivi rapide. Vous n''êtes ainsi jamais seul avec votre achat.'
+            text: 'Chaque installation bénéficie à la fois de la garantie d''usine et de la garantie de pose. Et même après la pose, nous restons tout simplement joignables. Vous avez un seul interlocuteur fixe près de chez vous, même des années plus tard. Une question ou un problème ? Nous assurons un suivi rapide. Vous n''êtes ainsi jamais seul avec votre achat.'
     image: service/winsol-2_3.jpg
     enabled: true
 reparation:
   overline: Réparation
-  title: 'Quelque chose de cassé ou qui ne fonctionne plus?'
+  title: 'Quelque chose de cassé ou qui ne fonctionne plus ?'
   text: 'Pour les clients existants qui rencontrent un problème. Décrivez brièvement ce qui se passe et nous vous contactons pour passer chez vous.'
   image: quicklinks/herstelling.png
 ---

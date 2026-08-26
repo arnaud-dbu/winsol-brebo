@@ -1,3 +1,4 @@
+{{ site_prefix = site:url == '/' ? '' : site:url }}
 <div
     id="mega-menu-panel"
     x-ref="megaPanel"
@@ -63,7 +64,7 @@
                                 </div>
                                 {{ if is_last_category }}
                                     <a
-                                        href="/aanbod"
+                                        href="{{ site_prefix }}/aanbod"
                                         class="flex flex-col items-start gap-4 rounded-md bg-light px-8 py-6 transition-colors duration-200 ease-out hover:bg-light-shape">
                                         <span class="text-[20px] leading-[1.5] font-semibold text-black">
                                             {{ trans:site.mega_menu_cta_title }}

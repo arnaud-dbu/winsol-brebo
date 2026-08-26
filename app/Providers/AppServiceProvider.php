@@ -122,7 +122,14 @@ class AppServiceProvider extends ServiceProvider
             CompressUploadedAsset::class,
         );
 
-        View::share('cookie_consent', $this->loadCookieConsent());
+        // Composer en geen share: share draait bij boot, vóór Statamic de
+        // sitelocale zet, en gaf fr/en dus de Nederlandse cookieteksten.
+        View::composer('*', function ($view): void {
+            static $consent = [];
+            $locale = app()->getLocale();
+            $consent[$locale] ??= $this->loadCookieConsent();
+            $view->with('cookie_consent', $consent[$locale]);
+        });
         View::share('font_faces', config('fonts.fonts', []));
 
         RateLimiter::for('inspace', function (Request $request) {

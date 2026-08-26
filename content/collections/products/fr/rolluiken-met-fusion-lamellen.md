@@ -34,7 +34,7 @@ page_builder:
       -
         id: fus-f1
         type: feature
-        label: 'Jusqu''à 4x plus de lumière naturelle'
+        label: 'Jusqu''à 4 x plus de lumière naturelle'
         enabled: true
       -
         id: fus-f2
@@ -108,7 +108,7 @@ page_builder:
       -
         id: fus-s3
         key: 'Lumière naturelle'
-        value: 'Jusqu''à 4x plus qu''un volet classique'
+        value: 'Jusqu''à 4 x plus qu''un volet classique'
       -
         id: fus-s4
         key: 'Réglage de la lumière'

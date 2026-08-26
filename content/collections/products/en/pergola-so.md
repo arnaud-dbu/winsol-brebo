@@ -2,7 +2,7 @@
 id: ebeb27a3-1199-4f7f-9270-a710c91322c9
 origin: 9a3f52b1-0001-4c2d-8e6f-4a5b6c7d8e01
 title: 'Pergola SO!'
-text: 'Live outdoors with the comfort of indoors. Rotating slats you turn with the sun, built-in lighting and sound, and everything controlled from your phone.'
+text: 'Live outdoors with the comfort of indoors. Rotating louvres you turn with the sun, built-in lighting and sound, and everything controlled from your phone.'
 meta_title: 'Pergola SO! patio cover'
 meta_description: 'The Pergola SO! from Winsol: a louvred roof you turn with the sun, with lighting, sound and app control. Made to measure and fitted in Dilbeek, Sint-Pieters-Leeuw and Aartselaar.'
 page_builder:
@@ -19,7 +19,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'The slats of the Pergola SO! rotate steplessly from closed to open. Tilt them and you block the fiercest sun while the light keeps coming in; close them and you stay dry. The roof is fully automated and opens again by itself as soon as the sun returns.'
+            text: 'The louvres of the Pergola SO! rotate steplessly from closed to open. Tilt them and you block the fiercest sun while the light keeps coming in; close them and you stay dry. The roof is fully automated and opens again by itself as soon as the sun returns.'
       -
         type: paragraph
         attrs:
@@ -34,7 +34,7 @@ page_builder:
       -
         id: so-f1
         type: feature
-        label: 'Steplessly rotating slats'
+        label: 'Steplessly rotating louvres'
         enabled: true
       -
         id: so-f2

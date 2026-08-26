@@ -4,7 +4,7 @@ origin: 9a3f52b1-0005-4c2d-8e6f-4a5b6c7d8e05
 title: 'Pergola ORIG!N'
 text: 'La pergola la plus épurée de la gamme. Un design sobre, une protection contre le soleil et la pluie, à compléter par un chauffage et une fermeture latérale.'
 meta_title: 'Couverture de terrasse Pergola ORIG!N'
-meta_description: 'La Pergola ORIG!N de Winsol : design épuré, jusqu''à 5,98 m de long, avec éclairage led et chauffage infrarouge en option. Posée sur mesure.'
+meta_description: 'La Pergola ORIG!N de Winsol : design épuré, jusqu''à 5,98 m de long, avec éclairage LED et chauffage infrarouge en option. Posée sur mesure.'
 page_builder:
   -
     id: orig-design
@@ -39,7 +39,7 @@ page_builder:
       -
         id: orig-f2
         type: feature
-        label: 'Éclairage led direct'
+        label: 'Éclairage LED direct'
         enabled: true
       -
         id: orig-f3
@@ -104,7 +104,7 @@ page_builder:
       -
         id: orig-s4
         key: Éclairage
-        value: 'Led direct avec 6 ou 8 spots'
+        value: 'LED direct avec 6 ou 8 spots'
       -
         id: orig-s5
         key: Chauffage

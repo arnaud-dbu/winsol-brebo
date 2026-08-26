@@ -1,10 +1,10 @@
 ---
 id: 16778fd5-9ac7-46d3-b03f-976a5c24bf84
 origin: 9d6f52b1-0002-4c2d-8e6f-4a5b6c7db002
-title: 'Sectional sliding doors'
+title: 'Sectional side-sliding doors'
 text: 'A door that slides sideways and can open partially, so it also serves as an ordinary door.'
-meta_title: 'Sectional sliding doors'
-meta_description: 'Sectional sliding doors from Winsol slide open sideways and can be opened partially, letting the garage door double as a walk-through.'
+meta_title: 'Sectional side-sliding doors'
+meta_description: 'Sectional side-sliding doors from Winsol slide open sideways and can be opened partially, letting the garage door double as a walk-through.'
 page_builder:
   -
     id: ssp-deur
@@ -19,7 +19,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Where a classic sectional door opens vertically, this type slides sideways along the side wall. The difference you notice daily: you do not have to open the door fully. Sliding it partly aside is enough to ride your bike in or unload the shopping.'
+            text: 'Where a classic sectional door opens vertically, this type slides sideways along the side wall. You''ll notice the difference every day: you don''t have to open the door fully. Sliding it partly aside is enough to ride your bike in or unload the shopping.'
       -
         type: paragraph
         attrs:

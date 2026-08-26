@@ -1,14 +1,14 @@
 {{ if services }}
-    <nav class="hidden lg:block" aria-label="Op deze pagina" data-section="section-nav">
+    <nav class="hidden lg:block" aria-label="{{ trans key='Op deze pagina' }}" data-section="section-nav">
         <div class="container">
             <div class="border-t border-black/10 pt-8">
                 <ul class="flex flex-wrap items-center gap-3">
                     {{ services }}
                         {{ if overline }}
                             <li>
-                                <a href="#{{ overline | slugify }}" class="btn--outline btn">
+                                <a href="#{{ overline | slugify }}" class="btn btn--outline">
                                     {{ overline }}
-                                    {{ icon src="arrow-down"  }}
+                                    {{ icon src="arrow-down" }}
                                 </a>
                             </li>
                         {{ /if }}
@@ -16,7 +16,7 @@
                     <li class="ml-auto">
                         <a href="#herstelling" class="btn btn--secondary">
                             {{ icon src="wrench" }}
-                            Herstelling melden
+                            {{ trans key="Herstelling melden" }}
                         </a>
                     </li>
                 </ul>

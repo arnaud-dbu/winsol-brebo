@@ -19,7 +19,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'A PVC door does not have to look like a standard door. You choose from relief panels, flat versions, glass divisions and woodlook foils that are hard to tell from real wood at a metre away.'
+            text: 'A PVC door does not have to look like a standard door. You choose from relief panels, flat versions, glass divisions and wood-effect foils that are hard to tell from real wood at a metre away.'
       -
         type: paragraph
         attrs:
@@ -39,7 +39,7 @@ page_builder:
       -
         id: pvd-f2
         type: feature
-        label: 'Woodlook finish available'
+        label: 'Wood-effect finish available'
         enabled: true
       -
         id: pvd-f3
@@ -74,7 +74,7 @@ page_builder:
       -
         id: pvd-s5
         key: Finish
-        value: 'Colours and woodlook foils'
+        value: 'Colours and wood-effect foils'
       -
         id: pvd-s6
         key: Maintenance

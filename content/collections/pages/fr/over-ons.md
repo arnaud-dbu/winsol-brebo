@@ -2,7 +2,7 @@
 id: 2ab1c7a4-cea0-4cb7-80f2-2c4c27171850
 origin: 559b2b7e-a511-409c-9eec-51d314cec648
 title: 'À propos de nous'
-text: 'Préparer ensemble votre maison pour l''avenir: sobre en énergie, confortable et avec le savoir-faire de votre région.'
+text: 'Préparer ensemble votre maison pour l''avenir : économe en énergie, confortable et avec le savoir-faire de votre région.'
 meta_title: 'À propos de nous'
 meta_description: 'Trois points de vente Winsol locaux avec une méthode commune et leur propre équipe de pose. Conseils honnêtes, sur mesure et suivi par des gens de votre région.'
 page_builder:
@@ -90,7 +90,7 @@ page_builder:
         type: item
         enabled: true
         title: 'Venez renforcer notre équipe'
-        text: 'Nous sommes toujours à la recherche de gens de métier pour renforcer notre équipe locale. Nous ne tenons pas de longue liste de postes vacants: envoyez-nous simplement votre CV ou une candidature spontanée.'
+        text: 'Nous sommes toujours à la recherche de gens de métier pour renforcer notre équipe locale. Nous ne tenons pas de longue liste de postes vacants : envoyez-nous simplement votre CV ou une candidature spontanée.'
         link:
           -
             id: overonsgridlink2
@@ -103,7 +103,7 @@ page_builder:
     id: overonscta
     type: cta
     overline: 'Lancez-vous'
-    title: 'Envie de vous lancer avec nous?'
+    title: 'Envie de vous lancer avec nous ?'
     text: 'Demandez un devis sans engagement ou venez faire connaissance dans l''un de nos showrooms.'
     link:
       -

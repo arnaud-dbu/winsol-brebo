@@ -4,7 +4,7 @@ origin: 9a3f52b1-0004-4c2d-8e6f-4a5b6c7d8e04
 title: 'Win Cube'
 text: 'Une couverture de terrasse à toile enroulable dont vous réglez vous-même l''inclinaison, avec un screen supplémentaire à l''avant contre le soleil rasant.'
 meta_title: 'Couverture de terrasse Win Cube'
-meta_description: 'Le Win Cube de Winsol : toile enroulable à inclinaison réglable, screens intégrés résistants au vent et led dans la gouttière. Posé sur mesure.'
+meta_description: 'Le Win Cube de Winsol : toile enroulable à inclinaison réglable, screens intégrés résistants au vent et LED dans la gouttière. Posé sur mesure.'
 page_builder:
   -
     id: wc-dak
@@ -61,14 +61,14 @@ page_builder:
         content:
           -
             type: text
-            text: 'L''éclairage led blanc est dissimulé dans les gouttières, qui assurent avec la toile imperméable la protection contre la pluie. Les screens résistants au vent sont intégrés dans la structure.'
+            text: 'L''éclairage LED blanc est dissimulé dans les gouttières, qui assurent avec la toile imperméable la protection contre la pluie. Les screens résistants au vent sont intégrés dans la structure.'
     media: image
     image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2199).jpg
     features:
       -
         id: wcc-f1
         type: feature
-        label: 'Led blanche dans les gouttières'
+        label: 'LED blanche dans les gouttières'
         enabled: true
       -
         id: wcc-f2
@@ -104,7 +104,7 @@ page_builder:
       -
         id: wc-s4
         key: Éclairage
-        value: 'Led blanche, dissimulée dans la gouttière'
+        value: 'LED blanche, dissimulée dans la gouttière'
       -
         id: wc-s5
         key: 'Grandes terrasses'

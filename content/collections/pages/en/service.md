@@ -2,7 +2,7 @@
 id: 9b47748d-5d6f-4f43-88f1-a4111688d8f8
 origin: c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a04
 title: Service
-text: 'From the first advice until long after installation, you can count on us — for the entire lifespan of your installation.'
+text: 'From your very first consultation until long after installation, you can count on us — for the entire lifespan of your installation.'
 meta_title: 'Service and maintenance'
 meta_description: 'Advice, measuring, installation by our own team, periodic check-ups and warranty. One familiar point of contact nearby, even years after installation.'
 services:

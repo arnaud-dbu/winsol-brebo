@@ -1,10 +1,10 @@
 ---
 id: 5bb423e4-46c4-4876-9a80-5cdf26a648d2
 origin: 9c5f52b1-0003-4c2d-8e6f-4a5b6c7da003
-title: 'Surface-mounted roller shutters'
+title: 'Window-mounted roller shutters'
 text: 'Window and roller shutter as a single unit, factory-assembled and delivered ready to install.'
-meta_title: 'Made-to-measure surface-mounted roller shutters'
-meta_description: 'Winsol surface-mounted roller shutters: the shutter box comes pre-mounted on the window profile. Fully air-, water- and windtight, and among the best-insulating on the market.'
+meta_title: 'Made-to-measure window-mounted roller shutters'
+meta_description: 'Winsol window-mounted roller shutters: the shutter box comes pre-mounted on the window profile. Fully air-, water- and windtight, and among the best-insulating on the market.'
 page_builder:
   -
     id: obr-eenheid
@@ -19,7 +19,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'With a surface-mounted roller shutter, we mount the box onto the window profile in our factory. You get a ready-made product that our fitters install in a single operation. That makes it the logical choice when you are having new windows fitted anyway, and the only workable choice when there is too little room above the window to build one in.'
+            text: 'With a window-mounted roller shutter, we mount the box onto the window profile in our factory. You get a ready-made product that our fitters install in a single operation. That makes it the logical choice when you are having new windows fitted anyway, and the only workable choice when there is too little room above the window to build one in.'
       -
         type: paragraph
         attrs:
@@ -69,7 +69,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'That puts our surface-mounted roller shutters among the best-insulating on the market. You notice it on your energy bill, and in the sound: the same sealed unit keeps street noise out.'
+            text: 'That puts our window-mounted roller shutters among the best-insulating on the market. You notice it on your energy bill, and in the sound: the same sealed unit keeps street noise out.'
     media: image
     image: placeholder/beeld-ontbreekt.jpg
     features:
