@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Fieldtypes;
 
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Statamic\Facades\AssetContainer;
+use Mockery;
+use Statamic\Facades\Asset;
 use Statamic\Facades\Form;
 use Statamic\Fields\Field;
 use Tests\TestCase;
@@ -70,15 +70,20 @@ class BrochureCheckboxesTest extends TestCase
      * De bevestigingsmail bouwt zijn downloadlinks uit de augment: label om
      * te tonen, url om te linken. Valt de url weg, dan mailt de site een
      * lijstje titels zonder brochures.
+     *
+     * De asset is gemockt, niet via Storage::fake() aangemaakt: een gefakete
+     * r2-schijf laat de lege fake-listing achter in de file_testing-cache
+     * (die runs overleeft, zie config/cache.php) en daarna rendert elke
+     * pagina met echte beelden een 500 op de ontbrekende afmetingen.
      */
     public function test_a_stored_path_augments_to_label_and_url(): void
     {
-        Storage::fake('r2', ['url' => '/r2']);
+        $asset = Mockery::mock();
+        $asset->shouldReceive('url')->andReturn('/r2/brochures/winsol-brochure-rolluiken-nl.pdf');
 
-        $container = AssetContainer::make('assets')->disk('r2')->title('Assets');
-        $container->save();
-        Storage::disk('r2')->put('brochures/winsol-brochure-rolluiken-nl.pdf', 'pdf');
-        $container->makeAsset('brochures/winsol-brochure-rolluiken-nl.pdf')->save();
+        Asset::shouldReceive('find')
+            ->with('assets::brochures/winsol-brochure-rolluiken-nl.pdf')
+            ->andReturn($asset);
 
         $field = new Field('brochures', ['type' => 'brochure_checkboxes']);
 
