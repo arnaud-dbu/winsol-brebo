@@ -35,8 +35,9 @@ class PageBuilderPageTest extends TestCase
 
         $html = $response->getContent();
 
-        // `ranges` renders one `.range-card` per seeded range entry (9).
-        $this->assertSame(9, substr_count($html, 'range-card'));
+        // `ranges` renders one `.range-card` per published range entry:
+        // 8 sinds airco gedepubliceerd is (feedback Jimmy, 26-08-2026).
+        $this->assertSame(8, substr_count($html, 'range-card'));
 
         // `cards` (4) is sinds 95da753 de enige sectie die `partial:card`
         // gebruikt: `products` (5) kreeg een eigen `productCard`. De varianten
@@ -46,8 +47,8 @@ class PageBuilderPageTest extends TestCase
         $this->assertSame(5, substr_count($html, 'from-transparent from-60% to-black'));
 
         // Every slider-backed section renders one `.swiper-slide` per item:
-        // ranges 9 + cards 4 + articles 3 + image_gallery 6. `products` staat
+        // ranges 8 + cards 4 + articles 3 + image_gallery 6. `products` staat
         // sinds 95da753 in een grid en levert er geen enkele meer.
-        $this->assertSame(22, substr_count($html, 'swiper-slide'));
+        $this->assertSame(21, substr_count($html, 'swiper-slide'));
     }
 }
