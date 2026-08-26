@@ -15,7 +15,7 @@ class QuicklinksTest extends SectionTestCase
         return ['brochure' => ['url' => '/assets/brochures/pergola-so.pdf', 'path' => 'brochures/pergola-so.pdf']];
     }
 
-    public function test_the_brochure_only_reaches_the_card_when_passed_explicitly(): void
+    public function test_the_preselect_only_reaches_the_card_when_passed_explicitly(): void
     {
         // `withBrochure()` zet `brochure` rechtstreeks in de rootcontext, wat
         // ook zonder expliciete doorgifte al doorsijpelt en dus niets pint.

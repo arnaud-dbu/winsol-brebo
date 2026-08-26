@@ -67,11 +67,17 @@ class QuicklinkBrochureCardTest extends SectionTestCase
         $this->assertStringContainsString('Ontvang de brochure', $html);
     }
 
-    public function test_a_brochure_card_without_a_pdf_renders_nothing(): void
+    /**
+     * Zonder pdf in scope (homepage, overzichten) rendert de kaart sinds de
+     * gated download wél, met een kale link naar /brochures: brochures
+     * moeten makkelijker vindbaar zijn (Jimmy, 26-08).
+     */
+    public function test_a_brochure_card_without_a_pdf_links_plainly_to_the_form(): void
     {
         $html = $this->render('{{ partial:quicklinkCard }}', $this->brochureCard());
 
-        $this->assertStringNotContainsString('quicklink-card', $html);
-        $this->assertSame('', trim($html));
+        $this->assertStringContainsString('quicklink-card', $html);
+        $this->assertStringContainsString('href="/brochures"', $html);
+        $this->assertStringNotContainsString('?brochure=', $html);
     }
 }
