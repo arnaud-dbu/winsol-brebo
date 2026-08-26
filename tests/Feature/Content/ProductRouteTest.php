@@ -10,7 +10,7 @@ class ProductRouteTest extends TestCase
 {
     public function test_every_product_points_at_exactly_one_range(): void
     {
-        $products = Entry::query()->where('collection', 'products')->get();
+        $products = Entry::query()->where('collection', 'products')->where('site', 'nl')->get();
 
         $this->assertGreaterThan(0, $products->count(), 'Er zijn geen producten om te controleren');
 
@@ -30,7 +30,7 @@ class ProductRouteTest extends TestCase
      */
     public function test_every_product_resolves_its_range_to_an_existing_slug(): void
     {
-        $products = Entry::query()->where('collection', 'products')->get();
+        $products = Entry::query()->where('collection', 'products')->where('site', 'nl')->get();
 
         $this->assertGreaterThan(0, $products->count(), 'Er zijn geen producten om te controleren');
 
@@ -44,7 +44,7 @@ class ProductRouteTest extends TestCase
                 "Product {$product->slug()} wijst naar een range die niet meer bestaat"
             );
             $this->assertNotNull(
-                Entry::query()->where('collection', 'ranges')->where('slug', $slug)->first(),
+                Entry::query()->where('collection', 'ranges')->where('site', 'nl')->where('slug', $slug)->first(),
                 "Range {$slug} van product {$product->slug()} bestaat niet"
             );
         }
@@ -66,7 +66,7 @@ class ProductRouteTest extends TestCase
 
     public function test_the_computed_range_slug_resolves_to_the_range_its_slug(): void
     {
-        $product = Entry::query()->where('collection', 'products')->where('slug', 'pergola-so')->first();
+        $product = Entry::query()->where('collection', 'products')->where('site', 'nl')->where('slug', 'pergola-so')->first();
 
         $this->assertNotNull($product);
         $this->assertSame('terrasoverkapping', $product->augmentedValue('range_slug')->value());
@@ -74,7 +74,7 @@ class ProductRouteTest extends TestCase
 
     public function test_the_url_nests_the_product_under_its_range(): void
     {
-        $product = Entry::query()->where('collection', 'products')->where('slug', 'pergola-so')->first();
+        $product = Entry::query()->where('collection', 'products')->where('site', 'nl')->where('slug', 'pergola-so')->first();
 
         $this->assertSame('/aanbod/terrasoverkapping/pergola-so', $product->url());
     }

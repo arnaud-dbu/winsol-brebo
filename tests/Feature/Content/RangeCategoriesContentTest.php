@@ -17,14 +17,14 @@ class RangeCategoriesContentTest extends TestCase
         ];
 
         foreach ($expected as $slug => [$title, $order]) {
-            $term = Term::query()->where('taxonomy', 'range_categories')->where('slug', $slug)->first();
+            $term = Term::query()->where('taxonomy', 'range_categories')->where('slug', $slug)->get()->first(fn ($t) => $t->locale() === 'nl');
 
             $this->assertNotNull($term, "Range-categorie {$slug} ontbreekt");
             $this->assertSame($title, $term->value('title'), "Titel van {$slug} klopt niet");
             $this->assertSame($order, (int) $term->value('order'), "Volgorde van {$slug} klopt niet");
         }
 
-        $all = Term::query()->where('taxonomy', 'range_categories')->get();
+        $all = Term::query()->where('taxonomy', 'range_categories')->get()->filter(fn ($t) => $t->locale() === 'nl')->values();
 
         $this->assertCount(3, $all, 'Er horen precies drie range-categorieën te zijn');
     }
@@ -44,7 +44,7 @@ class RangeCategoriesContentTest extends TestCase
         ];
 
         foreach ($expected as $rangeSlug => $categorySlug) {
-            $entry = Entry::query()->where('collection', 'ranges')->where('slug', $rangeSlug)->first();
+            $entry = Entry::query()->where('collection', 'ranges')->where('site', 'nl')->where('slug', $rangeSlug)->first();
 
             $this->assertNotNull($entry, "Range {$rangeSlug} ontbreekt");
 

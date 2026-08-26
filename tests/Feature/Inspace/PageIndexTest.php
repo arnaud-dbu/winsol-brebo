@@ -81,8 +81,9 @@ class PageIndexTest extends TestCase
             ->getJson('/api/inspace/v1/pages?site=nl&per_page=1')
             ->assertOk();
 
+        // fr en en bestaan sinds de meertalige site; 'de' blijft onbekend.
         $this->withToken(self::TOKEN)
-            ->getJson('/api/inspace/v1/pages?site=fr&per_page=1')
+            ->getJson('/api/inspace/v1/pages?site=de&per_page=1')
             ->assertStatus(422)
             ->assertJsonStructure(['errors' => ['site']]);
     }

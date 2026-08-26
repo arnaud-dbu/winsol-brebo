@@ -80,21 +80,19 @@ class NavigationTest extends SectionTestCase
         $this->assertStringContainsString('href="/offerte"', $html);
     }
 
-    public function test_language_pill_is_labelled_but_not_interactive(): void
+    /**
+     * Drie sites sinds 26-08: de pill is een echte taalwissel. De knop
+     * belooft met aria-expanded een paneel, en dat paneel linkt naar de
+     * vertaling van de huidige pagina in de twee andere talen.
+     */
+    public function test_language_pill_opens_the_other_languages(): void
     {
-        // Eén site, dus er valt niets te kiezen: de pill toont de taal maar
-        // opent niets. Een knop met aria-expanded zou een paneel beloven dat
-        // niet bestaat. Geankerd aan de pill zelf, niet aan de hele header:
-        // een generieke `aria-expanded`-telling over `{{ partial:navigation }}`
-        // zou breken zodra de header een volgende disclosure krijgt, terwijl
-        // die niets met de taalpill te maken heeft. De claim "precies één
-        // paneel-toggle" staat al in MegaMenuTest.
-        $pill = $this->render('{{ partial:languagePill }}');
+        $html = $this->get('/')->getContent();
 
-        $this->assertStringContainsString('Taal: Nederlands', $pill);
-        $this->assertStringContainsString('>NL<', $pill);
-        $this->assertStringNotContainsString('aria-expanded', $pill);
-        $this->assertStringNotContainsString('<button', $pill);
+        $this->assertStringContainsString('Taal: Nederlands', $html);
+        $this->assertStringContainsString(':aria-expanded="open"', $html);
+        $this->assertMatchesRegularExpression('~<a[^>]+href="[^"]*/fr"[^>]*>\s*FR~s', $html);
+        $this->assertMatchesRegularExpression('~<a[^>]+href="[^"]*/en"[^>]*>\s*EN~s', $html);
     }
 
     public function test_mobile_panel_repeats_the_quote_button_and_language_pill(): void

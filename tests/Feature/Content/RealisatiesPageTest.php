@@ -47,7 +47,7 @@ class RealisatiesPageTest extends TestCase
 
     public function test_every_realisatie_carries_an_image_and_a_published_range(): void
     {
-        $realisaties = Entry::query()->where('collection', 'realisaties')->get();
+        $realisaties = Entry::query()->where('collection', 'realisaties')->where('site', 'nl')->get();
 
         $this->assertGreaterThan(0, $realisaties->count(), 'De realisaties-collectie is leeg.');
 
