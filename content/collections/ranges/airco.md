@@ -2,6 +2,7 @@
 id: 8c2e41a0-0007-4a1b-9c7d-3e5f6a7b8c07
 blueprint: ranges
 title: Airco
+published: false
 short_description: 'Een geruisloze airco die in de zomer koelt en in de tussenseizoenen ook verwarmt.'
 long_description: 'Ons land krijgt steeds vaker met echte hitteperiodes te maken, en dan is een airco in huis een verademing. Wij plaatsen geruisloze toestellen die optimaal renderen, waaronder de exclusieve aircotoestellen van Daikin. Naast koelen kunnen onze toestellen ook verwarmen, en gekoppeld aan een warmtepomp regel je de temperatuur in huis in een handomdraai.'
 order: 4
