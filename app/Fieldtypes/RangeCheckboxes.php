@@ -72,6 +72,7 @@ class RangeCheckboxes extends Checkboxes
     {
         return Entry::query()
             ->where('collection', 'ranges')
+            ->whereStatus('published')
             ->orderBy('order')
             ->get();
     }

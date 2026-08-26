@@ -20,14 +20,16 @@ class OfferteFormTest extends SectionTestCase
     }
 
     /**
-     * Negen pillen met de titels uit de ranges-collectie. Dit is de assertie
-     * die stukgaat als de koppeling met die collectie wegvalt.
+     * Acht pillen met de titels uit de ranges-collectie — gepubliceerde
+     * alleen, dus zonder het gedepubliceerde airco (Quinten, 26-08). Dit is
+     * de assertie die stukgaat als de koppeling met die collectie wegvalt.
      */
-    public function test_the_product_pills_come_from_the_ranges_collection(): void
+    public function test_the_product_pills_come_from_the_published_ranges(): void
     {
         $html = $this->render('{{ partial:offerteForm }}');
 
-        $this->assertSame(9, substr_count($html, 'offerte-pill"'));
+        $this->assertSame(8, substr_count($html, 'offerte-pill"'));
+        $this->assertStringNotContainsString('Airco', $html);
 
         foreach (['Ramen en deuren', 'VELUX dakramen', 'Terrasoverkapping', 'Somfy Smart Home'] as $title) {
             $this->assertStringContainsString($title, $html);
