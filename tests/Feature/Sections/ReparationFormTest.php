@@ -15,7 +15,7 @@ class ReparationFormTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:reparationForm }}');
 
-        foreach (['product', 'installed', 'problem', 'branch', 'photo', 'email', 'name', 'phone', 'address'] as $handle) {
+        foreach (['product', 'installed', 'problem', 'branch', 'photo', 'invoice', 'email', 'name', 'phone', 'address'] as $handle) {
             $this->assertStringContainsString('name="'.$handle.'"', $html, "Veld {$handle} ontbreekt.");
         }
     }
@@ -39,13 +39,14 @@ class ReparationFormTest extends SectionTestCase
         $this->assertStringContainsString('Kies een filiaal…', $html);
     }
 
-    public function test_the_photo_field_is_a_file_input_inside_the_dropzone(): void
+    public function test_the_photo_and_invoice_fields_are_file_inputs_inside_their_dropzones(): void
     {
         $html = $this->render('{{ partial:reparationForm }}');
 
-        $this->assertStringContainsString('form-dropzone', $html);
-        $this->assertStringContainsString('type="file"', $html);
+        $this->assertSame(2, substr_count($html, 'form-dropzone'));
+        $this->assertSame(2, substr_count($html, 'type="file"'));
         $this->assertStringContainsString('Sleep een foto hierheen of klik om te uploaden', $html);
+        $this->assertStringContainsString('Sleep je factuur hierheen of klik om te uploaden', $html);
     }
 
     public function test_accepts_file_uploads(): void

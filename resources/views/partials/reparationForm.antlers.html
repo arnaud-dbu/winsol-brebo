@@ -27,6 +27,12 @@
                                 <span>Sleep een foto hierheen of klik om te uploaden</span>
                                 {{ field }}
                             </div>
+                        {{ elseif handle == "invoice" }}
+                            <div class="form-dropzone">
+                                {{ icon src="upload" class="size-7" }}
+                                <span>Sleep je factuur hierheen of klik om te uploaden</span>
+                                {{ field }}
+                            </div>
                         {{ elseif handle == "address" }}
                             {{ partial:addressField }}
                         {{ else }}

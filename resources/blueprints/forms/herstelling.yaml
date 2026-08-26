@@ -36,10 +36,24 @@ tabs:
             handle: photo
             field:
               type: assets
-              container: assets
+              container: private
               folder: herstellingen
               max_files: 1
               display: 'Foto van het probleem (optioneel)'
+              validate:
+                - 'mimes:jpg,jpeg,png,webp,heic,heif,hif,pdf'
+                - 'max_filesize:10240'
+          -
+            handle: invoice
+            field:
+              type: assets
+              container: private
+              folder: herstellingen
+              max_files: 1
+              display: 'Originele factuur (indien bij de hand)'
+              validate:
+                - 'mimes:jpg,jpeg,png,webp,heic,heif,hif,pdf'
+                - 'max_filesize:10240'
       -
         display: Contact
         fields:
