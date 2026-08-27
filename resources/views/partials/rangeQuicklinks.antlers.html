@@ -21,7 +21,8 @@
                                     <li>
                                         <a href="{{ url }}" class="range-jump__link">
                                             {{ title | entities }}
-                                            {{ icon src="arrow-up-right" class="range-jump__arrow" }}
+                                            {{# `bold`: het reguliere gewicht is op deze maat haardun. #}}
+                                            {{ icon src="arrow-up-right" suffix="bold" class="range-jump__arrow" }}
                                         </a>
                                     </li>
                                 {{ /products }}
