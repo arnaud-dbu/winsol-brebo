@@ -4,6 +4,29 @@
  * volledig in eigen markup. Het sessiontoken bundelt de keystrokes van één
  * adres tot één factureerbare sessie en wordt na een keuze vernieuwd.
  */
+
+/**
+ * `crypto.randomUUID()` bestaat alleen in een secure context. Productie draait
+ * op https, maar lokaal (http://…test) is hij undefined en gooide het hele
+ * component een TypeError bij de eerste toetsaanslag — het adresveld deed dan
+ * niets. `getRandomValues` is er wél buiten een secure context; die bouwt
+ * hieronder dezelfde v4-vorm die Google voor een sessiontoken verwacht.
+ */
+function sessionToken() {
+    if (typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+    }
+
+    const bytes = crypto.getRandomValues(new Uint8Array(16));
+
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+
+    const hex = [...bytes].map((byte) => byte.toString(16).padStart(2, '0')).join('');
+
+    return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+}
+
 export function addressAutocomplete(key) {
     return {
         suggestions: [],
@@ -20,7 +43,7 @@ export function addressAutocomplete(key) {
                 return;
             }
 
-            this.token ??= crypto.randomUUID();
+            this.token ??= sessionToken();
             const request = ++this.request;
 
             let data;
