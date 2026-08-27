@@ -4,4 +4,7 @@ email:
     id: 9e9c1XZcPt8pZk9qUNmxV
     to: offertes@winsolspl.be
     reply_to: '{{ email }}'
-    subject: 'New message via the website from {{ name }}'
+    subject: 'Nieuw bericht via de website van {{ name }}'
+    html: emails/notification
+    text: emails/notification_text
+    label: Contactbericht

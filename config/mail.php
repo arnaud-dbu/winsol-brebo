@@ -101,6 +101,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Testadres
+    |--------------------------------------------------------------------------
+    |
+    | Staat hier een adres, dan gaat alle uitgaande mail daarheen in plaats van
+    | naar de echte ontvanger. Bedoeld om de formuliermails te bekijken zonder
+    | dat ze bij Winsol of bij een klant belanden. Leeg laten in productie.
+    |
+    */
+
+    'redirect_to' => env('MAIL_REDIRECT_TO'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Global "From" Address
     |--------------------------------------------------------------------------
     |

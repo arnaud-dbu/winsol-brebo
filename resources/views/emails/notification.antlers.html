@@ -43,7 +43,9 @@
                             {{# Via modifiers en niet via een lus over `value`: Prettier zet de tags in een lus op eigen regels en zaait dan een spatie voor elke komma. #}}
                         {{ elseif fieldtype == 'checkboxes' || fieldtype == 'range_checkboxes' || fieldtype == 'brochure_checkboxes' }}
                             {{ value | pluck('label') | join(', ') }}
-                        {{ elseif fieldtype == 'select' || fieldtype == 'location_select' }}
+                            {{# Een toggle levert een boolean; onvertaald staat er `1` in de melding. #}}
+                        {{ elseif fieldtype == 'toggle' }}Ja
+                        {{ elseif fieldtype == 'select' || fieldtype == 'location_select' || fieldtype == 'range_select' }}
                             {{ value:label ?? value }}
                         {{ else }}
                             {{ value | nl2br }}

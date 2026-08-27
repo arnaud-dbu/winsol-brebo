@@ -114,6 +114,15 @@
     @apply text-sm text-red-600;
 }
 
+/*
+ * Melding boven een sectie, voor wat de bezoeker moet weten vóór hij invult —
+ * de tarieven op het herstellingsformulier. Zwaarder dan .form-instructions:
+ * dit gaat over kosten en mag niet weggelezen worden.
+ */
+.form-notice {
+    @apply border-l-4 border-accent bg-light px-5 py-4 text-base;
+}
+
 .form-autocomplete {
     @apply relative;
 }

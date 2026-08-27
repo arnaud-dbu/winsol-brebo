@@ -78,7 +78,7 @@ tabs:
           -
             handle: branch
             field:
-              type: select
+              type: location_select
               display: 'Naar welk filiaal?'
               placeholder: 'Kies een filiaal…'
               validate:
@@ -144,3 +144,41 @@ tabs:
               placeholder: 'Straat en nummer, gemeente'
               validate:
                 - required
+      -
+        display: 'Tarieven en garantie'
+        instructions: 'Wij rekenen een verplaatsingsforfait van 90 euro (excl. btw) aan en 65 euro (excl. btw) per begonnen uur per persoon.'
+        fields:
+          -
+            handle: warranty
+            field:
+              type: select
+              display: 'Valt deze herstelling onder garantie?'
+              instructions: 'Werkuren na 1 jaar zijn steeds betalend.'
+              placeholder: 'Kies…'
+              options:
+                ja: Ja
+                nee: Nee
+                onbekend: 'Dat weet ik niet'
+              width: 50
+              validate:
+                - required
+          -
+            handle: vat_six
+            field:
+              type: toggle
+              display: 'Toepassing 6% btw'
+              instructions: 'Het gebouw is effectief in gebruik sedert ten minste 10 jaar en wordt uitsluitend gebruikt als privéwoning.'
+          -
+            handle: rates_agreed
+            field:
+              type: toggle
+              display: 'Ik heb kennis genomen en verklaar mij akkoord met de tarieven van Brebo bvba: verplaatsingsforfait 90 euro excl. btw en 65 euro excl. btw per begonnen uur per persoon, exclusief wisselstukken en verbruikt materiaal.'
+              validate:
+                - accepted
+          -
+            handle: warranty_terms
+            field:
+              type: toggle
+              display: 'Ik ga akkoord met de garantievoorwaarden'
+              validate:
+                - accepted

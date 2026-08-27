@@ -13,6 +13,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -100,6 +101,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Sets::useIcons('icons', resource_path('svg/icons/regular'));
+
+        // Alle uitgaande mail naar één testadres, zolang MAIL_REDIRECT_TO
+        // gevuld is. Bewust hier en niet in de `to` van resources/forms/*.yaml:
+        // die bestanden gaan mee in git, en een vergeten testadres daarin zou
+        // echte leads wegleiden. Nu is de veilige stand de standaard — zonder
+        // env-waarde gaat alles gewoon naar de klant en naar Winsol.
+        if ($testadres = config('mail.redirect_to')) {
+            Mail::alwaysTo($testadres);
+        }
 
         // Het `range`-veld is een entries-veld en levert een id, geen slug. De route
         // heeft de slug nodig, dus die wordt hier afgeleid. `value()` en niet
