@@ -9,7 +9,7 @@ class CatalogContentTest extends TestCase
 {
     public function test_every_product_exists_with_an_image(): void
     {
-        $products = Entry::query()->where('collection', 'products')->get();
+        $products = Entry::query()->where('collection', 'products')->where('site', 'nl')->get();
 
         $this->assertCount(29, $products);
 

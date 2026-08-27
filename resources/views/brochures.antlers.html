@@ -1,0 +1,16 @@
+<section class="section section--default">
+    <div class="container">
+        <div class="mx-auto flex max-w-3xl flex-col gap-10 lg:gap-14">
+            <div class="section-header-gap">
+                <h1 class="header-title">{{ title }}</h1>
+                {{ if text }}
+                    <p class="header-intro">{{ text }}</p>
+                {{ /if }}
+            </div>
+
+            {{ partial:brochureForm }}
+        </div>
+    </div>
+</section>
+
+{{ partial:pageBuilder }}

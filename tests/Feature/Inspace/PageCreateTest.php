@@ -287,7 +287,8 @@ class PageCreateTest extends TestCase
 
     public function test_an_unknown_site_gives_422(): void
     {
-        $this->postPage($this->payload(['site' => 'fr']))
+        // fr en en zijn sinds de meertalige site echte sites; 'de' niet.
+        $this->postPage($this->payload(['site' => 'de']))
             ->assertStatus(422)
             ->assertJsonStructure(['errors' => ['site']]);
     }

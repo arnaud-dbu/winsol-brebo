@@ -11,13 +11,13 @@ use Tests\TestCase;
 
 class OrganizationSchemaTest extends TestCase
 {
-    public function test_the_node_uses_the_site_name_and_the_shared_phone_number(): void
+    public function test_the_node_uses_the_site_name_and_both_regional_numbers(): void
     {
         $node = OrganizationSchema::node();
 
         $this->assertSame('Organization', $node['@type']);
         $this->assertSame('Winsol Brebo', $node['name']);
-        $this->assertSame('+32 2 308 02 26', $node['telephone']);
+        $this->assertSame(['+32 2 308 02 26', '+32 3 880 85 65'], $node['telephone']);
         $this->assertStringEndsWith('/#organization', $node['@id']);
     }
 

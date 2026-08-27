@@ -41,8 +41,8 @@
     #}}
     <div
         class="{{ floating ? '' : 'border-b border-black/12 lg:border-b-0' }} relative container flex nav-bar items-center justify-between">
-        <a href="/" class="flex flex-col items-start gap-2">
-            <span class="sr-only">Home Link</span>
+        <a href="{{ site:url ? site:url : '/' }}" class="flex flex-col items-start gap-2">
+            <span class="sr-only">Home</span>
             {{ svg :src="inverse ? 'logo-inverse' : 'logo'" class="h-8 sm:h-10 2xl:h-12 w-auto" }}
         </a>
 
@@ -90,7 +90,8 @@
         </nav>
 
         <div class="hidden items-center gap-2.5 lg:flex">
-            <a href="/offerte" class="btn btn--primary">{{ trans:site.nav_quote }}</a>
+            {{ site_prefix = site:url == '/' ? '' : site:url }}
+            <a href="{{ site_prefix }}/offerte" class="btn btn--primary">{{ trans:site.nav_quote }}</a>
             {{ partial:languagePill :inverse="inverse" }}
         </div>
 

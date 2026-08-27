@@ -37,20 +37,22 @@ class QuicklinkBrochureCardTest extends SectionTestCase
         $this->assertStringNotContainsString('target="_blank"', $html);
     }
 
-    public function test_a_brochure_card_with_a_pdf_opens_it_in_a_new_tab(): void
+    /**
+     * Gated (Jimmy, werkoverleg 21/24-08): de kaart linkt niet meer naar de
+     * pdf maar naar het brochureformulier, met deze pdf voorgeselecteerd via
+     * de querystring. Linkt dit ooit weer rechtstreeks naar de pdf, dan is
+     * de download gratis en levert de kaart geen leads meer op.
+     */
+    public function test_a_brochure_card_with_a_pdf_links_to_the_gated_form(): void
     {
         $html = $this->render('{{ partial:quicklinkCard }}', array_merge($this->brochureCard(), [
-            'brochure' => ['url' => '/assets/brochures/pergola-so.pdf'],
+            'brochure' => ['url' => '/assets/brochures/pergola-so.pdf', 'path' => 'brochures/pergola-so.pdf'],
         ]));
 
-        $this->assertStringContainsString('/assets/brochures/pergola-so.pdf', $html);
-        $this->assertStringContainsString('target="_blank"', $html);
-        $this->assertStringContainsString('rel="noopener"', $html);
+        $this->assertStringContainsString('href="/brochures?brochure=brochures/pergola-so.pdf"', $html);
+        $this->assertStringNotContainsString('/assets/brochures/pergola-so.pdf', $html);
+        $this->assertStringNotContainsString('target="_blank"', $html);
         $this->assertStringContainsString('Brochure aanvragen', $html);
-
-        // R2 draait op een andere origin dan de site: `download` wordt daar
-        // door de browser genegeerd en belooft dus gedrag dat niet gebeurt.
-        $this->assertStringNotContainsString('download', $html);
     }
 
     public function test_a_brochure_card_without_a_link_falls_back_to_a_neutral_label(): void
@@ -59,17 +61,23 @@ class QuicklinkBrochureCardTest extends SectionTestCase
             'title' => 'Vraag brochure aan',
             'type' => 'brochure',
             'link_style' => 'outline',
-            'brochure' => ['url' => '/assets/brochures/pergola-so.pdf'],
+            'brochure' => ['url' => '/assets/brochures/pergola-so.pdf', 'path' => 'brochures/pergola-so.pdf'],
         ]);
 
-        $this->assertStringContainsString('Bekijk de brochure', $html);
+        $this->assertStringContainsString('Ontvang de brochure', $html);
     }
 
-    public function test_a_brochure_card_without_a_pdf_renders_nothing(): void
+    /**
+     * Zonder pdf in scope (homepage, overzichten) rendert de kaart sinds de
+     * gated download wél, met een kale link naar /brochures: brochures
+     * moeten makkelijker vindbaar zijn (Jimmy, 26-08).
+     */
+    public function test_a_brochure_card_without_a_pdf_links_plainly_to_the_form(): void
     {
         $html = $this->render('{{ partial:quicklinkCard }}', $this->brochureCard());
 
-        $this->assertStringNotContainsString('quicklink-card', $html);
-        $this->assertSame('', trim($html));
+        $this->assertStringContainsString('quicklink-card', $html);
+        $this->assertStringContainsString('href="/brochures"', $html);
+        $this->assertStringNotContainsString('?brochure=', $html);
     }
 }

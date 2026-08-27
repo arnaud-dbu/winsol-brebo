@@ -43,7 +43,7 @@ class LocationsContentTest extends TestCase
         ];
 
         foreach ($expected as $slug => $fields) {
-            $entry = Entry::query()->where('collection', 'locations')->where('slug', $slug)->first();
+            $entry = Entry::query()->where('collection', 'locations')->where('site', 'nl')->where('slug', $slug)->first();
 
             $this->assertNotNull($entry, "Locatie {$slug} ontbreekt");
 
@@ -61,6 +61,7 @@ class LocationsContentTest extends TestCase
     {
         $slugs = Entry::query()
             ->where('collection', 'locations')
+            ->where('site', 'nl')
             ->orderBy('order')
             ->get()
             ->map->slug()
@@ -75,7 +76,7 @@ class LocationsContentTest extends TestCase
 
     public function test_the_blueprint_exposes_both_coordinate_fields_as_optional_floats(): void
     {
-        $blueprint = Entry::query()->where('collection', 'locations')->first()->blueprint();
+        $blueprint = Entry::query()->where('collection', 'locations')->where('site', 'nl')->first()->blueprint();
 
         foreach (['latitude', 'longitude'] as $handle) {
             $field = $blueprint->field($handle);
@@ -105,7 +106,7 @@ class LocationsContentTest extends TestCase
             ['day' => 'Zondag', 'time' => 'Gesloten'],
         ];
 
-        $entries = Entry::query()->where('collection', 'locations')->get();
+        $entries = Entry::query()->where('collection', 'locations')->where('site', 'nl')->get();
 
         $this->assertCount(3, $entries);
 

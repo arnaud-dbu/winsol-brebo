@@ -1,64 +1,81 @@
-
 {{ form:offerte class="form offerte-form" }}
     {{ unless success }}
-    {{ sections }}
-        <div class="form-section">
-            <div class="form-grid">
-                {{ fields }}
-                    {{ if handle == "products" }}
-                        <div class="offerte-products">
-                            <span class="form-label" id="{{ id }}-label">{{ display }} (verplicht)</span>
+        {{ sections }}
+            <div class="form-section">
+                <div class="form-grid">
+                    {{ fields }}
+                        {{ if handle == "products" }}
+                            <div class="offerte-products">
+                                <span class="form-label" id="{{ id }}-label">{{ trans :key="display" }} {{ trans key="(verplicht)" }}</span>
 
-                            <ul class="offerte-pills" role="group" aria-labelledby="{{ id }}-label"{{ if error }} aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }}>
-                                {{ foreach:options as="option|label" }}
-                                    <li>
-                                        <label class="offerte-pill">
-                                            <input type="checkbox" name="{{ name }}[]" value="{{ option }}"{{ if value|in_array:option }} checked{{ /if }}>
-                                            <span>{{ label | entities }}</span>
-                                        </label>
-                                    </li>
-                                {{ /foreach:options }}
-                            </ul>
-
-                            {{ if error }}<p class="form-error" id="{{ id }}-error">{{ error }}</p>{{ /if }}
-                        </div>
-                    {{ else }}
-                        <div class="form-field{{ if width == 50 }} form-field--half{{ /if }}">
-                            <label class="form-label" for="{{ id }}">{{ display }}</label>
-
-                            {{ if handle == "location" }}
-                                <div class="form-select-wrap">
+                                <ul
+                                    class="offerte-pills"
+                                    role="group"
+                                    aria-labelledby="{{ id }}-label"
+                                    {{ if error }} aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }}>
+                                    {{ foreach:options as="option|label" }}
+                                        <li>
+                                            <label class="offerte-pill">
+                                                <input
+                                                    type="checkbox"
+                                                    name="{{ name }}[]"
+                                                    value="{{ option }}"
+                                                    {{ if value|in_array:option }} checked{{ /if }} />
+                                                <span>{{ label | entities }}</span>
+                                            </label>
+                                        </li>
+                                    {{ /foreach:options }}
+                                </ul>
+                                {{ if error }}
+                                    <p class="form-error" id="{{ id }}-error">{{ error }}</p>
+                                {{ /if }}
+                            </div>
+                        {{ else }}
+                            <div class="form-field{{ if width == 50 }} form-field--half{{ /if }}">
+                                <label class="form-label" for="{{ id }}">{{ trans :key="display" }}</label>
+                                {{ if handle == "location" }}
+                                    <div class="form-select-wrap">
+                                        {{ field }}
+                                        {{ icon src="caret-down" }}
+                                    </div>
+                                {{ elseif handle == "attachment" }}
+                                    <div class="form-dropzone">
+                                        {{ icon src="upload" class="size-7" }}
+                                        <span>{{ trans key="Sleep een foto hierheen of klik om te uploaden" }}</span>
+                                        {{ field }}
+                                    </div>
+                                {{ elseif handle == "address" }}
+                                    {{ partial:addressField }}
+                                {{ else }}
                                     {{ field }}
-                                    {{ icon src="caret-down" }}
-                                </div>
-                            {{ elseif handle == "attachment" }}
-                                <div class="form-dropzone">
-                                    {{ icon src="upload" class="size-7" }}
-                                    <span>Sleep een foto hierheen of klik om te uploaden</span>
-                                    {{ field }}
-                                </div>
-                            {{ else }}
-                                {{ field }}
-                            {{ /if }}
-
-                            {{ if error }}<p class="form-error" id="{{ id }}-error">{{ error }}</p>{{ /if }}
-                        </div>
-                    {{ /if }}
-                {{ /fields }}
+                                {{ /if }}
+                                {{ if error }}
+                                    <p class="form-error" id="{{ id }}-error">{{ error }}</p>
+                                {{ /if }}
+                            </div>
+                        {{ /if }}
+                    {{ /fields }}
+                </div>
             </div>
-        </div>
-    {{ /sections }}
-
-    <input type="text" class="hidden" name="{{ honeypot ?? 'honeypot' }}">
+        {{ /sections }}
+        <input type="text" class="hidden" name="{{ honeypot ?? 'honeypot' }}" />
     {{ /unless }}
-
     {{ if success }}
         <div class="offerte-success">
-            <h2>Je aanvraag is verstuurd</h2>
-            <p>Een lokale expert bekijkt je vraag en neemt binnen twee werkdagen contact op. Ondertussen lees je op onze nieuwspagina artikels over de keuzes waar je voor staat, geschreven vanuit wat onze installateurs ter plaatse zien.</p>
-            <a class="btn btn--primary" href="/nieuws">Naar nieuws</a>
+            <h2>{{ trans key="Je aanvraag is verstuurd" }}</h2>
+            {{ if site:handle == 'nl' }}
+                <p>
+                    Een lokale expert bekijkt je vraag en neemt binnen twee werkdagen contact op. Ondertussen lees je
+                    op onze nieuwspagina artikels over de keuzes waar je voor staat, geschreven vanuit wat onze
+                    installateurs ter plaatse zien.
+                </p>
+                <a class="btn btn--primary" href="/nieuws">Naar nieuws</a>
+            {{ else }}
+                {{# Nieuws bestaat alleen in het Nederlands; fr/en krijgen de bevestiging zonder die doorverwijzing. #}}
+                <p>{{ trans key="Een lokale expert bekijkt je vraag en neemt binnen twee werkdagen contact op." }}</p>
+            {{ /if }}
         </div>
     {{ else }}
-        <button type="submit" class="btn btn--primary">Vraag offerte aan</button>
+        <button type="submit" class="btn btn--primary">{{ trans key="Vraag offerte aan" }}</button>
     {{ /if }}
 {{ /form:offerte }}

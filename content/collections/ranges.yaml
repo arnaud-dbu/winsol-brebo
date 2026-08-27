@@ -4,3 +4,7 @@ taxonomies:
   - range_categories
 revisions: false
 route: '/aanbod/{slug}'
+sites:
+  - nl
+  - fr
+  - en

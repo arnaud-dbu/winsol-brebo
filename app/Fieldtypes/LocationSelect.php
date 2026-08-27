@@ -3,6 +3,7 @@
 namespace App\Fieldtypes;
 
 use Statamic\Facades\Entry;
+use Statamic\Facades\Site;
 use Statamic\Fieldtypes\Select;
 
 /**
@@ -19,7 +20,7 @@ class LocationSelect extends Select
     protected function getOptions(): array
     {
         return $this->locations()
-            ->map(fn ($entry) => ['value' => $entry->slug(), 'label' => $entry->get('name')])
+            ->map(fn ($entry) => ['value' => $entry->slug(), 'label' => $entry->value('name')])
             ->values()
             ->all();
     }
@@ -37,6 +38,7 @@ class LocationSelect extends Select
     {
         return Entry::query()
             ->where('collection', 'locations')
+            ->where('site', Site::current()->handle())
             ->orderBy('order')
             ->get();
     }

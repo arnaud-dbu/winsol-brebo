@@ -40,7 +40,10 @@ class OrganizationSchema
             '@id' => self::id(),
             'name' => Site::current()->name(),
             'url' => SiteUrl::absolute('/'),
-            'telephone' => trim((string) ($contact['phone'] ?? '')),
+            'telephone' => array_values(array_filter([
+                trim((string) ($contact['phone_brussels'] ?? '')),
+                trim((string) ($contact['phone_antwerp'] ?? '')),
+            ])),
             'email' => trim((string) ($contact['email'] ?? '')),
             'sameAs' => self::sameAs($socials),
         ];

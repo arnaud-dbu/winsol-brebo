@@ -21,20 +21,20 @@ class OfferteFormBlueprintTest extends TestCase
     }
 
     /**
-     * Naam, e-mail en minstens een product zijn verplicht; de andere vijf
-     * niet. Verhardt de drempel per ongeluk, dan kost dat conversie.
+     * Alles verplicht behalve de upload (Quinten, 26-08): zonder naam, adres
+     * en telefoon is een lead maar half en moet hij manueel verrijkt worden.
+     * De upload blijft optioneel — een verplichte bijlage blokkeert iedereen
+     * die geen foto of plan bij de hand heeft, en het label belooft dat ook.
      */
-    public function test_exactly_three_fields_are_required(): void
+    public function test_every_field_but_the_upload_is_required(): void
     {
         $fields = Form::find('offerte')->blueprint()->fields()->all();
 
-        foreach (['products', 'name', 'email'] as $handle) {
+        foreach (['products', 'location', 'name', 'phone', 'email', 'address', 'project'] as $handle) {
             $this->assertTrue($fields->get($handle)->isRequired(), "{$handle} hoort verplicht te zijn.");
         }
 
-        foreach (['location', 'phone', 'postal_code', 'project', 'attachment'] as $handle) {
-            $this->assertFalse($fields->get($handle)->isRequired(), "{$handle} hoort optioneel te zijn.");
-        }
+        $this->assertFalse($fields->get('attachment')->isRequired(), 'attachment hoort optioneel te zijn.');
     }
 
     /**

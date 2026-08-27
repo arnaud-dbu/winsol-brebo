@@ -17,8 +17,8 @@ class QuicklinksContentTest extends TestCase
                 'link_style' => 'primary',
             ],
             'vraag-brochure-aan' => [
-                'title' => 'Bekijk de brochure',
-                'label' => 'Open de brochure',
+                'title' => 'Ontvang de brochure',
+                'label' => 'Ontvang de brochure',
                 'link_style' => 'outline',
             ],
             'bezoek-een-showroom' => [
@@ -29,7 +29,7 @@ class QuicklinksContentTest extends TestCase
         ];
 
         foreach ($expected as $slug => $fields) {
-            $entry = Entry::query()->where('collection', 'quicklinks')->where('slug', $slug)->first();
+            $entry = Entry::query()->where('collection', 'quicklinks')->where('site', 'nl')->where('slug', $slug)->first();
 
             $this->assertNotNull($entry, "Quicklink {$slug} ontbreekt");
             $this->assertSame($fields['title'], $entry->get('title'));
@@ -46,7 +46,7 @@ class QuicklinksContentTest extends TestCase
 
     public function test_every_quicklink_points_at_an_entry_that_actually_exists(): void
     {
-        $entries = Entry::query()->where('collection', 'quicklinks')->get();
+        $entries = Entry::query()->where('collection', 'quicklinks')->where('site', 'nl')->get();
 
         $this->assertCount(3, $entries);
 
@@ -64,6 +64,7 @@ class QuicklinksContentTest extends TestCase
     {
         $slugs = Entry::query()
             ->where('collection', 'quicklinks')
+            ->where('site', 'nl')
             ->orderBy('order')
             ->get()
             ->map->slug()
@@ -114,6 +115,7 @@ class QuicklinksContentTest extends TestCase
     {
         $brochureCards = Entry::query()
             ->where('collection', 'quicklinks')
+            ->where('site', 'nl')
             ->get()
             ->filter(fn ($entry) => $entry->get('type') === 'brochure');
 

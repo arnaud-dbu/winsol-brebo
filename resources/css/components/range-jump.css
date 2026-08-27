@@ -1,0 +1,88 @@
+/*
+ * De sprongbalk onder de hero van een aanbodpagina (partials/rangeQuicklinks).
+ *
+ * Bewust een strook en geen sectie: hij hoort visueel bij de header erboven,
+ * niet bij de inhoud erna. Vandaar een eigen, compacte padding in plaats van
+ * `.section--default`.
+ *
+ * Kale tekstlinks in kolommen, geen pillen: negen omrande pillen met pijltjes
+ * trokken meer aandacht dan de inhoud eronder, terwijl dit een wegwijzer is en
+ * geen call-to-action. Eén kolom per groep, kopje erboven, links eronder.
+ */
+
+.range-jump-section {
+    @apply pt-10 pb-2 lg:pt-14 lg:pb-6;
+}
+
+.range-jump {
+    @apply grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8;
+}
+
+.range-jump__group {
+    @apply flex flex-col gap-3 lg:gap-4;
+}
+
+/*
+ * Een range zonder toegekende groepen levert één naamloos blok. Dat zou als
+ * enkele gridkolom een smalle sliert van zes regels worden met driekwart van
+ * de strook leeg ernaast, dus daar loopt het blok over de volle breedte en
+ * verdeelt de lijst zichzelf over dezelfde kolommen.
+ */
+.range-jump__group:only-child {
+    @apply col-span-full;
+}
+
+/*
+ * Bewust lichter en kleiner dan de overlines elders op de site, en zonder de
+ * gele accentstreep: die streep kost vier keer een halve regel hoogte in een
+ * strook die juist laag moet blijven, en trekt de aandacht naar de kopjes in
+ * plaats van naar de links eronder. De ruime letterspacing houdt het kopje
+ * ook zonder streep herkenbaar als kop.
+ */
+.range-jump__label {
+    @apply text-xs font-medium tracking-widest text-black/40 uppercase;
+}
+
+.range-jump__items {
+    @apply flex flex-col gap-3 lg:gap-4;
+}
+
+.range-jump__items--spread {
+    @apply columns-2 space-y-3 gap-x-6 sm:columns-3 lg:columns-4 lg:space-y-4 lg:gap-x-8;
+    display: block;
+}
+
+/*
+ * De link blijft `inline` en wordt geen flexcontainer: bij een naam die over
+ * twee regels valt ("Aluminium ramen & deuren" op mobiel) zou een flexregel
+ * het pijltje verticaal midden náást het blok zetten, los van de tekst. Zo
+ * loopt het gewoon mee in de tekststroom en staat het achter het laatste
+ * woord.
+ */
+.range-jump__link {
+    @apply text-base text-black transition-colors duration-200 ease-out;
+}
+
+/*
+ * De pijl staat diagonaal (↗) en draait op hover 45° mee naar horizontaal (→),
+ * waarmee hij van "dit gaat ergens heen" naar "deze kant op" wijst. De
+ * blanket-regel in base/global.css zet de transition stil bij
+ * `prefers-reduced-motion`, dus het eindbeeld blijft kloppen zonder beweging.
+ */
+.range-jump__arrow {
+    @apply ml-1.5 inline-block size-3.5 shrink-0 align-baseline text-black/35;
+    transition:
+        color 200ms ease-out,
+        rotate 200ms ease-out;
+}
+
+.range-jump__link:hover,
+.range-jump__link:focus-visible {
+    @apply text-black/70;
+}
+
+.range-jump__link:hover .range-jump__arrow,
+.range-jump__link:focus-visible .range-jump__arrow {
+    @apply text-accent;
+    rotate: 45deg;
+}

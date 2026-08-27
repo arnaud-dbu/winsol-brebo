@@ -65,11 +65,32 @@ class ContactDetailsTest extends SectionTestCase
 
         $this->assertStringContainsString('contact-bar', $html);
         $this->assertStringContainsString('+32 2 308 02 26', $html);
+        $this->assertStringContainsString('+32 3 880 85 65', $html);
         $this->assertStringContainsString('info@winsoldilbeek.be', $html);
 
         // Geen WhatsApp: `contact.mobile` staat leeg tot Jimmy een echt nummer
         // geeft, en de partial slaat de knop dan over. Zie ContactGlobalsTest.
         $this->assertStringNotContainsString('Whatsapp', $html);
+    }
+
+    /**
+     * Twee gescheiden centrales: het Brusselse 02-nummer staat links van het
+     * Antwerpse 03-nummer, elk met zijn regiolabel — klanten bellen nooit
+     * het nummer van de andere regio, dus de regio moet ernaast staan.
+     */
+    public function test_brussels_sits_left_of_antwerp_with_their_region_labels(): void
+    {
+        $html = $this->get('/contact')->assertOk()->getContent();
+
+        $brussels = strpos($html, '+32 2 308 02 26');
+        $antwerp = strpos($html, '+32 3 880 85 65');
+
+        $this->assertNotFalse($brussels);
+        $this->assertNotFalse($antwerp);
+        $this->assertLessThan($antwerp, $brussels, 'Het 02-nummer hoort links (eerst in de markup) te staan.');
+
+        $this->assertStringContainsString('Brussel', $html);
+        $this->assertStringContainsString('Antwerpen', $html);
     }
 
     public function test_the_bar_links_are_dialable_and_the_wa_me_number_is_digits_only(): void
@@ -79,6 +100,7 @@ class ContactDetailsTest extends SectionTestCase
         // De strip is de enige transformatie in de partial en dus het enige
         // dat stil kan breken: een tel:-link met spaties belt niet.
         $this->assertStringContainsString('href="tel:+3223080226"', $html);
+        $this->assertStringContainsString('href="tel:+3238808565"', $html);
         $this->assertStringContainsString('href="mailto:info@winsoldilbeek.be"', $html);
     }
 

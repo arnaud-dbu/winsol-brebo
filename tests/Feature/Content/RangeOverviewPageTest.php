@@ -41,7 +41,7 @@ class RangeOverviewPageTest extends TestCase
     {
         $html = $this->get('/aanbod')->getContent();
 
-        $this->assertSame(9, substr_count($html, 'range-card'), 'Er horen negen range-kaarten te staan');
+        $this->assertSame(8, substr_count($html, 'range-card'), 'Er horen acht range-kaarten te staan (airco is gedepubliceerd)');
         $this->assertStringNotContainsString('data-slider', $html);
         $this->assertStringNotContainsString('swiper-slide', $html);
 
@@ -60,7 +60,7 @@ class RangeOverviewPageTest extends TestCase
             'ramen-en-deuren',
             'stalen-binnendeuren',
             'velux',
-            'airco',
+            // airco is gedepubliceerd (feedback Jimmy, 26-08-2026)
             // Rondom je woning
             'rolluiken',
             'zonwering',

@@ -3,6 +3,7 @@
 namespace App\Fieldtypes;
 
 use Statamic\Facades\Entry;
+use Statamic\Facades\Site;
 use Statamic\Fieldtypes\Checkboxes;
 
 /**
@@ -70,9 +71,16 @@ class RangeCheckboxes extends Checkboxes
      */
     private function ranges()
     {
+        // Zonder sitefilter komen alle taalversies terug en wint bij het
+        // ontdubbelen op slug de laatste site — Engelse labels op elke site.
+        // `value('order')` in plaats van orderBy: localisaties erven order
+        // van hun origin en dragen het veld dus niet zelf.
         return Entry::query()
             ->where('collection', 'ranges')
-            ->orderBy('order')
-            ->get();
+            ->where('site', Site::current()->handle())
+            ->whereStatus('published')
+            ->get()
+            ->sortBy(fn ($entry) => $entry->value('order'))
+            ->values();
     }
 }

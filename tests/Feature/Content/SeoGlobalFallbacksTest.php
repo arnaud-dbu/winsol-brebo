@@ -70,7 +70,7 @@ class SeoGlobalFallbacksTest extends TestCase
 
         foreach (['/', '/aanbod/zonwering/screens'] as $uri) {
             $this->assertStringContainsString(
-                '<meta name="robots"',
+                'name="robots"',
                 $this->get($uri)->getContent(),
                 "Geen robots-tag op {$uri} terwijl de globale noindex aanstaat"
             );
@@ -81,7 +81,7 @@ class SeoGlobalFallbacksTest extends TestCase
     {
         $this->withSeoGlobal([]);
 
-        $this->assertStringNotContainsString('<meta name="robots"', $this->get('/')->getContent());
+        $this->assertStringNotContainsString('name="robots"', $this->get('/')->getContent());
     }
 
     public function test_the_global_meta_description_and_sharing_image_still_fall_through(): void
@@ -94,6 +94,6 @@ class SeoGlobalFallbacksTest extends TestCase
         $html = $this->get('/deze-pagina-bestaat-niet')->getContent();
 
         $this->assertStringContainsString('Sitebrede reservebeschrijving', $html);
-        $this->assertStringContainsString('<meta property="og:image"', $html);
+        $this->assertStringContainsString('property="og:image"', $html);
     }
 }

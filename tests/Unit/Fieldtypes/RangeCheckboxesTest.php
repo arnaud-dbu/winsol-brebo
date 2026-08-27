@@ -19,14 +19,15 @@ class RangeCheckboxesTest extends TestCase
     {
         $field = new Field('products', ['type' => 'range_checkboxes']);
 
+        // Zonder airco: gedepubliceerde ranges horen ook uit het formulier
+        // (Quinten, 26-08) — de opties volgen de publicatiestatus.
         $this->assertSame([
             'ramen-en-deuren' => 'Ramen en deuren',
             'stalen-binnendeuren' => 'Stalen binnendeuren',
             'velux' => 'VELUX dakramen',
-            'airco' => 'Airco',
             'rolluiken' => 'Rolluiken',
             'zonwering' => 'Zonwering',
-            'terrasoverkapping' => "Terrasoverkapping",
+            'terrasoverkapping' => 'Terrasoverkapping',
             'garagepoorten' => 'Garagepoorten',
             'somfy-smart-home' => 'Somfy Smart Home',
         ], $field->fieldtype()->extraRenderableFieldData()['options']);
@@ -56,9 +57,22 @@ class RangeCheckboxesTest extends TestCase
             'Een slug buiten de ranges-collectie hoort te falen.',
         );
 
+        $this->assertTrue(
+            Validator::make(['products' => ['airco']], $rules)->fails(),
+            'Een gedepubliceerde range hoort geweigerd te worden.',
+        );
+
         $this->assertFalse(
             Validator::make(
-                ['products' => ['rolluiken', 'airco'], 'name' => 'Jan', 'email' => 'jan@voorbeeld.be'],
+                [
+                    'products' => ['rolluiken', 'zonwering'],
+                    'location' => 'winsol-dilbeek',
+                    'name' => 'Jan',
+                    'phone' => '+32 470 00 00 00',
+                    'email' => 'jan@voorbeeld.be',
+                    'address' => 'Teststraat 1, 1700 Dilbeek',
+                    'project' => 'Twee rolluiken vooraan.',
+                ],
                 $rules,
             )->fails(),
             'Twee echte slugs horen door te komen.',

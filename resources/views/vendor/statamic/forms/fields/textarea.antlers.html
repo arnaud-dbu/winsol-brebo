@@ -1,0 +1,21 @@
+{{#
+    Kopie van vendor/statamic/cms/resources/views/extend/forms/fields/textarea.antlers.html met een wijziging: de placeholder
+    loopt door {{ trans }}, zodat fr/en de JSON-vertaling uit lang/ krijgen en nl op de blueprinttekst terugvalt.
+    Bij een Statamic-upgrade dit bestand naast de vendorversie leggen.
+#}}
+<textarea
+    id="{{ id }}"
+    name="{{ name }}"
+    rows="5"
+    {{ if placeholder }}placeholder="{{ trans :key="placeholder" }}"{{ /if }}
+    {{ if character_limit }}maxlength="{{ character_limit }}"{{ /if }}
+    {{ if js_driver }}{{ js_attributes }}{{ /if }}
+    {{ if validate|contains:required }}required{{ /if }}
+    {{ if error }}
+        aria-invalid="true" aria-describedby="{{ id }}-error"
+    {{ elseif instructions }}
+        aria-describedby="{{ id }}-instructions"
+    {{ /if }}
+>
+    {{ value }}
+</textarea>

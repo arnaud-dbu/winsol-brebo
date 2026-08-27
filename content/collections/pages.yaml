@@ -3,4 +3,7 @@ revisions: false
 route: '{parent_uri}/{slug}'
 structure:
   root: true
-propagate: true
+sites:
+  - nl
+  - fr
+  - en

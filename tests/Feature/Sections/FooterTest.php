@@ -27,12 +27,13 @@ class FooterTest extends SectionTestCase
         // haalde de dubbel weg; wat blijft is de homelink met zijn toegankelijke
         // naam en het logo erin.
         $this->assertMatchesRegularExpression(
-            '~<a href="/"[^>]*>\s*<span class="sr-only">Home Link</span>\s*<svg~',
+            '~<a href="/"[^>]*>\s*<span class="sr-only">Home</span>\s*<svg~',
             $html
         );
 
-        // The `ranges` collection loop (9 seeded ranges under /aanbod/*).
-        $this->assertSame(9, substr_count($html, 'href="/aanbod/'));
+        // The `ranges` collection loop: 8 gepubliceerde ranges onder
+        // /aanbod/* — airco is gedepubliceerd (feedback Jimmy, 26-08-2026).
+        $this->assertSame(8, substr_count($html, 'href="/aanbod/'));
 
         // De `nav:main`-lus (Aanbod, Nieuws, Service, Over ons, Contact).
         $this->assertSame(5, substr_count($html, 'href="/aanbod"')

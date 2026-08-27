@@ -27,6 +27,16 @@ tabs:
               validate:
                 - required
           -
+            handle: product_groups
+            field:
+              type: terms
+              taxonomies:
+                - product_groups
+              max_items: 1
+              mode: select
+              display: Productgroep
+              instructions: 'Groepeert dit product in de sprongbalk bovenaan de aanbodpagina. Leeg laten mag: het product valt dan onder "Overige".'
+          -
             handle: text
             field:
               type: textarea

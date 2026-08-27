@@ -4,63 +4,41 @@ namespace Tests\Feature\Sections;
 
 class QuicklinksSectionTest extends SectionTestCase
 {
-    public function test_three_columns_when_a_brochure_is_present(): void
+    /**
+     * De brochurekaart rendert sinds de gated download altijd — met pdf in
+     * scope voorgeselecteerd, zonder pdf kaal naar /brochures. Het grid
+     * staat daarom vast op drie kolommen; brochures moeten makkelijker
+     * vindbaar zijn en vaker aangeboden worden (Jimmy, 26-08).
+     */
+    public function test_three_columns_and_three_cards_with_a_brochure_in_scope(): void
     {
         $html = $this->render('{{ partial:quicklinks :brochure="brochure" }}', [
-            'brochure' => ['url' => '/assets/brochures/pergola-so.pdf'],
+            'brochure' => ['url' => '/assets/brochures/pergola-so.pdf', 'path' => 'brochures/pergola-so.pdf'],
         ]);
 
         $this->assertStringContainsString('lg:grid-cols-3', $html);
-        $this->assertStringNotContainsString('lg:grid-cols-2', $html);
+        $this->assertSame(3, substr_count($html, '<li'));
+        $this->assertSame(3, substr_count($html, 'quicklink-card'));
     }
 
-    public function test_two_columns_when_there_is_no_brochure(): void
+    public function test_three_columns_and_three_cards_without_a_brochure(): void
     {
         $html = $this->render('{{ partial:quicklinks }}');
 
-        $this->assertStringContainsString('lg:grid-cols-2', $html);
-        $this->assertStringNotContainsString('lg:grid-cols-3', $html);
-    }
-
-    public function test_two_columns_when_the_brochure_is_not_an_asset(): void
-    {
-        // Een kale string in plaats van een assetveld: quicklinkCard verbergt
-        // de brochurekaart al op `brochure:url` (commit 3ba06ed), dus het
-        // kolomaantal moet dezelfde toets gebruiken — anders houdt het grid
-        // drie kolommen over voor maar twee kaarten.
-        $html = $this->render('{{ partial:quicklinks :brochure="brochure" }}', [
-            'brochure' => 'brochures/weg.pdf',
-        ]);
-
-        $this->assertStringContainsString('lg:grid-cols-2', $html);
-        $this->assertStringNotContainsString('lg:grid-cols-3', $html);
-        $this->assertSame(2, substr_count($html, 'quicklink-card'));
-    }
-
-    /**
-     * Twee kaarten is niet hetzelfde als twee gridcellen. Zolang de `<li>` in de
-     * lus stond en alleen de kaart erbinnen zich verborg, bleef er een lege
-     * `<li>` achter: die telt mee als cel, dus in twee kolommen zakte de derde
-     * kaart naar een tweede rij met een gat ernaast. `quicklink-card` tellen zag
-     * dat niet, want dat telt precies de kaarten die er wél zijn.
-     */
-    public function test_a_hidden_brochure_card_leaves_no_empty_grid_cell(): void
-    {
-        $html = $this->render('{{ partial:quicklinks :brochure="brochure" }}', [
-            'brochure' => 'brochures/weg.pdf',
-        ]);
-
-        $this->assertSame(2, substr_count($html, '<li'));
-        $this->assertSame(2, substr_count($html, '</li>'));
-    }
-
-    public function test_all_three_cells_are_there_when_the_brochure_exists(): void
-    {
-        $html = $this->render('{{ partial:quicklinks :brochure="brochure" }}', [
-            'brochure' => ['url' => '/assets/brochures/pergola-so.pdf'],
-        ]);
-
-        $this->assertSame(3, substr_count($html, '<li'));
+        $this->assertStringContainsString('lg:grid-cols-3', $html);
         $this->assertSame(3, substr_count($html, 'quicklink-card'));
+        $this->assertStringContainsString('href="/brochures"', $html);
+    }
+
+    public function test_a_non_asset_brochure_still_yields_the_plain_form_link(): void
+    {
+        // Een kale string in plaats van een assetveld: `brochure:path` op een
+        // string levert niets op, dus de kaart valt terug op de kale link.
+        $html = $this->render('{{ partial:quicklinks :brochure="brochure" }}', [
+            'brochure' => 'brochures/weg.pdf',
+        ]);
+
+        $this->assertSame(3, substr_count($html, 'quicklink-card'));
+        $this->assertStringContainsString('href="/brochures"', $html);
     }
 }

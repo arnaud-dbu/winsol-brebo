@@ -1,0 +1,69 @@
+{{#
+    Bevestigingsmail na een brochureaanvraag. Inline styles en tabellen omdat mailclients geen extern css laden; de drie
+    vervolgroutes staan in de volgorde die Jimmy bewust koos — showroom eerst, dat converteert het best.
+#}}
+<table
+    role="presentation"
+    width="100%"
+    cellpadding="0"
+    cellspacing="0"
+    style="font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; line-height: 1.6; font-size: 16px">
+    <tr>
+        <td align="center">
+            <table
+                role="presentation"
+                width="560"
+                cellpadding="0"
+                cellspacing="0"
+                style="max-width: 560px; width: 100%">
+                <tr>
+                    <td style="padding: 32px 24px">
+                        {{ mail_prefix = site == 'nl' ? '' : '/' + site }}
+                        <p style="margin: 0 0 16px">{{ trans:site.mail_greeting }} {{ name }},</p>
+
+                        <p style="margin: 0 0 16px">{{ trans:site.mail_brochure_intro }}</p>
+
+                        <ul style="margin: 0 0 24px; padding-left: 20px">
+                            {{ brochures }}
+                                <li style="margin-bottom: 8px">
+                                    <a href="{{ url }}" style="color: #1a1a1a">{{ label }} (pdf)</a>
+                                </li>
+                            {{ /brochures }}
+                        </ul>
+
+                        <p style="margin: 0 0 12px"><strong>{{ trans:site.mail_brochure_next }}</strong></p>
+
+                        <ol style="margin: 0 0 24px; padding-left: 20px">
+                            <li style="margin-bottom: 12px">
+                                <strong>
+                                    <a href="{{ config:app:url }}{{ mail_prefix }}/contact" style="color: #1a1a1a">
+                                        {{ trans:site.mail_route_showroom }}
+                                    </a>
+                                </strong>
+                                — {{ trans:site.mail_route_showroom_text }}
+                            </li>
+                            <li style="margin-bottom: 12px">
+                                <a href="{{ config:app:url }}{{ mail_prefix }}/contact" style="color: #1a1a1a">
+                                    {{ trans:site.mail_route_rep }}
+                                </a>
+                                — {{ trans:site.mail_route_rep_text }}
+                            </li>
+                            <li style="margin-bottom: 12px">
+                                <a href="{{ config:app:url }}{{ mail_prefix }}/offerte" style="color: #1a1a1a">
+                                    {{ trans:site.mail_route_quote }}
+                                </a>
+                                — {{ trans:site.mail_route_quote_text }}
+                            </li>
+                        </ol>
+
+                        <p style="margin: 0">
+                            {{ trans:site.mail_closing }}
+                            <br />
+                            Winsol Brebo
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

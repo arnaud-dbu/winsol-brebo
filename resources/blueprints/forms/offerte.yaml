@@ -18,6 +18,8 @@ tabs:
               type: location_select
               display: 'Naar welk filiaal?'
               placeholder: 'Kies een filiaal…'
+              validate:
+                - required
           -
             handle: name
             field:
@@ -35,6 +37,8 @@ tabs:
               display: Telefoon
               placeholder: '+32 …'
               width: 50
+              validate:
+                - required
           -
             handle: email
             field:
@@ -47,18 +51,22 @@ tabs:
                 - required
                 - email
           -
-            handle: postal_code
+            handle: address
             field:
               type: text
-              display: Postcode
-              placeholder: 'bv. 1700'
+              display: Adres
+              placeholder: 'Straat en nummer, gemeente'
               width: 50
+              validate:
+                - required
           -
             handle: project
             field:
               type: textarea
               display: 'Vertel kort over je project'
               placeholder: 'Wat wil je laten plaatsen? Afmetingen, wensen, timing…'
+              validate:
+                - required
           -
             handle: attachment
             field:

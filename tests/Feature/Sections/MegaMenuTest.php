@@ -35,24 +35,24 @@ class MegaMenuTest extends SectionTestCase
         $this->assertStringContainsString('Somfy Smart Home', $html);
         $this->assertStringContainsString('Somfy TaHoma laat je rolluiken, zonwering en poort samenwerken via één app, afstandsbediening of je stem.', $html);
 
-        // Alle negen ranges, niet slechts de drie hierboven met naam genoemde.
-        // Het mobiele paneel toont geen ranges, dus negen is exact.
-        $this->assertSame(9, substr_count($html, 'href="/aanbod/'));
+        // Alle acht gepubliceerde ranges, niet slechts de drie hierboven met
+        // naam genoemde; airco is gedepubliceerd (feedback Jimmy, 26-08-2026).
+        // Het mobiele paneel toont geen ranges, dus acht is exact.
+        $this->assertSame(8, substr_count($html, 'href="/aanbod/'));
     }
 
     public function test_ranges_within_a_category_follow_their_order_field(): void
     {
         $html = $this->render('{{ partial:navigation }}');
 
-        // "Voor je woning": order 1, 2, 3, 4.
+        // "Voor je woning": order 1, 2, 3. Airco (order 4) is gedepubliceerd.
         $ramen = strpos($html, 'Ramen en deuren');
         $stalen = strpos($html, 'Stalen binnendeuren');
         $velux = strpos($html, 'VELUX dakramen');
-        $airco = strpos($html, 'Airco');
 
         $this->assertLessThan($stalen, $ramen);
         $this->assertLessThan($velux, $stalen);
-        $this->assertLessThan($airco, $velux);
+        $this->assertStringNotContainsString('Airco', $html);
     }
 
     public function test_each_range_links_to_its_own_page(): void

@@ -2,8 +2,8 @@
     <div class="container flex flex-col gap-10">
         <div class="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
             <div class="flex flex-col items-start gap-5">
-                <a href="/" class="flex flex-col items-start gap-2">
-                    <span class="sr-only">Home Link</span>
+                <a href="{{ site:url ? site:url : '/' }}" class="flex flex-col items-start gap-2">
+                    <span class="sr-only">Home</span>
                     {{ svg src="logo-inverse" class="w-3/4 h-auto max-w-xs xl *:max-w-lg xl:w-full" }}
                 </a>
             </div>
@@ -41,16 +41,27 @@
                         {{ /nav:footer }}
                     </ul>
                 </div>
-                {{ if globals:contact:phone or globals:contact:email or (globals:company:street and globals:company:city) }}
+                {{ if globals:contact:phone_brussels or globals:contact:phone_antwerp or globals:contact:email or (globals:company:street and globals:company:city) }}
                     <div class="footer__column flex flex-col gap-4">
                         <p class="font-bold text-white">{{ trans:site.footer_column_contact }}</p>
                         <ul class="flex flex-col gap-0.5">
-                            {{ if globals:contact:phone }}
+                            {{ if globals:contact:phone_brussels }}
                                 <li>
                                     <a
-                                        href="tel:{{ globals:contact:phone }}"
+                                        href="tel:{{ globals:contact:phone_brussels | replace(' ', '') }}"
                                         class="text-white/60 transition-opacity hover:opacity-80">
-                                        {{ globals:contact:phone }}
+                                        {{ trans:site.contact_region_brussels }}
+                                        : {{ globals:contact:phone_brussels }}
+                                    </a>
+                                </li>
+                            {{ /if }}
+                            {{ if globals:contact:phone_antwerp }}
+                                <li>
+                                    <a
+                                        href="tel:{{ globals:contact:phone_antwerp | replace(' ', '') }}"
+                                        class="text-white/60 transition-opacity hover:opacity-80">
+                                        {{ trans:site.contact_region_antwerp }}
+                                        : {{ globals:contact:phone_antwerp }}
                                     </a>
                                 </li>
                             {{ /if }}

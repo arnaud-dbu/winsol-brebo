@@ -1,0 +1,43 @@
+{{#
+    Adresinput met Google Places Autocomplete (New). Draait volledig op de veldvariabelen van de omliggende
+    {{ fields }}-loop; zonder API-key blijft het een gewoon tekstveld.
+#}}
+<div
+    class="form-autocomplete"
+    x-data="addressAutocomplete('{{ config:services:google:maps_key }}')"
+    @click.outside="close"
+    @focusout="if (!$el.contains($event.relatedTarget)) close()">
+    <input
+        x-ref="input"
+        type="text"
+        id="{{ id }}"
+        name="{{ name }}"
+        value="{{ value | entities }}"
+        placeholder="{{ trans :key="placeholder" }}"
+        autocomplete="off"
+        role="combobox"
+        aria-autocomplete="list"
+        aria-controls="{{ id }}-options"
+        :aria-expanded="open"
+        @input.debounce.300ms="search"
+        @keydown.down.prevent="move(1)"
+        @keydown.up.prevent="move(-1)"
+        @keydown.enter="chooseActive($event)"
+        @keydown.escape="close"
+        {{ if validate|contains:required }}required{{ /if }}
+        {{ if error }}aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }} />
+
+    <ul x-cloak x-show="open" id="{{ id }}-options" role="listbox" class="form-autocomplete-list">
+        <template x-for="(suggestion, index) in suggestions" :key="suggestion">
+            <li role="option" :aria-selected="index === active">
+                <button
+                    type="button"
+                    :class="index === active && 'is-active'"
+                    @click="choose(index)"
+                    x-text="suggestion"
+                    tabindex="-1"></button>
+            </li>
+        </template>
+        <li aria-hidden="true" class="form-autocomplete-attribution">Powered by Google</li>
+    </ul>
+</div>

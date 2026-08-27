@@ -1,0 +1,36 @@
+{{#
+    Sprongbalk tussen de hero en de eerste sectie van een aanbodpagina: wie gericht naar één product zoekt, moet daar niet
+    eerst een halve pagina voor scrollen. De groepen en hun volgorde komen uit de product_groups-taxonomie;
+    `range_product_groups` bundelt ze. Zonder producten rendert de tag niets en verdwijnt de hele strook. Elke groep is een
+    kolom met een grijs kopje en zijn producten eronder als kale tekstlinks. Zonder groepen blijft `group_title` leeg en
+    verdeelt die ene lijst zichzelf over dezelfde kolombreedte, zodat de strook ook op een range zonder indeling breed en
+    laag blijft in plaats van één smalle kolom van zes regels.
+#}}
+{{ range_product_groups as="groups" }}
+    {{ if groups }}
+        <section class="range-jump-section" data-section="range-quicklinks">
+            <div class="container">
+                <nav class="range-jump" aria-label="{{ trans key='Ga naar een product' }}">
+                    {{ groups }}
+                        <div class="range-jump__group">
+                            {{ if group_title }}
+                                <p class="range-jump__label">{{ group_title | entities }}</p>
+                            {{ /if }}
+                            <ul class="range-jump__items{{ if spread }} range-jump__items--spread{{ /if }}">
+                                {{ products }}
+                                    <li>
+                                        <a href="{{ url }}" class="range-jump__link">
+                                            {{ title | entities }}
+                                            {{# `bold`: het reguliere gewicht is op deze maat haardun. #}}
+                                            {{ icon src="arrow-up-right" suffix="bold" class="range-jump__arrow" }}
+                                        </a>
+                                    </li>
+                                {{ /products }}
+                            </ul>
+                        </div>
+                    {{ /groups }}
+                </nav>
+            </div>
+        </section>
+    {{ /if }}
+{{ /range_product_groups }}

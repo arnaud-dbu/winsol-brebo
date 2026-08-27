@@ -2,4 +2,9 @@
 id: 5f1a0d64-6b34-4f2e-9e5c-1a2b3c4d5e02
 title: 'Voor je woning'
 order: 1
+localizations:
+  fr:
+    title: 'Pour votre habitation'
+  en:
+    title: 'For your home'
 ---

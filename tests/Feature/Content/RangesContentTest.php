@@ -15,7 +15,7 @@ class RangesContentTest extends TestCase
         ];
 
         foreach ($slugs as $slug) {
-            $entry = Entry::query()->where('collection', 'ranges')->where('slug', $slug)->first();
+            $entry = Entry::query()->where('collection', 'ranges')->where('site', 'nl')->where('slug', $slug)->first();
 
             $this->assertNotNull($entry, "Range {$slug} ontbreekt");
             $this->assertSame("ranges/{$slug}.png", $entry->get('image'));
@@ -38,7 +38,7 @@ class RangesContentTest extends TestCase
         ];
 
         foreach ($expectedCategoryTitles as $slug => $expectedTitle) {
-            $entry = Entry::query()->where('collection', 'ranges')->where('slug', $slug)->first();
+            $entry = Entry::query()->where('collection', 'ranges')->where('site', 'nl')->where('slug', $slug)->first();
 
             $this->assertNotNull($entry, "Range {$slug} ontbreekt");
 
@@ -57,12 +57,12 @@ class RangesContentTest extends TestCase
     public function test_range_titles_match_the_design(): void
     {
         $expectedTitles = [
-            'terrasoverkapping' => "Terrasoverkapping",
+            'terrasoverkapping' => 'Terrasoverkapping',
             'velux' => 'VELUX dakramen',
         ];
 
         foreach ($expectedTitles as $slug => $title) {
-            $entry = Entry::query()->where('collection', 'ranges')->where('slug', $slug)->first();
+            $entry = Entry::query()->where('collection', 'ranges')->where('site', 'nl')->where('slug', $slug)->first();
 
             $this->assertNotNull($entry, "Range {$slug} ontbreekt");
             $this->assertSame($title, $entry->get('title'), "Titel van {$slug} wijkt af van het ontwerp");

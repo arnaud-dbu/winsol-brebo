@@ -4,7 +4,7 @@
             <div class="form-grid">
                 {{ fields }}
                     <div class="form-field{{ if width == 50 }} form-field--half{{ /if }}">
-                        <label class="form-label" for="{{ id }}">{{ display }}</label>
+                        <label class="form-label" for="{{ id }}">{{ trans :key="display" }}</label>
                         {{ if handle == "branch" }}
                             <div class="form-select-wrap">
                                 <select
@@ -12,7 +12,7 @@
                                     name="{{ name }}"
                                     {{ if validate|contains:required }}required{{ /if }}
                                     {{ if error }}aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }}>
-                                    <option value="">{{ placeholder }}</option>
+                                    <option value="">{{ trans :key="placeholder" }}</option>
                                     {{ collection:locations }}
                                         <option value="{{ slug }}" {{ if slug == value }} selected{{ /if }}>
                                             {{ name }}
@@ -24,9 +24,17 @@
                         {{ elseif handle == "photo" }}
                             <div class="form-dropzone">
                                 {{ icon src="upload" class="size-7" }}
-                                <span>Sleep een foto hierheen of klik om te uploaden</span>
+                                <span>{{ trans key="Sleep een foto hierheen of klik om te uploaden" }}</span>
                                 {{ field }}
                             </div>
+                        {{ elseif handle == "invoice" }}
+                            <div class="form-dropzone">
+                                {{ icon src="upload" class="size-7" }}
+                                <span>{{ trans key="Sleep je factuur hierheen of klik om te uploaden" }}</span>
+                                {{ field }}
+                            </div>
+                        {{ elseif handle == "address" }}
+                            {{ partial:addressField }}
                         {{ else }}
                             {{ field }}
                         {{ /if }}
@@ -40,5 +48,5 @@
     {{ /sections }}
     <input type="text" class="hidden" name="{{ honeypot ?? 'honeypot' }}" />
 
-    <button type="submit" class="btn btn--primary">Herstelling melden</button>
+    <button type="submit" class="btn btn--primary">{{ trans key="Herstelling melden" }}</button>
 {{ /form:herstelling }}

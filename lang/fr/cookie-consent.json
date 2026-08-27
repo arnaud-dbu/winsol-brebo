@@ -1,0 +1,24 @@
+{
+    "enabled": true,
+    "consent_mode_v2": true,
+    "cookie_version": "1",
+
+    "title": "Pouvons-nous utiliser des cookies ?",
+    "intro_before": "Ils nous aident à améliorer le site. Choisissez ce que vous autorisez dans les ",
+    "intro_link": "préférences",
+    "intro_after": ".",
+
+    "accept_label": "Accepter",
+    "deny_label": "Refuser",
+    "confirm_label": "Confirmer les préférences",
+    "revoke_label": "Paramètres des cookies",
+
+    "marketing_title": "Marketing",
+    "marketing_description": "Sert à rendre les publicités plus pertinentes pour vous et à mesurer leurs performances.",
+
+    "personalization_title": "Personnalisation",
+    "personalization_description": "Retient vos préférences pour que le site corresponde mieux à votre visite.",
+
+    "analytics_title": "Analytics",
+    "analytics_description": "Nous aide à comprendre comment les visiteurs utilisent le site, afin de l'améliorer."
+}

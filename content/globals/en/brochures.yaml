@@ -1,0 +1,37 @@
+items:
+  -
+    id: br-alu-ramen
+    label: 'Aluminium windows and doors'
+    file: brochures/winsol_brochure_ramen-en-deuren-in-alu_nl.pdf
+  -
+    id: br-pvc-ramen
+    label: 'PVC windows and doors'
+    file: brochures/winsol_brochure_ramen-en-deuren-in-pvc_nl.pdf
+  -
+    id: br-rolluiken
+    label: 'Roller shutters'
+    file: brochures/winsol-brochure-rolluiken-nl.pdf
+  -
+    id: br-screens
+    label: 'Screens and vertical solar shading'
+    file: brochures/winsol_brochure_verticale-zonwering_nl.pdf
+  -
+    id: br-zonneschermen
+    label: 'Awnings'
+    file: brochures/winsol_brochure_luifels_nl.pdf
+  -
+    id: br-lumisolar
+    label: 'Solar-powered awnings'
+    file: brochures/winsol_luifel_lina-lumisolar_nl.pdf
+  -
+    id: br-pergola-so
+    label: 'Pergola SO!'
+    file: brochures/winsol-brochure_so-classic-climate_2025_nl.pdf
+  -
+    id: br-pergola-zip
+    label: 'Pergola Z!P'
+    file: brochures/winsol-brochure-pergola-zip-nl.pdf
+  -
+    id: br-pergola-origin
+    label: 'Pergola ORIG!N'
+    file: brochures/pergola-origin_2025_nl.pdf

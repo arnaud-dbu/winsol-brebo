@@ -5,17 +5,15 @@
     binnenhalen. Geen slider, in tegenstelling tot `sections/cards` en `sections/ranges`: dat zijn open lijsten van
     wisselende lengte, dit zijn de drie belangrijkste CTA's van de pagina. Die horen alle drie in beeld, niet twee ervan
     achter een swipe. De kaart zelf staat in `quicklinkCard`, gedeeld met `pageQuicklinks`. Deze partial bepaalt alleen de
-    bron (de collectie) en het aantal kolommen. Het kolomaantal hangt aan de brochure: zonder pdf verbergt de brochurekaart
-    zich (zie quicklinkCard), dus blijven er twee van de drie over. Dat mag hier uit `brochure` afgeleid worden omdat
-    precies een quicklink het type `brochure` draagt — vastgepind in QuicklinksContentTest.
+    bron (de collectie) en het aantal kolommen. De brochurekaart rendert altijd — zonder pdf in scope linkt hij
+    kaal naar /brochures (zie quicklinkCard) — dus het grid staat vast op drie kolommen.
 #}}
-{{ grid_columns = brochure:url ? 'lg:grid-cols-3' : 'lg:grid-cols-2' }}
 <section class="section section--default" data-section="quicklinks">
     <div class="container">
         <div class="section-y-gap">
-            <h2 class="text-center">Zet de volgende stap</h2>
+            <h2 class="text-center">{{ trans key="Zet de volgende stap" }}</h2>
 
-            <ul class="quicklink-grid {{ grid_columns }}">
+            <ul class="quicklink-grid lg:grid-cols-3">
                 {{ collection:quicklinks as="cards" }}
                     {{ cards }}
                         {{ partial:quicklinkCard :brochure="brochure" }}

@@ -102,11 +102,16 @@ class AppServiceProvider extends ServiceProvider
         Sets::useIcons('icons', resource_path('svg/icons/regular'));
 
         // Het `range`-veld is een entries-veld en levert een id, geen slug. De route
-        // heeft de slug nodig, dus die wordt hier afgeleid.
+        // heeft de slug nodig, dus die wordt hier afgeleid. `value()` en niet
+        // `get()`: fr/en-localisaties dragen het veld niet zelf en erven het
+        // van hun origin — met `get()` kreeg elke vertaalde productpagina
+        // range-onbekend in zijn url.
         Collection::computed('products', 'range_slug', function (\Statamic\Contracts\Entries\Entry $entry): string {
-            $id = Arr::first(Arr::wrap($entry->get('range')));
+            $id = Arr::first(Arr::wrap($entry->value('range')));
+            $range = $id ? Entry::find($id) : null;
+            $range = $range?->in($entry->locale()) ?? $range;
 
-            return ($id ? Entry::find($id)?->slug() : null) ?? self::UNRESOLVED_RANGE_SLUG;
+            return $range?->slug() ?? self::UNRESOLVED_RANGE_SLUG;
         });
 
         Event::listen(BlueprintSaved::class, AddDefaultBlueprintTabs::class);
@@ -117,7 +122,14 @@ class AppServiceProvider extends ServiceProvider
             CompressUploadedAsset::class,
         );
 
-        View::share('cookie_consent', $this->loadCookieConsent());
+        // Composer en geen share: share draait bij boot, vóór Statamic de
+        // sitelocale zet, en gaf fr/en dus de Nederlandse cookieteksten.
+        View::composer('*', function ($view): void {
+            static $consent = [];
+            $locale = app()->getLocale();
+            $consent[$locale] ??= $this->loadCookieConsent();
+            $view->with('cookie_consent', $consent[$locale]);
+        });
         View::share('font_faces', config('fonts.fonts', []));
 
         RateLimiter::for('inspace', function (Request $request) {
