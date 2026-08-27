@@ -78,8 +78,8 @@ page_builder:
   -
     id: rd-producten
     type: products
-    overline: Products
-    title: 'The full range'
+    overline: 'Windows and doors'
+    title: 'The full range of windows and doors'
     products:
       - 9b4f52b1-0001-4c2d-8e6f-4a5b6c7d9e01
       - 9b4f52b1-0002-4c2d-8e6f-4a5b6c7d9e02

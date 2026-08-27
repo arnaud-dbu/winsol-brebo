@@ -3,6 +3,8 @@ id: 9b4f52b1-0009-4c2d-8e6f-4a5b6c7d9e09
 title: 'Sierluiken'
 range:
   - 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
+product_groups:
+  - accessoires
 text: 'Decoratieve luiken die je gevel karakter geven, in aluminium dat niet rot en niet geschilderd hoeft te worden.'
 image: placeholder/beeld-ontbreekt.jpg
 meta_title: 'Sierluiken op maat'

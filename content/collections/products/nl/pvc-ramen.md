@@ -3,6 +3,8 @@ id: 9b4f52b1-0003-4c2d-8e6f-4a5b6c7d9e03
 title: 'PVC ramen'
 range:
   - 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
+product_groups:
+  - pvc-schrijnwerk
 text: 'Uitstekend isolerende ramen die nauwelijks onderhoud vragen, in een ruim aanbod kleuren en houtlook-afwerkingen.'
 image: ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(20).jpg
 brochure: brochures/winsol_brochure_ramen-en-deuren-in-pvc_nl.pdf

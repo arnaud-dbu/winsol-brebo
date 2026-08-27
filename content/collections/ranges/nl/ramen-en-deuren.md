@@ -82,8 +82,8 @@ page_builder:
   -
     id: rd-producten
     type: products
-    overline: Producten
-    title: 'Het volledige aanbod'
+    overline: 'Ramen en deuren'
+    title: 'Het volledige aanbod ramen en deuren'
     products:
       - 9b4f52b1-0001-4c2d-8e6f-4a5b6c7d9e01
       - 9b4f52b1-0002-4c2d-8e6f-4a5b6c7d9e02

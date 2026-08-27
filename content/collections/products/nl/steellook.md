@@ -3,6 +3,8 @@ id: 9b4f52b1-0007-4c2d-8e6f-4a5b6c7d9e07
 title: 'Steellook'
 range:
   - 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
+product_groups:
+  - steellook
 text: 'Aluminium profielen met de aanblik van smeedijzer. De cottage-look van stalen ramen, met de isolatie van vandaag.'
 image: ramen-en-deuren/realisatie-realisation-steellook-hi_martelaarslaan-gent-(27).jpg
 brochure: brochures/winsol_brochure_ramen-en-deuren-in-alu_nl.pdf

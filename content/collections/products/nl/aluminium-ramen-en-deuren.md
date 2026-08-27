@@ -3,6 +3,8 @@ id: 9b4f52b1-0001-4c2d-8e6f-4a5b6c7d9e01
 title: 'Aluminium ramen & deuren'
 range:
   - 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
+product_groups:
+  - aluminium-schrijnwerk
 text: 'Ultrasmalle profielen, dus meer glas en meer daglicht. Sterk genoeg voor grote schuifpartijen, en op maat gemaakt in België.'
 image: ramen-en-deuren/realisatie-realisation-allura-81_ardooie-(23).jpg
 brochure: brochures/winsol_brochure_ramen-en-deuren-in-alu_nl.pdf

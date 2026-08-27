@@ -1,0 +1,69 @@
+/*
+ * De sprongbalk onder de hero van een aanbodpagina (partials/rangeQuicklinks).
+ *
+ * Bewust een strook en geen sectie: hij hoort visueel bij de header eronder,
+ * niet bij de inhoud erna. Vandaar een eigen, compacte padding in plaats van
+ * `.section--default` — met de sectiepadding erop werd deze balk 482px hoog,
+ * en dan scrollt de bezoeker er alsnog langs.
+ *
+ * Het groepslabel staat inline vóór zijn pillen en niet erboven: met vier
+ * groepen boven elkaar liep de balk anders op tot vier tekstregels. Zo blijft
+ * het een rij die wrapt, terwijl de groepsgrens leesbaar blijft door de
+ * scheidingslijn ervoor.
+ */
+
+.range-jump-section {
+    @apply pt-8 pb-2 lg:pt-10 lg:pb-4;
+}
+
+.range-jump {
+    @apply flex flex-col gap-4 border-t border-black/10 pt-6 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-6 lg:gap-y-4 lg:pt-8;
+}
+
+.range-jump__group {
+    @apply flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-4;
+}
+
+/*
+ * De scheidingslijn zit op de groep en niet tussen de pillen, zodat ze blijft
+ * kloppen wanneer de rij wrapt: een `::before` op elke groep behalve de eerste
+ * zou bij een regelovergang bovenaan de nieuwe regel opduiken. Onder `lg`
+ * staan de groepen onder elkaar en doet de witruimte het werk.
+ */
+.range-jump__group + .range-jump__group {
+    @apply lg:border-l lg:border-black/10 lg:pl-6;
+}
+
+/*
+ * Wel de typografie van `.overline`, niet de klasse zelf: die tekent een geel
+ * accentstreepje via `::after` dat onder een sectiekop hoort. Hier wrappen de
+ * groepen over meerdere regels en kwam dat streepje tussen twee rijen labels
+ * te hangen.
+ */
+.range-jump__label {
+    @apply text-sm font-semibold tracking-wide whitespace-nowrap text-black/45 uppercase;
+}
+
+/*
+ * `-mx-4 px-4` spiegelt de padding van `.container`: onder lg loopt de rij met
+ * pillen door tot de schermrand in plaats van halverwege af te kappen.
+ */
+.range-jump__items {
+    @apply -mx-4 scrollbar-none flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:gap-2 lg:overflow-x-visible lg:px-0;
+}
+
+/*
+ * Dezelfde pilvorm en lichte rand als `.section-nav__link`, maar compacter:
+ * dit zijn er negen naast elkaar in plaats van vier. De follow-up om één
+ * `.btn--pill`-basis te extraheren staat al open in
+ * docs/superpowers/specs/2026-07-26-pagebuilder-sections-followups.md; deze
+ * zesde pill hoort in diezelfde opruiming en niet in deze diff.
+ */
+.range-jump__link {
+    @apply inline-flex w-fit items-center gap-1.5 rounded-full border border-black/12 px-4 py-2 text-sm font-semibold whitespace-nowrap text-black transition-colors duration-200 ease-out lg:px-5 lg:py-2.5 lg:text-base;
+}
+
+.range-jump__link:hover,
+.range-jump__link:focus-visible {
+    @apply border-black bg-light-shape;
+}

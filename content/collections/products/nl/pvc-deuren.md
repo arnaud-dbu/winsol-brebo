@@ -3,6 +3,8 @@ id: 9b4f52b1-0004-4c2d-8e6f-4a5b6c7d9e04
 title: 'PVC deuren'
 range:
   - 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
+product_groups:
+  - pvc-schrijnwerk
 text: 'Voordeuren en achterdeuren in pvc: goed geïsoleerd, inbraakwerend en in een ruim aanbod modellen en kleuren.'
 image: ramen-en-deuren/realisatie-realisation-pvc-ramen-en-deuren-c-70-portes-et-fenetes-c-70-rolluiken-volets_boutersem46.jpg
 brochure: brochures/winsol_brochure_ramen-en-deuren-in-pvc_nl.pdf

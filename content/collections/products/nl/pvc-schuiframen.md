@@ -3,6 +3,8 @@ id: 9b4f52b1-0006-4c2d-8e6f-4a5b6c7d9e06
 title: 'PVC schuiframen'
 range:
   - 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
+product_groups:
+  - pvc-schrijnwerk
 text: 'Schuiframen in pvc: dezelfde bediening en isolatie als een aluminium schuifpartij, tegen een lagere prijs.'
 image: ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(16).jpg
 brochure: brochures/winsol_brochure_ramen-en-deuren-in-pvc_nl.pdf
