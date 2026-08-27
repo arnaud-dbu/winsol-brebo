@@ -14,6 +14,7 @@ class ArticleCardTest extends SectionTestCase
         // legt dat vast.
         $article = Entry::query()
             ->where('collection', 'articles')
+            ->where('site', 'nl')
             ->where('slug', 'achttien-ramen-en-een-pergola-in-een-werf')
             ->first();
 
@@ -32,6 +33,7 @@ class ArticleCardTest extends SectionTestCase
         // uit. Deze combinatie is dus geen stijlkwestie maar de fix zelf.
         $article = Entry::query()
             ->where('collection', 'articles')
+            ->where('site', 'nl')
             ->where('slug', 'showroom-aartselaar-is-opnieuw-open')
             ->first();
 

@@ -53,7 +53,11 @@ class BrochureCheckboxes extends Checkboxes
 
     private function items()
     {
-        $set = GlobalSet::findByHandle('brochures');
+        // `brochure_library` en niet `brochures`: Statamic zet elke globalset
+        // onder zijn handle op topniveau in de data van een formuliermail, en
+        // een set die `brochures` heet overschrijft daar het gelijknamige
+        // formulierveld — de gekozen brochures vielen dan uit de mail weg.
+        $set = GlobalSet::findByHandle('brochure_library');
 
         // De labels volgen de taal van de bezoeker; de pdf-paden zijn in elke
         // taal dezelfde. Zonder localisatie valt de site terug op de default.

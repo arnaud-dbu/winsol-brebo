@@ -37,6 +37,7 @@ class ArticleHeaderTest extends SectionTestCase
         // `{{ title }}` terugvallen op de artikeltitel.
         $article = Entry::query()
             ->where('collection', 'articles')
+            ->where('site', 'nl')
             ->where('slug', 'achttien-ramen-en-een-pergola-in-een-werf')
             ->first();
 
@@ -63,6 +64,7 @@ class ArticleHeaderTest extends SectionTestCase
         // dus Statamics Localize-middleware draait in dit testpad niet.
         $article = Entry::query()
             ->where('collection', 'articles')
+            ->where('site', 'nl')
             ->where('slug', 'qubic-slide-haalt-waterdichtheidsklasse-9a')
             ->first();
 

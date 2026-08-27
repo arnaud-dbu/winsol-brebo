@@ -1,0 +1,80 @@
+{{#
+    Interne melding bij een nieuwe inzending, gedeeld door offerte, herstelling en brochure. Het onderscheid komt uit
+    `label` in de e-mailconfiguratie van het formulier (resources/forms/*.yaml), zodat er niet drie bijna identieke
+    templates naast elkaar staan. De velden lopen via `{{ fields }}` en niet via een vaste lijst: zo verschijnt een veld
+    dat later aan het blueprint wordt toegevoegd hier vanzelf mee, in plaats van stil te ontbreken in de melding.
+#}}
+{{ partial:emails/partials/head }}
+<p style="margin: 0 0 4px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #6b7280">
+    {{ email_config:label ?? 'Nieuwe inzending' }}
+</p>
+<h1 style="margin: 0 0 20px; font-size: 22px; line-height: 1.25; color: #121b22">
+    {{ name ? name : 'Nieuwe inzending via de website' }}
+</h1>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+    {{ fields }}
+        {{# Lege velden overslaan: een melding met halve rijen leest trager dan een korte lijst. #}}
+        {{ if value }}
+            <tr>
+                <td
+                    width="34%"
+                    valign="top"
+                    style="
+                        padding: 10px 12px 10px 0;
+                        border-bottom: 1px solid #ebf0f2;
+                        font-size: 13px;
+                        color: #6b7280;
+                    ">
+                    {{ display }}
+                </td>
+                <td
+                    valign="top"
+                    style="padding: 10px 0; border-bottom: 1px solid #ebf0f2; font-size: 15px; color: #121b22">
+                    {{#
+                        Elk fieldtype levert zijn waarde anders aan: assets een lijst bestanden, checkboxes een lijst labels, en een select een
+                        LabeledValue waarvan `{{ value }}` alleen de opgeslagen slug toont.
+                    #}}
+                    {{ if fieldtype == 'assets' }}
+                        {{ value }}
+                            <a href="{{ url }}" style="color: #121b22">{{ basename }}</a>
+                            <br />
+                        {{ /value }}
+                    {{ elseif fieldtype == 'checkboxes' || fieldtype == 'range_checkboxes' || fieldtype == 'brochure_checkboxes' }}
+                        {{ value }}
+                            {{ label ?? value }}
+                            {{ unless last }},{{ /unless }}
+                        {{ /value }}
+                    {{ elseif fieldtype == 'select' || fieldtype == 'location_select' }}
+                        {{ value:label ?? value }}
+                    {{ else }}
+                        {{ value | nl2br }}
+                    {{ /if }}
+                </td>
+            </tr>
+        {{ /if }}
+    {{ /fields }}
+</table>
+{{ if email }}
+    <p style="margin: 24px 0 0">
+        <a
+            href="mailto:{{ email }}"
+            style="
+                display: inline-block;
+                background-color: #f8d71c;
+                color: #121b22;
+                font-size: 15px;
+                font-weight: bold;
+                text-decoration: none;
+                padding: 12px 22px;
+                border-radius: 999px;
+            ">
+            Antwoord {{ name ? name : 'de aanvrager' }}
+        </a>
+    </p>
+{{ /if }}
+<p style="margin: 24px 0 0; font-size: 13px; color: #6b7280">
+    Verstuurd op {{ date format="d/m/Y" }} om {{ date format="H:i" }}.
+</p>
+
+{{ partial:emails/partials/foot }}

@@ -2,6 +2,9 @@ title: Offerte
 email:
   -
     id: offerte-notification
-    to: hello@stuw.agency
+    to: offertes@winsolspl.be
     reply_to: '{{ email }}'
     subject: 'Nieuwe offerteaanvraag van {{ name }}'
+    html: emails/notification
+    text: emails/notification_text
+    label: Offerteaanvraag

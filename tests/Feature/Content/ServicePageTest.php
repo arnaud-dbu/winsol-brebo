@@ -13,7 +13,7 @@ class ServicePageTest extends TestCase
 
     public function test_the_entry_uses_the_services_overview_blueprint_and_template(): void
     {
-        $entry = Entry::query()->where('collection', 'pages')->where('slug', 'service')->first();
+        $entry = Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'service')->first();
 
         $this->assertNotNull($entry, 'De service-entry ontbreekt.');
         $this->assertSame('services_overview', $entry->blueprint()->handle());
@@ -83,7 +83,7 @@ class ServicePageTest extends TestCase
 
     public function test_the_four_service_blocks_use_the_imported_photos(): void
     {
-        $entry = Entry::query()->where('collection', 'pages')->where('slug', 'service')->first();
+        $entry = Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'service')->first();
 
         $images = collect($entry->get('services'))->pluck('image');
 
@@ -111,7 +111,7 @@ class ServicePageTest extends TestCase
      */
     public function test_no_service_title_repeats_its_overline(): void
     {
-        $entry = Entry::query()->where('collection', 'pages')->where('slug', 'service')->first();
+        $entry = Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'service')->first();
 
         foreach ($entry->get('services') as $service) {
             $this->assertStringNotContainsStringIgnoringCase(
@@ -129,7 +129,7 @@ class ServicePageTest extends TestCase
      */
     public function test_the_copy_speaks_in_the_je_form_without_em_dashes(): void
     {
-        $entry = Entry::query()->where('collection', 'pages')->where('slug', 'service')->first();
+        $entry = Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'service')->first();
 
         foreach ($this->copyBlocks($entry) as $label => $text) {
             $this->assertSpeaksSiteVoice($text, $label);

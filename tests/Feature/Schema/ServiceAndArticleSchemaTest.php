@@ -39,7 +39,7 @@ class ServiceAndArticleSchemaTest extends TestCase
 
     public function test_an_article_carries_its_publication_date(): void
     {
-        $entry = Entry::query()->where('collection', 'articles')->first();
+        $entry = Entry::query()->where('collection', 'articles')->where('site', 'nl')->first();
         $this->assertNotNull($entry, 'Verwacht minstens één entry in de collectie articles.');
 
         $node = ArticleSchema::node($entry);
@@ -57,7 +57,7 @@ class ServiceAndArticleSchemaTest extends TestCase
      */
     public function test_an_article_carries_its_image_and_modification_date(): void
     {
-        $entry = Entry::query()->where('collection', 'articles')->first();
+        $entry = Entry::query()->where('collection', 'articles')->where('site', 'nl')->first();
         $this->assertNotNull($entry, 'Verwacht minstens één entry in de collectie articles.');
         $this->assertNotEmpty($entry->get('image'), 'Verwacht een gevulde image op deze fixture-entry.');
 

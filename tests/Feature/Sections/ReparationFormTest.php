@@ -15,18 +15,53 @@ class ReparationFormTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:reparationForm }}');
 
-        foreach (['product', 'installed', 'problem', 'branch', 'photo', 'invoice', 'email', 'name', 'phone', 'address'] as $handle) {
+        foreach (['product', 'is_winsol', 'installed', 'facade', 'floor', 'dimensions', 'problem', 'branch', 'photo', 'invoice', 'email', 'name', 'phone', 'address'] as $handle) {
             $this->assertStringContainsString('name="'.$handle.'"', $html, "Veld {$handle} ontbreekt.");
         }
     }
 
-    public function test_marks_exactly_the_four_paired_fields_as_half_width(): void
+    /**
+     * De halve velden staan per twee naast elkaar: product+is_winsol,
+     * installed+facade, floor+... en name+phone. De klasse volgt uit
+     * `width: 50` in het blueprint, niet uit dit template.
+     */
+    public function test_the_paired_fields_are_marked_half_width(): void
     {
-        // product+installed en name+phone staan in het design naast elkaar.
-        // De klasse volgt uit `width: 50` in het blueprint, niet uit dit template.
         $html = $this->render('{{ partial:reparationForm }}');
 
-        $this->assertSame(4, substr_count($html, 'form-field--half'));
+        $this->assertSame(7, substr_count($html, 'form-field--half'));
+    }
+
+    /**
+     * De vragen waarmee de planning weet hoeveel mensen en welk materiaal er
+     * moeten komen — het punt waar Jimmy geld op verliest als ze ontbreken
+     * (werkoverleg 21/24-08, formulier op winsoldilbeek.be).
+     */
+    public function test_it_asks_what_the_planning_needs_to_know(): void
+    {
+        $html = $this->render('{{ partial:reparationForm }}');
+
+        foreach (['facade', 'floor', 'dimensions', 'is_winsol'] as $handle) {
+            $this->assertStringContainsString('name="'.$handle.'"', $html, "Veld {$handle} ontbreekt.");
+        }
+
+        // De gevelkeuze is een select met drie vaste opties, geen vrij tekstveld.
+        $this->assertStringContainsString('Voorgevel', $html);
+        $this->assertStringContainsString('Achtergevel', $html);
+        $this->assertStringContainsString('Zijgevel', $html);
+    }
+
+    /**
+     * De productkeuze komt uit de ranges-collectie en niet uit een vaste lijst
+     * in het blueprint: die zou op /fr en /en in het Nederlands staan.
+     */
+    public function test_the_product_options_come_from_the_published_ranges(): void
+    {
+        $html = $this->render('{{ partial:reparationForm }}');
+
+        $this->assertStringContainsString('Rolluiken', $html);
+        $this->assertStringContainsString('Terrasoverkapping', $html);
+        $this->assertStringNotContainsString('Airco', $html);
     }
 
     public function test_the_branch_options_come_from_the_locations_collection(): void

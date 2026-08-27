@@ -12,7 +12,7 @@ class HomePageTest extends TestCase
 
     private function home()
     {
-        return Entry::query()->where('collection', 'pages')->where('slug', 'home')->first();
+        return Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'home')->first();
     }
 
     /**

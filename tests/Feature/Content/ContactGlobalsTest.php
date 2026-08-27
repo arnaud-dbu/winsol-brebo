@@ -11,8 +11,9 @@ class ContactGlobalsTest extends TestCase
      * Twee gescheiden centrales (Jimmy, werkoverleg 21/24-08): wie het
      * Brusselse 02-nummer belt komt bij de Brusselse verkoper terecht, wie
      * het Antwerpse 03-nummer belt bij de Antwerpse. Beide nummers zijn door
-     * Quinten aangeleverd op 26-08; het mailadres komt van winsoldilbeek.be
-     * (het hoofdverkooppunt).
+     * Quinten aangeleverd op 26-08; alle aanvragen komen sinds
+     * 27-08-2026 op offertes@winsolspl.be binnen (Jimmy via WhatsApp): dat is
+     * ook het adres dat de site zelf toont.
      */
     public function test_the_contact_details_carry_both_regional_numbers(): void
     {
@@ -20,7 +21,7 @@ class ContactGlobalsTest extends TestCase
 
         $this->assertSame('+32 2 308 02 26', $contact['phone_brussels']);
         $this->assertSame('+32 3 880 85 65', $contact['phone_antwerp']);
-        $this->assertSame('info@winsoldilbeek.be', $contact['email']);
+        $this->assertSame('offertes@winsolspl.be', $contact['email']);
     }
 
     public function test_the_company_address_is_the_dilbeek_branch(): void

@@ -28,7 +28,7 @@ class NieuwsPageTest extends TestCase
     public function test_realisaties_is_back_as_a_real_page(): void
     {
         $this->assertNotNull(
-            Entry::query()->where('collection', 'pages')->where('slug', 'realisaties')->first()
+            Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'realisaties')->first()
         );
 
         $this->get('/realisaties')->assertOk();

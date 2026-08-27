@@ -1,1 +1,10 @@
 title: Herstelling
+email:
+  -
+    id: herstelling-notification
+    to: offertes@winsolspl.be
+    reply_to: '{{ email }}'
+    subject: 'Nieuwe herstelaanvraag van {{ name }}'
+    html: emails/notification
+    text: emails/notification_text
+    label: Herstelaanvraag

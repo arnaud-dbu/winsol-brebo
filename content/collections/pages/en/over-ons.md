@@ -51,7 +51,7 @@ page_builder:
         enabled: true
         icon: users-three
         title: 'Our own installation team'
-        text: 'Our own craftsmen install everything — no subcontractors.'
+        text: 'Our own craftsmen install everything, never subcontractors.'
       -
         id: overonsf3
         type: feature

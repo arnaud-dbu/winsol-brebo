@@ -1,0 +1,28 @@
+{{#
+    Sluit de tabelwikkel uit partials/emails/head en zet de colofon eronder. De contactgegevens komen uit de globals van
+    de site waarop het formulier verstuurd is, zodat een Franse inzending ook Franse afzendinfo krijgt.
+#}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 1px solid #ebf0f2; padding: 20px 28px; font-family: Arial, Helvetica, sans-serif; color: #6b7280; font-size: 12px; line-height: 1.6">
+                                <strong style="color: #121b22">Winsol Brebo</strong><br />
+                                {{ if globals:company:street }}
+                                    {{ "{globals:company:street} {globals:company:number}, {globals:company:postal} {globals:company:city}" }}<br />
+                                {{ /if }}
+                                {{ if globals:contact:phone_brussels }}
+                                    {{ trans:site.contact_region_brussels }}: {{ globals:contact:phone_brussels }} &nbsp;·&nbsp;
+                                {{ /if }}
+                                {{ if globals:contact:phone_antwerp }}
+                                    {{ trans:site.contact_region_antwerp }}: {{ globals:contact:phone_antwerp }}
+                                {{ /if }}
+                                <br />
+                                <a href="{{ config:app:url }}" style="color: #6b7280">{{ config:app:url | replace('https://', '') | replace('http://', '') }}</a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

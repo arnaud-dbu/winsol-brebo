@@ -66,7 +66,7 @@ class ContactDetailsTest extends SectionTestCase
         $this->assertStringContainsString('contact-bar', $html);
         $this->assertStringContainsString('+32 2 308 02 26', $html);
         $this->assertStringContainsString('+32 3 880 85 65', $html);
-        $this->assertStringContainsString('info@winsoldilbeek.be', $html);
+        $this->assertStringContainsString('offertes@winsolspl.be', $html);
 
         // Geen WhatsApp: `contact.mobile` staat leeg tot Jimmy een echt nummer
         // geeft, en de partial slaat de knop dan over. Zie ContactGlobalsTest.
@@ -101,7 +101,7 @@ class ContactDetailsTest extends SectionTestCase
         // dat stil kan breken: een tel:-link met spaties belt niet.
         $this->assertStringContainsString('href="tel:+3223080226"', $html);
         $this->assertStringContainsString('href="tel:+3238808565"', $html);
-        $this->assertStringContainsString('href="mailto:info@winsoldilbeek.be"', $html);
+        $this->assertStringContainsString('href="mailto:offertes@winsolspl.be"', $html);
     }
 
     public function test_the_page_no_longer_ships_a_contact_form(): void

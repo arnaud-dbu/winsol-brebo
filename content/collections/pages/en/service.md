@@ -2,7 +2,7 @@
 id: 9b47748d-5d6f-4f43-88f1-a4111688d8f8
 origin: c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a04
 title: Service
-text: 'From your very first consultation until long after installation, you can count on us — for the entire lifespan of your installation.'
+text: 'From your very first consultation until long after installation, you can count on us for the entire lifespan of your installation.'
 meta_title: 'Service and maintenance'
 meta_description: 'Advice, measuring, installation by our own team, periodic check-ups and warranty. One familiar point of contact nearby, even years after installation.'
 services:
@@ -35,7 +35,7 @@ services:
         content:
           -
             type: text
-            text: 'Your installation is fitted by our own team — no subcontractors. Our craftsmen know their trade and treat your home with respect. We work neatly and tidy everything up after installation. At handover we show you how everything works, so you can enjoy it worry-free straight away.'
+            text: 'Your installation is fitted by our own team, never by subcontractors. Our craftsmen know their trade and treat your home with respect. We work neatly and tidy everything up after installation. At handover we show you how everything works, so you can enjoy it worry-free straight away.'
     image: service/winsol-2_1.jpg
     enabled: true
   -

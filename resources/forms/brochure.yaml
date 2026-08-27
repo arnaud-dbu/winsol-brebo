@@ -8,6 +8,9 @@ email:
     text: emails/brochure_text
   -
     id: brochure-notification
-    to: hello@stuw.agency
+    to: offertes@winsolspl.be
     reply_to: '{{ email }}'
     subject: 'Nieuwe brochureaanvraag van {{ name }}'
+    html: emails/notification
+    text: emails/notification_text
+    label: Brochureaanvraag

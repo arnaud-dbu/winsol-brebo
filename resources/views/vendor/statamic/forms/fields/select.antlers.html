@@ -1,6 +1,8 @@
 {{#
     Kopie van vendor/statamic/cms/resources/views/extend/forms/fields/select.antlers.html met een wijziging: de placeholder
     loopt door {{ trans }}, zodat fr/en de JSON-vertaling uit lang/ krijgen en nl op de blueprinttekst terugvalt.
+    Hetzelfde geldt voor de optielabels: die staan in het blueprint in het Nederlands en zouden anders ook op /fr en
+    /en in het Nederlands verschijnen.
     Bij een Statamic-upgrade dit bestand naast de vendorversie leggen.
 #}}
 <select
@@ -26,7 +28,7 @@
     {{ /unless }}
     {{ foreach:options as="option|label" }}
         <option value="{{ option }}"{{ if multiple }}{{ if value|in_array:option }} selected{{ /if }}{{ else }}{{ if option == value }} selected{{ /if }}{{ /if }}>
-            {{ label !== null ? label : option }}
+            {{ if label !== null }}{{ trans :key="label" }}{{ else }}{{ option }}{{ /if }}
         </option>
     {{ /foreach:options }}
 </select>

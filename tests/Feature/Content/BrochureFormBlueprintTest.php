@@ -38,7 +38,7 @@ class BrochureFormBlueprintTest extends TestCase
 
     /**
      * Twee mails per aanvraag: de brochures naar de aanvrager en de lead
-     * naar de mailbox. Valt de eerste weg, dan is de belofte "meteen in je
+     * naar offertes@winsolspl.be. Valt de eerste weg, dan is de belofte "meteen in je
      * mailbox" stuk; valt de tweede weg, dan verdwijnen leads geruisloos.
      */
     public function test_the_form_mails_the_brochures_and_a_lead_notification(): void
@@ -51,7 +51,7 @@ class BrochureFormBlueprintTest extends TestCase
         $this->assertSame('emails/brochure_text', $delivery['text']);
 
         $notification = $emails->firstWhere('id', 'brochure-notification');
-        $this->assertSame('hello@stuw.agency', $notification['to']);
+        $this->assertSame('offertes@winsolspl.be', $notification['to']);
         $this->assertSame('{{ email }}', $notification['reply_to']);
     }
 }

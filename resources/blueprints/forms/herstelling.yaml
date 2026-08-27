@@ -9,9 +9,21 @@ tabs:
           -
             handle: product
             field:
-              type: text
+              type: range_select
               display: 'Over welk product gaat het?'
-              placeholder: 'bv. Pergola SO!, rolluik, raam…'
+              placeholder: 'Kies een productgroep…'
+              width: 50
+              validate:
+                - required
+          -
+            handle: is_winsol
+            field:
+              type: select
+              display: 'Is het een Winsol-product?'
+              placeholder: 'Kies…'
+              options:
+                ja: Ja
+                nee: Nee
               width: 50
               validate:
                 - required
@@ -22,6 +34,37 @@ tabs:
               display: 'Wanneer werd het ongeveer geplaatst?'
               placeholder: 'bv. 2021'
               width: 50
+              validate:
+                - required
+          -
+            handle: facade
+            field:
+              type: select
+              display: 'Aan welke gevel?'
+              placeholder: 'Kies…'
+              options:
+                voorgevel: Voorgevel
+                achtergevel: Achtergevel
+                zijgevel: Zijgevel
+              width: 50
+              validate:
+                - required
+          -
+            handle: floor
+            field:
+              type: text
+              display: 'Op welke verdieping?'
+              placeholder: 'bv. gelijkvloers, 1e verdieping'
+              width: 50
+              validate:
+                - required
+          -
+            handle: dimensions
+            field:
+              type: text
+              display: 'Afmetingen van het product'
+              instructions: 'Bij benadering volstaat. Zo weten we welk materiaal en hoeveel mensen er nodig zijn.'
+              placeholder: 'bv. 240 x 180 cm'
               validate:
                 - required
           -

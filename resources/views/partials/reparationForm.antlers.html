@@ -38,6 +38,9 @@
                         {{ else }}
                             {{ field }}
                         {{ /if }}
+                        {{ if instructions }}
+                            <p class="form-instructions">{{ trans :key="instructions" }}</p>
+                        {{ /if }}
                         {{ if error }}
                             <p class="form-error" id="{{ id }}-error">{{ error }}</p>
                         {{ /if }}

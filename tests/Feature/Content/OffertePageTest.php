@@ -13,7 +13,7 @@ class OffertePageTest extends TestCase
 
     public function test_the_entry_exists_on_its_own_blueprint_and_template(): void
     {
-        $entry = Entry::query()->where('collection', 'pages')->where('slug', 'offerte')->first();
+        $entry = Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'offerte')->first();
 
         $this->assertNotNull($entry, 'De offerte-entry ontbreekt.');
         $this->assertSame('offerte', $entry->blueprint()->handle());
@@ -26,7 +26,7 @@ class OffertePageTest extends TestCase
      */
     public function test_the_still_life_image_is_set(): void
     {
-        $entry = Entry::query()->where('collection', 'pages')->where('slug', 'offerte')->first();
+        $entry = Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'offerte')->first();
 
         $this->assertSame('quicklinks/offerte-2.png', $entry->get('image'));
     }
@@ -78,8 +78,8 @@ class OffertePageTest extends TestCase
      */
     public function test_the_page_builder_holds_exactly_one_cta_pointing_at_the_showrooms(): void
     {
-        $entry = Entry::query()->where('collection', 'pages')->where('slug', 'offerte')->first();
-        $contact = Entry::query()->where('collection', 'pages')->where('slug', 'contact')->first();
+        $entry = Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'offerte')->first();
+        $contact = Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'contact')->first();
 
         $builder = $entry->get('page_builder');
 
@@ -100,7 +100,7 @@ class OffertePageTest extends TestCase
      */
     public function test_the_cta_carries_a_real_photo(): void
     {
-        $entry = Entry::query()->where('collection', 'pages')->where('slug', 'offerte')->first();
+        $entry = Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'offerte')->first();
 
         $image = $entry->get('page_builder')[0]['image'];
 
@@ -110,7 +110,7 @@ class OffertePageTest extends TestCase
 
     public function test_the_copy_speaks_in_the_je_form_without_em_dashes(): void
     {
-        $entry = Entry::query()->where('collection', 'pages')->where('slug', 'offerte')->first();
+        $entry = Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'offerte')->first();
         $cta = $entry->get('page_builder')[0];
 
         $this->assertSpeaksSiteVoice($entry->get('text'), 'intro');
@@ -148,12 +148,12 @@ class OffertePageTest extends TestCase
      */
     public function test_the_existing_offerte_links_point_at_this_page(): void
     {
-        $offerte = Entry::query()->where('collection', 'pages')->where('slug', 'offerte')->first();
+        $offerte = Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'offerte')->first();
 
-        $quicklink = Entry::query()->where('collection', 'quicklinks')->where('slug', 'vraag-offerte-aan')->first();
+        $quicklink = Entry::query()->where('collection', 'quicklinks')->where('site', 'nl')->where('slug', 'vraag-offerte-aan')->first();
         $this->assertSame($offerte->id(), $quicklink->get('link')[0]['entry'][0]);
 
-        $nieuws = Entry::query()->where('collection', 'pages')->where('slug', 'nieuws')->first();
+        $nieuws = Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'nieuws')->first();
         $this->assertSame($offerte->id(), $nieuws->get('page_builder')[0]['link'][0]['entry'][0]);
     }
 }

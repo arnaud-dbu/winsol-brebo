@@ -66,7 +66,7 @@ class PageShowTest extends TestCase
 
     public function test_a_non_writable_entry_has_no_content(): void
     {
-        $product = Entry::query()->where('collection', 'products')->first();
+        $product = Entry::query()->where('collection', 'products')->where('site', 'nl')->first();
 
         $this->withToken(self::TOKEN)
             ->getJson('/api/inspace/v1/pages/'.$product->id())

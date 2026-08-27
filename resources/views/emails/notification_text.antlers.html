@@ -1,0 +1,24 @@
+{{ email_config:label ?? 'Nieuwe inzending' }}
+{{ if name }}
+    van {{ name }}
+{{ /if }}
+{{ fields }}
+    {{ if value }}
+        {{ display }}:
+        {{ if fieldtype == 'assets' }}
+            {{ value }}
+                {{ url }}
+            {{ /value }}
+        {{ elseif fieldtype == 'checkboxes' || fieldtype == 'range_checkboxes' || fieldtype == 'brochure_checkboxes' }}
+            {{ value }}
+                {{ label ?? value }}
+                {{ unless last }},{{ /unless }}
+            {{ /value }}
+        {{ elseif fieldtype == 'select' || fieldtype == 'location_select' }}
+            {{ value:label ?? value }}
+        {{ else }}
+            {{ value }}
+        {{ /if }}
+    {{ /if }}
+{{ /fields }}
+Verstuurd op {{ date format="d/m/Y" }} om {{ date format="H:i" }}. Winsol Brebo — {{ config:app:url }}

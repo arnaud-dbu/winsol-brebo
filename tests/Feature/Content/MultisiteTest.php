@@ -27,7 +27,7 @@ class MultisiteTest extends TestCase
 
     public function test_existing_entries_still_resolve_after_the_conversion(): void
     {
-        $home = Entry::query()->where('collection', 'pages')->where('slug', 'home')->first();
+        $home = Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'home')->first();
 
         $this->assertNotNull($home, 'De home-entry is de conversie niet overleefd');
         $this->assertSame('nl', $home->locale());

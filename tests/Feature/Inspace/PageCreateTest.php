@@ -35,7 +35,7 @@ class PageCreateTest extends TestCase
 
         config()->set('inspace.tokens', ['test' => hash('sha256', self::TOKEN)]);
 
-        $this->preExistingArticleIds = Entry::query()->where('collection', 'articles')->get()->map->id()->all();
+        $this->preExistingArticleIds = Entry::query()->where('collection', 'articles')->where('site', 'nl')->get()->map->id()->all();
 
         $this->beforeApplicationDestroyed(function (): void {
             foreach ($this->created as $id) {
@@ -187,7 +187,7 @@ class PageCreateTest extends TestCase
         $second = $this->postPage($this->payload(['external_id' => 'nova-4711']))->assertStatus(200);
 
         $this->assertSame($first, $second->json('id'));
-        $this->assertCount(1, Entry::query()->where('collection', 'articles')->where('external_id', 'nova-4711')->get());
+        $this->assertCount(1, Entry::query()->where('collection', 'articles')->where('site', 'nl')->where('external_id', 'nova-4711')->get());
     }
 
     public function test_disallowed_html_is_stripped_and_reported(): void

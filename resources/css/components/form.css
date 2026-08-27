@@ -102,6 +102,14 @@
     @apply outline-2 outline-offset-2 outline-black;
 }
 
+/*
+ * Onder het label en boven het veld: het is uitleg bij wat er gevraagd wordt,
+ * niet bij wat er is ingevuld. Vandaar ook lichter dan de labeltekst.
+ */
+.form-instructions {
+    @apply -mt-1 text-sm text-black/55;
+}
+
 .form-error {
     @apply text-sm text-red-600;
 }

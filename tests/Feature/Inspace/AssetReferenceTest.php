@@ -42,7 +42,7 @@ class AssetReferenceTest extends TestCase
         // heeft een echte url nodig, dus hier opnieuw faken mét een url.
         Storage::fake('r2', ['url' => 'https://cdn.test/assets']);
 
-        $this->preExistingArticleIds = Entry::query()->where('collection', 'articles')->get()->map->id()->all();
+        $this->preExistingArticleIds = Entry::query()->where('collection', 'articles')->where('site', 'nl')->get()->map->id()->all();
 
         $this->beforeApplicationDestroyed(function (): void {
             foreach ($this->created as $id) {

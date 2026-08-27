@@ -73,8 +73,8 @@ class ContactPageTest extends TestCase
 
         $this->assertNotContains($contact->id(), $targets, 'Een quicklink wijst naar de contactpagina zelf.');
 
-        $offerte = Entry::query()->where('collection', 'pages')->where('slug', 'offerte')->first();
-        $service = Entry::query()->where('collection', 'pages')->where('slug', 'service')->first();
+        $offerte = Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'offerte')->first();
+        $service = Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'service')->first();
 
         $this->assertSame([$offerte->id(), $service->id()], $targets);
     }

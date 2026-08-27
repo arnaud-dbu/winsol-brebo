@@ -12,7 +12,7 @@ class OverOnsPageTest extends TestCase
 
     private function overOns()
     {
-        return Entry::query()->where('collection', 'pages')->where('slug', 'over-ons')->first();
+        return Entry::query()->where('collection', 'pages')->where('site', 'nl')->where('slug', 'over-ons')->first();
     }
 
     /**

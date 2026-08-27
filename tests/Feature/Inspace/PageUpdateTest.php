@@ -129,7 +129,7 @@ class PageUpdateTest extends TestCase
 
     public function test_patching_a_non_writable_entry_gives_403(): void
     {
-        $product = Entry::query()->where('collection', 'products')->first();
+        $product = Entry::query()->where('collection', 'products')->where('site', 'nl')->first();
 
         $this->withToken(self::TOKEN)
             ->patchJson('/api/inspace/v1/pages/'.$product->id(), ['title' => 'Nee'])

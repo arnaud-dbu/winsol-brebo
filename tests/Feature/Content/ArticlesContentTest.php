@@ -9,7 +9,7 @@ class ArticlesContentTest extends TestCase
 {
     public function test_eight_articles_exist_with_an_image_a_theme_and_a_body(): void
     {
-        $articles = Entry::query()->where('collection', 'articles')->get();
+        $articles = Entry::query()->where('collection', 'articles')->where('site', 'nl')->get();
 
         $this->assertCount(8, $articles);
 
@@ -25,7 +25,7 @@ class ArticlesContentTest extends TestCase
         // `themes` heeft `max_items: 1` en augmenteert dus naar één term, niet
         // naar een collectie. Deze test legt dat vast, want de header en de
         // kaart lezen `themes.title` met dot-notatie.
-        foreach (Entry::query()->where('collection', 'articles')->get() as $article) {
+        foreach (Entry::query()->where('collection', 'articles')->where('site', 'nl')->get() as $article) {
             $term = $article->augmentedValue('themes')->value();
 
             $this->assertNotNull($term, "Het thema van {$article->slug()} augmenteert niet naar een term");
@@ -39,7 +39,7 @@ class ArticlesContentTest extends TestCase
         // Het filter toont alleen thema's met minstens één artikel. Blijft er
         // eentje leeg, dan verdwijnt die pil en houdt het overzicht er minder
         // over dan de vijf categorieën die de taxonomie belooft.
-        $slugs = Entry::query()->where('collection', 'articles')->get()
+        $slugs = Entry::query()->where('collection', 'articles')->where('site', 'nl')->get()
             ->map(fn ($article) => $article->augmentedValue('themes')->value()->slug())
             ->unique()
             ->sort()
@@ -54,7 +54,7 @@ class ArticlesContentTest extends TestCase
 
     public function test_at_least_one_article_carries_a_video_block_and_one_an_inline_image(): void
     {
-        $articles = Entry::query()->where('collection', 'articles')->get();
+        $articles = Entry::query()->where('collection', 'articles')->where('site', 'nl')->get();
 
         $types = $articles->flatMap(fn ($article) => collect($article->augmentedValue('redactor')->value())
             ->map(fn ($node) => $node['type'] ?? null));

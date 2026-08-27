@@ -30,7 +30,7 @@ class HerstellingFormBlueprintTest extends TestCase
     {
         $fields = Form::find('herstelling')->blueprint()->fields()->all();
 
-        foreach (['product', 'installed', 'problem', 'branch', 'email', 'name', 'phone', 'address'] as $handle) {
+        foreach (['product', 'is_winsol', 'installed', 'facade', 'floor', 'dimensions', 'problem', 'branch', 'email', 'name', 'phone', 'address'] as $handle) {
             $this->assertTrue($fields->get($handle)->isRequired(), "{$handle} hoort verplicht te zijn.");
         }
 

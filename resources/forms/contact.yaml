@@ -2,6 +2,6 @@ title: Contact
 email:
   -
     id: 9e9c1XZcPt8pZk9qUNmxV
-    to: hello@stuw.agency
+    to: offertes@winsolspl.be
     reply_to: '{{ email }}'
     subject: 'New message via the website from {{ name }}'

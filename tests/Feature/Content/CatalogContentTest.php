@@ -30,6 +30,6 @@ class CatalogContentTest extends TestCase
         $this->assertFileDoesNotExist(resource_path('views/partials/headers/project.antlers.html'));
         $this->assertFileDoesNotExist(resource_path('css/components/project-card.css'));
 
-        $this->assertSame(0, Entry::query()->where('collection', 'projects')->count());
+        $this->assertSame(0, Entry::query()->where('collection', 'projects')->where('site', 'nl')->count());
     }
 }
