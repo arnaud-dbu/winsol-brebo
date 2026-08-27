@@ -53,24 +53,10 @@
                                     {{ icon src="phone" aria-hidden="true" class="size-6" }}
                                 </span>
                                 <span class="flex flex-col">
-                                    <span class="text-sm font-normal text-black/60">{{ trans:site.contact_region_brussels }}</span>
+                                    <span class="text-sm font-normal text-black/60">
+                                        {{ trans:site.contact_region_brussels }}
+                                    </span>
                                     {{ globals:contact:phone_brussels | entities }}
-                                </span>
-                            </a>
-                        </li>
-                    {{ /if }}
-                    {{ if globals:contact:phone_antwerp }}
-                        <li>
-                            <a
-                                class="group flex items-center gap-3 text-base font-semibold"
-                                href="tel:{{ globals:contact:phone_antwerp | replace(' ', '') | entities }}">
-                                <span
-                                    class="contact-circle bg-accent text-black group-hover:bg-black group-hover:text-white group-focus-visible:bg-black group-focus-visible:text-white">
-                                    {{ icon src="phone" aria-hidden="true" class="size-6" }}
-                                </span>
-                                <span class="flex flex-col">
-                                    <span class="text-sm font-normal text-black/60">{{ trans:site.contact_region_antwerp }}</span>
-                                    {{ globals:contact:phone_antwerp | entities }}
                                 </span>
                             </a>
                         </li>
@@ -85,6 +71,24 @@
                                     {{ icon src="envelope" aria-hidden="true" class="size-6" }}
                                 </span>
                                 {{ globals:contact:email | entities }}
+                            </a>
+                        </li>
+                    {{ /if }}
+                    {{ if globals:contact:phone_antwerp }}
+                        <li>
+                            <a
+                                class="group flex items-center gap-3 text-base font-semibold"
+                                href="tel:{{ globals:contact:phone_antwerp | replace(' ', '') | entities }}">
+                                <span
+                                    class="contact-circle bg-accent text-black group-hover:bg-black group-hover:text-white group-focus-visible:bg-black group-focus-visible:text-white">
+                                    {{ icon src="phone" aria-hidden="true" class="size-6" }}
+                                </span>
+                                <span class="flex flex-col">
+                                    <span class="text-sm font-normal text-black/60">
+                                        {{ trans:site.contact_region_antwerp }}
+                                    </span>
+                                    {{ globals:contact:phone_antwerp | entities }}
+                                </span>
                             </a>
                         </li>
                     {{ /if }}
