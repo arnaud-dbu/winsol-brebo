@@ -71,29 +71,44 @@ class RangeQuicklinksTest extends TestCase
     }
 
     /**
-     * Een range waarvan nog geen enkel product een groep draagt, krijgt geen
-     * "Overige" als enige kop: die indeling voegt dan niets toe. De pillen
-     * horen er wél te staan.
+     * Een range waarvan nog geen enkel product een groep draagt, valt terug op
+     * de naam van de range zelf. Zonder kop worden het losse woorden op de
+     * pagina en is de hiërarchie weg; "Overige" zou dan weer nietszeggend zijn.
      */
-    public function test_a_range_without_groups_shows_pills_without_a_heading(): void
+    public function test_a_range_without_groups_falls_back_to_the_range_title(): void
     {
         $bar = $this->jumpBar('/aanbod/rolluiken');
 
+        $this->assertSame(['Rolluiken'], $this->labels('/aanbod/rolluiken'));
         $this->assertSame(6, substr_count($bar, 'range-jump__link'));
-        $this->assertSame([], $this->labels('/aanbod/rolluiken'));
+
+        // De enige groep verdeelt zich over de volle breedte in plaats van als
+        // smalle kolom onder zijn kop te blijven staan.
+        $this->assertStringContainsString('range-jump__items--spread', $bar);
     }
 
     /**
      * `title` binnen de groepslus zou terugvallen op de paginacascade, en dan
-     * verschijnt de naam van de range als kop boven de pillen — dezelfde
-     * lekroute die sectionHeader op /home al trof. Vandaar `group_title`.
+     * draagt élke groep de naam van de range — dezelfde lekroute die
+     * sectionHeader op /home al trof. Vandaar `group_title`. Op een range mét
+     * groepen mag die naam dus nergens als kop opduiken.
      */
-    public function test_an_unlabelled_group_does_not_inherit_the_page_title(): void
+    public function test_the_group_headings_do_not_inherit_the_page_title(): void
     {
-        $bar = $this->jumpBar('/aanbod/rolluiken');
+        $this->assertNotContains('Ramen en deuren', $this->labels('/aanbod/ramen-en-deuren'));
+    }
 
-        $this->assertStringNotContainsString('range-jump__label', $bar);
-        $this->assertStringNotContainsString('>Rolluiken<', $bar);
+    /**
+     * De kolomverdeling is alleen voor het ongegroepeerde geval. Zou ze ook op
+     * een range mét groepen aanstaan, dan lopen de producten van verschillende
+     * groepen door elkaar over de kolommen heen.
+     */
+    public function test_the_spread_layout_is_reserved_for_the_ungrouped_case(): void
+    {
+        $this->assertStringNotContainsString(
+            'range-jump__items--spread',
+            $this->jumpBar('/aanbod/ramen-en-deuren'),
+        );
     }
 
     public function test_a_range_without_products_renders_no_bar_at_all(): void
@@ -117,5 +132,8 @@ class RangeQuicklinksTest extends TestCase
             'href="/fr/aanbod/ramen-en-deuren/pvc-ramen"',
             $this->jumpBar('/fr/aanbod/ramen-en-deuren'),
         );
+
+        // Ook de terugval op de rangetitel spreekt de taal van de site.
+        $this->assertSame(['Volets roulants'], $this->labels('/fr/aanbod/rolluiken'));
     }
 }

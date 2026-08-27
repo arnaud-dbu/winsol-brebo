@@ -1,69 +1,84 @@
 /*
  * De sprongbalk onder de hero van een aanbodpagina (partials/rangeQuicklinks).
  *
- * Bewust een strook en geen sectie: hij hoort visueel bij de header eronder,
+ * Bewust een strook en geen sectie: hij hoort visueel bij de header erboven,
  * niet bij de inhoud erna. Vandaar een eigen, compacte padding in plaats van
- * `.section--default` — met de sectiepadding erop werd deze balk 482px hoog,
- * en dan scrollt de bezoeker er alsnog langs.
+ * `.section--default`.
  *
- * Het groepslabel staat inline vóór zijn pillen en niet erboven: met vier
- * groepen boven elkaar liep de balk anders op tot vier tekstregels. Zo blijft
- * het een rij die wrapt, terwijl de groepsgrens leesbaar blijft door de
- * scheidingslijn ervoor.
+ * Kale tekstlinks in kolommen, geen pillen: negen omrande pillen met pijltjes
+ * trokken meer aandacht dan de inhoud eronder, terwijl dit een wegwijzer is en
+ * geen call-to-action. Eén kolom per groep, kopje erboven, links eronder.
  */
 
 .range-jump-section {
-    @apply pt-8 pb-2 lg:pt-10 lg:pb-4;
+    @apply pt-10 pb-2 lg:pt-14 lg:pb-6;
 }
 
 .range-jump {
-    @apply flex flex-col gap-4 border-t border-black/10 pt-6 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-6 lg:gap-y-4 lg:pt-8;
+    @apply grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8;
 }
 
 .range-jump__group {
-    @apply flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-4;
+    @apply flex flex-col gap-3 lg:gap-4;
 }
 
 /*
- * De scheidingslijn zit op de groep en niet tussen de pillen, zodat ze blijft
- * kloppen wanneer de rij wrapt: een `::before` op elke groep behalve de eerste
- * zou bij een regelovergang bovenaan de nieuwe regel opduiken. Onder `lg`
- * staan de groepen onder elkaar en doet de witruimte het werk.
+ * Een range zonder toegekende groepen levert één naamloos blok. Dat zou als
+ * enkele gridkolom een smalle sliert van zes regels worden met driekwart van
+ * de strook leeg ernaast, dus daar loopt het blok over de volle breedte en
+ * verdeelt de lijst zichzelf over dezelfde kolommen.
  */
-.range-jump__group + .range-jump__group {
-    @apply lg:border-l lg:border-black/10 lg:pl-6;
+.range-jump__group:only-child {
+    @apply col-span-full;
 }
 
 /*
- * Wel de typografie van `.overline`, niet de klasse zelf: die tekent een geel
- * accentstreepje via `::after` dat onder een sectiekop hoort. Hier wrappen de
- * groepen over meerdere regels en kwam dat streepje tussen twee rijen labels
- * te hangen.
+ * De gele accentstreep bindt het kopje aan de rest van de huisstijl en houdt
+ * de groep herkenbaar als kop in plaats van als losse regel tekst — zonder
+ * die streep vallen de links eronder uiteen tot losse woorden. Zelfde maat
+ * als `.overline` in base/typography.css, maar hier met een eigen ::after:
+ * die utility hangt zijn streep op `bottom: -50%`, wat in deze kolommen
+ * tussen kop en eerste link zou vallen.
  */
 .range-jump__label {
-    @apply text-sm font-semibold tracking-wide whitespace-nowrap text-black/45 uppercase;
+    @apply relative pb-4 text-sm font-semibold tracking-wider text-black/40 uppercase;
 }
 
-/*
- * `-mx-4 px-4` spiegelt de padding van `.container`: onder lg loopt de rij met
- * pillen door tot de schermrand in plaats van halverwege af te kappen.
- */
+.range-jump__label::after {
+    @apply absolute bottom-0 left-0 h-0.75 w-5 bg-accent;
+    content: '';
+}
+
 .range-jump__items {
-    @apply -mx-4 scrollbar-none flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:gap-2 lg:overflow-x-visible lg:px-0;
+    @apply flex flex-col gap-3 lg:gap-4;
+}
+
+.range-jump__items--spread {
+    @apply columns-2 space-y-3 gap-x-6 sm:columns-3 lg:columns-4 lg:space-y-4 lg:gap-x-8;
+    display: block;
 }
 
 /*
- * Dezelfde pilvorm en lichte rand als `.section-nav__link`, maar compacter:
- * dit zijn er negen naast elkaar in plaats van vier. De follow-up om één
- * `.btn--pill`-basis te extraheren staat al open in
- * docs/superpowers/specs/2026-07-26-pagebuilder-sections-followups.md; deze
- * zesde pill hoort in diezelfde opruiming en niet in deze diff.
+ * De link blijft `inline` en wordt geen flexcontainer: bij een naam die over
+ * twee regels valt ("Aluminium ramen & deuren" op mobiel) zou een flexregel
+ * het pijltje verticaal midden náást het blok zetten, los van de tekst. Zo
+ * loopt het gewoon mee in de tekststroom en staat het achter het laatste
+ * woord.
  */
 .range-jump__link {
-    @apply inline-flex w-fit items-center gap-1.5 rounded-full border border-black/12 px-4 py-2 text-sm font-semibold whitespace-nowrap text-black transition-colors duration-200 ease-out lg:px-5 lg:py-2.5 lg:text-base;
+    @apply text-base text-black transition-colors duration-200 ease-out;
+}
+
+.range-jump__arrow {
+    @apply ml-1.5 inline-block size-3.5 shrink-0 align-baseline text-black/35 transition-colors duration-200 ease-out;
 }
 
 .range-jump__link:hover,
 .range-jump__link:focus-visible {
-    @apply border-black bg-light-shape;
+    @apply text-black/50;
+}
+
+.range-jump__link:hover .range-jump__arrow,
+.range-jump__link:focus-visible .range-jump__arrow {
+    @apply text-black/50;
 }

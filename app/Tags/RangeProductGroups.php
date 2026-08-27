@@ -20,13 +20,14 @@ use Statamic\Tags\Tags;
 class RangeProductGroups extends Tags
 {
     /**
-     * @return list<array{group_title: mixed, products: list<array{title: mixed, url: string}>}>
+     * @return list<array{group_title: mixed, spread: bool, products: list<array{title: mixed, url: string}>}>
      */
     public function index(): array
     {
         $site = Site::current()->handle();
+        $id = $this->params->get('range') ?? $this->context->value('id');
 
-        if (! $rangeId = $this->originId($this->params->get('range') ?? $this->context->value('id'))) {
+        if (! $rangeId = $this->originId($id)) {
             return [];
         }
 
@@ -44,9 +45,13 @@ class RangeProductGroups extends Tags
             ->groupBy(fn (EntryContract $product) => $this->ids($product->value('product_groups'))[0] ?? '');
 
         // Eén groep zonder term betekent dat op deze range nog geen enkel
-        // product een groep draagt. Dan is "Overige" als enige kop alleen maar
-        // ruis: de balk werkt ook zonder indeling.
+        // product een groep draagt. De kop valt dan terug op de naam van de
+        // range zelf: zonder kopje worden het losse woorden op de pagina en
+        // is de hiërarchie weg. Geen aparte term per range nodig — die zou de
+        // rangetitel alleen maar dupliceren, en zodra er wél echte subgroepen
+        // toegekend worden verdwijnt deze terugval vanzelf.
         $ongegroepeerd = $grouped->count() === 1 && $grouped->keys()->first() === '';
+        $rangeTitle = $ongegroepeerd ? Entry::find($id)?->value('title') : null;
 
         return $grouped
             ->map(fn ($products, string $slug) => [
@@ -59,7 +64,11 @@ class RangeProductGroups extends Tags
                 // `group_title` en niet `title`: binnen de groepslus zou een lege
                 // `title` terugvallen op de paginacascade, en dan staat de
                 // naam van de range als groepskop boven de pillen.
-                'group_title' => $ongegroepeerd ? null : ($group['term']?->value('title') ?? __('Overige')),
+                'group_title' => $ongegroepeerd ? $rangeTitle : ($group['term']?->value('title') ?? __('Overige')),
+                // Zonder subgroepen is dit de enige kolom; de lijst verdeelt
+                // zichzelf dan over de volle breedte in plaats van als smalle
+                // sliert onder zijn kop te blijven staan.
+                'spread' => $ongegroepeerd,
                 'products' => $group['products']
                     ->map(fn (EntryContract $product) => [
                         'title' => $product->value('title'),
