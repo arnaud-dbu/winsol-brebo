@@ -8,9 +8,17 @@ items:
     label: 'PVC ramen en deuren'
     file: brochures/winsol_brochure_ramen-en-deuren-in-pvc_nl.pdf
   -
+    id: br-iqon
+    label: 'IQON minimalistisch schuifraam'
+    file: brochures/winsol-brochure-iqon-nl.pdf
+  -
     id: br-rolluiken
     label: Rolluiken
     file: brochures/winsol-brochure-rolluiken-nl.pdf
+  -
+    id: br-garagepoorten
+    label: 'Garagepoorten'
+    file: brochures/winsol-brochure-garagepoorten-nl.pdf
   -
     id: br-screens
     label: 'Screens en verticale zonwering'
@@ -35,3 +43,11 @@ items:
     id: br-pergola-origin
     label: 'Pergola ORIG!N'
     file: brochures/pergola-origin_2025_nl.pdf
+  -
+    id: br-so-cocoon
+    label: 'Pergola SO! Cocoon en Combi'
+    file: brochures/winsol_brochure_so-cocoon_nl.pdf
+  -
+    id: br-so-crystal
+    label: 'Pergola SO! Crystal'
+    file: brochures/winsol_brochure_so-crystal_nl.pdf

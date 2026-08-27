@@ -2,6 +2,9 @@
 
 namespace Tests\Feature\Sections;
 
+use Statamic\Facades\GlobalSet;
+use Statamic\Facades\Site;
+
 class BrochureFormTest extends SectionTestCase
 {
     public function test_renders_every_field_from_the_blueprint(): void
@@ -19,7 +22,13 @@ class BrochureFormTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:brochureForm }}');
 
-        $this->assertSame(9, substr_count($html, 'offerte-pill"'));
+        $inDeGlobal = count(
+            GlobalSet::findByHandle('brochure_library')
+                ->in(Site::current()->handle())
+                ->get('items'),
+        );
+
+        $this->assertSame($inDeGlobal, substr_count($html, 'offerte-pill"'));
 
         foreach (['Aluminium ramen en deuren', 'Rolluiken', 'Pergola SO!'] as $label) {
             $this->assertStringContainsString($label, $html);

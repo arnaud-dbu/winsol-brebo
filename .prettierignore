@@ -10,3 +10,4 @@ bootstrap
 resources/views/robots.antlers.html
 resources/views/security.antlers.html
 resources/views/emails/brochure_text.antlers.html
+resources/views/emails/notification_text.antlers.html

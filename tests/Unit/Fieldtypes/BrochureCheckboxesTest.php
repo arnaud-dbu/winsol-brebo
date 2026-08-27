@@ -22,13 +22,17 @@ class BrochureCheckboxesTest extends TestCase
         $this->assertSame([
             'brochures/winsol_brochure_ramen-en-deuren-in-alu_nl.pdf' => 'Aluminium ramen en deuren',
             'brochures/winsol_brochure_ramen-en-deuren-in-pvc_nl.pdf' => 'PVC ramen en deuren',
+            'brochures/winsol-brochure-iqon-nl.pdf' => 'IQON minimalistisch schuifraam',
             'brochures/winsol-brochure-rolluiken-nl.pdf' => 'Rolluiken',
+            'brochures/winsol-brochure-garagepoorten-nl.pdf' => 'Garagepoorten',
             'brochures/winsol_brochure_verticale-zonwering_nl.pdf' => 'Screens en verticale zonwering',
             'brochures/winsol_brochure_luifels_nl.pdf' => 'Zonneschermen',
             'brochures/winsol_luifel_lina-lumisolar_nl.pdf' => 'Zonneschermen op zonne-energie',
             'brochures/winsol-brochure_so-classic-climate_2025_nl.pdf' => 'Pergola SO!',
             'brochures/winsol-brochure-pergola-zip-nl.pdf' => 'Pergola Z!P',
             'brochures/pergola-origin_2025_nl.pdf' => 'Pergola ORIG!N',
+            'brochures/winsol_brochure_so-cocoon_nl.pdf' => 'Pergola SO! Cocoon en Combi',
+            'brochures/winsol_brochure_so-crystal_nl.pdf' => 'Pergola SO! Crystal',
         ], $field->fieldtype()->extraRenderableFieldData()['options']);
     }
 

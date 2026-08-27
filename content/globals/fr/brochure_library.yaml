@@ -8,9 +8,17 @@ items:
     label: 'Châssis et portes en PVC'
     file: brochures/winsol_brochure_ramen-en-deuren-in-pvc_nl.pdf
   -
+    id: br-iqon
+    label: 'Châssis coulissant minimaliste IQON'
+    file: brochures/winsol-brochure-iqon-nl.pdf
+  -
     id: br-rolluiken
     label: 'Volets roulants'
     file: brochures/winsol-brochure-rolluiken-nl.pdf
+  -
+    id: br-garagepoorten
+    label: 'Portes de garage'
+    file: brochures/winsol-brochure-garagepoorten-nl.pdf
   -
     id: br-screens
     label: 'Screens et protection solaire verticale'
@@ -35,3 +43,11 @@ items:
     id: br-pergola-origin
     label: 'Pergola ORIG!N'
     file: brochures/pergola-origin_2025_nl.pdf
+  -
+    id: br-so-cocoon
+    label: 'Pergola SO! Cocoon et Combi'
+    file: brochures/winsol_brochure_so-cocoon_nl.pdf
+  -
+    id: br-so-crystal
+    label: 'Pergola SO! Crystal'
+    file: brochures/winsol_brochure_so-crystal_nl.pdf
