@@ -43,13 +43,15 @@
                         ">
                         {{#
                             Het logo is geel op transparant; op een gele balk zou het verdwijnen. Vandaar wit, met de accentlijn eronder als
-                            merkelement. `config:app:url` en niet `site_url`: die laatste is het sitepad ("/" voor nl) en levert in een mail een
-                            gebroken afbeelding op.
+                            merkelement. Het staat op de publieke R2-container en niet onder `config:app:url`: een mail wordt geopend buiten de
+                            site, dus de afbeelding moet van een adres komen dat van overal bereikbaar is. Met APP_URL wees hij lokaal naar
+                            winsol-brebo-website.test — een gebroken afbeelding in elke inbox. Het assetdomein blijft bovendien gelijk bij de
+                            overstap van staging naar productie. `mail_logo_url` komt uit AppServiceProvider; zie de toelichting daar.
                         #}}
                         <tr>
                             <td style="background-color: #ffffff; padding: 24px 28px 18px">
                                 <img
-                                    src="{{ config:app:url }}/winsol-logo-email.png"
+                                    src="{{ mail_logo_url }}"
                                     width="132"
                                     alt="Winsol Brebo"
                                     style="display: block; width: 132px; max-width: 132px; height: auto; border: 0" />

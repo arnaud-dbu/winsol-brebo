@@ -10,8 +10,15 @@ return [
     /*
     | Asset container handles whose uploads should be compressed.
     | Other containers are left untouched.
+    |
+    | `private` staat er bewust bij: dat zijn de klantuploads bij een offerte-
+    | of herstelaanvraag, en die gaan als bijlage mee in de melding naar
+    | Winsol. Een onbewerkte gsm-foto is al gauw 5 a 8 MB, en het
+    | herstellingsformulier laat er twee toe — samen met de base64-opslag in
+    | het bericht zit je dan boven de limiet van zowat elke verzenddienst en
+    | bounct de melding. Gecomprimeerd blijft zo'n foto ruim onder 1 MB.
     */
-    'containers' => ['assets'],
+    'containers' => ['assets', 'private'],
 
     /*
     | Max width in pixels. Images wider than this are resized down

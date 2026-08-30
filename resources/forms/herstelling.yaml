@@ -8,3 +8,4 @@ email:
     html: emails/notification
     text: emails/notification_text
     label: Herstelaanvraag
+    attachments: true

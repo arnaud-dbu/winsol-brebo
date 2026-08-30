@@ -142,6 +142,13 @@ class AppServiceProvider extends ServiceProvider
         });
         View::share('font_faces', config('fonts.fonts', []));
 
+        // Het logo in de formuliermails. Niet via `{{ config: }}`: in een
+        // formuliermail is dat Statamic's cascade en niet de Laravel-config,
+        // dus filesystems.disks.r2.url komt daar niet in voor en de src bleef
+        // leeg. Gedeeld en niet hardgecodeerd, zodat een verhuizing van de
+        // assetcontainer op één plek geregeld blijft.
+        View::share('mail_logo_url', rtrim((string) config('filesystems.disks.r2.url'), '/').'/email/winsol-logo.png');
+
         RateLimiter::for('inspace', function (Request $request) {
             // De throttle draait vóór `InspaceToken` in de route (zodat een
             // ongeldig token ook telt, zie routes/inspace.php), dus die

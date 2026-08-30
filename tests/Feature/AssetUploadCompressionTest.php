@@ -39,8 +39,44 @@ class AssetUploadCompressionTest extends TestCase
         $this->assertSame(2500, $info[0]);
     }
 
-    public function test_assets_in_other_containers_are_untouched(): void
+    /**
+     * Klantuploads gaan als bijlage mee in de melding naar Winsol. Een
+     * onbewerkte gsm-foto van 5 a 8 MB zou die mail over de limiet van de
+     * verzenddienst duwen en hem laten bouncen — dan verdwijnt de aanvraag
+     * stil. Vandaar dat `private` sinds kort óók gecomprimeerd wordt.
+     */
+    public function test_uploaded_jpeg_in_private_container_is_compressed(): void
     {
+        Storage::fake('r2_private');
+
+        $container = AssetContainer::find('private');
+
+        $largeBytes = file_get_contents(base_path('tests/fixtures/images/large.jpg'));
+        Storage::disk('r2_private')->put('herstellingen/photo.jpg', $largeBytes);
+
+        $asset = $container->makeAsset('herstellingen/photo.jpg');
+        $asset->save();
+
+        AssetUploaded::dispatch($asset, 'photo.jpg');
+
+        $stored = Storage::disk('r2_private')->get('herstellingen/photo.jpg');
+        $this->assertLessThan(strlen($largeBytes), strlen($stored));
+
+        $info = getimagesizefromstring($stored);
+        $this->assertSame(2500, $info[0]);
+    }
+
+    /**
+     * De filtering zelf, los van welke containers er op dit moment in de
+     * config staan: alleen wat in `containers` genoemd wordt, wordt aangeraakt.
+     * Beide bestaande containers staan er inmiddels in, dus die lijst wordt
+     * hier tijdelijk teruggezet — anders test dit niets meer zodra er een
+     * container bijkomt.
+     */
+    public function test_assets_in_containers_outside_the_config_are_untouched(): void
+    {
+        config(['image-compression.containers' => ['assets']]);
+
         Storage::fake('r2_private');
 
         $container = AssetContainer::find('private');
