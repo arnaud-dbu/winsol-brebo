@@ -20,6 +20,11 @@
 /public/vendor/statamic
 /storage/*.key
 /storage/antlers
+# Formulierinzendingen. Na livegang staan hier naam, telefoonnummer en adres
+# van echte klanten; die horen niet in de repo. Statamic heeft storage/forms
+# standaard in zijn git-integratielijst staan, dus zonder deze regel gebeurt
+# het vanzelf zodra die aangezet wordt.
+/storage/forms
 /storage/pail
 /vendor
 Homestead.json

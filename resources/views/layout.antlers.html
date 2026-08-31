@@ -12,6 +12,17 @@
         {{ vite src="resources/js/site.js|resources/css/site.css" }}
     </head>
     <body>
+        {{# Tag Manager voor bezoekers zonder JavaScript. Hoort direct na de openende body-tag, vóór alle zichtbare inhoud. #}}
+        {{ if config:analytics:enabled && config:analytics:gtm_container_id }}
+            <noscript>
+                <iframe
+                    src="https://www.googletagmanager.com/ns.html?id={{ config:analytics:gtm_container_id }}"
+                    height="0"
+                    width="0"
+                    style="display: none; visibility: hidden"
+                    title="Google Tag Manager"></iframe>
+            </noscript>
+        {{ /if }}
         {{ partial:skipLink }}
         {{#
             De vlaggen moeten hier staan en niet in de headers zelf: `navigation` rendert vóór `template_content`, dus die kan niet
@@ -34,6 +45,6 @@
             type="module"
             integrity="sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z"></script>
         {{ yield:scripts }}
-        {{# {{ partial:cookieConsent }} #}}
+        {{ partial:cookieConsent }}
     </body>
 </html>
