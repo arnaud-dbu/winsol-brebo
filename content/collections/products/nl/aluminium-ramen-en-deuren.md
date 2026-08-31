@@ -1,12 +1,13 @@
 ---
 id: 9b4f52b1-0001-4c2d-8e6f-4a5b6c7d9e01
+blueprint: products
 title: 'Aluminium ramen & deuren'
 range:
   - 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
 product_groups:
   - aluminium-schrijnwerk
 text: 'Ultrasmalle profielen, dus meer glas en meer daglicht. Sterk genoeg voor grote schuifpartijen, en op maat gemaakt in België.'
-image: ramen-en-deuren/realisatie-realisation-allura-81_ardooie-(23).jpg
+image: ramen-en-deuren/realisatie-realisation-allura-81-(23).jpg
 brochure: brochures/winsol_brochure_ramen-en-deuren-in-alu_nl.pdf
 meta_title: 'Aluminium ramen en deuren op maat'
 meta_description: 'Aluminium ramen en deuren van Winsol: ultrasmalle profielen, inbraakwerendheid tot klasse RC2 en maatwerk uit België. Geplaatst door je lokale Winsol-team.'
@@ -35,7 +36,7 @@ page_builder:
             type: text
             text: 'De profielen passen bij een nieuwbouw net zo goed als bij een renovatie, ongeacht de bouwstijl.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation-allura-81_oekene-(2).jpg
+    image: ramen-en-deuren/realisatie-realisation-allura-81-(2).jpg
     features:
       -
         id: alu-f1
@@ -69,7 +70,7 @@ page_builder:
             type: text
             text: 'Je kiest zelf hoe ver je gaat. Ramen zijn leverbaar met veiligheidsbeslag in RC1 of RC2, deuren met een cilinder tot RC3. De profielen zelf halen inbraakwerendheidsklasse RC2, en op lucht- en waterdichtheid scoren ze klasse 4.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation_allura-81_gent-(17).jpg
+    image: ramen-en-deuren/realisatie-realisation_allura-81-(17).jpg
     features:
       -
         id: alu-v1
@@ -126,13 +127,13 @@ page_builder:
     overline: Realisaties
     title: 'Aluminium ramen en deuren in de praktijk'
     images:
-      - ramen-en-deuren/realisatie-realisation-allura-81_ardooie-(39).jpg
-      - ramen-en-deuren/realisatie-realisation-allura-81_oekene-(19).jpg
-      - ramen-en-deuren/realisatie-realisation_allura-81_gent-(11).jpg
+      - ramen-en-deuren/realisatie-realisation-allura-81-(39).jpg
+      - ramen-en-deuren/realisatie-realisation-allura-81-(19).jpg
+      - ramen-en-deuren/realisatie-realisation_allura-81-(11).jpg
       - ramen-en-deuren/winsol_2020_mnesil-saint-blaise_allura-(22).jpg
-      - ramen-en-deuren/realisatie-realisation-allura-81_ardooie-(49).jpg
-      - ramen-en-deuren/realisatie-realisation-allura-81_oekene-(22).jpg
+      - ramen-en-deuren/realisatie-realisation-allura-81-(49).jpg
+      - ramen-en-deuren/realisatie-realisation-allura-81-(22).jpg
       - ramen-en-deuren/winsol_2020_mnesil-saint-blaise_allura-(35).jpg
-      - ramen-en-deuren/realisatie-realisation_allura-81_gent-(20).jpg
+      - ramen-en-deuren/realisatie-realisation_allura-81-(20).jpg
     enabled: true
 ---

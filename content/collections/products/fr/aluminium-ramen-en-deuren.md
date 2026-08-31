@@ -4,7 +4,7 @@ origin: 9b4f52b1-0001-4c2d-8e6f-4a5b6c7d9e01
 title: 'Châssis & portes en aluminium'
 text: 'Des profilés ultrafins, donc plus de vitrage et plus de lumière naturelle. Assez solides pour de grandes baies coulissantes, et fabriqués sur mesure en Belgique.'
 meta_title: 'Châssis et portes en aluminium sur mesure'
-meta_description: 'Châssis et portes en aluminium Winsol : profilés ultrafins, résistance à l''effraction jusqu''à la classe RC2 et fabrication sur mesure en Belgique. Posés par votre équipe Winsol locale.'
+meta_description: "Châssis et portes en aluminium Winsol : profilés ultrafins, résistance à l'effraction jusqu'à la classe RC2 et fabrication sur mesure en Belgique. Posés par votre équipe Winsol locale."
 page_builder:
   -
     id: alu-licht
@@ -19,7 +19,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'L''aluminium est un matériau solide, le profilé peut donc être plus fin. Pour une même ouverture, vous conservez ainsi plus de vitrage et la lumière naturelle entre sensiblement mieux. Cette même résistance rend possibles de grandes baies coulissantes là où le PVC atteint ses limites.'
+            text: "L'aluminium est un matériau solide, le profilé peut donc être plus fin. Pour une même ouverture, vous conservez ainsi plus de vitrage et la lumière naturelle entre sensiblement mieux. Cette même résistance rend possibles de grandes baies coulissantes là où le PVC atteint ses limites."
       -
         type: paragraph
         attrs:
@@ -27,9 +27,9 @@ page_builder:
         content:
           -
             type: text
-            text: 'Les profilés conviennent aussi bien à une construction neuve qu''à une rénovation, quel que soit le style de la maison.'
+            text: "Les profilés conviennent aussi bien à une construction neuve qu'à une rénovation, quel que soit le style de la maison."
     media: image
-    image: ramen-en-deuren/realisatie-realisation-allura-81_oekene-(2).jpg
+    image: ramen-en-deuren/realisatie-realisation-allura-81-(2).jpg
     features:
       -
         id: alu-f1
@@ -52,7 +52,7 @@ page_builder:
     id: alu-veiligheid
     type: text_image
     overline: Sécurité
-    title: 'Résistance à l''effraction jusqu''à la classe RC2'
+    title: "Résistance à l'effraction jusqu'à la classe RC2"
     text:
       -
         type: paragraph
@@ -61,9 +61,9 @@ page_builder:
         content:
           -
             type: text
-            text: 'Vous choisissez vous-même jusqu''où aller. Les châssis sont disponibles avec une quincaillerie de sécurité RC1 ou RC2, les portes avec un cylindre jusqu''à RC3. Les profilés eux-mêmes atteignent la classe de résistance à l''effraction RC2, et obtiennent la classe 4 en étanchéité à l''air et à l''eau.'
+            text: "Vous choisissez vous-même jusqu'où aller. Les châssis sont disponibles avec une quincaillerie de sécurité RC1 ou RC2, les portes avec un cylindre jusqu'à RC3. Les profilés eux-mêmes atteignent la classe de résistance à l'effraction RC2, et obtiennent la classe 4 en étanchéité à l'air et à l'eau."
     media: image
-    image: ramen-en-deuren/realisatie-realisation_allura-81_gent-(17).jpg
+    image: ramen-en-deuren/realisatie-realisation_allura-81-(17).jpg
     features:
       -
         id: alu-v1
@@ -73,12 +73,12 @@ page_builder:
       -
         id: alu-v2
         type: feature
-        label: 'Cylindre de porte jusqu''à RC3'
+        label: "Cylindre de porte jusqu'à RC3"
         enabled: true
       -
         id: alu-v3
         type: feature
-        label: 'Étanchéité à l''air et à l''eau classe 4'
+        label: "Étanchéité à l'air et à l'eau classe 4"
         enabled: true
     background: true
     enabled: true
@@ -95,15 +95,15 @@ page_builder:
         value: 'Aluminium, gamme Allura'
       -
         id: alu-s2
-        key: 'Résistance à l''effraction'
+        key: "Résistance à l'effraction"
         value: 'Classe RC2'
       -
         id: alu-s3
         key: 'Quincaillerie de sécurité'
-        value: 'RC1 ou RC2 sur les châssis, cylindre jusqu''à RC3 sur les portes'
+        value: "RC1 ou RC2 sur les châssis, cylindre jusqu'à RC3 sur les portes"
       -
         id: alu-s4
-        key: 'Étanchéité à l''air et à l''eau'
+        key: "Étanchéité à l'air et à l'eau"
         value: 'Classe 4'
       -
         id: alu-s5
@@ -120,13 +120,13 @@ page_builder:
     overline: Réalisations
     title: 'Châssis et portes en aluminium en pratique'
     images:
-      - ramen-en-deuren/realisatie-realisation-allura-81_ardooie-(39).jpg
-      - ramen-en-deuren/realisatie-realisation-allura-81_oekene-(19).jpg
-      - ramen-en-deuren/realisatie-realisation_allura-81_gent-(11).jpg
+      - ramen-en-deuren/realisatie-realisation-allura-81-(39).jpg
+      - ramen-en-deuren/realisatie-realisation-allura-81-(19).jpg
+      - ramen-en-deuren/realisatie-realisation_allura-81-(11).jpg
       - ramen-en-deuren/winsol_2020_mnesil-saint-blaise_allura-(22).jpg
-      - ramen-en-deuren/realisatie-realisation-allura-81_ardooie-(49).jpg
-      - ramen-en-deuren/realisatie-realisation-allura-81_oekene-(22).jpg
+      - ramen-en-deuren/realisatie-realisation-allura-81-(49).jpg
+      - ramen-en-deuren/realisatie-realisation-allura-81-(22).jpg
       - ramen-en-deuren/winsol_2020_mnesil-saint-blaise_allura-(35).jpg
-      - ramen-en-deuren/realisatie-realisation_allura-81_gent-(20).jpg
+      - ramen-en-deuren/realisatie-realisation_allura-81-(20).jpg
     enabled: true
 ---

@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'PVC also needs hardly any maintenance: wiping down with water is enough, and painting is never needed.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation-pvc-c-70-aalbeke-(21).jpg
+    image: ramen-en-deuren/realisatie-realisation-pvc-c-70-(21).jpg
     features:
       -
         id: pvr-f1
@@ -87,9 +87,9 @@ page_builder:
     title: 'PVC windows in practice'
     images:
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(16).jpg
-      - ramen-en-deuren/realisatie-realisation-pvc-c-70-aalbeke-(17).jpg
+      - ramen-en-deuren/realisatie-realisation-pvc-c-70-(17).jpg
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_zottegem-(4).jpg
-      - ramen-en-deuren/realisatie-realisation-pvc-ramen-c-70-pvc-fenetres-c-70_gent_05.jpg
+      - ramen-en-deuren/realisatie-realisation-pvc-ramen-c-70-pvc-fenetres-c-70-05.jpg
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(57).jpg
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_zottegem-(37).jpg
     enabled: true

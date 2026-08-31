@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'The same door closes with burglar-resistant hardware and insulates just as well as the windows beside it.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation-pvc-ramen-en-deuren-c-70-portes-et-fenetres-c-70-rolluiken-volets_boutersem22.jpg
+    image: ramen-en-deuren/realisatie-realisation-pvc-ramen-en-deuren-c-70-portes-et-fenetres-c-70-rolluiken-volets-22.jpg
     features:
       -
         id: pvd-f1
@@ -86,10 +86,10 @@ page_builder:
     overline: 'Completed projects'
     title: 'PVC doors in practice'
     images:
-      - ramen-en-deuren/realisatie-realisation-pvc-ramen-en-deuren-c-70-portes-et-fenetres-c-70-rolluiken-volets_boutersem15.jpg
-      - ramen-en-deuren/realisatie-realisation-pvc-ramen-en-deuren-c-70-pvc-portes-et-fenetres-c-70-rolluiken-volets_boutersem35.jpg
+      - ramen-en-deuren/realisatie-realisation-pvc-ramen-en-deuren-c-70-portes-et-fenetres-c-70-rolluiken-volets-15.jpg
+      - ramen-en-deuren/realisatie-realisation-pvc-ramen-en-deuren-c-70-pvc-portes-et-fenetres-c-70-rolluiken-volets-35.jpg
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_zottegem-(40).jpg
-      - ramen-en-deuren/realisatie-realisation-pvc-c-70-aalbeke-(36).jpg
+      - ramen-en-deuren/realisatie-realisation-pvc-c-70-(36).jpg
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(7).jpg
       - ramen-en-deuren/c-70-retro_10.jpg
     enabled: true

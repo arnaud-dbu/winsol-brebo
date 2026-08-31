@@ -71,7 +71,7 @@ page_builder:
             type: text
             text: 'Comfort is the broad range: every size, every finish, including a rustic country-house finish, so the door matches your windows and doors. Comfort-Go is its compact sibling, made to replace an old up-and-over door, with faster installation and maximum dimensions of 3250 by 2235 mm.'
     media: image
-    image: garagepoorten/2019_Tielt/garagepoorten-portes-de-garage_productnaam_tielt-(10).jpg
+    image: garagepoorten/2019_Tielt/garagepoorten-portes-de-garage_productnaam-(10).jpg
     features:
       -
         id: sp-x1
@@ -137,15 +137,15 @@ page_builder:
       - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-7.jpg
       - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-8.jpg
       - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-9.jpg
-      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(17).jpg
-      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(18).jpg
-      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(19).jpg
-      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(20).jpg
-      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(21).jpg
-      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(22).jpg
-      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(23).jpg
-      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(24).jpg
-      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(25).jpg
-      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garagetielt-(26).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garage-(17).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garage-(18).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garage-(19).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garage-(20).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garage-(21).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garage-(22).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garage-(23).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garage-(24).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garage-(25).jpg
+      - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garage-(26).jpg
     enabled: true
 ---

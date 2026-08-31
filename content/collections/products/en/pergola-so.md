@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'You control it with the SO! Connected app, or with the push buttons built into one of the posts.'
     media: image
-    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen18.jpg
+    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-18.jpg
     features:
       -
         id: so-f1
@@ -59,7 +59,7 @@ page_builder:
         id: so-v1
         type: card
         title: 'SO! Classic'
-        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen10.jpg
+        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-10.jpg
         text:
           -
             type: paragraph
@@ -72,7 +72,7 @@ page_builder:
         id: so-v2
         type: card
         title: 'SO! Climate'
-        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen13.jpg
+        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-13.jpg
         text:
           -
             type: paragraph
@@ -85,7 +85,7 @@ page_builder:
         id: so-v3
         type: card
         title: 'SO! Crystal'
-        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen15.jpg
+        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-15.jpg
         text:
           -
             type: paragraph
@@ -98,7 +98,7 @@ page_builder:
         id: so-v4
         type: card
         title: 'SO! Cocoon'
-        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen17.jpg
+        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-17.jpg
         text:
           -
             type: paragraph
@@ -123,7 +123,7 @@ page_builder:
             type: text
             text: 'Dimmable LED lighting in the beams, an LED starry sky for the evening, a Bluetooth sound system and charging points with USB and USB-C. A 230 V socket is built into the post of your choice, so you never have to run an extension lead across the patio.'
     media: image
-    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-oostkamp-(39).jpg
+    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-(39).jpg
     features:
       -
         id: so-c1
@@ -185,15 +185,15 @@ page_builder:
     overline: 'Completed projects'
     title: 'Pergola SO! in practice'
     images:
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen24.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen30.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen7.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen1.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen11.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen12.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen14.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen16.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-oostkamp-(39).jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-oostkamp-(42).jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-24.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-30.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-7.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-1.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-11.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-12.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-14.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-16.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-(39).jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-(42).jpg
     enabled: true
 ---

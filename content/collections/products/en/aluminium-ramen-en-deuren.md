@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'The profiles suit a new build just as well as a renovation, whatever the architectural style.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation-allura-81_oekene-(2).jpg
+    image: ramen-en-deuren/realisatie-realisation-allura-81-(2).jpg
     features:
       -
         id: alu-f1
@@ -63,7 +63,7 @@ page_builder:
             type: text
             text: 'You decide how far to go. Windows are available with security hardware in RC1 or RC2, doors with a cylinder up to RC3. The profiles themselves achieve burglar-resistance class RC2, and score class 4 for air and water tightness.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation_allura-81_gent-(17).jpg
+    image: ramen-en-deuren/realisatie-realisation_allura-81-(17).jpg
     features:
       -
         id: alu-v1
@@ -120,13 +120,13 @@ page_builder:
     overline: 'Completed projects'
     title: 'Aluminium windows and doors in practice'
     images:
-      - ramen-en-deuren/realisatie-realisation-allura-81_ardooie-(39).jpg
-      - ramen-en-deuren/realisatie-realisation-allura-81_oekene-(19).jpg
-      - ramen-en-deuren/realisatie-realisation_allura-81_gent-(11).jpg
+      - ramen-en-deuren/realisatie-realisation-allura-81-(39).jpg
+      - ramen-en-deuren/realisatie-realisation-allura-81-(19).jpg
+      - ramen-en-deuren/realisatie-realisation_allura-81-(11).jpg
       - ramen-en-deuren/winsol_2020_mnesil-saint-blaise_allura-(22).jpg
-      - ramen-en-deuren/realisatie-realisation-allura-81_ardooie-(49).jpg
-      - ramen-en-deuren/realisatie-realisation-allura-81_oekene-(22).jpg
+      - ramen-en-deuren/realisatie-realisation-allura-81-(49).jpg
+      - ramen-en-deuren/realisatie-realisation-allura-81-(22).jpg
       - ramen-en-deuren/winsol_2020_mnesil-saint-blaise_allura-(35).jpg
-      - ramen-en-deuren/realisatie-realisation_allura-81_gent-(20).jpg
+      - ramen-en-deuren/realisatie-realisation_allura-81-(20).jpg
     enabled: true
 ---

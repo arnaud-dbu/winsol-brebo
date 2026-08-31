@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'Particulièrement apprécié pour les habitations de style cottage et champêtre, et pour les rénovations où la nouvelle menuiserie ne peut pas détonner.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation-steellook-hi_gent-(21).jpg
+    image: ramen-en-deuren/realisatie-realisation-steellook-hi-(21).jpg
     features:
       -
         id: stl-f1

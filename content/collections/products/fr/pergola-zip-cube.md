@@ -27,9 +27,9 @@ page_builder:
         content:
           -
             type: text
-            text: 'Grâce à cette forme épurée, elle s''accorde bien avec une habitation crépie ou en briques modernes. Vous cherchez un style plus champêtre ? La Pergola Z!P à toit incliné est alors le choix le plus logique.'
+            text: "Grâce à cette forme épurée, elle s'accorde bien avec une habitation crépie ou en briques modernes. Vous cherchez un style plus champêtre ? La Pergola Z!P à toit incliné est alors le choix le plus logique."
     media: image
-    image: terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6222).jpg
+    image: 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6222).jpg'
     features:
       -
         id: cube-f1
@@ -52,7 +52,7 @@ page_builder:
     id: cube-comfort
     type: text_image
     overline: Confort
-    title: 'Elle s''enroule d''elle-même quand il pleut'
+    title: "Elle s'enroule d'elle-même quand il pleut"
     text:
       -
         type: paragraph
@@ -61,9 +61,9 @@ page_builder:
         content:
           -
             type: text
-            text: 'Avec le capteur de pluie en option, la toile s''enroule automatiquement dès qu''il commence à pleuvoir, même en votre absence. Un éclairage LED dans la structure et des parois d''ambiance comme la paroi à lames Ambiente parachèvent la terrasse en soirée.'
+            text: "Avec le capteur de pluie en option, la toile s'enroule automatiquement dès qu'il commence à pleuvoir, même en votre absence. Un éclairage LED dans la structure et des parois d'ambiance comme la paroi à lames Ambiente parachèvent la terrasse en soirée."
     media: image
-    image: terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6278).jpg
+    image: 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6278).jpg'
     features:
       -
         id: cubec-f1
@@ -103,7 +103,7 @@ page_builder:
         value: 'En option'
       -
         id: cube-s4
-        key: 'Parois d''ambiance'
+        key: "Parois d'ambiance"
         value: 'Entre autres la paroi à lames Ambiente'
       -
         id: cube-s5
@@ -116,11 +116,11 @@ page_builder:
     overline: Réalisations
     title: 'La Pergola Z!P CUBE en pratique'
     images:
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6218).jpg
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(0436).jpg
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6393).jpg
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6371).jpg
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6278).jpg
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6222).jpg
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6218).jpg'
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(0436).jpg'
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6393).jpg'
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6371).jpg'
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6278).jpg'
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6222).jpg'
     enabled: true
 ---

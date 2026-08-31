@@ -58,7 +58,7 @@ page_builder:
     overline: Advies
     title: 'Benieuwd wat een nieuwe poort kost?'
     text: 'De prijs hangt af van de maat, de afwerking en de aandrijving. Kom langs in een van onze drie toonzalen, of laat ons langskomen om de opening op te meten.'
-    image: garagepoorten/2019_Kanegem/realisatie-realisation-garagepoorten-portes-de-garage-kanegem-(14).jpg
+    image: garagepoorten/2019_Kanegem/realisatie-realisation-garagepoorten-portes-de-garage-(14).jpg
     link:
       -
         id: f2j8fSGz

@@ -44,7 +44,7 @@ page_builder:
       -
         id: psr-f3
         type: feature
-        label: 'Low-maintenance'
+        label: Low-maintenance
         enabled: true
     background: false
     enabled: true
@@ -84,7 +84,7 @@ page_builder:
     images:
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(20).jpg
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_zottegem-(4).jpg
-      - ramen-en-deuren/realisatie-realisation-pvc-c-70-aalbeke-(17).jpg
+      - ramen-en-deuren/realisatie-realisation-pvc-c-70-(17).jpg
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(57).jpg
     enabled: true
 ---

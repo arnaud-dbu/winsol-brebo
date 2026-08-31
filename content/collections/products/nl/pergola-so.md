@@ -1,10 +1,11 @@
 ---
 id: 9a3f52b1-0001-4c2d-8e6f-4a5b6c7d8e01
+blueprint: products
 title: 'Pergola SO!'
 range:
   - 8c2e41a0-0001-4a1b-9c7d-3e5f6a7b8c01
 text: 'Leef buiten met het comfort van binnen. Draaibare lamellen die je met de zon meedraait, verlichting en geluid ingebouwd, en alles bedienbaar vanaf je telefoon.'
-image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen6.jpg
+image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-6.jpg
 brochure: brochures/winsol-brochure_so-classic-climate_2025_nl.pdf
 meta_title: 'Pergola SO! terrasoverkapping'
 meta_description: 'De Pergola SO! van Winsol: een lamellendak dat je met de zon meedraait, met verlichting, geluid en app-bediening. Op maat gemaakt en geplaatst in Dilbeek, Sint-Pieters-Leeuw en Aartselaar.'
@@ -33,7 +34,7 @@ page_builder:
             type: text
             text: 'Bedienen doe je met de SO! Connected-app, of met de druktoetsen die in een van de palen zijn ingebouwd.'
     media: image
-    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen18.jpg
+    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-18.jpg
     features:
       -
         id: so-f1
@@ -63,7 +64,7 @@ page_builder:
         id: so-v1
         type: card
         title: 'SO! Classic'
-        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen10.jpg
+        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-10.jpg
         text:
           -
             type: paragraph
@@ -76,7 +77,7 @@ page_builder:
         id: so-v2
         type: card
         title: 'SO! Climate'
-        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen13.jpg
+        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-13.jpg
         text:
           -
             type: paragraph
@@ -89,7 +90,7 @@ page_builder:
         id: so-v3
         type: card
         title: 'SO! Crystal'
-        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen15.jpg
+        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-15.jpg
         text:
           -
             type: paragraph
@@ -102,7 +103,7 @@ page_builder:
         id: so-v4
         type: card
         title: 'SO! Cocoon'
-        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen17.jpg
+        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-17.jpg
         text:
           -
             type: paragraph
@@ -127,7 +128,7 @@ page_builder:
             type: text
             text: 'Dimbare ledverlichting in de balken, een ledsterrenhemel voor de avond, een bluetooth-geluidssysteem en oplaadpunten met USB en USB-C. Er zit een 230V-aansluiting ingebouwd in de paal van je keuze, zodat je geen verlengsnoer over het terras hoeft te trekken.'
     media: image
-    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-oostkamp-(39).jpg
+    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-(39).jpg
     features:
       -
         id: so-c1
@@ -189,15 +190,15 @@ page_builder:
     overline: Realisaties
     title: 'Pergola SO! in de praktijk'
     images:
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen24.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen30.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen7.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen1.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen11.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen12.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen14.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen16.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-oostkamp-(39).jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-oostkamp-(42).jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-24.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-30.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-7.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-1.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-11.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-12.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-14.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-16.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-(39).jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-(42).jpg
     enabled: true
 ---

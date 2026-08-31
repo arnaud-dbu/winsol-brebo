@@ -1,5 +1,6 @@
 ---
 id: 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
+blueprint: ranges
 title: 'Ramen en deuren'
 short_description: 'Ramen en deuren in aluminium of pvc, op maat gemaakt in België en geplaatst door ons eigen team.'
 long_description: 'Ramen en deuren bepalen de look van je woning en geven je huis een volledig nieuw gezicht. Ze bepalen ook je energiefactuur: goed isolerend schrijnwerk houdt de warmte binnen en het lawaai buiten. Wij meten op, adviseren over aluminium of pvc, en plaatsen met eigen vakmensen.'
@@ -26,7 +27,7 @@ page_builder:
             type: text
             text: 'Aluminium is sterk, dus het profiel kan smaller. Bij dezelfde raamopening houd je daardoor meer glas over en valt er merkbaar meer daglicht binnen. Datzelfde draagvermogen maakt grote schuifpartijen mogelijk. Pvc is voordeliger, isoleert uitstekend en vraagt nauwelijks onderhoud.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation-allura-81_ardooie-(29).jpg
+    image: ramen-en-deuren/realisatie-realisation-allura-81-(29).jpg
     features:
       -
         id: rd-r1
@@ -60,7 +61,7 @@ page_builder:
             type: text
             text: 'Een voordeur moet er goed uitzien, maar vooral goed sluiten. Onze deuren zijn leverbaar met inbraakwerend beslag en een cilinder tot klasse RC3, en isoleren even goed als de ramen ernaast. In aluminium kan het paneel vlak in de gevel liggen, in pvc kies je uit een ruim aanbod modellen en kleuren.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation_allura-81_gent-(4).jpg
+    image: ramen-en-deuren/realisatie-realisation_allura-81-(4).jpg
     features:
       -
         id: rd-d1
@@ -101,7 +102,7 @@ page_builder:
     overline: Advies
     title: 'Benieuwd wat nieuwe ramen kosten?'
     text: 'Kom langs in een van onze drie toonzalen, of laat ons langskomen om op te meten. Je krijgt een voorstel op maat, vrijblijvend.'
-    image: ramen-en-deuren/realisatie-realisation-allura-81_oekene-(15).jpg
+    image: ramen-en-deuren/realisatie-realisation-allura-81-(15).jpg
     link:
       -
         type: entry

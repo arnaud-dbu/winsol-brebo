@@ -93,7 +93,7 @@ page_builder:
         type: feature
         label: 'Belgisch maatwerk'
         enabled: true
-    image: pergola-so-terrasoverkapping-realisatie-assebroek-houtlook-lamellen-100.jpg
+    image: pergola-so-terrasoverkapping-realisatie-houtlook-lamellen-100.jpg
     background: false
     enabled: true
     media: image
@@ -114,5 +114,5 @@ page_builder:
     align: left
     image: winsol-brebo-showroom-persoonlijk-advies.jpg
 template: home
-image: 'aluminium-ramen-&-deuren_portes-&-fenetres_allura_gent_(0722)-(1).jpg'
+image: 'aluminium-ramen-&-deuren_portes-&-fenetres_allura-(0722)-(1).jpg'
 ---

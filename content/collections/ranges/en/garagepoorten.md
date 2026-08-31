@@ -53,7 +53,7 @@ page_builder:
     overline: Advice
     title: 'Wondering what a new door costs?'
     text: 'The price depends on the size, the finish and the drive. Visit one of our three showrooms, or have us come round to measure the opening.'
-    image: garagepoorten/2019_Kanegem/realisatie-realisation-garagepoorten-portes-de-garage-kanegem-(14).jpg
+    image: garagepoorten/2019_Kanegem/realisatie-realisation-garagepoorten-portes-de-garage-(14).jpg
     link:
       -
         id: f2j8fSGz

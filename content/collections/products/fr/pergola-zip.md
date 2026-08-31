@@ -2,7 +2,7 @@
 id: 31291f37-8b4b-45d5-b877-8285215587dc
 origin: 9a3f52b1-0002-4c2d-8e6f-4a5b6c7d8e02
 title: 'Pergola Z!P'
-text: 'Une couverture de terrasse avec toile enroulable et toit incliné qui évacue la pluie par les poteaux. Déroulez pour l''ombre, enroulez pour la lumière.'
+text: "Une couverture de terrasse avec toile enroulable et toit incliné qui évacue la pluie par les poteaux. Déroulez pour l'ombre, enroulez pour la lumière."
 meta_title: 'Couverture de terrasse Pergola Z!P'
 meta_description: 'La Pergola Z!P de Winsol : toile enroulable, toit incliné et évacuation de la pluie dans les poteaux. Fabriquée sur mesure et posée à Dilbeek, Sint-Pieters-Leeuw et Aartselaar.'
 page_builder:
@@ -19,7 +19,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'La toile enroulable de la Pergola Z!P se déroule pour créer de l''ombre et s''enroule dès que vous voulez laisser entrer la lumière. Pratique pendant les journées sombres : quand la toile est dans son caisson, la lumière naturelle entre tout simplement dans votre habitation.'
+            text: "La toile enroulable de la Pergola Z!P se déroule pour créer de l'ombre et s'enroule dès que vous voulez laisser entrer la lumière. Pratique pendant les journées sombres : quand la toile est dans son caisson, la lumière naturelle entre tout simplement dans votre habitation."
       -
         type: paragraph
         attrs:
@@ -27,9 +27,9 @@ page_builder:
         content:
           -
             type: text
-            text: 'Le toit est incliné et les poteaux intègrent une évacuation de la pluie : lors d''une averse d''été, vous restez tranquillement assis.'
+            text: "Le toit est incliné et les poteaux intègrent une évacuation de la pluie : lors d'une averse d'été, vous restez tranquillement assis."
     media: image
-    image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_gent-(1162).jpg
+    image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p-(1162).jpg
     features:
       -
         id: zip-f1
@@ -52,7 +52,7 @@ page_builder:
     id: zip-comfort
     type: text_image
     overline: Confort
-    title: 'Six façons d''éclairer votre terrasse'
+    title: "Six façons d'éclairer votre terrasse"
     text:
       -
         type: paragraph
@@ -61,14 +61,14 @@ page_builder:
         content:
           -
             type: text
-            text: 'Des spots dimmables dans la structure à l''éclairage qui accompagne la toile : vous choisissez vous-même l''ambiance de vos soirées. La commande passe par votre smartphone ou par les boutons-poussoirs dans le poteau.'
+            text: "Des spots dimmables dans la structure à l'éclairage qui accompagne la toile : vous choisissez vous-même l'ambiance de vos soirées. La commande passe par votre smartphone ou par les boutons-poussoirs dans le poteau."
     media: image
     image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_-verviers-heusy-(1875).jpg
     features:
       -
         id: zipc-f1
         type: feature
-        label: 'Six options d''éclairage'
+        label: "Six options d'éclairage"
         enabled: true
       -
         id: zipc-f2
@@ -78,7 +78,7 @@ page_builder:
       -
         id: zipc-f3
         type: feature
-        label: 'Parois d''ambiance en option'
+        label: "Parois d'ambiance en option"
         enabled: true
     background: true
     enabled: true
@@ -116,10 +116,10 @@ page_builder:
     overline: Réalisations
     title: 'La Pergola Z!P en pratique'
     images:
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_gent-(1182).jpg
+      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p-(1182).jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_-verviers-heusy-(1826).jpg
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_gent-(1181).jpg
+      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p-(1181).jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_-verviers-heusy-(1875).jpg
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_gent-(1162).jpg
+      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p-(1162).jpg
     enabled: true
 ---

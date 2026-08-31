@@ -1,5 +1,6 @@
 ---
 id: 9b4f52b1-0003-4c2d-8e6f-4a5b6c7d9e03
+blueprint: products
 title: 'PVC ramen'
 range:
   - 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
@@ -35,7 +36,7 @@ page_builder:
             type: text
             text: 'Pvc vraagt bovendien nauwelijks onderhoud: afnemen met water volstaat, schilderen is nooit nodig.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation-pvc-c-70-aalbeke-(21).jpg
+    image: ramen-en-deuren/realisatie-realisation-pvc-c-70-(21).jpg
     features:
       -
         id: pvr-f1
@@ -79,7 +80,7 @@ page_builder:
         value: 'Klasse RC1 of RC2'
       -
         id: pvr-s5
-        key: Lucht- en waterdichtheid
+        key: 'Lucht- en waterdichtheid'
         value: 'Klasse 4'
       -
         id: pvr-s6
@@ -93,9 +94,9 @@ page_builder:
     title: 'PVC ramen in de praktijk'
     images:
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(16).jpg
-      - ramen-en-deuren/realisatie-realisation-pvc-c-70-aalbeke-(17).jpg
+      - ramen-en-deuren/realisatie-realisation-pvc-c-70-(17).jpg
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_zottegem-(4).jpg
-      - ramen-en-deuren/realisatie-realisation-pvc-ramen-c-70-pvc-fenetres-c-70_gent_05.jpg
+      - ramen-en-deuren/realisatie-realisation-pvc-ramen-c-70-pvc-fenetres-c-70-05.jpg
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(57).jpg
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_zottegem-(37).jpg
     enabled: true

@@ -90,7 +90,7 @@ page_builder:
         type: feature
         label: 'Made to measure in Belgium'
         enabled: true
-    image: pergola-so-terrasoverkapping-realisatie-assebroek-houtlook-lamellen-100.jpg
+    image: pergola-so-terrasoverkapping-realisatie-houtlook-lamellen-100.jpg
     background: false
     enabled: true
     media: image

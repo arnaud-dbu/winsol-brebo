@@ -20,7 +20,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'A good cover extends your season. In summer it doses the sun, in autumn it keeps the rain off, and with closed side walls you''ll still be sitting there in March. The difference is in the roof: rotating louvres you turn with the sun, a fabric roof you roll up as soon as you want light in, or glass that lets light through all year long.'
+            text: "A good cover extends your season. In summer it doses the sun, in autumn it keeps the rain off, and with closed side walls you'll still be sitting there in March. The difference is in the roof: rotating louvres you turn with the sun, a fabric roof you roll up as soon as you want light in, or glass that lets light through all year long."
       -
         type: paragraph
         attrs:
@@ -28,9 +28,9 @@ page_builder:
         content:
           -
             type: text
-            text: 'Which roof type suits you depends on your façade, the orientation of your patio and how you want to use it. That''s what we come round for.'
+            text: "Which roof type suits you depends on your façade, the orientation of your patio and how you want to use it. That's what we come round for."
     media: image
-    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen30.jpg
+    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-30.jpg
     features:
       -
         id: tov-f1
@@ -66,8 +66,8 @@ page_builder:
     type: cta
     overline: Advice
     title: 'Not sure which roof suits your patio?'
-    text: 'Visit one of our three showrooms, or have us come round to measure up. You''ll receive a tailored proposal, with no obligation.'
-    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen7.jpg
+    text: "Visit one of our three showrooms, or have us come round to measure up. You'll receive a tailored proposal, with no obligation."
+    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-7.jpg
     link:
       -
         type: entry

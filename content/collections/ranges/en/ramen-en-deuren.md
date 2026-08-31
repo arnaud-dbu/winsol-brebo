@@ -22,7 +22,7 @@ page_builder:
             type: text
             text: 'Aluminium is strong, so the profile can be slimmer. For the same window opening you keep more glass, and noticeably more daylight comes in. That same load-bearing capacity makes large sliding windows possible. PVC is more affordable, insulates superbly and needs hardly any maintenance.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation-allura-81_ardooie-(29).jpg
+    image: ramen-en-deuren/realisatie-realisation-allura-81-(29).jpg
     features:
       -
         id: rd-r1
@@ -56,7 +56,7 @@ page_builder:
             type: text
             text: 'A front door should look good, but above all close properly. Our doors are available with burglar-resistant fittings and a cylinder up to class RC3, and insulate just as well as the windows beside them. In aluminium the panel can sit flush with the façade; in PVC you choose from a wide range of styles and colours.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation_allura-81_gent-(4).jpg
+    image: ramen-en-deuren/realisatie-realisation_allura-81-(4).jpg
     features:
       -
         id: rd-d1
@@ -96,8 +96,8 @@ page_builder:
     type: cta
     overline: Advice
     title: 'Wondering what new windows cost?'
-    text: 'Visit one of our three showrooms, or have us come round to measure up. You''ll receive a tailored proposal, with no obligation.'
-    image: ramen-en-deuren/realisatie-realisation-allura-81_oekene-(15).jpg
+    text: "Visit one of our three showrooms, or have us come round to measure up. You'll receive a tailored proposal, with no obligation."
+    image: ramen-en-deuren/realisatie-realisation-allura-81-(15).jpg
     link:
       -
         type: entry

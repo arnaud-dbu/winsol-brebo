@@ -2,7 +2,7 @@
 id: d871e046-a208-4c38-a0b5-162690c170e8
 origin: 9b4f52b1-0006-4c2d-8e6f-4a5b6c7d9e06
 title: 'Châssis coulissants en PVC'
-text: 'Des châssis coulissants en PVC : la même manœuvre et la même isolation qu''une baie coulissante en aluminium, à un prix plus avantageux.'
+text: "Des châssis coulissants en PVC : la même manœuvre et la même isolation qu'une baie coulissante en aluminium, à un prix plus avantageux."
 meta_title: 'Châssis coulissants en PVC sur mesure'
 meta_description: 'Châssis coulissants en PVC Winsol : coulissement souple, bonne isolation et entretien minimal. Fabriqués sur mesure en Belgique et posés par votre équipe locale.'
 page_builder:
@@ -10,7 +10,7 @@ page_builder:
     id: psr-keuze
     type: text_image
     overline: 'Le bon choix'
-    title: 'Quand choisir le PVC, quand l''aluminium'
+    title: "Quand choisir le PVC, quand l'aluminium"
     text:
       -
         type: paragraph
@@ -19,7 +19,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Pour la plupart des habitations, un châssis coulissant en PVC suffit largement : il isole très bien, coulisse en souplesse et coûte moins cher que l''aluminium. Ce n''est que pour des baies très larges ou très hautes que le matériau atteint ses limites ; l''aluminium devient alors le meilleur choix.'
+            text: "Pour la plupart des habitations, un châssis coulissant en PVC suffit largement : il isole très bien, coulisse en souplesse et coûte moins cher que l'aluminium. Ce n'est que pour des baies très larges ou très hautes que le matériau atteint ses limites ; l'aluminium devient alors le meilleur choix."
       -
         type: paragraph
         attrs:
@@ -34,7 +34,7 @@ page_builder:
       -
         id: psr-f1
         type: feature
-        label: 'Plus avantageux que l''aluminium'
+        label: "Plus avantageux que l'aluminium"
         enabled: true
       -
         id: psr-f2
@@ -61,20 +61,20 @@ page_builder:
         value: 'PVC, gamme C+70'
       -
         id: psr-s2
-        key: 'Valeur d''isolation'
-        value: 'Jusqu''à 1,1 W/m²K'
+        key: "Valeur d'isolation"
+        value: "Jusqu'à 1,1 W/m²K"
       -
         id: psr-s3
         key: 'Profondeur du profilé'
         value: '70 mm'
       -
         id: psr-s4
-        key: 'Résistance à l''effraction'
+        key: "Résistance à l'effraction"
         value: 'Classe RC1 ou RC2'
       -
         id: psr-s5
         key: Entretien
-        value: 'Un simple nettoyage à l''eau'
+        value: "Un simple nettoyage à l'eau"
     enabled: true
   -
     id: psr-galerij
@@ -84,7 +84,7 @@ page_builder:
     images:
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(20).jpg
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_zottegem-(4).jpg
-      - ramen-en-deuren/realisatie-realisation-pvc-c-70-aalbeke-(17).jpg
+      - ramen-en-deuren/realisatie-realisation-pvc-c-70-(17).jpg
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(57).jpg
     enabled: true
 ---

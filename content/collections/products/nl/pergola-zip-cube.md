@@ -1,10 +1,11 @@
 ---
 id: 9a3f52b1-0003-4c2d-8e6f-4a5b6c7d8e03
+blueprint: products
 title: 'Pergola Z!P CUBE'
 range:
   - 8c2e41a0-0001-4a1b-9c7d-3e5f6a7b8c01
 text: 'Dezelfde techniek als de Pergola Z!P, maar met een plat dak en strakke, rechte lijnen. Het doek verdwijnt in een gesloten kast aan de gevel.'
-image: terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6222).jpg
+image: 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6222).jpg'
 brochure: brochures/winsol-brochure-pergola-zip-nl.pdf
 meta_title: 'Pergola Z!P CUBE terrasoverkapping'
 meta_description: 'De Pergola Z!P CUBE van Winsol: plat dak, uitschuifbaar doek en een strakke horizontale structuur. Op maat gemaakt en geplaatst.'
@@ -33,7 +34,7 @@ page_builder:
             type: text
             text: 'Door die strakke vorm past hij goed bij een woning met crepi-afwerking of moderne baksteen. Zoek je iets landelijkers, dan is de Pergola Z!P met hellend dak de logischere keuze.'
     media: image
-    image: terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6222).jpg
+    image: 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6222).jpg'
     features:
       -
         id: cube-f1
@@ -65,9 +66,9 @@ page_builder:
         content:
           -
             type: text
-            text: 'Met de optionele regensensor rolt het doek vanzelf op zodra het gaat regenen, ook als je niet thuis bent. Ledverlichting in de structuur en sfeerwanden zoals de Ambiente lamellenwand maken het terras ''s avonds af.'
+            text: "Met de optionele regensensor rolt het doek vanzelf op zodra het gaat regenen, ook als je niet thuis bent. Ledverlichting in de structuur en sfeerwanden zoals de Ambiente lamellenwand maken het terras 's avonds af."
     media: image
-    image: terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6278).jpg
+    image: 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6278).jpg'
     features:
       -
         id: cubec-f1
@@ -104,7 +105,7 @@ page_builder:
       -
         id: cube-s3
         key: Regensensor
-        value: 'Optioneel'
+        value: Optioneel
       -
         id: cube-s4
         key: Sfeerwanden
@@ -120,11 +121,11 @@ page_builder:
     overline: Realisaties
     title: 'Pergola Z!P CUBE in de praktijk'
     images:
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6218).jpg
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(0436).jpg
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6393).jpg
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6371).jpg
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6278).jpg
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6222).jpg
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6218).jpg'
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(0436).jpg'
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6393).jpg'
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6371).jpg'
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6278).jpg'
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6222).jpg'
     enabled: true
 ---

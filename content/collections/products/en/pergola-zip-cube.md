@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'That clean shape makes it a good match for a home with a render finish or modern brick. If you are after something more rustic, the Pergola Z!P with its sloping roof is the more logical choice.'
     media: image
-    image: terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6222).jpg
+    image: 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6222).jpg'
     features:
       -
         id: cube-f1
@@ -63,7 +63,7 @@ page_builder:
             type: text
             text: 'With the optional rain sensor, the fabric rolls up by itself as soon as it starts to rain, even when you are not at home. LED lighting in the structure and ambience walls such as the Ambiente louvred wall complete the patio in the evening.'
     media: image
-    image: terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6278).jpg
+    image: 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6278).jpg'
     features:
       -
         id: cubec-f1
@@ -116,11 +116,11 @@ page_builder:
     overline: 'Completed projects'
     title: 'Pergola Z!P CUBE in practice'
     images:
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6218).jpg
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(0436).jpg
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6393).jpg
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6371).jpg
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6278).jpg
-      - terrasoverkapping/pergolas--terrasoverkappingen--z!p-&-z!p-cube_melle-(6222).jpg
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6218).jpg'
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(0436).jpg'
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6393).jpg'
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6371).jpg'
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6278).jpg'
+      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6222).jpg'
     enabled: true
 ---

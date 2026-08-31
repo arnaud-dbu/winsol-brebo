@@ -1,10 +1,11 @@
 ---
 id: 9a3f52b1-0002-4c2d-8e6f-4a5b6c7d8e02
+blueprint: products
 title: 'Pergola Z!P'
 range:
   - 8c2e41a0-0001-4a1b-9c7d-3e5f6a7b8c01
 text: 'Een terrasoverkapping met oproldoek en een hellend dak dat de regen via de palen afvoert. Uitrollen voor schaduw, oprollen voor licht.'
-image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_gent-(1182).jpg
+image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p-(1182).jpg
 brochure: brochures/winsol-brochure-pergola-zip-nl.pdf
 meta_title: 'Pergola Z!P terrasoverkapping'
 meta_description: 'De Pergola Z!P van Winsol: oproldoek, hellend dak en regenafvoer in de palen. Op maat gemaakt en geplaatst in Dilbeek, Sint-Pieters-Leeuw en Aartselaar.'
@@ -33,7 +34,7 @@ page_builder:
             type: text
             text: 'Het dak helt af en de palen hebben een ingebouwde regenafvoer, zodat je bij een zomerse bui rustig kunt blijven zitten.'
     media: image
-    image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_gent-(1162).jpg
+    image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p-(1162).jpg
     features:
       -
         id: zip-f1
@@ -65,7 +66,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Van dimbare spots in de structuur tot verlichting die met het doek meebeweegt: je kiest zelf hoeveel sfeer je ''s avonds wilt. De bediening loopt via je smartphone of via de druktoetsen in de paal.'
+            text: "Van dimbare spots in de structuur tot verlichting die met het doek meebeweegt: je kiest zelf hoeveel sfeer je 's avonds wilt. De bediening loopt via je smartphone of via de druktoetsen in de paal."
     media: image
     image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_-verviers-heusy-(1875).jpg
     features:
@@ -120,10 +121,10 @@ page_builder:
     overline: Realisaties
     title: 'Pergola Z!P in de praktijk'
     images:
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_gent-(1182).jpg
+      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p-(1182).jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_-verviers-heusy-(1826).jpg
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_gent-(1181).jpg
+      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p-(1181).jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_-verviers-heusy-(1875).jpg
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_gent-(1162).jpg
+      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p-(1162).jpg
     enabled: true
 ---

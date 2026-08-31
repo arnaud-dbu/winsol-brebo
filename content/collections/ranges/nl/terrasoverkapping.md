@@ -35,7 +35,7 @@ page_builder:
             type: text
             text: 'Welk daktype bij jou past, hangt af van je gevel, de oriëntatie van je terras en hoe je het wilt gebruiken. Daar komen we voor langs.'
     media: image
-    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen30.jpg
+    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-30.jpg
     features:
       -
         id: tov-f1
@@ -72,7 +72,7 @@ page_builder:
     overline: Advies
     title: 'Niet zeker welk dak bij je terras past?'
     text: 'Kom langs in een van onze drie toonzalen, of laat ons langskomen om op te meten. Je krijgt een voorstel op maat, vrijblijvend.'
-    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen7.jpg
+    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-7.jpg
     link:
       -
         type: entry

@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'That strength also makes larger window sections possible, right up to sliding windows across the full width of a façade.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation-allura-81_ardooie-(23).jpg
+    image: ramen-en-deuren/realisatie-realisation-allura-81-(23).jpg
     features:
       -
         id: alr-f1
@@ -44,7 +44,7 @@ page_builder:
       -
         id: alr-f3
         type: feature
-        label: 'Low-maintenance'
+        label: Low-maintenance
         enabled: true
     background: false
     enabled: true
@@ -86,11 +86,11 @@ page_builder:
     overline: 'Completed projects'
     title: 'Aluminium windows in practice'
     images:
-      - ramen-en-deuren/realisatie-realisation-allura-81_oekene-(2).jpg
-      - ramen-en-deuren/realisatie-realisation-allura-81_ardooie-(39).jpg
+      - ramen-en-deuren/realisatie-realisation-allura-81-(2).jpg
+      - ramen-en-deuren/realisatie-realisation-allura-81-(39).jpg
       - ramen-en-deuren/winsol_2020_mnesil-saint-blaise_allura-(23).jpg
-      - ramen-en-deuren/realisatie-realisation_allura-81_gent-(11).jpg
-      - ramen-en-deuren/realisatie-realisation-allura-81_oekene-(22).jpg
+      - ramen-en-deuren/realisatie-realisation_allura-81-(11).jpg
+      - ramen-en-deuren/realisatie-realisation-allura-81-(22).jpg
       - ramen-en-deuren/winsol_2020_mnesil-saint-blaise_allura-(25).jpg
     enabled: true
 ---

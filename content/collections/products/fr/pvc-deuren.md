@@ -2,9 +2,9 @@
 id: 700575ac-e832-431f-898f-9abdf1bcb201
 origin: 9b4f52b1-0004-4c2d-8e6f-4a5b6c7d9e04
 title: 'Portes en PVC'
-text: 'Portes d''entrée et portes arrière en PVC : bien isolées, résistantes à l''effraction et disponibles dans un large choix de modèles et de coloris.'
+text: "Portes d'entrée et portes arrière en PVC : bien isolées, résistantes à l'effraction et disponibles dans un large choix de modèles et de coloris."
 meta_title: 'Portes en PVC sur mesure'
-meta_description: 'Portes en PVC Winsol : bonne isolation, quincaillerie anti-effraction jusqu''à la classe RC2 et un large choix de modèles. Fabriquées sur mesure et posées par votre équipe locale.'
+meta_description: "Portes en PVC Winsol : bonne isolation, quincaillerie anti-effraction jusqu'à la classe RC2 et un large choix de modèles. Fabriquées sur mesure et posées par votre équipe locale."
 page_builder:
   -
     id: pvd-stijl
@@ -27,9 +27,9 @@ page_builder:
         content:
           -
             type: text
-            text: 'La même porte se ferme avec une quincaillerie anti-effraction et isole aussi bien que les châssis qui l''entourent.'
+            text: "La même porte se ferme avec une quincaillerie anti-effraction et isole aussi bien que les châssis qui l'entourent."
     media: image
-    image: ramen-en-deuren/realisatie-realisation-pvc-ramen-en-deuren-c-70-portes-et-fenetres-c-70-rolluiken-volets_boutersem22.jpg
+    image: ramen-en-deuren/realisatie-realisation-pvc-ramen-en-deuren-c-70-portes-et-fenetres-c-70-rolluiken-volets-22.jpg
     features:
       -
         id: pvd-f1
@@ -65,11 +65,11 @@ page_builder:
         value: '70 mm'
       -
         id: pvd-s3
-        key: 'Résistance à l''effraction'
+        key: "Résistance à l'effraction"
         value: 'Classe RC1 ou RC2'
       -
         id: pvd-s4
-        key: 'Étanchéité à l''air et à l''eau'
+        key: "Étanchéité à l'air et à l'eau"
         value: 'Classe 4'
       -
         id: pvd-s5
@@ -78,7 +78,7 @@ page_builder:
       -
         id: pvd-s6
         key: Entretien
-        value: 'Un simple nettoyage à l''eau'
+        value: "Un simple nettoyage à l'eau"
     enabled: true
   -
     id: pvd-galerij
@@ -86,10 +86,10 @@ page_builder:
     overline: Réalisations
     title: 'Les portes en PVC en pratique'
     images:
-      - ramen-en-deuren/realisatie-realisation-pvc-ramen-en-deuren-c-70-portes-et-fenetres-c-70-rolluiken-volets_boutersem15.jpg
-      - ramen-en-deuren/realisatie-realisation-pvc-ramen-en-deuren-c-70-pvc-portes-et-fenetres-c-70-rolluiken-volets_boutersem35.jpg
+      - ramen-en-deuren/realisatie-realisation-pvc-ramen-en-deuren-c-70-portes-et-fenetres-c-70-rolluiken-volets-15.jpg
+      - ramen-en-deuren/realisatie-realisation-pvc-ramen-en-deuren-c-70-pvc-portes-et-fenetres-c-70-rolluiken-volets-35.jpg
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_zottegem-(40).jpg
-      - ramen-en-deuren/realisatie-realisation-pvc-c-70-aalbeke-(36).jpg
+      - ramen-en-deuren/realisatie-realisation-pvc-c-70-(36).jpg
       - ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(7).jpg
       - ramen-en-deuren/c-70-retro_10.jpg
     enabled: true

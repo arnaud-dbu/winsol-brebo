@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'The roof slopes and the posts have built-in rain drainage, so you can stay comfortably seated during a summer shower.'
     media: image
-    image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_gent-(1162).jpg
+    image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p-(1162).jpg
     features:
       -
         id: zip-f1
@@ -116,10 +116,10 @@ page_builder:
     overline: 'Completed projects'
     title: 'Pergola Z!P in practice'
     images:
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_gent-(1182).jpg
+      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p-(1182).jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_-verviers-heusy-(1826).jpg
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_gent-(1181).jpg
+      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p-(1181).jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_-verviers-heusy-(1875).jpg
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_gent-(1162).jpg
+      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p-(1162).jpg
     enabled: true
 ---

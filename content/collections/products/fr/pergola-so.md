@@ -2,7 +2,7 @@
 id: f1414382-0cb0-4194-82e1-a1622cf7cd4b
 origin: 9a3f52b1-0001-4c2d-8e6f-4a5b6c7d8e01
 title: 'Pergola SO!'
-text: 'Vivez dehors avec le confort de l''intérieur. Des lames orientables qui suivent le soleil, un éclairage et un système audio intégrés, et le tout commandé depuis votre téléphone.'
+text: "Vivez dehors avec le confort de l'intérieur. Des lames orientables qui suivent le soleil, un éclairage et un système audio intégrés, et le tout commandé depuis votre téléphone."
 meta_title: 'Couverture de terrasse Pergola SO!'
 meta_description: 'La Pergola SO! de Winsol : un toit à lames qui suit le soleil, avec éclairage, son et commande via app. Fabriquée sur mesure et posée à Dilbeek, Sint-Pieters-Leeuw et Aartselaar.'
 page_builder:
@@ -27,9 +27,9 @@ page_builder:
         content:
           -
             type: text
-            text: 'La commande se fait via l''app SO! Connected, ou avec les boutons-poussoirs intégrés dans l''un des poteaux.'
+            text: "La commande se fait via l'app SO! Connected, ou avec les boutons-poussoirs intégrés dans l'un des poteaux."
     media: image
-    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen18.jpg
+    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-18.jpg
     features:
       -
         id: so-f1
@@ -53,39 +53,39 @@ page_builder:
     type: cards
     overline: 'Variantes de toit'
     title: 'Quatre toits, une pergola'
-    text: 'La Pergola SO! existe en quatre versions. La structure reste identique ; le toit détermine l''usage que vous en faites.'
+    text: "La Pergola SO! existe en quatre versions. La structure reste identique ; le toit détermine l'usage que vous en faites."
     cards:
       -
         id: so-v1
         type: card
         title: 'SO! Classic'
-        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen10.jpg
+        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-10.jpg
         text:
           -
             type: paragraph
             content:
               -
                 type: text
-                text: 'Le toit à lames dans sa forme de base. Orientable, automatisé et utilisable toute l''année.'
+                text: "Le toit à lames dans sa forme de base. Orientable, automatisé et utilisable toute l'année."
         enabled: true
       -
         id: so-v2
         type: card
         title: 'SO! Climate'
-        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen13.jpg
+        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-13.jpg
         text:
           -
             type: paragraph
             content:
               -
                 type: text
-                text: 'Le même toit à lames, complété par un chauffage et des parois d''ambiance pour en profiter aussi à la mi-saison.'
+                text: "Le même toit à lames, complété par un chauffage et des parois d'ambiance pour en profiter aussi à la mi-saison."
         enabled: true
       -
         id: so-v3
         type: card
         title: 'SO! Crystal'
-        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen15.jpg
+        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-15.jpg
         text:
           -
             type: paragraph
@@ -98,7 +98,7 @@ page_builder:
         id: so-v4
         type: card
         title: 'SO! Cocoon'
-        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen17.jpg
+        image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-17.jpg
         text:
           -
             type: paragraph
@@ -123,7 +123,7 @@ page_builder:
             type: text
             text: 'Un éclairage LED dimmable dans les poutres, un ciel étoilé LED pour le soir, un système audio Bluetooth et des points de charge USB et USB-C. Une prise 230 V est intégrée dans le poteau de votre choix : plus besoin de tirer une rallonge à travers la terrasse.'
     media: image
-    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-oostkamp-(39).jpg
+    image: terrasoverkapping/realisatie-pergola-so-terrasoverkapping-(39).jpg
     features:
       -
         id: so-c1
@@ -185,15 +185,15 @@ page_builder:
     overline: Réalisations
     title: 'La Pergola SO! en pratique'
     images:
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen24.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen30.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen7.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen1.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen11.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen12.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen14.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-drongen16.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-oostkamp-(39).jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-oostkamp-(42).jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-24.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-30.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-7.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-1.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-11.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-12.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-14.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-16.jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-(39).jpg
+      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-(42).jpg
     enabled: true
 ---

@@ -88,7 +88,7 @@ class SeoGlobalFallbacksTest extends TestCase
     {
         $this->withSeoGlobal([
             'meta_description' => 'Sitebrede reservebeschrijving',
-            'meta_image' => 'realisatie-realisation_squaro_knesselare_03.jpg',
+            'meta_image' => 'realisatie-realisation_squaro-03.jpg',
         ]);
 
         $html = $this->get('/deze-pagina-bestaat-niet')->getContent();
