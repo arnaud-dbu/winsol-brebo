@@ -115,8 +115,13 @@ class ReparationFormTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:reparationForm }}');
 
-        $this->assertSame(2, substr_count($html, 'form-dropzone'));
+        $this->assertSame(2, substr_count($html, 'class="form-dropzone"'));
         $this->assertSame(2, substr_count($html, 'type="file"'));
+
+        // De naam van het gekozen bestand: zonder dit element ziet de bezoeker
+        // niet dat zijn upload is aangekomen, want de file-input ligt
+        // onzichtbaar over de dropzone.
+        $this->assertSame(2, substr_count($html, 'data-file-name'));
         $this->assertStringContainsString('Sleep een foto hierheen of klik om te uploaden', $html);
         $this->assertStringContainsString('Sleep je factuur hierheen of klik om te uploaden', $html);
     }
@@ -158,7 +163,21 @@ class ReparationFormTest extends SectionTestCase
         // De accentknop heet sinds 95da753 `btn--primary`: die utility kreeg
         // toen `bg-accent text-black` en `btn--accent` verdween uit button.css.
         $this->assertStringContainsString('btn btn--primary', $html);
-        $this->assertStringContainsString('>Herstelling melden<', $html);
+        $this->assertMatchesRegularExpression('~>\s*Herstelling melden\s*<~', $html);
+    }
+
+    /**
+     * Zonder bevestiging weet de bezoeker na het versturen niet of zijn
+     * melding is aangekomen — het formulier verdween gewoon van het scherm.
+     */
+    public function test_it_confirms_the_submission_and_marks_the_button_while_sending(): void
+    {
+        $html = $this->render('{{ partial:reparationForm }}');
+
+        $this->assertStringContainsString('data-sending-label', $html);
+        $this->assertStringContainsString('{{ if success }}', file_get_contents(
+            resource_path('views/partials/reparationForm.antlers.html'),
+        ));
     }
 
     private function sections(): Collection

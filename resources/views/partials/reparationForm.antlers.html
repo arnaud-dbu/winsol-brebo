@@ -1,71 +1,85 @@
 {{ form:herstelling class="form" }}
-    {{ sections }}
-        <div class="form-section">
-            {{ if instructions }}
-                <p class="form-notice">{{ trans :key="instructions" }}</p>
-            {{ /if }}
-            <div class="form-grid">
-                {{ fields }}
-                    {{# Toggles buiten .form-field, om dezelfde reden als bij het gdpr-veld op het brochureformulier: die klasse stijlt elke input als volle-breedte tekstveld. #}}
-                    {{ if type == "toggle" }}
-                        <div class="flex flex-col gap-2 lg:col-span-2">
-                            <label class="flex items-start gap-3 text-base">
-                                <input
-                                    type="checkbox"
-                                    name="{{ name }}"
-                                    value="1"
-                                    {{ if validate|contains:accepted }}required{{ /if }}
-                                    class="mt-1 size-4 shrink-0 accent-black"
-                                    {{ if value }} checked{{ /if }}
-                                    {{ if error }} aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }} />
-                                <span>{{ trans :key="display" }}</span>
-                            </label>
-                            {{ if instructions }}
-                                <p class="form-instructions">{{ trans :key="instructions" }}</p>
-                            {{ /if }}
-                            {{ if error }}
-                                <p class="form-error" id="{{ id }}-error">{{ error }}</p>
-                            {{ /if }}
-                        </div>
-                    {{ else }}
-                        <div class="form-field{{ if width == 50 }} form-field--half{{ /if }}">
-                            <label class="form-label" for="{{ id }}">{{ trans :key="display" }}</label>
-                            {{# Op type en niet op handle: .form-field zet `appearance-none` op elke select, dus zonder deze wikkel staat er bij geen enkele keuzelijst nog een pijltje. #}}
-                            {{ if type | contains:select }}
-                                <div class="form-select-wrap">
+    {{ unless success }}
+        {{ sections }}
+            <div class="form-section">
+                {{ if instructions }}
+                    <p class="form-notice">{{ trans :key="instructions" }}</p>
+                {{ /if }}
+                <div class="form-grid">
+                    {{ fields }}
+                        {{# Toggles buiten .form-field, om dezelfde reden als bij het gdpr-veld op het brochureformulier: die klasse stijlt elke input als volle-breedte tekstveld. #}}
+                        {{ if type == "toggle" }}
+                            <div class="flex flex-col gap-2 lg:col-span-2">
+                                <label class="flex items-start gap-3 text-base">
+                                    <input
+                                        type="checkbox"
+                                        name="{{ name }}"
+                                        value="1"
+                                        {{ if validate|contains:accepted }}required{{ /if }}
+                                        class="mt-1 size-4 shrink-0 accent-black"
+                                        {{ if value }} checked{{ /if }}
+                                        {{ if error }} aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }} />
+                                    <span>{{ trans :key="display" }}</span>
+                                </label>
+                                {{ if instructions }}
+                                    <p class="form-instructions">{{ trans :key="instructions" }}</p>
+                                {{ /if }}
+                                {{ if error }}
+                                    <p class="form-error" id="{{ id }}-error">{{ error }}</p>
+                                {{ /if }}
+                            </div>
+                        {{ else }}
+                            <div class="form-field{{ if width == 50 }} form-field--half{{ /if }}">
+                                <label class="form-label" for="{{ id }}">{{ trans :key="display" }}</label>
+                                {{# Op type en niet op handle: .form-field zet `appearance-none` op elke select, dus zonder deze wikkel staat er bij geen enkele keuzelijst nog een pijltje. #}}
+                                {{ if type | contains:select }}
+                                    <div class="form-select-wrap">
+                                        {{ field }}
+                                        {{ icon src="caret-down" }}
+                                    </div>
+                                {{ elseif handle == "photo" }}
+                                    <div class="form-dropzone">
+                                        {{ icon src="upload" class="size-7" }}
+                                        <span>{{ trans key="Sleep een foto hierheen of klik om te uploaden" }}</span>
+                                        {{ field }}
+                                        <span class="form-dropzone__file" data-file-name></span>
+                                    </div>
+                                {{ elseif handle == "invoice" }}
+                                    <div class="form-dropzone">
+                                        {{ icon src="upload" class="size-7" }}
+                                        <span>{{ trans key="Sleep je factuur hierheen of klik om te uploaden" }}</span>
+                                        {{ field }}
+                                        <span class="form-dropzone__file" data-file-name></span>
+                                    </div>
+                                {{ elseif handle == "address" }}
+                                    {{ partial:addressField }}
+                                {{ else }}
                                     {{ field }}
-                                    {{ icon src="caret-down" }}
-                                </div>
-                            {{ elseif handle == "photo" }}
-                                <div class="form-dropzone">
-                                    {{ icon src="upload" class="size-7" }}
-                                    <span>{{ trans key="Sleep een foto hierheen of klik om te uploaden" }}</span>
-                                    {{ field }}
-                                </div>
-                            {{ elseif handle == "invoice" }}
-                                <div class="form-dropzone">
-                                    {{ icon src="upload" class="size-7" }}
-                                    <span>{{ trans key="Sleep je factuur hierheen of klik om te uploaden" }}</span>
-                                    {{ field }}
-                                </div>
-                            {{ elseif handle == "address" }}
-                                {{ partial:addressField }}
-                            {{ else }}
-                                {{ field }}
-                            {{ /if }}
-                            {{ if instructions }}
-                                <p class="form-instructions">{{ trans :key="instructions" }}</p>
-                            {{ /if }}
-                            {{ if error }}
-                                <p class="form-error" id="{{ id }}-error">{{ error }}</p>
-                            {{ /if }}
-                        </div>
-                    {{ /if }}
-                {{ /fields }}
+                                {{ /if }}
+                                {{ if instructions }}
+                                    <p class="form-instructions">{{ trans :key="instructions" }}</p>
+                                {{ /if }}
+                                {{ if error }}
+                                    <p class="form-error" id="{{ id }}-error">{{ error }}</p>
+                                {{ /if }}
+                            </div>
+                        {{ /if }}
+                    {{ /fields }}
+                </div>
             </div>
+        {{ /sections }}
+        <input type="text" class="hidden" name="{{ honeypot ?? 'honeypot' }}" />
+    {{ /unless }}
+    {{ if success }}
+        <div class="offerte-success">
+            <h2>{{ trans key="Je herstelaanvraag is verstuurd" }}</h2>
+            <p>
+                {{ trans key="We bekijken je melding en nemen binnen twee werkdagen contact op om een afspraak in te plannen." }}
+            </p>
         </div>
-    {{ /sections }}
-    <input type="text" class="hidden" name="{{ honeypot ?? 'honeypot' }}" />
-
-    <button type="submit" class="btn btn--primary">{{ trans key="Herstelling melden" }}</button>
+    {{ else }}
+        <button type="submit" class="btn btn--primary" data-sending-label="{{ trans key='Bezig met verzenden…' }}">
+            {{ trans key="Herstelling melden" }}
+        </button>
+    {{ /if }}
 {{ /form:herstelling }}

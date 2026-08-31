@@ -92,6 +92,34 @@
 }
 
 /*
+ * De naam van het gekozen bestand. Het `input[type=file]` ligt onzichtbaar
+ * over de dropzone, dus de naam die de browser zelf toont is niet te zien —
+ * zonder deze regel verandert er na het kiezen niets op het scherm en weet de
+ * bezoeker niet of zijn foto meegaat. Leeg blijft hij verborgen, zodat er geen
+ * gat in de dropzone valt.
+ */
+.form-dropzone__file {
+    @apply hidden text-sm font-medium text-black;
+}
+
+.form-dropzone.has-file .form-dropzone__file {
+    @apply block;
+}
+
+.form-dropzone.has-file {
+    @apply border-solid border-accent text-black;
+}
+
+/*
+ * De bijlagen gaan mee in dezelfde POST, dus versturen duurt met een foto van
+ * enkele megabytes merkbaar lang. Zonder zichtbare toestand lijkt er niets te
+ * gebeuren en klikt men opnieuw.
+ */
+.btn.is-sending {
+    @apply cursor-wait opacity-70;
+}
+
+/*
  * `input[type="file"]` zelf is onzichtbaar (`opacity-0` hierboven), dus een
  * focusring dáárop is voor toetsenbordgebruikers niet te zien. Er is geen
  * globale focusstijl in dit project, alleen per component `:focus-visible`

@@ -6,7 +6,9 @@
                     {{ fields }}
                         {{ if handle == "brochures" }}
                             <div class="offerte-products">
-                                <span class="form-label" id="{{ id }}-label">{{ trans :key="display" }} {{ trans key="(verplicht)" }}</span>
+                                <span class="form-label" id="{{ id }}-label">
+                                    {{ trans :key="display" }} {{ trans key="(verplicht)" }}
+                                </span>
 
                                 <ul
                                     class="offerte-pills"
@@ -44,7 +46,13 @@
                                         {{ if value }} checked{{ /if }}
                                         {{ if error }} aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }} />
                                     {{ site_prefix = site:url == '/' ? '' : site:url }}
-                                    <span>{{ trans key="Ik ga akkoord met de verwerking van mijn gegevens zoals vermeld in het" }} <a href="{{ site_prefix }}/privacy-policy" class="underline">{{ trans key="privacybeleid" }}</a>.</span>
+                                    <span>
+                                        {{ trans key="Ik ga akkoord met de verwerking van mijn gegevens zoals vermeld in het" }}
+                                        <a href="{{ site_prefix }}/privacy-policy" class="underline">
+                                            {{ trans key="privacybeleid" }}
+                                        </a>
+                                        .
+                                    </span>
                                 </label>
                                 {{ if error }}
                                     <p class="form-error" id="{{ id }}-error">{{ error }}</p>
@@ -72,9 +80,13 @@
     {{ if success }}
         <div class="offerte-success">
             <h2>{{ trans key="Je brochures zijn onderweg" }}</h2>
-            <p>{{ trans key="Check je mailbox: de downloadlinks staan erin, samen met de volgende stappen als je verder wil. Geen mail gekregen? Kijk even bij je ongewenste post." }}</p>
+            <p>
+                {{ trans key="Check je mailbox: de downloadlinks staan erin, samen met de volgende stappen als je verder wil. Geen mail gekregen? Kijk even bij je ongewenste post." }}
+            </p>
         </div>
     {{ else }}
-        <button type="submit" class="btn btn--primary">{{ trans key="Brochures ontvangen" }}</button>
+        <button type="submit" class="btn btn--primary" data-sending-label="{{ trans key='Bezig met verzenden…' }}">
+            {{ trans key="Brochures ontvangen" }}
+        </button>
     {{ /if }}
 {{ /form:brochure }}
