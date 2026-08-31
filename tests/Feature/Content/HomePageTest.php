@@ -83,8 +83,11 @@ class HomePageTest extends TestCase
             $this->assertStringNotContainsString('dummy-images/', $image);
         }
 
+        // De over-ons-sectie was de laatste open plek; die draagt sinds
+        // 31-08 een echte showroomfoto. Blijft deze teller op nul, dan staat
+        // er nergens op de homepage nog een placeholder.
         $this->assertSame(
-            1,
+            0,
             $images->filter(fn ($image) => str_starts_with($image, 'placeholder/'))->count(),
             'Het aantal open beeldplekken is veranderd.'
         );

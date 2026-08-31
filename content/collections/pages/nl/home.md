@@ -112,7 +112,7 @@ page_builder:
         new_tab: false
     enabled: true
     align: left
-    image: placeholder/beeld-ontbreekt.jpg
+    image: winsol-brebo-showroom-persoonlijk-advies.jpg
 template: home
 image: 'aluminium-ramen-&-deuren_portes-&-fenetres_allura_gent_(0722)-(1).jpg'
 ---

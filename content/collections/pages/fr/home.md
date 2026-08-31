@@ -109,5 +109,5 @@ page_builder:
         new_tab: false
     enabled: true
     align: left
-    image: placeholder/beeld-ontbreekt.jpg
+    image: winsol-brebo-showroom-persoonlijk-advies.jpg
 ---
