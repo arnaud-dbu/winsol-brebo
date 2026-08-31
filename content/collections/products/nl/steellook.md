@@ -1,12 +1,13 @@
 ---
 id: 9b4f52b1-0007-4c2d-8e6f-4a5b6c7d9e07
-title: 'Steellook'
+blueprint: products
+title: Steellook
 range:
   - 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
 product_groups:
   - steellook
 text: 'Aluminium profielen met de aanblik van smeedijzer. De cottage-look van stalen ramen, met de isolatie van vandaag.'
-image: ramen-en-deuren/realisatie-realisation-steellook-hi_martelaarslaan-gent-(27).jpg
+image: ramen-en-deuren/realisatie-realisation-steellook-hi_gent-(27).jpg
 brochure: brochures/winsol_brochure_ramen-en-deuren-in-alu_nl.pdf
 meta_title: 'Steellook ramen en deuren'
 meta_description: 'Steellook van Winsol: aluminium profielen met de uitstraling van smeedijzer, met moderne isolatie. Op maat gemaakt en lokaal geplaatst.'
@@ -35,7 +36,7 @@ page_builder:
             type: text
             text: 'Vooral geliefd bij cottage- en landelijke woningen, en bij renovaties waar het nieuwe schrijnwerk niet uit de toon mag vallen.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation-steellook-hi_martelaarslaan-gent-(21).jpg
+    image: ramen-en-deuren/realisatie-realisation-steellook-hi_gent-(21).jpg
     features:
       -
         id: stl-f1
@@ -68,14 +69,14 @@ page_builder:
       -
         id: stl-s2
         key: Uitstraling
-        value: 'Smeedijzerlook'
+        value: Smeedijzerlook
       -
         id: stl-s3
         key: Inbraakwerendheid
         value: 'Klasse RC2'
       -
         id: stl-s4
-        key: Lucht- en waterdichtheid
+        key: 'Lucht- en waterdichtheid'
         value: 'Klasse 4'
       -
         id: stl-s5

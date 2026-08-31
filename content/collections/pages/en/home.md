@@ -83,7 +83,7 @@ page_builder:
       -
         id: homefeat02
         type: feature
-        label: 'App-controlled'
+        label: App-controlled
         enabled: true
       -
         id: homefeat03
@@ -99,7 +99,7 @@ page_builder:
     type: cta
     overline: 'About us'
     title: 'Local showrooms, our own specialists'
-    text: 'Not an anonymous chain, but three local Winsol showrooms, each with its own permanent team. We''re there for you from your very first consultation until long after installation.'
+    text: "Not an anonymous chain, but three local Winsol showrooms, each with its own permanent team. We're there for you from your very first consultation until long after installation."
     link:
       -
         id: homeoveronslink

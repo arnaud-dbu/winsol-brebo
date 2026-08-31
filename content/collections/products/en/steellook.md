@@ -1,8 +1,8 @@
 ---
 id: ea8dd6e6-eddc-4ca5-9271-5399aba1ec51
 origin: 9b4f52b1-0007-4c2d-8e6f-4a5b6c7d9e07
-title: 'Steellook'
-text: 'Aluminium profiles with the look of wrought iron. The cottage look of steel windows, with today''s insulation.'
+title: Steellook
+text: "Aluminium profiles with the look of wrought iron. The cottage look of steel windows, with today's insulation."
 meta_title: 'Steellook windows and doors'
 meta_description: 'Steellook from Winsol: aluminium profiles with the appearance of wrought iron and modern insulation. Made to measure and installed locally.'
 page_builder:
@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'Especially popular with cottage-style and rural homes, and in renovations where the new joinery must not look out of place.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation-steellook-hi_martelaarslaan-gent-(21).jpg
+    image: ramen-en-deuren/realisatie-realisation-steellook-hi_gent-(21).jpg
     features:
       -
         id: stl-f1

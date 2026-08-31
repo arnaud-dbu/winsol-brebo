@@ -66,7 +66,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'La pergola à lames orientables qui rend votre terrasse agréable toute l''année. Soleil, ombre ou abri contre la pluie, d''une simple pression sur votre smartphone.'
+            text: "La pergola à lames orientables qui rend votre terrasse agréable toute l'année. Soleil, ombre ou abri contre la pluie, d'une simple pression sur votre smartphone."
     link:
       -
         id: homekijkerlink
