@@ -15,11 +15,23 @@
         x-show="visible"
         x-transition.opacity.duration.200ms
         x-cloak
-        class="fixed bottom-6 left-1/2 z-100 max-h-[calc(100dvh-3rem)] w-[min(26rem,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-2xl border border-white/25 bg-black text-sm text-white shadow-2xl">
+        {{#
+            Breder dan de inhoud strikt nodig heeft: op 26rem brak de titel over twee regels, en een kop die wikkelt trekt juist
+            de aandacht die deze balk niet hoort te vragen. Verder bewust vlak gehouden — een lichte rand en een zachte schaduw
+            in plaats van diepte, zodat hij onderaan blijft liggen in plaats van over de pagina te zweven.
+        #}}
+        class="fixed bottom-4 left-1/2 z-100 max-h-[calc(100dvh-2rem)] w-[min(32rem,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-xl border border-white/10 bg-black text-sm text-white shadow-lg">
         {{# Header #}}
-        <div class="space-y-4 p-5">
-            <h2 id="cookieConsentTitle" class="flex items-center gap-2 font-display text-base">
-                <span aria-hidden="true" class="contents">{{ svg src="icons/regular/cookie" class="shrink-0 size-6" }}</span>
+        <div class="space-y-3 p-4">
+            {{#
+                `text-sm!` met uitroepteken: de element-selectors in base/typography.css staan buiten een `@layer`, en
+                ongelaagde regels winnen van elke utility. Zonder dit rendert deze kop op `h2 { text-3xl }` — 44px, over twee
+                regels, precies de nadruk die deze balk niet hoort te krijgen. De echte oplossing is die selectors in
+                `@layer base` zetten, maar dat verschuift de cascade van elke kop op de site en hoort niet vlak voor een
+                livegang.
+            #}}
+            <h2 id="cookieConsentTitle" class="flex items-center gap-2 font-display text-sm! font-medium">
+                <span aria-hidden="true" class="contents">{{ svg src="icons/regular/cookie" class="size-4 shrink-0" }}</span>
                 {{ cookie_consent:title }}
             </h2>
             <p class="text-white/70">
@@ -33,13 +45,13 @@
             <div class="flex gap-2" x-show="!expanded">
                 <button
                     type="button"
-                    class="flex-1 rounded-lg border border-white/20 px-3 py-2.5 font-display hover:bg-white/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                    class="flex-1 rounded-lg border border-white/20 px-3 py-2 font-display hover:bg-white/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                     @click="deny()">
                     {{ cookie_consent:deny_label }}
                 </button>
                 <button
                     type="button"
-                    class="flex-1 rounded-lg bg-white px-3 py-2.5 font-display text-black hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                    class="flex-1 rounded-lg bg-white px-3 py-2 font-display text-black hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                     @click="accept()">
                     {{ cookie_consent:accept_label }}
                 </button>
@@ -54,7 +66,7 @@
             x-show="expanded"
             x-collapse
             class="border-t border-white/15 focus:outline-none">
-            <div data-scroll class="max-h-[40dvh] overflow-y-auto px-5">
+            <div data-scroll class="max-h-[40dvh] overflow-y-auto px-4">
                 {{# Marketing #}}
                 <div class="flex items-start justify-between gap-4 border-b border-white/15 py-3.5">
                     <div>
@@ -103,10 +115,10 @@
                 </div>
             </div>
 
-            <div class="border-t border-white/15 p-5">
+            <div class="border-t border-white/15 p-4">
                 <button
                     type="button"
-                    class="w-full rounded-lg bg-white px-3 py-2.5 font-display text-black hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                    class="w-full rounded-lg bg-white px-3 py-2 font-display text-black hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                     @click="confirm()">
                     {{ cookie_consent:confirm_label }}
                 </button>

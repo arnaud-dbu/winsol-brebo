@@ -51,6 +51,6 @@ return [
     |
     */
 
-    'ga4_measurement_id' => env('GA4_MEASUREMENT_ID') ?: 'G-D3H45PXXN4',
+    'ga4_measurement_id' => env('GA4_MEASUREMENT_ID') ?: 'G-598NEYQ382',
 
 ];
