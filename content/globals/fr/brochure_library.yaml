@@ -2,56 +2,56 @@ items:
   -
     id: br-alu-ramen
     label: 'Châssis et portes en aluminium'
-    file: brochures/winsol_brochure_ramen-en-deuren-in-alu_nl.pdf
+    file: brochures/winsol_brochure_ramen-en-deuren-in-alu_fr.pdf
   -
     id: br-pvc-ramen
     label: 'Châssis et portes en PVC'
-    file: brochures/winsol_brochure_ramen-en-deuren-in-pvc_nl.pdf
+    file: brochures/winsol_brochure_ramen-en-deuren-in-pvc_fr.pdf
   -
     id: br-iqon
     label: 'Châssis coulissant minimaliste IQON'
-    file: brochures/winsol-brochure-iqon-nl.pdf
+    file: brochures/winsol-brochure-iqon-fr.pdf
   -
     id: br-rolluiken
     label: 'Volets roulants'
-    file: brochures/winsol-brochure-rolluiken-nl.pdf
+    file: brochures/winsol-brochure-rolluiken-fr.pdf
   -
     id: br-garagepoorten
     label: 'Portes de garage'
-    file: brochures/winsol-brochure-garagepoorten-nl.pdf
+    file: brochures/winsol-brochure-garagepoorten-fr.pdf
   -
     id: br-screens
     label: 'Protection solaire verticale'
-    file: brochures/winsol_brochure_verticale-zonwering_nl.pdf
+    file: brochures/winsol_brochure_verticale-zonwering_fr.pdf
   -
     id: br-screens-only
     label: 'Screens'
-    file: brochures/winsol-brochure-screens-nl.pdf
+    file: brochures/winsol-brochure-screens-fr.pdf
   -
     id: br-zonneschermen
     label: 'Tentes solaires'
-    file: brochures/winsol_brochure_luifels_nl.pdf
+    file: brochures/winsol_brochure_luifels_fr.pdf
   -
     id: br-lumisolar
     label: 'Tentes solaires à énergie solaire'
-    file: brochures/winsol_luifel_lina-lumisolar_nl.pdf
+    file: brochures/winsol_luifel_lina-lumisolar_fr.pdf
   -
     id: br-pergola-so
     label: 'Pergola SO!'
-    file: brochures/winsol-brochure_so-classic-climate_2025_nl.pdf
+    file: brochures/winsol-brochure_so-classic-climate_2025_fr.pdf
   -
     id: br-pergola-zip
     label: 'Pergola Z!P'
-    file: brochures/winsol-brochure-pergola-zip-nl.pdf
+    file: brochures/winsol-brochure-pergola-zip-fr.pdf
   -
     id: br-pergola-origin
     label: 'Pergola ORIG!N'
-    file: brochures/pergola-origin_2025_nl.pdf
+    file: brochures/pergola-origin_2025_fr.pdf
   -
     id: br-so-cocoon
     label: 'Pergola SO! Cocoon et Combi'
-    file: brochures/winsol_brochure_so-cocoon_nl.pdf
+    file: brochures/winsol_brochure_so-cocoon_fr.pdf
   -
     id: br-so-crystal
     label: 'Pergola SO! Crystal'
-    file: brochures/winsol_brochure_so-crystal_nl.pdf
+    file: brochures/winsol_brochure_so-crystal_fr.pdf
