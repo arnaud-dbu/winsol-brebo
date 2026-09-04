@@ -7,7 +7,8 @@
                         {{ if handle == "brochures" }}
                             <div class="offerte-products">
                                 <span class="form-label" id="{{ id }}-label">
-                                    {{ trans :key="display" }} {{ trans key="(verplicht)" }}
+                                    {{ trans :key="display" }}
+                                    {{ trans key="(verplicht)" }}
                                 </span>
 
                                 <ul
@@ -78,6 +79,7 @@
         <input type="text" class="hidden" name="{{ honeypot ?? 'honeypot' }}" />
     {{ /unless }}
     {{ if success }}
+        {{ partial:formSuccessEvent form="brochure" }}
         <div class="offerte-success">
             <h2>{{ trans key="Je brochures zijn onderweg" }}</h2>
             <p>

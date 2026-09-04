@@ -1,0 +1,13 @@
+{{#
+    Meldt een geslaagde verzending aan Tag Manager. Roep hem aan binnen het succesblok van een formulier, met de handle mee:
+    
+    {{ partial:formSuccessEvent form="offerte" }}
+    Het formulier verstuurt met een gewone POST, dus "geslaagd" is hier een paginaweergave en geen callback: Statamic
+    rendert na de redirect het succesblok, en precies dan vuurt dit event één keer. `window.dataLayer` bestaat op dat moment
+    al — partials/analytics zet hem in de head, ver voor deze regel. De fallback staat er voor het geval analytics
+    uitgeschakeld is met ANALYTICS_ENABLED=false; zonder die regel gooit de pagina dan een JavaScript-fout.
+#}}
+<script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'form_submit_success', form_id: '{{ form }}' });
+</script>

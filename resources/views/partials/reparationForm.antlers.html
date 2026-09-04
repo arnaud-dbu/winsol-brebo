@@ -71,6 +71,7 @@
         <input type="text" class="hidden" name="{{ honeypot ?? 'honeypot' }}" />
     {{ /unless }}
     {{ if success }}
+        {{ partial:formSuccessEvent form="herstelling" }}
         <div class="offerte-success">
             <h2>{{ trans key="Je herstelaanvraag is verstuurd" }}</h2>
             <p>
