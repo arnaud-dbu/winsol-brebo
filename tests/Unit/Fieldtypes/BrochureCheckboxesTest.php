@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Validator;
 use Mockery;
 use Statamic\Facades\Asset;
 use Statamic\Facades\Form;
+use Statamic\Facades\GlobalSet;
+use Statamic\Facades\Site;
 use Statamic\Fields\Field;
 use Tests\TestCase;
 
@@ -19,21 +21,25 @@ class BrochureCheckboxesTest extends TestCase
     {
         $field = new Field('brochures', ['type' => 'brochure_checkboxes']);
 
-        $this->assertSame([
-            'brochures/winsol_brochure_ramen-en-deuren-in-alu_nl.pdf' => 'Aluminium ramen en deuren',
-            'brochures/winsol_brochure_ramen-en-deuren-in-pvc_nl.pdf' => 'PVC ramen en deuren',
-            'brochures/winsol-brochure-iqon-nl.pdf' => 'IQON minimalistisch schuifraam',
-            'brochures/winsol-brochure-rolluiken-nl.pdf' => 'Rolluiken',
-            'brochures/winsol-brochure-garagepoorten-nl.pdf' => 'Garagepoorten',
-            'brochures/winsol_brochure_verticale-zonwering_nl.pdf' => 'Screens en verticale zonwering',
-            'brochures/winsol_brochure_luifels_nl.pdf' => 'Zonneschermen',
-            'brochures/winsol_luifel_lina-lumisolar_nl.pdf' => 'Zonneschermen op zonne-energie',
-            'brochures/winsol-brochure_so-classic-climate_2025_nl.pdf' => 'Pergola SO!',
-            'brochures/winsol-brochure-pergola-zip-nl.pdf' => 'Pergola Z!P',
-            'brochures/pergola-origin_2025_nl.pdf' => 'Pergola ORIG!N',
-            'brochures/winsol_brochure_so-cocoon_nl.pdf' => 'Pergola SO! Cocoon en Combi',
-            'brochures/winsol_brochure_so-crystal_nl.pdf' => 'Pergola SO! Crystal',
-        ], $field->fieldtype()->extraRenderableFieldData()['options']);
+        $items = GlobalSet::findByHandle('brochure_library')
+            ->in(Site::current()->handle())
+            ->get('items');
+
+        // De verwachting komt uit de globalset zelf en niet uit een vaste
+        // lijst: die brak bij elke toegevoegde brochure, terwijl wat hier
+        // telt is dat de opties uit de globalset komen, in dezelfde
+        // redactionele volgorde, met het pad als sleutel en het label als
+        // waarde. Dat is precies wat de pillen op de brochurepagina en de
+        // allowlist op het formulier delen.
+        $this->assertSame(
+            array_column($items, 'label', 'file'),
+            $field->fieldtype()->extraRenderableFieldData()['options'],
+        );
+
+        // En een steekproef op de inhoud, zodat een leeggelopen of
+        // onvertaalde globalset alsnog opvalt.
+        $this->assertGreaterThanOrEqual(10, count($items));
+        $this->assertContains('Rolluiken', array_column($items, 'label'));
     }
 
     /**

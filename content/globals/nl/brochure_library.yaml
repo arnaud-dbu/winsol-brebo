@@ -21,8 +21,12 @@ items:
     file: brochures/winsol-brochure-garagepoorten-nl.pdf
   -
     id: br-screens
-    label: 'Screens en verticale zonwering'
+    label: 'Verticale zonwering'
     file: brochures/winsol_brochure_verticale-zonwering_nl.pdf
+  -
+    id: br-screens-only
+    label: 'Screens'
+    file: brochures/winsol-brochure-screens-nl.pdf
   -
     id: br-zonneschermen
     label: Zonneschermen
