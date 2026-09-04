@@ -47,6 +47,23 @@
                         {{ elseif fieldtype == 'toggle' }}Ja
                         {{ elseif fieldtype == 'select' || fieldtype == 'location_select' || fieldtype == 'range_select' }}
                             {{ value:label ?? value }}
+                            {{#
+                                Zelf als link opmaken, ook al hoeft dat niet. Gmail herkent een e-mailadres, telefoonnummer of adres in platte tekst en
+                                maakt er zijn eigen blauwe onderstreepte link van, die met CSS nauwelijks te overrulen is. Staat er al een `
+                                <a>` met een eigen kleur, dan laat hij die met rust — en meteen is bellen of mailen vanuit de melding één klik.</a>
+                            #}}
+                        {{ elseif handle == 'email' }}
+                            <a href="mailto:{{ value }}" style="color: #121b22; text-decoration: none">{{ value }}</a>
+                        {{ elseif handle == 'phone' }}
+                            <a href="tel:{{ value | replace(' ', '') }}" style="color: #121b22; text-decoration: none">
+                                {{ value }}
+                            </a>
+                        {{ elseif handle == 'address' }}
+                            <a
+                                href="https://www.google.com/maps/search/?api=1&query={{ value | urlencode }}"
+                                style="color: #121b22; text-decoration: none">
+                                {{ value }}
+                            </a>
                         {{ else }}
                             {{ value | nl2br }}
                         {{ /if }}

@@ -16,7 +16,25 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="color-scheme" content="light" />
+        {{#
+            Mailclients herkennen telefoonnummers, adressen en datums in platte tekst en maken er eigen blauwe links van. De meta
+            zet die detectie uit waar dat kan; de twee selectors vangen op wat er toch doorheen komt — `x-apple-data-detectors` voor
+            Apple Mail, `#MessageViewBody` voor Gmail. De echte oplossing blijft de waarden zelf als link opmaken, want deze regels
+            overleven niet elke client.
+        #}}
+        <meta name="format-detection" content="telephone=no,date=no,address=no,email=no" />
         <title>{{ email_config:subject ?? 'Winsol Brebo' }}</title>
+        <style>
+            a[x-apple-data-detectors],
+            #MessageViewBody a {
+                color: inherit !important;
+                text-decoration: none !important;
+                font-size: inherit !important;
+                font-family: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+            }
+        </style>
     </head>
     <body style="margin: 0; padding: 0; background-color: #f1f6f8">
         <table
@@ -91,18 +109,36 @@
                                 <strong style="color: #121b22">Winsol Brebo</strong>
                                 <br />
                                 {{ if globals:company:street }}
-                                    {{ "{globals:company:street} {globals:company:number}, {globals:company:postal} {globals:company:city}" }}
+                                    {{# Eerst in een variabele: de samengestelde string draagt zelf dubbele quotes en zou het href-attribuut breken. #}}
+                                    {{ bedrijfsadres = "{globals:company:street} {globals:company:number}, {globals:company:postal} {globals:company:city}" }}
+                                    <a
+                                        href="https://www.google.com/maps/search/?api=1&query={{ bedrijfsadres | urlencode }}"
+                                        style="color: #6b7280; text-decoration: none">
+                                        {{ bedrijfsadres }}
+                                    </a>
                                     <br />
                                 {{ /if }}
                                 {{ if globals:contact:phone_brussels }}
-                                    {{ trans:site.contact_region_brussels }}: {{ globals:contact:phone_brussels }}
+                                    {{ trans:site.contact_region_brussels }}
+                                    :
+                                    <a
+                                        href="tel:{{ globals:contact:phone_brussels | replace(' ', '') }}"
+                                        style="color: #6b7280; text-decoration: none">
+                                        {{ globals:contact:phone_brussels }}
+                                    </a>
                                     &nbsp;·&nbsp;
                                 {{ /if }}
                                 {{ if globals:contact:phone_antwerp }}
-                                    {{ trans:site.contact_region_antwerp }}: {{ globals:contact:phone_antwerp }}
+                                    {{ trans:site.contact_region_antwerp }}
+                                    :
+                                    <a
+                                        href="tel:{{ globals:contact:phone_antwerp | replace(' ', '') }}"
+                                        style="color: #6b7280; text-decoration: none">
+                                        {{ globals:contact:phone_antwerp }}
+                                    </a>
                                 {{ /if }}
                                 <br />
-                                <a href="{{ config:app:url }}" style="color: #6b7280">
+                                <a href="{{ config:app:url }}" style="color: #6b7280; text-decoration: none">
                                     {{ config:app:url | replace('https://', '') | replace('http://', '') }}
                                 </a>
                             </td>
