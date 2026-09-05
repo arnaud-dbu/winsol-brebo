@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'Both are a classic choice above shop fronts, but work just as well above a façade window at home. For a hospitality business, a folding-arm awning above the entrance is often an alternative.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: zonwering/winsol-uitvalscherm-terras.webp
     features:
       -
         id: um-v1
@@ -71,7 +71,7 @@ page_builder:
             type: text
             text: 'As standard you operate it manually, with a motor as an option. The structure comes in twelve RAL colours or in natural-tone anodised aluminium. For a business, your logo or name can be printed on the fabric, and a valance or an extra side panel can be added.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: zonwering/winsol-uitvalscherm-alubox-cassette.webp
     features:
       -
         id: um-a1

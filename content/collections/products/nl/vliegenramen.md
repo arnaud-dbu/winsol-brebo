@@ -6,7 +6,7 @@ range:
 product_groups:
   - accessoires
 text: 'Ramen en deuren open in de zomer, zonder insecten binnen. Op maat gemaakt voor elk raam en elke deur.'
-image: placeholder/beeld-ontbreekt.jpg
+image: ramen-en-deuren/winsol-vliegenraam-muggenhor.webp
 meta_title: 'Vliegenramen op maat'
 meta_description: 'Vliegenramen en hordeuren van Winsol, op maat gemaakt voor elk raam en elke deur. Geplaatst door je lokale Winsol-team.'
 seo_noindex: false
@@ -34,7 +34,7 @@ page_builder:
             type: text
             text: 'Ze worden op maat gemaakt voor elk raam en elke deur, in een uitvoering die past bij het schrijnwerk dat er al zit: vast, schuivend of oprolbaar.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: ramen-en-deuren/winsol-vliegenraam-open-raam-zomer.webp
     features:
       -
         id: vlr-f1

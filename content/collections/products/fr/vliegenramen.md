@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'Elles sont fabriquées sur mesure pour chaque fenêtre et chaque porte, dans une version adaptée à la menuiserie déjà en place : fixe, coulissante ou enroulable.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: ramen-en-deuren/winsol-vliegenraam-open-raam-zomer.webp
     features:
       -
         id: vlr-f1

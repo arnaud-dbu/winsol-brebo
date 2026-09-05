@@ -4,7 +4,7 @@ title: 'Uitvalschermen en markiezen'
 range:
   - 8c2e41a0-0004-4a1b-9c7d-3e5f6a7b8c04
 text: 'Schaduw boven een etalage of ingang, in een moderne of juist nostalgische vorm.'
-image: placeholder/beeld-ontbreekt.jpg
+image: zonwering/winsol-markies-etalage.webp
 brochure: brochures/winsol_brochure_luifels_nl.pdf
 meta_title: 'Uitvalschermen en markiezen'
 meta_description: 'Uitvalschermen en markiezen van Winsol voor etalages, ingangen en ramen. AluBox met semi-cassette, acryldoek en keuze uit 12 RAL-kleuren.'
@@ -33,7 +33,7 @@ page_builder:
             type: text
             text: 'Beide zijn een klassieke keuze boven winkelpuien, maar werken evengoed boven een gevelraam thuis. Voor een horecazaak is een knikarmscherm boven de ingang vaak een alternatief.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: zonwering/winsol-uitvalscherm-terras.webp
     features:
       -
         id: um-v1
@@ -75,7 +75,7 @@ page_builder:
             type: text
             text: 'Standaard bedien je hem manueel, met een motor als optie. De structuur is er in twaalf RAL-kleuren of in geanodiseerd aluminium in natuurkleur. Voor een zaak kan je logo of naam op het doek gedrukt worden, en kan er een voorband of een extra zijdoek bij.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: zonwering/winsol-uitvalscherm-alubox-cassette.webp
     features:
       -
         id: um-a1

@@ -220,7 +220,7 @@ page_builder:
     overline: Conseil
     title: 'Cela fonctionne-t-il avec ce que vous avez déjà ?'
     text: 'Dans bien des cas, oui : TaHoma dialogue avec près de trois cents types de produits. Dites-nous quels moteurs sont installés chez vous, et nous vérifions pour vous.'
-    image: placeholder/beeld-ontbreekt.jpg
+    image: somfy/woning-met-somfy-smart-home.webp
     align: left
     link:
       -

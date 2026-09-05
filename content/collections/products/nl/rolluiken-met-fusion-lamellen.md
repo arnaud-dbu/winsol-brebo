@@ -4,7 +4,7 @@ title: 'Rolluiken met Fusion-lamellen'
 range:
   - 8c2e41a0-0003-4a1b-9c7d-3e5f6a7b8c03
 text: 'Lamellen met microperforaties die tot vier keer meer daglicht doorlaten, en die je nog altijd volledig kan sluiten.'
-image: placeholder/beeld-ontbreekt.jpg
+image: rolluiken/winsol-fusion-rolluiken-woning.webp
 brochure: brochures/winsol-brochure-rolluiken-nl.pdf
 meta_title: 'Rolluiken met Fusion-lamellen'
 meta_description: 'Fusion-lamellen combineren rolluik en screen: tot vier keer meer daglicht, zicht naar buiten, ventileren zonder insecten, en toch volledige verduistering.'
@@ -33,7 +33,7 @@ page_builder:
             type: text
             text: 'Omdat de lamellen afzonderlijk bewegen, regel je de lichtinval zelf van 100 % tot 3 %. Je houdt daarbij het zicht naar buiten, net zoals bij een screen. En anders dan bij een screen kan je het rolluik alsnog volledig sluiten wanneer het echt donker moet zijn.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: rolluiken/winsol-fusion-lamellen-daglicht.webp
     features:
       -
         id: fus-f1
@@ -75,7 +75,7 @@ page_builder:
             type: text
             text: 'De klassieke rolluikvoordelen blijven overeind: geen oververhitte woning in de zomer, warmte binnen in de winter, inbraakvertragend, geluidsdempend en privacy wanneer je die nodig hebt.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: rolluiken/winsol-fusion-rolluik-ventilatie.webp
     features:
       -
         id: fus-v1

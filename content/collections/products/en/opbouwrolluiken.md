@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'The plastic box and the window form one harmonious unit, which makes the box less noticeable. We lacquer the box, guide rails, bottom rail and slats in the colour of your choice. If you want it to disappear completely, an aluminium front panel is added in the same colour as the window profiles.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: rolluiken/winsol-opbouwrolluik-monobloc.webp
     features:
       -
         id: obr-f1
@@ -71,7 +71,7 @@ page_builder:
             type: text
             text: 'That puts our window-mounted roller shutters among the best-insulating on the market. You notice it on your energy bill, and in the sound: the same sealed unit keeps street noise out.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: rolluiken/winsol-opbouwrolluik-detail-kast.webp
     features:
       -
         id: obr-i1

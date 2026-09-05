@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'Les lames bougeant indépendamment les unes des autres, vous réglez vous-même l''apport de lumière de 100 % à 3 %. Vous conservez la vue vers l''extérieur, exactement comme avec un screen. Et contrairement à un screen, vous pouvez toujours fermer complètement le volet lorsqu''il doit vraiment faire noir.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: rolluiken/winsol-fusion-lamellen-daglicht.webp
     features:
       -
         id: fus-f1
@@ -71,7 +71,7 @@ page_builder:
             type: text
             text: 'Les avantages classiques du volet restent intacts : pas de maison surchauffée en été, la chaleur à l''intérieur en hiver, un effet retardateur d''effraction, une atténuation du bruit et de l''intimité quand vous en avez besoin.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: rolluiken/winsol-fusion-rolluik-ventilatie.webp
     features:
       -
         id: fus-v1

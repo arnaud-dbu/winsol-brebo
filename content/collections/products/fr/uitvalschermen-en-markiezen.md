@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'Tous deux sont un choix classique au-dessus des devantures de magasin, mais conviennent tout autant au-dessus d''une fenêtre de façade chez vous. Pour un établissement horeca, une tente solaire à bras articulés au-dessus de l''entrée constitue souvent une alternative.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: zonwering/winsol-uitvalscherm-terras.webp
     features:
       -
         id: um-v1
@@ -71,7 +71,7 @@ page_builder:
             type: text
             text: 'La commande est manuelle de série, avec un moteur en option. La structure existe en douze couleurs RAL ou en aluminium anodisé naturel. Pour un commerce, votre logo ou votre nom peut être imprimé sur la toile, et un lambrequin ou une toile latérale supplémentaire peuvent s''y ajouter.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: zonwering/winsol-uitvalscherm-alubox-cassette.webp
     features:
       -
         id: um-a1

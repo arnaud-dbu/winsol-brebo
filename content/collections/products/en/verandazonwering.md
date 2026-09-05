@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'The construction consists of a box, two guide rails and a sun-blocking fabric. There is also a version in which, after covering the roof, the fabric rolls further down over the window.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: zonwering/winsol-verandazonwering-veranda.webp
     features:
       -
         id: vz-b1
@@ -70,8 +70,7 @@ page_builder:
           -
             type: text
             text: 'Sensors take over when you are not there. We choose the mounting brackets to suit the shape of your conservatory, because every structure with a glass roof calls for a different solution.'
-    media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    media: none
     features:
       -
         id: vz-s1

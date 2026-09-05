@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'In aluminium rather than wood, so they do not rot and never need painting.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: ramen-en-deuren/winsol-sierluiken-gevel.webp
     features:
       -
         id: sil-f1

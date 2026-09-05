@@ -28,8 +28,7 @@ page_builder:
           -
             type: text
             text: 'C''est donc la fermeture la plus simple et la plus compacte des trois. Le tablier à lames, les coulisses et le caisson sont laqués ensemble, pour un ensemble d''une seule couleur.'
-    media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    media: none
     features:
       -
         id: gr-t1
@@ -71,7 +70,7 @@ page_builder:
             type: text
             text: 'Le tablier à lames existe en aluminium ou en acier. L''aluminium est le choix le plus résistant et offre la palette de couleurs la plus large ; en acier, l''offre reste plus limitée.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: somfy/bediening-via-smartphone.webp
     features:
       -
         id: gr-b1

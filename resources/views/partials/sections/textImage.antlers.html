@@ -16,6 +16,16 @@
 {{ else }}
     {{ media_mode = '' }}
 {{ /if }}
+{{# Kiest de redacteur bewust 'Geen media', dan zou de tekst in een halve kolom
+    blijven staan met een lege helft ernaast, wat leest als een ontbrekend beeld.
+    Laat de tekst dan de volle breedte nemen, begrensd op een leesbare regellengte.
+    Alleen bij die expliciete keuze: een blok waar simpelweg nog geen foto bij zit
+    houdt zijn bestaande kolomindeling (zie TextImageSectionTest). #}}
+{{ if media == 'none' }}
+    {{ text_column_class = background
+        ? "w-full min-w-0 bg-light card-padding-xl rounded-sm"
+        : "w-full min-w-0 max-w-3xl" }}
+{{ /if }}
 <section
     {{ if anchor }} id="{{ anchor }}"{{ /if }}
     class="section section--default {{ background ? 'text-image--background' : '' }}"

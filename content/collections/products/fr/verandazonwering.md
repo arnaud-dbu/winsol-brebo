@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'La construction se compose d''un caisson, de deux coulisses et d''une toile pare-soleil. Il existe aussi une version où la toile, après le toit, continue de descendre devant la fenêtre.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: zonwering/winsol-verandazonwering-veranda.webp
     features:
       -
         id: vz-b1
@@ -70,8 +70,7 @@ page_builder:
           -
             type: text
             text: 'Des capteurs prennent le relais quand vous n''êtes pas là. Nous choisissons les supports de fixation selon la forme de votre véranda, car chaque construction à toit vitré demande une solution différente.'
-    media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    media: none
     features:
       -
         id: vz-s1

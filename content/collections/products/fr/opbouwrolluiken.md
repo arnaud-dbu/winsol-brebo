@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'Le caisson en PVC et le châssis forment un ensemble harmonieux, ce qui rend le caisson plus discret. Nous laquons le caisson, les coulisses, la lame finale et les lames dans la couleur de votre choix. Et si vous voulez qu''il se fonde complètement dans la façade, une plaque frontale en aluminium vient s''ajouter dans la même teinte que les profilés du châssis.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: rolluiken/winsol-opbouwrolluik-monobloc.webp
     features:
       -
         id: obr-f1
@@ -71,7 +71,7 @@ page_builder:
             type: text
             text: 'Nos volets à caisson apparent comptent ainsi parmi les mieux isolés du marché. Vous le remarquez sur votre facture d''énergie, mais aussi au niveau du bruit : ce même ensemble hermétique tient le vacarme de la rue à l''écart.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: rolluiken/winsol-opbouwrolluik-detail-kast.webp
     features:
       -
         id: obr-i1

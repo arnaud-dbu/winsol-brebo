@@ -28,8 +28,7 @@ page_builder:
           -
             type: text
             text: 'That makes it the simplest and most compact closure of the three. We lacquer the slat curtain, the guide rails and the box together, so the whole has a single colour.'
-    media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    media: none
     features:
       -
         id: gr-t1
@@ -71,7 +70,7 @@ page_builder:
             type: text
             text: 'The slat curtain comes in aluminium or steel. Aluminium is the stronger choice and allows the widest colour range; with steel the options remain more limited.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: somfy/bediening-via-smartphone.webp
     features:
       -
         id: gr-b1

@@ -4,7 +4,7 @@ title: Verandazonwering
 range:
   - 8c2e41a0-0004-4a1b-9c7d-3e5f6a7b8c04
 text: 'Een doek bovenop het glazen dak, dat de veranda koel houdt in plaats van de warmte achteraf te bestrijden.'
-image: placeholder/beeld-ontbreekt.jpg
+image: zonwering/winsol-verandazonwering-glasdak.webp
 brochure: brochures/winsol_brochure_verticale-zonwering_nl.pdf
 meta_title: 'Verandazonwering op maat'
 meta_description: 'Verandasol zonwering bovenop het glazen dak van je veranda of erker. Tot 9 m breed en 5 m uitval, met een veersysteem dat het doek strak houdt.'
@@ -33,7 +33,7 @@ page_builder:
             type: text
             text: 'De constructie bestaat uit een kast, twee geleiders en een zonwerend doek. Er bestaat ook een uitvoering waarbij het doek na het dak nog verder naar beneden rolt over het raam.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: zonwering/winsol-verandazonwering-veranda.webp
     features:
       -
         id: vz-b1
@@ -74,8 +74,7 @@ page_builder:
           -
             type: text
             text: 'Sensoren nemen het over wanneer je er niet bent. De bevestigingssteunen kiezen we naargelang de vorm van je veranda, want elke constructie met een glazen dak vraagt een andere oplossing.'
-    media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    media: none
     features:
       -
         id: vz-s1

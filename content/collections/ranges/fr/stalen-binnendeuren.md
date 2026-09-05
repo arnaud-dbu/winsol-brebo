@@ -30,7 +30,7 @@ page_builder:
             type: text
             text: 'Le résultat : une cuisine séparée qui continue de partager la lumière du séjour, ou un bureau que vous pouvez fermer sans en faire un réduit.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: ramen-en-deuren/stalen-binnendeur-lichtinval.webp
     features:
       -
         id: sb-l1
@@ -72,7 +72,7 @@ page_builder:
             type: text
             text: 'La répartition des croisillons détermine le caractère : quelques grands panneaux se lisent épurés et modernes, une trame plus fine paraît plus classique. Les profilés sont disponibles en plusieurs coloris, pour que la porte s''accorde au reste de votre finition.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: ramen-en-deuren/stalen-binnendeur-op-maat.webp
     features:
       -
         id: sb-v1
@@ -97,7 +97,7 @@ page_builder:
     overline: Conseil
     title: 'Une porte en acier dans votre intérieur ?'
     text: 'Passez dans l''un de nos trois showrooms pour découvrir les profilés et les répartitions possibles, ou laissez-nous venir prendre les mesures chez vous.'
-    image: placeholder/beeld-ontbreekt.jpg
+    image: ramen-en-deuren/stalen-binnendeur-eetkamer.webp
     link:
       -
         type: entry

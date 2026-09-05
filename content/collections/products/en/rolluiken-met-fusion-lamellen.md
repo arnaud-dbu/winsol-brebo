@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'Because the slats move independently, you adjust the light entry yourself from 100% to 3%. You keep the view outside, just as with a screen. And unlike a screen, you can still close the shutter completely when it really needs to be dark.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: rolluiken/winsol-fusion-lamellen-daglicht.webp
     features:
       -
         id: fus-f1
@@ -71,7 +71,7 @@ page_builder:
             type: text
             text: 'The classic roller shutter benefits remain: no overheated home in summer, warmth kept in during winter, burglar-delaying, sound-dampening and privacy whenever you need it.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: rolluiken/winsol-fusion-rolluik-ventilatie.webp
     features:
       -
         id: fus-v1

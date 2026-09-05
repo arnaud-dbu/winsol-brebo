@@ -34,7 +34,7 @@ page_builder:
             type: text
             text: 'Het resultaat is een keuken die apart staat maar wel in het licht van de leefruimte blijft delen, of een bureau dat je kan sluiten zonder dat het een hok wordt.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: ramen-en-deuren/stalen-binnendeur-lichtinval.webp
     features:
       -
         id: sb-l1
@@ -76,7 +76,7 @@ page_builder:
             type: text
             text: 'De indeling van de roeden bepaalt het karakter: enkele brede vlakken lezen strak en modern, een fijner raster oogt klassieker. De profielen zijn leverbaar in verschillende kleuren, zodat de deur aansluit bij de rest van je afwerking.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: ramen-en-deuren/stalen-binnendeur-op-maat.webp
     features:
       -
         id: sb-v1
@@ -101,7 +101,7 @@ page_builder:
     overline: Advies
     title: 'Een stalen deur in jouw interieur?'
     text: 'Kom langs in een van onze drie toonzalen om de profielen en de mogelijke indelingen te bekijken, of laat ons langskomen om op te meten.'
-    image: placeholder/beeld-ontbreekt.jpg
+    image: ramen-en-deuren/stalen-binnendeur-eetkamer.webp
     link:
       -
         type: entry

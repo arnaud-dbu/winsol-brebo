@@ -225,7 +225,7 @@ page_builder:
     overline: Advies
     title: 'Werkt dit met wat je al hebt?'
     text: 'In veel gevallen wel, want TaHoma spreekt met bijna driehonderd producttypes. Laat ons weten welke motoren er bij jou zitten, dan zoeken we het uit.'
-    image: placeholder/beeld-ontbreekt.jpg
+    image: somfy/woning-met-somfy-smart-home.webp
     align: left
     link:
       -

@@ -75,7 +75,7 @@ page_builder:
             type: text
             text: 'Wij gebruiken uitsluitend dubbelwandige lamellen in pvc of aluminium, gevuld met isolerend polyurethaanschuim. De onderlatten en geleiders zijn uit geëxtrudeerd aluminium, met dichtingen die warmteverlies via het rolluik tegengaan. Gesloten sluiten de lamellen strak op elkaar aan: bij pvc met inkepingen, bij aluminium met een vergrendeling aan de zijkanten.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: rolluiken/winsol-inbouwrolluik-geintegreerd.webp
     features:
       -
         id: ibr-v1

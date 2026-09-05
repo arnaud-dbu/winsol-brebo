@@ -7,7 +7,7 @@ range:
 product_groups:
   - steellook
 text: 'Aluminium profielen met de aanblik van smeedijzer. De cottage-look van stalen ramen, met de isolatie van vandaag.'
-image: ramen-en-deuren/realisatie-realisation-steellook-hi-(27).jpg
+image: ramen-en-deuren/winsol-steellook-woning-gevel.webp
 brochure: brochures/winsol_brochure_ramen-en-deuren-in-alu_nl.pdf
 meta_title: 'Steellook ramen en deuren'
 meta_description: 'Steellook van Winsol: aluminium profielen met de uitstraling van smeedijzer, met moderne isolatie. Op maat gemaakt en lokaal geplaatst.'
@@ -36,7 +36,7 @@ page_builder:
             type: text
             text: 'Vooral geliefd bij cottage- en landelijke woningen, en bij renovaties waar het nieuwe schrijnwerk niet uit de toon mag vallen.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation-steellook-hi-(21).jpg
+    image: ramen-en-deuren/winsol-steellook-raam-smeedijzerlook.webp
     features:
       -
         id: stl-f1

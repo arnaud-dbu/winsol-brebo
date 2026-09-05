@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'Especially popular with cottage-style and rural homes, and in renovations where the new joinery must not look out of place.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation-steellook-hi-(21).jpg
+    image: ramen-en-deuren/winsol-steellook-raam-smeedijzerlook.webp
     features:
       -
         id: stl-f1

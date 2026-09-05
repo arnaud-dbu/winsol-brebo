@@ -4,7 +4,7 @@ title: 'Sectionale schuifpoorten'
 range:
   - 8c2e41a0-0005-4a1b-9c7d-3e5f6a7b8c05
 text: 'Een poort die opzij schuift en gedeeltelijk open kan, zodat hij ook als gewone deur dienstdoet.'
-image: placeholder/beeld-ontbreekt.jpg
+image: garagepoorten/sectionale-schuifpoort.webp
 meta_title: 'Sectionale schuifpoorten'
 meta_description: 'Sectionale schuifpoorten van Winsol schuiven zijwaarts open en kunnen gedeeltelijk geopend worden, waardoor de garagepoort ook als doorgang werkt.'
 seo_noindex: false
@@ -31,8 +31,7 @@ page_builder:
           -
             type: text
             text: 'Daarmee doet de poort dienst als extra deur, en dat scheelt in de praktijk een aparte zijdeur. Het is ook de logische keuze wanneer er boven de opening te weinig ruimte is voor de rails van een verticale poort.'
-    media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    media: none
     features:
       -
         id: ssp-d1

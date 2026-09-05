@@ -30,7 +30,7 @@ page_builder:
             type: text
             text: 'The result is a kitchen that stands apart yet still shares the light of the living space, or a study you can close off without it becoming a box.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: ramen-en-deuren/stalen-binnendeur-lichtinval.webp
     features:
       -
         id: sb-l1
@@ -72,7 +72,7 @@ page_builder:
             type: text
             text: 'The layout of the glazing bars sets the character: a few wide panes read sleek and modern, a finer grid looks more classic. The profiles are available in several colours, so the door matches the rest of your finish.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: ramen-en-deuren/stalen-binnendeur-op-maat.webp
     features:
       -
         id: sb-v1
@@ -97,7 +97,7 @@ page_builder:
     overline: Advice
     title: 'A steel door in your interior?'
     text: 'Visit one of our three showrooms to see the profiles and the possible layouts, or have us come round to measure up.'
-    image: placeholder/beeld-ontbreekt.jpg
+    image: ramen-en-deuren/stalen-binnendeur-eetkamer.webp
     link:
       -
         type: entry

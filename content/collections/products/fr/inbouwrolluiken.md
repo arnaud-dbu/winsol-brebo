@@ -71,7 +71,7 @@ page_builder:
             type: text
             text: 'Nous utilisons exclusivement des lames à double paroi en PVC ou en aluminium, remplies de mousse polyuréthane isolante. Les lames finales et les coulisses sont en aluminium extrudé, avec des joints qui limitent les pertes de chaleur par le volet. Fermées, les lames s''emboîtent parfaitement : par encoches pour le PVC, par verrouillage latéral pour l''aluminium.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: rolluiken/winsol-inbouwrolluik-geintegreerd.webp
     features:
       -
         id: ibr-v1

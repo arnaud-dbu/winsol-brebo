@@ -28,8 +28,7 @@ page_builder:
           -
             type: text
             text: 'La porte fait ainsi office de porte supplémentaire, ce qui vous épargne en pratique une porte de service séparée. C''est aussi le choix logique lorsqu''il manque de place au-dessus de la baie pour les rails d''une porte verticale.'
-    media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    media: none
     features:
       -
         id: ssp-d1

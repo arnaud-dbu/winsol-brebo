@@ -4,7 +4,7 @@ title: Garagerolluiken
 range:
   - 8c2e41a0-0005-4a1b-9c7d-3e5f6a7b8c05
 text: 'De eenvoudigste afsluiting voor een garage, berging of fietsenstalling zonder beglazing.'
-image: placeholder/beeld-ontbreekt.jpg
+image: garagepoorten/garagerolluik.webp
 meta_title: 'Garagerolluiken'
 meta_description: 'Garagerolluiken van Winsol in aluminium of staal, conform EN 13241-1, met elektrische bediening en geïntegreerde manuele noodbediening.'
 seo_noindex: false
@@ -31,8 +31,7 @@ page_builder:
           -
             type: text
             text: 'Dat maakt het de eenvoudigste en compactste afsluiting van de drie. Het lamellenblad, de geleiders en de kast lakken we samen af, zodat het geheel één kleur heeft.'
-    media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    media: none
     features:
       -
         id: gr-t1
@@ -74,7 +73,7 @@ page_builder:
             type: text
             text: 'Het lamelblad is er in aluminium of staal. Aluminium is de sterkere keuze en laat het ruimste kleurgamma toe; bij staal blijft het aanbod beperkter.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: somfy/bediening-via-smartphone.webp
     features:
       -
         id: gr-b1

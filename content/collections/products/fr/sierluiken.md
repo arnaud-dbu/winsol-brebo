@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'En aluminium plutôt qu''en bois : ils ne pourrissent pas et ne doivent jamais être repeints.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: ramen-en-deuren/winsol-sierluiken-gevel.webp
     features:
       -
         id: sil-f1

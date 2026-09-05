@@ -4,7 +4,7 @@ title: Opbouwrolluiken
 range:
   - 8c2e41a0-0003-4a1b-9c7d-3e5f6a7b8c03
 text: 'Raam en rolluik als één geheel, in de fabriek gemonteerd en kant-en-klaar geleverd.'
-image: placeholder/beeld-ontbreekt.jpg
+image: rolluiken/winsol-opbouwrolluik-woning.webp
 brochure: brochures/winsol-brochure-rolluiken-nl.pdf
 meta_title: 'Opbouwrolluiken op maat'
 meta_description: 'Opbouwrolluiken van Winsol: de rolluikkast zit al op het raamprofiel gemonteerd. Volledig lucht-, water- en winddicht, en bij de best isolerende op de markt.'
@@ -33,7 +33,7 @@ page_builder:
             type: text
             text: 'De kunststof kast en het raam vormen één harmonieus geheel, waardoor de kast minder opvalt. We lakken kast, geleiders, onderlat en lamellen in de kleur van je keuze. Wil je dat het helemaal wegvalt, dan komt er een aluminium voorplaat bij in dezelfde kleur als de raamprofielen.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: rolluiken/winsol-opbouwrolluik-monobloc.webp
     features:
       -
         id: obr-f1
@@ -75,7 +75,7 @@ page_builder:
             type: text
             text: 'Daarmee behoren onze opbouwrolluiken tot de best isolerende op de markt. Dat merk je op je energiefactuur, en ook aan het geluid: hetzelfde dichte geheel houdt straatlawaai buiten.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: rolluiken/winsol-opbouwrolluik-detail-kast.webp
     features:
       -
         id: obr-i1

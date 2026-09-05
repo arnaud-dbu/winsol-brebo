@@ -220,7 +220,7 @@ page_builder:
     overline: Advice
     title: 'Will this work with what you already have?'
     text: 'In many cases it will, because TaHoma talks to almost three hundred product types. Let us know which motors you have and we''ll find out for you.'
-    image: placeholder/beeld-ontbreekt.jpg
+    image: somfy/woning-met-somfy-smart-home.webp
     align: left
     link:
       -

@@ -28,8 +28,7 @@ page_builder:
           -
             type: text
             text: 'The door thereby serves as an extra doorway, which in practice saves you a separate side door. It is also the logical choice when there is too little room above the opening for the tracks of a vertical door.'
-    media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    media: none
     features:
       -
         id: ssp-d1

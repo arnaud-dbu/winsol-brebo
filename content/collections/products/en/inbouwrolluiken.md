@@ -71,7 +71,7 @@ page_builder:
             type: text
             text: 'We use only double-walled slats in PVC or aluminium, filled with insulating polyurethane foam. The bottom rails and guide rails are made of extruded aluminium, with seals that prevent heat loss through the shutter. When closed, the slats fit tightly together: with notches on PVC, with side locking on aluminium.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: rolluiken/winsol-inbouwrolluik-geintegreerd.webp
     features:
       -
         id: ibr-v1

@@ -6,7 +6,7 @@ range:
 product_groups:
   - accessoires
 text: 'Decoratieve luiken die je gevel karakter geven, in aluminium dat niet rot en niet geschilderd hoeft te worden.'
-image: placeholder/beeld-ontbreekt.jpg
+image: ramen-en-deuren/winsol-sierluiken-woning.webp
 meta_title: 'Sierluiken op maat'
 meta_description: 'Sierluiken van Winsol in aluminium: decoratief, onderhoudsarm en op maat van je gevel. Geplaatst door je lokale Winsol-team.'
 seo_noindex: false
@@ -34,7 +34,7 @@ page_builder:
             type: text
             text: 'In aluminium in plaats van hout, dus ze rotten niet en hoeven nooit geschilderd te worden.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: ramen-en-deuren/winsol-sierluiken-gevel.webp
     features:
       -
         id: sil-f1

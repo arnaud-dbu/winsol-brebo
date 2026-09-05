@@ -29,7 +29,7 @@ page_builder:
             type: text
             text: 'They are made to measure for every window and door, in a version that suits the joinery already in place: fixed, sliding or roll-up.'
     media: image
-    image: placeholder/beeld-ontbreekt.jpg
+    image: ramen-en-deuren/winsol-vliegenraam-open-raam-zomer.webp
     features:
       -
         id: vlr-f1
