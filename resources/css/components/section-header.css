@@ -1,3 +1,13 @@
 .overline--rule-dark::after {
     @apply bg-black;
 }
+
+/*
+ * De cta-kaart slaat op lg om van een donkere, doorschijnende kaart naar het
+ * accentgeel. Het streepje onder de overline moet dan mee van accent naar
+ * zwart, wat vroeger via `accent_bg` op de aparte desktopkaart ging. Nu er nog
+ * maar een kaart is, gebeurt dat hier.
+ */
+.cta__card .overline::after {
+    @apply lg:bg-black;
+}

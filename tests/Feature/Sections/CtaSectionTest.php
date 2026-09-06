@@ -27,22 +27,28 @@ class CtaSectionTest extends SectionTestCase
      * paneel met responsieve sectionHeader-modifiers. Elke header kent
      * daardoor maar één toestand.
      */
-    public function test_renders_a_mobile_and_a_desktop_panel_that_swap_at_lg(): void
+    public function test_renders_one_panel_that_swaps_its_look_at_lg(): void
     {
         $html = $this->render('{{ partial src="sections/cta" }}', $this->context);
 
-        // Twee headers, elk in een eigen paneel. De exacte tint, blur en
-        // maxbreedte zijn design-tuning en staan hier bewust niet vast; wat
-        // vastligt is dat er precies één paneel per breedte zichtbaar is.
-        $this->assertSame(2, substr_count($html, 'class="section-header'));
+        // Eén paneel, geen twee. Er stonden vroeger een mobiel en een desktop
+        // paneel naast elkaar in de DOM, elk met dezelfde kop erin, waardoor
+        // elke cta-titel twee keer in de broncode stond. Voor tekstlezende
+        // crawlers en AI-antwoordsystemen leest dat als een herhaalde kop.
+        $this->assertSame(1, substr_count($html, 'class="section-header'));
+        $this->assertSame(1, substr_count($html, '<h2'));
 
-        // Mobiel paneel: zichtbaar tot `lg`, glasmorf op de foto — dus blur,
-        // en witte tekst die de header eronder erft.
+        // Onder lg: glasmorf op de foto, dus blur en witte tekst.
         $this->assertMatchesRegularExpression('/class="[^"]*\bbackdrop-blur-\w+\b[^"]*"/', $html);
-        $this->assertMatchesRegularExpression('/class="[^"]*\btext-white\b[^"]*\blg:hidden\b/', $html);
+        $this->assertMatchesRegularExpression('/class="[^"]*\btext-white\b[^"]*"/', $html);
 
-        // Desktop paneel: verborgen tot `lg`, daarna een accent kaart.
-        $this->assertMatchesRegularExpression('/class="\bhidden\b[^"]*\bbg-accent\b[^"]*\blg:block\b/', $html);
+        // Vanaf lg: het accent vlak, zonder blur en met donkere tekst.
+        $this->assertMatchesRegularExpression('/class="[^"]*\blg:bg-accent\b[^"]*"/', $html);
+        $this->assertMatchesRegularExpression('/class="[^"]*\blg:text-black\b[^"]*"/', $html);
+        $this->assertMatchesRegularExpression('/class="[^"]*\blg:backdrop-blur-none\b[^"]*"/', $html);
+
+        // En dus geen paneel meer dat op een breakpoint verborgen wordt.
+        $this->assertStringNotContainsString('lg:hidden', $html);
     }
 
     /**
@@ -51,15 +57,18 @@ class CtaSectionTest extends SectionTestCase
      * `::after` erft niet. De responsieve varianten (`inverse_until` /
      * `accent_bg_from`) bestaan niet meer.
      */
-    public function test_only_the_overline_rule_still_needs_a_flag(): void
+    public function test_the_overline_rule_switches_in_css_instead_of_via_a_flag(): void
     {
         $html = $this->render('{{ partial src="sections/cta" }}', $this->context);
 
-        // Eén keer: alleen het accent paneel, niet het glaspaneel.
-        $this->assertSame(1, substr_count($html, 'overline--rule-dark'));
+        // Het streepje onder de overline ging van accent naar zwart via
+        // `accent_bg` op het aparte desktoppaneel. Nu er nog één paneel is,
+        // gebeurt die omslag in CSS op `.cta__card .overline::after`, dus de
+        // vlag hoort hier niet meer te staan.
+        $this->assertStringNotContainsString('overline--rule-dark', $html);
+        $this->assertStringContainsString('cta__card', $html);
 
         $this->assertStringNotContainsString('section-header--inverse', $html);
-        $this->assertStringNotContainsString('overline--rule-dark-from', $html);
     }
 
     /**
@@ -75,7 +84,7 @@ class CtaSectionTest extends SectionTestCase
         $this->assertStringContainsString('lg:items-end', $right);
     }
 
-    public function test_each_panel_gets_a_button_that_reads_on_its_own_background(): void
+    public function test_the_button_reads_on_both_backgrounds(): void
     {
         $html = $this->render('{{ partial src="sections/cta" }}', $this->context + [
             'link' => [
@@ -86,9 +95,17 @@ class CtaSectionTest extends SectionTestCase
         ]);
 
         // Accent knop op het donkere glas, donkere knop op het gele accent
-        // vlak — omgekeerd zou telkens één van de twee wegvallen.
-        $this->assertSame(1, substr_count($html, 'btn btn--primary'));
-        $this->assertSame(1, substr_count($html, 'btn btn--secondary'));
+        // vlak — omgekeerd valt telkens één van de twee weg. Eén knop die op
+        // lg van variant wisselt, want `btn--primary` en `btn--secondary` zijn
+        // Tailwind-utilities en dragen dus een `lg:`-variant.
+        $this->assertSame(1, substr_count($html, 'btn--primary'));
+        $this->assertSame(1, substr_count($html, 'lg:btn--secondary'));
+
+        // Op dezelfde knop, niet op twee verschillende.
+        $this->assertMatchesRegularExpression(
+            '/class="[^"]*\bbtn--primary\b[^"]*\blg:btn--secondary\b[^"]*"/',
+            $html
+        );
     }
 
     /**

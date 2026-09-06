@@ -4,12 +4,15 @@
     {{ /if }}
     <div
         class="{{ align == 'right' ? 'lg:items-end' : '' }} relative container flex flex-col items-start justify-end lg:justify-center">
-        <div class="w-full max-w-md rounded-md bg-black/25 card-padding-xl text-white backdrop-blur-sm lg:hidden">
-            {{ partial:sectionHeader btn_variant="btn btn--primary" }}
-        </div>
-
-        <div class="hidden w-full rounded-md bg-accent card-padding-lg lg:block lg:w-auto lg:max-w-lg 2xl:max-w-xl">
-            {{ partial:sectionHeader btn_variant="btn btn--secondary" accent_bg="true" }}
+        {{# Eén kaart die op lg omslaat, geen twee waarvan er telkens een
+            verborgen is: die tweede stond wel degelijk in de HTML, dus elke
+            cta-titel kwam twee keer in de broncode voor. Voor tekstlezende
+            crawlers en AI-antwoordsystemen leest dat als een herhaalde kop.
+            Onder lg geven `card-padding-xl` en `card-padding-lg` dezelfde
+            waarden (p-6 md:p-8), dus deze ene klasse dekt beide varianten. #}}
+        <div
+            class="cta__card w-full max-w-md rounded-md bg-black/25 card-padding-lg text-white backdrop-blur-sm lg:w-auto lg:max-w-lg lg:bg-accent lg:text-black lg:backdrop-blur-none 2xl:max-w-xl">
+            {{ partial:sectionHeader btn_variant="btn btn--primary lg:btn--secondary" }}
         </div>
     </div>
 </section>
