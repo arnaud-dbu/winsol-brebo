@@ -4,6 +4,18 @@ namespace Tests\Feature\Sections;
 
 class ThemeFilterTest extends SectionTestCase
 {
+    use \Tests\Concerns\CreatesTemporaryContent;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // De acht nieuwsartikels stonden tot 05-09-2026 in de content en zijn
+        // toen als testdata verwijderd. Deze tests toetsen de weergave ervan,
+        // dus zetten ze de fixtures zelf neer.
+        $this->seedArticles();
+    }
+
     public function test_renders_show_all_first_followed_by_every_used_theme(): void
     {
         $html = $this->render('{{ partial src="themeFilter" }}');

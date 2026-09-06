@@ -36,6 +36,7 @@
                 <nav aria-labelledby="mobile-navigation-title">
                     <ul class="mobile-navigation__list">
                         {{ nav:main }}
+                            {{ if entry.template != 'articles/index' || has_articles }}
                             <li>
                                 <a href="{{ entry.url }}" class="mobile-navigation__link">{{ title }}</a>
                                 {{ if children }}
@@ -48,6 +49,7 @@
                                     </ul>
                                 {{ /if }}
                             </li>
+                            {{ /if }}
                         {{ /nav:main }}
                     </ul>
                 </nav>

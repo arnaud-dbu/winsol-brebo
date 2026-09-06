@@ -102,6 +102,23 @@ class AppServiceProvider extends ServiceProvider
     {
         Sets::useIcons('icons', resource_path('svg/icons/regular'));
 
+        // De nieuwsoverzichtspagina hoort niet in de navigatie zolang er geen
+        // artikel gepubliceerd staat: de bezoeker klikt dan naar een lege pagina.
+        // Eén keer per request geteld en gedeeld met alle views, zodat de drie
+        // navigatiepartials (desktop, mobiel, footer) dezelfde bron gebruiken.
+        View::composer('*', function ($view) {
+            static $heeftArtikels = null;
+
+            if ($heeftArtikels === null) {
+                $heeftArtikels = Entry::query()
+                    ->where('collection', 'articles')
+                    ->where('published', true)
+                    ->count() > 0;
+            }
+
+            $view->with('has_articles', $heeftArtikels);
+        });
+
         // Alle uitgaande mail naar één testadres, zolang MAIL_REDIRECT_TO
         // gevuld is. Bewust hier en niet in de `to` van resources/forms/*.yaml:
         // die bestanden gaan mee in git, en een vergeten testadres daarin zou

@@ -12,7 +12,7 @@ page_builder:
     overline: 'Et maintenant ?'
     title: 'Pas encore prêt pour un devis ?'
     text: 'Venez d''abord voir et toucher. Tout est exposé à Dilbeek, Sint-Pieters-Leeuw et Aartselaar.'
-    image: 20260512_winsolleuven_studiohan-41-scaled.jpg
+    image: winsol-brebo-showroom-persoonlijk-advies.jpg
     link:
       -
         id: JTH715nT

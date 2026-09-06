@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Statamic\Contracts\Entries\Entry as EntryContract;
 use Statamic\Facades\Entry;
+use Statamic\Facades\YAML as Yaml;
 
 trait CreatesTemporaryContent
 {
@@ -82,6 +83,41 @@ trait CreatesTemporaryContent
         $this->temporaryEntryIds[] = $entry->id();
 
         return $entry;
+    }
+
+    /**
+     * Zet de acht nieuwsartikels neer die tot 05-09-2026 als dummy-inhoud in
+     * `content/collections/articles` stonden. Jimmy liet ze verwijderen omdat
+     * het testdata was, maar de weergavetests van de nieuwskaart, de
+     * detailpagina, de themafilter en de schema-markup hebben wél echte
+     * artikels nodig — met een thema, een datum, een bard-body met kop, lijst,
+     * video en een inline beeld. Ze staan daarom nu in tests/fixtures/articles
+     * en worden per test tijdelijk aangemaakt.
+     *
+     * @return array<string, EntryContract> gesleuteld op slug
+     */
+    protected function seedArticles(): array
+    {
+        $entries = [];
+
+        foreach (glob(base_path('tests/fixtures/articles/*.md')) as $bestand) {
+            // Bestandsnaam is `JJJJ-MM-DD.slug.md`, net als in de collectie.
+            [$datum, $slug] = explode('.', basename($bestand, '.md'), 2);
+
+            $frontmatter = preg_replace('/^---\n(.*?)\n---.*$/s', '$1', file_get_contents($bestand));
+            $data = Yaml::parse($frontmatter);
+
+            // Het vaste id uit de fixture niet overnemen: `temporaryEntry()`
+            // laat Statamic er zelf een maken en ruimt op dat id weer op.
+            unset($data['id']);
+
+            $entry = $this->temporaryEntry('articles', $slug, $data);
+            $entry->date($datum)->save();
+
+            $entries[$slug] = $entry;
+        }
+
+        return $entries;
     }
 
     protected function deleteTemporaryEntries(): void

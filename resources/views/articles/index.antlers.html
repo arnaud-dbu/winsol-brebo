@@ -5,15 +5,20 @@
         <div class="grid grid-gutter gap-8 lg:grid-cols-[max-content_1fr] lg:gap-x-16 2xl:gap-x-20">
             {{ partial:themeFilter }}
             <ul class="grid grid-gutter md:grid-cols-2">
-                {{ collection:articles }}
-                    {{# Ternary en geen `{{ if }}`-blok: dit zet één waarde.
-                        `projects/index` gebruikte hier nog twee regels. #}}
-                    {{ theme_slug = themes ? themes:slug : '' }}
-                    <li
-                        {{ (get:theme && get:theme != theme_slug) ? 'hidden' : '' }}
-                        :hidden="!matches('{{ theme_slug }}')">
-                        {{ partial:articleCard }}
-                    </li>
+                {{# `as` en dan pas loopen: een lege collectie rendert het tagpaar
+                    anders één keer met de paginacontext zelf, wat een spookkaart
+                    "Nieuws" opleverde die naar deze pagina linkte. #}}
+                {{ collection:articles as="posts" }}
+                    {{ posts }}
+                        {{# Ternary en geen `{{ if }}`-blok: dit zet één waarde.
+                            `projects/index` gebruikte hier nog twee regels. #}}
+                        {{ theme_slug = themes ? themes:slug : '' }}
+                        <li
+                            {{ (get:theme && get:theme != theme_slug) ? 'hidden' : '' }}
+                            :hidden="!matches('{{ theme_slug }}')">
+                            {{ partial:articleCard }}
+                        </li>
+                    {{ /posts }}
                 {{ /collection:articles }}
             </ul>
         </div>

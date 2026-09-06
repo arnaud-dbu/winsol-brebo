@@ -19,7 +19,11 @@
 
         {{# collection="articles" doet het werk van App\Tags\ProjectRanges: alleen
             thema's met minstens één artikel, zodat een klik nooit een lege grid oplevert. #}}
-        {{ taxonomy:themes collection="articles" sort="title" }}
+        {{# `as` om dezelfde reden als in articles/index: zonder artikels rendert
+            het tagpaar anders één keer met de paginacontext en verschijnt er een
+            lege filterpil. #}}
+        {{ taxonomy:themes collection="articles" sort="title" as="theme_terms" }}
+            {{ theme_terms }}
             <li class="shrink-0">
                 <a
                     href="?theme={{ slug }}"
@@ -32,6 +36,7 @@
                     {{ title | entities }}
                 </a>
             </li>
+            {{ /theme_terms }}
         {{ /taxonomy:themes }}
     </ul>
 </nav>

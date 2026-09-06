@@ -10,6 +10,18 @@ use Tests\TestCase;
 
 class ServiceAndArticleSchemaTest extends TestCase
 {
+    use \Tests\Concerns\CreatesTemporaryContent;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // De acht nieuwsartikels stonden tot 05-09-2026 in de content en zijn
+        // toen als testdata verwijderd. Deze tests toetsen de weergave ervan,
+        // dus zetten ze de fixtures zelf neer.
+        $this->seedArticles();
+    }
+
     public function test_a_product_becomes_a_service_that_names_its_area(): void
     {
         $entry = Entry::findByUri('/aanbod/rolluiken/inbouwrolluiken');

@@ -2,10 +2,29 @@
 
 namespace Tests\Feature\Sections;
 
+use Tests\Concerns\CreatesTemporaryContent;
+
 class NavigationTest extends SectionTestCase
 {
+    use CreatesTemporaryContent;
+
+    /**
+     * Nieuws staat alleen in het menu zolang er een gepubliceerd artikel is
+     * (zie AppServiceProvider). De dummy-artikels zijn weg, dus een test die
+     * het volledige menu wil zien moet er zelf een neerzetten.
+     */
+    private function metArtikel(): void
+    {
+        $this->temporaryEntry('articles', 'menu-fixture', [
+            'title' => 'Artikel voor het menu',
+            'date' => '2026-01-01',
+        ]);
+    }
+
     public function test_menu_is_driven_by_the_main_navigation_structure(): void
     {
+        $this->metArtikel();
+
         $html = $this->render('{{ partial:navigation }}');
 
         // Deze titels komen uit content/trees/navigation/main.yaml, niet uit de
@@ -19,6 +38,8 @@ class NavigationTest extends SectionTestCase
 
     public function test_menu_items_follow_the_order_of_the_structure(): void
     {
+        $this->metArtikel();
+
         $html = $this->render('{{ partial:navigation }}');
 
         // De boomvolgorde uit content/trees/navigation/main.yaml — die wijkt
@@ -165,5 +186,14 @@ class NavigationTest extends SectionTestCase
 
         $this->assertStringContainsString('nav-link--light', $licht);
         $this->assertStringNotContainsString('nav-link--dark', $licht);
+    }
+    public function test_nieuws_disappears_from_the_menu_without_articles(): void
+    {
+        // Geen artikel aangemaakt: de nieuwspagina zou de bezoeker naar een
+        // leeg overzicht sturen, dus hoort ze niet in het menu.
+        $html = $this->render('{{ partial:navigation }}');
+
+        $this->assertStringNotContainsString('Nieuws', $html);
+        $this->assertStringContainsString('Contact', $html);
     }
 }

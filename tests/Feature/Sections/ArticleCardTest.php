@@ -6,6 +6,18 @@ use Statamic\Facades\Entry;
 
 class ArticleCardTest extends SectionTestCase
 {
+    use \Tests\Concerns\CreatesTemporaryContent;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // De acht nieuwsartikels stonden tot 05-09-2026 in de content en zijn
+        // toen als testdata verwijderd. Deze tests toetsen de weergave ervan,
+        // dus zetten ze de fixtures zelf neer.
+        $this->seedArticles();
+    }
+
     public function test_the_overline_of_a_real_article_is_the_theme_and_not_the_title(): void
     {
         // Array-fixtures dekken deze bug niet af: `themes` heeft `max_items: 1`

@@ -49,6 +49,8 @@
         <nav class="hidden lg:block" aria-label="{{ trans:site.nav_label }}">
             <ul class="flex items-center gap-2 xl:gap-3">
                 {{ nav:main }}
+                    {{# Nieuws valt weg zolang er geen artikel staat, zie AppServiceProvider. #}}
+                    {{ if entry.template != 'articles/index' || has_articles }}
                     <li>
                         {{ if mega_menu }}
                             <button
@@ -85,6 +87,7 @@
                             </a>
                         {{ /if }}
                     </li>
+                    {{ /if }}
                 {{ /nav:main }}
             </ul>
         </nav>

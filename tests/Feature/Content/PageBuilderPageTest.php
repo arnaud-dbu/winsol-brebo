@@ -47,8 +47,10 @@ class PageBuilderPageTest extends TestCase
         $this->assertSame(5, substr_count($html, 'from-transparent from-60% to-black'));
 
         // Every slider-backed section renders one `.swiper-slide` per item:
-        // ranges 8 + cards 4 + articles 3 + image_gallery 6. `products` staat
-        // sinds 95da753 in een grid en levert er geen enkele meer.
-        $this->assertSame(21, substr_count($html, 'swiper-slide'));
+        // ranges 8 + cards 4 + image_gallery 6. De articles-sectie levert er
+        // sinds 05-09-2026 geen meer: het dummy-nieuws is weg (testdata) en de
+        // blokselectie op deze demopagina wees naar die artikels. De sectie
+        // zelf rendert nog wel, met haar titel en zonder kaarten.
+        $this->assertSame(18, substr_count($html, 'swiper-slide'));
     }
 }

@@ -7,6 +7,8 @@ use Tests\TestCase;
 
 class NieuwsPageTest extends TestCase
 {
+    use \Tests\Concerns\CreatesTemporaryContent;
+
     public function test_the_page_lives_at_nieuws_and_keeps_the_old_entry_id(): void
     {
         // De id wordt overgenomen van realisaties.md, want hij staat in de
@@ -43,9 +45,24 @@ class NieuwsPageTest extends TestCase
 
     public function test_the_main_navigation_points_at_nieuws(): void
     {
+        // Alleen met een gepubliceerd artikel: zonder artikels laat
+        // AppServiceProvider de nieuwspagina uit de navigatie, zodat niemand
+        // op een leeg overzicht klikt.
+        $this->temporaryEntry('articles', 'nav-fixture', [
+            'title' => 'Artikel voor de navigatie',
+            'date' => '2026-01-01',
+        ]);
+
         $html = $this->get('/')->getContent();
 
         $this->assertStringContainsString('href="/nieuws"', $html);
+    }
+
+    public function test_the_main_navigation_hides_nieuws_without_articles(): void
+    {
+        $html = $this->get('/')->getContent();
+
+        $this->assertStringNotContainsString('href="/nieuws"', $html);
     }
 
     public function test_the_dead_boilerplate_mount_is_out_of_the_page_tree(): void

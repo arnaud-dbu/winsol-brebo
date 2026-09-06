@@ -214,10 +214,7 @@ page_builder:
         entry: c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a03
         label: 'Bekijk alle artikels'
         new_tab: false
-    articles:
-      - a4e8b1c7-0001-4d3f-9a2b-5c6d7e8f9a01
-      - a4e8b1c7-0002-4d3f-9a2b-5c6d7e8f9a02
-      - a4e8b1c7-0003-4d3f-9a2b-5c6d7e8f9a03
+    articles: []
     enabled: true
   -
     id: sec06

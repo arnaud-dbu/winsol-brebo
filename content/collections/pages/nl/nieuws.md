@@ -14,7 +14,7 @@ page_builder:
     overline: Offerte
     title: 'Zin om verder te praten?'
     text: 'Vraag vrijblijvend een offerte aan. We komen langs, meten na en rekenen de opties voor je door.'
-    image: 20260512_winsolleuven_studiohan-41-scaled.jpg
+    image: terrasoverkapping/winsol-pergola-so-terras-lounge.webp
     link:
       -
         id: dklxt2mD

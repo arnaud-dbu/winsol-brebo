@@ -6,6 +6,18 @@ use Statamic\Facades\Entry;
 
 class ArticleHeaderTest extends SectionTestCase
 {
+    use \Tests\Concerns\CreatesTemporaryContent;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // De acht nieuwsartikels stonden tot 05-09-2026 in de content en zijn
+        // toen als testdata verwijderd. Deze tests toetsen de weergave ervan,
+        // dus zetten ze de fixtures zelf neer.
+        $this->seedArticles();
+    }
+
     public function test_renders_title_text_and_image(): void
     {
         config(['app.debug' => false]);

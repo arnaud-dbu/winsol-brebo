@@ -12,7 +12,7 @@ page_builder:
     overline: 'What next?'
     title: 'Not ready for a quote yet?'
     text: 'Come and see and feel it for yourself first. Everything is on display in Dilbeek, Sint-Pieters-Leeuw and Aartselaar.'
-    image: 20260512_winsolleuven_studiohan-41-scaled.jpg
+    image: winsol-brebo-showroom-persoonlijk-advies.jpg
     link:
       -
         id: JTH715nT

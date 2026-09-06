@@ -7,6 +7,19 @@ use Tests\TestCase;
 
 class ArticlesContentTest extends TestCase
 {
+    use \Tests\Concerns\CreatesTemporaryContent;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Deze klasse bewaakte de acht nieuwsartikels toen ze nog in de
+        // content stonden. Ze zijn op 05-09-2026 verwijderd (testdata) en
+        // leven verder als fixtures; de controles blijven zinvol omdat de
+        // andere artikeltests op diezelfde set steunen.
+        $this->seedArticles();
+    }
+
     public function test_eight_articles_exist_with_an_image_a_theme_and_a_body(): void
     {
         $articles = Entry::query()->where('collection', 'articles')->where('site', 'nl')->get();

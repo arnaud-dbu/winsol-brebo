@@ -26,11 +26,13 @@
                     <p class="font-bold text-white">{{ trans:site.footer_column_bedrijf }}</p>
                     <ul class="flex flex-col gap-0.5">
                         {{ nav:main }}
+                            {{ if entry.template != 'articles/index' || has_articles }}
                             <li>
                                 <a href="{{ entry.url }}" class="text-white/60 transition-opacity hover:opacity-80">
                                     {{ title }}
                                 </a>
                             </li>
+                            {{ /if }}
                         {{ /nav:main }}
                         {{ nav:footer }}
                             <li>
@@ -41,7 +43,7 @@
                         {{ /nav:footer }}
                     </ul>
                 </div>
-                {{ if globals:contact:phone_brussels or globals:contact:phone_antwerp or globals:contact:email or (globals:company:street and globals:company:city) }}
+                {{ if globals:contact:phone_brussels or globals:contact:phone_antwerp or globals:contact:email }}
                     <div class="footer__column flex flex-col gap-4">
                         <p class="font-bold text-white">{{ trans:site.footer_column_contact }}</p>
                         <ul class="flex flex-col gap-0.5">
@@ -74,12 +76,20 @@
                                     </a>
                                 </li>
                             {{ /if }}
-                            {{ if globals:company:street and globals:company:city }}
-                                {{# Eén expressie: los uitgeschreven breekt Prettier de regel vlak vóór de komma, en dan staat er een spatie voor. #}}
-                                <li class="text-white/60">
-                                    {{ "{globals:company:street} {globals:company:number}, {globals:company:postal} {globals:company:city}" }}
-                                </li>
-                            {{ /if }}
+                            {{# De drie showrooms in plaats van het ene adres uit de
+                                globals: een bezoeker moet in de footer meteen zien waar
+                                hij terecht kan. Volgorde volgt de structuur van de
+                                locations-collectie. `as` zodat een lege collectie het
+                                tagpaar niet één keer met de paginacontext rendert. #}}
+                            {{ collection:locations as="showrooms" }}
+                                {{ showrooms }}
+                                    <li class="mt-2 text-white/60">
+                                        <span class="block text-white/80">{{ name | entities }}</span>
+                                        {{# Eén expressie: los uitgeschreven breekt Prettier de regel vlak vóór de komma, en dan staat er een spatie voor. #}}
+                                        {{ "{street} {number}, {postal_code} {city}" | entities }}
+                                    </li>
+                                {{ /showrooms }}
+                            {{ /collection:locations }}
                         </ul>
                     </div>
                 {{ /if }}

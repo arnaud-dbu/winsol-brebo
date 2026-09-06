@@ -14,7 +14,7 @@ page_builder:
     overline: 'In de kijker'
     title: 'Nog niet klaar voor een offerte?'
     text: 'Kom eerst eens kijken en voelen. In Dilbeek, Sint-Pieters-Leeuw en Aartselaar staat alles opgesteld.'
-    image: 20260512_winsolleuven_studiohan-41-scaled.jpg
+    image: winsol-brebo-showroom-persoonlijk-advies.jpg
     link:
       -
         id: JTH715nT

@@ -6,6 +6,18 @@ use Tests\TestCase;
 
 class ArticleShowPageTest extends TestCase
 {
+    use \Tests\Concerns\CreatesTemporaryContent;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // De acht nieuwsartikels stonden tot 05-09-2026 in de content en zijn
+        // toen als testdata verwijderd. Deze tests toetsen de weergave ervan,
+        // dus zetten ze de fixtures zelf neer.
+        $this->seedArticles();
+    }
+
     public function test_the_article_renders_with_its_header_and_chips(): void
     {
         $response = $this->get('/nieuws/showroom-aartselaar-is-opnieuw-open');

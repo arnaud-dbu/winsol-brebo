@@ -2,8 +2,12 @@
 
 namespace Tests\Feature\Sections;
 
+use Tests\Concerns\CreatesTemporaryContent;
+
 class FooterTest extends SectionTestCase
 {
+    use CreatesTemporaryContent;
+
     /**
      * Deze test draait via SectionTestCase::render(), en die helper roept een
      * kale view() aan — zonder Statamic-cascade. `{{ globals:… }}` is daar
@@ -17,6 +21,13 @@ class FooterTest extends SectionTestCase
      */
     public function test_renders_populated_link_columns_and_a_colophon(): void
     {
+        // Nieuws staat alleen in de nav-lus zolang er een artikel is, dus de
+        // test zet er zelf een neer (zie AppServiceProvider).
+        $this->temporaryEntry('articles', 'footer-fixture', [
+            'title' => 'Artikel voor de footer',
+            'date' => '2026-01-01',
+        ]);
+
         $html = $this->render('{{ partial:footer }}');
 
         $this->assertSame(2, substr_count($html, 'footer__column'));
@@ -68,5 +79,22 @@ class FooterTest extends SectionTestCase
 
         $this->assertStringContainsString('Ninoofsesteenweg 637, 1700 Dilbeek', $html);
         $this->assertDoesNotMatchRegularExpression('/\s+,\s+1700 Dilbeek/', $html);
+    }
+    public function test_the_contact_column_lists_all_three_showrooms(): void
+    {
+        // Stond eerst op één adres uit de company-globals; Jimmy wil dat een
+        // bezoeker de drie showrooms meteen ziet (feedback 05-09-2026).
+        // Via een echte paginarender en niet `render()`: de losse partial
+        // krijgt geen site-cascade mee, waardoor `collection:locations` daar
+        // leeg blijft.
+        $html = $this->get('/')->getContent();
+
+        foreach ([
+            'Ninoofsesteenweg 637, 1700 Dilbeek',
+            'Bergensesteenweg 488, 1600 Sint-Pieters-Leeuw',
+            'Boomsesteenweg 70, 2630 Aartselaar',
+        ] as $adres) {
+            $this->assertStringContainsString($adres, $html);
+        }
     }
 }
