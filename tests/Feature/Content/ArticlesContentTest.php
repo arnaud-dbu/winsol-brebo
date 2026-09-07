@@ -20,11 +20,20 @@ class ArticlesContentTest extends TestCase
         $this->seedArticles();
     }
 
-    public function test_eight_articles_exist_with_an_image_a_theme_and_a_body(): void
+    public function test_every_article_has_an_image_a_theme_and_a_body(): void
     {
         $articles = Entry::query()->where('collection', 'articles')->where('site', 'nl')->get();
 
-        $this->assertCount(8, $articles);
+        // Een vast totaal kan niet meer: er komt bij elke actie een artikel
+        // bij. Wat wél vastligt is dat de acht fixtures er allemaal zijn —
+        // de kaart-, header-, filter- en schematests steunen erop.
+        $slugs = $articles->map->slug()->all();
+
+        foreach (glob(base_path('tests/fixtures/articles/*.md')) as $fixture) {
+            [, $slug] = explode('.', basename($fixture, '.md'), 2);
+
+            $this->assertContains($slug, $slugs, "Fixture {$slug} staat niet in de collectie");
+        }
 
         foreach ($articles as $article) {
             $this->assertNotEmpty($article->get('image'), "Artikel {$article->slug()} heeft geen beeld");

@@ -3,9 +3,13 @@
  * achter de nav, dus de inhoud moet die hoogte zelf overslaan. `--nav-height`
  * stuurt zowel de nav als deze padding (zie navigation.css), zodat de twee
  * niet uit elkaar kunnen lopen.
+ *
+ * `--promo-height` staat er los naast en niet in `--nav-height` verwerkt: de
+ * actiebalk hoort niet bij de nav-balk zelf — die houdt zijn eigen hoogte,
+ * ook wanneer er een actie loopt. Zonder actie is hij nul (promo-bar.css).
  */
 @utility header-under-nav {
-    padding-top: calc(var(--nav-height) + var(--spacing-section-half));
+    padding-top: calc(var(--nav-height) + var(--promo-height) + var(--spacing-section-half));
 }
 
 /*

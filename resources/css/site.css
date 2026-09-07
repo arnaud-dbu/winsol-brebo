@@ -13,6 +13,7 @@
     --color-black: #121b22;
     --color-dark: #292d2d;
     --color-whatsapp: #25d366;
+    --color-live: #2fd06a; /* pulserend bolletje op de actiebalk */
     --color-accent-hover: #e9c714; /* accent, ~6% donkerder */
     --color-black-hover: #23303a; /* zwart, iets lichter */
 
@@ -84,6 +85,7 @@
 @import './components/chip.css';
 @import './components/hamburger.css';
 @import './components/navigation.css';
+@import './components/promo-bar.css';
 @import './components/mobile-navigation.css';
 @import './components/cookie-consent.css';
 @import './components/slider.css';

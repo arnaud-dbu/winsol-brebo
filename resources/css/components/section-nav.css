@@ -52,10 +52,13 @@
 /*
  * Opeenvolgende `.section--default` krijgen `padding-top: 0`, dus een anker
  * zou tegen de bovenrand van het venster plakken. Deze marge geeft de sprong
- * lucht. De sitenavigatie is niet sticky, dus er hoeft geen headerhoogte
- * gecompenseerd te worden.
+ * lucht.
+ *
+ * De nav scrollt sinds 06-09-2026 mee en blijft dus boven het anker hangen;
+ * de actiebalk komt daar bovenop wanneer er een actie loopt. Beide hoogtes
+ * horen er daarom bij opgeteld, anders landt de sprong achter de balk.
  */
 [data-section='text_image'][id],
 [data-section='reparation'] {
-    scroll-margin-top: var(--spacing-section-half);
+    scroll-margin-top: calc(var(--nav-height) + var(--promo-height) + var(--spacing-section-half));
 }

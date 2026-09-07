@@ -11,7 +11,8 @@
         {{ partial:analytics }}
         {{ vite src="resources/js/site.js|resources/css/site.css" }}
     </head>
-    <body>
+    {{# `data-promo` zet `--promo-height`, de hoogte van de actiebalk; zie promo-bar.css. #}}
+    <body data-promo="{{ promo_url ? 'true' : 'false' }}">
         {{# Tag Manager voor bezoekers zonder JavaScript. Hoort direct na de openende body-tag, vóór alle zichtbare inhoud. #}}
         {{ if config:analytics:enabled && config:analytics:gtm_container_id }}
             <noscript>

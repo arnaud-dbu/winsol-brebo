@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Sections;
 
+use App\Services\PublishedArticles;
 use Tests\Concerns\CreatesTemporaryContent;
 
 class NavigationTest extends SectionTestCase
@@ -189,8 +190,18 @@ class NavigationTest extends SectionTestCase
     }
     public function test_nieuws_disappears_from_the_menu_without_articles(): void
     {
-        // Geen artikel aangemaakt: de nieuwspagina zou de bezoeker naar een
-        // leeg overzicht sturen, dus hoort ze niet in het menu.
+        // Zonder artikel zou de nieuwspagina de bezoeker naar een leeg
+        // overzicht sturen, dus hoort ze niet in het menu. Er staat sinds
+        // 07-09-2026 een echt artikel in de content — de lopende actie — dus
+        // die toestand komt uit de container en niet uit een lege collectie.
+        $this->swap(PublishedArticles::class, new class extends PublishedArticles
+        {
+            public function exist(): bool
+            {
+                return false;
+            }
+        });
+
         $html = $this->render('{{ partial:navigation }}');
 
         $this->assertStringNotContainsString('Nieuws', $html);

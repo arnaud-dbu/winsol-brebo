@@ -1,0 +1,115 @@
+/*
+ * De actiebalk boven de navigatie.
+ *
+ * `--promo-height` is, net als `--nav-height`, sturend en niet beschrijvend:
+ * de balk krijgt die hoogte, en alles wat onder de zwevende header door loopt
+ * telt hem mee. Zonder actie staat hij op nul, dus die optellingen blijven ook
+ * kloppen op een site zonder lopende actie — en dat is het grootste deel van
+ * het jaar.
+ *
+ * De schakelaar staat op de `body` (`data-promo` in layout.antlers.html) en
+ * niet op de balk zelf: de header en de mobiele navigatie moeten de hoogte
+ * kennen zonder dat de balk hun voorouder is. Als attribuutwaarde en niet als
+ * een kaal attribuut, want Antlers zet in de body-tag alleen een waarde neer —
+ * een `{{ if }}` rond het attribuut zelf laat de prettier-plugin struikelen.
+ */
+:root {
+    --promo-height: 0rem;
+}
+
+body[data-promo='true'] {
+    --promo-height: 2.5rem; /* 40 */
+}
+
+@media (min-width: 64rem) {
+    body[data-promo='true'] {
+        --promo-height: 2.75rem; /* 44 */
+    }
+}
+
+.promo-bar {
+    display: flex;
+    align-items: center;
+    height: var(--promo-height);
+    background: var(--color-black);
+    color: var(--color-white);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    transition: background-color 0.2s ease-out;
+}
+
+.promo-bar:hover,
+.promo-bar:focus-visible {
+    background: var(--color-black-hover);
+}
+
+/*
+ * De tekst kan langer zijn dan een telefoon breed is. Afkappen en niet
+ * afbreken: de balk heeft één regelhoogte, dus een tweede regel zou eronder
+ * wegvallen en de link half onleesbaar maken.
+ */
+.promo-bar__label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.promo-bar__cta {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.375rem;
+    color: var(--color-accent);
+}
+
+.promo-bar__arrow {
+    width: 1rem;
+    height: 1rem;
+    transition: translate 0.2s ease-out;
+}
+
+.promo-bar:hover .promo-bar__arrow {
+    translate: 0.15rem 0;
+}
+
+/*
+ * Het pulserende bolletje. De ring is een pseudo-element en geen tweede span:
+ * hij hoort bij de vorm, niet bij de inhoud, en zo kan er niets van in een
+ * schermlezer of een tekstselectie belanden.
+ *
+ * De blanket-regel voor `prefers-reduced-motion` in base/global.css zet de
+ * animatie op één iteratie van 0.01ms. Die eindigt op het laatste keyframe —
+ * `opacity: 0` — dus de ring verdwijnt en het bolletje blijft gewoon staan.
+ */
+.promo-bar__dot {
+    position: relative;
+    display: block;
+    flex-shrink: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background: var(--color-live);
+}
+
+.promo-bar__dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+    animation: promo-pulse 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes promo-pulse {
+    0% {
+        scale: 1;
+        opacity: 0.75;
+    }
+
+    75%,
+    100% {
+        scale: 2.75;
+        opacity: 0;
+    }
+}

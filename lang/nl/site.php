@@ -20,6 +20,12 @@ return [
     'filter_all' => 'Toon alles',
     'filter_label' => 'Filter artikels op thema',
     'realisaties_filter_label' => 'Filter realisaties op productgroep',
+
+    // Actiebalk en het sluitstuk van een actieartikel; zie promoBar.antlers.html.
+    'promo_cta' => 'Bekijk de actie',
+    'promo_cta_title' => 'Interesse in deze actie?',
+    'promo_cta_text' => 'Vraag vrijblijvend je offerte aan, of kom langs in de showroom in Dilbeek, Sint-Pieters-Leeuw of Aartselaar. We rekenen je voordeel meteen mee.',
+    'promo_cta_showroom' => 'Bezoek een showroom',
     'mail_greeting' => 'Dag',
     'mail_brochure_intro' => 'Bedankt voor je interesse. Dit zijn de brochures die je aanvroeg:',
     'mail_brochure_next' => 'Klaar voor de volgende stap?',

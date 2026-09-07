@@ -1,0 +1,21 @@
+{{#
+    Sluitstuk van een actieartikel. Dat artikel is de landingspagina voor Google Ads, en advertentieverkeer landt er
+    middenin een lopende actie — dan hoort de volgende stap onder de tekst te staan en niet alleen in de navigatie, waar hij
+    op een telefoon achter de hamburger zit. Vast en niet per artikel in te vullen: elke actie eindigt bij dezelfde twee
+    stappen, en zo hoeft wie een nieuwe actie aanmaakt alleen de tekst te schrijven.
+#}}
+{{ site_prefix = site:url == '/' ? '' : site:url }}
+<section class="section section--default" data-section="promo-cta">
+    <div class="container-md">
+        <div class="flex flex-col items-start gap-6 rounded-md bg-light card-padding-xl">
+            <div class="flex flex-col gap-4">
+                <h2>{{ trans:site.promo_cta_title }}</h2>
+                <p>{{ trans:site.promo_cta_text }}</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+                <a href="{{ site_prefix }}/offerte" class="btn btn--primary">{{ trans:site.nav_quote }}</a>
+                <a href="{{ site_prefix }}/contact" class="btn btn--outline">{{ trans:site.promo_cta_showroom }}</a>
+            </div>
+        </div>
+    </div>
+</section>

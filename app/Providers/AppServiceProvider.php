@@ -9,6 +9,8 @@ use App\Listeners\AddDefaultBlueprintTabs;
 use App\Listeners\ClearSitemapCache;
 use App\Listeners\CompressUploadedAsset;
 use App\Services\ImageCompressor;
+use App\Services\PublishedArticles;
+use App\Services\RunningPromotion;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -59,6 +61,11 @@ class AppServiceProvider extends ServiceProvider
             return new AssetAlphaBounds(GlideManager::cacheStore());
         });
 
+        // Singleton: elke pagina vraagt de lopende actie op via de view
+        // composer, en die zoekt hem dan één keer per request op.
+        $this->app->singleton(RunningPromotion::class);
+        $this->app->singleton(PublishedArticles::class);
+
         $this->registerTrimManipulator();
     }
 
@@ -102,27 +109,25 @@ class AppServiceProvider extends ServiceProvider
     {
         Sets::useIcons('icons', resource_path('svg/icons/regular'));
 
-        // De nieuwsoverzichtspagina hoort niet in de navigatie zolang er geen
-        // artikel gepubliceerd staat: de bezoeker klikt dan naar een lege pagina.
-        // Eén keer per request geteld en gedeeld met alle views, zodat de drie
-        // navigatiepartials (desktop, mobiel, footer) dezelfde bron gebruiken.
         View::composer('*', function ($view) {
-            static $heeftArtikels = null;
-
-            if ($heeftArtikels === null) {
-                $heeftArtikels = Entry::query()
-                    ->where('collection', 'articles')
-                    ->where('published', true)
-                    ->count() > 0;
-            }
-
-            $view->with('has_articles', $heeftArtikels);
+            // Zie PublishedArticles: de nieuwspagina blijft uit de navigatie
+            // zolang er geen artikel gepubliceerd staat.
+            $view->with('has_articles', app(PublishedArticles::class)->exist());
 
             // Antlers kan een tag niet in een `{{ if }}` evalueren, dus de
             // reCAPTCHA-sleutel komt hier als gewone variabele binnen. De
             // partial gebruikt hem om zichzelf uit te schakelen op omgevingen
             // zonder sleutels.
             $view->with('recaptcha_key', config('services.recaptcha.site_key'));
+
+            // De lopende actie. Twee kale variabelen en geen entry: de balk
+            // heeft niet meer nodig dan een link en een regel tekst, en zo
+            // hoeft geen enkele view te weten dat een actie eigenlijk een
+            // nieuwsartikel is.
+            $actie = app(RunningPromotion::class)->find();
+
+            $view->with('promo_url', $actie?->url());
+            $view->with('promo_label', $actie ? ($actie->value('promo_label') ?: $actie->value('title')) : null);
         });
 
         // Alle uitgaande mail naar één testadres, zolang MAIL_REDIRECT_TO

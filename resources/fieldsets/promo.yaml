@@ -1,0 +1,35 @@
+title: Actie
+fields:
+  -
+    handle: promo
+    field:
+      type: toggle
+      display: 'Dit artikel is een actie'
+      instructions: 'Zet dit aan en er verschijnt bovenaan de site een balk die naar dit artikel linkt. Er loopt er telkens één: staan er meerdere aan, dan wint de actie die het eerst afloopt.'
+  -
+    handle: promo_label
+    field:
+      type: text
+      display: 'Tekst in de balk'
+      instructions: 'Kort en concreet, bijvoorbeeld “Renovatiedagen — nog tot 18 oktober”. Laat je dit leeg, dan komt de titel van het artikel in de balk.'
+      validate: 'max:80'
+      if:
+        promo: 'equals true'
+  -
+    handle: promo_start
+    field:
+      type: date
+      display: 'Balk tonen vanaf'
+      instructions: 'Leeg laten toont de balk meteen.'
+      width: 50
+      if:
+        promo: 'equals true'
+  -
+    handle: promo_end
+    field:
+      type: date
+      display: 'Balk tonen tot en met'
+      instructions: 'Na deze dag verdwijnt de balk vanzelf. Leeg laten laat hem staan tot de schakelaar hierboven weer uit gaat.'
+      width: 50
+      if:
+        promo: 'equals true'

@@ -1,0 +1,21 @@
+{{#
+    De actiebalk. Verschijnt zodra een nieuwsartikel als actie aanstaat en binnen zijn periode valt — zie
+    App\Services\RunningPromotion. Winsol voert meerdere keren per jaar een actie, dus dit is geen eenmalige strook: hij
+    komt en gaat met de velden op het artikel, zonder dat er een regel code bij hoeft. Hij staat in de header en niet
+    erboven, want op de home-, product- en rangepagina zweeft die header over een schermbrede foto. Een strook in de gewone
+    flow zou daar onder de balk verdwijnen. De hoogte gaat als `--promo-height` naar de headers eronder (promo-bar.css),
+    zodat hun titel niet achter de balk schuift. De hele strook is de link. Een los knopje ernaast zou op een telefoon een
+    doelwit van een paar millimeter worden.
+#}}
+{{ if promo_url }}
+    <a href="{{ promo_url }}" class="promo-bar">
+        <span class="container flex items-center justify-center gap-2 sm:gap-3">
+            <span class="promo-bar__dot" aria-hidden="true"></span>
+            <span class="promo-bar__label">{{ promo_label }}</span>
+            <span class="promo-bar__cta">
+                <span class="hidden sm:inline">{{ trans:site.promo_cta }}</span>
+                {{ icon src="arrow-right" aria-hidden="true" class="promo-bar__arrow" }}
+            </span>
+        </span>
+    </a>
+{{ /if }}

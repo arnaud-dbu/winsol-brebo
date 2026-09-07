@@ -138,6 +138,16 @@ zodra je ook `spaceBetween` laat variëren, anders valt die terug op de basis.
   op het slider-element; `buildResponsive()` in
   `resources/js/components/sliders.js` bouwt het object en stapelt beide assen
   zelf om het niet-cumulatieve gedrag op te vangen.
+- **Acties:** een actie *is* een nieuwsartikel. Zet `promo` aan op het artikel
+  en vul `promo_label`, `promo_start` en `promo_end` in (fieldset
+  `resources/fieldsets/promo.yaml`). `App\Services\RunningPromotion` zoekt de
+  lopende actie op, de view composer in `AppServiceProvider` deelt `promo_url`
+  en `promo_label`, `partials/promoBar` tekent de strook bovenin de header en
+  `partials/promoCta` sluit het artikel af met de weg naar de offerte. Geen
+  aparte collectie: dan zou dezelfde actie op twee plaatsen onderhouden moeten
+  worden en zou de balk kunnen bestaan zonder artikel. De hoogte van de strook
+  loopt als `--promo-height` naar de headers en het mobiele menu; zonder actie
+  staat die op nul.
 - **Formattering:** Prettier doet de Tailwind-klassevolgorde
   (`prettier-plugin-tailwindcss`) en de Antlers-formattering
   (`prettier-plugin-antlers`). Niet handmatig herschikken.

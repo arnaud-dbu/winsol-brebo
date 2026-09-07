@@ -45,6 +45,8 @@
     @click.outside="closeMega()"
     @keyup.escape="closeMega(); $refs.megaToggle?.focus()"
     @resize.window="closeMega()">
+    {{# Loopt er een actie, dan opent de header met een strook ernaartoe. Zie promoBar.antlers.html. #}}
+    {{ partial:promoBar }}
     {{#
         `nav-bar` zet de hoogte op `--nav-height` (navigation.css). Een zwevende nav bedekt de bovenkant van de header eronder,
         en die header moet exact díe hoogte reserveren — met padding hier en een losse aanname daar zouden de twee uit elkaar

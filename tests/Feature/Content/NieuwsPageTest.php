@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Content;
 
+use App\Services\PublishedArticles;
 use Statamic\Facades\Entry;
 use Tests\TestCase;
 
@@ -60,6 +61,17 @@ class NieuwsPageTest extends TestCase
 
     public function test_the_main_navigation_hides_nieuws_without_articles(): void
     {
+        // Sinds 07-09-2026 staat er een echt artikel in de content — de
+        // lopende actie. Geen artikel aanmaken volstaat dus niet meer om deze
+        // toestand te zien; de teller gaat via de container.
+        $this->swap(PublishedArticles::class, new class extends PublishedArticles
+        {
+            public function exist(): bool
+            {
+                return false;
+            }
+        });
+
         $html = $this->get('/')->getContent();
 
         $this->assertStringNotContainsString('href="/nieuws"', $html);

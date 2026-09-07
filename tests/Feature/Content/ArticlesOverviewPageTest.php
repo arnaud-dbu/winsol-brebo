@@ -2,11 +2,23 @@
 
 namespace Tests\Feature\Content;
 
+use Statamic\Facades\Entry;
 use Tests\TestCase;
 
 class ArticlesOverviewPageTest extends TestCase
 {
     use \Tests\Concerns\CreatesTemporaryContent;
+
+    /**
+     * De acht fixtures plus de artikels die echt in de content staan. Sinds
+     * 07-09-2026 hoort daar het actieartikel bij, en er komt er elke actie
+     * eentje. Een vast getal zou dus bij elk nieuw artikel breken zonder dat
+     * er iets stuk is.
+     */
+    private function artikels()
+    {
+        return Entry::query()->where('collection', 'articles')->where('site', 'nl')->get();
+    }
 
     protected function setUp(): void
     {
@@ -44,7 +56,7 @@ class ArticlesOverviewPageTest extends TestCase
     {
         $html = $this->get('/nieuws')->getContent();
 
-        $this->assertSame(8, substr_count($html, 'article-card '));
+        $this->assertSame($this->artikels()->count(), substr_count($html, 'article-card '));
         $this->assertStringNotContainsString('data-slider', $html);
         $this->assertStringNotContainsString('swiper-slide', $html);
     }
@@ -60,12 +72,18 @@ class ArticlesOverviewPageTest extends TestCase
     {
         $html = $this->get('/nieuws?theme=producten')->getContent();
 
-        // Alle acht kaarten blijven in de DOM staan; Alpine moet ze terug
-        // kunnen tonen zonder nieuwe request.
-        $this->assertSame(8, substr_count($html, 'article-card '));
+        // Alle kaarten blijven in de DOM staan; Alpine moet ze terug kunnen
+        // tonen zonder nieuwe request.
+        $artikels = $this->artikels();
+        $this->assertSame($artikels->count(), substr_count($html, 'article-card '));
 
-        // Twee artikels hangen aan `producten`, dus zes staan er verborgen.
-        $this->assertSame(6, preg_match_all('/<li\s+hidden/', $html));
+        // Twee artikels hangen aan `producten`; de rest staat verborgen.
+        $producten = $artikels
+            ->filter(fn ($artikel) => $artikel->augmentedValue('themes')->value()?->slug() === 'producten')
+            ->count();
+
+        $this->assertSame(2, $producten);
+        $this->assertSame($artikels->count() - 2, preg_match_all('/<li\s+hidden/', $html));
 
         $this->assertStringContainsString('QUBIC Slide haalt waterdichtheidsklasse 9A', $html);
     }

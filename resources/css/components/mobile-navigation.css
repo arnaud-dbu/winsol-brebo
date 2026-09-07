@@ -31,9 +31,15 @@
     z-index: 80;
 }
 
+/*
+ * De logobalk bovenin het paneel is even hoog als de nav-balk eronder, zodat
+ * het logo bij het openen niet verspringt. Loopt er een actie, dan begint die
+ * nav-balk pas onder de actiebalk — en dan moet het paneel dat ook doen.
+ */
 .mobile-navigation__panel {
     position: absolute;
     inset: 0 0 0 auto;
+    padding-top: var(--promo-height);
     display: flex;
     flex-direction: column;
     width: 100%;

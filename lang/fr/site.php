@@ -18,6 +18,12 @@ return [
     'filter_all' => 'Tout afficher',
     'filter_label' => 'Filtrer les articles par thème',
     'realisaties_filter_label' => 'Filtrer les réalisations par groupe de produits',
+
+    // Actiebalk en het sluitstuk van een actieartikel; zie promoBar.antlers.html.
+    'promo_cta' => 'Découvrir l’action',
+    'promo_cta_title' => 'Cette action vous intéresse ?',
+    'promo_cta_text' => 'Demandez votre devis sans engagement, ou passez au showroom de Dilbeek, Sint-Pieters-Leeuw ou Aartselaar. Nous calculons votre avantage sur-le-champ.',
+    'promo_cta_showroom' => 'Visiter un showroom',
     'contact_region_brussels' => 'Bruxelles',
     'contact_region_antwerp' => 'Anvers',
     'mail_greeting' => 'Bonjour',

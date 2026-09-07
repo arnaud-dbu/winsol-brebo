@@ -18,6 +18,13 @@ tabs:
         fields:
           -
             import: preview
+  promo:
+    display: Actie
+    sections:
+      -
+        fields:
+          -
+            import: promo
   seo:
     display: SEO
     sections:
