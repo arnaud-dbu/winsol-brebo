@@ -77,6 +77,7 @@
             </div>
         {{ /sections }}
         <input type="text" class="hidden" name="{{ honeypot ?? 'honeypot' }}" />
+        {{ partial:recaptcha }}
     {{ /unless }}
     {{ if success }}
         {{ partial:formSuccessEvent form="brochure" }}

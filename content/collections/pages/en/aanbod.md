@@ -12,7 +12,7 @@ page_builder:
     overline: Contact
     title: 'Not sure which solution suits you?'
     text: 'Ask for advice or a free quote, with no obligation. Our local experts think it through with you and suggest the right combination.'
-    image: dummy-images/test-img-7.jpg
+    image: ranges/winsol-aanbod-advies-schuifraam.webp
     link:
       -
         type: entry

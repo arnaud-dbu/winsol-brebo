@@ -14,7 +14,7 @@ page_builder:
     overline: Contact
     title: 'Niet zeker welke oplossing past?'
     text: 'Vraag vrijblijvend advies of een offerte. Onze lokale experts denken met u mee en stellen de juiste combinatie voor.'
-    image: dummy-images/test-img-7.jpg
+    image: ranges/winsol-aanbod-advies-schuifraam.webp
     link:
       -
         type: entry

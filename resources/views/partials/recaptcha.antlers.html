@@ -1,7 +1,18 @@
+{{#
+    Alleen renderen wanneer reCAPTCHA geconfigureerd is. Het script onderschept
+    de submit en laat hem pas door zodra Google een token teruggeeft; zonder
+    sleutel bestaat `grecaptcha` niet, en dan zou `preventDefault()` het
+    formulier definitief blokkeren op elke omgeving zonder sleutels.
+
+    Andersom telt even hard: staat de sleutel er wel en ontbreekt dit veld, dan
+    weigert App\Listeners\VerifyRecaptcha elke inzending stil — geen opslag,
+    geen mail, geen bevestigingsscherm. Deze partial hoort dus in elk formulier.
+#}}
+{{ if recaptcha_key }}
 <input type="hidden" name="g-recaptcha-response" class="recaptcha-token" />
 
-{{ section:scripts }}
-    <script src="https://www.google.com/recaptcha/enterprise.js?render={{ config:services:recaptcha:site_key }}"></script>
+    {{ section:scripts }}
+    <script src="https://www.google.com/recaptcha/enterprise.js?render={{ recaptcha_key }}"></script>
     <script>
         document.querySelectorAll('.recaptcha-token').forEach(function (input) {
             const form = input.closest('form');
@@ -10,7 +21,7 @@
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
                 grecaptcha.enterprise.ready(function () {
-                    grecaptcha.enterprise.execute('{{ config:services:recaptcha:site_key }}', { action: 'submit' }).then(function (token) {
+                    grecaptcha.enterprise.execute('{{ recaptcha_key }}', { action: 'submit' }).then(function (token) {
                         input.value = token;
                         form.submit();
                     });
@@ -18,4 +29,5 @@
             });
         });
     </script>
-{{ /section:scripts }}
+    {{ /section:scripts }}
+{{ /if }}

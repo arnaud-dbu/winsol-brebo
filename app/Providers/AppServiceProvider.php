@@ -117,6 +117,12 @@ class AppServiceProvider extends ServiceProvider
             }
 
             $view->with('has_articles', $heeftArtikels);
+
+            // Antlers kan een tag niet in een `{{ if }}` evalueren, dus de
+            // reCAPTCHA-sleutel komt hier als gewone variabele binnen. De
+            // partial gebruikt hem om zichzelf uit te schakelen op omgevingen
+            // zonder sleutels.
+            $view->with('recaptcha_key', config('services.recaptcha.site_key'));
         });
 
         // Alle uitgaande mail naar één testadres, zolang MAIL_REDIRECT_TO

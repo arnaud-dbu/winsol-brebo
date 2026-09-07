@@ -12,7 +12,7 @@ page_builder:
     overline: Contact
     title: 'Pas sûr de la solution qui vous convient ?'
     text: 'Demandez un conseil ou un devis sans engagement. Nos experts locaux réfléchissent avec vous et vous proposent la bonne combinaison.'
-    image: dummy-images/test-img-7.jpg
+    image: ranges/winsol-aanbod-advies-schuifraam.webp
     link:
       -
         type: entry
