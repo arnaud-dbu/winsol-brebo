@@ -16,3 +16,5 @@ preview_targets:
     refresh: true
 sites:
   - nl
+  - fr
+  - en
