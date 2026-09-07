@@ -12,10 +12,20 @@
     header even, dus sluiten gebeurt met een korte vertraging die `openMega` weer opheft — anders klapt het paneel dicht op
     weg naar zijn eigen inhoud.
 #}}
+{{#
+    De nav volgt de bezoeker over de hele pagina, zodat de offerte-knop altijd
+    binnen bereik blijft. Zwevend over een header wordt dat `fixed` (de header
+    eronder reserveert de hoogte al); in de gewone flow `sticky`, zodat de
+    ruimte behouden blijft. Zodra er gescrold is verschijnt er een witte,
+    afgeronde container om de balk — `nav--solid` zet dan ook de tekst en het
+    logo om, want boven een foto stond die wit.
+#}}
 <header
-    class="{{ floating ? 'absolute inset-x-0 top-0 z-50' : 'relative' }}"
+    class="{{ floating ? 'fixed inset-x-0 top-0 z-50' : 'sticky top-0 z-50' }}"
+    :class="scrolled ? 'nav--solid' : ''"
     x-data="{
         open: false,
+        scrolled: window.scrollY > 16,
         closeTimer: null,
         openMega() {
             clearTimeout(this.closeTimer)
@@ -30,6 +40,7 @@
             this.closeTimer = setTimeout(() => (this.open = false), 200)
         },
     }"
+    @scroll.window.passive="scrolled = window.scrollY > 16"
     @mouseleave="scheduleClose()"
     @click.outside="closeMega()"
     @keyup.escape="closeMega(); $refs.megaToggle?.focus()"
@@ -39,11 +50,20 @@
         en die header moet exact díe hoogte reserveren — met padding hier en een losse aanname daar zouden de twee uit elkaar
         lopen.
     #}}
-    <div
-        class="{{ floating ? '' : 'border-b border-black/12 lg:border-b-0' }} relative container flex nav-bar items-center justify-between">
+    <div class="{{ floating ? '' : 'border-b border-black/12 lg:border-b-0' }} container">
+        <div
+            class="relative flex nav-bar items-center justify-between transition-[background-color,box-shadow,border-radius,padding,margin] duration-300 ease-out"
+            :class="scrolled ? 'mt-2 rounded-2xl bg-white px-4 shadow-lg lg:mt-3 lg:px-6' : ''">
         <a href="{{ site:url ? site:url : '/' }}" class="flex flex-col items-start gap-2">
             <span class="sr-only">Home</span>
-            {{ svg :src="inverse ? 'logo-inverse' : 'logo'" class="h-8 sm:h-10 2xl:h-12 w-auto" }}
+            {{ if inverse }}
+                {{# Twee varianten omdat de logopaden een vaste vulkleur dragen:
+                    boven een foto de witte, op de witte container de gewone. #}}
+                <span x-show="!scrolled">{{ svg src="logo-inverse" class="h-8 sm:h-10 2xl:h-12 w-auto" }}</span>
+                <span x-show="scrolled" x-cloak>{{ svg src="logo" class="h-8 sm:h-10 2xl:h-12 w-auto" }}</span>
+            {{ else }}
+                {{ svg src="logo" class="h-8 sm:h-10 2xl:h-12 w-auto" }}
+            {{ /if }}
         </a>
 
         <nav class="hidden lg:block" aria-label="{{ trans:site.nav_label }}">
@@ -99,6 +119,7 @@
         </div>
 
         {{ partial:mobileNavigation :inverse="inverse" }}
+        </div>
     </div>
 
     {{ nav:main }}

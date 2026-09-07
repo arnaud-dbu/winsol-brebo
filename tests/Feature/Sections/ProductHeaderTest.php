@@ -114,12 +114,20 @@ class ProductHeaderTest extends SectionTestCase
         $nav = file_get_contents(resource_path('views/partials/navigation.antlers.html'));
 
         // Uit de flow en boven de pagina, anders schildert `main` eroverheen.
-        $this->assertStringContainsString("floating ? 'absolute inset-x-0 top-0 z-50' : 'relative'", $nav);
+        // `fixed` en niet meer `absolute`: de nav volgt de bezoeker sinds
+        // 06-09-2026 mee naar beneden, zodat de offerte-knop in beeld blijft.
+        // De header eronder reserveert de hoogte al, dus uit de flow halen
+        // verandert de layout niet.
+        $this->assertStringContainsString("floating ? 'fixed inset-x-0 top-0 z-50' : 'sticky top-0 z-50'", $nav);
 
         // Alles wat zwart is wordt wit; zwarte tekst op het donkere verloop is
         // onleesbaar. Dat hangt aan `inverse`, niet aan `floating`.
         $this->assertStringContainsString("nav_text_class = inverse ? 'text-white' : 'text-black'", $nav);
-        $this->assertStringContainsString("inverse ? 'logo-inverse' : 'logo'", $nav);
+        // Twee losse varianten in plaats van een ternary: op de witte container
+        // die bij het scrollen verschijnt moet het gewone logo komen, en de
+        // paden dragen een vaste vulkleur.
+        $this->assertStringContainsString("svg src=\"logo-inverse\"", $nav);
+        $this->assertStringContainsString("svg src=\"logo\"", $nav);
         $this->assertStringContainsString(':inverse="inverse"', $nav);
 
         // En het verloop waar dat op steunt moet blijven bestaan.

@@ -62,3 +62,45 @@
 @utility nav-link--open-light {
     @apply bg-white/12;
 }
+
+/*
+ * Zodra de balk zijn witte container krijgt, kan de tekst die boven een foto
+ * wit was niet wit blijven. De kleur staat als Tailwind-utility op het element
+ * zelf (`text-white`), dus die moet hier overschreven worden; vandaar de
+ * `!important` op deze twee nauw afgebakende regels en niet op de utility.
+ */
+.nav--solid .nav-link,
+.nav--solid .language-pill {
+    color: var(--color-black) !important;
+}
+
+.nav--solid .nav-link--light {
+    @apply hover:bg-black/5 focus-visible:bg-black/5;
+}
+
+/* De hamburger tekent met een eigen variabele, niet met currentColor. */
+.nav--solid .hamburger--light {
+    --hamburger-color: var(--color-black);
+}
+
+/* De rand van de taalpil was op de foto halfdoorzichtig wit. */
+.nav--solid .language-pill {
+    border-color: color-mix(in oklab, var(--color-black) 25%, transparent) !important;
+}
+
+/* Alpine zet `x-cloak` pas weg na boot; zonder dit flitst het tweede logo. */
+[x-cloak] {
+    display: none !important;
+}
+
+/*
+ * De vaste offerte-balk onderaan dekt anders de laatste regels van de footer
+ * af. De ruimte staat er altijd onder lg, ook zolang de balk nog verborgen is:
+ * hem pas bij het verschijnen toevoegen zou de pagina onder de vinger doen
+ * verspringen. De hoogte is de knop plus zijn padding.
+ */
+@media (width < 64rem) {
+    body {
+        padding-bottom: 4.5rem;
+    }
+}

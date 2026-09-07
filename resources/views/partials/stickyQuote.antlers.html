@@ -1,0 +1,48 @@
+{{#
+    Op mobiel zit de offerte-knop verstopt achter de hamburger, terwijl dat de
+    belangrijkste actie van de site is. Deze balk houdt hem onderaan in beeld.
+
+    Hij verschijnt zodra de tweede sectie in beeld komt: bovenaan staat de knop
+    al in de header en zou de balk de eerste indruk alleen maar afdekken. De
+    grens komt uit de DOM (`[data-section]`, de haak die elke sectie draagt) en
+    is niet een vast aantal pixels, want secties verschillen sterk in hoogte.
+
+    Wel met een plafond van anderhalf schermhoogte. Op mobiel worden secties zo
+    hoog dat de bovenkant van de tweede pas rond de vierduizend pixels ligt — de
+    knop kwam dan pas bij de cta onderaan tevoorschijn, en dat is te laat om nog
+    van nut te zijn.
+#}}
+{{ site_prefix = site:url == '/' ? '' : site:url }}
+<div
+    x-data="{
+        zichtbaar: false,
+        grens: 0,
+        meetGrens() {
+            const secties = document.querySelectorAll('[data-section]')
+            const tweede = secties[1]
+            const bovenkant = tweede
+                ? tweede.getBoundingClientRect().top + window.scrollY
+                : window.innerHeight
+            this.grens = Math.min(bovenkant, window.innerHeight * 1.5)
+        },
+        toets() {
+            this.zichtbaar = window.scrollY > this.grens
+        },
+        init() {
+            this.meetGrens()
+            this.toets()
+        },
+    }"
+    @scroll.window.passive="toets()"
+    @resize.window="meetGrens(); toets()"
+    x-show="zichtbaar"
+    x-cloak
+    x-transition:enter="transition duration-300 ease-out"
+    x-transition:enter-start="translate-y-full opacity-0"
+    x-transition:enter-end="translate-y-0 opacity-100"
+    x-transition:leave="transition duration-200 ease-in"
+    x-transition:leave-start="translate-y-0 opacity-100"
+    x-transition:leave-end="translate-y-full opacity-0"
+    class="sticky-quote fixed inset-x-0 bottom-0 z-40 border-t border-black/10 bg-white/90 px-4 py-3 backdrop-blur-sm lg:hidden">
+    <a href="{{ site_prefix }}/offerte" class="btn btn--primary w-full">{{ trans:site.nav_quote }}</a>
+</div>
