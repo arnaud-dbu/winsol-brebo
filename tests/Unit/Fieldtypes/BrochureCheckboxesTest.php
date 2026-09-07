@@ -103,4 +103,61 @@ class BrochureCheckboxesTest extends TestCase
         $this->assertSame('Rolluiken', $augmented[0]['label']);
         $this->assertSame('/r2/brochures/winsol-brochure-rolluiken-nl.pdf', $augmented[0]['url']);
     }
+    /**
+     * Het formulier post naar `/!/forms/brochure`, een route zonder taalprefix,
+     * dus tijdens de validatie is `Site::current()` de standaardtaal. Sinds de
+     * Franse brochures hun eigen pdf's kregen, viel de keuze van een Franse
+     * bezoeker daardoor buiten de allowlist. De regel faalde op `brochures.0`
+     * en niet op `brochures`, dus het formulier kwam zonder zichtbare fout
+     * terug: geen submissie, geen mail, geen logregel. Vandaar dat de
+     * allowlist alle talen omvat.
+     */
+    public function test_the_allowlist_accepts_a_brochure_from_another_language(): void
+    {
+        Site::setCurrent('nl');
+
+        $field = new Field('brochures', ['type' => 'brochure_checkboxes']);
+        $regels = $field->fieldtype()->extraRules();
+
+        $franseBestanden = collect(
+            GlobalSet::findByHandle('brochure_library')->in('fr')->get('items') ?? []
+        )->pluck('file');
+
+        $this->assertNotEmpty($franseBestanden, 'De Franse brochurebibliotheek is leeg.');
+
+        foreach ($franseBestanden as $bestand) {
+            $validator = Validator::make(
+                ['brochures' => [$bestand]],
+                ['brochures.*' => $regels['brochures.*']]
+            );
+
+            $this->assertTrue(
+                $validator->passes(),
+                "De Franse brochure {$bestand} hoort door de allowlist te komen."
+            );
+        }
+
+        // En de Nederlandse blijven natuurlijk ook door.
+        $nederlands = collect(
+            GlobalSet::findByHandle('brochure_library')->in('nl')->get('items') ?? []
+        )->pluck('file')->first();
+
+        $this->assertTrue(
+            Validator::make(['brochures' => [$nederlands]], ['brochures.*' => $regels['brochures.*']])->passes()
+        );
+    }
+
+    /** Een verzonnen pad hoort nog steeds te sneuvelen. */
+    public function test_the_allowlist_still_rejects_an_unknown_file(): void
+    {
+        $field = new Field('brochures', ['type' => 'brochure_checkboxes']);
+        $regels = $field->fieldtype()->extraRules();
+
+        $this->assertFalse(
+            Validator::make(
+                ['brochures' => ['brochures/bestaat-niet.pdf']],
+                ['brochures.*' => $regels['brochures.*']]
+            )->passes()
+        );
+    }
 }

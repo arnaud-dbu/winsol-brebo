@@ -33,11 +33,35 @@ class BrochureCheckboxes extends Checkboxes
         return ['array'];
     }
 
+    /**
+     * De allowlist loopt over alle talen, niet over de huidige.
+     *
+     * Het formulier post naar `/!/forms/brochure`, een route zonder taalprefix,
+     * dus `Site::current()` is daar de standaardtaal. Sinds de Franse brochures
+     * hun eigen pdf's kregen (`..._fr.pdf`) stond de keuze van een Franse
+     * bezoeker niet in die Nederlandse lijst. De regel faalt dan op
+     * `brochures.0` en niet op `brochures`, waardoor het formulier zonder
+     * zichtbare fout terugkeerde en de inzending stil verdween — geen
+     * opgeslagen submissie, geen mail, geen logregel.
+     */
     public function extraRules(): array
     {
         return [
-            $this->field->handle().'.*' => 'in:'.$this->items()->pluck('file')->implode(','),
+            $this->field->handle().'.*' => 'in:'.$this->bestandenInAlleTalen()->implode(','),
         ];
+    }
+
+    private function bestandenInAlleTalen()
+    {
+        $set = GlobalSet::findByHandle('brochure_library');
+
+        return collect(Site::all())
+            ->map(fn ($site) => $set?->in($site->handle()))
+            ->filter()
+            ->flatMap(fn ($variables) => collect($variables->get('items') ?? [])->pluck('file'))
+            ->filter()
+            ->unique()
+            ->values();
     }
 
     /**
