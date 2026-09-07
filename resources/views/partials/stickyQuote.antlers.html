@@ -43,6 +43,9 @@
     x-transition:leave="transition duration-200 ease-in"
     x-transition:leave-start="translate-y-0 opacity-100"
     x-transition:leave-end="translate-y-full opacity-0"
-    class="sticky-quote fixed inset-x-0 bottom-0 z-40 border-t border-black/10 bg-white/90 px-4 py-3 backdrop-blur-sm lg:hidden">
-    <a href="{{ site_prefix }}/offerte" class="btn btn--primary w-full">{{ trans:site.nav_quote }}</a>
+    class="sticky-quote fixed inset-x-0 bottom-0 z-40 px-4 pb-4 lg:hidden">
+    {{# Geen balk eromheen: de knop zweeft los over de pagina. De schaduw maakt
+        hem leesbaar boven een foto, want er is geen achtergrond meer die dat
+        doet. #}}
+    <a href="{{ site_prefix }}/offerte" class="btn btn--primary w-full shadow-lg">{{ trans:site.nav_quote }}</a>
 </div>

@@ -50,10 +50,25 @@
         en die header moet exact díe hoogte reserveren — met padding hier en een losse aanname daar zouden de twee uit elkaar
         lopen.
     #}}
-    <div class="{{ floating ? '' : 'border-b border-black/12 lg:border-b-0' }} container">
+    {{#
+        De onderrand hoort bij de balk die nog in de flow staat. Zodra de witte
+        container verschijnt zweeft de balk, en dan tekent die rand een los grijs
+        streepje er vlak onder — vandaar dat hij bij het scrollen doorzichtig
+        wordt in plaats van te verdwijnen: zo blijft de hoogte gelijk.
+    #}}
+    {{#
+        De ruimte boven de zwevende balk staat als padding op deze wrapper en
+        niet als `mt-` op de balk zelf: die marge klapt samen met de wrapper en
+        duwt dan de hele header naar beneden in plaats van er ruimte binnenin te
+        maken. Bij een `fixed`/`sticky` header op `top-0` verdwijnt hij daardoor
+        gewoon.
+    #}}
+    <div
+        class="{{ floating ? '' : 'border-b border-black/12 lg:border-b-0' }} container transition-[padding,border-color] duration-300"
+        :class="scrolled ? 'border-transparent pt-4' : ''">
         <div
-            class="relative flex nav-bar items-center justify-between transition-[background-color,box-shadow,border-radius,padding,margin] duration-300 ease-out"
-            :class="scrolled ? 'mt-2 rounded-2xl bg-white px-4 shadow-lg lg:mt-3 lg:px-6' : ''">
+            class="relative flex nav-bar items-center justify-between transition-[background-color,box-shadow,border-radius,padding] duration-300 ease-out"
+            :class="scrolled ? 'rounded-2xl bg-white px-4 shadow-lg lg:px-6' : ''">
         <a href="{{ site:url ? site:url : '/' }}" class="flex flex-col items-start gap-2">
             <span class="sr-only">Home</span>
             {{ if inverse }}
