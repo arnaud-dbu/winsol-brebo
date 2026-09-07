@@ -39,6 +39,13 @@ tabs:
               type: text
               display: City
           -
+            handle: phone
+            field:
+              type: text
+              input_type: tel
+              display: Phone
+              instructions: 'Het nummer van deze showroom, bv. +32 2 308 02 26. Staat onder de vestiging in de footer en op de contactpagina, en gaat mee in de LocalBusiness-schema.'
+          -
             handle: latitude
             field:
               type: float

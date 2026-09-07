@@ -9,6 +9,17 @@
                         <h3 class="text-xl font-semibold">{{ name | entities }}</h3>
                         {{# Eén expressie: los uitgeschreven breekt Prettier de regel vlak vóór de komma. #}}
                         <p class="text-base">{{ "{street} {number}, {postal_code} {city}" | entities }}</p>
+                        {{#
+                            Het nummer hoort bij de showroom die opneemt (Jimmy, 07-09-2026). Twee vestigingen delen dezelfde centrale; dat mag, de
+                            bezoeker belt de showroom die hij voor zich ziet.
+                        #}}
+                        {{ if phone }}
+                            <a
+                                href="tel:{{ phone | replace(' ', '') | entities }}"
+                                class="text-base font-semibold underline-offset-4 hover:underline">
+                                {{ phone | entities }}
+                            </a>
+                        {{ /if }}
                         {{ if opening_hours }}
                             <dl class="mt-2 flex flex-col gap-2 text-base">
                                 {{ opening_hours }}
@@ -22,7 +33,11 @@
                     </li>
                 {{ /collection:locations }}
             </ul>
-            {{ if globals:contact:mobile or globals:contact:phone_brussels or globals:contact:phone_antwerp or globals:contact:email }}
+            {{#
+                Geen telefoonnummers meer in deze balk: die staan nu per vestiging hierboven. Ze stonden er als "Brussel" en
+                "Antwerpen", en dat zijn geen vestigingen — Dilbeek en Sint-Pieters-Leeuw lazen dat als een andere streek dan de hunne.
+            #}}
+            {{ if globals:contact:mobile or globals:contact:email }}
                 <ul
                     class="flex flex-col gap-4 rounded-md bg-white px-6 py-5 md:flex-row md:items-center md:justify-center md:gap-10 lg:gap-28"
                     data-contact-bar>
@@ -42,25 +57,6 @@
                             </a>
                         </li>
                     {{ /if }}
-                    {{# Twee gescheiden centrales (Jimmy): 02 = Brussel links, 03 = Antwerpen rechts. Klanten bellen nooit de andere regio. #}}
-                    {{ if globals:contact:phone_brussels }}
-                        <li>
-                            <a
-                                class="group flex items-center gap-3 text-base font-semibold"
-                                href="tel:{{ globals:contact:phone_brussels | replace(' ', '') | entities }}">
-                                <span
-                                    class="contact-circle bg-accent text-black group-hover:bg-black group-hover:text-white group-focus-visible:bg-black group-focus-visible:text-white">
-                                    {{ icon src="phone" aria-hidden="true" class="size-6" }}
-                                </span>
-                                <span class="flex flex-col">
-                                    <span class="text-sm font-normal text-black/60">
-                                        {{ trans:site.contact_region_brussels }}
-                                    </span>
-                                    {{ globals:contact:phone_brussels | entities }}
-                                </span>
-                            </a>
-                        </li>
-                    {{ /if }}
                     {{ if globals:contact:email }}
                         <li>
                             <a
@@ -71,24 +67,6 @@
                                     {{ icon src="envelope" aria-hidden="true" class="size-6" }}
                                 </span>
                                 {{ globals:contact:email | entities }}
-                            </a>
-                        </li>
-                    {{ /if }}
-                    {{ if globals:contact:phone_antwerp }}
-                        <li>
-                            <a
-                                class="group flex items-center gap-3 text-base font-semibold"
-                                href="tel:{{ globals:contact:phone_antwerp | replace(' ', '') | entities }}">
-                                <span
-                                    class="contact-circle bg-accent text-black group-hover:bg-black group-hover:text-white group-focus-visible:bg-black group-focus-visible:text-white">
-                                    {{ icon src="phone" aria-hidden="true" class="size-6" }}
-                                </span>
-                                <span class="flex flex-col">
-                                    <span class="text-sm font-normal text-black/60">
-                                        {{ trans:site.contact_region_antwerp }}
-                                    </span>
-                                    {{ globals:contact:phone_antwerp | entities }}
-                                </span>
                             </a>
                         </li>
                     {{ /if }}

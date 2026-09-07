@@ -1,10 +1,10 @@
 ---
 id: 0ac9d675-ef88-41df-b599-0c8116815b7a
 origin: 9a3f52b1-0004-4c2d-8e6f-4a5b6c7d8e04
-title: 'Win Cube'
+title: 'WinCube'
 text: 'A patio cover with a roll-up fabric roof whose pitch you set yourself, with an extra screen at the front against the low sun.'
-meta_title: 'Win Cube patio cover'
-meta_description: 'The Win Cube from Winsol: a roll-up fabric roof with adjustable pitch, integrated wind-resistant screens and LED lighting in the gutter. Installed to measure.'
+meta_title: 'WinCube patio cover'
+meta_description: 'The WinCube from Winsol: a roll-up fabric roof with adjustable pitch, integrated wind-resistant screens and LED lighting in the gutter. Installed to measure.'
 page_builder:
   -
     id: wc-dak
@@ -19,7 +19,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'With the Win Cube, you set the pitch of the roll-up fabric roof yourself: flat for a sleek look, or sloping so the water drains away faster. An extra screen at the front blocks the low sun and limits prying eyes.'
+            text: 'With the WinCube, you set the pitch of the roll-up fabric roof yourself: flat for a sleek look, or sloping so the water drains away faster. An extra screen at the front blocks the low sun and limits prying eyes.'
       -
         type: paragraph
         attrs:
@@ -114,7 +114,7 @@ page_builder:
     id: wc-galerij
     type: image_gallery
     overline: Projects
-    title: 'The Win Cube in practice'
+    title: 'The WinCube in practice'
     images:
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2120).jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2193).jpg

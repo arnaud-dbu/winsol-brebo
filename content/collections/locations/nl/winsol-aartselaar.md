@@ -5,6 +5,7 @@ street: Boomsesteenweg
 number: '70'
 postal_code: '2630'
 city: Aartselaar
+phone: '+32 3 880 85 65'
 latitude: 51.114612
 longitude: 4.370697
 opening_hours:

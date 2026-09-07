@@ -8,20 +8,22 @@ use Tests\TestCase;
 class ContactGlobalsTest extends TestCase
 {
     /**
-     * Twee gescheiden centrales (Jimmy, werkoverleg 21/24-08): wie het
-     * Brusselse 02-nummer belt komt bij de Brusselse verkoper terecht, wie
-     * het Antwerpse 03-nummer belt bij de Antwerpse. Beide nummers zijn door
-     * Quinten aangeleverd op 26-08; alle aanvragen komen sinds
-     * 27-08-2026 op offertes@winsolspl.be binnen (Jimmy via WhatsApp): dat is
-     * ook het adres dat de site zelf toont.
+     * Alle aanvragen komen sinds 27-08-2026 op offertes@winsolspl.be binnen
+     * (Jimmy via WhatsApp): dat is ook het adres dat de site zelf toont.
+     *
+     * De twee telefooncentrales stonden hier ook, als `phone_brussels` en
+     * `phone_antwerp`. Ze zijn op 07-09-2026 naar de vestigingen verhuisd —
+     * zie LocationPhonesTest — omdat Brussel en Antwerpen geen vestigingen
+     * zijn en bezoekers uit Dilbeek en Sint-Pieters-Leeuw dat als een andere
+     * streek lazen.
      */
-    public function test_the_contact_details_carry_both_regional_numbers(): void
+    public function test_the_contact_details_carry_the_quote_address(): void
     {
         $contact = GlobalSet::findByHandle('globals')->inDefaultSite()->get('contact');
 
-        $this->assertSame('+32 2 308 02 26', $contact['phone_brussels']);
-        $this->assertSame('+32 3 880 85 65', $contact['phone_antwerp']);
         $this->assertSame('offertes@winsolspl.be', $contact['email']);
+        $this->assertArrayNotHasKey('phone_brussels', $contact);
+        $this->assertArrayNotHasKey('phone_antwerp', $contact);
     }
 
     public function test_the_company_address_is_the_dilbeek_branch(): void

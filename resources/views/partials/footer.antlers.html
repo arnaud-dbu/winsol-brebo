@@ -27,11 +27,13 @@
                     <ul class="flex flex-col gap-0.5">
                         {{ nav:main }}
                             {{ if entry.template != 'articles/index' || has_articles }}
-                            <li>
-                                <a href="{{ entry.url }}" class="text-white/60 transition-opacity hover:opacity-80">
-                                    {{ title }}
-                                </a>
-                            </li>
+                                <li>
+                                    <a
+                                        href="{{ entry.url }}"
+                                        class="text-white/60 transition-opacity hover:opacity-80">
+                                        {{ title }}
+                                    </a>
+                                </li>
                             {{ /if }}
                         {{ /nav:main }}
                         {{ nav:footer }}
@@ -43,56 +45,46 @@
                         {{ /nav:footer }}
                     </ul>
                 </div>
-                {{ if globals:contact:phone_brussels or globals:contact:phone_antwerp or globals:contact:email }}
-                    <div class="footer__column flex flex-col gap-4">
-                        <p class="font-bold text-white">{{ trans:site.footer_column_contact }}</p>
-                        <ul class="flex flex-col gap-0.5">
-                            {{ if globals:contact:phone_brussels }}
-                                <li>
-                                    <a
-                                        href="tel:{{ globals:contact:phone_brussels | replace(' ', '') }}"
-                                        class="text-white/60 transition-opacity hover:opacity-80">
-                                        {{ trans:site.contact_region_brussels }}
-                                        : {{ globals:contact:phone_brussels }}
-                                    </a>
+                {{#
+                    Geen "Brussel" en "Antwerpen" meer boven de nummers (Jimmy, 07-09-2026): dat zijn geen vestigingen, en wie in Dilbeek of
+                    Sint-Pieters-Leeuw woont las het als een andere streek. Elk nummer staat nu onder de showroom die opneemt. Deze kolom
+                    heeft daardoor ook geen buitenste voorwaarde meer nodig: hij draagt de drie showrooms, en die staan er altijd.
+                #}}
+                <div class="footer__column flex flex-col gap-4">
+                    <p class="font-bold text-white">{{ trans:site.footer_column_contact }}</p>
+                    <ul class="flex flex-col gap-0.5">
+                        {{ if globals:contact:email }}
+                            <li>
+                                <a
+                                    href="mailto:{{ globals:contact:email }}"
+                                    class="text-white/60 transition-opacity hover:opacity-80">
+                                    {{ globals:contact:email }}
+                                </a>
+                            </li>
+                        {{ /if }}
+                        {{#
+                            De drie showrooms in plaats van het ene adres uit de globals: een bezoeker moet in de footer meteen zien waar hij
+                            terecht kan. Volgorde volgt de structuur van de locations-collectie. `as` zodat een lege collectie het tagpaar niet één
+                            keer met de paginacontext rendert.
+                        #}}
+                        {{ collection:locations as="showrooms" }}
+                            {{ showrooms }}
+                                <li class="mt-2 text-white/60">
+                                    <span class="block text-white/80">{{ name | entities }}</span>
+                                    {{# Eén expressie: los uitgeschreven breekt Prettier de regel vlak vóór de komma, en dan staat er een spatie voor. #}}
+                                    {{ "{street} {number}, {postal_code} {city}" | entities }}
+                                    {{ if phone }}
+                                        <a
+                                            href="tel:{{ phone | replace(' ', '') }}"
+                                            class="block transition-opacity hover:opacity-80">
+                                            {{ phone | entities }}
+                                        </a>
+                                    {{ /if }}
                                 </li>
-                            {{ /if }}
-                            {{ if globals:contact:phone_antwerp }}
-                                <li>
-                                    <a
-                                        href="tel:{{ globals:contact:phone_antwerp | replace(' ', '') }}"
-                                        class="text-white/60 transition-opacity hover:opacity-80">
-                                        {{ trans:site.contact_region_antwerp }}
-                                        : {{ globals:contact:phone_antwerp }}
-                                    </a>
-                                </li>
-                            {{ /if }}
-                            {{ if globals:contact:email }}
-                                <li>
-                                    <a
-                                        href="mailto:{{ globals:contact:email }}"
-                                        class="text-white/60 transition-opacity hover:opacity-80">
-                                        {{ globals:contact:email }}
-                                    </a>
-                                </li>
-                            {{ /if }}
-                            {{# De drie showrooms in plaats van het ene adres uit de
-                                globals: een bezoeker moet in de footer meteen zien waar
-                                hij terecht kan. Volgorde volgt de structuur van de
-                                locations-collectie. `as` zodat een lege collectie het
-                                tagpaar niet één keer met de paginacontext rendert. #}}
-                            {{ collection:locations as="showrooms" }}
-                                {{ showrooms }}
-                                    <li class="mt-2 text-white/60">
-                                        <span class="block text-white/80">{{ name | entities }}</span>
-                                        {{# Eén expressie: los uitgeschreven breekt Prettier de regel vlak vóór de komma, en dan staat er een spatie voor. #}}
-                                        {{ "{street} {number}, {postal_code} {city}" | entities }}
-                                    </li>
-                                {{ /showrooms }}
-                            {{ /collection:locations }}
-                        </ul>
-                    </div>
-                {{ /if }}
+                            {{ /showrooms }}
+                        {{ /collection:locations }}
+                    </ul>
+                </div>
             </div>
         </div>
 

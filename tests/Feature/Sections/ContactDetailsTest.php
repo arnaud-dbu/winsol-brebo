@@ -64,8 +64,6 @@ class ContactDetailsTest extends SectionTestCase
         $html = $this->get('/contact')->assertOk()->getContent();
 
         $this->assertStringContainsString('contact-bar', $html);
-        $this->assertStringContainsString('+32 2 308 02 26', $html);
-        $this->assertStringContainsString('+32 3 880 85 65', $html);
         $this->assertStringContainsString('offertes@winsolspl.be', $html);
 
         // Geen WhatsApp: `contact.mobile` staat leeg tot Jimmy een echt nummer
@@ -74,23 +72,29 @@ class ContactDetailsTest extends SectionTestCase
     }
 
     /**
-     * Twee gescheiden centrales: het Brusselse 02-nummer staat links van het
-     * Antwerpse 03-nummer, elk met zijn regiolabel — klanten bellen nooit
-     * het nummer van de andere regio, dus de regio moet ernaast staan.
+     * Het nummer hoort bij de showroom die opneemt, niet bij een streek.
+     * "Brussel" en "Antwerpen" stonden tot 07-09-2026 als label boven de twee
+     * centrales; Jimmy liet ze weghalen omdat bezoekers uit Dilbeek en
+     * Sint-Pieters-Leeuw zich daar niet in herkennen.
      */
-    public function test_brussels_sits_left_of_antwerp_with_their_region_labels(): void
+    public function test_every_showroom_carries_its_own_number_and_no_region_label(): void
     {
+        // Alleen deze sectie: de footer eronder toont dezelfde drie nummers,
+        // en dan telt elk nummer dubbel.
         $html = $this->get('/contact')->assertOk()->getContent();
+        $start = strpos($html, 'data-section="contact_details"');
+        $sectie = substr($html, $start, strpos($html, '</section>', $start) - $start);
 
-        $brussels = strpos($html, '+32 2 308 02 26');
-        $antwerp = strpos($html, '+32 3 880 85 65');
+        foreach (['Winsol Dilbeek', 'Winsol Sint-Pieters-Leeuw', 'Winsol Aartselaar'] as $showroom) {
+            $this->assertStringContainsString($showroom, $sectie);
+        }
 
-        $this->assertNotFalse($brussels);
-        $this->assertNotFalse($antwerp);
-        $this->assertLessThan($antwerp, $brussels, 'Het 02-nummer hoort links (eerst in de markup) te staan.');
+        // Dilbeek en Sint-Pieters-Leeuw delen de 02-centrale, Aartselaar heeft de 03.
+        $this->assertSame(2, substr_count($sectie, 'href="tel:+3223080226"'));
+        $this->assertSame(1, substr_count($sectie, 'href="tel:+3238808565"'));
 
-        $this->assertStringContainsString('Brussel', $html);
-        $this->assertStringContainsString('Antwerpen', $html);
+        $this->assertStringNotContainsString('Brussel', $html);
+        $this->assertStringNotContainsString('Antwerpen', $html);
     }
 
     public function test_the_bar_links_are_dialable_and_the_wa_me_number_is_digits_only(): void
@@ -102,6 +106,7 @@ class ContactDetailsTest extends SectionTestCase
         $this->assertStringContainsString('href="tel:+3223080226"', $html);
         $this->assertStringContainsString('href="tel:+3238808565"', $html);
         $this->assertStringContainsString('href="mailto:offertes@winsolspl.be"', $html);
+        $this->assertStringNotContainsString('href="tel:+32 ', $html);
     }
 
     public function test_the_page_no_longer_ships_a_contact_form(): void

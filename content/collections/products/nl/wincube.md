@@ -1,12 +1,12 @@
 ---
 id: 9a3f52b1-0004-4c2d-8e6f-4a5b6c7d8e04
-title: 'Win Cube'
+title: 'WinCube'
 range:
   - 8c2e41a0-0001-4a1b-9c7d-3e5f6a7b8c01
 text: 'Een overkapping met oproldoek waarvan je de hellingshoek zelf bepaalt, met een extra screen vooraan tegen de laagstaande zon.'
 image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2126).jpg
-meta_title: 'Win Cube terrasoverkapping'
-meta_description: 'De Win Cube van Winsol: oproldoek met instelbare hellingshoek, geïntegreerde windvaste screens en led in de regengoot. Op maat geplaatst.'
+meta_title: 'WinCube terrasoverkapping'
+meta_description: 'De WinCube van Winsol: oproldoek met instelbare hellingshoek, geïntegreerde windvaste screens en led in de regengoot. Op maat geplaatst.'
 seo_noindex: false
 page_builder:
   -
@@ -22,7 +22,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Bij de Win Cube stel je de hellingshoek van het oproldoek zelf in: vlak voor een strakke look, of schuin zodat het water sneller wegloopt. Een extra screen aan de voorzijde houdt de laagstaande zon tegen en beperkt de inkijk.'
+            text: 'Bij de WinCube stel je de hellingshoek van het oproldoek zelf in: vlak voor een strakke look, of schuin zodat het water sneller wegloopt. Een extra screen aan de voorzijde houdt de laagstaande zon tegen en beperkt de inkijk.'
       -
         type: paragraph
         attrs:
@@ -117,7 +117,7 @@ page_builder:
     id: wc-galerij
     type: image_gallery
     overline: Realisaties
-    title: 'Win Cube in de praktijk'
+    title: 'WinCube in de praktijk'
     images:
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2120).jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2193).jpg

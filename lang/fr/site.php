@@ -24,8 +24,6 @@ return [
     'promo_cta_title' => 'Cette action vous intéresse ?',
     'promo_cta_text' => 'Demandez votre devis sans engagement, ou passez au showroom de Dilbeek, Sint-Pieters-Leeuw ou Aartselaar. Nous calculons votre avantage sur-le-champ.',
     'promo_cta_showroom' => 'Visiter un showroom',
-    'contact_region_brussels' => 'Bruxelles',
-    'contact_region_antwerp' => 'Anvers',
     'mail_greeting' => 'Bonjour',
     'mail_brochure_intro' => 'Merci de votre intérêt. Voici les brochures que vous avez demandées :',
     'mail_brochure_next' => 'Prêt pour la prochaine étape ?',

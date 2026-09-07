@@ -11,13 +11,12 @@ class FooterTest extends SectionTestCase
     /**
      * Deze test draait via SectionTestCase::render(), en die helper roept een
      * kale view() aan — zonder Statamic-cascade. `{{ globals:… }}` is daar
-     * altijd leeg, ongeacht wat er in content/globals/ staat. De Contact-
-     * `footer__column` valt hier dus weg op zijn `{{ if }}`-guard, ook nu de
-     * contactgegevens wél gevuld zijn. Op een echte pagerender
-     * ($this->get(…)) verschijnt die kolom wel.
+     * altijd leeg, ongeacht wat er in content/globals/ staat, dus het
+     * e-mailadres in de contactkolom blijft hier weg.
      *
-     * Deze test dekt daarom de twee kolommen die zonder cascade gevuld zijn
-     * (ranges + hoofdnavigatie) en de legal-links in het colofon.
+     * De kolom zelf staat er sinds 07-09-2026 wél: hij draagt nu ook de drie
+     * showrooms met hun telefoonnummer, en die komen uit de
+     * locations-collectie in plaats van uit de globals.
      */
     public function test_renders_populated_link_columns_and_a_colophon(): void
     {
@@ -30,8 +29,19 @@ class FooterTest extends SectionTestCase
 
         $html = $this->render('{{ partial:footer }}');
 
-        $this->assertSame(2, substr_count($html, 'footer__column'));
+        $this->assertSame(3, substr_count($html, 'footer__column'));
         $this->assertStringContainsString('footer__colophon', $html);
+
+        // Elke showroom met zijn eigen nummer, en geen streeknaam erboven
+        // (Jimmy, 07-09-2026).
+        foreach (['Winsol Dilbeek', 'Winsol Sint-Pieters-Leeuw', 'Winsol Aartselaar'] as $showroom) {
+            $this->assertStringContainsString($showroom, $html);
+        }
+
+        $this->assertSame(2, substr_count($html, 'href="tel:+3223080226"'));
+        $this->assertSame(1, substr_count($html, 'href="tel:+3238808565"'));
+        $this->assertStringNotContainsString('Brussel', $html);
+        $this->assertStringNotContainsString('Antwerpen', $html);
 
         // "BY BREBO" was een aparte, aria-hidden tekstspan naast het logo, maar
         // logo-inverse.svg tekent die merkregel zelf al als letterpaden. a257ed5

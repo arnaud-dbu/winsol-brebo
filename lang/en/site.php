@@ -24,8 +24,6 @@ return [
     'promo_cta_title' => 'Interested in this offer?',
     'promo_cta_text' => 'Request a no-obligation quote, or drop by the showroom in Dilbeek, Sint-Pieters-Leeuw or Aartselaar. We factor your discount in straight away.',
     'promo_cta_showroom' => 'Visit a showroom',
-    'contact_region_brussels' => 'Brussels',
-    'contact_region_antwerp' => 'Antwerp',
     'mail_greeting' => 'Hello',
     'mail_brochure_intro' => 'Thank you for your interest. Here are the brochures you requested:',
     'mail_brochure_next' => 'Ready for the next step?',

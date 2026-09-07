@@ -40,10 +40,10 @@ class OrganizationSchema
             '@id' => self::id(),
             'name' => Site::current()->name(),
             'url' => SiteUrl::absolute('/'),
-            'telephone' => array_values(array_filter([
-                trim((string) ($contact['phone_brussels'] ?? '')),
-                trim((string) ($contact['phone_antwerp'] ?? '')),
-            ])),
+            // Uit de vestigingen en niet uit de globals: het nummer hoort bij
+            // de showroom die opneemt. Stond het op twee plaatsen, dan zou een
+            // gewijzigde centrale er maar op één bijgewerkt worden.
+            'telephone' => LocationsSchema::phones(),
             'email' => trim((string) ($contact['email'] ?? '')),
             'sameAs' => self::sameAs($socials),
         ];

@@ -1,10 +1,10 @@
 ---
 id: c3fda22d-d1f2-4ddc-9c39-76382ec85aae
 origin: 9a3f52b1-0004-4c2d-8e6f-4a5b6c7d8e04
-title: 'Win Cube'
+title: 'WinCube'
 text: 'Une couverture de terrasse à toile enroulable dont vous réglez vous-même l''inclinaison, avec un screen supplémentaire à l''avant contre le soleil rasant.'
-meta_title: 'Couverture de terrasse Win Cube'
-meta_description: 'Le Win Cube de Winsol : toile enroulable à inclinaison réglable, screens intégrés résistants au vent et LED dans la gouttière. Posé sur mesure.'
+meta_title: 'Couverture de terrasse WinCube'
+meta_description: 'Le WinCube de Winsol : toile enroulable à inclinaison réglable, screens intégrés résistants au vent et LED dans la gouttière. Posé sur mesure.'
 page_builder:
   -
     id: wc-dak
@@ -19,7 +19,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Sur le Win Cube, vous réglez vous-même l''inclinaison de la toile enroulable : à plat pour un look épuré, ou en pente pour que l''eau s''écoule plus vite. Un screen supplémentaire à l''avant arrête le soleil rasant et limite les regards indiscrets.'
+            text: 'Sur le WinCube, vous réglez vous-même l''inclinaison de la toile enroulable : à plat pour un look épuré, ou en pente pour que l''eau s''écoule plus vite. Un screen supplémentaire à l''avant arrête le soleil rasant et limite les regards indiscrets.'
       -
         type: paragraph
         attrs:
@@ -114,7 +114,7 @@ page_builder:
     id: wc-galerij
     type: image_gallery
     overline: Réalisations
-    title: 'Le Win Cube en pratique'
+    title: 'Le WinCube en pratique'
     images:
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2120).jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2193).jpg

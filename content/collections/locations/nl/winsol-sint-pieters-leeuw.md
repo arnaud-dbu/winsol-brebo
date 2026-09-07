@@ -5,6 +5,7 @@ street: Bergensesteenweg
 number: '488'
 postal_code: '1600'
 city: 'Sint-Pieters-Leeuw'
+phone: '+32 2 308 02 26'
 latitude: 50.777979
 longitude: 4.269867
 opening_hours:

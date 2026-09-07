@@ -5,6 +5,7 @@ street: Ninoofsesteenweg
 number: '637'
 postal_code: '1700'
 city: Dilbeek
+phone: '+32 2 308 02 26'
 latitude: 50.842047
 longitude: 4.237594
 opening_hours:

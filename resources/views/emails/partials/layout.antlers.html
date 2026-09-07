@@ -118,25 +118,24 @@
                                     </a>
                                     <br />
                                 {{ /if }}
-                                {{ if globals:contact:phone_brussels }}
-                                    {{ trans:site.contact_region_brussels }}
-                                    :
-                                    <a
-                                        href="tel:{{ globals:contact:phone_brussels | replace(' ', '') }}"
-                                        style="color: #6b7280; text-decoration: none">
-                                        {{ globals:contact:phone_brussels }}
-                                    </a>
-                                    &nbsp;·&nbsp;
-                                {{ /if }}
-                                {{ if globals:contact:phone_antwerp }}
-                                    {{ trans:site.contact_region_antwerp }}
-                                    :
-                                    <a
-                                        href="tel:{{ globals:contact:phone_antwerp | replace(' ', '') }}"
-                                        style="color: #6b7280; text-decoration: none">
-                                        {{ globals:contact:phone_antwerp }}
-                                    </a>
-                                {{ /if }}
+                                {{#
+                                    De showrooms met hun eigen nummer, niet twee nummers onder "Brussel" en "Antwerpen": dat zijn geen vestigingen (Jimmy,
+                                    07-09-2026). `as` zodat een lege collectie het tagpaar niet één keer met de bovenliggende context rendert.
+                                #}}
+                                {{ collection:locations as="showrooms" }}
+                                    {{ showrooms }}
+                                        {{ if phone }}
+                                            {{ name }}
+                                            :
+                                            <a
+                                                href="tel:{{ phone | replace(' ', '') }}"
+                                                style="color: #6b7280; text-decoration: none">
+                                                {{ phone }}
+                                            </a>
+                                            <br />
+                                        {{ /if }}
+                                    {{ /showrooms }}
+                                {{ /collection:locations }}
                                 <br />
                                 <a href="{{ config:app:url }}" style="color: #6b7280; text-decoration: none">
                                     {{ config:app:url | replace('https://', '') | replace('http://', '') }}

@@ -14,8 +14,6 @@ return [
     'footer_column_aanbod' => 'Aanbod',
     'footer_column_bedrijf' => 'Bedrijf',
     'footer_column_contact' => 'Contact',
-    'contact_region_brussels' => 'Brussel',
-    'contact_region_antwerp' => 'Antwerpen',
     'footer_copyright' => 'Winsol Dilbeek, Sint-Pieters-Leeuw & Aartselaar',
     'filter_all' => 'Toon alles',
     'filter_label' => 'Filter artikels op thema',

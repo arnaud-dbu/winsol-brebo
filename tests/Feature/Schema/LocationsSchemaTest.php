@@ -50,13 +50,17 @@ class LocationsSchemaTest extends TestCase
     }
 
     /**
-     * Het gedeelde nummer staat bewust op Organization, niet op de drie
-     * vestigingen (zie het ontwerpdocument, open punt 2).
+     * Het nummer stond tot 07-09-2026 alleen op Organization, omdat twee
+     * showrooms dezelfde centrale delen. Jimmy liet de streeknamen weghalen en
+     * het nummer onder de vestiging zetten; dan hoort het ook in de
+     * LocalBusiness van die vestiging te staan. Organization houdt de
+     * ontdubbelde lijst — zie LocationPhonesTest.
      */
-    public function test_no_node_carries_its_own_telephone(): void
+    public function test_every_node_carries_the_telephone_of_its_showroom(): void
     {
         foreach (LocationsSchema::nodes() as $node) {
-            $this->assertArrayNotHasKey('telephone', $node);
+            $this->assertArrayHasKey('telephone', $node, "{$node['name']} heeft geen telefoonnummer");
+            $this->assertMatchesRegularExpression('/^\+32 \d/', $node['telephone']);
         }
     }
 }

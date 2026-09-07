@@ -11,7 +11,12 @@ use Tests\TestCase;
 
 class OrganizationSchemaTest extends TestCase
 {
-    public function test_the_node_uses_the_site_name_and_both_regional_numbers(): void
+    /**
+     * De nummers komen sinds 07-09-2026 uit de vestigingen en niet meer uit de
+     * globals. Twee showrooms delen de 02-centrale, dus het organisatieknooppunt
+     * hoort er twee te dragen en niet drie.
+     */
+    public function test_the_node_uses_the_site_name_and_the_numbers_of_the_showrooms(): void
     {
         $node = OrganizationSchema::node();
 

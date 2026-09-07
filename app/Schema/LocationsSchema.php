@@ -13,17 +13,36 @@ class LocationsSchema
      */
     public static function nodes(): array
     {
-        // Bewust de defaultsite: één LocalBusiness per vestiging (niet per
-        // taal), en OpeningHours parseert de Nederlandse dagnamen.
-        return Entry::query()
-            ->where('collection', 'locations')
-            ->where('site', Site::default()->handle())
-            ->orderBy('order')
-            ->get()
+        // Eén LocalBusiness per vestiging (niet per taal), en OpeningHours
+        // parseert de Nederlandse dagnamen — zie entries().
+        return self::entries()
             ->map(fn (EntryContract $entry) => self::node($entry))
             ->filter()
             ->values()
             ->all();
+    }
+
+    /**
+     * De telefoonnummers van de vestigingen, ontdubbeld en in boomvolgorde.
+     *
+     * Twee showrooms delen dezelfde centrale, dus zonder ontdubbelen zou het
+     * organisatieknooppunt hetzelfde nummer twee keer opgeven.
+     *
+     * @return list<string>
+     */
+    public static function phones(): array
+    {
+        $nummers = [];
+
+        foreach (self::entries() as $entry) {
+            $nummer = trim((string) $entry->get('phone'));
+
+            if ($nummer !== '' && ! in_array($nummer, $nummers, true)) {
+                $nummers[] = $nummer;
+            }
+        }
+
+        return $nummers;
     }
 
     /**
@@ -36,7 +55,7 @@ class LocationsSchema
     {
         $cities = [];
 
-        foreach (Entry::query()->where('collection', 'locations')->where('site', Site::default()->handle())->orderBy('order')->get() as $entry) {
+        foreach (self::entries() as $entry) {
             $city = trim((string) $entry->get('city'));
 
             if ($city !== '' && ! in_array($city, $cities, true)) {
@@ -45,6 +64,21 @@ class LocationsSchema
         }
 
         return $cities;
+    }
+
+    /**
+     * Bewust de defaultsite: een vestiging is er maar één, ongeacht de taal
+     * waarin de bezoeker de site leest.
+     *
+     * @return \Illuminate\Support\Collection<int, EntryContract>
+     */
+    private static function entries()
+    {
+        return Entry::query()
+            ->where('collection', 'locations')
+            ->where('site', Site::default()->handle())
+            ->orderBy('order')
+            ->get();
     }
 
     /**
@@ -73,6 +107,7 @@ class LocationsSchema
                 'addressLocality' => trim((string) $entry->get('city')),
                 'addressCountry' => 'BE',
             ],
+            'telephone' => trim((string) $entry->get('phone')),
             'geo' => self::geo($entry),
             'openingHoursSpecification' => OpeningHours::specifications(
                 (array) ($entry->get('opening_hours') ?? [])
