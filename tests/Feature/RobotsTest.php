@@ -48,4 +48,17 @@ class RobotsTest extends TestCase
     {
         $this->assertTrue(config('app.indexable'), 'Zonder SITE_INDEXABLE moet een site gewoon indexeerbaar zijn.');
     }
+
+    /**
+     * `robots.txt` antwoordt in productie met een 404, en een bestand hier is
+     * precies wat nginx zoekt: het zou die 404 oplossen. De statuscode zelf kan
+     * geen toets in de suite zien, die komt uit nginx.
+     */
+    public function test_no_static_file_shadows_the_route(): void
+    {
+        $this->assertFileDoesNotExist(
+            public_path('robots.txt'),
+            'nginx serveert een bestand in `public` rechtstreeks, en zet daarmee de route en SITE_INDEXABLE buitenspel. De 404 hoort in de nginx-config opgelost te worden, niet met een bestand.'
+        );
+    }
 }

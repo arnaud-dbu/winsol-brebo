@@ -17,11 +17,11 @@ domein had opgebouwd verdampt.
 
 **Status:** ready-for-human
 
-- [ ] `SITE_INDEXABLE=true` staat op productie
-- [ ] `winsol-brebo.be/robots.txt` bevat geen `Disallow: /` meer
-- [ ] Een willekeurige pagina van de nieuwe site draagt geen `noindex` meer uit,
+- [x] `SITE_INDEXABLE=true` staat op productie
+- [x] `winsol-brebo.be/robots.txt` bevat geen `Disallow: /` meer
+- [x] Een willekeurige pagina van de nieuwe site draagt geen `noindex` meer uit,
       niet in de header en niet in de markup
-- [ ] Dit is gebeurd vóór ticket 03 begint
+- [x] Dit is gebeurd vóór ticket 03 begint
 
 ## Comments
 
@@ -74,3 +74,25 @@ curl -sS  https://winsol-brebo.be/ | grep -c noindex        # hoort 0 te geven
 `/aanbod/terrasoverkapping` geven alle vijf een 200, en `sitemap.xml` geeft een
 index met vijf deelsitemaps. Het vierde vinkje gaat dus over de volgorde en niet
 over een gat in de inhoud: er is een indexeerbare bestemming zodra de vlag om is.
+
+**De vlag is om, en de vier vinkjes staan.** Nagemeten op 2026-09-09, later op de
+dag dan de meting bovenaan. Die eerste alinea beschrijft dus de stand van vóór de
+omzetting en niet de stand van nu:
+
+```
+$ curl -sS  https://winsol-brebo.be/robots.txt        Disallow: zonder /, met de Sitemap-regel
+$ curl -sSI https://winsol-brebo.be/  | grep -i x-robots-tag    geen treffer
+$ curl -sSI https://winsol-brebo.be/contact | grep -i x-robots-tag    geen treffer
+$ curl -sS  https://winsol-brebo.be/  | grep -c noindex          0, in 190 kB markup
+$ dig +short winsoldilbeek.be                          185.162.30.82, nog de oude server
+```
+
+Het eerste vinkje is niet in Forge nagekeken maar afgeleid, en dat kan hier ook:
+`robots.txt` en de `X-Robots-Tag` hebben allebei `config('app.indexable')` als
+enige bron, en ze zijn allebei omgeslagen. Het vierde vinkje staat omdat het DNS
+nog op de oude server wijst: ticket 03 is niet begonnen, dus dit is er vóór
+gebeurd.
+
+Wat hierna nog opvalt is geen zaak van dit ticket: `robots.txt` antwoordt met een
+404, en de `Sitemap:`-regel wordt daardoor niet gelezen. Dat staat als ticket 05,
+met het gereedschap en de nginx-ingreep erbij.
