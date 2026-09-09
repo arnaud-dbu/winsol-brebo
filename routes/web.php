@@ -3,14 +3,11 @@
 use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
-// De view wordt hier buiten Statamic's cascade gerenderd, dus `{{ config:… }}`
-// is er leeg. Alles wat de template nodig heeft gaat daarom expliciet mee.
-Route::get('robots.txt', function () {
-    return response(view('robots', [
-        'indexable' => (bool) config('app.indexable'),
-        'site_url' => config('app.url'),
-    ]), 200, ['Content-Type' => 'text/plain']);
-});
+// `robots.txt` staat als bestand in `public/` en niet als route hier. Het
+// standaard nginx-recept voor Laravel serveert dat pad rechtstreeks van schijf,
+// zonder `try_files`, waardoor een route op dit pad een 404 meekrijgt. Het
+// bestand is daarmee de enige bron; `SITE_INDEXABLE` stuurt alleen nog de
+// `X-Robots-Tag` in `NoIndexHeader`.
 
 // RFC 9116. `Expires` wordt berekend en niet ingetypt: een verlopen datum
 // maakt het bestand ongeldig, en een bestand dat één keer per jaar met de hand

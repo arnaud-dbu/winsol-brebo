@@ -59,12 +59,16 @@ return [
     | Indexeerbaar
     |--------------------------------------------------------------------------
     |
-    | Staat dit uit, dan sluit robots.txt de hele site af. Bedoeld voor
-    | staging: daar maakt de Inspace-koppeling echte artikels aan, en die
-    | mogen niet geïndexeerd raken als duplicaat van de live site.
+    | Staat dit uit, dan draagt elke respons `X-Robots-Tag: noindex, nofollow`.
+    | Bedoeld voor staging: daar maakt de Inspace-koppeling echte artikels aan,
+    | en die mogen niet geïndexeerd raken als duplicaat van de live site.
     |
     | Niet af te leiden uit APP_ENV, want staging draait daar ook op
     | `production`. Vandaar een eigen vlag.
+    |
+    | Deze vlag raakt `robots.txt` niet: dat is een statisch bestand in
+    | `public/` en staat op elke omgeving open. Het indexeren wordt dus door de
+    | header tegengehouden en niet door `Disallow: /`; crawlen mag op staging.
     |
     */
 

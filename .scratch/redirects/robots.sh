@@ -6,13 +6,16 @@
 #   ./robots.sh                             tegen de productiesite
 #   ./robots.sh http://winsol-brebo.test    tegen een andere basis, bijvoorbeeld Herd
 #
-# De inhoud komt uit de route in `routes/web.php`, de statuscode uit nginx. Juist
-# die twee lopen uiteen: heeft `location = /robots.txt` geen `try_files`, dan
-# zoekt nginx een bestand `public/robots.txt` dat er niet is, komt op zijn eigen
-# 404 uit, en stuurt het verzoek via `error_page` alsnog naar `index.php`. De
-# route rendert dan de juiste tekst, maar de 404 blijft eroverheen staan.
-# `RobotsTest` draait door de kernel en ziet dat niet: die krijgt zijn 200
-# rechtstreeks van de route.
+# De inhoud staat als bestand in `public/robots.txt`, de statuscode komt uit
+# nginx. Op een server met `public/` als documentroot serveert nginx dat bestand
+# rechtstreeks en geeft het een 200. Lokaal in Herd niet: daar staat de root op
+# `/`, dus nginx vindt het bestand niet, komt op zijn eigen 404 uit, en stuurt
+# het verzoek via `error_page` alsnog door. De inhoud is dan goed en de code
+# niet. Wil je lokaal ook een 200, haal dan de regel
+# `location = /robots.txt` uit `herd.conf`.
+#
+# `RobotsTest` toetst de inhoud van het bestand en kan de statuscode niet zien;
+# die ontstaat pas in nginx. Vandaar dit script.
 #
 # Twee verzoeken per run, dus vrij te draaien vanaf elke machine.
 

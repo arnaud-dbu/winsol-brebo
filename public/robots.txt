@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://winsol-brebo.be/sitemap.xml

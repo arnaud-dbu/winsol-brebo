@@ -7,7 +7,6 @@ bootstrap
 
 # Platte tekst met een .antlers.html-extensie. Prettier ziet HTML, plakt alle
 # regels aan elkaar en maakt er één onbruikbare regel van.
-resources/views/robots.antlers.html
 resources/views/security.antlers.html
 resources/views/emails/brochure_text.antlers.html
 resources/views/emails/notification_text.antlers.html

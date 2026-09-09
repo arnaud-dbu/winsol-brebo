@@ -48,6 +48,21 @@ class NoIndexHeaderTest extends TestCase
             ->assertHeader('X-Robots-Tag', 'noindex, nofollow');
     }
 
+    /**
+     * De vlag hangt bewust niet aan APP_ENV: staging draait daar ook op
+     * `production`, dus daarop sturen zou de omgeving die het hardst
+     * afgeschermd moet worden juist openzetten. Stond eerder in `RobotsTest`,
+     * en hoort hier sinds `robots.txt` een statisch bestand is: de header is de
+     * enige uitgang van de vlag die nog overblijft.
+     */
+    public function test_the_flag_is_independent_of_the_environment(): void
+    {
+        config()->set('app.env', 'production');
+        config()->set('app.indexable', false);
+
+        $this->get('/nieuws')->assertHeader('X-Robots-Tag', 'noindex, nofollow');
+    }
+
     public function test_an_indexable_site_carries_no_such_header(): void
     {
         config()->set('app.indexable', true);

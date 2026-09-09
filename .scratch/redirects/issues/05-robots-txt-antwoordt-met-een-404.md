@@ -156,3 +156,56 @@ sed -i '' '/location = \/robots.txt/d' ~/Library/Application\ Support/Herd/confi
 herd restart nginx
 ./.scratch/redirects/robots.sh http://winsol-brebo.test
 ```
+
+**Besloten: een statisch bestand, niet de nginx-regel.** Dit vervangt stap 1 en
+stap 4 van het vorige blok. `public/robots.txt` bestaat nu als echt bestand, en
+dat is precies wat het nginx-recept op dat pad verwacht. De keuze is bewust
+gemaakt met de ruil erbij; hieronder wat die ruil is, zodat niemand hem later
+opnieuw hoeft uit te zoeken.
+
+**Wat er in de code veranderde.**
+
+- `public/robots.txt` toegevoegd. 70 bytes,
+  `2a923ce84fc8c3a26c4178584e05906a4c3ced296f8eae29bd3ac372ec1865d9`.
+- De route in `routes/web.php` en de view `resources/views/robots.antlers.html`
+  zijn weg. nginx serveert het bestand vóór PHP, dus die route was dode code die
+  er wel gezaghebbend bij stond.
+- `RobotsTest` toetst nu het bestand in plaats van de route, plus
+  `test_no_route_shadows_the_file`: dat is de omkering van de guard die hier
+  eerst stond. Wie de route terugzet, krijgt hem rood.
+- De toelichting bij `SITE_INDEXABLE` in `config/app.php` en de docblock van
+  `NoIndexHeader` zijn bijgewerkt. Die beschreven allebei een `robots.txt` die
+  op de vlag reageert, en dat doet hij niet meer.
+
+**De inhoud is inhoudelijk gelijk, byte-wise niet.** Was 72 bytes met
+`b9b5aacc…`, is nu 70 bytes: de lege eerste regel die de `{{ if }}` in de view
+achterliet is weg, en de lege regel aan het eind ook. Dezelfde drie richtlijnen,
+dezelfde sitemap. Het tweede vinkje gaat dus op inhoud af en niet meer op de som
+uit het blok hierboven.
+
+**Wat de ruil is.** `SITE_INDEXABLE` stuurt `robots.txt` niet meer, alleen nog de
+`X-Robots-Tag` uit `NoIndexHeader`. Op staging staat `robots.txt` dus open:
+crawlen mag daar nu, indexeren nog steeds niet, want die header blijft. Static
+caching staat op productie op `half`, dus PHP loopt en die header wordt gezet.
+Wil je crawlen op staging ook dichtzetten, dan moet dat per omgeving in
+`public/robots.txt` en niet meer met de vlag.
+
+Daarnaast staat de `Sitemap:`-regel nu vast op `https://winsol-brebo.be`. Hij
+volgt `APP_URL` niet meer, dus een domeinwissel of een extra omgeving vraagt een
+handmatige aanpassing. `test_it_names_the_sitemap_of_the_live_site` houdt in de
+gaten dat er het live domein staat.
+
+**Lokaal blijft het een 404, en dat is verwacht.** Herd zet de documentroot op
+`/` en niet op `public/`, dus nginx vindt het bestand daar niet en komt alsnog op
+zijn eigen 404 uit; de inhoud die je ziet komt er via `error_page` achteraan. Op
+Forge staat de root wél op `public/`, dus daar serveert nginx het bestand
+rechtstreeks met een 200. Wil je lokaal hetzelfde beeld als productie, dan haal
+je die regel uit `herd.conf` (het commando staat in het blok hierboven).
+
+**Wat de mens nog doet.**
+
+1. Deployen. Het bestand staat in de repo, dus verder is er niets in te stellen.
+2. `./.scratch/redirects/robots.sh` draaien. Die hoort "Alles goed" te geven, en
+   dat zet het eerste vinkje.
+3. De sitemap in Search Console indienen (`sitemap.xml`). Dat vinkje staat los
+   van deze keuze en blijft nodig.
