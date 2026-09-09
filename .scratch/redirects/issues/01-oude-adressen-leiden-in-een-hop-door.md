@@ -90,3 +90,22 @@ spreekt van "165 regels", de spec van "alle 1673 regels"; `mapping.md` heeft er
 127 en de sitemap 1674 adressen. De tabel volgt `mapping.md`, en een toets
 vergelijkt die twee regel voor regel — anders valt een regel geruisloos weg en
 absorbeert de klim hem zonder dat de suite iets merkt.
+
+**Vier bevindingen uit een tweede review, gedaan tijdens ticket 02.** Alle vier
+laag, geen ervan opgelost: de code was al gecommit en dit ticket wacht alleen nog
+op de deploy. Wie het oppakt, weegt zelf of ze mee moeten.
+
+1. `LegacyRedirect.php:51` De brochureregel staat vóór de `! $climb`-uitgang en
+   vuurt dus ook op de nieuwe host. `http://winsol-brebo.be/nl/wat-dan-ook/download-brochure-berner`
+   geeft een 301 naar `/brochures` in plaats van de 404 die dit ticket vraagt.
+   Geen bestaand adres raakt het vandaag. De regel onder de uitgang zetten sluit het.
+2. `RedirectLegacyUrls.php:44` De doorval stuurt `$path` door, dat
+   `normalise()` al kleingemaakt heeft. Voor het opzoeken is dat juist, voor een
+   pad dat ongewijzigd meegaat niet: 600 van de 1037 assetpaden op de nieuwe site
+   hebben hoofdletters, dus zo'n adres komt gegarandeerd op een 404 uit.
+3. `RedirectLegacyUrls.php:24` Op de oude host wordt ook
+   `/.well-known/acme-challenge/…` omgeleid. Zie de aantekening bij ticket 03.
+4. `LegacyRedirectTest.php:103` `$section[0]` en `$block[1]` worden gelezen
+   zonder te toetsen of de match lukte. Verandert `mapping.md` van vorm, dan
+   sterft de toets op "Undefined array key" in plaats van te falen met de
+   melding uit zijn docblock.

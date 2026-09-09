@@ -36,3 +36,17 @@ indexeerbare bestemming verdampt de overgedragen waarde)
 - [ ] Het domein blijft geregistreerd, en er is afgesproken wie dat bewaakt
 - [ ] Er is een weg terug: bekend is welke DNS-waarden er stonden, zodat de
       omzetting binnen het uur teruggedraaid kan worden
+
+## Comments
+
+**Let op bij het certificaat: de omleiding uit ticket 01 pakt ook
+`/.well-known/acme-challenge/…`.** Op de oude host geeft dat pad een 301 naar
+`winsol-brebo.be`, waar het bestand niet bestaat. In de normale opstelling van
+Forge serveert nginx de challenge via `try_files` voordat PHP aan bod komt, dus
+meestal merk je hier niets van. Valt dat om welke reden dan ook door naar de
+applicatie, dan volgt Let's Encrypt de omleiding, vindt niets, en faalt de
+controle op een manier die op een DNS-probleem lijkt terwijl het de omleiding is.
+
+Loopt de aanvraag vast: zet `RedirectLegacyUrls` even uit, of geef de middleware
+een uitzondering voor `.well-known`, en probeer opnieuw. Gevonden bij de review
+tijdens ticket 02.
