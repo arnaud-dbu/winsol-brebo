@@ -152,6 +152,22 @@ zodra je ook `spaceBetween` laat variëren, anders valt die terug op de basis.
   (`prettier-plugin-tailwindcss`) en de Antlers-formattering
   (`prettier-plugin-antlers`). Niet handmatig herschikken.
 
+## Agent skills
+
+### Issue tracker
+
+Issues en specs staan als markdown in `.scratch/<feature>/`, niet op GitHub.
+Zie `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+De vijf standaardrollen, ongewijzigd. Zie `docs/agents/triage-labels.md`.
+
+### Domeindocs
+
+Eén context: `CONTEXT.md` en `docs/adr/` in de root.
+Zie `docs/agents/domain.md`.
+
 ===
 
 <laravel-boost-guidelines>
