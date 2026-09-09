@@ -3,6 +3,7 @@
 use App\Http\Middleware\InspaceRevisionsGuard;
 use App\Http\Middleware\InspaceToken;
 use App\Http\Middleware\NoIndexHeader;
+use App\Http\Middleware\RedirectLegacyUrls;
 use App\Http\Middleware\RedirectTrailingSlash;
 use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
@@ -36,12 +37,17 @@ return Application::configure(basePath: dirname(__DIR__))
         // HSTS geruisloos met versturen en downgrade de trailing-slash-
         // omleiding bezoekers stilzwijgend naar `http://`.
         //
-        // NoIndexHeader en SecurityHeaders staan vóór RedirectTrailingSlash:
-        // die laatste retourneert een 301 zonder `$next` aan te roepen, dus
-        // alleen middleware die er vóór staat wikkelt zich nog om die respons
-        // heen.
+        // NoIndexHeader en SecurityHeaders staan vóór de twee
+        // omleidingen: die retourneren een 301 zonder `$next` aan te roepen,
+        // dus alleen middleware die ervóór staat wikkelt zich nog om die
+        // respons heen.
+        //
+        // RedirectLegacyUrls staat op zijn beurt vóór RedirectTrailingSlash.
+        // Elk adres van de oude site eindigt op een slash, dus andersom werd
+        // het twee sprongen in plaats van één.
         $middleware->append(NoIndexHeader::class);
         $middleware->append(SecurityHeaders::class);
+        $middleware->append(RedirectLegacyUrls::class);
         $middleware->append(RedirectTrailingSlash::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
