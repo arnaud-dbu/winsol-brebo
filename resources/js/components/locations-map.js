@@ -17,7 +17,20 @@ const PIN_SELECTOR = '[data-map-pin]'
 const FOCUS_ZOOM = 13
 const BOUNDS_PADDING = [40, 40]
 
-const TILE_URL = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
+/*
+ * Publieke basemap-key: hij staat sowieso in elke tegel-URL die de browser
+ * ophaalt, dus er valt niets te verbergen. Bewust hardcoded en niet in .env —
+ * CARTO zet sinds eind augustus 2026 een "API KEY REQUIRED"-watermerk op elke
+ * keyloze tegel, en een build-time env-var die op de deploy-server ontbreekt
+ * zou dat watermerk stil terugbrengen zonder dat een test of review erover
+ * valt.
+ *
+ * TODO: CARTO faseert de raster-tegels uit ten gunste van vector. Dat is een
+ * migratie van Leaflet naar MapLibre, dus geen losse regel; inplannen voordat
+ * ze een datum prikken.
+ */
+const TILE_KEY = 'cb1_33pa_1_89da1c3a8266382ec3524a00'
+const TILE_URL = `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${TILE_KEY}`
 const TILE_SUBDOMAINS = 'abcd'
 const TILE_MAX_ZOOM = 20
 
