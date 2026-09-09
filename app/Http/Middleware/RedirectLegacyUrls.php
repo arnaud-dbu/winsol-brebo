@@ -26,6 +26,17 @@ class RedirectLegacyUrls
         }
 
         $path = LegacyRedirect::normalise($request->getPathInfo());
+
+        // `/.well-known/` is gereserveerd voor het protocol; er staat geen
+        // pagina van de oude site. Let's Encrypt haalt zijn controlebestand
+        // hier op via het domein zelf, en een omleiding stuurt die controle
+        // naar een host waar de token niet bestaat: de certificaataanvraag
+        // faalt dan op iets dat op een DNS-probleem lijkt. De naald staat
+        // zonder afsluitende slash omdat `normalise()` die er al af haalt.
+        if (str_starts_with($path, '/.well-known')) {
+            return $next($request);
+        }
+
         $legacy = in_array(
             strtolower($request->getHost()),
             config('legacy_redirects.hosts'),

@@ -357,4 +357,26 @@ class LegacyRedirectTest extends TestCase
     {
         $this->request(self::NEW_HOST.'/aanbod/rolluiken/bestaat-niet')->assertStatus(404);
     }
+
+    /**
+     * In de opzet van Forge serveert nginx het controlebestand van Let's
+     * Encrypt via `try_files` voordat PHP aan bod komt, dus meestal komt dit
+     * pad hier niet eens langs. Valt dat door, dan hoort er een eerlijk
+     * antwoord te staan; waarom, staat bij de guard in `RedirectLegacyUrls`.
+     */
+    public function test_the_reserved_well_known_namespace_is_never_redirected(): void
+    {
+        $this->request(self::OLD_HOST.'/.well-known/acme-challenge/tok')->assertStatus(404);
+
+        // De kale namespace ook: `normalise()` haalt de afsluitende slash
+        // eraf, dus zonder die vorm zou juist die weer omgeleid worden. Met
+        // slash blijft `RedirectTrailingSlash` erna aan zet, en die houdt het
+        // op dezelfde host.
+        $this->request(self::OLD_HOST.'/.well-known')->assertStatus(404);
+
+        // De namespace gaat in zijn geheel mee, niet alleen `acme-challenge`:
+        // `security.txt` is van deze applicatie en werd op de oude host mee
+        // omgeleid.
+        $this->request(self::OLD_HOST.'/.well-known/security.txt')->assertOk();
+    }
 }
