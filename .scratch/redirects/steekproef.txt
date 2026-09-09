@@ -1,0 +1,16 @@
+# De steekproef van ticket 04: per laag van de tabel één adres.
+#
+# label|pad op de oude site|verwachte bestemming|verwachte status daar
+#
+# `steekproef.sh` toetst deze lijst in productie met curl,
+# `LegacyRedirectTest::test_the_production_sample_matches_the_table` offline
+# tegen de tabel. Die toets pint ook de labels: een laag verdwijnt hier niet
+# stilzwijgend uit de steekproef.
+echte pagina|/nl/Contact/|https://winsol-brebo.be/contact|200
+gemeentepagina|/Winsol-rolluiken/Aartselaar/|https://winsol-brebo.be/aanbod/rolluiken|200
+klimregel|/nl/Ons-aanbod/Rolluiken/Inbouwrolluiken/Zonwerende-lamellen/Kleuren/|https://winsol-brebo.be/aanbod/rolluiken/inbouwrolluiken|200
+brochure|/nl/Ons-aanbod/Rolluiken/Inbouwrolluiken/Download-brochure-Rolluiken-NL/|https://winsol-brebo.be/brochures|200
+frans adres|/fr/Contact/|https://winsol-brebo.be/fr/contact|200
+apex zonder www|/|https://winsol-brebo.be/|200
+querystring|/nl/Contact/?utm_source=nieuwsbrief&utm_medium=email&utm_campaign=herfst|https://winsol-brebo.be/contact?utm_source=nieuwsbrief&utm_medium=email&utm_campaign=herfst|200
+nergens op uit|/nl/Offerte-aanvragen/|https://winsol-brebo.be/nl/offerte-aanvragen|404

@@ -22,6 +22,8 @@ class LegacyRedirectTest extends TestCase
 
     private const NEW_HOST = 'http://winsol-brebo.test';
 
+    private const OLD_APEX_HOST = 'https://winsoldilbeek.be';
+
     /**
      * `$this->get()` kan hier niet: `prepareUrlForRequest()` trimt de
      * afsluitende slash eraf, en elk adres van de oude site heeft er een.
@@ -378,5 +380,82 @@ class LegacyRedirectTest extends TestCase
         // `security.txt` is van deze applicatie en werd op de oude host mee
         // omgeleid.
         $this->request(self::OLD_HOST.'/.well-known/security.txt')->assertOk();
+    }
+
+    /**
+     * De steekproef van ticket 04 draait in productie, met `curl` en vanaf een
+     * ander IP dan de ontwikkelmachine. De adressen staan in
+     * `.scratch/redirects/steekproef.txt`, waar `steekproef.sh` ze ook uit
+     * leest. Zonder deze toets veroudert die lijst zodra de tabel verandert,
+     * en toetst de mens in productie iets wat de applicatie allang anders
+     * doet.
+     *
+     * Beide oude hosts gaan mee: de geïndexeerde links staan grotendeels op
+     * `www`, en de spec wil apex en `www` allebei rechtstreeks op de nieuwe
+     * site hebben.
+     */
+    public function test_the_production_sample_matches_the_table(): void
+    {
+        foreach (self::sampleAddresses() as [$label, $path, $destination, $status]) {
+            foreach ([self::OLD_APEX_HOST, self::OLD_HOST] as $host) {
+                $this->request($host.$path)
+                    ->assertStatus(301)
+                    ->assertRedirect($destination);
+            }
+
+            $this->assertSame(
+                (int) $status,
+                $this->request(self::NEW_HOST.parse_url($destination, PHP_URL_PATH))->getStatusCode(),
+                "De steekproef verwacht {$status} op {$destination} ({$label})."
+            );
+        }
+    }
+
+    /**
+     * De lagen zelf staan hier en niet in het tekstbestand, want een laag die
+     * daar wegvalt moet rood worden en niet groen blijven op wat er over is.
+     */
+    public function test_the_production_sample_covers_every_layer(): void
+    {
+        $this->assertSame([
+            'echte pagina',
+            'gemeentepagina',
+            'klimregel',
+            'brochure',
+            'frans adres',
+            'apex zonder www',
+            'querystring',
+            'nergens op uit',
+        ], array_column(self::sampleAddresses(), 0));
+    }
+
+    /**
+     * @return list<array{string, string, string, string}>
+     */
+    private static function sampleAddresses(): array
+    {
+        $file = __DIR__.'/../../.scratch/redirects/steekproef.txt';
+        $rows = [];
+
+        foreach (file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $number => $line) {
+            if (str_starts_with($line, '#')) {
+                continue;
+            }
+
+            $row = explode('|', $line);
+
+            if (count($row) !== 4) {
+                static::fail(sprintf(
+                    'Regel %d van steekproef.txt heeft %d velden in plaats van vier: %s',
+                    $number + 1,
+                    count($row),
+                    $line
+                ));
+            }
+
+            $rows[] = $row;
+        }
+
+        return $rows;
     }
 }
