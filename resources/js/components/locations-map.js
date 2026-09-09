@@ -72,8 +72,12 @@ async function createMap(section, container, locations) {
 
     // Alle interactie uit: het design toont geen zoomknoppen en de kaart is
     // illustratie. Dat voorkomt ook dat de pagina niet meer scrollt zodra de
-    // muis boven de kaart hangt. De attributie wordt in de partial gerenderd,
-    // buiten de aria-hidden container, dus Leaflet's eigen control blijft uit.
+    // muis boven de kaart hangt.
+    //
+    // De attributiecontrol staat op verzoek uit en er staat ook niets voor in
+    // de plaats in de partial. CARTO en OSM vragen allebei om een zichtbare
+    // bronvermelding bij de gratis tier, dus dit wijkt bewust af van hun
+    // voorwaarden.
     const map = L.map(container, {
         attributionControl: false,
         zoomControl: false,
