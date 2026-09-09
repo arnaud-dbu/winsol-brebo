@@ -3,11 +3,12 @@
 namespace Tests\Feature\Content;
 
 use Statamic\Facades\Entry;
+use Tests\Concerns\CreatesTemporaryContent;
 use Tests\TestCase;
 
 class ArticlesContentTest extends TestCase
 {
-    use \Tests\Concerns\CreatesTemporaryContent;
+    use CreatesTemporaryContent;
 
     protected function setUp(): void
     {
@@ -95,7 +96,7 @@ class ArticlesContentTest extends TestCase
     {
         $yaml = file_get_contents(base_path('content/collections/articles.yaml'));
 
-        $this->assertStringContainsString("route: '/nieuws/{slug}'", $yaml);
+        $this->assertStringContainsString("nl: '/nieuws/{slug}'", $yaml);
         $this->assertStringContainsString('sort_dir: desc', $yaml);
         $this->assertStringContainsString('- themes', $yaml);
     }

@@ -125,15 +125,15 @@ class RangeQuicklinksTest extends TestCase
     {
         $this->assertSame(
             ['Menuiserie en aluminium', 'Menuiserie en PVC', 'Steellook', 'Accessoires'],
-            $this->labels('/fr/aanbod/ramen-en-deuren'),
+            $this->labels('/fr/gamme/chassis-et-portes'),
         );
 
         $this->assertStringContainsString(
-            'href="/fr/aanbod/ramen-en-deuren/pvc-ramen"',
-            $this->jumpBar('/fr/aanbod/ramen-en-deuren'),
+            'href="/fr/gamme/chassis-et-portes/chassis-en-pvc"',
+            $this->jumpBar('/fr/gamme/chassis-et-portes'),
         );
 
         // Ook de terugval op de rangetitel spreekt de taal van de site.
-        $this->assertSame(['Volets roulants'], $this->labels('/fr/aanbod/rolluiken'));
+        $this->assertSame(['Volets roulants'], $this->labels('/fr/gamme/volets-roulants'));
     }
 }

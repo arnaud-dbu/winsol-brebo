@@ -31,9 +31,10 @@ class MultilingualNewsTest extends TestCase
         foreach ($titels as $site => $titel) {
             $pagina = Entry::query()
                 ->where('collection', 'pages')
-                ->where('site', $site)
+                ->where('site', 'nl')
                 ->where('slug', 'nieuws')
-                ->first();
+                ->first()
+                ?->in($site);
 
             $this->assertNotNull($pagina, "De nieuwspagina ontbreekt in {$site}");
             $this->assertSame($titel, $pagina->value('title'));
@@ -48,8 +49,8 @@ class MultilingualNewsTest extends TestCase
     {
         $verwacht = [
             '/nieuws' => 'Nieuws',
-            '/fr/nieuws' => 'Actualités',
-            '/en/nieuws' => 'News',
+            '/fr/actualites' => 'Actualités',
+            '/en/news' => 'News',
         ];
 
         foreach ($verwacht as $url => $titel) {
@@ -62,7 +63,7 @@ class MultilingualNewsTest extends TestCase
 
     public function test_the_themes_carry_a_translated_title(): void
     {
-        $html = $this->get('/fr/nieuws')->assertOk()->getContent();
+        $html = $this->get('/fr/actualites')->assertOk()->getContent();
 
         // De filterpil leest de term in de taal van de site. Zonder
         // localisaties op de taxonomie stond hier "Events".
@@ -79,9 +80,10 @@ class MultilingualNewsTest extends TestCase
         foreach ($verwacht as $site => $titel) {
             $artikel = Entry::query()
                 ->where('collection', 'articles')
-                ->where('site', $site)
+                ->where('site', 'nl')
                 ->where('slug', 'renovatiedagen-2026')
-                ->first();
+                ->first()
+                ?->in($site);
 
             $this->assertNotNull($artikel, "De vertaling ontbreekt in {$site}");
             $this->assertStringContainsString($titel, $artikel->value('title'));
@@ -108,7 +110,9 @@ class MultilingualNewsTest extends TestCase
             $artikel = (new RunningPromotion)->find();
 
             $this->assertNotNull($artikel, "Geen lopende actie op {$site}");
-            $this->assertStringStartsWith($site === 'nl' ? '/nieuws' : "/{$site}/nieuws", $artikel->url());
+            $this->assertStringStartsWith(match ($site) {
+                'nl' => '/nieuws', 'fr' => '/fr/actualites', 'en' => '/en/news'
+            }, $artikel->url());
 
             $labels[] = $artikel->value('promo_label');
         }

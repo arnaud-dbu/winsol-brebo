@@ -3,7 +3,10 @@ template: ranges/show
 taxonomies:
   - range_categories
 revisions: false
-route: '/aanbod/{slug}'
+route:
+  nl: '/aanbod/{slug}'
+  fr: '/gamme/{slug}'
+  en: '/range/{slug}'
 sites:
   - nl
   - fr

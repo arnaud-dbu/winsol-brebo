@@ -1,7 +1,10 @@
 title: Products
 template: products/show
 revisions: false
-route: '/aanbod/{{ range_slug }}/{{ slug }}'
+route:
+  nl: '/aanbod/{{ range_slug }}/{{ slug }}'
+  fr: '/gamme/{{ range_slug }}/{{ slug }}'
+  en: '/range/{{ range_slug }}/{{ slug }}'
 sites:
   - nl
   - fr
