@@ -30,8 +30,8 @@ algemene `location /` het afhandelt. Daarna nginx herladen.
 
 **Status:** ready-for-human
 
-- [ ] `curl -sSI https://winsol-brebo.be/robots.txt` geeft `200`
-- [ ] De inhoud is ongewijzigd, met de `Sitemap:`-regel erin
+- [x] `curl -sSI https://winsol-brebo.be/robots.txt` geeft `200`
+- [x] De inhoud is ongewijzigd, met de `Sitemap:`-regel erin
 - [ ] De sitemap is daarnaast in Search Console ingediend, zodat de vindbaarheid
       niet van dit ene bestand afhangt
 
@@ -209,3 +209,27 @@ je die regel uit `herd.conf` (het commando staat in het blok hierboven).
    dat zet het eerste vinkje.
 3. De sitemap in Search Console indienen (`sitemap.xml`). Dat vinkje staat los
    van deze keuze en blijft nodig.
+
+**Uitgerold en nagemeten, 2026-09-10.** `https://winsol-brebo.be/robots.txt`
+geeft een 200, 70 bytes,
+`2a923ce84fc8c3a26c4178584e05906a4c3ced296f8eae29bd3ac372ec1865d9`. Dat is
+byte-voor-byte het bestand uit de repo, en de koppen bewijzen dat nginx het
+rechtstreeks van schijf serveert:
+
+```
+HTTP/2 200
+content-type: text/plain; charset=utf-8
+last-modified: Wed, 09 Sep 2026 23:00:53 GMT
+etag: "6aa1e525-46"
+```
+
+Geen `X-Powered-By`, wel een `etag` en een `last-modified`: PHP komt er niet meer
+aan te pas. Het eerste en het tweede vinkje staan daarmee. `robots.sh` geeft
+"Alles goed".
+
+Nagekeken dat de route-wijziging niets anders raakte: `/`, `/contact`,
+`/fr/contact`, `/sitemap.xml` en `/.well-known/security.txt` geven alle vijf een
+200. Die laatste stond in hetzelfde bestand als de weggehaalde route.
+
+Wat rest is het derde vinkje: de sitemap indienen in Search Console. Zie ook de
+adreswijziging daar, ná ticket 03.
