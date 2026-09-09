@@ -55,7 +55,7 @@
                 </nav>
                 <div class="mt-auto flex flex-col items-start gap-4 pt-10">
                     {{ site_prefix = site:url == '/' ? '' : site:url }}
-                    <a href="{{ site_prefix }}/offerte" class="btn btn--primary w-full">{{ trans:site.nav_quote }}</a>
+                    <a href="{{ page_url:offerte }}" class="btn btn--primary w-full">{{ trans:site.nav_quote }}</a>
                     {{# `inverse` staat vast en erft niet van de pagina: het paneel is zwart, ook op een pagina waar de nav zelf zwart is. #}}
                     {{ partial:languagePill inverse="true" }}
                 </div>

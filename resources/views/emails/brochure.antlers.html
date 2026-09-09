@@ -5,8 +5,7 @@
     van die site.
 #}}
 {{ partial:emails/partials/layout }}
-    {{ mail_prefix = site == 'nl' ? '' : '/' + site }}
-    <p style="margin: 0 0 16px">{{ trans:site.mail_greeting }} {{ name }},</p>
+        <p style="margin: 0 0 16px">{{ trans:site.mail_greeting }} {{ name }},</p>
 
     <p style="margin: 0 0 20px">{{ trans:site.mail_brochure_intro }}</p>
 
@@ -37,7 +36,7 @@
             <td style="padding: 0 0 14px">
                 <strong style="color: #121b22">
                     1.
-                    <a href="{{ site_url }}{{ mail_prefix }}/contact" style="color: #121b22">
+                    <a href="{{ page_url:contact :site="site" absolute="true" }}" style="color: #121b22">
                         {{ trans:site.mail_route_showroom }}
                     </a>
                 </strong>
@@ -48,7 +47,7 @@
         <tr>
             <td style="padding: 0 0 14px">
                 2.
-                <a href="{{ site_url }}{{ mail_prefix }}/contact" style="color: #121b22">
+                <a href="{{ page_url:contact :site="site" absolute="true" }}" style="color: #121b22">
                     {{ trans:site.mail_route_rep }}
                 </a>
                 <br />
@@ -58,7 +57,7 @@
         <tr>
             <td style="padding: 0 0 4px">
                 3.
-                <a href="{{ site_url }}{{ mail_prefix }}/offerte" style="color: #121b22">
+                <a href="{{ page_url:offerte :site="site" absolute="true" }}" style="color: #121b22">
                     {{ trans:site.mail_route_quote }}
                 </a>
                 <br />

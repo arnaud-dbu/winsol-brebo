@@ -131,7 +131,7 @@
 
         <div class="hidden items-center gap-2.5 lg:flex">
             {{ site_prefix = site:url == '/' ? '' : site:url }}
-            <a href="{{ site_prefix }}/offerte" class="btn btn--primary">{{ trans:site.nav_quote }}</a>
+            <a href="{{ page_url:offerte }}" class="btn btn--primary">{{ trans:site.nav_quote }}</a>
             {{ partial:languagePill :inverse="inverse" }}
         </div>
 
