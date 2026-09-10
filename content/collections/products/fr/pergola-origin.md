@@ -4,7 +4,7 @@ origin: 9a3f52b1-0005-4c2d-8e6f-4a5b6c7d8e05
 title: 'Pergola ORIG!N'
 text: 'La pergola la plus épurée de la gamme. Un design sobre, une protection contre le soleil et la pluie, à compléter par un chauffage et une fermeture latérale.'
 meta_title: 'Couverture de terrasse Pergola ORIG!N'
-meta_description: 'La Pergola ORIG!N de Winsol : design épuré, jusqu''à 5,98 m de long, avec éclairage LED et chauffage infrarouge en option. Posée sur mesure.'
+meta_description: 'La Pergola ORIG!N de Winsol : design épuré, jusqu''à 5,98 m de long, avec éclairage LED et chauffage infrarouge disponibles en option. Posée sur mesure.'
 page_builder:
   -
     id: orig-design
@@ -39,7 +39,7 @@ page_builder:
       -
         id: orig-f2
         type: feature
-        label: 'Éclairage LED direct'
+        label: 'Toit à lames motorisé'
         enabled: true
       -
         id: orig-f3
@@ -61,12 +61,17 @@ page_builder:
         content:
           -
             type: text
-            text: 'De série, l''ORIG!N est volontairement sobre, mais vous pouvez la compléter : un chauffage infrarouge de 3000 watts pour la mi-saison, des prises 230 V dans le poteau, et des screens ou une paroi coulissante en verre de 10 mm en fermeture latérale.'
+            text: 'De série, l''ORIG!N est volontairement sobre, mais vous pouvez la compléter : un éclairage LED de 6 ou 8 spots blanc chaud dans les lames, un chauffage infrarouge de 3000 watts pour la mi-saison, des prises 230 V dans le poteau, et des screens ou une paroi coulissante en verre de 10 mm en fermeture latérale.'
     media: image
     image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_pergola-orig!n_render_kwartsgrijs_solfix.jpg
     features:
       -
         id: origo-f1
+        type: feature
+        label: 'Éclairage LED : 6 ou 8 spots'
+        enabled: true
+      -
+        id: origo-f1b
         type: feature
         label: 'Chauffage infrarouge 3000 W'
         enabled: true
@@ -104,7 +109,7 @@ page_builder:
       -
         id: orig-s4
         key: Éclairage
-        value: 'LED direct avec 6 ou 8 spots'
+        value: 'LED avec 6 ou 8 spots, en option'
       -
         id: orig-s5
         key: Chauffage

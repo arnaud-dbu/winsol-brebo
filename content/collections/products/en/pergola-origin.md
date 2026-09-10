@@ -4,7 +4,7 @@ origin: 9a3f52b1-0005-4c2d-8e6f-4a5b6c7d8e05
 title: 'Pergola ORIG!N'
 text: 'The most understated pergola in the range. Sleek design, protection from sun and rain, and expandable with heating and side closures.'
 meta_title: 'Pergola ORIG!N patio cover'
-meta_description: 'The Pergola ORIG!N from Winsol: sleek design, up to 5.98 m long, with LED lighting and optional infrared heating. Fitted to measure.'
+meta_description: 'The Pergola ORIG!N from Winsol: sleek design, up to 5.98 m long, with optional LED lighting and infrared heating. Fitted to measure.'
 page_builder:
   -
     id: orig-design
@@ -39,7 +39,7 @@ page_builder:
       -
         id: orig-f2
         type: feature
-        label: 'Direct LED lighting'
+        label: 'Motorised louvred roof'
         enabled: true
       -
         id: orig-f3
@@ -61,12 +61,17 @@ page_builder:
         content:
           -
             type: text
-            text: 'As standard the ORIG!N is deliberately sober, but you can add to it: 3000-watt infrared heating for the in-between seasons, 230 V sockets in the post, and screens or a 10 mm sliding glass wall as a side closure.'
+            text: 'As standard the ORIG!N is deliberately sober, but you can add to it: LED lighting with 6 or 8 warm-white spotlights in the louvres, 3000-watt infrared heating for the in-between seasons, 230 V sockets in the post, and screens or a 10 mm sliding glass wall as a side closure.'
     media: image
     image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_pergola-orig!n_render_kwartsgrijs_solfix.jpg
     features:
       -
         id: origo-f1
+        type: feature
+        label: 'LED lighting: 6 or 8 spotlights'
+        enabled: true
+      -
+        id: origo-f1b
         type: feature
         label: 'Infrared heating 3000 W'
         enabled: true
@@ -104,7 +109,7 @@ page_builder:
       -
         id: orig-s4
         key: Lighting
-        value: 'Direct LED with 6 or 8 spotlights'
+        value: 'LED with 6 or 8 spotlights, optional'
       -
         id: orig-s5
         key: Heating

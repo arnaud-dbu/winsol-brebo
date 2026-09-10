@@ -7,7 +7,7 @@ text: 'De meest ingetogen pergola in het gamma. Strak design, bescherming tegen 
 image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_pergola-orig!n_render_antracietgrijs.jpg
 brochure: brochures/pergola-origin_2025_nl.pdf
 meta_title: 'Pergola ORIG!N terrasoverkapping'
-meta_description: 'De Pergola ORIG!N van Winsol: strak design, tot 5,98 m lang, met ledverlichting en optionele infraroodverwarming. Op maat geplaatst.'
+meta_description: 'De Pergola ORIG!N van Winsol: strak design, tot 5,98 m lang, met optionele ledverlichting en infraroodverwarming. Op maat geplaatst.'
 seo_noindex: false
 page_builder:
   -
@@ -43,7 +43,7 @@ page_builder:
       -
         id: orig-f2
         type: feature
-        label: 'Directe ledverlichting'
+        label: 'Gemotoriseerd lamellendak'
         enabled: true
       -
         id: orig-f3
@@ -65,12 +65,17 @@ page_builder:
         content:
           -
             type: text
-            text: 'Standaard is de ORIG!N bewust sober, maar je kunt hem aanvullen: infraroodverwarming van 3000 watt voor het tussenseizoen, 230V-stopcontacten in de paal, en screens of een glazen schuifwand van 10 mm als zijafsluiting.'
+            text: 'Standaard is de ORIG!N bewust sober, maar je kunt hem aanvullen: ledverlichting met 6 of 8 warm-witte spots in de lamellen, infraroodverwarming van 3000 watt voor het tussenseizoen, 230V-stopcontacten in de paal, en screens of een glazen schuifwand van 10 mm als zijafsluiting.'
     media: image
     image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_pergola-orig!n_render_kwartsgrijs_solfix.jpg
     features:
       -
         id: origo-f1
+        type: feature
+        label: 'Ledverlichting: 6 of 8 spots'
+        enabled: true
+      -
+        id: origo-f1b
         type: feature
         label: 'Infraroodverwarming 3000 W'
         enabled: true
@@ -108,7 +113,7 @@ page_builder:
       -
         id: orig-s4
         key: Verlichting
-        value: 'Directe led met 6 of 8 spots'
+        value: 'Led met 6 of 8 spots, optioneel'
       -
         id: orig-s5
         key: Verwarming
