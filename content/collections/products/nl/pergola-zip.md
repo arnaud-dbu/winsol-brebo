@@ -121,10 +121,7 @@ page_builder:
     overline: Realisaties
     title: 'Pergola Z!P in de praktijk'
     images:
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p-(1182).jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_-verviers-heusy-(1826).jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p-(1181).jpg
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p_-verviers-heusy-(1875).jpg
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_z!p-(1162).jpg
     enabled: true
 ---

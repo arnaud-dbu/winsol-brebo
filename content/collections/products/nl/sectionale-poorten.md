@@ -132,14 +132,12 @@ page_builder:
     title: 'Sectionale poorten in de praktijk'
     images:
       - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-1.jpg
-      - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-2.jpg
       - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-3.jpg
       - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-4.jpg
       - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-5.jpg
       - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-6.jpg
       - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-7.jpg
       - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-8.jpg
-      - garagepoorten/OneDrive_1_31-07-2026/garagepoort-porte-de-garage-9.jpg
       - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garage-(17).jpg
       - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garage-(18).jpg
       - garagepoorten/OneDrive_1_31-07-2026/realisatie-realisation-garagepoorten-portes-de-garage-(19).jpg

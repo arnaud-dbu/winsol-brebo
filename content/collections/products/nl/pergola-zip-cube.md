@@ -34,7 +34,7 @@ page_builder:
             type: text
             text: 'Door die strakke vorm past hij goed bij een woning met crepi-afwerking of moderne baksteen. Zoek je iets landelijkers, dan is de Pergola Z!P met hellend dak de logischere keuze.'
     media: image
-    image: 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6222).jpg'
+    image: terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6218).jpg
     features:
       -
         id: cube-f1

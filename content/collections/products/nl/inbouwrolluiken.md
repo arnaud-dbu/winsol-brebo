@@ -33,7 +33,7 @@ page_builder:
             type: text
             text: 'Er moet wel voldoende plaats zijn in de spouw, en aan de binnenkant komt er nog een omkasting met isolatie. Bij nieuwbouw of een grondige verbouwing bespreek je dat dus best op tijd met je aannemer of architect.'
     media: image
-    image: 'rolluiken/LR/2020_winsol_liedkerke_allura_poort_rolluiken-(36).jpg'
+    image: rolluiken/inbouwrolluiken-1.webp
     features:
       -
         id: ibr-f1

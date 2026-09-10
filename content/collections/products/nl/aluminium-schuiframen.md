@@ -35,7 +35,7 @@ page_builder:
             type: text
             text: 'De panelen lopen op rollagers, dus ook een groot en zwaar paneel blijft met één hand te bedienen.'
     media: image
-    image: ramen-en-deuren/iqon-aluminium-schuifraam-waterstad-8.jpg
+    image: ramen-en-deuren/aluminium-schuiframen-iqon-1.webp
     features:
       -
         id: asr-f1
@@ -88,9 +88,10 @@ page_builder:
     overline: Realisaties
     title: 'Aluminium schuiframen in de praktijk'
     images:
-      - ramen-en-deuren/iqon-aluminium-schuifraam-waterstad-10.jpg
-      - ramen-en-deuren/iqon-aluminium-schuifraam-waterstad-9.jpg
-      - ramen-en-deuren/iqon-aluminium-schuifraam-waterstad-6.jpg
       - ramen-en-deuren/iqon-aluminium-schuifraam-waterstad-8.jpg
+      - ramen-en-deuren/iqon-aluminium-schuifraam-waterstad-9.jpg
+      - ramen-en-deuren/iqon-aluminium-schuifraam-waterstad-10.jpg
+      - ramen-en-deuren/aluminium-schuiframen-aurora-2.webp
+      - ramen-en-deuren/aluminium-schuiframen-aurora-3.webp
     enabled: true
 ---

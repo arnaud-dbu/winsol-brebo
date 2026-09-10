@@ -7,7 +7,7 @@ range:
 product_groups:
   - pvc-schrijnwerk
 text: 'Schuiframen in pvc: dezelfde bediening en isolatie als een aluminium schuifpartij, tegen een lagere prijs.'
-image: ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(16).jpg
+image: ramen-en-deuren/pvc-schuiframen-qubic-slide-3.webp
 brochure: brochures/winsol_brochure_ramen-en-deuren-in-pvc_nl.pdf
 meta_title: 'PVC schuiframen op maat'
 meta_description: 'PVC schuiframen van Winsol: soepel schuivend, goed geïsoleerd en onderhoudsarm. Op maat gemaakt in België en lokaal geplaatst.'
@@ -36,7 +36,7 @@ page_builder:
             type: text
             text: 'Welke van de twee bij jouw opening past, rekenen we uit bij het opmeten.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation_pvc_c-70_zottegem-(37).jpg
+    image: ramen-en-deuren/pvc-schuiframen-centriq-slide-3.webp
     features:
       -
         id: psr-f1
@@ -89,9 +89,10 @@ page_builder:
     overline: Realisaties
     title: 'PVC schuiframen in de praktijk'
     images:
-      - ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(20).jpg
-      - ramen-en-deuren/realisatie-realisation_pvc_c-70_zottegem-(4).jpg
-      - ramen-en-deuren/realisatie-realisation-pvc-c-70-(17).jpg
-      - ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(57).jpg
+      - ramen-en-deuren/pvc-schuiframen-qubic-slide-4.webp
+      - ramen-en-deuren/pvc-schuiframen-centriq-slide-4.webp
+      - ramen-en-deuren/pvc-schuiframen-centriq-slide-1.webp
+      - ramen-en-deuren/pvc-schuiframen-centriq-slide-2.webp
+      - ramen-en-deuren/pvc-schuiframen-qubic-slide-2.webp
     enabled: true
 ---

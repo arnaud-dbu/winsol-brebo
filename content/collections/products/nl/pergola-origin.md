@@ -33,7 +33,7 @@ page_builder:
             type: text
             text: 'Hij beschermt tegen zon en regen, zodat je bijna het hele jaar door buiten kunt zitten, met dezelfde opbouwkwaliteit als de grotere modellen.'
     media: image
-    image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_pergola-orig!n_render_antracietgrijs.jpg
+    image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_pergola-orig!n_render_kwartsgrijs.jpg
     features:
       -
         id: orig-f1
@@ -131,8 +131,5 @@ page_builder:
     images:
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_pergola-orig!n_render_wit_solarfix.jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_pergola-orig!n_render_antracietgrijs_solfix.jpg
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_pergola-orig!n_render_kwartsgrijs.jpg
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_pergola-orig!n_render_antracietgrijs.jpg
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_pergola-orig!n_render_kwartsgrijs_solfix.jpg
     enabled: true
 ---

@@ -198,7 +198,6 @@ page_builder:
       - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-12.jpg
       - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-14.jpg
       - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-16.jpg
-      - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-(39).jpg
       - terrasoverkapping/realisatie-pergola-so-terrasoverkapping-(42).jpg
     enabled: true
 ---

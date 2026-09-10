@@ -7,7 +7,7 @@ range:
 product_groups:
   - pvc-schrijnwerk
 text: 'Uitstekend isolerende ramen die nauwelijks onderhoud vragen, in een ruim aanbod kleuren en houtlook-afwerkingen.'
-image: ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(20).jpg
+image: ramen-en-deuren/realisatie-realisation-pvc-c-70-(17).jpg
 brochure: brochures/winsol_brochure_ramen-en-deuren-in-pvc_nl.pdf
 meta_title: 'PVC ramen op maat'
 meta_description: 'PVC ramen van Winsol, reeks C+70: een isolatiewaarde tot 1,1 W/m²K, inbraakwerendheid tot RC2 en nauwelijks onderhoud. Op maat geplaatst.'
@@ -36,7 +36,7 @@ page_builder:
             type: text
             text: 'Pvc vraagt bovendien nauwelijks onderhoud: afnemen met water volstaat, schilderen is nooit nodig.'
     media: image
-    image: ramen-en-deuren/realisatie-realisation-pvc-c-70-(21).jpg
+    image: ramen-en-deuren/realisatie-realisation-pvc-c-70-(36).jpg
     features:
       -
         id: pvr-f1
@@ -93,11 +93,11 @@ page_builder:
     overline: Realisaties
     title: 'PVC ramen in de praktijk'
     images:
-      - ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(16).jpg
-      - ramen-en-deuren/realisatie-realisation-pvc-c-70-(17).jpg
-      - ramen-en-deuren/realisatie-realisation_pvc_c-70_zottegem-(4).jpg
+      - ramen-en-deuren/pvc-ramen-centriq-3.webp
+      - ramen-en-deuren/pvc-ramen-centriq-4.webp
+      - ramen-en-deuren/realisatie-realisation-pvc-c-70-(41).jpg
       - ramen-en-deuren/realisatie-realisation-pvc-ramen-c-70-pvc-fenetres-c-70-05.jpg
-      - ramen-en-deuren/realisatie-realisation_pvc_c-70_beauraing-(57).jpg
-      - ramen-en-deuren/realisatie-realisation_pvc_c-70_zottegem-(37).jpg
+      - ramen-en-deuren/realisatie-realisation-pvc-ramen-c-70-pvc-fenetres-c-70-10.jpg
+      - ramen-en-deuren/realisatie-realisation_pvc_c-70_zottegem-(4).jpg
     enabled: true
 ---

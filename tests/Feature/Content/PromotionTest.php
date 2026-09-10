@@ -43,12 +43,10 @@ class PromotionTest extends TestCase
      */
     private function actie(string $slug, array $data, string $datum = '2027-01-01'): void
     {
-        $entry = $this->temporaryEntry('articles', $slug, array_merge([
+        $this->temporaryEntry('articles', $slug, array_merge([
             'title' => 'Actie ' . $slug,
             'promo' => true,
-        ], $data));
-
-        $entry->date($datum)->save();
+        ], $data), $datum);
     }
 
     public function test_it_finds_the_action_that_runs_today(): void
@@ -99,7 +97,7 @@ class PromotionTest extends TestCase
         Carbon::setTestNow('2027-03-10');
         $this->temporaryEntry('articles', 'gewoon-nieuws', [
             'title' => 'Gewoon nieuws',
-        ])->date('2027-01-01')->save();
+        ], '2027-01-01');
 
         $this->assertNull($this->lopendeActie());
     }

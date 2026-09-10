@@ -32,7 +32,7 @@ page_builder:
             type: text
             text: 'Hij kan tegen de gevel, maar ook vrijstaand in de tuin. Heb je een groot terras, dan kun je meerdere overkappingen aan elkaar koppelen.'
     media: image
-    image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2126).jpg
+    image: terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2177).jpg
     features:
       -
         id: wc-f1
@@ -121,9 +121,6 @@ page_builder:
     images:
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2120).jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2193).jpg
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2177).jpg
       - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2203).jpg
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2199).jpg
-      - terrasoverkapping/terrasoverkappingen-couvertures-de-terrasse_wincube_morkhoven-(2126).jpg
     enabled: true
 ---

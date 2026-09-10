@@ -14,6 +14,13 @@ trait CreatesTemporaryContent
     private array $temporaryEntryIds = [];
 
     /**
+     * Het pad dat elke tijdelijke entry bij het opslaan kreeg, op id.
+     *
+     * @var array<string, string>
+     */
+    private array $temporaryEntryPaths = [];
+
+    /**
      * Isoleert de bestanden van de assets-container. Haal de container daarna
      * met `find()` op en nooit met `make()->save()` — dat schrijft
      * `content/assets/{handle}.yaml` terug naar de werkkopie.
@@ -66,7 +73,7 @@ trait CreatesTemporaryContent
      *
      * @param  array<string, mixed>  $data
      */
-    protected function temporaryEntry(string $collection, string $slug, array $data): EntryContract
+    protected function temporaryEntry(string $collection, string $slug, array $data, ?string $date = null): EntryContract
     {
         if ($this->temporaryEntryIds === []) {
             $this->beforeApplicationDestroyed($this->deleteTemporaryEntries(...));
@@ -78,9 +85,22 @@ trait CreatesTemporaryContent
             ->slug($slug)
             ->data($data);
 
+        // De datum vóór de eerste save en niet erna. Een gedateerde collectie
+        // leest hem uit de bestandsnaam, dus `->date()->save()` op een al
+        // opgeslagen entry schrijft een tweede bestand — `slug.md` blijft dan
+        // naast `JJJJ-MM-DD.slug.md` staan. `delete()` ruimt er maar één van op,
+        // en het achtergebleven bestand telt in de volgende testrun mee als een
+        // echt artikel. Dat is precies wat op 10-09-2026 honderd restbestanden
+        // in content/collections/articles opleverde en tientallen
+        // ongerelateerde tests liet falen.
+        if ($date !== null) {
+            $entry->date($date);
+        }
+
         $entry->save();
 
         $this->temporaryEntryIds[] = $entry->id();
+        $this->temporaryEntryPaths[$entry->id()] = $entry->path();
 
         return $entry;
     }
@@ -111,10 +131,7 @@ trait CreatesTemporaryContent
             // laat Statamic er zelf een maken en ruimt op dat id weer op.
             unset($data['id']);
 
-            $entry = $this->temporaryEntry('articles', $slug, $data);
-            $entry->date($datum)->save();
-
-            $entries[$slug] = $entry;
+            $entries[$slug] = $this->temporaryEntry('articles', $slug, $data, $datum);
         }
 
         return $entries;
@@ -124,8 +141,22 @@ trait CreatesTemporaryContent
     {
         foreach ($this->temporaryEntryIds as $id) {
             Entry::find($id)?->delete();
+
+            // En daarna alsnog het bestand. `find()` geeft null zodra de Stache
+            // de entry kwijt is — dat gebeurt na een `Storage::fake()` in een
+            // andere test — en dan ruimt `delete()` niets op. Wat blijft staan,
+            // telt in de volgende testrun mee als een echt artikel: Statamic
+            // schrijft er dan `slug.1.md`, `slug.2.md` naast, en tientallen
+            // ongerelateerde tests vallen om op een collectie die ineens
+            // twintig artikels meer heeft.
+            $pad = $this->temporaryEntryPaths[$id] ?? null;
+
+            if ($pad !== null && is_file($pad)) {
+                unlink($pad);
+            }
         }
 
         $this->temporaryEntryIds = [];
+        $this->temporaryEntryPaths = [];
     }
 }
