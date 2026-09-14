@@ -23,9 +23,15 @@ class PublishedArticles
 
     public function exist(): bool
     {
+        // In PHP filteren en niet in de query: `hide_from_listings` staat niet
+        // op elk artikel, en een `where`-vergelijking op een ontbrekend veld
+        // laat die artikels stil wegvallen — dan verdween Nieuws uit de
+        // navigatie zodra één artikel het veld nog niet droeg.
         return $this->bestaan ??= Entry::query()
             ->where('collection', 'articles')
             ->where('published', true)
-            ->count() > 0;
+            ->get()
+            ->reject(fn ($artikel) => (bool) $artikel->value('hide_from_listings'))
+            ->isNotEmpty();
     }
 }

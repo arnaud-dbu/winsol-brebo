@@ -86,4 +86,6 @@ tabs:
               localizable: true
               validate: 'max:200'
           -
+            import: visibility
+          -
             import: template
