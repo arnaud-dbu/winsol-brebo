@@ -12,6 +12,43 @@
 }
 
 /*
+ * Preflight zet `list-style: none` op elke lijst. Zonder deze regels valt een
+ * opsomming in een tekstsectie uiteen in losse regels zonder bolletje. Bewust
+ * alleen lijsten en tabellen, en niet de marges of de links: `.rich-text`
+ * draait ook in `card` en `sectionHeader`, waar prose-marges en onderstreepte
+ * links verkeerd vallen. Die dragen geen lijsten, dus daar doen deze regels
+ * niets.
+ */
+.rich-text :is(ul, ol) {
+    @apply my-4 ps-5;
+}
+
+.rich-text ul {
+    list-style-type: disc;
+}
+
+.rich-text ol {
+    list-style-type: decimal;
+}
+
+.rich-text li + li {
+    @apply mt-2;
+}
+
+/* Een brede tabel mag de pagina niet meesleuren. */
+.rich-text table {
+    @apply my-6 block w-full overflow-x-auto text-left;
+}
+
+.rich-text :is(th, td) {
+    @apply border-b border-black/10 py-3 pe-6 align-top;
+}
+
+.rich-text th {
+    @apply font-semibold;
+}
+
+/*
  * De artikeltekst krijgt een eigen utility in plaats van een uitgebreide
  * `.rich-text`: die laatste is bewust minimaal en draait ook in `card`,
  * `sectionHeader` en `sections/text`, waar prose-marges en onderstreepte
@@ -58,8 +95,12 @@
         @apply block w-full rounded-md;
     }
 
-    /* Een brede tabel mag de pagina niet meesleuren. */
+    /*
+     * Breed mag de tabel de pagina niet meesleuren, en `text-base` moet hier
+     * staan en niet alleen op `p, li` hierboven: prose zet `table` zelf op
+     * 0.875em, waardoor elke cel kleiner uitviel dan de tekst eromheen.
+     */
     table {
-        @apply block w-full overflow-x-auto;
+        @apply block w-full overflow-x-auto text-base;
     }
 }
