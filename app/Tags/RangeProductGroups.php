@@ -41,6 +41,10 @@ class RangeProductGroups extends Tags
             // geërfde range-id is dat van de nl-range, vandaar de vergelijking
             // met het origin-id hierboven.
             ->filter(fn (EntryContract $product) => in_array($rangeId, $this->ids($product->value('range')), true))
+            // Pagina's die bestaan om gevonden te worden en niet om naartoe te
+            // navigeren. Ze blijven bereikbaar via hun adres en in de sitemap;
+            // alleen deze balk laat ze weg. Zie de fieldset `visibility`.
+            ->reject(fn (EntryContract $product) => (bool) $product->value('hide_from_listings'))
             ->sortBy(fn (EntryContract $product) => $product->value('title'))
             ->groupBy(fn (EntryContract $product) => $this->ids($product->value('product_groups'))[0] ?? '');
 

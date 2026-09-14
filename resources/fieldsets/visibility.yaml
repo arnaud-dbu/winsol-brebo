@@ -1,0 +1,9 @@
+title: Zichtbaarheid
+fields:
+  -
+    handle: hide_from_listings
+    field:
+      type: toggle
+      display: 'Verbergen in overzichten'
+      localizable: true
+      instructions: "Laat deze pagina weg uit de sprongbalk en de overzichten. Ze blijft gewoon bereikbaar via haar adres en blijft in de sitemap staan, zodat zoekmachines en AI-assistenten ze lezen. Voor pagina's die bestaan om gevonden te worden, niet om naartoe te navigeren."

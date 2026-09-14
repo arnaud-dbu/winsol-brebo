@@ -10,14 +10,17 @@
                     "Nieuws" opleverde die naar deze pagina linkte. #}}
                 {{ collection:articles as="posts" }}
                     {{ posts }}
-                        {{# Ternary en geen `{{ if }}`-blok: dit zet één waarde.
-                            `projects/index` gebruikte hier nog twee regels. #}}
-                        {{ theme_slug = themes ? themes:slug : '' }}
-                        <li
-                            {{ (get:theme && get:theme != theme_slug) ? 'hidden' : '' }}
-                            :hidden="!matches('{{ theme_slug }}')">
-                            {{ partial:articleCard }}
-                        </li>
+                        {{# Verborgen artikels blijven bereikbaar en staan in de sitemap, maar horen niet in dit overzicht. #}}
+                        {{ unless hide_from_listings }}
+                            {{# Ternary en geen `{{ if }}`-blok: dit zet één waarde.
+                                `projects/index` gebruikte hier nog twee regels. #}}
+                            {{ theme_slug = themes ? themes:slug : '' }}
+                            <li
+                                {{ (get:theme && get:theme != theme_slug) ? 'hidden' : '' }}
+                                :hidden="!matches('{{ theme_slug }}')">
+                                {{ partial:articleCard }}
+                            </li>
+                        {{ /unless }}
                     {{ /posts }}
                 {{ /collection:articles }}
             </ul>
