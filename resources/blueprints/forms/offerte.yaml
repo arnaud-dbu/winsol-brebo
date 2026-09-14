@@ -78,3 +78,10 @@ tabs:
               validate:
                 - 'mimes:jpg,jpeg,png,webp,heic,heif,hif,pdf'
                 - 'max_filesize:10240'
+          -
+            handle: gdpr
+            field:
+              type: toggle
+              display: 'Akkoord met de verwerking van mijn gegevens'
+              validate:
+                - accepted

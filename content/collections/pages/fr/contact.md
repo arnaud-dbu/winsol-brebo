@@ -29,6 +29,7 @@ quicklinks:
         id: CyKyrbKE
         type: entry
         entry: c1a2b3d4-0000-4e5f-8a9b-0c1d2e3f4a04
+        anchor: herstelling
         label: 'Vers le formulaire de réparation'
         new_tab: false
     link_style: outline

@@ -30,6 +30,22 @@
                                 {{ /opening_hours }}
                             </dl>
                         {{ /if }}
+                        {{#
+                            Coördinaten en niet het adres: een adreszoekopdracht op deze steenwegen landt geregeld aan de overkant. Zonder
+                            coördinaten valt hij terug op het adres. Eerst in een variabele, want de samengestelde string draagt zelf quotes en zou
+                            het href-attribuut breken. `mt-auto` zodat de knop op alle drie de kaarten op dezelfde hoogte staat, ook al heeft niet
+                            elke vestiging evenveel openingsuren.
+                        #}}
+                        {{ bestemming = latitude && longitude ? "{latitude},{longitude}" : "{street} {number}, {postal_code} {city}" }}
+                        <a
+                            href="https://www.google.com/maps/dir/?api=1&amp;destination={{ bestemming | urlencode }}"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="{{ trans key='Toon route naar' }} {{ name | entities }}"
+                            class="mt-auto btn self-start btn--outline">
+                            {{ icon src="navigation-arrow" aria-hidden="true" }}
+                            <span>{{ trans key="Toon route" }}</span>
+                        </a>
                     </li>
                 {{ /collection:locations }}
             </ul>

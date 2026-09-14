@@ -33,6 +33,8 @@
                                     <p class="form-error" id="{{ id }}-error">{{ error }}</p>
                                 {{ /if }}
                             </div>
+                        {{ elseif handle == "gdpr" }}
+                            {{ partial:gdprField }}
                         {{ else }}
                             <div class="form-field{{ if width == 50 }} form-field--half{{ /if }}">
                                 <label class="form-label" for="{{ id }}">{{ trans :key="display" }}</label>

@@ -1,0 +1,26 @@
+{{#
+    De toestemmingsregel onder een formulier, met de link naar het privacybeleid. Gedeeld door brochure, offerte en
+    herstelling: alle drie verzamelen ze persoonsgegevens, dus alle drie moeten ze dezelfde zin tonen. Buiten `.form-field`:
+    die klasse stijlt elke input als volle-breedte tekstveld en zou de checkbox raken. `required` volgt de blueprint en
+    staat niet hardgecodeerd, zodat een formulier de regel kan tonen zonder ze verplicht te maken.
+#}}
+<div class="flex flex-col gap-2 lg:col-span-2">
+    <label class="flex items-start gap-3 text-base">
+        <input
+            type="checkbox"
+            name="{{ name }}"
+            value="1"
+            {{ if validate|contains:accepted }}required{{ /if }}
+            class="mt-1 size-4 shrink-0 accent-black"
+            {{ if value }} checked{{ /if }}
+            {{ if error }} aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }} />
+        <span>
+            {{ trans key="Ik ga akkoord met de verwerking van mijn gegevens zoals vermeld in het" }}
+            <a href="{{ page_url:privacy-policy }}" class="underline">{{ trans key="privacybeleid" }}</a>
+            .
+        </span>
+    </label>
+    {{ if error }}
+        <p class="form-error" id="{{ id }}-error">{{ error }}</p>
+    {{ /if }}
+</div>

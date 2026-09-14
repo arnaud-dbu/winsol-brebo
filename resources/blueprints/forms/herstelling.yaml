@@ -172,7 +172,7 @@ tabs:
             handle: rates_agreed
             field:
               type: toggle
-              display: 'Ik heb kennis genomen en verklaar mij akkoord met de tarieven van Brebo bvba: verplaatsingsforfait 90 euro excl. btw en 65 euro excl. btw per begonnen uur per persoon, exclusief wisselstukken en verbruikt materiaal.'
+              display: 'Ik heb kennis genomen en verklaar mij akkoord met de tarieven van Brebo BV: verplaatsingsforfait 90 euro excl. btw en 65 euro excl. btw per begonnen uur per persoon, exclusief wisselstukken en verbruikt materiaal.'
               validate:
                 - accepted
           -
@@ -180,5 +180,12 @@ tabs:
             field:
               type: toggle
               display: 'Ik ga akkoord met de garantievoorwaarden'
+              validate:
+                - accepted
+          -
+            handle: gdpr
+            field:
+              type: toggle
+              display: 'Akkoord met de verwerking van mijn gegevens'
               validate:
                 - accepted
