@@ -2,15 +2,49 @@
 id: 58d6348d-f950-471b-b4e9-9b018b914d57
 blueprint: legal
 title: Toegankelijkheidsverklaring
-meta_title: 'Toegankelijkheidsverklaring'
-meta_description: 'In welke mate deze website voldoet aan de toegankelijkheidsnormen, waar het nog beter kan en hoe je een probleem meldt.'
+meta_title: Toegankelijkheidsverklaring
+meta_description: 'Hoe toegankelijk deze website is, welke punten nog openstaan en hoe je een probleem meldt.'
 redactor:
   -
     type: paragraph
     content:
       -
         type: text
-        text: Toegankelijkheidsverklaring
+        marks:
+          -
+            type: bold
+        text: 'Laatst bijgewerkt: '
+      -
+        type: text
+        text: '14 september 2026'
+  -
+    type: paragraph
+    content:
+      -
+        type: text
+        text: 'Winsol Brebo wil dat iedereen deze website kan gebruiken, ook wie slecht ziet, niet met een muis werkt of een schermlezer gebruikt. Op deze pagina zeggen we eerlijk hoe ver we daarin staan.'
+  -
+    type: heading
+    attrs:
+      level: 2
+    content:
+      -
+        type: text
+        text: 'Welke norm we aanhouden'
+  -
+    type: paragraph
+    content:
+      -
+        type: text
+        text: 'We richten ons op de Web Content Accessibility Guidelines (WCAG) versie 2.1, niveau AA. Dat is de norm waar de Europese standaard EN 301 549 naar verwijst en die in de praktijk als maatstaf geldt.'
+  -
+    type: heading
+    attrs:
+      level: 2
+    content:
+      -
+        type: text
+        text: 'Hoe het er nu voor staat'
   -
     type: paragraph
     content:
@@ -19,61 +53,16 @@ redactor:
         marks:
           -
             type: bold
-        text: 'Laatst bijgewerkt:'
+        text: 'Deze website voldoet gedeeltelijk aan WCAG 2.1 niveau AA.'
       -
         type: text
-        text: ' 1 januari 2025'
-  -
-    type: heading
-    attrs:
-      level: 2
-    content:
-      -
-        type: text
-        text: Inleiding
+        text: ' Het grootste deel is in orde: de site werkt met het toetsenbord, de opbouw in koppen klopt, afbeeldingen hebben een tekstalternatief en formuliervelden hebben een gekoppeld label.'
   -
     type: paragraph
     content:
       -
         type: text
-        text: '[Bedrijfsnaam] streeft ernaar om deze website toegankelijk te maken voor iedereen, ongeacht eventuele beperkingen. Wij zetten ons in om te voldoen aan de Web Content Accessibility Guidelines (WCAG) 2.1 op niveau AA.'
-  -
-    type: heading
-    attrs:
-      level: 2
-    content:
-      -
-        type: text
-        text: 'Huidige status'
-  -
-    type: paragraph
-    content:
-      -
-        type: text
-        text: 'Deze website voldoet '
-      -
-        type: text
-        marks:
-          -
-            type: bold
-        text: gedeeltelijk
-      -
-        type: text
-        text: ' aan WCAG 2.1 niveau AA. Wij werken voortdurend aan verbeteringen om de toegankelijkheid te verbeteren.'
-  -
-    type: heading
-    attrs:
-      level: 2
-    content:
-      -
-        type: text
-        text: Toegankelijkheidsmaatregelen
-  -
-    type: paragraph
-    content:
-      -
-        type: text
-        text: 'Wij hebben de volgende maatregelen genomen om de toegankelijkheid van onze website te waarborgen:'
+        text: 'Deze punten kennen we en zijn nog niet opgelost:'
   -
     type: bulletList
     content:
@@ -85,7 +74,7 @@ redactor:
             content:
               -
                 type: text
-                text: 'Alle afbeeldingen zijn voorzien van een alternatieve tekstbeschrijving.'
+                text: 'Op enkele plaatsen is het contrast tussen tekst en achtergrond lager dan de norm vraagt.'
       -
         type: listItem
         content:
@@ -94,7 +83,7 @@ redactor:
             content:
               -
                 type: text
-                text: 'De website is volledig navigeerbaar met het toetsenbord.'
+                text: 'Een aantal knoppen is op een klein scherm kleiner dan aanbevolen, of staat te dicht bij een andere knop.'
       -
         type: listItem
         content:
@@ -103,52 +92,13 @@ redactor:
             content:
               -
                 type: text
-                text: 'Er wordt voldoende kleurcontrast gehanteerd tussen tekst en achtergrond.'
+                text: 'Niet elk onderdeel geeft zijn rol even nauwkeurig door aan hulpsoftware.'
+  -
+    type: paragraph
+    content:
       -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'De website is bruikbaar bij een vergroting tot 200%.'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Formulieren zijn voorzien van duidelijke labels en foutmeldingen.'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'De paginastructuur maakt gebruik van semantische HTML-elementen.'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Koppen volgen een logische hiërarchie (h1, h2, h3, enz.).'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Links zijn voorzien van duidelijke en beschrijvende tekst.'
+        type: text
+        text: 'Die punten komen uit een eigen evaluatie in september 2026, waarbij we de site nakeken met geautomatiseerde controles en met het toetsenbord. Er is geen externe audit gebeurd.'
   -
     type: heading
     attrs:
@@ -156,61 +106,13 @@ redactor:
     content:
       -
         type: text
-        text: 'Bekende beperkingen'
+        text: 'Wat we eraan doen'
   -
     type: paragraph
     content:
       -
         type: text
-        text: 'Ondanks onze inspanningen kunnen sommige onderdelen van de website nog niet volledig toegankelijk zijn:'
-  -
-    type: bulletList
-    content:
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                marks:
-                  -
-                    type: bold
-                text: "Video's:"
-              -
-                type: text
-                text: " niet alle video's zijn voorzien van ondertiteling. Wij werken eraan om dit aan te vullen."
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                marks:
-                  -
-                    type: bold
-                text: 'PDF-documenten:'
-              -
-                type: text
-                text: ' sommige oudere PDF-bestanden zijn mogelijk niet volledig toegankelijk. Neem contact met ons op als je hulp nodig hebt bij het raadplegen van deze documenten.'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                marks:
-                  -
-                    type: bold
-                text: 'Externe inhoud:'
-              -
-                type: text
-                text: ' inhoud van derden (zoals social media-widgets) valt buiten onze controle en is mogelijk niet volledig toegankelijk.'
+        text: 'De drie punten hierboven staan op onze lijst en worden aangepakt bij het eerstvolgende onderhoud aan de site. Bij nieuwe pagina’s kijken we toegankelijkheid mee na voor ze online gaan.'
   -
     type: heading
     attrs:
@@ -218,163 +120,47 @@ redactor:
     content:
       -
         type: text
-        text: 'Gebruikte technologieën'
+        text: 'Een probleem melden'
   -
     type: paragraph
     content:
       -
         type: text
-        text: 'Deze website is gebouwd met de volgende technologieën:'
-  -
-    type: bulletList
-    content:
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: HTML5
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: CSS3
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: JavaScript
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'WAI-ARIA waar nodig'
-  -
-    type: heading
-    attrs:
-      level: 2
-    content:
-      -
-        type: text
-        text: Testmethoden
-  -
-    type: paragraph
-    content:
-      -
-        type: text
-        text: 'De toegankelijkheid van deze website is getest aan de hand van:'
-  -
-    type: bulletList
-    content:
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Automatische tests met axe DevTools en WAVE'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Handmatige tests met toetsenbordnavigatie'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Tests met schermlezers (NVDA, VoiceOver)'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Controle van kleurcontrast met Colour Contrast Analyser'
-  -
-    type: heading
-    attrs:
-      level: 2
-    content:
-      -
-        type: text
-        text: 'Feedback en contact'
-  -
-    type: paragraph
-    content:
-      -
-        type: text
-        text: 'Ervaar je toch een toegankelijkheidsprobleem op onze website? Laat het ons weten zodat wij dit kunnen verhelpen.'
-  -
-    type: paragraph
-    content:
+        text: 'Loop je ergens vast, of vind je iets moeilijk leesbaar of bedienbaar? Laat het ons weten via '
       -
         type: text
         marks:
           -
-            type: bold
-        text: '[Bedrijfsnaam]'
+            type: link
+            attrs:
+              href: 'mailto:info@winsol-brebo.be'
+              rel: null
+              target: null
+              title: null
+        text: info@winsol-brebo.be
       -
         type: text
-        text: ' E-mail: toegankelijkheid@voorbeeld.be Telefoon: +32 (0)XX XX XX XX'
-  -
-    type: paragraph
-    content:
-      -
-        type: text
-        text: 'Wij proberen binnen 5 werkdagen te reageren op je melding.'
-  -
-    type: heading
-    attrs:
-      level: 2
-    content:
-      -
-        type: text
-        text: Handhaving
-  -
-    type: paragraph
-    content:
-      -
-        type: text
-        text: 'Ben je niet tevreden met onze reactie? Dan kun je contact opnemen met:'
-  -
-    type: paragraph
-    content:
+        text: ' of '
       -
         type: text
         marks:
           -
-            type: bold
-        text: 'Federale Overheidsdienst Beleid en Ondersteuning (BOSA)'
+            type: link
+            attrs:
+              href: 'tel:+3223080226'
+              rel: null
+              target: null
+              title: null
+        text: '+32 2 308 02 26'
       -
         type: text
-        text: ' www.accessibility.belgium.be'
+        text: '. Zeg er kort bij om welke pagina het gaat en wat er misging. We antwoorden binnen tien werkdagen.'
+  -
+    type: paragraph
+    content:
+      -
+        type: text
+        text: 'Heb je informatie nodig die op de site niet toegankelijk is, dan bezorgen we die langs een andere weg: per telefoon, per e-mail of in een van onze showrooms in Dilbeek, Sint-Pieters-Leeuw of Aartselaar.'
   -
     type: heading
     attrs:
@@ -382,13 +168,13 @@ redactor:
     content:
       -
         type: text
-        text: Wijzigingen
+        text: 'Over het statuut van deze verklaring'
   -
     type: paragraph
     content:
       -
         type: text
-        text: 'Deze toegankelijkheidsverklaring wordt regelmatig herzien. De meest recente versie is steeds beschikbaar op deze pagina.'
+        text: 'Deze verklaring leggen we uit eigen beweging af. De Belgische wet van 19 juli 2018 over de toegankelijkheid van websites geldt voor overheidsinstanties, en de Europese toegankelijkheidsakte richt zich onder meer op webwinkels waar je online een overeenkomst sluit. Op onze site kan je alleen een offerte, een herstelling of een brochure aanvragen, dus geen van beide verplicht ons hiertoe. We vinden toegankelijkheid daarom niet minder belangrijk, en houden deze pagina bij zoals we dat met de rest van de site doen.'
 updated_by: d308c19c-c205-4453-9862-1f62996a3734
 updated_at: 1773348823
 ---

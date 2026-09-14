@@ -1,16 +1,50 @@
 ---
 id: 61928fdc-3188-4549-b2f6-1dc33c437039
 origin: 58d6348d-f950-471b-b4e9-9b018b914d57
-title: 'Déclaration d''accessibilité'
-meta_title: 'Déclaration d''accessibilité'
-meta_description: 'Dans quelle mesure ce site web répond aux normes d''accessibilité, où des améliorations sont possibles et comment signaler un problème.'
+title: "Déclaration d'accessibilité"
+meta_title: "Déclaration d'accessibilité"
+meta_description: "Le niveau d'accessibilité de ce site, les points encore ouverts et la manière de signaler un problème."
 redactor:
   -
     type: paragraph
     content:
       -
         type: text
-        text: 'Déclaration d''accessibilité'
+        marks:
+          -
+            type: bold
+        text: 'Dernière mise à jour : '
+      -
+        type: text
+        text: '14 septembre 2026'
+  -
+    type: paragraph
+    content:
+      -
+        type: text
+        text: 'Winsol Brebo souhaite que chacun puisse utiliser ce site, y compris les personnes qui voient mal, qui n’utilisent pas de souris ou qui recourent à un lecteur d’écran. Sur cette page, nous disons honnêtement où nous en sommes.'
+  -
+    type: heading
+    attrs:
+      level: 2
+    content:
+      -
+        type: text
+        text: 'La norme que nous suivons'
+  -
+    type: paragraph
+    content:
+      -
+        type: text
+        text: 'Nous visons les Web Content Accessibility Guidelines (WCAG) version 2.1, niveau AA. C’est la norme à laquelle renvoie le standard européen EN 301 549 et qui fait référence en pratique.'
+  -
+    type: heading
+    attrs:
+      level: 2
+    content:
+      -
+        type: text
+        text: 'La situation actuelle'
   -
     type: paragraph
     content:
@@ -19,61 +53,16 @@ redactor:
         marks:
           -
             type: bold
-        text: 'Dernière mise à jour :'
+        text: 'Ce site est partiellement conforme au niveau AA des WCAG 2.1.'
       -
         type: text
-        text: ' 1er janvier 2025'
-  -
-    type: heading
-    attrs:
-      level: 2
-    content:
-      -
-        type: text
-        text: Introduction
+        text: ' L’essentiel est en ordre : le site s’utilise au clavier, la hiérarchie des titres est correcte, les images ont une alternative textuelle et les champs de formulaire ont un label associé.'
   -
     type: paragraph
     content:
       -
         type: text
-        text: '[Nom de l''entreprise] s''efforce de rendre ce site web accessible à tous, indépendamment d''éventuelles limitations. Nous nous engageons à respecter les Web Content Accessibility Guidelines (WCAG) 2.1 au niveau AA.'
-  -
-    type: heading
-    attrs:
-      level: 2
-    content:
-      -
-        type: text
-        text: 'Statut actuel'
-  -
-    type: paragraph
-    content:
-      -
-        type: text
-        text: 'Ce site web est '
-      -
-        type: text
-        marks:
-          -
-            type: bold
-        text: partiellement
-      -
-        type: text
-        text: ' conforme aux WCAG 2.1 niveau AA. Nous travaillons en permanence à des améliorations pour renforcer l''accessibilité.'
-  -
-    type: heading
-    attrs:
-      level: 2
-    content:
-      -
-        type: text
-        text: 'Mesures d''accessibilité'
-  -
-    type: paragraph
-    content:
-      -
-        type: text
-        text: 'Nous avons pris les mesures suivantes pour garantir l''accessibilité de notre site web :'
+        text: 'Les points suivants sont connus et ne sont pas encore résolus :'
   -
     type: bulletList
     content:
@@ -85,7 +74,7 @@ redactor:
             content:
               -
                 type: text
-                text: 'Toutes les images sont pourvues d''une description textuelle alternative.'
+                text: 'À quelques endroits, le contraste entre le texte et le fond est inférieur à ce que la norme demande.'
       -
         type: listItem
         content:
@@ -94,7 +83,7 @@ redactor:
             content:
               -
                 type: text
-                text: 'Le site web est entièrement navigable au clavier.'
+                text: 'Sur petit écran, certains boutons sont plus petits que recommandé, ou trop proches d’un autre bouton.'
       -
         type: listItem
         content:
@@ -103,52 +92,13 @@ redactor:
             content:
               -
                 type: text
-                text: 'Un contraste de couleurs suffisant est appliqué entre le texte et l''arrière-plan.'
+                text: 'Tous les éléments ne communiquent pas leur rôle avec la même précision aux technologies d’assistance.'
+  -
+    type: paragraph
+    content:
       -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Le site web reste utilisable avec un agrandissement jusqu''à 200 %.'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Les formulaires sont pourvus de labels clairs et de messages d''erreur.'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'La structure des pages utilise des éléments HTML sémantiques.'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Les titres suivent une hiérarchie logique (h1, h2, h3, etc.).'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Les liens sont pourvus d''un texte clair et descriptif.'
+        type: text
+        text: 'Ces points proviennent d’une évaluation interne réalisée en septembre 2026, au cours de laquelle nous avons examiné le site à l’aide de contrôles automatisés et au clavier. Aucun audit externe n’a eu lieu.'
   -
     type: heading
     attrs:
@@ -156,61 +106,13 @@ redactor:
     content:
       -
         type: text
-        text: 'Limitations connues'
+        text: 'Ce que nous faisons'
   -
     type: paragraph
     content:
       -
         type: text
-        text: 'Malgré nos efforts, certaines parties du site web peuvent ne pas encore être entièrement accessibles :'
-  -
-    type: bulletList
-    content:
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                marks:
-                  -
-                    type: bold
-                text: 'Vidéos :'
-              -
-                type: text
-                text: ' toutes les vidéos ne sont pas encore sous-titrées. Nous travaillons à compléter cela.'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                marks:
-                  -
-                    type: bold
-                text: 'Documents PDF :'
-              -
-                type: text
-                text: ' certains fichiers PDF plus anciens peuvent ne pas être entièrement accessibles. Contactez-nous si vous avez besoin d''aide pour consulter ces documents.'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                marks:
-                  -
-                    type: bold
-                text: 'Contenu externe :'
-              -
-                type: text
-                text: ' le contenu de tiers (comme les widgets de réseaux sociaux) échappe à notre contrôle et peut ne pas être entièrement accessible.'
+        text: 'Les trois points ci-dessus figurent sur notre liste et seront traités lors de la prochaine maintenance du site. Pour les nouvelles pages, nous vérifions l’accessibilité avant leur mise en ligne.'
   -
     type: heading
     attrs:
@@ -218,163 +120,47 @@ redactor:
     content:
       -
         type: text
-        text: 'Technologies utilisées'
+        text: 'Signaler un problème'
   -
     type: paragraph
     content:
       -
         type: text
-        text: 'Ce site web est construit avec les technologies suivantes :'
-  -
-    type: bulletList
-    content:
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: HTML5
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: CSS3
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: JavaScript
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'WAI-ARIA lorsque nécessaire'
-  -
-    type: heading
-    attrs:
-      level: 2
-    content:
-      -
-        type: text
-        text: 'Méthodes de test'
-  -
-    type: paragraph
-    content:
-      -
-        type: text
-        text: 'L''accessibilité de ce site web a été testée au moyen de :'
-  -
-    type: bulletList
-    content:
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Tests automatiques avec axe DevTools et WAVE'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Tests manuels avec navigation au clavier'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Tests avec des lecteurs d''écran (NVDA, VoiceOver)'
-      -
-        type: listItem
-        content:
-          -
-            type: paragraph
-            content:
-              -
-                type: text
-                text: 'Contrôle du contraste des couleurs avec Colour Contrast Analyser'
-  -
-    type: heading
-    attrs:
-      level: 2
-    content:
-      -
-        type: text
-        text: 'Feedback et contact'
-  -
-    type: paragraph
-    content:
-      -
-        type: text
-        text: 'Vous rencontrez malgré tout un problème d''accessibilité sur notre site web ? Faites-le-nous savoir afin que nous puissions y remédier.'
-  -
-    type: paragraph
-    content:
+        text: 'Vous êtes bloqué quelque part, ou vous trouvez un élément difficile à lire ou à utiliser ? Faites-le-nous savoir à '
       -
         type: text
         marks:
           -
-            type: bold
-        text: '[Nom de l''entreprise]'
+            type: link
+            attrs:
+              href: 'mailto:info@winsol-brebo.be'
+              rel: null
+              target: null
+              title: null
+        text: info@winsol-brebo.be
       -
         type: text
-        text: ' E-mail : toegankelijkheid@voorbeeld.be Téléphone : +32 (0)XX XX XX XX'
-  -
-    type: paragraph
-    content:
-      -
-        type: text
-        text: 'Nous nous efforçons de répondre à votre signalement dans un délai de 5 jours ouvrables.'
-  -
-    type: heading
-    attrs:
-      level: 2
-    content:
-      -
-        type: text
-        text: 'Mise en application'
-  -
-    type: paragraph
-    content:
-      -
-        type: text
-        text: 'Vous n''êtes pas satisfait de notre réponse ? Vous pouvez alors prendre contact avec :'
-  -
-    type: paragraph
-    content:
+        text: ' ou au '
       -
         type: text
         marks:
           -
-            type: bold
-        text: 'Service public fédéral Stratégie et Appui (BOSA)'
+            type: link
+            attrs:
+              href: 'tel:+3223080226'
+              rel: null
+              target: null
+              title: null
+        text: '+32 2 308 02 26'
       -
         type: text
-        text: ' www.accessibility.belgium.be'
+        text: '. Précisez brièvement la page concernée et ce qui n’a pas fonctionné. Nous répondons dans les dix jours ouvrables.'
+  -
+    type: paragraph
+    content:
+      -
+        type: text
+        text: 'Si vous avez besoin d’une information qui n’est pas accessible sur le site, nous vous la fournissons par une autre voie : par téléphone, par e-mail ou dans l’un de nos showrooms de Dilbeek, Sint-Pieters-Leeuw ou Aartselaar.'
   -
     type: heading
     attrs:
@@ -382,11 +168,11 @@ redactor:
     content:
       -
         type: text
-        text: Modifications
+        text: 'Le statut de cette déclaration'
   -
     type: paragraph
     content:
       -
         type: text
-        text: 'Cette déclaration d''accessibilité est régulièrement révisée. La version la plus récente est toujours disponible sur cette page.'
+        text: 'Nous publions cette déclaration de notre propre initiative. La loi belge du 19 juillet 2018 relative à l’accessibilité des sites internet s’applique aux organismes publics, et l’acte européen sur l’accessibilité vise notamment les boutiques en ligne où vous concluez un contrat. Sur notre site, vous pouvez uniquement demander un devis, une réparation ou une brochure : aucun des deux ne nous y oblige donc. Nous n’en jugeons pas l’accessibilité moins importante pour autant, et tenons cette page à jour comme le reste du site.'
 ---
