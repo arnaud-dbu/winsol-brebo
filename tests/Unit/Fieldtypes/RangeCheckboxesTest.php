@@ -72,6 +72,9 @@ class RangeCheckboxesTest extends TestCase
                     'email' => 'jan@voorbeeld.be',
                     'address' => 'Teststraat 1, 1700 Dilbeek',
                     'project' => 'Twee rolluiken vooraan.',
+                    // Verplicht sinds het formulier om toestemming vraagt; zonder
+                    // deze regel meet de test niet meer wat hij belooft.
+                    'gdpr' => '1',
                 ],
                 $rules,
             )->fails(),
