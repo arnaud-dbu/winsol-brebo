@@ -2,8 +2,7 @@
 
 namespace App\Fieldtypes;
 
-use Statamic\Facades\Entry;
-use Statamic\Facades\Site;
+use App\Fieldtypes\Concerns\RangeOptions;
 use Statamic\Fieldtypes\Select;
 
 /**
@@ -17,6 +16,8 @@ use Statamic\Fieldtypes\Select;
  */
 class RangeSelect extends Select
 {
+    use RangeOptions;
+
     protected function getOptions(): array
     {
         return $this->ranges()
@@ -27,7 +28,7 @@ class RangeSelect extends Select
 
     public function rules(): array
     {
-        return ['in:'.$this->ranges()->map->slug()->implode(',')];
+        return ['in:'.$this->slugsInAlleTalen()->implode(',')];
     }
 
     /**
@@ -40,16 +41,5 @@ class RangeSelect extends Select
     public function view()
     {
         return 'statamic::forms.fields.select';
-    }
-
-    private function ranges()
-    {
-        return Entry::query()
-            ->where('collection', 'ranges')
-            ->where('site', Site::current()->handle())
-            ->whereStatus('published')
-            ->get()
-            ->sortBy(fn ($entry) => $entry->value('order'))
-            ->values();
     }
 }

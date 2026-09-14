@@ -2,8 +2,7 @@
 
 namespace App\Fieldtypes;
 
-use Statamic\Facades\Entry;
-use Statamic\Facades\Site;
+use App\Fieldtypes\Concerns\RangeOptions;
 use Statamic\Fieldtypes\Checkboxes;
 
 /**
@@ -31,6 +30,8 @@ use Statamic\Fieldtypes\Checkboxes;
  */
 class RangeCheckboxes extends Checkboxes
 {
+    use RangeOptions;
+
     protected function getOptions(): array
     {
         return $this->ranges()
@@ -60,27 +61,7 @@ class RangeCheckboxes extends Checkboxes
     public function extraRules(): array
     {
         return [
-            $this->field->handle().'.*' => 'in:'.$this->ranges()->map->slug()->implode(','),
+            $this->field->handle().'.*' => 'in:'.$this->slugsInAlleTalen()->implode(','),
         ];
-    }
-
-    /**
-     * `order` is op de ranges-blueprint beschreven als volgorde binnen de
-     * categorie, maar loopt in de praktijk uniek van 1 tot 9 over alle negen
-     * entries en werkt dus als globale volgorde.
-     */
-    private function ranges()
-    {
-        // Zonder sitefilter komen alle taalversies terug en wint bij het
-        // ontdubbelen op slug de laatste site — Engelse labels op elke site.
-        // `value('order')` in plaats van orderBy: localisaties erven order
-        // van hun origin en dragen het veld dus niet zelf.
-        return Entry::query()
-            ->where('collection', 'ranges')
-            ->where('site', Site::current()->handle())
-            ->whereStatus('published')
-            ->get()
-            ->sortBy(fn ($entry) => $entry->value('order'))
-            ->values();
     }
 }
