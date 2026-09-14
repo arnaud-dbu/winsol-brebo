@@ -35,30 +35,7 @@
                                 {{ /if }}
                             </div>
                         {{ elseif handle == "gdpr" }}
-                            {{# Buiten .form-field: die stijlt elke input als volle-breedte tekstveld en zou de checkbox raken. #}}
-                            <div class="flex flex-col gap-2 lg:col-span-2">
-                                <label class="flex items-start gap-3 text-base">
-                                    <input
-                                        type="checkbox"
-                                        name="{{ name }}"
-                                        value="1"
-                                        required
-                                        class="mt-1 size-4 accent-black"
-                                        {{ if value }} checked{{ /if }}
-                                        {{ if error }} aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }} />
-                                    {{ site_prefix = site:url == '/' ? '' : site:url }}
-                                    <span>
-                                        {{ trans key="Ik ga akkoord met de verwerking van mijn gegevens zoals vermeld in het" }}
-                                        <a href="{{ page_url:privacy-policy }}" class="underline">
-                                            {{ trans key="privacybeleid" }}
-                                        </a>
-                                        .
-                                    </span>
-                                </label>
-                                {{ if error }}
-                                    <p class="form-error" id="{{ id }}-error">{{ error }}</p>
-                                {{ /if }}
-                            </div>
+                            {{ partial:gdprField }}
                         {{ else }}
                             <div class="form-field{{ if width == 50 }} form-field--half{{ /if }}">
                                 <label class="form-label" for="{{ id }}">{{ trans :key="display" }}</label>

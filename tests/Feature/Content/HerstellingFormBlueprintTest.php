@@ -48,9 +48,11 @@ class HerstellingFormBlueprintTest extends TestCase
     {
         $fields = Form::find('herstelling')->blueprint()->fields()->all();
 
-        foreach (['photo', 'invoice'] as $handle) {
+        // Foto's van het probleem mogen met vijf; een factuur is zelden meer
+        // dan een voor- en achterkant.
+        foreach (['photo' => 5, 'invoice' => 2] as $handle => $maxBestanden) {
             $this->assertSame('private', $fields->get($handle)->get('container'), "{$handle} hoort in de private-container.");
-            $this->assertSame(1, $fields->get($handle)->get('max_files'));
+            $this->assertSame($maxBestanden, $fields->get($handle)->get('max_files'));
         }
 
         $this->assertTrue(

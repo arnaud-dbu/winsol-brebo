@@ -18,8 +18,13 @@ class ReparationFormTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:reparationForm }}');
 
-        foreach (['product', 'is_winsol', 'installed', 'facade', 'floor', 'dimensions', 'problem', 'branch', 'photo', 'invoice', 'email', 'name', 'phone', 'address'] as $handle) {
+        foreach (['product', 'is_winsol', 'installed', 'facade', 'floor', 'dimensions', 'problem', 'branch', 'email', 'name', 'phone', 'address'] as $handle) {
             $this->assertStringContainsString('name="'.$handle.'"', $html, "Veld {$handle} ontbreekt.");
+        }
+
+        // Arraynamen: beide bestandsvelden nemen er meer dan één aan.
+        foreach (['photo', 'invoice'] as $handle) {
+            $this->assertStringContainsString('name="'.$handle.'[]"', $html, "Veld {$handle} ontbreekt.");
         }
     }
 
@@ -122,8 +127,13 @@ class ReparationFormTest extends SectionTestCase
         // niet dat zijn upload is aangekomen, want de file-input ligt
         // onzichtbaar over de dropzone.
         $this->assertSame(2, substr_count($html, 'data-file-name'));
-        $this->assertStringContainsString('Sleep een foto hierheen of klik om te uploaden', $html);
+        $this->assertStringContainsString("Sleep je foto's hierheen of klik om te uploaden", $html);
         $this->assertStringContainsString('Sleep je factuur hierheen of klik om te uploaden', $html);
+
+        // Allebei meervoudig, en allebei met hun grenzen en foutplaatshouder.
+        $this->assertSame(2, substr_count($html, 'multiple'));
+        $this->assertSame(2, substr_count($html, 'data-max-total'));
+        $this->assertSame(2, substr_count($html, 'data-upload-error'));
     }
 
     public function test_accepts_file_uploads(): void

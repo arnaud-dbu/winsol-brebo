@@ -11,9 +11,14 @@ class OfferteFormTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:offerteForm }}');
 
-        foreach (['location', 'name', 'phone', 'email', 'address', 'project', 'attachment'] as $handle) {
+        foreach (['location', 'name', 'phone', 'email', 'address', 'project'] as $handle) {
             $this->assertStringContainsString('name="'.$handle.'"', $html, "Veld {$handle} ontbreekt.");
         }
+
+        // Arraynaam: `attachment` neemt meerdere bestanden aan, en Statamic
+        // hangt er dan zelf `[]` aan. Zonder die haken houdt PHP alleen het
+        // laatste bestand over.
+        $this->assertStringContainsString('name="attachment[]"', $html);
 
         // products is een array, dus de naam draagt haakjes.
         $this->assertStringContainsString('name="products[]"', $html);
@@ -99,7 +104,29 @@ class OfferteFormTest extends SectionTestCase
         $this->assertGreaterThan($dropzoneOpen, $fileInput, 'Het file-input hoort ná de opening van de dropzone te staan.');
         $this->assertLessThan($dropzoneClose, $fileInput, 'Het file-input hoort vóór de sluiting van de dropzone te staan.');
 
-        $this->assertStringContainsString('Sleep een foto hierheen of klik om te uploaden', $html);
+        $this->assertStringContainsString("Sleep je foto's hierheen of klik om te uploaden", $html);
+        $this->assertMatchesRegularExpression('/<input[^>]*type="file"[^>]*multiple/s', $html);
+    }
+
+    /**
+     * De grenzen staan als data-attributen op de dropzone omdat
+     * form-feedback.js ze daar leest. Gaan ze verloren, dan valt de controle
+     * in de browser stil weg: een te grote POST wordt door PHP verworpen
+     * zonder foutmelding, en de bezoeker krijgt een leeg formulier terug.
+     */
+    public function test_the_dropzone_carries_the_upload_limits(): void
+    {
+        $html = $this->render('{{ partial:offerteForm }}');
+
+        foreach (['data-max-total', 'data-max-file', 'data-max-files'] as $attribuut) {
+            $this->assertMatchesRegularExpression(
+                '/'.$attribuut.'="[1-9][0-9]*"/',
+                $html,
+                "{$attribuut} ontbreekt of staat op nul.",
+            );
+        }
+
+        $this->assertStringContainsString('data-upload-error', $html);
     }
 
     /**

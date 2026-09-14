@@ -82,6 +82,15 @@ fields:
             if:
               type: 'equals asset'
         -
+          handle: anchor
+          field:
+            type: text
+            display: Anchor
+            width: 50
+            instructions: 'Optioneel. Springt naar een sectie op de doelpagina, zonder #. Bijvoorbeeld: herstelling'
+            if:
+              type: 'equals entry'
+        -
           handle: label
           field:
             type: text

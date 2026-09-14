@@ -89,8 +89,8 @@ tabs:
               type: assets
               container: private
               folder: herstellingen
-              max_files: 1
-              display: 'Foto van het probleem (optioneel)'
+              max_files: 5
+              display: "Foto's van het probleem (optioneel)"
               validate:
                 - 'mimes:jpg,jpeg,png,webp,heic,heif,hif,pdf'
                 - 'max_filesize:10240'
@@ -100,7 +100,7 @@ tabs:
               type: assets
               container: private
               folder: herstellingen
-              max_files: 1
+              max_files: 2
               display: 'Originele factuur (indien bij de hand)'
               validate:
                 - 'mimes:jpg,jpeg,png,webp,heic,heif,hif,pdf'
@@ -172,7 +172,7 @@ tabs:
             handle: rates_agreed
             field:
               type: toggle
-              display: 'Ik heb kennis genomen en verklaar mij akkoord met de tarieven van Brebo bvba: verplaatsingsforfait 90 euro excl. btw en 65 euro excl. btw per begonnen uur per persoon, exclusief wisselstukken en verbruikt materiaal.'
+              display: 'Ik heb kennis genomen en verklaar mij akkoord met de tarieven van Brebo BV: verplaatsingsforfait 90 euro excl. btw en 65 euro excl. btw per begonnen uur per persoon, exclusief wisselstukken en verbruikt materiaal.'
               validate:
                 - accepted
           -
@@ -180,5 +180,12 @@ tabs:
             field:
               type: toggle
               display: 'Ik ga akkoord met de garantievoorwaarden'
+              validate:
+                - accepted
+          -
+            handle: gdpr
+            field:
+              type: toggle
+              display: 'Akkoord met de verwerking van mijn gegevens'
               validate:
                 - accepted

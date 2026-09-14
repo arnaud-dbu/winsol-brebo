@@ -73,8 +73,15 @@ tabs:
               type: assets
               container: private
               folder: offertes
-              max_files: 1
-              display: 'Foto of plan toevoegen (optioneel)'
+              max_files: 5
+              display: "Foto's of plannen toevoegen (optioneel)"
               validate:
                 - 'mimes:jpg,jpeg,png,webp,heic,heif,hif,pdf'
                 - 'max_filesize:10240'
+          -
+            handle: gdpr
+            field:
+              type: toggle
+              display: 'Akkoord met de verwerking van mijn gegevens'
+              validate:
+                - accepted
