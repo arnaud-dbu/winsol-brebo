@@ -1,5 +1,6 @@
 title: Legal
 revisions: false
+template: legal/show
 route: '/{slug}'
 date_behavior:
   past: public
