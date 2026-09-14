@@ -41,19 +41,9 @@
                                         {{ icon src="caret-down" }}
                                     </div>
                                 {{ elseif handle == "photo" }}
-                                    <div class="form-dropzone">
-                                        {{ icon src="upload" class="size-7" }}
-                                        <span>{{ trans key="Sleep een foto hierheen of klik om te uploaden" }}</span>
-                                        {{ field }}
-                                        <span class="form-dropzone__file" data-file-name></span>
-                                    </div>
+                                    {{ partial:uploadField prompt="Sleep je foto's hierheen of klik om te uploaden" }}
                                 {{ elseif handle == "invoice" }}
-                                    <div class="form-dropzone">
-                                        {{ icon src="upload" class="size-7" }}
-                                        <span>{{ trans key="Sleep je factuur hierheen of klik om te uploaden" }}</span>
-                                        {{ field }}
-                                        <span class="form-dropzone__file" data-file-name></span>
-                                    </div>
+                                    {{ partial:uploadField prompt="Sleep je factuur hierheen of klik om te uploaden" }}
                                 {{ elseif handle == "address" }}
                                     {{ partial:addressField }}
                                 {{ else }}

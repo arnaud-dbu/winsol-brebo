@@ -1,0 +1,31 @@
+{{#
+    Een bestandsveld met zijn grenzen erbij. Gedeeld door offerte en herstelling, die samen drie van deze velden hebben. De
+    getallen komen van `upload_limits` en niet uit de tekst: het blueprint mag 10 MB per bestand toestaan, php.ini kan
+    strenger staan, en dan weigert de server precies wat het label belooft. Ze gaan ook als data-attributen mee, zodat
+    form-feedback.js in de browser dezelfde grens hanteert. Zonder die controle gooit PHP bij een te grote POST de hele body
+    weg en krijgt de bezoeker een leeg formulier terug, zonder één foutmelding. `prompt` is de aanspreektekst in de zone
+    zelf; die verschilt per veld (foto's, factuur).
+#}}
+{{ upload_limits :validate="validate" :max_files="max_files" }}
+    <div
+        class="form-dropzone"
+        data-max-total="{{ totaal }}"
+        data-max-file="{{ per_bestand }}"
+        data-max-files="{{ max_bestanden }}">
+        {{ icon src="upload" class="size-7" }}
+        <span>{{ trans :key="prompt" }}</span>
+        {{ field }}
+        <span class="form-dropzone__file" data-file-name></span>
+    </div>
+    {{ if totaal }}
+        <p class="form-instructions">
+            {{ if meerdere }}
+                {{ trans key="Maximaal :aantal bestanden, elk tot :bestand, samen hoogstens :totaal." :aantal="max_bestanden" :bestand="per_bestand_label" :totaal="totaal_label" }}
+            {{ else }}
+                {{ trans key="Eén bestand, tot :bestand." :bestand="per_bestand_label" }}
+            {{ /if }}
+        </p>
+    {{ /if }}
+    {{# Gevuld door form-feedback.js zodra de keuze over de grens gaat; leeg en dus onzichtbaar tot dat gebeurt. #}}
+    <p class="form-error" data-upload-error hidden></p>
+{{ /upload_limits }}

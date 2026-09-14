@@ -50,7 +50,7 @@ class OfferteFormBlueprintTest extends TestCase
         $attachment = Form::find('offerte')->blueprint()->fields()->all()->get('attachment');
 
         $this->assertSame('private', $attachment->get('container'));
-        $this->assertSame(1, $attachment->get('max_files'));
+        $this->assertSame(5, $attachment->get('max_files'));
         $this->assertTrue(
             AssetContainer::find('private')->private(),
             'De private-container staat op een schijf met een `url`, dus de uploads zijn publiek bereikbaar.',
