@@ -33,3 +33,8 @@ Thumbs.db
 .superpowers/
 /.worktrees
 /*-audit
+
+# Werkmap voor bestanden die van de klant binnenkomen en naar de
+# assetcontainer gaan. De rest van .scratch blijft wel getrackt: daar staat
+# de issuetracker (zie CLAUDE.md).
+/.scratch/brochures
