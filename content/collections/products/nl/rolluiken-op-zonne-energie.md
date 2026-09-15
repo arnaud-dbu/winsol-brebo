@@ -5,7 +5,7 @@ range:
   - 8c2e41a0-0003-4a1b-9c7d-3e5f6a7b8c03
 text: 'Twee ingewerkte zonnepanelen sturen de motor aan, dus er zijn geen kabels en geen stopcontact nodig.'
 image: 'rolluiken/Low Res 3/rolluiken_volets-roulants_solarbox_attenhoven_(0698).jpg'
-brochure: brochures/winsol-brochure-rolluiken-nl.pdf
+brochure: brochures/winsol_brochure_verticale-zonwering_nl.pdf
 meta_title: 'Rolluiken op zonne-energie'
 meta_description: 'SolarBox en SolarFuse: rolluiken op zonne-energie met twee ingewerkte zonnepanelen, een 4 Ah-batterij en installatie zonder kap- en breekwerk.'
 seo_noindex: false

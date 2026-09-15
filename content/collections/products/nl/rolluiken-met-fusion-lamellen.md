@@ -5,7 +5,7 @@ range:
   - 8c2e41a0-0003-4a1b-9c7d-3e5f6a7b8c03
 text: 'Lamellen met microperforaties die tot vier keer meer daglicht doorlaten, en die je nog altijd volledig kan sluiten.'
 image: rolluiken/winsol-fusion-rolluiken-woning.webp
-brochure: brochures/winsol-brochure-rolluiken-nl.pdf
+brochure: brochures/winsol_brochure_verticale-zonwering_nl.pdf
 meta_title: 'Rolluiken met Fusion-lamellen'
 meta_description: 'Fusion-lamellen combineren rolluik en screen: tot vier keer meer daglicht, zicht naar buiten, ventileren zonder insecten, en toch volledige verduistering.'
 seo_noindex: false

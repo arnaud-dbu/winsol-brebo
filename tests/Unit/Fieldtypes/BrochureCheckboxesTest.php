@@ -39,7 +39,7 @@ class BrochureCheckboxesTest extends TestCase
         // En een steekproef op de inhoud, zodat een leeggelopen of
         // onvertaalde globalset alsnog opvalt.
         $this->assertGreaterThanOrEqual(10, count($items));
-        $this->assertContains('Rolluiken', array_column($items, 'label'));
+        $this->assertContains('Garagepoorten', array_column($items, 'label'));
     }
 
     /**
@@ -57,14 +57,14 @@ class BrochureCheckboxesTest extends TestCase
         );
 
         $this->assertTrue(
-            Validator::make(['brochures' => ['brochures/winsol-brochure-rolluiken-nl.pdf', 'niet-bestaand.pdf']], $rules)->fails(),
+            Validator::make(['brochures' => ['brochures/winsol_brochure_verticale-zonwering_nl.pdf', 'niet-bestaand.pdf']], $rules)->fails(),
             'Een pad buiten de globalset hoort te falen.',
         );
 
         $this->assertFalse(
             Validator::make(
                 [
-                    'brochures' => ['brochures/winsol-brochure-rolluiken-nl.pdf'],
+                    'brochures' => ['brochures/winsol_brochure_verticale-zonwering_nl.pdf'],
                     'name' => 'Jan',
                     'email' => 'jan@voorbeeld.be',
                     'phone' => '+32 470 00 00 00',
@@ -90,18 +90,18 @@ class BrochureCheckboxesTest extends TestCase
     public function test_a_stored_path_augments_to_label_and_url(): void
     {
         $asset = Mockery::mock();
-        $asset->shouldReceive('url')->andReturn('/r2/brochures/winsol-brochure-rolluiken-nl.pdf');
+        $asset->shouldReceive('url')->andReturn('/r2/brochures/winsol_brochure_verticale-zonwering_nl.pdf');
 
         Asset::shouldReceive('find')
-            ->with('assets::brochures/winsol-brochure-rolluiken-nl.pdf')
+            ->with('assets::brochures/winsol_brochure_verticale-zonwering_nl.pdf')
             ->andReturn($asset);
 
         $field = new Field('brochures', ['type' => 'brochure_checkboxes']);
 
-        $augmented = $field->fieldtype()->augment(['brochures/winsol-brochure-rolluiken-nl.pdf']);
+        $augmented = $field->fieldtype()->augment(['brochures/winsol_brochure_verticale-zonwering_nl.pdf']);
 
-        $this->assertSame('Rolluiken', $augmented[0]['label']);
-        $this->assertSame('/r2/brochures/winsol-brochure-rolluiken-nl.pdf', $augmented[0]['url']);
+        $this->assertSame('Rolluiken en verticale zonwering', $augmented[0]['label']);
+        $this->assertSame('/r2/brochures/winsol_brochure_verticale-zonwering_nl.pdf', $augmented[0]['url']);
     }
     /**
      * Het formulier post naar `/!/forms/brochure`, een route zonder taalprefix,

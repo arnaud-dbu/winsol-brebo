@@ -5,7 +5,7 @@ range:
   - 8c2e41a0-0003-4a1b-9c7d-3e5f6a7b8c03
 text: 'Raam en rolluik als één geheel, in de fabriek gemonteerd en kant-en-klaar geleverd.'
 image: rolluiken/winsol-opbouwrolluik-woning.webp
-brochure: brochures/winsol-brochure-rolluiken-nl.pdf
+brochure: brochures/winsol_brochure_verticale-zonwering_nl.pdf
 meta_title: 'Opbouwrolluiken op maat'
 meta_description: 'Opbouwrolluiken van Winsol: de rolluikkast zit al op het raamprofiel gemonteerd. Volledig lucht-, water- en winddicht, en bij de best isolerende op de markt.'
 seo_noindex: false
