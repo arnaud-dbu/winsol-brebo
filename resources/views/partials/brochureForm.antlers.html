@@ -19,12 +19,16 @@
                                     {{ foreach:options as="option|label" }}
                                         <li>
                                             <label class="offerte-pill">
-                                                {{# `get:brochure` selecteert de pdf voor vanaf een productpagina; oude invoer uit de errorbag wint. #}}
+                                                {{#
+                                                    `get:brochure` selecteert de pdf voor vanaf een productpagina; oude invoer uit de errorbag wint. `brochure_for_site` zet
+                                                    het meegegeven pad om naar de taal van de bezoeker: fr- en en-producten erven het Nederlandse pad, en dat komt in hun
+                                                    eigen bibliotheek niet voor.
+                                                #}}
                                                 <input
                                                     type="checkbox"
                                                     name="{{ name }}[]"
                                                     value="{{ option }}"
-                                                    {{ if (value|in_array:option) || (!value && get:brochure == option) }} checked{{ /if }} />
+                                                    {{ if (value|in_array:option) || (!value && (get:brochure | brochure_for_site) == option) }} checked{{ /if }} />
                                                 <span>{{ label | entities }}</span>
                                             </label>
                                         </li>
