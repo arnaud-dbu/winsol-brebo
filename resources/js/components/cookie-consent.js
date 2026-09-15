@@ -147,6 +147,31 @@ export function cookieConsent(config = {}) {
                 });
                 gtag('consent', 'update', update);
             }
+
+            // Een expliciet event naast de Consent Mode-update, op vraag van
+            // Nils (15-09-2026). GTM herqueut een tag die op toestemming
+            // wacht niet betrouwbaar voor de Meta Pixel-template: die vuurt
+            // pas op een volgende paginalading waar de toestemming al vaststond.
+            // Google's eigen tags hebben dat probleem niet, want die
+            // verwerken een consent-update zelf.
+            //
+            // Hier en niet in de knophandler: deze methode draait ook bij
+            // "Voorkeuren bevestigen" en bij een terugkerende bezoeker wiens
+            // keuze uit de cookie komt. Alleen de accepteerknop zou die twee
+            // missen.
+            //
+            // De categorieën gaan mee als losse waarden. Zonder die waarden
+            // zou een tag die op dit event vuurt ook afgaan bij iemand die
+            // marketing weigerde, en dan is de hele banner zinloos. Zet in GTM
+            // dus een voorwaarde op `consent_marketing` en laat de tag zijn
+            // eigen consent-eis staan.
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'consent_accepted',
+                consent_marketing: this.choices.marketing,
+                consent_analytics: this.choices.analytics,
+                consent_personalization: this.choices.personalization,
+            });
         },
     };
 }
