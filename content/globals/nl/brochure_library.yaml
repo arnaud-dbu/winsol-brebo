@@ -12,16 +12,12 @@ items:
     label: 'IQON minimalistisch schuifraam'
     file: brochures/winsol-brochure-iqon-nl.pdf
   -
-    id: br-rolluiken
-    label: Rolluiken
-    file: brochures/winsol-brochure-rolluiken-nl.pdf
-  -
     id: br-garagepoorten
     label: 'Garagepoorten'
     file: brochures/winsol-brochure-garagepoorten-nl.pdf
   -
     id: br-screens
-    label: 'Verticale zonwering'
+    label: 'Rolluiken en verticale zonwering'
     file: brochures/winsol_brochure_verticale-zonwering_nl.pdf
   -
     id: br-screens-only
@@ -39,19 +35,29 @@ items:
     id: br-pergola-so
     label: 'Pergola SO!'
     file: brochures/winsol-brochure_so-classic-climate_2025_nl.pdf
+    extra_files:
+      - brochures/winsol_brochure_luifels_nl.pdf
   -
     id: br-pergola-zip
     label: 'Pergola Z!P'
     file: brochures/winsol-brochure-pergola-zip-nl.pdf
+    extra_files:
+      - brochures/winsol_brochure_luifels_nl.pdf
   -
     id: br-pergola-origin
     label: 'Pergola ORIG!N'
     file: brochures/pergola-origin_2025_nl.pdf
+    extra_files:
+      - brochures/winsol_brochure_luifels_nl.pdf
   -
     id: br-so-cocoon
     label: 'Pergola SO! Cocoon en Combi'
     file: brochures/winsol_brochure_so-cocoon_nl.pdf
+    extra_files:
+      - brochures/winsol_brochure_luifels_nl.pdf
   -
     id: br-so-crystal
     label: 'Pergola SO! Crystal'
     file: brochures/winsol_brochure_so-crystal_nl.pdf
+    extra_files:
+      - brochures/winsol_brochure_luifels_nl.pdf

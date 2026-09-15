@@ -5,7 +5,7 @@ range:
   - 8c2e41a0-0003-4a1b-9c7d-3e5f6a7b8c03
 text: 'Het vertrouwde pantser dat volledig verduistert, in pvc of aluminium en optioneel met daglichtsleuven.'
 image: 'rolluiken/2019 onbekend, Izegem/realisatie-realisation-rolluiken-solar-volets-solar-(10).jpg'
-brochure: brochures/winsol-brochure-rolluiken-nl.pdf
+brochure: brochures/winsol_brochure_verticale-zonwering_nl.pdf
 meta_title: 'Rolluiken met klassieke lamellen'
 meta_description: 'Klassieke rolluiklamellen in pvc of aluminium, dubbelwandig en gevuld met isolerend schuim. Volledige verduistering, of met daglichtsleuven.'
 seo_noindex: false

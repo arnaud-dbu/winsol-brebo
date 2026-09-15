@@ -5,7 +5,7 @@ range:
   - 8c2e41a0-0003-4a1b-9c7d-3e5f6a7b8c03
 text: 'Rolluiken tegen de gevel of in de dagopening, zonder kapwerk en dus zonder schade aan je interieur.'
 image: 'rolluiken/OneDrive_2_31-07-2026/voorzetrolluiken-volets-roulants-mini-caisson-2.jpg'
-brochure: brochures/winsol-brochure-rolluiken-nl.pdf
+brochure: brochures/winsol_brochure_verticale-zonwering_nl.pdf
 meta_title: 'Voorzetrolluiken op maat'
 meta_description: 'Voorzetrolluiken van Winsol: geplaatst tegen de gevel zonder kap- en breekwerk, in 5 kastmaten en 3 kastvormen. Ideaal bij renovatie.'
 seo_noindex: false

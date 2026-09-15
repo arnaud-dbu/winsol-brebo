@@ -67,11 +67,31 @@ class BrochureCheckboxes extends Checkboxes
     /**
      * De mailview heeft naast het label ook de downloadlink nodig; de parent
      * augmenteert alleen naar value+label.
+     *
+     * Een keuze kan meer dan één pdf opleveren. Een item in de bibliotheek
+     * mag `extra_files` dragen, en die gaan mee in de bevestigingsmail zonder
+     * dat de bezoeker ze apart moet aanvinken: wie een pergolabrochure
+     * vraagt, krijgt de zonneschermen er zo vanzelf bij (Jimmy, 10-09-2026).
      */
     public function augment($value)
     {
+        $bibliotheek = $this->items()->keyBy('file');
+
         return collect(parent::augment($value))
-            ->map(fn ($item) => $item + ['url' => Asset::find('assets::'.$item['value'])?->url()])
+            ->flatMap(fn ($item) => collect([$item['value']])
+                ->merge($bibliotheek[$item['value']]['extra_files'] ?? []))
+            // Ontdubbelen op pad. Twee regels in de lijst mogen naar dezelfde
+            // pdf wijzen — Rolluiken en Verticale zonwering doen dat sinds
+            // Jimmy's correctie — en een extra kan samenvallen met iets dat de
+            // bezoeker zelf al aanvinkte. Zonder dit staat dezelfde brochure
+            // twee keer in de mail.
+            ->unique()
+            ->map(fn ($pad) => [
+                'value' => $pad,
+                'label' => $bibliotheek[$pad]['label'] ?? $pad,
+                'url' => Asset::find('assets::'.$pad)?->url(),
+            ])
+            ->values()
             ->all();
     }
 

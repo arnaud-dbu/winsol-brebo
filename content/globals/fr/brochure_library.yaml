@@ -12,16 +12,12 @@ items:
     label: 'Châssis coulissant minimaliste IQON'
     file: brochures/winsol-brochure-iqon-fr.pdf
   -
-    id: br-rolluiken
-    label: 'Volets roulants'
-    file: brochures/winsol-brochure-rolluiken-fr.pdf
-  -
     id: br-garagepoorten
     label: 'Portes de garage'
     file: brochures/winsol-brochure-garagepoorten-fr.pdf
   -
     id: br-screens
-    label: 'Protection solaire verticale'
+    label: 'Volets roulants et protection solaire verticale'
     file: brochures/winsol_brochure_verticale-zonwering_fr.pdf
   -
     id: br-screens-only
@@ -39,19 +35,29 @@ items:
     id: br-pergola-so
     label: 'Pergola SO!'
     file: brochures/winsol-brochure_so-classic-climate_2025_fr.pdf
+    extra_files:
+      - brochures/winsol_brochure_luifels_fr.pdf
   -
     id: br-pergola-zip
     label: 'Pergola Z!P'
     file: brochures/winsol-brochure-pergola-zip-fr.pdf
+    extra_files:
+      - brochures/winsol_brochure_luifels_fr.pdf
   -
     id: br-pergola-origin
     label: 'Pergola ORIG!N'
     file: brochures/pergola-origin_2025_fr.pdf
+    extra_files:
+      - brochures/winsol_brochure_luifels_fr.pdf
   -
     id: br-so-cocoon
     label: 'Pergola SO! Cocoon et Combi'
     file: brochures/winsol_brochure_so-cocoon_fr.pdf
+    extra_files:
+      - brochures/winsol_brochure_luifels_fr.pdf
   -
     id: br-so-crystal
     label: 'Pergola SO! Crystal'
     file: brochures/winsol_brochure_so-crystal_fr.pdf
+    extra_files:
+      - brochures/winsol_brochure_luifels_fr.pdf

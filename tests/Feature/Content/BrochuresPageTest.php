@@ -24,11 +24,11 @@ class BrochuresPageTest extends TestCase
      */
     public function test_a_product_link_preselects_exactly_its_brochure(): void
     {
-        $html = $this->get('/brochures?brochure=brochures/winsol-brochure-rolluiken-nl.pdf')->content();
+        $html = $this->get('/brochures?brochure=brochures/winsol_brochure_verticale-zonwering_nl.pdf')->content();
 
         $this->assertSame(1, substr_count($html, ' checked'));
         $this->assertMatchesRegularExpression(
-            '/value="brochures\/winsol-brochure-rolluiken-nl\.pdf"\s+checked/',
+            '/value="brochures\/winsol_brochure_verticale-zonwering_nl\.pdf"\s+checked/',
             $html,
         );
     }
