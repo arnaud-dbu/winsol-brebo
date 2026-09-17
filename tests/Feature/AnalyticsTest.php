@@ -85,4 +85,87 @@ class AnalyticsTest extends TestCase
         $this->assertStringNotContainsString('googletagmanager.com', $html);
         $this->assertStringNotContainsString("gtag('consent'", $html);
     }
+
+    /**
+     * De kern van de fix van 17-09-2026. De banner draait op Alpine en dat komt
+     * uit een `type="module"`-bundel, dus uitgesteld tot na het parsen. Een
+     * inline body-script als `formSuccessEvent` is er dan allang geweest. Stond
+     * de toestemming van een terugkerende bezoeker in de component, dan kwam
+     * `consent_accepted` structureel ná `form_submit_success` en faalde elke
+     * GTM-trigger met een voorwaarde op `consent_marketing`. Daarom hoort dit
+     * script inline in de head, vóór Tag Manager.
+     */
+    public function test_the_returning_visitor_consent_runs_before_tag_manager(): void
+    {
+        $html = $this->homepage();
+
+        $bootstrap = strpos($html, '__cookieConsentSignalled');
+        $defaults = strpos($html, "gtag('consent', 'default'");
+        $gtm = strpos($html, 'googletagmanager.com/gtm.js');
+
+        $this->assertNotFalse($bootstrap, 'Het bootstrap-script voor een terugkerende bezoeker ontbreekt.');
+        $this->assertLessThan($gtm, $bootstrap, 'De toestemming moet gesignaleerd zijn vóór Tag Manager laadt.');
+        $this->assertGreaterThan($defaults, $bootstrap, 'De defaults moeten eerst staan, anders overschrijven ze de update.');
+    }
+
+    public function test_the_bootstrap_pushes_the_consent_categories(): void
+    {
+        $html = $this->homepage();
+
+        $this->assertStringContainsString("event: 'consent_accepted'", $html);
+
+        foreach (['consent_marketing', 'consent_analytics', 'consent_personalization'] as $key) {
+            $this->assertStringContainsString($key, $html, "De categorie {$key} hoort mee in de push.");
+        }
+    }
+
+    /**
+     * De cookie wordt op twee plaatsen gelezen: inline in de head en in de
+     * Alpine-component. Dat is bewuste duplicatie — de bundel is te laat voor
+     * de head — maar de twee moeten wel dezelfde cookie en dezelfde
+     * signaalmapping gebruiken, anders signaleert de een iets anders dan de
+     * ander.
+     */
+    public function test_the_head_script_and_the_component_agree_on_the_mapping(): void
+    {
+        $partial = file_get_contents(resource_path('views/partials/analytics.antlers.html'));
+        $module = file_get_contents(resource_path('js/components/cookie-consent.js'));
+
+        $this->assertSame(
+            $this->signalMap($module),
+            $this->signalMap($partial),
+            'De categorie-naar-signaal-mapping loopt uiteen tussen de partial en de Alpine-component.',
+        );
+
+        foreach (["'cookie_consent'", 'marketing', 'personalization', 'analytics'] as $shared) {
+            $this->assertStringContainsString($shared, $partial);
+            $this->assertStringContainsString($shared, $module);
+        }
+    }
+
+    /**
+     * Haalt per categorie de Consent Mode-signalen uit een bestand, ongeacht of
+     * ze in `CONSENT_MODE_MAP` of in `SIGNALS` staan.
+     *
+     * @return array<string, list<string>>
+     */
+    private function signalMap(string $source): array
+    {
+        $map = [];
+
+        foreach (['marketing', 'personalization', 'analytics'] as $category) {
+            preg_match("~{$category}:\\s*\\[([^\\]]*)\\]~", $source, $matches);
+
+            $signals = isset($matches[1])
+                ? preg_split('~\s*,\s*~', trim($matches[1]), -1, PREG_SPLIT_NO_EMPTY)
+                : [];
+
+            $map[$category] = array_values(array_map(
+                static fn (string $signal): string => trim($signal, " \t\n\r'\""),
+                $signals,
+            ));
+        }
+
+        return $map;
+    }
 }

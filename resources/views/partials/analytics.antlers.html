@@ -17,6 +17,81 @@
             });
         </script>
     {{ /if }}
+    {{#
+        Toestemming van een terugkerende bezoeker, hier en niet in de Alpine-component. De banner draait op Alpine, en dat komt
+        uit de Vite-bundel: een `type="module"`-script, dus uitgesteld tot na het parsen van het document. `init()` — en daarmee
+        de `consent_accepted`-push — loopt pas rond DOMContentLoaded. Een inline script in de body, zoals
+        `partials/formSuccessEvent`, draait al tijdens het parsen. Op de bedankpagina van een formulier stond
+        `form_submit_success` daardoor altijd vóór `consent_accepted` in de dataLayer, ook bij iemand die zijn toestemming
+        pagina's eerder al gaf. Een GTM-trigger met een voorwaarde op `consent_marketing` faalde dan op precies het moment dat
+        het ertoe deed. Dat is documentvolgorde, geen race: langer wachten hielp niet. Vandaar hier, inline, vóór de GTM-loader.
+        Server-side renderen zou nog eerder zijn, maar productie draait de `half`-strategie van static caching: die HTML wordt
+        tussen bezoekers gedeeld, dus daar mag geen toestemming in gebakken worden. Alleen het signaal staat hier. Het activeren
+        van de gegatede `type="text/plain"`-scripts blijft in de component, want die knopen bestaan op dit punt nog niet. Blijft
+        de cookie-naam, de categorieën of de signaalmapping wijzigen, dan moet dat hier én in
+        `resources/js/components/cookie-consent.js` gebeuren; `AnalyticsTest` bewaakt dat ze niet uit elkaar lopen.
+    #}}
+    {{ if cookie_consent:enabled }}
+        <script>
+            (function () {
+                var NAME = 'cookie_consent';
+                var VERSION = '{{ cookie_consent:cookie_version or "1" }}';
+                var CATEGORIES = ['marketing', 'personalization', 'analytics'];
+                var SIGNALS = {
+                    marketing: ['ad_storage', 'ad_user_data', 'ad_personalization'],
+                    personalization: ['personalization_storage'],
+                    analytics: ['analytics_storage'],
+                };
+
+                var raw = document.cookie.split('; ').find(function (row) {
+                    return row.indexOf(NAME + '=') === 0;
+                });
+                if (!raw) return;
+
+                var stored;
+                try {
+                    stored = JSON.parse(decodeURIComponent(raw.slice(NAME.length + 1)));
+                } catch (e) {
+                    return;
+                }
+                if (!stored || String(stored.version) !== VERSION) return;
+
+                var choices = {};
+                CATEGORIES.forEach(function (category) {
+                    choices[category] = Boolean(stored[category]);
+                });
+
+                window.dataLayer = window.dataLayer || [];
+
+                {{#
+                    Consent Mode leest een `arguments`-object, geen gewone array — vandaar de shim en niet een
+                    rechtstreekse push.
+                #}}
+                function gtag() {
+                    window.dataLayer.push(arguments);
+                }
+
+                {{ if cookie_consent:consent_mode_v2 }}
+                    var update = {};
+                    CATEGORIES.forEach(function (category) {
+                        SIGNALS[category].forEach(function (signal) {
+                            update[signal] = choices[category] ? 'granted' : 'denied';
+                        });
+                    });
+                    gtag('consent', 'update', update);
+                {{ /if }}
+
+                window.dataLayer.push({
+                    event: 'consent_accepted',
+                    consent_marketing: choices.marketing,
+                    consent_analytics: choices.analytics,
+                    consent_personalization: choices.personalization,
+                });
+
+                window.__cookieConsentSignalled = choices;
+            })();
+        </script>
+    {{ /if }}
     {{ if config:analytics:gtm_container_id }}
         <!-- Google Tag Manager -->
         <script>

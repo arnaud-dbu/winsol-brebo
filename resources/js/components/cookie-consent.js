@@ -43,6 +43,17 @@ function gtag() {
     window.dataLayer.push(arguments);
 }
 
+/**
+ * Heeft het bootstrap-script in de head deze keuze al gesignaleerd?
+ * Zie de toelichting in resources/views/partials/analytics.antlers.html.
+ */
+function alreadySignalled(choices) {
+    const signalled = window.__cookieConsentSignalled;
+    if (!signalled) return false;
+
+    return OPTIONAL_CATEGORIES.every((category) => Boolean(signalled[category]) === Boolean(choices[category]));
+}
+
 export function cookieConsent(config = {}) {
     return {
         version: String(config.version ?? '1'),
@@ -66,7 +77,14 @@ export function cookieConsent(config = {}) {
                 OPTIONAL_CATEGORIES.forEach((c) => {
                     this.choices[c] = Boolean(stored[c]);
                 });
-                this.applyConsent({ updateConsentMode: this.consentModeV2 });
+                // Het bootstrap-script in de head heeft deze keuze normaal al gesignaleerd, ver voor Alpine bestond.
+                // Dan blijft hier alleen het activeren van de gegatede scripts over: nog eens signaleren zou een tweede
+                // `consent_accepted` op dezelfde paginalading zetten, en daar vuurt de Meta-basiscode op.
+                const signalled = alreadySignalled(this.choices);
+                this.applyConsent({
+                    updateConsentMode: this.consentModeV2 && !signalled,
+                    signal: !signalled,
+                });
             } else {
                 this.visible = true;
             }
@@ -120,7 +138,13 @@ export function cookieConsent(config = {}) {
                 timestamp: Date.now(),
                 ...this.choices,
             });
-            this.applyConsent({ updateConsentMode: this.consentModeV2 });
+            // Bevestigt iemand dezelfde keuze nog eens, dan is er niets te melden: een tweede `consent_accepted` op
+            // dezelfde paginalading zou de Meta-basiscode een tweede keer laten vuren, en dat is een dubbele PageView.
+            const signalled = alreadySignalled(this.choices);
+            this.applyConsent({
+                updateConsentMode: this.consentModeV2 && !signalled,
+                signal: !signalled,
+            });
             // Only hide the banner. Do NOT collapse the panel here: toggling
             // `expanded` in the same tick fires the child x-collapse leave at the
             // same time as this aside's x-show/x-transition leave, and the two
@@ -129,7 +153,7 @@ export function cookieConsent(config = {}) {
             this.visible = false;
         },
 
-        applyConsent({ updateConsentMode }) {
+        applyConsent({ updateConsentMode, signal = true }) {
             OPTIONAL_CATEGORIES.forEach((category) => {
                 if (!this.choices[category]) return;
                 document
@@ -147,6 +171,8 @@ export function cookieConsent(config = {}) {
                 });
                 gtag('consent', 'update', update);
             }
+
+            if (!signal) return;
 
             // Een expliciet event naast de Consent Mode-update, op vraag van
             // Nils (15-09-2026). GTM herqueut een tag die op toestemming
@@ -172,6 +198,7 @@ export function cookieConsent(config = {}) {
                 consent_analytics: this.choices.analytics,
                 consent_personalization: this.choices.personalization,
             });
+            window.__cookieConsentSignalled = { ...this.choices };
         },
     };
 }
