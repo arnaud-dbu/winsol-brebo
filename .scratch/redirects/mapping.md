@@ -36,6 +36,7 @@ een pagina die zijn vraag niet raakt. Een 404 is dan eerlijker.
 | `/nl/screens-verticale-zonwering` | `/aanbod/zonwering/screens` | losse landingspagina, nu een product |
 | `/nl/inspiratie` | `/realisaties` | zelfde bedoeling, andere naam |
 | `/nl/vacatures` | `/over-ons` | geen vacaturepagina meer |
+| `/nl/contact/herstelling-aanvragen` | `/service` | het herstelformulier staat nu op de servicepagina; de klim zou naar Contact gaan, één klik te ver. Ook de korte link `/forms/herstellingaanvragen` en de tussenstap `/nl/formulieren/herstellingsformulier-winsol` gaan er rechtstreeks heen, net als hun Franse tegenhangers. Geen van de zes stond in de sitemap |
 | `/nl/ons-aanbod/airco` | `/aanbod` | uit het aanbod |
 | `/nl/ons-aanbod/terrasoverkapping/patiola` | `/aanbod/terrasoverkapping` | uit het aanbod |
 | `/nl/ons-aanbod/zonwering/configurator` | `/aanbod/zonwering` | bestaat niet meer |
@@ -91,6 +92,9 @@ download-brochure-zonwering
 | `/nl` | `/` |
 | `/nl/home` | `/` |
 | `/nl/contact` | `/contact` |
+| `/nl/contact/herstelling-aanvragen` | `/service` |
+| `/nl/formulieren/herstellingsformulier-winsol` | `/service` |
+| `/forms/herstellingaanvragen` | `/service` |
 | `/nl/over-ons` | `/over-ons` |
 | `/nl/inspiratie` | `/realisaties` |
 | `/nl/simuleer-je-lening` | `/simuleer-je-lening` |
@@ -151,6 +155,9 @@ download-brochure-zonwering
 | `/fr/accueil` | `/fr` |
 | `/fr/a-propos-de-nous` | `/fr/a-propos` |
 | `/fr/contact` | `/fr/contact` |
+| `/fr/contact/demander-une-reparation` | `/fr/service` |
+| `/fr/formulaires/formulaire-de-reparation-winsol` | `/fr/service` |
+| `/forms/reparation` | `/fr/service` |
 | `/fr/realisations` | `/fr/realisations` |
 | `/fr/simulez-votre-pret` | `/fr/simulez-votre-pret` |
 | `/fr/vacatures` | `/fr/a-propos` |

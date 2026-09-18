@@ -148,6 +148,32 @@ class LegacyRedirectTest extends TestCase
     }
 
     /**
+     * Klanten vragen een herstelling aan via een korte link als
+     * `/forms/herstellingaanvragen`, die op de oude site in twee sprongen bij
+     * het formulier onder Contact uitkwam. Geen van die adressen stond in de
+     * sitemap. Ze gaan elk rechtstreeks naar de servicepagina, waar het
+     * herstelformulier nu staat, en niet naar Contact, waar de klim ze zou
+     * brengen.
+     */
+    public function test_every_old_repair_form_address_lands_on_the_repair_form(): void
+    {
+        $repairForms = [
+            '/forms/herstellingaanvragen' => '/service',
+            '/nl/Formulieren/Herstellingsformulier-Winsol/' => '/service',
+            '/nl/Contact/Herstelling-aanvragen/' => '/service',
+            '/forms/reparation' => '/fr/service',
+            '/fr/Formulaires/Formulaire-de-reparation-Winsol/' => '/fr/service',
+            '/fr/Contact/Demander-une-reparation/' => '/fr/service',
+        ];
+
+        foreach ($repairForms as $old => $new) {
+            $this->request(self::OLD_HOST.$old)
+                ->assertStatus(301)
+                ->assertRedirect('https://winsol-brebo.be'.$new);
+        }
+    }
+
+    /**
      * Een gemeentepagina heeft geen eigen regel. Hij klimt naar de wortel van
      * zijn productgroep, en die staat gewoon als normale regel in de tabel.
      */
