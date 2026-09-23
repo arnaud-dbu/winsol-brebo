@@ -36,7 +36,7 @@ class ProductImagesTest extends TestCase
         foreach ($this->producten() as $slug => $beelden) {
             $dubbel = array_keys(array_filter(array_count_values($beelden), fn ($n) => $n > 1));
 
-            $this->assertSame([], $dubbel, "{$slug} toont " . implode(', ', $dubbel) . ' meer dan één keer');
+            $this->assertSame([], $dubbel, "{$slug} toont ".implode(', ', $dubbel).' meer dan één keer');
         }
     }
 
@@ -56,7 +56,7 @@ class ProductImagesTest extends TestCase
                 continue;
             }
 
-            $this->fail("{$beeld} staat bij " . implode(' én ', $slugs) . '; dan toont minstens één van de twee het verkeerde product');
+            $this->fail("{$beeld} staat bij ".implode(' én ', $slugs).'; dan toont minstens één van de twee het verkeerde product');
         }
 
         $this->addToAssertionCount(1);
@@ -81,7 +81,7 @@ class ProductImagesTest extends TestCase
                 ->first();
 
             $this->assertNotNull($product, "Product {$slug} ontbreekt");
-            $this->assertSame('ramen-en-deuren/' . $kaartbeeld, $product->get('image'));
+            $this->assertSame('ramen-en-deuren/'.$kaartbeeld, $product->get('image'));
         }
 
         // Elk pvc schuifraam-beeld komt uit een schuifraam-reeks. De 2D-tekening
@@ -108,11 +108,28 @@ class ProductImagesTest extends TestCase
             $slug = basename($bestand, '.md');
             $inhoud = file_get_contents($bestand);
 
-            preg_match_all('/^\s*(?:-\s+)?image:\s*(\S+)\s*$|^\s+- (\S+\.(?:webp|jpg|jpeg|png))\s*$/m', $inhoud, $treffers, PREG_SET_ORDER);
+            // Paden met een spatie staan in YAML tussen quotes, en die horen
+            // niet bij het pad. Zonder de quotes in het patroon viel elke
+            // aanhalingsteken-variant buiten de telling — en juist daar zaten
+            // de dubbels, want de mappen met een spatie ("Low Res 3",
+            // "Renders") dragen het gros van de oudere foto's.
+            preg_match_all(
+                '/^\s*(?:-\s+)?image:\s*[\'"]?(.+?\.(?:webp|jpg|jpeg|png))[\'"]?\s*$/mi',
+                $inhoud,
+                $losse,
+                PREG_SET_ORDER
+            );
+
+            preg_match_all(
+                '/^\s+- [\'"]?(.+?\.(?:webp|jpg|jpeg|png))[\'"]?\s*$/mi',
+                $inhoud,
+                $galerij,
+                PREG_SET_ORDER
+            );
 
             $producten[$slug] = array_map(
-                fn ($t) => trim($t[2] ?? $t[1], "'\" "),
-                $treffers
+                fn ($t) => $t[1],
+                array_merge($losse, $galerij)
             );
         }
 

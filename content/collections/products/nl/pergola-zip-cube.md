@@ -121,11 +121,8 @@ page_builder:
     overline: Realisaties
     title: 'Pergola Z!P CUBE in de praktijk'
     images:
-      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6218).jpg'
       - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(0436).jpg'
       - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6393).jpg'
       - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6371).jpg'
-      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6278).jpg'
-      - 'terrasoverkapping/pergolas-terrasoverkappingen-z!p-&-z!p-cube_melle-(6222).jpg'
     enabled: true
 ---

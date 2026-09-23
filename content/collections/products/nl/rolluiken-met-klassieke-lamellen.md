@@ -75,7 +75,7 @@ page_builder:
             type: text
             text: 'Wil je dat niet overal, dan bestaan er lamellen met daglichtsleuven. Je kiest zelf of je die wil en hoe groot de opening is. Voor een leefruimte is dat vaak de betere keuze, voor een kinderkamer meestal niet.'
     media: image
-    image: 'rolluiken/2019 onbekend, Izegem/realisatie-realisation-rolluiken-solar-volets-solar-(10).jpg'
+    image: rolluiken/rolluiken_volets-roulants_solarbox_attenhoven_(0751).jpg
     features:
       -
         id: kla-l1

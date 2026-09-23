@@ -33,7 +33,7 @@ page_builder:
             type: text
             text: 'Dat het rolluik volledig aan de buitenkant zit, levert bovendien isolatiewinst op. Een raam met voorzetrolluik isoleert tot 32 % beter dan hetzelfde raam zonder rolluik, precies omdat er geen gaten in de binnenmuur nodig zijn waarlangs warmte kan ontsnappen.'
     media: image
-    image: 'rolluiken/OneDrive_2_31-07-2026/voorzetrolluiken-volets-roulants-mini-caisson-1.jpg'
+    image: rolluiken/winsol_landelijk_final_mid-close-up_op-de-dag.jpg
     features:
       -
         id: vzr-f1
@@ -75,7 +75,7 @@ page_builder:
             type: text
             text: 'Hoe groter het raam, hoe groter de kast moet zijn om het pantser op te rollen. Ook het lameltype en de bediening spelen mee. Wij werken naar de meest compacte kast toe die voor jouw raam volstaat. Wil je toch hoger gaan zonder een grotere kast, dan geeft de optionele XSMAX-technologie 40 cm extra oprolhoogte bij dezelfde kastafmeting.'
     media: image
-    image: 'rolluiken/Low Res 3/rolluiken_volets-roulants_solarbox_attenhoven_(0698).jpg'
+    image: rolluiken/winsol_modern_final_close-up.jpg
     features:
       -
         id: vzr-k1
@@ -132,10 +132,10 @@ page_builder:
     overline: Realisaties
     title: 'Voorzetrolluiken in de praktijk'
     images:
-      - 'rolluiken/OneDrive_2_31-07-2026/voorzetrolluiken-volets-roulants-mini-caisson-2.jpg'
-      - 'rolluiken/2019 onbekend, Izegem/realisatie-realisation-rolluiken-solar-volets-solar-(8).jpg'
-      - 'rolluiken/Low Res 3/rolluiken_volets-roulants_solarbox_attenhoven_(0698).jpg'
-      - 'rolluiken/OneDrive_2_31-07-2026/voorzetrolluiken-volets-roulants-mini-caisson-1.jpg'
-      - 'rolluiken/2019 onbekend, Izegem/realisatie-realisation-rolluiken-solar-volets-solar-(10).jpg'
+      - rolluiken/OneDrive_2_31-07-2026/voorzetrolluiken-volets-roulants-mini-caisson-1.jpg
+      - rolluiken/winsol_modern_final_overview.jpg
+      - rolluiken/winsol_modern_final_mid-close-up_variant-3cm.jpg
+      - rolluiken/roller-shutters--rolluiken--volets-roulants--rolladen--solarbox_beveren-waas-(015).jpg
+      - rolluiken/roller-shutters--rolluiken--volets-roulants--rolladen--solarbox_beveren-waas-(045).jpg
     enabled: true
 ---

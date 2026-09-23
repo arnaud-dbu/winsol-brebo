@@ -4,7 +4,7 @@ title: 'Rolluiken op zonne-energie'
 range:
   - 8c2e41a0-0003-4a1b-9c7d-3e5f6a7b8c03
 text: 'Twee ingewerkte zonnepanelen sturen de motor aan, dus er zijn geen kabels en geen stopcontact nodig.'
-image: 'rolluiken/Low Res 3/rolluiken_volets-roulants_solarbox_attenhoven_(0698).jpg'
+image: rolluiken/rolluiken_volets-roulants_solarbox_attenhoven_(0698).jpg
 brochure: brochures/winsol_brochure_verticale-zonwering_nl.pdf
 meta_title: 'Rolluiken op zonne-energie'
 meta_description: 'SolarBox en SolarFuse: rolluiken op zonne-energie met twee ingewerkte zonnepanelen, een 4 Ah-batterij en installatie zonder kap- en breekwerk.'
@@ -33,7 +33,7 @@ page_builder:
             type: text
             text: 'De volledige installatie gebeurt aan de buitenkant van de woning. Je hoeft er dus niet eens voor thuis te zijn.'
     media: image
-    image: 'rolluiken/2019 onbekend, Izegem/realisatie-realisation-rolluiken-solar-volets-solar-(8).jpg'
+    image: rolluiken/asbl_website_solarfuse_4.jpg
     features:
       -
         id: zon-f1
@@ -174,11 +174,12 @@ page_builder:
     overline: Afwerkingen
     title: 'Dezelfde kast, vier keer anders afgewerkt'
     images:
-      - 'rolluiken/Renders/winsol-solarbox-snapshot-3d_standard-symmetric.png'
-      - 'rolluiken/Renders/winsol-solarbox-snapshot-3d_standard-asymmetric.png'
-      - 'rolluiken/Renders/winsol-solarbox-snapshot-3d_black-belt.png'
-      - 'rolluiken/Renders/winsol-solarbox-snapshot-3d_colour.png'
-      - 'rolluiken/Renders/winsol_solarbox_city_style_hq.jpg'
-      - 'rolluiken/Renders/winsol_solarbox_modern_style_detail_02_hq.jpg'
+      - rolluiken/asbl_website_producten_solarbox_1.jpg
+      - rolluiken/asbl_website_producten_solarbox_3.jpg
+      - rolluiken/rolluiken_volets-roulants_solarbox_attenhoven_(0689).jpg
+      - rolluiken/rolluiken_volets-roulants_solarbox_attenhoven_(8655).jpg
+      - rolluiken/rolluiken_volets-roulants_solarbox_melsele_(0682).jpg
+      - rolluiken/Renders/winsol-solarbox-snapshot-3d_standard-symmetric.png
+      - rolluiken/Renders/winsol-solarbox-snapshot-3d_standard-asymmetric.png
     enabled: true
 ---

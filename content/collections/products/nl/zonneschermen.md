@@ -75,7 +75,7 @@ page_builder:
             type: text
             text: 'Luno is de compacte reeks met een afgerond ontwerp en een warmere uitstraling, leverbaar in twaalf populaire kleuren en met breedtes in veelvouden van 30 cm. Die haalt een schaduwzone tot 21 m². Bij alle vier is ledverlichting in de kast, de armen of de voorlijst een optie.'
     media: image
-    image: 'zonwering/Low Res 9/luifels-store-bannes_squaro_itegem-(01).jpg'
+    image: zonwering/luifels-store-bannes_squaro_itegem-(12).jpg
     features:
       -
         id: zs-r1
@@ -132,11 +132,13 @@ page_builder:
     overline: Realisaties
     title: 'Zonneschermen in de praktijk'
     images:
-      - 'zonwering/Low Res 7/luifels_stores-bannes_lumisol_deinze_(36).jpg'
-      - 'zonwering/Low Res 7/luifels_stores-bannes_lumisol_deinze_(37).jpg'
+      - zonwering/winsol_2020_heyvaert_squaro_luifels-(24).jpg
+      - zonwering/winsol_2020_heyvaert_squaro_luifels-(19).jpg
+      - zonwering/luifels-store-bannes_squaro_itegem-(08).jpg
+      - zonwering/luifels_stores-bannes_squaro_meldert_(01).jpg
+      - zonwering/realisatie-realisation_squaro_knesselare_01.jpg
       - 'zonwering/Low Res 7/luifels_stores-bannes_lumisol_deinze_(40).jpg'
       - 'zonwering/Low Res 8/luifels_stores-bannes_lumisol_houthulst_(01).jpg'
-      - 'zonwering/Low Res 6/luifels_stores-bannes_lumisol_diepenbeek_(01).jpg'
       - 'zonwering/Low Res 4/luifels_stores-bannes_linasol_hamme_(9848).jpg'
     enabled: true
 ---
