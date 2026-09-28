@@ -86,6 +86,10 @@ page_builder:
     overline: 'Ramen en deuren'
     title: 'Het volledige aanbod ramen en deuren'
     products:
+      - 5f83f65f-e448-4e8e-872f-fb8785fe79d3
+      - e9dcce75-3c95-4b10-8955-08cad77f312c
+      - 074b099b-ed39-4d3f-b465-55c4f6eeccb5
+      - 45d5b752-dd76-475d-b13f-773efe6b3f71
       - 9b4f52b1-0001-4c2d-8e6f-4a5b6c7d9e01
       - 9b4f52b1-0002-4c2d-8e6f-4a5b6c7d9e02
       - 9b4f52b1-0003-4c2d-8e6f-4a5b6c7d9e03
@@ -105,10 +109,13 @@ page_builder:
     image: ramen-en-deuren/realisatie-realisation-allura-81-(15).jpg
     link:
       -
+        id: IeZJUznp
         type: entry
-        entry:
-          - f0ee3161-1534-4986-9ef1-a92fccfba619
+        entry: f0ee3161-1534-4986-9ef1-a92fccfba619
         label: 'Neem contact op'
         new_tab: false
     enabled: true
+    align: left
+updated_by: 84ddb831-416c-484c-9dfc-18c3ef8911ec
+updated_at: 1790240353
 ---
