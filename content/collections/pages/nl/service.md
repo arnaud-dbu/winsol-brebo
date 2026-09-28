@@ -74,9 +74,9 @@ services:
     enabled: true
 reparation:
   overline: Herstelling
-  title: 'Iets stuk of werkt iets niet meer'
+  title: 'Iets stuk of werkt iets niet meer?'
   text: 'Voor bestaande klanten met een probleem. Beschrijf kort wat er aan de hand is, dan nemen we contact op om langs te komen.'
   image: quicklinks/herstelling.png
 updated_by: d308c19c-c205-4453-9862-1f62996a3734
-updated_at: 1790602873
+updated_at: 1790603165
 ---
