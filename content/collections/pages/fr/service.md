@@ -26,7 +26,7 @@ services:
     id: serviceinstallatie
     type: service
     overline: Installation
-    title: 'Posé dans les règles de l''art'
+    title: "Posé dans les règles de l'art"
     text:
       -
         type: paragraph
@@ -35,7 +35,7 @@ services:
         content:
           -
             type: text
-            text: 'Votre installation est posée par notre propre équipe, sans sous-traitants. Nos spécialistes connaissent leur métier et traitent votre habitation avec respect. Nous travaillons proprement et rangeons tout après la pose. À la réception, nous vous montrons comment tout fonctionne, pour que vous puissiez en profiter immédiatement l''esprit tranquille.'
+            text: "Votre installation est posée par notre propre équipe, sans sous-traitants. Nos spécialistes connaissent leur métier et traitent votre habitation avec respect. Nous travaillons proprement et rangeons tout après la pose. À la réception, nous vous montrons comment tout fonctionne, pour que vous puissiez en profiter immédiatement l'esprit tranquille."
     image: service/winsol-2_1.jpg
     enabled: true
   -
@@ -51,7 +51,7 @@ services:
         content:
           -
             type: text
-            text: 'Une installation bien entretenue dure des années de plus. Nous passons sur rendez-vous pour un contrôle périodique, le réglage et la lubrification des pièces mobiles. Les petites réparations, nous les faisons directement, avant qu''elles ne deviennent de gros problèmes. Ainsi, tout continue à fonctionner sans accroc et en toute sécurité, saison après saison. Et en cas de souci, nous sommes rapidement sur place.'
+            text: "Une installation bien entretenue dure des années de plus. Nous passons sur rendez-vous pour un contrôle périodique, le réglage et la lubrification des pièces mobiles. Les petites réparations, nous les faisons directement, avant qu'elles ne deviennent de gros problèmes. Ainsi, tout continue à fonctionner sans accroc et en toute sécurité, saison après saison. Et en cas de souci, nous sommes rapidement sur place."
     image: service/winsol-2_2.jpg
     enabled: true
   -
@@ -67,7 +67,7 @@ services:
         content:
           -
             type: text
-            text: 'Chaque installation bénéficie à la fois de la garantie d''usine et de la garantie de pose. Et même après la pose, nous restons tout simplement joignables. Vous avez un seul interlocuteur fixe près de chez vous, même des années plus tard. Une question ou un problème ? Nous assurons un suivi rapide. Vous n''êtes ainsi jamais seul avec votre achat.'
+            text: "Chaque installation bénéficie à la fois de la garantie d'usine et de la garantie de pose. Et même après la pose, nous restons tout simplement joignables. Vous avez un seul interlocuteur fixe près de chez vous, même des années plus tard. Une question ou un problème ? Nous assurons un suivi rapide. Vous n'êtes ainsi jamais seul avec votre achat."
     image: service/winsol-2_3.jpg
     enabled: true
 reparation:

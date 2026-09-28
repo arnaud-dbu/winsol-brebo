@@ -51,7 +51,7 @@ services:
         content:
           -
             type: text
-            text: 'A well-maintained installation lasts years longer. We visit by appointment for periodic check-ups, adjusting and lubricating the moving parts. We take care of small repairs on the spot, before they turn into big problems. That way everything keeps working smoothly and safely, season after season. And if something does come up, we''re quickly on site.'
+            text: "A well-maintained installation lasts years longer. We visit by appointment for periodic check-ups, adjusting and lubricating the moving parts. We take care of small repairs on the spot, before they turn into big problems. That way everything keeps working smoothly and safely, season after season. And if something does come up, we're quickly on site."
     image: service/winsol-2_2.jpg
     enabled: true
   -
@@ -67,12 +67,12 @@ services:
         content:
           -
             type: text
-            text: 'Every installation is covered by both a manufacturer''s warranty and an installation warranty. And even after installation, we remain easy to reach. You have one familiar point of contact nearby, even years later. If you have a question or a problem, we follow it up promptly for you. So you''re never on your own with your purchase.'
+            text: "Every installation is covered by both a manufacturer's warranty and an installation warranty. And even after installation, we remain easy to reach. You have one familiar point of contact nearby, even years later. If you have a question or a problem, we follow it up promptly for you. So you're never on your own with your purchase."
     image: service/winsol-2_3.jpg
     enabled: true
 reparation:
   overline: Repair
   title: 'Something broken or no longer working?'
-  text: 'For existing customers with a problem. Briefly describe what''s going on and we''ll get in touch to come round.'
+  text: "For existing customers with a problem. Briefly describe what's going on and we'll get in touch to come round."
   image: quicklinks/herstelling.png
 ---
