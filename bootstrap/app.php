@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\IgnoreTextInFileFields;
 use App\Http\Middleware\InspaceRevisionsGuard;
 use App\Http\Middleware\InspaceToken;
 use App\Http\Middleware\LogRejectedFormSubmissions;
@@ -54,6 +55,10 @@ return Application::configure(basePath: dirname(__DIR__))
         // Globaal omdat de formulierroute van Statamic zelf is; de middleware
         // doet alleen iets op `statamic.forms.submit`.
         $middleware->append(LogRejectedFormSubmissions::class);
+
+        // In de `web`-groep en niet globaal: pas daar is de route bekend, en
+        // daarmee het formulier en zijn bestandsvelden.
+        $middleware->web(append: [IgnoreTextInFileFields::class]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
