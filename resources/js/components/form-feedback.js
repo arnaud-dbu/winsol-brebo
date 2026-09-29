@@ -16,11 +16,19 @@
  * En bij het versturen: de bijlagen gaan mee in dezelfde POST, dus met enkele
  * foto's duurt dat merkbaar lang. Zonder toestandsverandering op de knop lijkt
  * er niets te gebeuren en klikt men een tweede keer.
+ *
+ * Weigert de server de inzending, dan komt het formulier terug met de tekst
+ * ingevuld maar de bestandsvelden leeg: een browser vult die nooit opnieuw in.
+ * De bezoeker ziet dat niet en verstuurt opnieuw zonder foto's. Dat overkwam
+ * Poting op 25-09-2026. Vandaar dat bij het versturen onthouden wordt welke
+ * velden een bestand hadden, en dat de zone dat na een weigering zegt.
  */
 
 const DROPZONE = '.form-dropzone';
 const BESTANDSNAAM = '[data-file-name]';
 const FOUTMELDING = '[data-upload-error]';
+const SERVERFOUT = '.form-error[id]';
+const OPSLAGSLEUTEL = 'formulier-bestanden:';
 
 function taal() {
     return document.documentElement.lang || 'nl';
@@ -55,18 +63,21 @@ function vertaal(sleutel, vervangingen = {}) {
             teVeel: 'Je koos :gekozen bestanden. Er kunnen er hoogstens :max mee.',
             teGroot: ':naam is :grootte. Per bestand kan er hoogstens :max mee.',
             samenTeGroot: 'Samen is dit :totaal. Alle bestanden samen kunnen hoogstens :max wegen.',
+            opnieuw: 'Je bestanden zijn niet meegekomen. Voeg ze opnieuw toe.',
         },
         fr: {
             bestanden: ':aantal fichiers',
             teVeel: 'Vous avez choisi :gekozen fichiers. :max au maximum.',
             teGroot: ':naam pèse :grootte. Chaque fichier peut peser :max au maximum.',
             samenTeGroot: "Au total cela fait :totaal. L'ensemble des fichiers peut peser :max au maximum.",
+            opnieuw: "Vos fichiers n'ont pas été envoyés. Ajoutez-les à nouveau.",
         },
         en: {
             bestanden: ':aantal files',
             teVeel: 'You picked :gekozen files. :max at most.',
             teGroot: ':naam is :grootte. Each file can be :max at most.',
             samenTeGroot: 'Together that is :totaal. All files together can be :max at most.',
+            opnieuw: 'Your files were not sent. Please add them again.',
         },
     };
 
@@ -174,14 +185,65 @@ function initDropzones(root) {
     });
 }
 
+function onthoudBestanden(form) {
+    const velden = Array.from(form.querySelectorAll('input[type="file"]'))
+        .filter((input) => input.files?.length)
+        .map((input) => input.name);
+
+    try {
+        if (velden.length) {
+            sessionStorage.setItem(OPSLAGSLEUTEL + form.action, JSON.stringify(velden));
+        } else {
+            sessionStorage.removeItem(OPSLAGSLEUTEL + form.action);
+        }
+    } catch {
+        // Zonder sessionStorage (privévenster, geblokkeerde opslag) blijft de melding weg.
+    }
+}
+
+function meldVerlorenBestanden(form) {
+    let velden = [];
+
+    try {
+        velden = JSON.parse(sessionStorage.getItem(OPSLAGSLEUTEL + form.action) || '[]');
+        sessionStorage.removeItem(OPSLAGSLEUTEL + form.action);
+    } catch {
+        return;
+    }
+
+    if (!velden.length || !form.querySelector(SERVERFOUT)) {
+        return;
+    }
+
+    form.querySelectorAll(DROPZONE).forEach((dropzone) => {
+        const input = dropzone.querySelector('input[type="file"]');
+        const fout = dropzone.parentElement?.querySelector(FOUTMELDING);
+
+        if (!input || !fout || input.files?.length || !velden.includes(input.name)) {
+            return;
+        }
+
+        fout.textContent = vertaal('opnieuw');
+        fout.hidden = false;
+    });
+}
+
 function initVerzendknop(root) {
     root.querySelectorAll('form.form').forEach((form) => {
+        meldVerlorenBestanden(form);
+
         form.addEventListener('submit', () => {
             const knop = form.querySelector('button[type="submit"]');
 
             // De browser stuurt niets bij een mislukte HTML5-validatie; dan mag
             // de knop ook niet op slot.
-            if (!knop || !form.checkValidity()) {
+            if (!form.checkValidity()) {
+                return;
+            }
+
+            onthoudBestanden(form);
+
+            if (!knop) {
                 return;
             }
 

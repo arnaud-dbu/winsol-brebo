@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Sections;
 
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Tests\TestCase;
@@ -24,6 +25,10 @@ abstract class SectionTestCase extends TestCase
         $testViewsPath = storage_path('framework/testing/views');
         @mkdir($testViewsPath, 0755, true);
         View::addLocation($testViewsPath);
+
+        // De formulieren staan in {{ nocache }}, en die tag vraagt de route van
+        // het huidige verzoek op. Hier rendert een partial zonder verzoek.
+        request()->setRouteResolver(fn (): Route => new Route('GET', '/', []));
     }
 
     protected function render(string $template, array $context = []): string
@@ -32,8 +37,8 @@ abstract class SectionTestCase extends TestCase
         // This keeps the tracked resources/views tree clean and prevents file watcher churn
         $testViewsPath = storage_path('framework/testing/views');
 
-        $id = 'test_' . uniqid();
-        $tempFile = $testViewsPath . '/' . $id . '.antlers.html';
+        $id = 'test_'.uniqid();
+        $tempFile = $testViewsPath.'/'.$id.'.antlers.html';
         File::put($tempFile, $template);
 
         try {

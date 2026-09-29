@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\InspaceRevisionsGuard;
 use App\Http\Middleware\InspaceToken;
+use App\Http\Middleware\LogRejectedFormSubmissions;
 use App\Http\Middleware\NoIndexHeader;
 use App\Http\Middleware\RedirectLegacyUrls;
 use App\Http\Middleware\RedirectTrailingSlash;
@@ -49,6 +50,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append(SecurityHeaders::class);
         $middleware->append(RedirectLegacyUrls::class);
         $middleware->append(RedirectTrailingSlash::class);
+
+        // Globaal omdat de formulierroute van Statamic zelf is; de middleware
+        // doet alleen iets op `statamic.forms.submit`.
+        $middleware->append(LogRejectedFormSubmissions::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
