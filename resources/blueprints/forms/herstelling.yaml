@@ -158,7 +158,6 @@ tabs:
               options:
                 ja: Ja
                 nee: Nee
-                onbekend: 'Dat weet ik niet'
               width: 50
               validate:
                 - required

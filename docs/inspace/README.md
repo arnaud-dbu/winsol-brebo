@@ -139,6 +139,8 @@ error but ignores it, since the entry you are updating already has a site.
 
 ## Test environment
 
-The staging URL in `openapi.yaml` is disposable and not indexed. You can
-create real articles there. CMS access is provided separately, so you can
-see where your content lands.
+There is no separate staging environment. The URL in `openapi.yaml` is the
+live site. Test with `status: draft`: a draft does not appear on the site,
+but it does end up in the real CMS, so remove your test articles when you
+are done. CMS access is provided separately, so you can see where your
+content lands.

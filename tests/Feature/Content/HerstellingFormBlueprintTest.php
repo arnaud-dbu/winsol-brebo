@@ -40,6 +40,17 @@ class HerstellingFormBlueprintTest extends TestCase
     }
 
     /**
+     * Jimmy (mail 29-09): "Dat weet ik niet" laat de planning met dezelfde
+     * vraag zitten die het formulier moest beantwoorden. De klant kiest.
+     */
+    public function test_the_warranty_question_only_offers_yes_or_no(): void
+    {
+        $fields = Form::find('herstelling')->blueprint()->fields()->all();
+
+        $this->assertSame(['ja', 'nee'], array_keys($fields->get('warranty')->get('options')));
+    }
+
+    /**
      * Probleemfoto's en zeker facturen (naam, adres, aankoopbedrag) horen
      * niet op een raadbare publieke URL. Zie de gelijknamige test op het
      * offerteformulier voor waarom `private()` de eigenlijke garantie is.
