@@ -2,9 +2,7 @@
 
 namespace App\Inspace;
 
-use DOMDocument;
 use DOMElement;
-use DOMNode;
 use Statamic\Facades\Asset;
 
 class ImageResolver
@@ -39,21 +37,10 @@ class ImageResolver
             return $html;
         }
 
-        $document = new DOMDocument;
-        $previous = libxml_use_internal_errors(true);
-
-        $document->loadHTML(
-            '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">'.$html,
-            LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
-        );
-
-        libxml_clear_errors();
-        libxml_use_internal_errors($previous);
-
-        $injectedMeta = $document->firstChild;
+        $body = HtmlFragment::parse($html);
 
         /** @var list<DOMElement> $images */
-        $images = iterator_to_array($document->getElementsByTagName('img'));
+        $images = iterator_to_array($body->getElementsByTagName('img'));
 
         foreach ($images as $image) {
             $id = $this->assetId($image);
@@ -65,7 +52,7 @@ class ImageResolver
             $image->setAttribute('src', 'asset::'.$id);
         }
 
-        return $this->render($document, $injectedMeta);
+        return HtmlFragment::render($body);
     }
 
     /**
@@ -111,20 +98,5 @@ class ImageResolver
         if (! in_array($message, $this->warnings, true)) {
             $this->warnings[] = $message;
         }
-    }
-
-    private function render(DOMDocument $document, ?DOMNode $injectedMeta): string
-    {
-        $out = '';
-
-        foreach (iterator_to_array($document->childNodes) as $child) {
-            if ($child === $injectedMeta) {
-                continue;
-            }
-
-            $out .= $document->saveHTML($child);
-        }
-
-        return trim($out);
     }
 }

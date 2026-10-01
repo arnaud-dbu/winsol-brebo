@@ -2,7 +2,6 @@
 
 namespace App\Inspace;
 
-use DOMDocument;
 use DOMElement;
 use DOMNode;
 
@@ -27,13 +26,6 @@ class HtmlSanitizer
     private array $warnings = [];
 
     /**
-     * De charset-meta die `clean()` zelf vooraan plakt. Uitsluiten op
-     * identiteit, niet op tagnaam: anders omzeilt elke andere `<meta>` in de
-     * input de whitelist stilzwijgend.
-     */
-    private ?DOMNode $injectedMeta = null;
-
-    /**
      * @param  list<string>  $allowedTags
      */
     public function __construct(private readonly array $allowedTags) {}
@@ -41,41 +33,16 @@ class HtmlSanitizer
     public function clean(string $html): string
     {
         $this->warnings = [];
-        $this->injectedMeta = null;
 
         if (trim($html) === '') {
             return '';
         }
 
-        $document = new DOMDocument;
-        $previous = libxml_use_internal_errors(true);
+        $body = HtmlFragment::parse($html);
 
-        // Zonder de meta-tag leest DOMDocument de bytes als latin-1 en
-        // verminkt hij elk accent. De flags houden de wrapper-html en het
-        // doctype eruit.
-        $document->loadHTML(
-            '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">'.$html,
-            LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
-        );
+        $this->walk($body);
 
-        libxml_clear_errors();
-        libxml_use_internal_errors($previous);
-
-        $this->injectedMeta = $document->firstChild;
-
-        $this->walk($document);
-
-        $out = '';
-
-        foreach (iterator_to_array($document->childNodes) as $child) {
-            if ($child === $this->injectedMeta) {
-                continue;
-            }
-
-            $out .= $document->saveHTML($child);
-        }
-
-        return trim($out);
+        return HtmlFragment::render($body);
     }
 
     /**
@@ -90,12 +57,6 @@ class HtmlSanitizer
     {
         foreach (iterator_to_array($node->childNodes) as $child) {
             if (! $child instanceof DOMElement) {
-                continue;
-            }
-
-            if ($child === $this->injectedMeta) {
-                $this->walk($child);
-
                 continue;
             }
 
