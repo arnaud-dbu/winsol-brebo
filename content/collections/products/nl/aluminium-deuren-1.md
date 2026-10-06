@@ -2,89 +2,105 @@
 id: 98854e86-d87f-45ca-bd99-d0e77eeb6dcf
 published: false
 blueprint: products
-title: 'Aluminium deuren (Gekopieerd)'
+title: 'Elektrische rolluiken'
 range: 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
 product_groups: aluminium-schrijnwerk
 text: |-
   <p>Zoek je een deur die strak oogt, veilig sluit en jaren meegaat? Dan zit je met aluminium goed. Aluminium deuren combineren een slank design met hoge stabiliteit, sterke isolatie en een onderhoudsarme afwerking.</p>
 
   <p>Of je nu kiest voor een aluminium voordeur, een achterdeur met glas of een zwarte aluminium deur die perfect aansluit op je ramen en kozijnen: maatwerk maakt het verschil. Zo krijg je een deur die klopt in stijl, comfort en gebruiksgemak.</p>
-image: aluminium-deur.webp
+image: 0-(3).jpg
 page_builder:
   -
     id: e26V3f-GK7d90r4WUPFbU
-    title: 'Waarom kiezen voor aluminium deuren?'
+    title: 'Waarom kiezen voor elektrische rolluiken?'
     text:
       -
         type: paragraph
         content:
           -
             type: text
-            text: 'Aluminium is sterk. Punt. Daardoor zijn grotere deurvleugels, smalle profielen en royale glaspartijen perfect mogelijk zonder in te boeten op stabiliteit. Tegelijk is het materiaal bestand tegen regen, zon en temperatuurschommelingen. Het trekt niet krom, roest niet en blijft lang mooi. Dankzij moderne profielen met thermische onderbreking scoren aluminium buitendeuren ook sterk op isolatie. Dat voel je in huis en zie je op termijn in je energieverbruik. Extra pluspunt: een aluminium deur laat zich makkelijk afstemmen op '
+            text: 'Elektrische rolluiken zijn gemaakt voor gemak. Je opent en sluit ze snel, zonder linten of zwaar trekwerk. Dat voel je elke dag. Zeker bij grotere ramen, meerdere rolluiken tegelijk of slaapkamers waar je volledige verduistering wil. Tegelijk leveren ze meer op dan alleen comfort. Gesloten rolluiken helpen warmte buiten te houden op warme dagen en beperken warmteverlies wanneer het kouder is. Ze dempen ook geluid van buiten, geven extra privacy en werken inbraakvertragend doordat ze een extra fysieke barrière vormen.'
+      -
+        type: paragraph
+        content:
           -
             type: text
-            marks:
-              -
-                type: link
-                attrs:
-                  href: 'https://winsol-brebo.be/aanbod/ramen-en-deuren/aluminium-ramen'
-                  rel: null
-                  target: null
-                  title: null
-            text: 'aluminium ramen'
+            text: '- Eenvoudige bediening via schakelaar, afstandsbediening of app'
+      -
+        type: paragraph
+        content:
           -
             type: text
-            text: ', vaste panelen en een bijpassend deurkozijn.'
+            text: '- Meer verduistering en privacy in slaap- en leefruimtes'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: '- Betere zonwering en een aangenamer binnenklimaat'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: '- Extra isolatie en minder geluid van buiten'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: '- Een woning die comfortabeler en veiliger aanvoelt'
     type: text
     enabled: true
   -
     id: 14y1QjnlPemq-MexPemtY
-    title: 'Welke aluminium deur past bij jouw woning?'
+    title: 'Hoe werken elektrische rolluiken?'
     text:
       -
         type: paragraph
         content:
           -
             type: text
+            text: 'Een elektrisch rolluik bestaat uit een pantser van lamellen dat in zijgeleiders op en neer beweegt. Bovenaan zit de kast waarin het rolluik oprolt. In die constructie zit ook de motor verwerkt. Die motor stuurt het rolluik vlot omhoog en omlaag zodra je een schakelaar indrukt of een signaal geeft via afstandsbediening of smartphone. Afhankelijk van het gekozen systeem kun je één rolluik apart bedienen of meerdere rolluiken tegelijk aansturen. Moderne systemen kunnen ook worden uitgebreid met timers, slimme sturing of extra functies zoals obstakeldetectie en vorstbeveiliging. Zo combineer je comfort met controle en een langere levensduur van het systeem.'
+    type: text
+    enabled: true
+  -
+    id: 9TkJ3vtQYiM1vVIRBQxbR
+    title: 'Welke uitvoering past bij jouw woning?'
+    text:
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: 'Niet elk raam vraagt dezelfde oplossing. De juiste keuze hangt af van de bouwstijl, de beschikbare ruimte en het gewenste uitzicht.'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
             marks:
               -
                 type: bold
-            text: 'Aluminium voordeur'
+            text: 'Elektrische voorzetrolluiken'
       -
         type: paragraph
         content:
-          -
-            type: text
-            text: 'Een aluminium voordeur is de blikvanger van je gevel. Je kiest zelf hoeveel privacy, licht en karakter je wilt. Ga je voor een strak dicht paneel, een voordeur met glas of een model met zijlicht? Alles draait om balans tussen uitstraling, veiligheid en dagelijks comfort. Zeker bij nieuwbouw en hedendaagse renovaties is aluminium een logische keuze door de moderne look en de duurzame afwerking.'
-      -
-        type: paragraph
-        content:
-          -
-            type: text
-            marks:
-              -
-                type: bold
-            text: 'Aluminium achterdeur of tuindeur'
-      -
-        type: paragraph
-        content:
-          -
-            type: text
-            text: 'Voor een achterdeur of tuindeur is gebruiksgemak vaak doorslaggevend. Je wil licht binnenhalen, vlot naar buiten kunnen en tegelijk goed isoleren. Aluminium is dan een slimme oplossing. Vooral deuren met glas zijn populair omdat ze de ruimte helderder maken en mooi aansluiten op '
           -
             type: text
             marks:
               -
                 type: link
                 attrs:
-                  href: 'https://winsol-brebo.be/aanbod/ramen-en-deuren/aluminium-ramen-en-deuren'
+                  href: 'https://winsol-brebo.be/aanbod/rolluiken/voorzetrolluiken'
                   rel: null
                   target: null
                   title: null
-            text: 'aluminium ramen en deuren'
+            text: Voorzetrolluiken
           -
             type: text
-            text: ' in dezelfde stijl.'
+            text: ' worden aan de buitenzijde van de woning geplaatst en zijn een sterke keuze bij renovatie. Ze zijn snel toepasbaar, vragen geen ingrijpende breekwerken en zijn beschikbaar in verschillende formaten en kleuren. Zoek je elektrische rolluiken buiten die vlot op bestaande ramen passen, dan is dit vaak de meest praktische optie.'
       -
         type: paragraph
         content:
@@ -93,199 +109,195 @@ page_builder:
             marks:
               -
                 type: bold
-            text: 'Vlakke deur, deur met glas of paneeldeur'
+            text: 'Opbouw- en inbouwrolluiken'
       -
         type: paragraph
         content:
           -
             type: text
-            text: 'Ook in uitvoering heb je speelruimte. Een vlakke deur oogt minimalistisch en modern. Een aluminium deur met glas geeft meer licht en een open gevoel. Een paneeldeur biedt dan weer extra privacy en een massievere uitstraling. Wie graag een statement maakt, kiest vaak voor een zwarte aluminium deur of een model met steellook accenten. Zo combineer je het industriële effect van stalen deuren met het lichtere, onderhoudsarme karakter van aluminium.'
-    type: text
-    enabled: true
-  -
-    id: 9TkJ3vtQYiM1vVIRBQxbR
-    title: 'Kleuren, steellook en afwerking'
-    text:
+            text: 'Bij nieuwbouw of grondige renovatie zijn '
+          -
+            type: text
+            marks:
+              -
+                type: link
+                attrs:
+                  href: 'https://winsol-brebo.be/aanbod/rolluiken/opbouwrolluiken'
+                  rel: null
+                  target: null
+                  title: null
+            text: opbouwrolluiken
+          -
+            type: text
+            text: ' en inbouwsystemen interessant. De kast wordt daarbij mooier geïntegreerd in de gevel of in het raamgeheel. Dat zorgt, zeker bij '
+          -
+            type: text
+            marks:
+              -
+                type: link
+                attrs:
+                  href: 'https://winsol-brebo.be/aanbod/rolluiken/inbouwrolluiken'
+                  rel: null
+                  target: null
+                  title: null
+            text: inbouwrolluiken
+          -
+            type: text
+            text: ', voor een strakke afwerking en een subtieler zicht van buitenaf. Deze oplossing vraagt wel een goede technische afstemming vanaf het begin van het project.'
       -
         type: paragraph
         content:
           -
             type: text
-            text: 'Design zit in de details. Denk aan kleur, greep, scharnieren, glasverdeling en de overgang tussen deur en kozijn. Zwart blijft een sterke keuze, zeker voor een moderne of industriële look, maar ook andere tinten zijn mogelijk om de deur perfect op de woning af te stemmen. Wil je een uitgesproken steellook? Dan zorgen slanke profielen en glasvlakken voor dat strakke, grafische effect zonder het zware gevoel van massief staal.'
+            marks:
+              -
+                type: bold
+            text: 'Elektrische rolluiken op zonne-energie'
       -
         type: paragraph
         content:
           -
             type: text
-            text: '- strakke vlakke deur of deur met glas'
-      -
-        type: paragraph
-        content:
+            text: 'Een '
           -
             type: text
-            text: '- zwarte aluminium deur of subtiele kleurafwerking'
-      -
-        type: paragraph
-        content:
+            marks:
+              -
+                type: link
+                attrs:
+                  href: 'https://winsol-brebo.be/aanbod/rolluiken/rolluiken-op-zonne-energie'
+                  rel: null
+                  target: null
+                  title: null
+            text: 'rolluik op zonne-energie'
           -
             type: text
-            text: '- mat, helder of privacyglas'
-      -
-        type: paragraph
-        content:
-          -
-            type: text
-            text: '- trekstang, greep en scharnieren in passende stijl'
-      -
-        type: paragraph
-        content:
-          -
-            type: text
-            text: '- zijlichten of bovenlichten voor extra lichtinval'
+            text: ' werkt met een zonnepaneel en een batterij, waardoor bekabeling vaak beperkt blijft. Dat is handig wanneer je geen extra sleuven of elektrische aansluiting wil voorzien. Voor veel renovaties is dit een slimme, propere oplossing. Bovendien kies je zo voor automatische rolluiken met een energiezuinige werking.'
     type: text
     enabled: true
   -
     id: UwHaQFwSMGQmUaGlq9Whx
-    title: 'Isolatie en veiligheid'
+    title: 'Bediening: schakelaar, afstandsbediening of app?'
     text:
       -
         type: paragraph
         content:
           -
             type: text
-            text: 'Een deur moet niet alleen mooi zijn. Ze moet ook presteren. Kwalitatieve aluminium deuren zijn opgebouwd met isolerende profielen en sluiten nauw aan, zodat tocht, warmteverlies en storende koudebruggen beperkt blijven. Kies je voor glas, dan speelt ook de glassoort een grote rol in comfort en geluidswering. Op vlak van veiligheid zit aluminium eveneens sterk. Denk aan stevige profielen, veiligheidsglas en degelijke meerpuntssluitingen. Zeker bij een aluminium voordeur met glas is die combinatie belangrijk: licht binnen, zonder in te leveren op een veilig gevoel.'
+            text: 'De motor is belangrijk. De bediening maakt het verschil in dagelijks gebruik.'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: Wandschakelaar
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: 'Een klassieke schakelaar is eenvoudig, duidelijk en betrouwbaar. Ideaal als je elk rolluik apart wil bedienen en graag een vaste bediening op de muur hebt. Dit is vaak de logische keuze voor wie houdt van simpel en functioneel.'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: Afstandsbediening
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: 'Wil je meerdere rolluiken snel tegelijk openen of sluiten, dan is afstandsbediening bijzonder handig. Je hoeft niet van raam naar raam te lopen en bedient alles vanuit je zetel, keuken of slaapkamer. Zeker bij grote woningen of meerdere verdiepingen is dat pure tijdswinst.'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: 'App, timer en slimme sturing'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: 'Wie nog een stap verder wil gaan, kiest voor '
+          -
+            type: text
+            marks:
+              -
+                type: link
+                attrs:
+                  href: 'https://winsol-brebo.be/aanbod/somfy-smart-home'
+                  rel: null
+                  target: null
+                  title: null
+            text: 'slimme bediening'
+          -
+            type: text
+            text: '. Daarmee kun je automatische rolluiken instellen op vaste tijdstippen of op afstand aansturen via je smartphone. Handig wanneer je niet thuis bent, wanneer je extra comfort wil in de zomer of wanneer je aanwezigheid wil simuleren tijdens vakantie. Kies je voor een slaapkamer, dan loont het ook om te letten op een stille motor en een zachte start-stop werking.'
     type: text
     enabled: true
   -
     id: TYQISwnqNfBz-UR7mjGAJ
-    title: 'Wat bepaalt de prijs van aluminium deuren?'
+    title: 'Wat bepaalt de prijs van elektrische rolluiken?'
     text:
       -
         type: paragraph
         content:
           -
             type: text
-            text: 'De prijs van een aluminium deur hangt af van de samenstelling. Een eenvoudige deur zonder extra opties vraagt iets anders dan een aluminium voordeur met glas, zijlicht en uitgebreid beslag. Ook afmetingen, kleurkeuze, isolatiewaarde en de afwerking van het kozijn spelen mee. Wie prijzen vergelijkt, kijkt dus best niet alleen naar het deurblad, maar naar het totaalplaatje.'
+            text: 'De prijs van elektrische rolluiken hangt af van meer dan alleen de afmeting. Een klein rolluik met standaard bediening vraagt een andere opbouw dan een groot exemplaar met afstandsbediening, solar motor of extra opties. Wie prijzen inclusief montage vergelijkt, kijkt daarom best naar het totaalplaatje.'
       -
         type: paragraph
         content:
           -
             type: text
-            text: 'Formaat: Grotere deuren vragen meer profiel en glas'
+            text: '- Breedte en hoogte van het rolluik'
       -
         type: paragraph
         content:
           -
             type: text
-            text: 'Glas of paneel: Type beglazing en uitvoering bepalen mee het budget'
+            text: '- Type rolluik: voorzet, opbouw of inbouw'
       -
         type: paragraph
         content:
           -
             type: text
-            text: 'Kleur en afwerking: Specifieke afwerkingen of steellook details kunnen doorwegen'
+            text: '- Keuze van motor en bedieningssysteem'
       -
         type: paragraph
         content:
           -
             type: text
-            text: 'Beslag en veiligheid: Grepen, scharnieren en sluitingen maken verschil'
+            text: '- Elektrische aansluiting of oplossing op zonne-energie'
       -
         type: paragraph
         content:
           -
             type: text
-            text: 'Zijlicht en kozijn: Extra elementen verhogen de totaalprijs'
-    type: text
-    enabled: true
-  -
-    id: 575Ywce7fhMaujvFvVJXX
-    title: 'Onderhoud van aluminium deuren'
-    text:
+            text: '- Kleur, afwerking en eventuele extra opties'
       -
         type: paragraph
         content:
           -
             type: text
-            text: 'Veel onderhoud vraagt aluminium niet. Regelmatig reinigen met water en een mild product volstaat meestal om het profiel netjes te houden. Scharnieren en sluitingen laat je best af en toe controleren en smeren. Meer hoeft het vaak niet te zijn. Dat maakt aluminium interessant voor wie een duurzame deur zoekt zonder veel werk achteraf.'
-    type: text
-    enabled: true
-  -
-    id: Q1UDvdJockT2vhq8rWCDt
-    title: 'Frequently asked questions'
-    text:
+            text: '- Moeilijkheidsgraad van de plaatsing'
       -
         type: paragraph
         content:
           -
             type: text
-            marks:
-              -
-                type: bold
-            text: 'Wat zijn de nadelen van een aluminium voordeur?'
-      -
-        type: paragraph
-        content:
-          -
-            type: text
-            text: 'Het grootste aandachtspunt is meestal de prijs. Aluminium ligt vaak hoger dan eenvoudige standaardoplossingen. Daarnaast hangt het comfort sterk af van de kwaliteit van profiel, glas en plaatsing. Kies je goed, dan wegen de voordelen op vlak van levensduur, stabiliteit en onderhoud daar meestal ruim tegenop.'
-      -
-        type: paragraph
-      -
-        type: paragraph
-        content:
-          -
-            type: text
-            marks:
-              -
-                type: bold
-            text: 'Wat is beter: staal of aluminium voor een deur met steellook?'
-      -
-        type: paragraph
-        content:
-          -
-            type: text
-            text: 'Staal heeft een uitgesproken industriële uitstraling, maar aluminium is lichter en vraagt minder onderhoud. Wil je slanke profielen, een moderne look en een praktische oplossing voor dagelijks gebruik, dan is aluminium vaak de meest veelzijdige keuze. Zeker voor buitendeuren is dat een sterk verhaal.'
-      -
-        type: paragraph
-      -
-        type: paragraph
-        content:
-          -
-            type: text
-            marks:
-              -
-                type: bold
-            text: 'Kan een aluminium deur in een bestaand kozijn geplaatst worden?'
-      -
-        type: paragraph
-        content:
-          -
-            type: text
-            text: 'Dat kan soms, maar niet altijd. De maatvoering, de staat van het bestaande kozijn en de gewenste isolatie bepalen wat verstandig is. In veel renovaties geeft een aluminium deur met nieuw kozijn het beste resultaat op vlak van afwerking, luchtdichtheid en gebruikscomfort.'
-      -
-        type: paragraph
-      -
-        type: paragraph
-        content:
-          -
-            type: text
-            marks:
-              -
-                type: bold
-            text: 'Zijn aluminium deuren geschikt voor grote glaspartijen?'
-      -
-        type: paragraph
-        content:
-          -
-            type: text
-            text: 'Ja. Net daar blinkt aluminium in uit. Door de hoge sterkte van het materiaal zijn grote glasvlakken en slanke profielen perfect mogelijk. Ideaal dus als je veel licht wil binnenhalen zonder een zware, logge deur.'
-      -
-        type: paragraph
-        content:
-          -
-            type: text
-            text: 'Wil je verschillende modellen, kleuren en glasopties vergelijken? We helpen je in Heist-op-den-Berg graag verder met een '
+            text: 'Wil je echt slim vergelijken, vraag dan een '
           -
             type: text
             marks:
@@ -296,23 +308,172 @@ page_builder:
                   rel: null
                   target: null
                   title: null
-            text: offerte
+            text: 'offerte op maat'
           -
             type: text
-            text: ' voor een aluminium deur op maat die klopt in stijl, comfort en veiligheid.'
+            text: '. Dan weet je meteen wat technisch mogelijk is en welke uitvoering het best past bij jouw gevel, ramen en budget.'
     type: text
     enabled: true
-preview_title: 'Aluminium deuren'
+  -
+    id: 575Ywce7fhMaujvFvVJXX
+    title: 'Elektrische rolluiken of elektrische screens?'
+    text:
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: 'Twijfel je tussen rolluiken en '
+          -
+            type: text
+            marks:
+              -
+                type: link
+                attrs:
+                  href: 'https://winsol-brebo.be/aanbod/zonwering/screens'
+                  rel: null
+                  target: null
+                  title: null
+            text: screens
+          -
+            type: text
+            text: '? Dan draait het vooral om het gewenste effect. Elektrische screens houden zonnewarmte en fel licht efficiënt tegen, terwijl je vaak nog zicht naar buiten behoudt. Elektrische rolluiken gaan een stap verder. Ze verduisteren sterker, geven meer privacy, helpen beter bij geluiddemping en voelen robuuster aan op vlak van isolatie en inbraakvertraging. Wil je vooral zon weren met behoud van daglicht, dan zijn screens interessant. Wil je extra comfort, rust en afsluiting, dan zit je met rolluiken meestal beter.'
+    type: text
+    enabled: true
+  -
+    id: Q1UDvdJockT2vhq8rWCDt
+    title: 'Elektrische rolluiken op maat voor jouw woning'
+    text:
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: 'Wil je elektrische rolluiken laten plaatsen die echt passen bij jouw ramen, gevel en manier van wonen? Dan is maatwerk de juiste route. Zo stem je uitvoering, bediening en afwerking perfect op elkaar af. Zoek je advies in Heist-op-den-Berg of omgeving, dan loont het om je situatie ter plaatse te laten bekijken en gericht te kiezen in plaats van te gokken.'
+    type: text
+    enabled: true
+  -
+    id: KGhSuFpBvodQmGbqOnK_h
+    title: 'Veelgestelde vragen over elektrische rolluiken'
+    text:
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: 'Wat zijn de meest voorkomende problemen met elektrische rolluiken?'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: 'De meest voorkomende problemen zijn een motor die niet meer reageert, versleten onderdelen, een fout in de bediening of een rolluik dat scheef loopt in de geleiders. Ook vuilophoping kan voor storingen zorgen. Regelmatig reinigen en tijdig laten nakijken helpt om grotere defecten te voorkomen.'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: 'Kun je subsidie krijgen voor rolluiken?'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: 'Voor standaard elektrische rolluiken is er meestal geen vaste algemene subsidie. In sommige gevallen kunnen lokale premies of specifieke energiegerichte regelingen wel relevant zijn, zeker bij duurzame oplossingen zoals solar systemen. Het is daarom slim om altijd de actuele voorwaarden in jouw gemeente of regio te controleren.'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: 'Hoe lang gaat een elektrisch rolluik mee?'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: 'De levensduur hangt af van de kwaliteit van het rolluik, de motor, de plaatsing en het onderhoud. Een degelijk systeem gaat doorgaans jarenlang mee. Goed gebruik, schone geleiders en tijdig onderhoud hebben een duidelijke impact op hoe lang alles soepel blijft werken.'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: 'Wat kost een rolluik van 2 bij 2 meter?'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: 'Daar is geen vaste prijs op te kleven zonder de uitvoering te kennen. Een rolluik van 2 op 2 meter kan sterk verschillen in kostprijs naargelang het type kast, de motor, de gekozen bediening, de kleur, de montage en de elektrische aansluiting. Vraag dus altijd een prijs op maat als je echt correct wil vergelijken.'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: 'Kun je een handmatig rolluik later elektrisch maken?'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: 'Ja, in veel gevallen kan een bestaand handbediend rolluik worden omgebouwd naar elektrische bediening. Dat hangt af van de huidige constructie, de staat van het systeem en de beschikbare ruimte voor een motor. Bij een bestaande woning is dat vaak een interessante manier om extra comfort te winnen zonder alles te vervangen.'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: 'Wat gebeurt er bij stroomuitval?'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: 'Bij stroomuitval werkt een standaard elektrisch rolluik tijdelijk niet, tenzij het systeem voorzien is van een noodoplossing of batterijondersteuning. Daarom is het slim om vooraf na te denken over de situatie van ramen of deuren die je altijd moet kunnen gebruiken. Bij solar systemen hangt dit af van de gekozen opbouw en batterijcapaciteit.'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: 'Elektrische rolluiken op maat voor jouw woning'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: 'Wil je elektrische rolluiken laten plaatsen die echt passen bij jouw ramen, gevel en manier van wonen? Dan is maatwerk de juiste route. Zo stem je uitvoering, bediening en afwerking perfect op elkaar af. Zoek je advies in Heist-op-den-Berg of omgeving, dan loont het om je situatie ter plaatse te laten bekijken en gericht te kiezen in plaats van te gokken.'
+    type: text
+    enabled: true
+preview_title: 'Elektrische rolluiken'
 preview_intro: |-
-  Zoek je een deur die strak oogt, veilig sluit en jaren meegaat? Dan zit je met aluminium goed. Aluminium deuren combineren een slank design met hoge stabiliteit, sterke isolatie en een onderhoudsarme afwerking.
+  Meer comfort met één druk op de knop. Elektrische rolluiken houden zon en inkijk buiten, maken verduisteren eenvoudig en geven je woning extra rust.
 
-  Of je nu kiest voor een aluminium voordeur, een achterdeur met glas of een zwarte aluminium deur die perfect aansluit op je ramen en kozijnen: maatwerk maakt het verschil. Zo krijg je een deur die klopt in stijl, comfort en gebruiksgemak.
-preview_image: aluminium-deur.webp
-meta_title: 'Aluminium deuren op maat'
-meta_description: 'Ontdek aluminium deuren op maat voor voor- en achterdeuren, met slanke profielen, sterke isolatie en weinig onderhoud voor elke woning.'
+  Of je nu bouwt of renoveert, met rolluiken op maat kies je voor gebruiksgemak, een nette afwerking en slimme controle over licht, temperatuur en privacy. Bekijk de verschillende uitvoeringen en kies wat past bij jouw woning.
+preview_image: 0-(3).jpg
+meta_title: 'Elektrische rolluiken op maat'
+meta_description: 'Kies elektrische rolluiken op maat voor meer comfort, verduistering, isolatie en veiligheid. Ontdek types, bediening, prijs en praktische kooptips.'
 seo_noindex: false
 hide_from_listings: false
 updated_by: 84ddb831-416c-484c-9dfc-18c3ef8911ec
-updated_at: 1791278703
+updated_at: 1791279377
 duplicated_from: 45d5b752-dd76-475d-b13f-773efe6b3f71
 ---
