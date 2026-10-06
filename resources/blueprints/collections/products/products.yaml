@@ -64,6 +64,8 @@ tabs:
               type: table
               display: 'Table Veld'
               localizable: false
+              listable: true
+              always_save: true
       -
         fields:
           -
