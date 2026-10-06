@@ -1,6 +1,5 @@
 ---
 id: 98854e86-d87f-45ca-bd99-d0e77eeb6dcf
-published: false
 blueprint: products
 title: 'Elektrische rolluiken'
 range: 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
@@ -474,6 +473,6 @@ meta_description: 'Kies elektrische rolluiken op maat voor meer comfort, verduis
 seo_noindex: false
 hide_from_listings: false
 updated_by: 84ddb831-416c-484c-9dfc-18c3ef8911ec
-updated_at: 1791279377
+updated_at: 1791279404
 duplicated_from: 45d5b752-dd76-475d-b13f-773efe6b3f71
 ---
