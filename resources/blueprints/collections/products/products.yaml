@@ -9,10 +9,11 @@ tabs:
             handle: title
             field:
               type: text
-              display: Title
               required: true
+              display: Title
               validate:
                 - required
+              localizable: false
           -
             handle: range
             field:
@@ -23,7 +24,6 @@ tabs:
               max_items: 1
               localizable: true
               instructions: 'Bepaalt de URL van dit product: /aanbod/<range>/<product>.'
-              required: true
               validate:
                 - required
           -
@@ -36,11 +36,13 @@ tabs:
               mode: select
               display: Productgroep
               instructions: 'Groepeert dit product in de sprongbalk bovenaan de aanbodpagina. Leeg laten mag: het product valt dan onder "Overige".'
+              localizable: false
           -
             handle: text
             field:
               type: textarea
               display: Text
+              localizable: false
           -
             import: image
           -
@@ -56,6 +58,12 @@ tabs:
               instructions: 'Optioneel. Staat er een brochure, dan wordt de brochure-quicklink een directe download; anders verdwijnt die kaart.'
               validate:
                 - 'mimes:pdf'
+          -
+            handle: table_veld
+            field:
+              type: table
+              display: 'Table Veld'
+              localizable: false
       -
         fields:
           -
