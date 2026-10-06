@@ -296,6 +296,6 @@ meta_description: 'Hou je veranda aangenaam koel met verandazonwering op maat. M
 seo_noindex: false
 hide_from_listings: false
 updated_by: 84ddb831-416c-484c-9dfc-18c3ef8911ec
-updated_at: 1791285963
+updated_at: 1791285981
 duplicated_from: 45d5b752-dd76-475d-b13f-773efe6b3f71
 ---
