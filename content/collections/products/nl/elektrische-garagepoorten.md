@@ -1,6 +1,5 @@
 ---
 id: 424b12da-1f64-4b20-991f-d6624d512468
-published: false
 blueprint: products
 title: 'Elektrische garagepoorten'
 range: 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
@@ -501,6 +500,6 @@ meta_description: 'Kies een elektrische garagepoort op maat met veilige motorisa
 seo_noindex: false
 hide_from_listings: false
 updated_by: 84ddb831-416c-484c-9dfc-18c3ef8911ec
-updated_at: 1791280487
+updated_at: 1791280517
 duplicated_from: 45d5b752-dd76-475d-b13f-773efe6b3f71
 ---
