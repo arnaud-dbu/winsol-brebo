@@ -1,6 +1,5 @@
 ---
 id: 9ad2d759-a304-49de-8328-9d1822c5eae2
-published: false
 blueprint: products
 title: Verandazonwering
 range: 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
@@ -297,6 +296,6 @@ meta_description: 'Hou je veranda aangenaam koel met verandazonwering op maat. M
 seo_noindex: false
 hide_from_listings: false
 updated_by: 84ddb831-416c-484c-9dfc-18c3ef8911ec
-updated_at: 1791285952
+updated_at: 1791285963
 duplicated_from: 45d5b752-dd76-475d-b13f-773efe6b3f71
 ---
