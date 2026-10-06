@@ -38,6 +38,136 @@ page_builder:
             text: 'De juiste keuze hangt af van je opening, loopruimte en de sfeer die je wilt neerzetten. Dit zijn de meest gekozen uitvoeringen.'
       -
         type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: 'Stalen scharnierdeur'
+          -
+            type: hardBreak
+          -
+            type: text
+            text: 'Past goed bij: standaard deuropeningen en klassieke doorloop.'
+          -
+            type: hardBreak
+          -
+            type: text
+            text: 'Belangrijk voordeel: vertrouwd in gebruik en strak af te werken met kozijn.'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: 'Glazen taatsdeur'
+          -
+            type: hardBreak
+          -
+            type: text
+            text: 'Past goed bij: open leefruimtes en designinterieurs.'
+          -
+            type: hardBreak
+          -
+            type: text
+            text: 'Belangrijk voordeel: elegante draaibeweging en lichte, luxueuze uitstraling.'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: 'Stalen schuifdeur met glas'
+          -
+            type: hardBreak
+          -
+            type: text
+            text: 'Past goed bij: ruimtes waar draaicirkel ontbreekt.'
+          -
+            type: hardBreak
+          -
+            type: text
+            text: 'Belangrijk voordeel: ruimtebesparend en ideaal als stijlvolle room divider.'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: 'Dubbele stalen binnendeuren'
+          -
+            type: hardBreak
+          -
+            type: text
+            text: 'Past goed bij: brede doorgangen tussen twee leefzones.'
+          -
+            type: hardBreak
+          -
+            type: text
+            text: 'Belangrijk voordeel: veel lichtinval en een indrukwekkend open effect.'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            text: 'Wil je het korter, bijvoorbeeld in één regel per deur? Dan wordt het:'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: 'Stalen scharnierdeur:'
+          -
+            type: text
+            text: ' voor standaard deuropeningen en klassieke doorloop, vertrouwd in gebruik en strak af te werken met kozijn.'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: 'Glazen taatsdeur:'
+          -
+            type: text
+            text: ' voor open leefruimtes en designinterieurs, met een elegante draaibeweging en lichte, luxueuze uitstraling.'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: 'Stalen schuifdeur met glas:'
+          -
+            type: text
+            text: ' voor ruimtes zonder draaicirkel, ruimtebesparend en ideaal als stijlvolle room divider.'
+      -
+        type: paragraph
+        content:
+          -
+            type: text
+            marks:
+              -
+                type: bold
+            text: 'Dubbele stalen binnendeuren:'
+          -
+            type: text
+            text: ' voor brede doorgangen tussen twee leefzones, met veel lichtinval en een indrukwekkend open effect.'
+      -
+        type: paragraph
       -
         type: paragraph
         content:
@@ -269,6 +399,6 @@ meta_description: 'Ontdek stalen deuren met glas op maat. Kies uit scharnier-, t
 seo_noindex: false
 hide_from_listings: false
 updated_by: 84ddb831-416c-484c-9dfc-18c3ef8911ec
-updated_at: 1791278249
+updated_at: 1791278576
 duplicated_from: 45d5b752-dd76-475d-b13f-773efe6b3f71
 ---
