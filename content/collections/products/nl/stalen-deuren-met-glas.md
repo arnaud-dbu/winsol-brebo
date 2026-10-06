@@ -1,6 +1,5 @@
 ---
 id: af590ae6-265e-4829-aaf4-1606e8119a53
-published: false
 blueprint: products
 title: 'Stalen deuren met glas'
 range: 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
@@ -399,6 +398,6 @@ meta_description: 'Ontdek stalen deuren met glas op maat. Kies uit scharnier-, t
 seo_noindex: false
 hide_from_listings: false
 updated_by: 84ddb831-416c-484c-9dfc-18c3ef8911ec
-updated_at: 1791278576
+updated_at: 1791278617
 duplicated_from: 45d5b752-dd76-475d-b13f-773efe6b3f71
 ---
