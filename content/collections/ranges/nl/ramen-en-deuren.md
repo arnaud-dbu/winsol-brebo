@@ -1,14 +1,15 @@
 ---
 id: 8c2e41a0-0002-4a1b-9c7d-3e5f6a7b8c02
 blueprint: ranges
-title: 'Stalen deuren met glas'
-short_description: 'Meer licht. Meer lijn. Meer karakter. Met stalen deuren met glas geef je je interieur een strakke blikvanger zonder ruimtes volledig af te sluiten. Je behoudt openheid, laat daglicht doorstromen en creëert tegelijk duidelijke zones in huis. Bij Winsol Brebo kies je voor een stalen binnendeur met glas die klopt in verhouding, afwerking en gebruiksgemak. Zwart en uitgesproken of net subtiel en tijdloos - het effect zit in de details.'
+title: 'Ramen en deuren'
+short_description: 'Ramen en deuren in aluminium of pvc, op maat gemaakt in België en geplaatst door ons eigen team.'
+long_description: 'Ramen en deuren bepalen de look van je woning en geven je huis een volledig nieuw gezicht. Ze bepalen ook je energiefactuur: goed isolerend schrijnwerk houdt de warmte binnen en het lawaai buiten. Wij meten op, adviseren over aluminium of pvc, en plaatsen met eigen vakmensen.'
 order: 1
-image: 0-(1).jpg
+image: ranges/ramen-en-deuren.png
 range_categories:
   - voor-je-woning
-meta_title: 'Stalen deuren met glas'
-meta_description: 'Ontdek stalen deuren met glas op maat. Kies uit scharnier-, taats- of schuifdeuren met helder, mat of rookglas voor een strakke interieurlook.'
+meta_title: 'Ramen en deuren op maat'
+meta_description: 'Ramen en deuren van Winsol in aluminium of pvc, op maat gemaakt in België. Advies, opmeting en plaatsing door je lokale Winsol-team in Dilbeek, Sint-Pieters-Leeuw en Aartselaar.'
 seo_noindex: false
 page_builder:
   -
@@ -116,5 +117,5 @@ page_builder:
     enabled: true
     align: left
 updated_by: 84ddb831-416c-484c-9dfc-18c3ef8911ec
-updated_at: 1791286471
+updated_at: 1790240353
 ---
