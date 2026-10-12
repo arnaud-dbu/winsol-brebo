@@ -7,6 +7,7 @@ use Mockery;
 use Statamic\Contracts\Globals\GlobalSet as GlobalSetContract;
 use Statamic\Contracts\Globals\Variables as VariablesContract;
 use Statamic\Facades\GlobalSet;
+use Statamic\Facades\Site;
 use Tests\TestCase;
 
 class OrganizationSchemaTest extends TestCase
@@ -24,6 +25,39 @@ class OrganizationSchemaTest extends TestCase
         $this->assertSame('Winsol Brebo', $node['name']);
         $this->assertSame(['+32 2 308 02 26', '+32 3 880 85 65'], $node['telephone']);
         $this->assertStringEndsWith('/#organization', $node['@id']);
+    }
+
+    /**
+     * Google wil een logo van minstens 112 bij 112 pixels. `logo.png` in de
+     * header is 74 pixels hoog, daarom een eigen vierkante versie.
+     */
+    public function test_the_node_carries_a_square_logo_of_at_least_112_pixels(): void
+    {
+        $logo = OrganizationSchema::node()['logo'] ?? null;
+
+        $this->assertIsString($logo);
+        $this->assertStringStartsWith('http', $logo);
+
+        $file = public_path((string) parse_url($logo, PHP_URL_PATH));
+        $this->assertFileExists($file);
+
+        [$width, $height] = getimagesize($file);
+        $this->assertSame($width, $height);
+        $this->assertGreaterThanOrEqual(112, $height);
+    }
+
+    /**
+     * Het bestand staat in de webroot en niet onder `/fr` of `/en`.
+     */
+    public function test_the_logo_sits_at_the_web_root_on_every_language(): void
+    {
+        $nl = OrganizationSchema::node()['logo'];
+
+        foreach (['fr', 'en'] as $site) {
+            Site::setCurrent($site);
+
+            $this->assertSame($nl, OrganizationSchema::node()['logo'], "Het logo wijst op /{$site} naar een ander pad.");
+        }
     }
 
     /**

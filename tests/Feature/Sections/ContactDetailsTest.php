@@ -15,6 +15,19 @@ class ContactDetailsTest extends SectionTestCase
         $this->assertStringContainsString('Winsol Aartselaar', $html);
     }
 
+    /**
+     * De structured data wijst per showroom naar `/contact#<slug>`. Zonder
+     * dit id landt die link bovenaan de pagina. Zie LocationsSchemaTest.
+     */
+    public function test_every_card_is_the_anchor_the_structured_data_points_at(): void
+    {
+        $html = $this->render('{{ partial:contactDetails }}');
+
+        $this->assertStringContainsString('id="winsol-dilbeek"', $html);
+        $this->assertStringContainsString('id="winsol-sint-pieters-leeuw"', $html);
+        $this->assertStringContainsString('id="winsol-aartselaar"', $html);
+    }
+
     public function test_it_composes_the_address_from_the_separate_fields(): void
     {
         $html = $this->render('{{ partial:contactDetails }}');

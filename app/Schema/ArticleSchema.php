@@ -31,9 +31,22 @@ class ArticleSchema
             'image' => self::imageUrl($entry),
             'datePublished' => $entry->date()?->toIso8601String(),
             'dateModified' => $entry->lastModified()?->toIso8601String(),
+            'author' => self::author($entry),
             'publisher' => ['@id' => OrganizationSchema::id()],
             'mainEntityOfPage' => SiteUrl::absolute($uri),
         ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private static function author(EntryContract $entry): array
+    {
+        $name = trim((string) $entry->get('author_name'));
+
+        return $name === ''
+            ? ['@id' => OrganizationSchema::id()]
+            : ['@type' => 'Person', 'name' => $name];
     }
 
     /**

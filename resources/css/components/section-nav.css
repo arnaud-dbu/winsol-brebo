@@ -13,7 +13,7 @@
  */
 
 .section-nav__link {
-    @apply inline-flex w-fit items-center justify-center gap-2 rounded-full border border-black/12 px-8 py-4 font-semibold text-base text-black transition-colors duration-200 ease-out;
+    @apply inline-flex w-fit items-center justify-center gap-2 rounded-full border border-black/12 px-8 py-4 text-base font-semibold text-black transition-colors duration-200 ease-out;
 }
 
 .section-nav__link:hover,
@@ -59,6 +59,7 @@
  * horen er daarom bij opgeteld, anders landt de sprong achter de balk.
  */
 [data-section='text_image'][id],
-[data-section='reparation'] {
+[data-section='reparation'],
+[data-location][id] {
     scroll-margin-top: calc(var(--nav-height) + var(--promo-height) + var(--spacing-section-half));
 }

@@ -2,11 +2,16 @@
 
 namespace Tests\Feature\Content;
 
+use Statamic\Contracts\Entries\Entry as EntryContract;
+use Tests\Concerns\CreatesTemporaryContent;
 use Tests\TestCase;
 
 class ArticleShowPageTest extends TestCase
 {
-    use \Tests\Concerns\CreatesTemporaryContent;
+    use CreatesTemporaryContent;
+
+    /** @var array<string, EntryContract> */
+    private array $articles;
 
     protected function setUp(): void
     {
@@ -15,7 +20,7 @@ class ArticleShowPageTest extends TestCase
         // De acht nieuwsartikels stonden tot 05-09-2026 in de content en zijn
         // toen als testdata verwijderd. Deze tests toetsen de weergave ervan,
         // dus zetten ze de fixtures zelf neer.
-        $this->seedArticles();
+        $this->articles = $this->seedArticles();
     }
 
     public function test_the_article_renders_with_its_header_and_chips(): void
@@ -26,6 +31,46 @@ class ArticleShowPageTest extends TestCase
         $response->assertSee('data-header="article"', false);
         $response->assertSee('<span class="chip chip--dark">Showroom</span>', false);
         $response->assertSee('16 juli 2026', false);
+    }
+
+    /**
+     * Google wil de auteur uit de structured data ook op de pagina zien. Zonder
+     * ingevulde naam is dat de organisatie, net als in ArticleSchema.
+     */
+    public function test_an_article_without_an_author_shows_the_organization(): void
+    {
+        $response = $this->get('/nieuws/showroom-aartselaar-is-opnieuw-open');
+
+        $response->assertOk();
+        $this->assertMatchesRegularExpression('/<span class="chip chip--light">\\s*Door Winsol Brebo\\s*<\\/span>/', $response->getContent());
+    }
+
+    public function test_an_article_with_an_author_shows_that_name(): void
+    {
+        $this->articles['showroom-aartselaar-is-opnieuw-open']
+            ->set('author_name', 'Jan Peeters')
+            ->save();
+
+        $response = $this->get('/nieuws/showroom-aartselaar-is-opnieuw-open');
+
+        $response->assertOk();
+        $this->assertMatchesRegularExpression('/<span class="chip chip--light">\\s*Door Jan Peeters\\s*<\\/span>/', $response->getContent());
+        $response->assertDontSee('Door Winsol Brebo', false);
+    }
+
+    /**
+     * ArticleSchema trimt de naam en valt dan terug op de organisatie. De chip
+     * moet hetzelfde doen, anders noemen pagina en markup een andere auteur.
+     */
+    public function test_an_author_of_only_spaces_counts_as_empty(): void
+    {
+        $this->articles['showroom-aartselaar-is-opnieuw-open']
+            ->set('author_name', '   ')
+            ->save();
+
+        $response = $this->get('/nieuws/showroom-aartselaar-is-opnieuw-open');
+
+        $this->assertMatchesRegularExpression('/<span class="chip chip--light">\\s*Door Winsol Brebo\\s*<\\/span>/', $response->getContent());
     }
 
     public function test_the_body_is_centered_and_carries_the_prose_utility(): void

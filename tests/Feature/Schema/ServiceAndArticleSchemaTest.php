@@ -5,12 +5,14 @@ namespace Tests\Feature\Schema;
 use App\Schema\ArticleSchema;
 use App\Schema\OrganizationSchema;
 use App\Schema\ServiceSchema;
+use Statamic\Facades\Collection;
 use Statamic\Facades\Entry;
+use Tests\Concerns\CreatesTemporaryContent;
 use Tests\TestCase;
 
 class ServiceAndArticleSchemaTest extends TestCase
 {
-    use \Tests\Concerns\CreatesTemporaryContent;
+    use CreatesTemporaryContent;
 
     protected function setUp(): void
     {
@@ -78,6 +80,42 @@ class ServiceAndArticleSchemaTest extends TestCase
         $this->assertNotEmpty($node['image']);
         $this->assertStringStartsWith('http', $node['image']);
         $this->assertNotEmpty($node['dateModified']);
+    }
+
+    /**
+     * Tot de klant een naam aanlevert, staat het veld leeg. Dan is de
+     * organisatie de auteur, en geen lege Person.
+     */
+    public function test_an_article_without_an_author_is_written_by_the_organization(): void
+    {
+        $entry = Entry::query()->where('collection', 'articles')->where('site', 'nl')->first();
+        $entry->set('author_name', null);
+
+        $node = ArticleSchema::node($entry);
+
+        $this->assertSame(['@id' => OrganizationSchema::id()], $node['author'] ?? null);
+    }
+
+    public function test_an_article_with_an_author_names_that_person(): void
+    {
+        $entry = Entry::query()->where('collection', 'articles')->where('site', 'nl')->first();
+        $entry->set('author_name', '  Jan Peeters ');
+
+        $node = ArticleSchema::node($entry);
+
+        $this->assertSame(['@type' => 'Person', 'name' => 'Jan Peeters'], $node['author'] ?? null);
+    }
+
+    /**
+     * Niet `author`: een veld met die handle vult Statamic bij het aanmaken
+     * met de ingelogde gebruiker, en dan zou die als auteur in de markup staan.
+     */
+    public function test_the_article_blueprint_offers_the_author_name_field(): void
+    {
+        $blueprint = Collection::findByHandle('articles')->entryBlueprint();
+
+        $this->assertTrue($blueprint->hasField('author_name'));
+        $this->assertFalse($blueprint->hasField('author'));
     }
 
     public function test_a_null_entry_yields_no_node(): void

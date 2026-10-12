@@ -2,6 +2,8 @@
 
 namespace App\Schema;
 
+use App\Tags\PageUrl;
+use Illuminate\Support\Collection;
 use Statamic\Contracts\Entries\Entry as EntryContract;
 use Statamic\Facades\Entry;
 use Statamic\Facades\Site;
@@ -70,7 +72,7 @@ class LocationsSchema
      * Bewust de defaultsite: een vestiging is er maar één, ongeacht de taal
      * waarin de bezoeker de site leest.
      *
-     * @return \Illuminate\Support\Collection<int, EntryContract>
+     * @return Collection<int, EntryContract>
      */
     private static function entries()
     {
@@ -99,6 +101,7 @@ class LocationsSchema
             '@type' => 'LocalBusiness',
             '@id' => SiteUrl::absolute('/').'#'.$entry->slug(),
             'name' => $name,
+            'url' => self::url($entry),
             'parentOrganization' => ['@id' => OrganizationSchema::id()],
             'address' => [
                 '@type' => 'PostalAddress',
@@ -108,11 +111,47 @@ class LocationsSchema
                 'addressCountry' => 'BE',
             ],
             'telephone' => trim((string) $entry->get('phone')),
+            'email' => OrganizationSchema::email(),
             'geo' => self::geo($entry),
+            'hasMap' => self::map($entry),
             'openingHoursSpecification' => OpeningHours::specifications(
                 (array) ($entry->get('opening_hours') ?? [])
             ),
         ];
+    }
+
+    /**
+     * Een showroom heeft geen eigen pagina, dus wijst de URL naar zijn kaartje
+     * op de contactpagina, in de taal van de bezoeker.
+     */
+    private static function url(EntryContract $entry): ?string
+    {
+        $contact = PageUrl::entry('contact')?->absoluteUrl();
+
+        return $contact === null ? null : $contact.'#'.$entry->slug();
+    }
+
+    /**
+     * Op coördinaten, zoals de routeknop op de contactpagina: een adres op
+     * deze steenwegen landt geregeld aan de overkant. Zonder coördinaten valt
+     * hij terug op het adres.
+     */
+    private static function map(EntryContract $entry): ?string
+    {
+        $geo = self::geo($entry);
+
+        $query = $geo === []
+            ? trim($entry->get('street').' '.$entry->get('number')).', '.trim($entry->get('postal_code').' '.$entry->get('city'))
+            : $geo['latitude'].','.$geo['longitude'];
+
+        if (trim($query, ', ') === '') {
+            return null;
+        }
+
+        return 'https://www.google.com/maps/search/?'.http_build_query([
+            'api' => 1,
+            'query' => $query,
+        ]);
     }
 
     /**

@@ -24,26 +24,33 @@ class PageUrl extends Tags
 {
     public function wildcard(string $sleutel): string
     {
-        $entry = $this->nederlandseEntry($sleutel);
+        $entry = self::entry($sleutel, $this->params->get('site'));
 
         if (! $entry) {
             return '';
         }
 
-        $site = $this->params->get('site') ?: Site::current()->handle();
-        $vertaald = $entry->in($site) ?? $entry;
-
         return $this->params->bool('absolute')
-            ? $vertaald->absoluteUrl()
-            : $vertaald->url();
+            ? $entry->absoluteUrl()
+            : $entry->url();
     }
 
-    private function nederlandseEntry(string $sleutel): ?EntryContract
+    /**
+     * De vaste pagina in de gevraagde taal, standaard die van de bezoeker.
+     * Bestaat er geen vertaling, dan de Nederlandse.
+     */
+    public static function entry(string $sleutel, ?string $site = null): ?EntryContract
     {
-        return Entry::query()
+        $entry = Entry::query()
             ->whereIn('collection', ['pages', 'legal'])
             ->where('site', 'nl')
             ->where('slug', $sleutel)
             ->first();
+
+        if (! $entry) {
+            return null;
+        }
+
+        return $entry->in($site ?: Site::current()->handle()) ?? $entry;
     }
 }

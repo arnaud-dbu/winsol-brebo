@@ -4,10 +4,14 @@ namespace Tests\Feature\Schema;
 
 use App\Schema\LocationsSchema;
 use App\Schema\OrganizationSchema;
+use Statamic\Facades\Site;
+use Tests\Concerns\CreatesTemporaryContent;
 use Tests\TestCase;
 
 class LocationsSchemaTest extends TestCase
 {
+    use CreatesTemporaryContent;
+
     public function test_it_builds_one_node_per_showroom(): void
     {
         $this->assertCount(3, LocationsSchema::nodes());
@@ -47,6 +51,82 @@ class LocationsSchemaTest extends TestCase
         $ids = array_column(LocationsSchema::nodes(), '@id');
 
         $this->assertSame($ids, array_unique($ids));
+    }
+
+    /**
+     * Geen showroom heeft een eigen pagina, dus wijst elke `url` naar zijn
+     * kaartje op de contactpagina.
+     */
+    public function test_every_node_links_to_its_card_on_the_contact_page(): void
+    {
+        $urls = array_column(LocationsSchema::nodes(), 'url', 'name');
+
+        $this->assertStringEndsWith('/contact#winsol-dilbeek', $urls['Winsol Dilbeek']);
+        $this->assertStringEndsWith('/contact#winsol-sint-pieters-leeuw', $urls['Winsol Sint-Pieters-Leeuw']);
+        $this->assertStringEndsWith('/contact#winsol-aartselaar', $urls['Winsol Aartselaar']);
+        $this->assertStringStartsWith('http', $urls['Winsol Dilbeek']);
+    }
+
+    /**
+     * Een vestiging heeft geen eigen mailadres. Het algemene adres uit de
+     * globals is hetzelfde dat de contactpagina onder de kaartjes toont.
+     */
+    public function test_every_node_carries_the_general_email_address(): void
+    {
+        foreach (LocationsSchema::nodes() as $node) {
+            $this->assertSame('offertes@winsolspl.be', $node['email'] ?? null, "{$node['name']} heeft geen e-mailadres");
+        }
+    }
+
+    /**
+     * Op coördinaten en niet op het adres, om dezelfde reden als de
+     * routeknop op de contactpagina: een adres op deze steenwegen landt
+     * geregeld aan de overkant.
+     */
+    public function test_every_node_points_at_its_spot_on_google_maps(): void
+    {
+        $maps = array_column(LocationsSchema::nodes(), 'hasMap', 'name');
+
+        $this->assertSame('https://www.google.com/maps/search/?api=1&query=50.842047%2C4.237594', $maps['Winsol Dilbeek'] ?? null);
+        $this->assertSame('https://www.google.com/maps/search/?api=1&query=51.114612%2C4.370697', $maps['Winsol Aartselaar'] ?? null);
+    }
+
+    public function test_a_showroom_without_coordinates_falls_back_to_its_address(): void
+    {
+        $this->temporaryEntry('locations', 'winsol-zonder-coordinaten', [
+            'name' => 'Winsol Zonder Coördinaten',
+            'street' => 'Ninoofsesteenweg',
+            'number' => '637',
+            'postal_code' => '1700',
+            'city' => 'Dilbeek',
+        ]);
+
+        $node = collect(LocationsSchema::nodes())->firstWhere('name', 'Winsol Zonder Coördinaten');
+
+        $this->assertSame(
+            'https://www.google.com/maps/search/?api=1&query=Ninoofsesteenweg+637%2C+1700+Dilbeek',
+            $node['hasMap'] ?? null,
+        );
+    }
+
+    public function test_a_showroom_without_coordinates_or_address_has_no_map(): void
+    {
+        $this->temporaryEntry('locations', 'winsol-zonder-adres', [
+            'name' => 'Winsol Zonder Adres',
+        ]);
+
+        $node = collect(LocationsSchema::nodes())->firstWhere('name', 'Winsol Zonder Adres');
+
+        $this->assertNull($node['hasMap']);
+    }
+
+    public function test_the_url_follows_the_language_of_the_visitor(): void
+    {
+        Site::setCurrent('en');
+
+        $node = collect(LocationsSchema::nodes())->firstWhere('name', 'Winsol Dilbeek');
+
+        $this->assertStringEndsWith('/en/contact#winsol-dilbeek', $node['url']);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Schema;
 
+use Statamic\Contracts\Globals\Variables;
 use Statamic\Facades\GlobalSet;
 use Statamic\Facades\Site;
 
@@ -31,22 +32,37 @@ class OrganizationSchema
      */
     public static function node(): array
     {
-        $globals = GlobalSet::findByHandle('globals')?->inCurrentSite();
-        $contact = (array) ($globals?->get('contact') ?? []);
-        $socials = (array) ($globals?->get('socials') ?? []);
+        $socials = (array) (self::globals()?->get('socials') ?? []);
 
         return [
             '@type' => 'Organization',
             '@id' => self::id(),
             'name' => Site::current()->name(),
             'url' => SiteUrl::absolute('/'),
+            'logo' => SiteUrl::file('logo-square.png'),
             // Uit de vestigingen en niet uit de globals: het nummer hoort bij
             // de showroom die opneemt. Stond het op twee plaatsen, dan zou een
             // gewijzigde centrale er maar op één bijgewerkt worden.
             'telephone' => LocationsSchema::phones(),
-            'email' => trim((string) ($contact['email'] ?? '')),
+            'email' => self::email(),
             'sameAs' => self::sameAs($socials),
         ];
+    }
+
+    /**
+     * Het algemene adres. De vestigingen hebben geen eigen adres en dragen
+     * daarom ook dit.
+     */
+    public static function email(): string
+    {
+        $contact = (array) (self::globals()?->get('contact') ?? []);
+
+        return trim((string) ($contact['email'] ?? ''));
+    }
+
+    private static function globals(): ?Variables
+    {
+        return GlobalSet::findByHandle('globals')?->inCurrentSite();
     }
 
     /**

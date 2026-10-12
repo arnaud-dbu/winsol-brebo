@@ -13,4 +13,13 @@ class SiteUrl
 
         return $path === '/' ? $base.'/' : $base.$path;
     }
+
+    /**
+     * Een bestand in de webroot. Dat hangt niet onder het taalprefix van de
+     * huidige site, zoals `/fr`.
+     */
+    public static function file(string $path): string
+    {
+        return rtrim(Site::default()->absoluteUrl(), '/').'/'.ltrim($path, '/');
+    }
 }

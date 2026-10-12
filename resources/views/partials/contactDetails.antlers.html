@@ -5,7 +5,10 @@
             {{ svg src="shape-full" aria-hidden="true" class="pointer-events-none absolute top-[10%] -left-[25%] -z-10 h-auto w-full max-w-none [&_path]:fill-light-shape" }}
             <ul class="grid gap-5 lg:grid-cols-3 lg:gap-6 xl:gap-7">
                 {{ collection:locations }}
-                    <li class="flex flex-col gap-2 rounded-md bg-white p-6 xl:px-8 xl:py-10" data-location>
+                    <li
+                        id="{{ slug }}"
+                        class="flex flex-col gap-2 rounded-md bg-white p-6 xl:px-8 xl:py-10"
+                        data-location>
                         <h3 class="text-xl font-semibold">{{ name | entities }}</h3>
                         {{# Eén expressie: los uitgeschreven breekt Prettier de regel vlak vóór de komma. #}}
                         <p class="text-base">{{ "{street} {number}, {postal_code} {city}" | entities }}</p>

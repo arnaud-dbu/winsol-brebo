@@ -67,5 +67,6 @@
     "Toon route": "Get directions",
     "Toon route naar": "Get directions to",
     "Maximaal :aantal bestanden, elk tot :bestand, samen hoogstens :totaal.": "Up to :aantal files, each up to :bestand, :totaal in total.",
-    "Eén bestand, tot :bestand.": "One file, up to :bestand."
+    "Eén bestand, tot :bestand.": "One file, up to :bestand.",
+    "Door": "By"
 }
