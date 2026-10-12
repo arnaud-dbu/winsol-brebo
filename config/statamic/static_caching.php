@@ -1,5 +1,8 @@
 <?php
 
+use Statamic\StaticCaching\Replacers\CsrfTokenReplacer;
+use Statamic\StaticCaching\Replacers\NoCacheReplacer;
+
 return [
 
     /*
@@ -43,7 +46,9 @@ return [
 
         'half' => [
             'driver' => 'application',
-            'expiry' => null,
+            // De actiebalk hangt af van de datum van vandaag en geen opslag
+            // wist hem. Zo verschijnt of verdwijnt hij hoogstens een uur te laat.
+            'expiry' => 60,
         ],
 
         'full' => [
@@ -96,21 +101,9 @@ return [
 
         'class' => null,
 
-        'rules' => [
-            // This base prefers wrapping dynamic listing blocks in
-            // {{ nocache }} over maintaining invalidation rules (see
-            // docs/static-caching.md). Use rules only when you want a
-            // listing to stay fully cached for maximum speed. Example:
-            //
-            // 'collections' => [
-            //     'blog' => [
-            //         'urls' => [
-            //             '/blog',
-            //             '/',
-            //         ],
-            //     ],
-            // ],
-        ],
+        // Megamenu, footer, quicklinks en de overzichten tonen entries uit
+        // andere collecties, dus elke opslag raakt bijna elke pagina.
+        'rules' => 'all',
 
     ],
 
@@ -163,8 +156,8 @@ return [
     */
 
     'replacers' => [
-        \Statamic\StaticCaching\Replacers\CsrfTokenReplacer::class,
-        \Statamic\StaticCaching\Replacers\NoCacheReplacer::class,
+        CsrfTokenReplacer::class,
+        NoCacheReplacer::class,
     ],
 
     /*
