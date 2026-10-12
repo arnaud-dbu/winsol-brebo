@@ -58,7 +58,7 @@ tabs:
             field:
               type: text
               display: Auteur
-              instructions: 'Naam van wie het artikel schreef. Staat onder de titel en in de structured data. Leeg laten zet er Winsol Brebo.'
+              instructions: 'Naam van wie het artikel schreef. Alleen voor Google, niet zichtbaar op het artikel. Leeg laten zet er Winsol Brebo.'
           -
             handle: themes
             field:

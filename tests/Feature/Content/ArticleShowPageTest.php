@@ -34,43 +34,23 @@ class ArticleShowPageTest extends TestCase
     }
 
     /**
-     * Google wil de auteur uit de structured data ook op de pagina zien. Zonder
-     * ingevulde naam is dat de organisatie, net als in ArticleSchema.
+     * De auteur hoort in de structured data, niet op de pagina zelf. Arnaud
+     * wil hem niet tonen (12-10-2026); Google eist geen zichtbare auteur.
      */
-    public function test_an_article_without_an_author_shows_the_organization(): void
-    {
-        $response = $this->get('/nieuws/showroom-aartselaar-is-opnieuw-open');
-
-        $response->assertOk();
-        $this->assertMatchesRegularExpression('/<span class="chip chip--light">\\s*Door Winsol Brebo\\s*<\\/span>/', $response->getContent());
-    }
-
-    public function test_an_article_with_an_author_shows_that_name(): void
+    public function test_the_author_is_in_the_structured_data_but_not_in_the_header(): void
     {
         $this->articles['showroom-aartselaar-is-opnieuw-open']
             ->set('author_name', 'Jan Peeters')
             ->save();
 
-        $response = $this->get('/nieuws/showroom-aartselaar-is-opnieuw-open');
+        $html = $this->get('/nieuws/showroom-aartselaar-is-opnieuw-open')->assertOk()->getContent();
 
-        $response->assertOk();
-        $this->assertMatchesRegularExpression('/<span class="chip chip--light">\\s*Door Jan Peeters\\s*<\\/span>/', $response->getContent());
-        $response->assertDontSee('Door Winsol Brebo', false);
-    }
+        preg_match('/<script type="application\/ld\+json">(.*?)<\/script>/s', $html, $jsonLd);
+        $this->assertStringContainsString('"name":"Jan Peeters"', $jsonLd[1] ?? '');
 
-    /**
-     * ArticleSchema trimt de naam en valt dan terug op de organisatie. De chip
-     * moet hetzelfde doen, anders noemen pagina en markup een andere auteur.
-     */
-    public function test_an_author_of_only_spaces_counts_as_empty(): void
-    {
-        $this->articles['showroom-aartselaar-is-opnieuw-open']
-            ->set('author_name', '   ')
-            ->save();
-
-        $response = $this->get('/nieuws/showroom-aartselaar-is-opnieuw-open');
-
-        $this->assertMatchesRegularExpression('/<span class="chip chip--light">\\s*Door Winsol Brebo\\s*<\\/span>/', $response->getContent());
+        $start = strpos($html, 'data-header="article"');
+        $header = substr($html, $start, strpos($html, '</section>', $start) - $start);
+        $this->assertStringNotContainsString('Jan Peeters', $header);
     }
 
     public function test_the_body_is_centered_and_carries_the_prose_utility(): void
