@@ -1,0 +1,12 @@
+title: Taal
+fields:
+  -
+    handle: language
+    field:
+      type: select
+      display: Taal
+      visibility: read_only
+      options:
+        nl: Nederlands
+        fr: Frans
+        en: Engels

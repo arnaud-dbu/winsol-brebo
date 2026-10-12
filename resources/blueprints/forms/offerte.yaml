@@ -90,3 +90,5 @@ tabs:
               display: 'Akkoord met de verwerking van mijn gegevens'
               validate:
                 - accepted
+          -
+            import: language

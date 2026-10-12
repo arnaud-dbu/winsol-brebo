@@ -20,3 +20,5 @@ tabs:
             field:
               type: textarea
               display: Message
+          -
+            import: language

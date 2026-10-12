@@ -11,25 +11,16 @@
     <h1 style="margin: 0 0 8px; font-size: 22px; line-height: 1.25; color: #121b22">
         {{ name ? name : 'Nieuwe inzending via de website' }}
     </h1>
-    {{#
-        De taal van de site waarop het formulier verstuurd is. Komt uit `site` in Statamic\Forms\Email en niet uit een veld: de
-        bezoeker vult zijn taal nergens in, en wie de aanvraag opvolgt moet weten in welke taal hij terugbelt.
-    #}}
+    {{# Wie de aanvraag opvolgt, moet weten in welke taal hij terugbelt. Uit het opgeslagen veld, zodat melding en aanvraag nooit verschillen. #}}
     <p style="margin: 0 0 20px; font-size: 14px; color: #6b7280">
         Ingediend in het
-        <strong style="color: #121b22">
-            {{ if site == 'fr' }}Frans
-            {{ elseif site == 'en' }}Engels
-            {{ else }}
-                Nederlands
-            {{ /if }}
-        </strong>
+        <strong style="color: #121b22">{{ language:label }}</strong>
     </p>
 
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
         {{ fields }}
-            {{# Lege velden overslaan: een melding met halve rijen leest trager dan een korte lijst. #}}
-            {{ if value }}
+            {{# Lege velden overslaan: een melding met halve rijen leest trager dan een korte lijst. De taal staat al bovenaan. #}}
+            {{ if value && handle != 'language' }}
                 <tr>
                     <td
                         width="34%"

@@ -46,6 +46,8 @@
                                 <input type="hidden" name="{{ name }}" value="{{ preselected_product }}" />
                             {{ elseif handle == "gdpr" }}
                                 {{ partial:gdprField }}
+                            {{ elseif handle == "language" }}
+                                {{# Leeg: de taal vult de server in, zie App\Listeners\RecordSubmissionLanguage. #}}
                             {{ else }}
                                 <div class="form-field{{ if width == 50 }} form-field--half{{ /if }}">
                                     <label class="form-label" for="{{ id }}">{{ trans :key="display" }}</label>
