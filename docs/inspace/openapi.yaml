@@ -27,7 +27,7 @@ info:
     geen fout in de payload.
 servers:
   - url: https://winsol-brebo.be/api/inspace/v1
-    description: Productie — test met `status: draft`
+    description: 'Productie — test met `status: draft`'
 security:
   - bearerAuth: []
 paths:
@@ -302,7 +302,14 @@ components:
         velden.
       properties:
         title: { type: string, maxLength: 255 }
-        intro: { type: [string, 'null'] }
+        intro:
+          type: [string, 'null']
+          description: |
+            De inleiding van het artikel. Ze staat in de paginaheader, onder
+            de titel en direct boven `content`. Laat `content` daarom niet
+            met dezelfde boodschap openen, anders leest de bezoeker twee
+            inleidingen na elkaar. Het is geen teaser en geen
+            zoekmachinetekst: daarvoor dient `meta_description`.
         content:
           type: array
           items: { $ref: '#/components/schemas/Block' }
@@ -414,7 +421,9 @@ components:
         title: { type: [string, 'null'] }
         updated_at: { type: [string, 'null'], format: date-time }
         external_id: { type: [string, 'null'] }
-        intro: { type: [string, 'null'] }
+        intro:
+          type: [string, 'null']
+          description: Zie `ArticleWrite.intro`.
         content:
           type: array
           items: { $ref: '#/components/schemas/Block' }
