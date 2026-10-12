@@ -53,9 +53,9 @@ p {
 }
 
 @utility form-required-note {
-    @apply text-sm text-black/55;
+    @apply text-sm text-muted;
 }
 
 @utility form-optional {
-    @apply font-normal text-black/55;
+    @apply font-normal text-muted;
 }

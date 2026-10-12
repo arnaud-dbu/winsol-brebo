@@ -35,6 +35,20 @@ class BrochureFormTest extends SectionTestCase
         }
     }
 
+    /**
+     * Zie OfferteFormTest::test_the_pills_are_a_list_inside_a_labelled_group().
+     */
+    public function test_the_pills_are_a_list_inside_a_labelled_group(): void
+    {
+        $html = $this->render('{{ partial:brochureForm }}');
+
+        $this->assertMatchesRegularExpression(
+            '/<div\s+class="offerte-products"\s+role="group"\s+aria-labelledby="brochure-form-brochures-field-label"/',
+            $html,
+        );
+        $this->assertMatchesRegularExpression('/<ul class="offerte-pills">/', $html);
+    }
+
     public function test_the_address_field_is_the_autocomplete_combobox(): void
     {
         $html = $this->render('{{ partial:brochureForm }}');

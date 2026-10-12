@@ -187,6 +187,22 @@ class OfferteFormTest extends SectionTestCase
     }
 
     /**
+     * Een `<ul role="group">` is geen lijst meer, en dan hangen de `<li>`'s los
+     * (Lighthouse, #10). De groep met zijn label zit daarom op de wrapper,
+     * en de pillen blijven een gewone lijst.
+     */
+    public function test_the_pills_are_a_list_inside_a_labelled_group(): void
+    {
+        $html = $this->render('{{ partial:offerteForm }}');
+
+        $this->assertMatchesRegularExpression(
+            '/<div\s+class="offerte-products"\s+role="group"\s+aria-labelledby="offerte-form-products-field-label"/',
+            $html,
+        );
+        $this->assertMatchesRegularExpression('/<ul class="offerte-pills">/', $html);
+    }
+
+    /**
      * Elke vendor-fieldtype-view zet `aria-describedby` zelf op het veld dat
      * ze rendert; voor de handgeschreven pillengroep moet dat met de hand.
      * Zonder foutstatus staat het attribuut er niet — dat is geen bug, `{{

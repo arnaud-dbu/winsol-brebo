@@ -16,16 +16,16 @@
                     <div class="form-grid">
                         {{ fields }}
                             {{ if handle == "products" }}
-                                <div class="offerte-products">
+                                <div
+                                    class="offerte-products"
+                                    role="group"
+                                    aria-labelledby="{{ id }}-label"
+                                    {{ if error }} aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }}>
                                     <span class="form-label" id="{{ id }}-label">
                                         {{ trans :key="display" }}
                                     </span>
 
-                                    <ul
-                                        class="offerte-pills"
-                                        role="group"
-                                        aria-labelledby="{{ id }}-label"
-                                        {{ if error }} aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }}>
+                                    <ul class="offerte-pills">
                                         {{ foreach:options as="option|label" }}
                                             <li>
                                                 <label class="offerte-pill">

@@ -72,6 +72,22 @@ class CtaSectionTest extends SectionTestCase
     }
 
     /**
+     * Onder lg staat witte tekst op een doorschijnend zwart vlak over de foto.
+     * De redactie kiest die foto, dus het vlak moet ook over een witte foto
+     * 4,5:1 halen. Dat lukt vanaf 65% zwart; de 25% van vroeger gaf 1,7:1
+     * (Lighthouse, #10).
+     */
+    public function test_the_mobile_panel_is_dark_enough_for_white_text_on_any_photo(): void
+    {
+        $html = $this->render('{{ partial src="sections/cta" }}', $this->context);
+
+        preg_match('/class="cta__card[^"]*\sbg-black\/(\d+)\s/', $html, $match);
+
+        $this->assertNotEmpty($match, 'Het paneel heeft geen doorschijnend zwart vlak meer.');
+        $this->assertGreaterThanOrEqual(65, (int) $match[1]);
+    }
+
+    /**
      * Mobiel vult het paneel de volle breedte, dus de uitlijning speelt pas
      * vanaf `lg`, waar het paneel smaller is dan de foto.
      */

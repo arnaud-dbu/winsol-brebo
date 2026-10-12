@@ -70,6 +70,24 @@ class FooterTest extends SectionTestCase
             + substr_count($html, 'href="/toegankelijkheidsverklaring"'));
     }
 
+    /**
+     * De juridische links staan mobiel onder elkaar in kleine tekst. Op 16px
+     * hoog lagen ze te dicht op elkaar om er met een vinger één te raken
+     * (Lighthouse, #10). Minstens 24px hoog volstaat.
+     */
+    public function test_the_legal_links_are_big_enough_to_tap(): void
+    {
+        $html = $this->render('{{ partial:footer }}');
+
+        foreach (['/cookie-policy', '/privacy-policy', '/toegankelijkheidsverklaring'] as $url) {
+            $this->assertMatchesRegularExpression(
+                '~<a\s+href="'.preg_quote($url, '~').'"\s+class="[^"]*\bmin-h-6\b~',
+                $html,
+                "{$url} is te klein om aan te tikken.",
+            );
+        }
+    }
+
     public function test_the_loan_simulator_sits_in_the_footer(): void
     {
         $html = $this->render('{{ partial:footer }}');
@@ -90,6 +108,7 @@ class FooterTest extends SectionTestCase
         $this->assertStringContainsString('Ninoofsesteenweg 637, 1700 Dilbeek', $html);
         $this->assertDoesNotMatchRegularExpression('/\s+,\s+1700 Dilbeek/', $html);
     }
+
     public function test_the_contact_column_lists_all_three_showrooms(): void
     {
         // Stond eerst op één adres uit de company-globals; Jimmy wil dat een

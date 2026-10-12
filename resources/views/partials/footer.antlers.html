@@ -93,17 +93,21 @@
         <div
             class="footer__colophon flex flex-col gap-5 text-sm text-white/60 lg:flex-row lg:items-center lg:justify-between">
             <p class="text-sm!">&copy; {{ now format="Y" }} Winsol Brebo</p>
-            <ul class="flex flex-col gap-0.5 lg:flex-row lg:items-center lg:gap-4">
+            <ul class="flex flex-col lg:flex-row lg:items-center lg:gap-4">
                 {{ collection:legal }}
                     <li>
-                        <a href="{{ url }}" class="transition-opacity hover:opacity-80">{{ title }}</a>
+                        <a
+                            href="{{ url }}"
+                            class="inline-flex min-h-6 items-center transition-opacity hover:opacity-80">
+                            {{ title }}
+                        </a>
                     </li>
                 {{ /collection:legal }}
                 {{ if cookie_consent:enabled }}
                     <li>
                         <button
                             type="button"
-                            class="footer-link-button"
+                            class="footer-link-button inline-flex min-h-6 items-center"
                             onclick="window.dispatchEvent(new CustomEvent('cookie-consent:open'))">
                             {{ cookie_consent:revoke_label }}
                         </button>

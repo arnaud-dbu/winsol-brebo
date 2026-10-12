@@ -84,7 +84,7 @@
 }
 
 .form-dropzone {
-    @apply relative flex flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[#bfbfbf] px-6 py-8 text-center text-black/40;
+    @apply relative flex flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[#bfbfbf] px-6 py-8 text-center text-muted;
 }
 
 .form-dropzone input[type='file'] {
@@ -135,7 +135,7 @@
  * niet bij wat er is ingevuld. Vandaar ook lichter dan de labeltekst.
  */
 .form-instructions {
-    @apply -mt-1 text-sm text-black/55;
+    @apply -mt-1 text-sm text-muted;
 }
 
 .form-error {

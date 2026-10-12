@@ -16,6 +16,7 @@
     --color-live: #2fd06a; /* pulserend bolletje op de actiebalk */
     --color-accent-hover: #e9c714; /* accent, ~6% donkerder */
     --color-black-hover: #23303a; /* zwart, iets lichter */
+    --color-muted: #60686d; /* hulptekst, haalt 4,5:1 op wit en op light */
 
     --spacing-gutter: 2rem; /* 32 */
     --spacing-margin: 2.5rem; /* 40 */
