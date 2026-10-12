@@ -49,6 +49,18 @@ class QuicklinksTest extends SectionTestCase
         $this->assertStringContainsString('Plan een bezoek', $html);
     }
 
+    /**
+     * Het icoon staat 112 px hoog, vanaf `lg` 160 px, en is vierkant. Met
+     * `90vw` haalde een gsm een variant van 640 px voor een beeld van 112 px.
+     */
+    public function test_the_icon_asks_for_its_displayed_size(): void
+    {
+        $html = $this->render('{{ partial:quicklinks }}', $this->withBrochure());
+
+        $this->assertStringContainsString('sizes="(min-width: 1024px) 160px, 112px"', $html);
+        $this->assertStringNotContainsString('90vw', $html);
+    }
+
     public function test_the_first_button_is_filled_and_the_other_two_are_outlined(): void
     {
         $html = $this->render('{{ partial:quicklinks }}', $this->withBrochure());

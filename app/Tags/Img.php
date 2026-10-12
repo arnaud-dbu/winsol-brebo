@@ -14,7 +14,7 @@ class Img extends Tags
 {
     protected static $handle = 'img';
 
-    private const WIDTHS = [320, 480, 640, 960, 1280, 1680, 2560];
+    private const WIDTHS = [320, 480, 640, 800, 960, 1280, 1680, 2560];
 
     private const DEFAULT_MAX_WIDTH = 1680;
 

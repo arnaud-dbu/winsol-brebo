@@ -65,7 +65,7 @@ class ImgTagTest extends TestCase
 
         $html = $this->render('{{ img :src="image" }}', ['image' => $asset]);
 
-        // Ladder: 320/480/640/960/1280/1680/2560, cap = min(1680, 1200) = 1200.
+        // Ladder: 320/480/640/800/960/1280/1680/2560, cap = min(1680, 1200) = 1200.
         $this->assertStringContainsString('w=960', $html);
         $this->assertStringNotContainsString('w=1280', $html);
         $this->assertStringNotContainsString('w=2560', $html);
@@ -74,6 +74,19 @@ class ImgTagTest extends TestCase
         $html = $this->render('{{ img :src="image" max_width="640" }}', ['image' => $asset]);
         $this->assertStringContainsString('w=640', $html);
         $this->assertStringNotContainsString('w=960', $html);
+    }
+
+    /**
+     * Een beeld van 380 px op een gsm met 1,75× pixeldichtheid vraagt ~665 px.
+     * Zonder tussenstap valt dat op 960 en weegt het beeld bijna het dubbele.
+     */
+    public function test_srcset_steps_between_640_and_960(): void
+    {
+        $asset = $this->makeImageAsset(1200, 800);
+
+        $html = $this->render('{{ img :src="image" }}', ['image' => $asset]);
+
+        $this->assertStringContainsString('w=800', $html);
     }
 
     public function test_without_ratio_dimensions_follow_intrinsic_aspect(): void
