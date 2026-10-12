@@ -3,6 +3,9 @@
     versturen terug op die bewaarde pagina, zonder foutmeldingen, zonder zijn ingevulde tekst en zonder bevestiging.
 #}}
 {{ nocache }}
+    {{# Het product van de offerteknop op een productpagina, zie QuoteQuery en QuoteProduct. #}}
+    {{ preselected_range = {quote_product:range} }}
+    {{ preselected_product = {quote_product:id} }}
     {{ form:offerte class="form offerte-form" }}
         {{ unless success }}
             {{ sections }}
@@ -24,11 +27,12 @@
                                         {{ foreach:options as="option|label" }}
                                             <li>
                                                 <label class="offerte-pill">
+                                                    {{# Oude invoer uit de errorbag wint van de voorselectie, net als bij de brochure. #}}
                                                     <input
                                                         type="checkbox"
                                                         name="{{ name }}[]"
                                                         value="{{ option }}"
-                                                        {{ if value|in_array:option }} checked{{ /if }} />
+                                                        {{ if (value|in_array:option) || (!value && preselected_range == option) }} checked{{ /if }} />
                                                     <span>{{ label | entities }}</span>
                                                 </label>
                                             </li>
@@ -38,6 +42,8 @@
                                         <p class="form-error" id="{{ id }}-error">{{ error }}</p>
                                     {{ /if }}
                                 </div>
+                            {{ elseif handle == "product" }}
+                                <input type="hidden" name="{{ name }}" value="{{ preselected_product }}" />
                             {{ elseif handle == "gdpr" }}
                                 {{ partial:gdprField }}
                             {{ else }}

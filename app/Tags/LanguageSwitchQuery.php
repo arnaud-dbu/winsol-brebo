@@ -16,7 +16,7 @@ use Statamic\Tags\Tags;
  */
 class LanguageSwitchQuery extends Tags
 {
-    private const CARRIED_PARAMETERS = ['brochure'];
+    private const CARRIED_PARAMETERS = ['brochure', 'product'];
 
     public function index(): string
     {

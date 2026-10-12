@@ -24,6 +24,12 @@
                     class="{{ link_style == 'outline' ? 'btn btn--outline' : 'btn btn--primary' }}">
                     {{ link.0.label ?? 'Ontvang de brochure' }}
                 </a>
+            {{ elseif type == 'offerte' }}
+                <a
+                    href="{{ page_url:offerte }}{{ quote_query }}"
+                    class="{{ link_style == 'outline' ? 'btn btn--outline' : 'btn btn--primary' }}">
+                    {{ link.0.label ?? 'Vraag offerte aan' }}
+                </a>
             {{ elseif link }}
                 {{ partial:link :style="link_style == 'outline' ? 'btn btn--outline' : 'btn btn--primary'" }}
             {{ /if }}

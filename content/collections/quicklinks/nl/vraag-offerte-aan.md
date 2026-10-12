@@ -12,4 +12,5 @@ link:
     label: 'Vraag offerte aan'
     new_tab: false
 link_style: primary
+type: offerte
 ---

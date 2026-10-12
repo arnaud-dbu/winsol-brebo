@@ -13,6 +13,11 @@ tabs:
               validate:
                 - required
           -
+            handle: product
+            field:
+              type: product_reference
+              display: Product
+          -
             handle: location
             field:
               type: location_select

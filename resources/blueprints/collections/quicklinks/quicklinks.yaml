@@ -38,10 +38,11 @@ tabs:
               display: Type
               default: default
               localizable: true
-              instructions: 'Kies "Brochure" om deze kaart de brochure van de pagina te laten downloaden. Zonder brochure verdwijnt de kaart.'
+              instructions: 'Kies "Brochure" om deze kaart naar het brochureformulier te laten linken, met de brochure van de pagina aangevinkt. Kies "Offerte" om op een productpagina het product mee te geven aan het offerteformulier.'
               options:
                 default: Standaard
                 brochure: Brochure
+                offerte: Offerte
   sidebar:
     display: Sidebar
     sections:
