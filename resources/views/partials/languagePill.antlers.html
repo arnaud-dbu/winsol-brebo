@@ -21,7 +21,7 @@
             {{ unless is_current }}
                 <li>
                     <a
-                        href="{{ permalink }}"
+                        href="{{ permalink }}{{ language_switch_query }}"
                         class="block px-4 py-2 text-base font-semibold text-black hover:bg-black/3">
                         {{ locale:key | upper }}
                     </a>
