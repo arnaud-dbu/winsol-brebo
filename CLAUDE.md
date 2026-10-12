@@ -156,7 +156,8 @@ zodra je ook `spaceBetween` laat variëren, anders valt die terug op de basis.
 
 ### Issue tracker
 
-Issues en specs staan als markdown in `.scratch/<feature>/`, niet op GitHub.
+Issues en specs staan als GitHub Issues op `arnaud-dbu/winsol-brebo`, via
+`gh`. De repo is publiek: geen klantgegevens in een issue.
 Zie `docs/agents/issue-tracker.md`.
 
 ### Triage labels

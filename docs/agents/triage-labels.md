@@ -1,8 +1,8 @@
 # Triage-labels
 
 De skills spreken over vijf vaste triagerollen. Deze tabel koppelt die rollen aan
-de labelstrings die deze repo echt gebruikt. Omdat de tracker lokale markdown is,
-staan ze als tekst in de `Status:`-regel van een issuebestand.
+de labelstrings die deze repo echt gebruikt. Het zijn GitHub-labels op de repo;
+een issue draagt er precies één.
 
 | Rol in mattpocock/skills | Label bij ons     | Betekenis                                     |
 | ------------------------ | ----------------- | --------------------------------------------- |
@@ -15,5 +15,6 @@ staan ze als tekst in de `Status:`-regel van een issuebestand.
 Noemt een skill een rol, bijvoorbeeld "zet het label voor agent-klaar", gebruik
 dan de labelstring uit de rechterkolom.
 
-Wil je andere woorden zien in je eigen bestanden, pas dan de rechterkolom aan.
+Wil je andere woorden zien op je issues, pas dan de rechterkolom aan en hernoem
+het label op GitHub mee.
 De linkerkolom blijft zoals hij is: daar praten de skills in.

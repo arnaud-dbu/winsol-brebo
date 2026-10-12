@@ -1,46 +1,60 @@
-# Issue tracker: lokale markdown
+# Issue tracker: GitHub Issues
 
-Issues en specs voor deze repo staan als markdownbestanden in `.scratch/`, niet
-op GitHub. De GitHub-issuelijst van deze repo wordt niet gebruikt.
+Issues en specs voor deze repo staan als GitHub Issues op
+`arnaud-dbu/winsol-brebo`. Gebruik de `gh`-CLI voor alles wat ermee te maken
+heeft.
+
+De repo is **publiek**: alles in een issue is voor iedereen leesbaar. Zet er
+geen klantgegevens, prijzen, mailadressen of letterlijke klantmails in.
 
 ## Conventies
 
-- Eén feature per map: `.scratch/<feature-slug>/`
-- De spec is `.scratch/<feature-slug>/spec.md`
-- Implementatie-issues staan als één bestand per ticket op
-  `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, genummerd vanaf `01`. Nooit
-  één gecombineerd ticketbestand.
-- De triagestand staat als `Status:`-regel bovenin elk issuebestand. De
-  rolstrings staan in `triage-labels.md`.
-- Commentaar en gespreksgeschiedenis komen onderaan het bestand onder een kop
-  `## Comments`.
+- Eén feature is één **spec-issue** met het label `spec`. De titel is de naam
+  van de feature.
+- Implementatie-issues zijn aparte issues, één per ticket. Nooit één
+  gecombineerd issue. Elk ticket verwijst bovenaan naar zijn spec:
+  `Spec: #12`.
+- Zet de tickets ook als takenlijst in de spec (`- [ ] #13`), zodat de spec de
+  voortgang toont.
+- De triagestand is een label. De labelstrings staan in `triage-labels.md`.
+  Een issue draagt er precies één.
+- Commentaar en gespreksgeschiedenis komen als comments onder het issue.
+- Een ticket sluit je met `gh issue close <nr>`, of via `Closes #<nr>` in de
+  commit.
 
 ## Als een skill zegt "publiceer naar de issue tracker"
 
-Maak een nieuw bestand aan onder `.scratch/<feature-slug>/`, en de map erbij als
-die nog niet bestaat.
+```bash
+gh issue create --title "<titel>" --body-file <pad> --label needs-triage
+```
+
+Schrijf de body eerst naar een bestand in de scratchpad; dan blijven
+backticks en regeleinden heel.
 
 ## Als een skill zegt "haal het bijbehorende ticket op"
 
-Lees het bestand op het genoemde pad. Normaal geeft de gebruiker het pad of het
-issuenummer rechtstreeks mee.
+```bash
+gh issue view <nr> --comments
+```
+
+Normaal geeft de gebruiker het issuenummer rechtstreeks mee.
 
 ## Wayfinding
 
-Gebruikt door `/wayfinder`. De **map** is één bestand met per ticket een
-**kindbestand**.
+Gebruikt door `/wayfinder`. De **map** is één issue met per ticket een
+**kindissue**.
 
-- **Map**: `.scratch/<effort>/map.md`, met de Notes, de Decisions-so-far en de
-  Fog.
-- **Kindticket**: `.scratch/<effort>/issues/NN-<slug>.md`, genummerd vanaf `01`,
-  met de vraag in de body. Een `Type:`-regel legt het tickettype vast
-  (`research`, `prototype`, `grilling` of `task`), een `Status:`-regel legt
-  `claimed` of `resolved` vast.
-- **Blokkade**: een regel `Blocked by: NN, NN` bovenin. Een ticket is vrij zodra
-  elk bestand dat het noemt op `resolved` staat.
-- **Frontier**: zoek in `.scratch/<effort>/issues/` naar bestanden die open,
-  onblokkeerd en niet geclaimd zijn. Het laagste nummer wint.
-- **Claimen**: zet `Status: claimed` en sla op vóór je begint.
-- **Oplossen**: zet het antwoord onder een kop `## Answer`, zet
-  `Status: resolved`, en voeg daarna een contextverwijzing (kern plus link) toe
-  aan de Decisions-so-far in `map.md`.
+- **Map**: een issue met het label `map`, met de Notes, de Decisions-so-far en
+  de Fog in de body.
+- **Kindticket**: een issue met `Map: #<nr>` bovenaan en de vraag in de body.
+  Een `Type:`-regel legt het tickettype vast (`research`, `prototype`,
+  `grilling` of `task`).
+- **Blokkade**: een regel `Blocked by: #NN, #NN` bovenaan. Een ticket is vrij
+  zodra elk genoemd issue gesloten is.
+- **Frontier**: open kindissues van de map die onblokkeerd zijn en niemand
+  toegewezen hebben. Het laagste nummer wint.
+- **Claimen**: wijs het issue aan jezelf toe (`gh issue edit <nr> --add-assignee @me`)
+  vóór je begint.
+- **Oplossen**: zet het antwoord als comment met de kop `## Answer`, sluit het
+  issue, en voeg daarna een contextverwijzing (kern plus link) toe aan de
+  Decisions-so-far in de map.
