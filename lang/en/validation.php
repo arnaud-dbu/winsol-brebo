@@ -1,6 +1,29 @@
 <?php
 
+// Zie lang/nl/validation.php.
 return [
+
+    'required' => 'Please fill in this field.',
+    'email' => 'Enter a valid email address, for example name@example.be.',
+    'accepted' => 'Tick this box to continue.',
+    'in' => 'Choose an option from the list.',
+    'array' => 'Choose an option from the list.',
+    'mimes' => 'This file type can’t be sent. Choose a photo or a PDF.',
+    'max' => [
+        'file' => 'This file is too large. Choose a smaller file.',
+        'array' => 'You picked too many files. :max at most.',
+    ],
+
+    'custom' => [
+        'products' => ['required' => 'Choose at least one product.'],
+        'brochures' => ['required' => 'Choose at least one brochure.'],
+        'location' => ['required' => 'Choose an option from the list.'],
+        'branch' => ['required' => 'Choose an option from the list.'],
+        'product' => ['required' => 'Choose an option from the list.'],
+        'is_winsol' => ['required' => 'Choose an option from the list.'],
+        'facade' => ['required' => 'Choose an option from the list.'],
+        'warranty' => ['required' => 'Choose an option from the list.'],
+    ],
 
     'unique_entry_value' => 'The :attribute has already been taken.',
     'unique_user_value' => 'The :attribute has already been taken.',

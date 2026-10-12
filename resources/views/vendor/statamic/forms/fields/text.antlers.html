@@ -1,6 +1,7 @@
 {{#
-    Kopie van vendor/statamic/cms/resources/views/extend/forms/fields/text.antlers.html met een wijziging: de placeholder
+    Kopie van vendor/statamic/cms/resources/views/extend/forms/fields/text.antlers.html met twee wijzigingen. De placeholder
     loopt door {{ trans }}, zodat fr/en de JSON-vertaling uit lang/ krijgen en nl op de blueprinttekst terugvalt.
+    En `aria-required` staat naast `required`: dat volstaat technisch al, maar de toegankelijkheidsaudit vraagt het (#6).
     Bij een Statamic-upgrade dit bestand naast de vendorversie leggen.
 #}}
 <input
@@ -12,7 +13,7 @@
     {{ if character_limit }}maxlength="{{ character_limit }}"{{ /if }}
     {{ if autocomplete }}autocomplete="{{ autocomplete }}"{{ /if }}
     {{ if js_driver }}{{ js_attributes }}{{ /if }}
-    {{ if validate|contains:required }}required{{ /if }}
+    {{ if validate|contains:required }}required aria-required="true"{{ /if }}
     {{ if error }}
         aria-invalid="true" aria-describedby="{{ id }}-error"
     {{ elseif instructions }}

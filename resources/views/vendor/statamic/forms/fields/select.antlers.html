@@ -1,8 +1,9 @@
 {{#
-    Kopie van vendor/statamic/cms/resources/views/extend/forms/fields/select.antlers.html met een wijziging: de placeholder
+    Kopie van vendor/statamic/cms/resources/views/extend/forms/fields/select.antlers.html met twee wijzigingen. De placeholder
     loopt door {{ trans }}, zodat fr/en de JSON-vertaling uit lang/ krijgen en nl op de blueprinttekst terugvalt.
     Hetzelfde geldt voor de optielabels: die staan in het blueprint in het Nederlands en zouden anders ook op /fr en
     /en in het Nederlands verschijnen.
+    En `aria-required` staat naast `required`: dat volstaat technisch al, maar de toegankelijkheidsaudit vraagt het (#6).
     Bij een Statamic-upgrade dit bestand naast de vendorversie leggen.
 #}}
 <select
@@ -10,7 +11,7 @@
     name="{{ name }}{{ multiple ?= "[]" }}"
     {{ if js_driver }}{{ js_attributes }}{{ /if }}
     {{ if multiple }}multiple{{ /if }}
-    {{ if validate|contains:required }}required{{ /if }}
+    {{ if validate|contains:required }}required aria-required="true"{{ /if }}
     {{ if error }}
         aria-invalid="true" aria-describedby="{{ id }}-error"
     {{ elseif instructions }}

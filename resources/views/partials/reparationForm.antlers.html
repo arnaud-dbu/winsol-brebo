@@ -5,6 +5,9 @@
 {{ nocache }}
     {{ form:herstelling class="form" }}
         {{ unless success }}
+            <p class="form-required-note">
+                {{ trans key="Alle velden zijn verplicht, tenzij er optioneel bij staat." }}
+            </p>
             {{ sections }}
                 <div class="form-section">
                     {{ if instructions }}
@@ -25,11 +28,14 @@
                                             type="checkbox"
                                             name="{{ name }}"
                                             value="1"
-                                            {{ if validate|contains:accepted }}required{{ /if }}
+                                            {{ if validate|contains:accepted }}required aria-required="true"{{ /if }}
                                             class="mt-1 size-4 shrink-0 accent-black"
                                             {{ if value }} checked{{ /if }}
                                             {{ if error }} aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }} />
-                                        <span>{{ trans :key="display" }}</span>
+                                        <span>
+                                            {{ trans :key="display" }}
+                                            {{ partial:optionalMarker }}
+                                        </span>
                                     </label>
                                     {{ if instructions }}
                                         <p class="form-instructions">{{ trans :key="instructions" }}</p>
@@ -40,7 +46,10 @@
                                 </div>
                             {{ else }}
                                 <div class="form-field{{ if width == 50 }} form-field--half{{ /if }}">
-                                    <label class="form-label" for="{{ id }}">{{ trans :key="display" }}</label>
+                                    <label class="form-label" for="{{ id }}">
+                                        {{ trans :key="display" }}
+                                        {{ partial:optionalMarker }}
+                                    </label>
                                     {{# Op type en niet op handle: .form-field zet `appearance-none` op elke select, dus zonder deze wikkel staat er bij geen enkele keuzelijst nog een pijltje. #}}
                                     {{ if type | contains:select }}
                                         <div class="form-select-wrap">

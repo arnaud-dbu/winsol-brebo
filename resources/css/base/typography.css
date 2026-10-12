@@ -51,3 +51,11 @@ p {
 .overline--center::after {
     @apply lg:-translate-x-1/2 lg:left-1/2;
 }
+
+@utility form-required-note {
+    @apply text-sm text-black/55;
+}
+
+@utility form-optional {
+    @apply font-normal text-black/55;
+}

@@ -141,6 +141,23 @@ class OfferteFormTest extends SectionTestCase
         $this->assertStringContainsString('enctype="multipart/form-data"', $html);
     }
 
+    /**
+     * Op de offerte is alleen de bijlage optioneel. De markering komt uit de
+     * validatieregels in het blueprint; stond ze ook nog met de hand in het
+     * label, dan telde je hier twee.
+     */
+    public function test_only_the_attachment_is_marked_optional(): void
+    {
+        $html = $this->render('{{ partial:offerteForm }}');
+
+        $this->assertSame(1, substr_count($html, '(optioneel)'));
+        $this->assertMatchesRegularExpression(
+            '/for="offerte-form-attachment-field">\s*Foto\'s of plannen toevoegen\s*<span class="form-optional">\(optioneel\)<\/span>/',
+            $html,
+        );
+        $this->assertStringNotContainsString('(verplicht)', $html);
+    }
+
     public function test_carries_a_honeypot(): void
     {
         $html = $this->render('{{ partial:offerteForm }}');

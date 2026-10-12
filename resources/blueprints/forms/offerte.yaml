@@ -79,7 +79,7 @@ tabs:
               container: private
               folder: offertes
               max_files: 5
-              display: "Foto's of plannen toevoegen (optioneel)"
+              display: "Foto's of plannen toevoegen"
               validate:
                 - 'mimes:jpg,jpeg,png,webp,heic,heif,hif,pdf'
                 - 'max_filesize:10240'

@@ -90,7 +90,7 @@ tabs:
               container: private
               folder: herstellingen
               max_files: 5
-              display: "Foto's van het probleem (optioneel)"
+              display: "Foto's van het probleem"
               validate:
                 - 'mimes:jpg,jpeg,png,webp,heic,heif,hif,pdf'
                 - 'max_filesize:10240'
@@ -101,7 +101,7 @@ tabs:
               container: private
               folder: herstellingen
               max_files: 2
-              display: 'Originele factuur (indien bij de hand)'
+              display: 'Originele factuur'
               validate:
                 - 'mimes:jpg,jpeg,png,webp,heic,heif,hif,pdf'
                 - 'max_filesize:10240'

@@ -24,7 +24,7 @@
         @keydown.up.prevent="move(-1)"
         @keydown.enter="chooseActive($event)"
         @keydown.escape="close"
-        {{ if validate|contains:required }}required{{ /if }}
+        {{ if validate|contains:required }}required aria-required="true"{{ /if }}
         {{ if error }}aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }} />
 
     <ul x-cloak x-show="open" id="{{ id }}-options" role="listbox" class="form-autocomplete-list">

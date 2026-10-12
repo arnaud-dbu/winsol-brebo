@@ -56,6 +56,18 @@ class BrochureFormTest extends SectionTestCase
         $this->assertStringContainsString('privacybeleid', $html);
     }
 
+    /**
+     * Op de brochureaanvraag is elk veld verplicht, dus er staat nergens een
+     * markering: de site markeert alleen wat optioneel is.
+     */
+    public function test_no_field_is_marked_because_every_field_is_required(): void
+    {
+        $html = $this->render('{{ partial:brochureForm }}');
+
+        $this->assertStringNotContainsString('(optioneel)', $html);
+        $this->assertStringNotContainsString('(verplicht)', $html);
+    }
+
     public function test_carries_a_honeypot(): void
     {
         $html = $this->render('{{ partial:brochureForm }}');

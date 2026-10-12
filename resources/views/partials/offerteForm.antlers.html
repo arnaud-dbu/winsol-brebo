@@ -8,6 +8,9 @@
     {{ preselected_product = {quote_product:id} }}
     {{ form:offerte class="form offerte-form" }}
         {{ unless success }}
+            <p class="form-required-note">
+                {{ trans key="Alle velden zijn verplicht, tenzij er optioneel bij staat." }}
+            </p>
             {{ sections }}
                 <div class="form-section">
                     <div class="form-grid">
@@ -16,7 +19,6 @@
                                 <div class="offerte-products">
                                     <span class="form-label" id="{{ id }}-label">
                                         {{ trans :key="display" }}
-                                        {{ trans key="(verplicht)" }}
                                     </span>
 
                                     <ul
@@ -50,7 +52,10 @@
                                 {{# Leeg: de taal vult de server in, zie App\Listeners\RecordSubmissionLanguage. #}}
                             {{ else }}
                                 <div class="form-field{{ if width == 50 }} form-field--half{{ /if }}">
-                                    <label class="form-label" for="{{ id }}">{{ trans :key="display" }}</label>
+                                    <label class="form-label" for="{{ id }}">
+                                        {{ trans :key="display" }}
+                                        {{ partial:optionalMarker }}
+                                    </label>
                                     {{ if handle == "location" }}
                                         <div class="form-select-wrap">
                                             {{ field }}

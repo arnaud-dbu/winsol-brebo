@@ -146,6 +146,26 @@ class ReparationFormTest extends SectionTestCase
         $this->assertStringContainsString('enctype="multipart/form-data"', $html);
     }
 
+    /**
+     * Drie velden zijn hier optioneel: de foto's, de factuur en de 6% btw.
+     * De markering komt uit de validatieregels in het blueprint. De
+     * akkoordvakjes dragen `accepted` en tellen dus als verplicht.
+     */
+    public function test_exactly_the_three_optional_fields_are_marked(): void
+    {
+        $html = $this->render('{{ partial:reparationForm }}');
+
+        $this->assertSame(3, substr_count($html, '(optioneel)'));
+
+        foreach (["Foto's van het probleem", 'Originele factuur', 'Toepassing 6% btw'] as $label) {
+            $this->assertMatchesRegularExpression(
+                '/'.preg_quote($label, '/').'\s*(<\/span>\s*)?<span class="form-optional">\(optioneel\)<\/span>/',
+                $html,
+                "{$label} mist de markering.",
+            );
+        }
+    }
+
     public function test_every_label_points_at_its_control(): void
     {
         $html = $this->render('{{ partial:reparationForm }}');

@@ -1,0 +1,7 @@
+{{#
+    Verplicht is de regel op de formulieren, dus alleen de uitzondering krijgt een markering. Ze volgt de validatieregels
+    van het veld in de omliggende {{ fields }}-loop en staat nooit met de hand in een label.
+#}}
+{{ unless (validate | contains:required) || (validate | contains:accepted) }}
+    <span class="form-optional">{{ trans key="(optioneel)" }}</span>
+{{ /unless }}
