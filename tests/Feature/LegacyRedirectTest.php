@@ -174,6 +174,37 @@ class LegacyRedirectTest extends TestCase
     }
 
     /**
+     * Een losse landingspagina over alle pergola's, niet in de sitemap. De
+     * klim zou op `/nl` uitkomen, en dat is een homepage.
+     */
+    public function test_the_old_pergola_landing_page_lands_on_the_terrace_covers(): void
+    {
+        $this->request(self::OLD_HOST.'/nl/Pergola/')
+            ->assertStatus(301)
+            ->assertRedirect('https://winsol-brebo.be/aanbod/terrasoverkapping');
+    }
+
+    /**
+     * Korte adressen die iemand op de nieuwe site intypt. Ze staan in dezelfde
+     * tabel, want de omleiding zet op de nieuwe host ook het pad om.
+     */
+    public function test_a_short_address_on_the_new_site_takes_one_hop_to_a_page(): void
+    {
+        $shortAddresses = [
+            '/brochure' => '/brochures',
+            '/ramen-en-deuren' => '/aanbod/ramen-en-deuren',
+        ];
+
+        foreach ($shortAddresses as $short => $page) {
+            $this->request(self::NEW_HOST.$short)
+                ->assertStatus(301)
+                ->assertRedirect(self::NEW_HOST.$page);
+
+            $this->request(self::NEW_HOST.$page)->assertOk();
+        }
+    }
+
+    /**
      * Een gemeentepagina heeft geen eigen regel. Hij klimt naar de wortel van
      * zijn productgroep, en die staat gewoon als normale regel in de tabel.
      */

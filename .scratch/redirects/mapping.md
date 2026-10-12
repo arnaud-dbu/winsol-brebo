@@ -34,6 +34,8 @@ een pagina die zijn vraag niet raakt. Een 404 is dan eerlijker.
 | `/nl/ons-aanbod/stalen-deuren` | `/aanbod/stalen-binnendeuren` | hernoemd product |
 | `/nl/ons-aanbod/terrasoverkapping/win-cube` | `/aanbod/terrasoverkapping/wincube` | streepje weg in de nieuwe slug |
 | `/nl/screens-verticale-zonwering` | `/aanbod/zonwering/screens` | losse landingspagina, nu een product |
+| `/nl/pergola` | `/aanbod/terrasoverkapping` | losse landingspagina over alle pergola's, niet in de sitemap; de klim zou op de homepage `/nl` uitkomen |
+| `/brochure` | `/brochures` | geen oud adres maar een kort adres dat bezoekers op de nieuwe site intypen; de omleiding zet op de nieuwe host ook het pad om, net als `/ramen-en-deuren` |
 | `/nl/inspiratie` | `/realisaties` | zelfde bedoeling, andere naam |
 | `/nl/vacatures` | `/over-ons` | geen vacaturepagina meer |
 | `/nl/contact/herstelling-aanvragen` | `/service` | het herstelformulier staat nu op de servicepagina; de klim zou naar Contact gaan, één klik te ver. Ook de korte link `/forms/herstellingaanvragen` en de tussenstap `/nl/formulieren/herstellingsformulier-winsol` gaan er rechtstreeks heen, net als hun Franse tegenhangers. Geen van de zes stond in de sitemap |
@@ -89,6 +91,8 @@ download-brochure-zonwering
 | `/protections-solaires-winsol` | `/fr/gamme/protection-solaire` |
 | `/couvertures-de-terrasse-winsol` | `/fr/gamme/couverture-de-terrasse` |
 | `/velux-winsol` | `/fr/gamme/fenetres-de-toit-velux` |
+| `/brochure` | `/brochures` |
+| `/ramen-en-deuren` | `/aanbod/ramen-en-deuren` |
 | `/nl` | `/` |
 | `/nl/home` | `/` |
 | `/nl/contact` | `/contact` |
@@ -99,6 +103,7 @@ download-brochure-zonwering
 | `/nl/inspiratie` | `/realisaties` |
 | `/nl/simuleer-je-lening` | `/simuleer-je-lening` |
 | `/nl/screens-verticale-zonwering` | `/aanbod/zonwering/screens` |
+| `/nl/pergola` | `/aanbod/terrasoverkapping` |
 | `/nl/vacatures` | `/over-ons` |
 | `/nl/ons-aanbod` | `/aanbod` |
 | `/nl/ons-aanbod/somfy-smart-home` | `/aanbod/somfy-smart-home` |
