@@ -2,7 +2,10 @@
 id: c29e6893-3993-4883-ae29-3ccd0532d1b1
 origin: 1ee94fac-433a-4676-9044-86d80f224252
 title: 'Prime pour châssis et portes en Flandre'
-text: 'Quelles aides existent encore en 2026 pour de nouveaux châssis et portes, qui y a droit, et où un dossier bloque souvent.'
+text: |-
+  De nouveaux châssis ou portes sont un bon choix pour votre confort, votre facture d'énergie et l'allure de votre habitation. Mais la question que presque tout le monde pose en premier est celle-ci : à quelle prime ai-je encore droit ? À juste titre. Car qui cherche aujourd'hui une prime de rénovation pour châssis et portes tombe vite sur des informations dépassées.
+
+  Voici l'état des lieux au 10 septembre 2026. Court, clair et sans bruit. Vous saurez ainsi quelles aides existent encore, à qui elles s'adressent et où un dossier bloque souvent.
 meta_title: 'Prime châssis et portes 2026 Flandre'
 meta_description: 'Quelle prime pour châssis et portes pouvez-vous encore obtenir en Flandre en 2026 ? Conditions, montants, TVA à 6 % et pièges à éviter.'
 meta_image: ramen-en-deuren/winsol-steellook-woning-gevel.webp
@@ -10,29 +13,6 @@ themes:
   - bedrijfsnieuws
 image: ramen-en-deuren/winsol-steellook-woning-gevel.webp
 redactor:
-  -
-    type: paragraph
-    content:
-      -
-        type: text
-        text: 'De nouveaux châssis ou portes'
-        marks:
-          -
-            type: link
-            attrs:
-              href: /fr/gamme/chassis-et-portes
-              rel: null
-              target: null
-              title: null
-      -
-        type: text
-        text: " sont un bon choix pour votre confort, votre facture d'énergie et l'allure de votre habitation. Mais la question que presque tout le monde pose en premier est celle-ci : à quelle prime ai-je encore droit ? À juste titre. Car qui cherche aujourd'hui une prime de rénovation pour châssis et portes tombe vite sur des informations dépassées."
-  -
-    type: paragraph
-    content:
-      -
-        type: text
-        text: "Voici l'état des lieux au 10 septembre 2026. Court, clair et sans bruit. Vous saurez ainsi quelles aides existent encore, à qui elles s'adressent et où un dossier bloque souvent."
   -
     type: heading
     attrs:
