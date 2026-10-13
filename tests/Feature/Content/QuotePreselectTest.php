@@ -4,8 +4,9 @@ namespace Tests\Feature\Content;
 
 use Illuminate\Routing\Events\ResponsePrepared;
 use Illuminate\Support\Facades\Event;
-use Statamic\Facades\Entry;
 use Statamic\Events\SubmissionCreated;
+use Statamic\Facades\Entry;
+use Tests\Concerns\PassesFormTimer;
 use Tests\TestCase;
 
 /**
@@ -15,6 +16,8 @@ use Tests\TestCase;
  */
 class QuotePreselectTest extends TestCase
 {
+    use PassesFormTimer;
+
     private const SOLAR_NL = '9c5f52b1-0004-4c2d-8e6f-4a5b6c7da004';
 
     private const SOLAR_FR = 'c6cad995-ba48-49dc-9f16-6d954597edb7';
@@ -235,6 +238,7 @@ class QuotePreselectTest extends TestCase
             'address' => 'Teststraat 1, 1700 Dilbeek',
             'project' => 'Rolluiken voor de achtergevel',
             'gdpr' => '1',
+            ...$this->formTimer(),
         ], $overrides);
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Statamic\Facades\Entry;
+use Tests\Concerns\PassesFormTimer;
 use Tests\TestCase;
 
 /**
@@ -16,6 +17,8 @@ use Tests\TestCase;
  */
 class LogRejectedFormSubmissionsTest extends TestCase
 {
+    use PassesFormTimer;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -78,6 +81,7 @@ class LogRejectedFormSubmissionsTest extends TestCase
                 'address' => 'Teststraat 1, 1700 Dilbeek',
                 'project' => 'Een nieuwe voordeur',
                 'gdpr' => '1',
+                ...$this->formTimer(),
             ])
             ->assertSessionHasNoErrors();
 

@@ -6,6 +6,7 @@ use Illuminate\Routing\Events\ResponsePrepared;
 use Illuminate\Support\Facades\Event;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Statamic\Facades\Entry;
+use Tests\Concerns\PassesFormTimer;
 use Tests\TestCase;
 
 /**
@@ -20,6 +21,8 @@ use Tests\TestCase;
  */
 class FormErrorsUnderStaticCacheTest extends TestCase
 {
+    use PassesFormTimer;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -84,6 +87,7 @@ class FormErrorsUnderStaticCacheTest extends TestCase
                 'address' => 'Teststraat 1, 1700 Dilbeek',
                 'project' => 'Een nieuwe voordeur',
                 'gdpr' => '1',
+                ...$this->formTimer(),
             ])
             ->assertSessionHasNoErrors();
 

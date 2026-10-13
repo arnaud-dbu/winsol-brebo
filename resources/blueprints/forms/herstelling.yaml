@@ -36,6 +36,7 @@ tabs:
               width: 50
               validate:
                 - required
+                - 'new App\Rules\InstallationYear'
           -
             handle: facade
             field:
@@ -54,10 +55,12 @@ tabs:
             field:
               type: text
               display: 'Op welke verdieping?'
-              placeholder: 'bv. gelijkvloers, 1e verdieping'
+              placeholder: 'bv. 0 voor het gelijkvloers'
               width: 50
               validate:
                 - required
+                - integer
+                - 'between:-2,30'
           -
             handle: dimensions
             field:
@@ -136,6 +139,7 @@ tabs:
               width: 50
               validate:
                 - required
+                - 'new App\Rules\PhoneNumber'
           -
             handle: address
             field:

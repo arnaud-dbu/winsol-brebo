@@ -5,10 +5,13 @@ namespace Tests\Feature\Forms;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Statamic\Facades\Entry;
+use Tests\Concerns\PassesFormTimer;
 use Tests\TestCase;
 
 class FormMailAttachmentTest extends TestCase
 {
+    use PassesFormTimer;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -28,7 +31,7 @@ class FormMailAttachmentTest extends TestCase
             'is_winsol' => 'ja',
             'installed' => '2015',
             'facade' => 'voorgevel',
-            'floor' => 'gelijkvloers',
+            'floor' => '0',
             'dimensions' => '2m x 1m',
             'problem' => 'Zie foto',
             'branch' => $location,
@@ -41,6 +44,7 @@ class FormMailAttachmentTest extends TestCase
             'rates_agreed' => '1',
             'warranty_terms' => '1',
             'gdpr' => '1',
+            ...$this->formTimer(),
         ]);
 
         $response->assertSessionHasNoErrors();
@@ -68,6 +72,7 @@ class FormMailAttachmentTest extends TestCase
             'project' => 'Je souhaite également la dépose de l’ancienne porte. Photo vue de l’intérieur',
             'attachment' => [UploadedFile::fake()->image('porte.jpg', 800, 600)],
             'gdpr' => '1',
+            ...$this->formTimer(),
         ]);
 
         $response->assertSessionHasNoErrors();

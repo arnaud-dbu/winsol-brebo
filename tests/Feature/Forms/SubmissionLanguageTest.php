@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use Statamic\Events\SubmissionCreated;
 use Statamic\Facades\Entry;
 use Statamic\Forms\Submission;
+use Tests\Concerns\PassesFormTimer;
 use Tests\TestCase;
 
 /**
@@ -17,6 +18,8 @@ use Tests\TestCase;
  */
 class SubmissionLanguageTest extends TestCase
 {
+    use PassesFormTimer;
+
     private ?Submission $stored = null;
 
     protected function setUp(): void
@@ -49,6 +52,7 @@ class SubmissionLanguageTest extends TestCase
             'address' => 'Boomkwekerijstraat 1, 1600 Sint-Pieters-Leeuw',
             'project' => 'Une nouvelle porte d’entrée',
             'gdpr' => '1',
+            ...$this->formTimer(),
         ];
     }
 
@@ -63,6 +67,7 @@ class SubmissionLanguageTest extends TestCase
             'email' => 'klant@voorbeeld.be',
             'address' => 'Teststraat 1, 1700 Dilbeek',
             'gdpr' => '1',
+            ...$this->formTimer(),
         ];
 
         return match ($form) {
@@ -73,7 +78,7 @@ class SubmissionLanguageTest extends TestCase
                 'is_winsol' => 'ja',
                 'installed' => '2015',
                 'facade' => 'voorgevel',
-                'floor' => 'gelijkvloers',
+                'floor' => '0',
                 'dimensions' => '2m x 1m',
                 'problem' => 'Het rolluik gaat niet meer omhoog',
                 'branch' => Entry::query()->where('collection', 'locations')->first()->slug(),
@@ -82,7 +87,7 @@ class SubmissionLanguageTest extends TestCase
                 'warranty_terms' => '1',
             ],
             'brochure' => [...$lead, 'brochures' => ['brochures/winsol_brochure_verticale-zonwering_nl.pdf']],
-            'contact' => ['name' => 'Klant', 'email' => 'klant@voorbeeld.be', 'message' => 'Een vraag'],
+            'contact' => ['name' => 'Klant', 'email' => 'klant@voorbeeld.be', 'message' => 'Een vraag', ...$this->formTimer()],
         };
     }
 

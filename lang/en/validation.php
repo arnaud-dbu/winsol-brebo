@@ -14,6 +14,9 @@ return [
         'array' => 'You picked too many files. :max at most.',
     ],
 
+    'phone' => 'Enter a valid phone number, for example 0470 12 34 56.',
+    'installation_year' => 'Enter a year between :first and :year.',
+
     'custom' => [
         'products' => ['required' => 'Choose at least one product.'],
         'brochures' => ['required' => 'Choose at least one brochure.'],
@@ -23,6 +26,7 @@ return [
         'is_winsol' => ['required' => 'Choose an option from the list.'],
         'facade' => ['required' => 'Choose an option from the list.'],
         'warranty' => ['required' => 'Choose an option from the list.'],
+        'floor' => ['integer' => 'Enter the floor as a number, 0 for the ground floor.', 'between' => 'Enter the floor as a number, 0 for the ground floor.'],
     ],
 
     'unique_entry_value' => 'The :attribute has already been taken.',

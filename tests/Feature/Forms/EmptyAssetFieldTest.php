@@ -5,6 +5,7 @@ namespace Tests\Feature\Forms;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Statamic\Facades\Entry;
+use Tests\Concerns\PassesFormTimer;
 use Tests\TestCase;
 
 /**
@@ -15,6 +16,8 @@ use Tests\TestCase;
  */
 class EmptyAssetFieldTest extends TestCase
 {
+    use PassesFormTimer;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -85,6 +88,7 @@ class EmptyAssetFieldTest extends TestCase
             'address' => 'Teststraat 1, 1700 Dilbeek',
             'project' => 'Een nieuwe voordeur',
             'gdpr' => '1',
+            ...$this->formTimer(),
             ...$overrides,
         ];
     }
@@ -100,7 +104,7 @@ class EmptyAssetFieldTest extends TestCase
             'is_winsol' => 'ja',
             'installed' => '2015',
             'facade' => 'voorgevel',
-            'floor' => 'gelijkvloers',
+            'floor' => '0',
             'dimensions' => '2m x 1m',
             'problem' => 'Zie foto',
             'branch' => Entry::query()->where('collection', 'locations')->first()->slug(),
@@ -112,6 +116,7 @@ class EmptyAssetFieldTest extends TestCase
             'rates_agreed' => '1',
             'warranty_terms' => '1',
             'gdpr' => '1',
+            ...$this->formTimer(),
             ...$overrides,
         ];
     }

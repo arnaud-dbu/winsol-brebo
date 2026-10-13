@@ -13,6 +13,9 @@ return [
         'array' => 'Vous avez choisi trop de fichiers. :max au maximum.',
     ],
 
+    'phone' => 'Saisissez un numéro de téléphone valide, par exemple 0470 12 34 56.',
+    'installation_year' => 'Indiquez une année entre :first et :year.',
+
     'custom' => [
         'products' => ['required' => 'Choisissez au moins un produit.'],
         'brochures' => ['required' => 'Choisissez au moins une brochure.'],
@@ -22,5 +25,6 @@ return [
         'is_winsol' => ['required' => 'Faites un choix dans la liste.'],
         'facade' => ['required' => 'Faites un choix dans la liste.'],
         'warranty' => ['required' => 'Faites un choix dans la liste.'],
+        'floor' => ['integer' => 'Indiquez l’étage en chiffres, 0 pour le rez-de-chaussée.', 'between' => 'Indiquez l’étage en chiffres, 0 pour le rez-de-chaussée.'],
     ],
 ];

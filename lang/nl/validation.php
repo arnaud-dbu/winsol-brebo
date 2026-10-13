@@ -18,6 +18,9 @@ return [
         'array' => 'Je koos te veel bestanden. Er kunnen er hoogstens :max mee.',
     ],
 
+    'phone' => 'Vul een geldig telefoonnummer in, bijvoorbeeld 0470 12 34 56.',
+    'installation_year' => 'Vul een jaartal in tussen :first en :year.',
+
     'custom' => [
         'products' => ['required' => 'Kies minstens één product.'],
         'brochures' => ['required' => 'Kies minstens één brochure.'],
@@ -27,5 +30,6 @@ return [
         'is_winsol' => ['required' => 'Maak een keuze uit de lijst.'],
         'facade' => ['required' => 'Maak een keuze uit de lijst.'],
         'warranty' => ['required' => 'Maak een keuze uit de lijst.'],
+        'floor' => ['integer' => 'Vul de verdieping in als getal, 0 voor het gelijkvloers.', 'between' => 'Vul de verdieping in als getal, 0 voor het gelijkvloers.'],
     ],
 ];
