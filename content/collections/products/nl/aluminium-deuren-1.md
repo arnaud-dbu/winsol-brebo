@@ -348,7 +348,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Wil je elektrische rolluiken laten plaatsen die echt passen bij jouw ramen, gevel en manier van wonen? Dan is maatwerk de juiste route. Zo stem je uitvoering, bediening en afwerking perfect op elkaar af. Zoek je advies in Heist-op-den-Berg of omgeving, dan loont het om je situatie ter plaatse te laten bekijken en gericht te kiezen in plaats van te gokken.'
+            text: 'Wil je elektrische rolluiken laten plaatsen die echt passen bij jouw ramen, gevel en manier van wonen? Dan is maatwerk de juiste route. Zo stem je uitvoering, bediening en afwerking perfect op elkaar af. Zoek je advies, dan loont het om je situatie ter plaatse te laten bekijken en gericht te kiezen in plaats van te gokken.'
     type: text
     enabled: true
   -
@@ -459,7 +459,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Wil je elektrische rolluiken laten plaatsen die echt passen bij jouw ramen, gevel en manier van wonen? Dan is maatwerk de juiste route. Zo stem je uitvoering, bediening en afwerking perfect op elkaar af. Zoek je advies in Heist-op-den-Berg of omgeving, dan loont het om je situatie ter plaatse te laten bekijken en gericht te kiezen in plaats van te gokken.'
+            text: 'Wil je elektrische rolluiken laten plaatsen die echt passen bij jouw ramen, gevel en manier van wonen? Dan is maatwerk de juiste route. Zo stem je uitvoering, bediening en afwerking perfect op elkaar af. Zoek je advies, dan loont het om je situatie ter plaatse te laten bekijken en gericht te kiezen in plaats van te gokken.'
     type: text
     enabled: true
 preview_title: 'Elektrische rolluiken'

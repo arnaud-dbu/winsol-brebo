@@ -144,7 +144,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Zoek je de prijs van WINSOL SolarFix? Die hangt af van de afmetingen van het raam, de gekozen kastmaat, het doek en de montage. Ook het aantal screens en de situatie van de gevel spelen mee. Omdat SolarFix altijd maatwerk is, geeft een offerte op basis van opmeting het duidelijkste beeld. Bij WINSOL Brebo helpen we je daar graag mee in Heist-op-den-Berg en omgeving.'
+            text: 'Zoek je de prijs van WINSOL SolarFix? Die hangt af van de afmetingen van het raam, de gekozen kastmaat, het doek en de montage. Ook het aantal screens en de situatie van de gevel spelen mee. Omdat SolarFix altijd maatwerk is, geeft een offerte op basis van opmeting het duidelijkste beeld. Bij WINSOL Brebo helpen we je daar graag mee.'
     type: text
     enabled: true
   -

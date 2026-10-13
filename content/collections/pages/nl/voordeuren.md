@@ -4,7 +4,7 @@ published: false
 blueprint: page
 title: Voordeuren
 text: |-
-  <p>Een nieuwe voordeur moet meer doen dan alleen goed ogen. Ze moet veilig sluiten, sterk isoleren en passen bij je gevel. Bij Winsol Brebo in Heist-op-den-Berg kies je binnen het aanbod van <a href="https://winsol-brebo.be/aanbod/ramen-en-deuren">ramen en deuren</a> voordeuren op maat in pvc, aluminium of hout, met een afwerking die klopt tot in de details.</p>
+  <p>Een nieuwe voordeur moet meer doen dan alleen goed ogen. Ze moet veilig sluiten, sterk isoleren en passen bij je gevel. Bij Winsol Brebo kies je binnen het aanbod van <a href="https://winsol-brebo.be/aanbod/ramen-en-deuren">ramen en deuren</a> voordeuren op maat in pvc, aluminium of hout, met een afwerking die klopt tot in de details.</p>
   <h2>Welke voordeur past bij jouw woning?</h2>
   <p>Je voordeur bepaalt de eerste indruk. Maar ook het dagelijkse comfort. Daarom kijk je best verder dan kleur alleen. Denk aan stijl, onderhoud, lichtinval, privacy, veiligheid en isolatie. Ga je voor strak modern, warm klassiek of tijdloos? Met een voordeur op maat stem je formaat, glas, panelen en deurbeslag af op je woning én op hoe je leeft. Zo krijg je geen standaard deur, maar een oplossing die logisch zit, goed werkt en er jarenlang sterk blijft uitzien.</p>
   <h2>Kies het juiste materiaal voor je voordeur</h2>

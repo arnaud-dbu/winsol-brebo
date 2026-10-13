@@ -7,7 +7,7 @@ product_groups: pvc-schrijnwerk
 text: |-
   Wil je je gevel meer karakter geven zonder extra onderhoud? Met pvc sierluiken kies je voor uitstraling én gemak. Ze passen mooi bij pvc ramen, maar ook bij pvc deuren. Ze zijn weerbestendig en blijven lang mooi. Zo krijgt je woning snel een strakkere, warmere of meer landelijke look.
 
-  Bij Winsol Brebo helpen we je in Heist-op-den-Berg en omgeving met de juiste uitvoering. Recht of gebogen, subtiel of opvallend, altijd afgestemd op je gevel en de stijl van je woning, zoals je ook in onze realisaties ziet.
+  Bij Winsol Brebo helpen we je met de juiste uitvoering. Recht of gebogen, subtiel of opvallend, altijd afgestemd op je gevel en de stijl van je woning, zoals je ook in onze realisaties ziet.
 image: 0-(7).webp
 page_builder:
   -
@@ -115,7 +115,7 @@ preview_title: 'PVC sierluiken'
 preview_intro: |-
   Wil je je gevel meer karakter geven zonder extra onderhoud? Met pvc sierluiken kies je voor uitstraling én gemak. Ze passen mooi bij pvc ramen, maar ook bij pvc deuren. Ze zijn weerbestendig en blijven lang mooi. Zo krijgt je woning snel een strakkere, warmere of meer landelijke look.
 
-  Bij Winsol Brebo helpen we je in Heist-op-den-Berg en omgeving met de juiste uitvoering. Recht of gebogen, subtiel of opvallend, altijd afgestemd op je gevel en de stijl van je woning, zoals je ook in onze realisaties ziet.
+  Bij Winsol Brebo helpen we je met de juiste uitvoering. Recht of gebogen, subtiel of opvallend, altijd afgestemd op je gevel en de stijl van je woning, zoals je ook in onze realisaties ziet.
 preview_image: 0-(7).webp
 meta_title: 'PVC sierluiken op maat'
 meta_description: 'PVC sierluiken geven je gevel karakter zonder veel onderhoud. Ontdek kleuren, afwerkingen, maatwerk en prijsfactoren voor je woning bij Winsol Brebo.'

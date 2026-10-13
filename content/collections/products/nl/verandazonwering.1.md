@@ -282,7 +282,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Ook in Heist-op-den-Berg en omgeving loont een oplossing op maat. De juiste verandazonwering maakt van een warme glasruimte weer een comfortabele plek om te zitten, te lezen en te genieten.'
+            text: 'De juiste verandazonwering maakt van een warme glasruimte weer een comfortabele plek om te zitten, te lezen en te genieten.'
     type: text
     enabled: true
 preview_title: Verandazonwering

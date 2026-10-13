@@ -324,7 +324,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Wil je een knikarm zonnescherm kopen dat echt klopt in maat, uitstraling en gebruik? Winsol Brebo helpt je graag met gericht advies voor je woning in Heist-op-den-Berg en omgeving. Zo kies je niet gewoon een scherm, maar de juiste schaduw op de juiste plek.'
+            text: 'Wil je een knikarm zonnescherm kopen dat echt klopt in maat, uitstraling en gebruik? Winsol Brebo helpt je graag met gericht advies voor je woning. Zo kies je niet gewoon een scherm, maar de juiste schaduw op de juiste plek.'
     type: text
     enabled: true
 preview_title: 'Knikarm zonneschermen'

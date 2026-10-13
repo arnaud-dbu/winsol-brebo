@@ -26,7 +26,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Een nieuwe voordeur moet meer doen dan alleen goed ogen. Ze moet veilig sluiten, sterk isoleren en passen bij je gevel. Bij Winsol Brebo in Heist-op-den-Berg kies je binnen het aanbod van ramen en deuren voordeuren op maat in pvc, aluminium of hout, met een afwerking die klopt tot in de details.'
+            text: 'Een nieuwe voordeur moet meer doen dan alleen goed ogen. Ze moet veilig sluiten, sterk isoleren en passen bij je gevel. Bij Winsol Brebo kies je binnen het aanbod van ramen en deuren voordeuren op maat in pvc, aluminium of hout, met een afwerking die klopt tot in de details.'
       -
         type: paragraph
         content:

@@ -284,7 +284,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Wil je verschillende modellen, kleuren en glasopties vergelijken? We helpen je in Heist-op-den-Berg graag verder met een '
+            text: 'Wil je verschillende modellen, kleuren en glasopties vergelijken? We helpen je graag verder met een '
           -
             type: text
             marks:

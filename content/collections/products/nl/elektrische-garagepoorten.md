@@ -382,7 +382,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Wil je weten welke elektrische garagepoort het best past bij jouw woning in Heist-op-den-Berg of omgeving? Dan is gericht advies het snelst. Geen giswerk. Gewoon een oplossing die technisch klopt en dagelijks prettig werkt.'
+            text: 'Wil je weten welke elektrische garagepoort het best past bij jouw woning? Dan is gericht advies het snelst. Geen giswerk. Gewoon een oplossing die technisch klopt en dagelijks prettig werkt.'
     type: text
     enabled: true
   -
@@ -472,7 +472,7 @@ page_builder:
         content:
           -
             type: text
-            text: 'Wil je verschillende modellen, kleuren en glasopties vergelijken? We helpen je in Heist-op-den-Berg graag verder met een '
+            text: 'Wil je verschillende modellen, kleuren en glasopties vergelijken? We helpen je graag verder met een '
           -
             type: text
             marks:
@@ -496,7 +496,7 @@ preview_intro: |-
   Bij Winsol Brebo kijken we samen naar de juiste oplossing voor jouw woning, garage en gebruik. Nieuwbouw of renovatie, een volledig nieuwe garagepoort of je bestaande garagepoort elektrisch maken: het begint altijd met de juiste keuze.
 preview_image: 0-(4).jpg
 meta_title: 'Elektrische garagepoorten op maat'
-meta_description: 'Kies een elektrische garagepoort op maat met veilige motorisatie, stille bediening en professionele plaatsing in Heist-op-den-Berg en omgeving.'
+meta_description: 'Kies een elektrische garagepoort op maat met veilige motorisatie, stille bediening en professionele plaatsing in de regio Dilbeek, Sint-Pieters-Leeuw en Aartselaar.'
 seo_noindex: false
 hide_from_listings: false
 updated_by: 84ddb831-416c-484c-9dfc-18c3ef8911ec
