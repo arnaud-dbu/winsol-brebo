@@ -4,6 +4,10 @@ return [
     'launcher' => 'Chat met Winsol Brebo',
     'launcher_teaser' => 'Vraag of offerte? Ik help je meteen.',
     'launcher_teaser_range' => 'Vragen over :range? Ik help je meteen.',
+    'assistant_name' => 'Winny',
+    'teaser_title' => 'Hoi! Ik ben Winny.',
+    'teaser_text' => 'Stel me gerust al je vragen over onze ramen, zonwering, rolluiken en meer.',
+    'teaser_text_range' => 'Stel me gerust al je vragen over onze :range en meer.',
     'title' => 'Winsol Brebo',
     'close' => 'Sluiten',
     'back' => 'Terug',
@@ -18,7 +22,7 @@ return [
     'tab_chat' => 'Gesprek',
     'tab_helpdesk' => 'Helpdesk',
 
-    'home_hello' => 'Dag!',
+    'home_hello' => 'Hoi, ik ben Winny!',
     'home_title' => 'Waarmee kunnen we helpen?',
     'home_context' => 'Je bekijkt :range. Vraag me gerust alles.',
     'home_ask' => 'Stel je vraag...',
@@ -59,7 +63,7 @@ return [
     'promo_answer' => 'Ja! Nu loopt de actie ":title".',
 
     'intro_offerte' => 'Top! Ik stel je een paar vragen om het zo volledig mogelijk te maken en dan gaat je aanvraag door naar de showroom.',
-    'intro_herstelling' => 'Vervelend. Ik neem je herstelaanvraag stap voor stap op, dan kan de dienst herstellingen meteen goed voorbereid langskomen.',
+    'intro_herstelling' => 'Vervelend! Ik stel je een paar vragen om het zo volledig mogelijk te maken en dan gaat je aanvraag door naar de dienst herstellingen.',
     'intro_brochure' => 'Met plezier. Kies je brochures, dan krijg je ze meteen per mail.',
     'intro_contact' => 'Ik geef je vraag door aan een adviseur. Nog twee dingen, dan is het geregeld.',
     'prefilled' => 'Ik heb alvast ingevuld wat je me vertelde: :fields.',

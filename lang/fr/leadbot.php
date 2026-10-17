@@ -4,6 +4,10 @@ return [
     'launcher' => 'Discuter avec Winsol Brebo',
     'launcher_teaser' => 'Une question ou un devis ? Je vous aide tout de suite.',
     'launcher_teaser_range' => 'Des questions sur :range ? Je vous aide tout de suite.',
+    'assistant_name' => 'Winny',
+    'teaser_title' => 'Coucou ! Je suis Winny.',
+    'teaser_text' => 'Posez-moi toutes vos questions sur nos châssis, protections solaires, volets et plus encore.',
+    'teaser_text_range' => 'Posez-moi toutes vos questions sur nos :range et plus encore.',
     'title' => 'Winsol Brebo',
     'close' => 'Fermer',
     'back' => 'Retour',
@@ -18,7 +22,7 @@ return [
     'tab_chat' => 'Conversation',
     'tab_helpdesk' => 'Aide',
 
-    'home_hello' => 'Bonjour !',
+    'home_hello' => 'Bonjour, je suis Winny !',
     'home_title' => 'Comment pouvons-nous vous aider ?',
     'home_context' => 'Vous consultez :range. Posez-moi toutes vos questions.',
     'home_ask' => 'Posez votre question...',
@@ -59,7 +63,7 @@ return [
     'promo_answer' => 'Oui ! L\'action « :title » est en cours.',
 
     'intro_offerte' => 'Parfait ! Je vous pose quelques questions pour que votre demande soit la plus complète possible, puis elle part au showroom.',
-    'intro_herstelling' => 'Désolé de l\'apprendre. Je note votre demande de réparation étape par étape, pour que le service réparations arrive bien préparé.',
+    'intro_herstelling' => 'Désolé de l\'apprendre ! Je vous pose quelques questions pour que votre demande soit la plus complète possible, puis elle part au service réparations.',
     'intro_brochure' => 'Avec plaisir. Choisissez vos brochures et vous les recevez directement par e-mail.',
     'intro_contact' => 'Je transmets votre question à un conseiller. Encore deux choses et c\'est réglé.',
     'prefilled' => 'J\'ai déjà rempli ce que vous m\'avez dit : :fields.',

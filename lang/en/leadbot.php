@@ -4,6 +4,10 @@ return [
     'launcher' => 'Chat with Winsol Brebo',
     'launcher_teaser' => 'A question or a quote? I can help right away.',
     'launcher_teaser_range' => 'Questions about :range? I can help right away.',
+    'assistant_name' => 'Winny',
+    'teaser_title' => 'Hi! I\'m Winny.',
+    'teaser_text' => 'Ask me anything about our windows, sun protection, roller shutters and more.',
+    'teaser_text_range' => 'Ask me anything about our :range and more.',
     'title' => 'Winsol Brebo',
     'close' => 'Close',
     'back' => 'Back',
@@ -18,7 +22,7 @@ return [
     'tab_chat' => 'Chat',
     'tab_helpdesk' => 'Help',
 
-    'home_hello' => 'Hello!',
+    'home_hello' => 'Hi, I\'m Winny!',
     'home_title' => 'How can we help?',
     'home_context' => 'You\'re looking at :range. Ask me anything.',
     'home_ask' => 'Ask your question...',
@@ -59,7 +63,7 @@ return [
     'promo_answer' => 'Yes! The ":title" promotion is running now.',
 
     'intro_offerte' => 'Great! I\'ll ask you a few questions to make it as complete as possible, and then your request goes through to the showroom.',
-    'intro_herstelling' => 'Sorry to hear that. I\'ll take down your repair request step by step, so our repair service arrives well prepared.',
+    'intro_herstelling' => 'Sorry to hear that! I\'ll ask you a few questions to make it as complete as possible, and then your request goes through to our repair service.',
     'intro_brochure' => 'With pleasure. Choose your brochures and you\'ll receive them by email straight away.',
     'intro_contact' => 'I\'ll pass your question on to an adviser. Two more things and it\'s done.',
     'prefilled' => 'I\'ve already filled in what you told me: :fields.',

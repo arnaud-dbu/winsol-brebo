@@ -52,6 +52,8 @@ export function leadbot() {
         expecting: null,
         pendingFile: null,
         session: null,
+        nudging: false,
+        nudges: 0,
         page: { range: null, product: null },
         status: { text: '', tone: 'closed' },
         helpdesk: { loaded: false, items: [], categories: {}, query: '', category: '', openId: null, voted: {} },
@@ -75,7 +77,8 @@ export function leadbot() {
                 setTimeout(() => {
                     this.teaser = !this.open;
                     this.unread = !this.open;
-                }, 6000);
+                    this.nudge();
+                }, 3500);
             }
 
             this.$watch('open', (open) => document.documentElement.classList.toggle('leadbot-locked', open));
@@ -101,6 +104,20 @@ export function leadbot() {
             }
 
             this.persist();
+        },
+
+        /**
+         * Winny vraagt de aandacht met een korte wiebel, opnieuw na een
+         * pauze, maar hoogstens vier keer per pagina en nooit meer zodra de
+         * bezoeker het paneel opent of de begroeting wegklikt.
+         */
+        nudge() {
+            if (this.open || !this.teaser || this.nudges >= 4) return;
+
+            this.nudges++;
+            this.nudging = true;
+            setTimeout(() => (this.nudging = false), 950);
+            setTimeout(() => this.nudge(), 9000 + this.nudges * 3000);
         },
 
         dismissTeaser() {

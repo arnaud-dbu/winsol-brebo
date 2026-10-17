@@ -8,25 +8,41 @@
 </script>
 
 <div x-data="leadbot" x-cloak @keydown.escape.window="open && toggle()" class="leadbot">
-    {{# Lanceerknop, met een teaser die na een paar seconden verschijnt. #}}
+    {{#
+        Gesloten: Winny met een begroeting die na een paar seconden opduikt. Ze vraagt de aandacht met een zachte wiebel en
+        knipoog, maar hoogstens een paar keer en nooit meer na wegklikken; zie `nudge()` in leadbot.js.
+    #}}
     <div class="leadbot-dock" x-show="!open" x-transition.opacity>
-        <div x-show="teaser" x-transition.opacity.duration.300ms class="leadbot-teaser">
-            <button
-                type="button"
-                class="leadbot-teaser-text"
-                @click="toggle()"
-                x-text="page.range ? tr('launcher_teaser_range', { range: page.range.title.toLowerCase() }) : t.launcher_teaser"></button>
+        <div
+            x-show="teaser"
+            x-transition:enter="transition duration-500 leadbot-ease-spring"
+            x-transition:enter-start="translate-y-3 scale-90 opacity-0"
+            x-transition:enter-end="translate-y-0 scale-100 opacity-100"
+            x-transition:leave="transition duration-200 ease-in"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="translate-y-2 opacity-0"
+            class="leadbot-teaser">
+            <button type="button" class="leadbot-teaser-body" @click="toggle()">
+                <span class="leadbot-teaser-title" x-text="t.teaser_title"></span>
+                <span
+                    class="leadbot-teaser-text"
+                    x-text="page.range ? tr('teaser_text_range', { range: page.range.title.toLowerCase() }) : t.teaser_text"></span>
+                <span class="leadbot-teaser-go" aria-hidden="true">
+                    {{ icon src="caret-right" suffix="bold" class="size-4" }}
+                </span>
+            </button>
             <button type="button" class="leadbot-teaser-close" @click="dismissTeaser()" :aria-label="t.close">
-                {{ icon src="x" class="size-4" aria-hidden="true" }}
+                {{ icon src="x" class="size-3.5" aria-hidden="true" }}
             </button>
         </div>
         <button
             type="button"
             class="leadbot-launcher"
+            :class="nudging && 'is-nudging'"
             @click="toggle()"
             :aria-label="t.launcher"
             aria-haspopup="dialog">
-            {{ icon src="chat-circle-dots" suffix="fill" class="size-7" aria-hidden="true" }}
+            {{ partial:winny id="launcher" class="leadbot-launcher-winny" }}
             <span class="leadbot-launcher-dot" x-show="unread" aria-hidden="true"></span>
         </button>
     </div>
@@ -53,10 +69,12 @@
                 :aria-label="t.back">
                 {{ icon src="caret-left" class="size-5" aria-hidden="true" }}
             </button>
+            <span class="leadbot-header-avatar">
+                {{ partial:winny id="header" class="size-9" }}
+            </span>
             <div class="min-w-0 flex-1">
                 <p class="leadbot-title">
-                    {{ svg src="logo" class="leadbot-logo" aria-hidden="true" }}
-                    <span class="sr-only" x-text="t.title"></span>
+                    <span x-text="t.assistant_name"></span>
                     <span class="leadbot-ai-badge" x-text="t.ai_badge"></span>
                 </p>
                 <p class="leadbot-status">
@@ -98,6 +116,7 @@
         {{# Start #}}
         <div class="leadbot-home" x-show="view === 'home'">
             <div class="leadbot-home-hero">
+                {{ partial:winny id="home" class="leadbot-home-winny" }}
                 <p class="leadbot-home-hello" x-text="t.home_hello"></p>
                 <p
                     class="leadbot-home-title"
