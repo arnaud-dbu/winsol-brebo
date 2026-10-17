@@ -58,7 +58,7 @@ return [
     'price_answer' => 'Een prijs kan ik je hier niet geven: alles wordt op maat gemaakt, dus de prijs hangt af van de afmetingen, het type, de bediening en de afwerking. Vraag gerust een gratis offerte aan. Een adviseur komt vrijblijvend opmeten en je krijgt een exacte prijs.',
     'promo_answer' => 'Ja! Nu loopt de actie ":title".',
 
-    'intro_offerte' => 'Top! Ik stel je dezelfde vragen als het offerteformulier, maar dan in een gesprekje. Daarna gaat je aanvraag meteen naar de showroom.',
+    'intro_offerte' => 'Top! Ik stel je een paar vragen om het zo volledig mogelijk te maken en dan gaat je aanvraag door naar de showroom.',
     'intro_herstelling' => 'Vervelend. Ik neem je herstelaanvraag stap voor stap op, dan kan de dienst herstellingen meteen goed voorbereid langskomen.',
     'intro_brochure' => 'Met plezier. Kies je brochures, dan krijg je ze meteen per mail.',
     'intro_contact' => 'Ik geef je vraag door aan een adviseur. Nog twee dingen, dan is het geregeld.',

@@ -58,7 +58,7 @@ return [
     'price_answer' => 'Je ne peux pas vous donner de prix ici : tout est fabriqué sur mesure, le prix dépend donc des dimensions, du type, de la commande et de la finition. Demandez un devis gratuit ; un conseiller vient mesurer sans engagement et vous recevez un prix exact.',
     'promo_answer' => 'Oui ! L\'action « :title » est en cours.',
 
-    'intro_offerte' => 'Parfait ! Je vous pose les mêmes questions que le formulaire de devis, sous forme de conversation. Votre demande part ensuite directement au showroom.',
+    'intro_offerte' => 'Parfait ! Je vous pose quelques questions pour que votre demande soit la plus complète possible, puis elle part au showroom.',
     'intro_herstelling' => 'Désolé de l\'apprendre. Je note votre demande de réparation étape par étape, pour que le service réparations arrive bien préparé.',
     'intro_brochure' => 'Avec plaisir. Choisissez vos brochures et vous les recevez directement par e-mail.',
     'intro_contact' => 'Je transmets votre question à un conseiller. Encore deux choses et c\'est réglé.',

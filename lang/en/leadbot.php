@@ -58,7 +58,7 @@ return [
     'price_answer' => 'I can\'t give you a price here: everything is made to measure, so the price depends on the size, the type, the operation and the finish. Feel free to request a free quote; an adviser will measure up without obligation and you\'ll receive an exact price.',
     'promo_answer' => 'Yes! The ":title" promotion is running now.',
 
-    'intro_offerte' => 'Great! I\'ll ask you the same questions as the quote form, just as a chat. Your request then goes straight to the showroom.',
+    'intro_offerte' => 'Great! I\'ll ask you a few questions to make it as complete as possible, and then your request goes through to the showroom.',
     'intro_herstelling' => 'Sorry to hear that. I\'ll take down your repair request step by step, so our repair service arrives well prepared.',
     'intro_brochure' => 'With pleasure. Choose your brochures and you\'ll receive them by email straight away.',
     'intro_contact' => 'I\'ll pass your question on to an adviser. Two more things and it\'s done.',
