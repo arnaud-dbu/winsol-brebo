@@ -223,15 +223,32 @@
 }
 
 @utility leadbot-sources {
-    @apply mt-1 flex flex-col gap-1.5 border-t border-black/5 pt-2.5 whitespace-normal;
+    @apply mt-1 flex flex-col gap-1.5 whitespace-normal;
+    animation: leadbot-in 0.35s ease-out;
 }
 
-@utility leadbot-source {
-    @apply inline-flex items-start gap-1.5 font-medium underline decoration-black/15 underline-offset-2 transition-colors hover:decoration-black;
+@utility leadbot-source-card {
+    @apply flex items-center gap-3 rounded-xl bg-light p-2 pr-3 transition-colors hover:bg-light-shape;
+}
 
-    svg {
-        @apply mt-0.5;
-    }
+@utility leadbot-source-image {
+    @apply size-12 shrink-0 rounded-lg bg-light-shape object-cover;
+}
+
+@utility leadbot-source-icon {
+    @apply grid size-12 shrink-0 place-items-center rounded-lg bg-white text-black/50;
+}
+
+@utility leadbot-source-title {
+    @apply truncate leading-tight font-semibold;
+}
+
+@utility leadbot-source-teaser {
+    @apply mt-0.5 line-clamp-2 text-xs leading-snug text-black/55;
+}
+
+@utility leadbot-chip--suggestion {
+    @apply border-transparent bg-white/70 font-normal text-black/80 hover:border-black/20 hover:bg-white;
 }
 
 @utility leadbot-feedback {
@@ -794,13 +811,13 @@ html.leadbot-locked .sticky-quote {
 
 /* Elk nieuw woord fadet zacht in terwijl het antwoord verschijnt. */
 .leadbot-word {
-    animation: leadbot-word 0.45s ease-out both;
+    animation: leadbot-word 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes leadbot-word {
     from {
         opacity: 0;
-        filter: blur(2px);
+        filter: blur(3px);
     }
 }
 

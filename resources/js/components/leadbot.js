@@ -402,45 +402,53 @@ export function leadbot() {
         },
 
         /**
-         * Laat tekst woord per woord verschijnen, in leestempo en los van hoe
-         * schokkerig de stukjes binnenkomen. Elk nieuw woord komt in de
-         * markup als eigen span en fadet zo zelf in (zie .leadbot-word).
-         * Loopt er veel tekst achter, dan versnelt hij licht, zodat een lang
-         * antwoord niet eindeloos duurt.
+         * Laat het antwoord vloeiend verschijnen, zoals de grote chat-apps
+         * het doen: in een vast tempo per teken (ongeveer 90 per seconde),
+         * los van hoe schokkerig de stukjes van de server binnenkomen, en
+         * telkens per heel woord, zodat er nooit een half woord staat. Loopt
+         * er veel tekst achter, dan versnelt hij om bij te blijven. Elk nieuw
+         * woord is een eigen span en fadet zelf in (zie .leadbot-word); is
+         * het antwoord af, dan wordt het weer gewone tekst.
          */
         typewriter(message) {
-            const WORDS_PER_SECOND = 7;
+            const CHARS_PER_SECOND = 90;
+            const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             let target = [];
+            let raw = '';
             let running = false;
             let settle = null;
-            let credit = 0;
+            let budget = 0;
             let last = 0;
 
             const tokenize = (text) => text.match(/\s*\S+\s*/g) ?? [];
 
             const tick = (now) => {
                 const shown = message.tokens?.length ?? 0;
-                const backlog = target.length - shown;
 
-                if (backlog <= 0) {
+                if (shown >= target.length) {
                     running = false;
                     settle?.();
                     return;
                 }
 
-                const rate = WORDS_PER_SECOND + Math.max(0, backlog - 25) / 4;
-                credit += ((now - (last || now)) / 1000) * rate;
+                const backlog = target.slice(shown).join('').length;
+                const rate = CHARS_PER_SECOND + Math.max(0, backlog - 120) * 1.5;
+                budget += reduced ? Infinity : ((now - (last || now)) / 1000) * rate;
                 last = now;
 
-                const reveal = Math.floor(credit);
+                let next = shown;
+                while (next < target.length && (budget >= target[next].length || (next === 0 && shown === 0))) {
+                    budget -= target[next].length;
+                    next++;
+                }
 
-                if (reveal > 0 || shown === 0) {
-                    credit -= reveal;
+                if (next > shown) {
+                    const follow = this.nearBottom();
                     message.thinking = false;
                     message.typing = true;
-                    message.tokens = target.slice(0, shown + Math.max(reveal, 1));
+                    message.tokens = target.slice(0, next);
                     message.text = message.tokens.join('');
-                    this.scrollDown(false);
+                    if (follow) this.$nextTick(() => this.scrollDown(false));
                 }
 
                 requestAnimationFrame(tick);
@@ -450,11 +458,10 @@ export function leadbot() {
                 if (!running) {
                     running = true;
                     last = 0;
+                    budget = 0;
                     requestAnimationFrame(tick);
                 }
             };
-
-            let raw = '';
 
             return {
                 add(text) {
@@ -487,6 +494,12 @@ export function leadbot() {
             };
         },
 
+        /** Volgt de lezer het gesprek onderaan? Dan schuift het mee; anders blijft het staan. */
+        nearBottom() {
+            const stream = this.$refs.stream;
+            return !stream || stream.scrollHeight - stream.scrollTop - stream.clientHeight < 96;
+        },
+
         followUp(result, question) {
             if (!result.answered) {
                 const message = this.messages[this.messages.length - 1];
@@ -505,6 +518,14 @@ export function leadbot() {
                 return;
             }
 
+            const suggestions = (result.suggestions ?? []).map((text, index) => ({
+                key: `q-${this.counter}-${index}`,
+                label: text,
+                action: 'ask',
+                value: text,
+                suggestion: true,
+            }));
+
             const range = this.cfg.ranges.find((candidate) => candidate.handle === result.range) ?? this.page.range;
             const chip = {
                 offerte: {
@@ -518,19 +539,24 @@ export function leadbot() {
                 contact: { label: this.t.start_contact, value: 'contact' },
             }[result.next_action];
 
-            if (chip) {
-                const message = this.messages[this.messages.length - 1];
-                message.chips = [
-                    {
-                        key: `f-${message.id}`,
-                        action: 'form',
-                        story: question,
-                        primary: true,
-                        range: range?.handle,
-                        ...chip,
-                    },
-                ];
-            } else if (result.next_action === 'showroom') {
+            const message = this.messages[this.messages.length - 1];
+            message.chips = [
+                ...(chip
+                    ? [
+                          {
+                              key: `f-${message.id}`,
+                              action: 'form',
+                              story: question,
+                              primary: true,
+                              range: range?.handle,
+                              ...chip,
+                          },
+                      ]
+                    : []),
+                ...suggestions,
+            ];
+
+            if (result.next_action === 'showroom') {
                 this.say({ card: 'showrooms' });
             }
         },

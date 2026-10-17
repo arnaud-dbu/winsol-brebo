@@ -192,7 +192,8 @@
                     <template x-if="message.text || message.thinking">
                         <div
                             class="leadbot-bubble"
-                            :class="message.from === 'user' ? 'leadbot-bubble--user' : 'leadbot-bubble--bot'">
+                            :class="message.from === 'user' ? 'leadbot-bubble--user' : 'leadbot-bubble--bot'"
+                            :aria-busy="message.typing ? 'true' : 'false'">
                             <template x-if="message.thinking">
                                 <span class="leadbot-typing" :aria-label="t.thinking">
                                     <i></i>
@@ -210,18 +211,35 @@
                             <template x-if="!(message.typing && message.tokens)">
                                 <span x-show="message.text" x-text="message.text"></span>
                             </template>
-                            <template x-if="message.sources && message.sources.length">
+                            <template x-if="message.sources && message.sources.length && !message.typing">
                                 <span class="leadbot-sources">
-                                    <span class="leadbot-eyebrow" x-text="t.sources"></span>
                                     <template x-for="source in message.sources" :key="source.url">
-                                        <a :href="source.url" class="leadbot-source">
-                                            {{ icon src="arrow-up-right" class="size-3.5 shrink-0" aria-hidden="true" }}
-                                            <span x-text="source.title"></span>
+                                        <a :href="source.url" class="leadbot-source-card">
+                                            <template x-if="source.image">
+                                                <img
+                                                    :src="source.image"
+                                                    alt=""
+                                                    class="leadbot-source-image"
+                                                    loading="lazy" />
+                                            </template>
+                                            <template x-if="!source.image">
+                                                <span class="leadbot-source-icon">
+                                                    {{ icon src="article" class="size-5" aria-hidden="true" }}
+                                                </span>
+                                            </template>
+                                            <span class="flex min-w-0 flex-1 flex-col">
+                                                <span class="leadbot-source-title" x-text="source.title"></span>
+                                                <span
+                                                    class="leadbot-source-teaser"
+                                                    x-show="source.teaser"
+                                                    x-text="source.teaser"></span>
+                                            </span>
+                                            {{ icon src="caret-right" class="size-4 shrink-0 text-black/30" aria-hidden="true" }}
                                         </a>
                                     </template>
                                 </span>
                             </template>
-                            <template x-if="message.feedback">
+                            <template x-if="message.feedback && !message.typing">
                                 <span class="leadbot-feedback">
                                     <template x-if="message.feedback === 'ask'">
                                         <span class="flex items-center gap-1">
@@ -503,13 +521,16 @@
                                 <button
                                     type="button"
                                     class="leadbot-chip"
-                                    :class="{ 'leadbot-chip--primary': chip.primary, 'leadbot-chip--selected': chip.selected }"
+                                    :class="{ 'leadbot-chip--primary': chip.primary, 'leadbot-chip--selected': chip.selected, 'leadbot-chip--suggestion': chip.suggestion }"
                                     :aria-pressed="message.multi && chip.action === 'toggle' ? String(!!chip.selected) : null"
                                     @click="choose(message, chip)">
                                     <template x-if="message.multi && chip.action === 'toggle'">
                                         <span class="leadbot-check" aria-hidden="true">
                                             {{ icon src="check" class="size-3" }}
                                         </span>
+                                    </template>
+                                    <template x-if="chip.suggestion">
+                                        {{ icon src="arrow-bend-down-right" class="size-4 shrink-0 text-black/40" aria-hidden="true" }}
                                     </template>
                                     <template x-if="chip.action === 'file'">
                                         {{ icon src="camera" class="size-4" aria-hidden="true" }}

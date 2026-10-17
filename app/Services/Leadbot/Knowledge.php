@@ -7,6 +7,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Statamic\Contracts\Assets\Asset;
 use Statamic\Contracts\Entries\Entry as EntryContract;
 use Statamic\Facades\Entry;
 use Statamic\Facades\GlobalSet;
@@ -83,7 +84,7 @@ class Knowledge
     /**
      * De best passende documenten voor een vraag, in volgorde van relevantie.
      *
-     * @return array<int, array{id: string, type: string, title: string, url: string, text: string, score: float}>
+     * @return array<int, array{id: string, type: string, title: string, url: string, text: string, teaser: string, image: string|null, score: float}>
      */
     public function search(string $query, string $locale, int $limit = 8, ?string $type = null): array
     {
@@ -443,6 +444,7 @@ class Knowledge
         $title = [];
         $urls = [];
         $text = [];
+        $teaser = [];
 
         foreach (['nl', 'fr', 'en'] as $site) {
             $localized = $site === 'nl' ? $entry : $entry->in($site);
@@ -463,6 +465,7 @@ class Knowledge
 
             $title[$site] = (string) ($localized->value('title') ?? $localized->value('name'));
             $text[$site] = Str::limit($body, 3500, '');
+            $teaser[$site] = Str::limit(trim(strip_tags((string) ($localized->value('text') ?? $localized->value('short_description') ?? $localized->value('meta_description')))), 140);
 
             if ($type !== 'faq' && $type !== 'showroom' && $localized->url()) {
                 $urls[$site] = $localized->url();
@@ -479,7 +482,22 @@ class Knowledge
             'title' => $title,
             'urls' => $urls,
             'text' => $text,
+            'teaser' => array_filter($teaser),
+            'image' => $this->imageId($entry),
         ];
+    }
+
+    /**
+     * Het id van de hoofdfoto, voor een kaartje bij het antwoord. Het id en
+     * niet de url: de index zit in de cache, en de thumbnail wordt pas
+     * opgebouwd wanneer een antwoord hem toont.
+     */
+    private function imageId(EntryContract $entry): ?string
+    {
+        $value = $entry->augmentedValue('image')->value();
+        $asset = $value instanceof Collection ? $value->first() : $value;
+
+        return $asset instanceof Asset ? $asset->id() : null;
     }
 
     /**
@@ -531,6 +549,8 @@ class Knowledge
             'title' => $document['title'][$locale] ?? $document['title']['nl'] ?? reset($document['title']),
             'url' => $document['urls'][$locale] ?? $document['urls']['nl'] ?? '',
             'text' => $document['text'][$locale] ?? $document['text']['nl'] ?? reset($document['text']),
+            'teaser' => $document['teaser'][$locale] ?? $document['teaser']['nl'] ?? '',
+            'image' => $document['image'] ?? null,
             'score' => round($document['score'], 3),
         ];
     }

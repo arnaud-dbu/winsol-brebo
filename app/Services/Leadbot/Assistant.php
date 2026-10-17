@@ -7,6 +7,8 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Statamic\Facades\Asset;
+use Statamic\Facades\Image;
 
 /**
  * De taallaag van de assistent. Drie taken:
@@ -90,7 +92,7 @@ class Assistant
             ->filter(fn ($source) => $source && $source['url'] !== '')
             ->unique('url')
             ->take(3)
-            ->map(fn ($source) => ['title' => $source['title'], 'url' => $source['url']])
+            ->map(fn ($source) => $this->card($source))
             ->values()
             ->all();
 
@@ -113,7 +115,37 @@ class Assistant
             'answered' => $result['answered'],
             'next_action' => $nextAction,
             'range' => $result['range_handle'],
+            'suggestions' => collect($result['suggestions'] ?? [])->filter(fn ($item) => is_string($item) && trim($item) !== '')->map(fn ($item) => Str::limit(trim($item), 70, ''))->take(3)->values()->all(),
             'mode' => 'model',
+        ];
+    }
+
+    /**
+     * Een bron als kaartje: titel, korte omschrijving en een kleine foto.
+     * De foto komt via Glide in het formaat van het kaartje, niet als
+     * origineel van duizenden pixels.
+     *
+     * @param  array<string, mixed>  $source
+     * @return array{title: string, url: string, teaser: string, image: string|null, type: string}
+     */
+    private function card(array $source): array
+    {
+        $image = null;
+
+        if (! empty($source['image']) && $asset = Asset::find($source['image'])) {
+            try {
+                $image = Image::manipulate($asset)->width(160)->height(160)->fit('crop_focal')->format('webp')->quality(70)->build();
+            } catch (\Throwable) {
+                $image = null;
+            }
+        }
+
+        return [
+            'title' => (string) $source['title'],
+            'url' => (string) $source['url'],
+            'teaser' => (string) ($source['teaser'] ?? ''),
+            'image' => $image,
+            'type' => (string) ($source['type'] ?? 'pagina'),
         ];
     }
 
@@ -261,12 +293,13 @@ class Assistant
         'type' => 'object',
         'properties' => [
             'answer' => ['type' => 'string'],
+            'suggestions' => ['type' => 'array', 'items' => ['type' => 'string']],
             'source_ids' => ['type' => 'array', 'items' => ['type' => 'string']],
             'answered' => ['type' => 'boolean'],
             'next_action' => ['type' => 'string', 'enum' => self::ACTIONS],
             'range_handle' => ['type' => 'string'],
         ],
-        'required' => ['answer', 'source_ids', 'answered', 'next_action', 'range_handle'],
+        'required' => ['answer', 'suggestions', 'source_ids', 'answered', 'next_action', 'range_handle'],
         'additionalProperties' => false,
     ];
 
@@ -294,8 +327,10 @@ class Assistant
 
         Zo antwoord je:
         - Twijfelt de bezoeker, of vraagt hij welke oplossing past of wat het verschil is: vergelijk de mogelijkheden uit de bronnen, zeg in gewone woorden waarin ze verschillen en voor wie elk het best past, en geef een concrete aanrader met de reden erbij ("Voor een terras op het zuiden zou ik ... nemen, omdat ..."). Denk mee: noem ook wat hij misschien niet overwoog, zoals bediening met Somfy of een windsensor, als de bronnen dat aanbieden.
-        - Hangt de keuze af van één gegeven dat je niet kent (ramen of terras, nieuwbouw of renovatie, oriëntatie, budget), stel dan aan het eind precies één korte wedervraag. Nooit meer dan één.
-        - Warm, persoonlijk en concreet: hoogstens 110 woorden, in gewone zinnen. Geen opsommingstekens, geen kopjes, geen markdown, geen kastlijntjes (—); gebruik een komma of een dubbelpunt.
+        - Begin met het antwoord zelf in de eerste zin, zonder inleiding of herhaling van de vraag.
+        - Kort: hoogstens 70 woorden, in één tot drie korte alinea's gescheiden door een witregel. Warm, persoonlijk en concreet, in gewone zinnen. Geen opsommingstekens, geen kopjes, geen markdown, geen kastlijntjes (—).
+        - Hangt de keuze af van een gegeven dat je niet kent (ramen of terras, oriëntatie, nieuwbouw of renovatie), zeg dat dan in één zin ("Dat hangt vooral af van ..."), maar stel de vraag niet in de tekst.
+        - suggestions: twee of drie korte vervolgvragen die de bezoeker nu logisch zou stellen, in zijn taal en in zijn woorden, hoogstens zeven woorden elk (bv. "Kan dat ook met een windsensor?"). Ze moeten beantwoordbaar zijn uit de bronnen. Geen prijsvragen.
         - In de taal die in de context gevraagd wordt, ook als de bronnen in het Nederlands staan.
         - Prijzen: noem nooit een prijs, bedrag, prijsvork of richtprijs, ook niet als die in een bron staat. Vraagt de bezoeker wat iets kost, leg dan kort uit waar de prijs van afhangt (afmetingen, type, bediening, afwerking), zeg dat alles op maat is en dat hij een exacte prijs krijgt via een gratis en vrijblijvende offerte met opmeting, en zet next_action op "offerte". Enige uitzondering: de vaste tarieven van een herstelling (verplaatsingsforfait en uurtarief) mag je noemen zoals ze in de bron staan.
         - Kortingen of acties: vertel wat de lopende actie inhoudt zoals ze in de bron staat, en verwijs voor de prijs naar een offerte.
@@ -536,7 +571,7 @@ class Assistant
      */
     private function fallbackAnswer(string $question, string $locale, ?string $pageRange = null): array
     {
-        $result = ['sources' => [], 'answered' => true, 'next_action' => 'none', 'range' => '', 'mode' => 'fallback'];
+        $result = ['sources' => [], 'answered' => true, 'next_action' => 'none', 'range' => '', 'suggestions' => [], 'mode' => 'fallback'];
 
         if ($this->asksPrice($question) && ! $this->aboutRepair($question)) {
             return [...$result, 'answer' => __('leadbot.price_answer', [], $locale), 'next_action' => 'offerte'];
@@ -631,10 +666,11 @@ class Assistant
 
         return [
             'answer' => __('leadbot.advice_intro', ['range' => Str::lower($range['title'])], $locale)."\n\n{$lines}\n\n".__('leadbot.advice_outro', [], $locale),
-            'sources' => $products->take(3)->map(fn ($product) => ['title' => $product['title'], 'url' => $product['url']])->values()->all(),
+            'sources' => $products->take(3)->map(fn ($product) => ['title' => $product['title'], 'url' => $product['url'], 'teaser' => $product['text'], 'image' => null, 'type' => 'product'])->values()->all(),
             'answered' => true,
             'next_action' => 'offerte',
             'range' => $range['handle'],
+            'suggestions' => [],
             'mode' => 'fallback',
         ];
     }

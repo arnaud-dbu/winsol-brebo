@@ -249,6 +249,25 @@ class LeadbotTest extends TestCase
             ->assertJsonPath('sources.0.url', $promotion['url']);
     }
 
+    public function test_an_answer_comes_with_follow_up_questions_and_product_cards(): void
+    {
+        config(['leadbot.anthropic.key' => 'test-key']);
+        Http::fake(['api.anthropic.com/*' => Http::response(['stop_reason' => 'end_turn', 'content' => [['type' => 'text', 'text' => json_encode([
+            'answer' => 'Een knikarmscherm legt schaduw over je terras.',
+            'suggestions' => ['Kan dat met een windsensor?', '', 'Welke doeken zijn er?'],
+            'source_ids' => ['ranges:zonwering'],
+            'answered' => true,
+            'next_action' => 'offerte',
+            'range_handle' => 'zonwering',
+        ])]]])]);
+
+        $response = $this->postJson('/leadbot/ask', ['question' => 'Wat past bij mijn terras?', 'locale' => 'nl'])->assertOk();
+
+        $response->assertJsonPath('suggestions', ['Kan dat met een windsensor?', 'Welke doeken zijn er?']);
+        $response->assertJsonPath('sources.0.title', 'Zonwering');
+        $this->assertNotEmpty($response->json('sources.0.teaser'));
+    }
+
     public function test_a_failing_model_falls_back_instead_of_breaking_the_widget(): void
     {
         config(['leadbot.anthropic.key' => 'test-key']);
