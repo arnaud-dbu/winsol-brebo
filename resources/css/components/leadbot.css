@@ -496,7 +496,7 @@
     }
 }
 
-/* Op een gsm vult het paneel het scherm; de pagina eronder mag dan niet meescrollen. */
+/* Op een gsm vult het paneel het scherm; de pagina eronder mag dan niet meescrollen. De klasse staat op <html> zolang het paneel open is. */
 @media (width < 40rem) {
     html.leadbot-locked {
         overflow: hidden;
@@ -784,5 +784,47 @@
     }
     100% {
         box-shadow: 0 0 0 12px rgb(248 215 28 / 0);
+    }
+}
+
+/* De vaste offerteknop onderaan (partials/stickyQuote) zou onder het open paneel doorschuiven. */
+html.leadbot-locked .sticky-quote {
+    display: none;
+}
+
+/* Elk nieuw woord fadet zacht in terwijl het antwoord verschijnt. */
+.leadbot-word {
+    animation: leadbot-word 0.45s ease-out both;
+}
+
+@keyframes leadbot-word {
+    from {
+        opacity: 0;
+        filter: blur(2px);
+    }
+}
+
+/* Knipperende cursor achter tekst die nog verschijnt. */
+.leadbot-caret::after {
+    content: '';
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    margin-left: 2px;
+    vertical-align: -0.15em;
+    background: currentColor;
+    animation: leadbot-caret 0.9s steps(1) infinite;
+}
+
+@keyframes leadbot-caret {
+    50% {
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .leadbot-caret::after,
+    .leadbot-word {
+        animation: none;
     }
 }

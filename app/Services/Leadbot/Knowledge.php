@@ -2,6 +2,8 @@
 
 namespace App\Services\Leadbot;
 
+use App\Services\RunningPromotion;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -86,7 +88,7 @@ class Knowledge
     public function search(string $query, string $locale, int $limit = 8, ?string $type = null): array
     {
         $documents = collect($this->documents())->when($type, fn ($all) => $all->where('type', $type));
-        $terms = array_unique($this->tokens($query));
+        $terms = $this->correct(array_unique($this->tokens($this->withSynonyms($query))));
 
         if ($terms === [] || $documents->isEmpty()) {
             return [];
@@ -269,6 +271,10 @@ class Knowledge
 
         $lines[] = '</showrooms>';
 
+        if ($promotion = $this->promotion('nl')) {
+            $lines[] = "<lopende_actie>{$promotion['label']}".($promotion['end'] ? " (loopt tot {$promotion['end']})" : '').": {$promotion['text']} Meer info: {$promotion['url']}</lopende_actie>";
+        }
+
         return implode("\n", $lines);
     }
 
@@ -294,6 +300,101 @@ class Knowledge
         }
 
         return $tokens;
+    }
+
+    /**
+     * Zet tikfouten recht tegen de woorden die op de site voorkomen:
+     * "zonnewering" wordt "zonwering", "rolluik" blijft "rolluik". Alleen
+     * voor woorden die de site zelf niet kent, zodat een correct woord
+     * nooit verschuift naar een ander.
+     *
+     * @param  array<int, string>  $terms
+     * @return array<int, string>
+     */
+    public function correct(array $terms): array
+    {
+        $vocabulary = Cache::remember(self::CACHE_KEY.'.vocabulary', now()->addHour(), function () {
+            $counts = [];
+
+            foreach ($this->documents() as $document) {
+                foreach ($document['terms'] as $term => $count) {
+                    $counts[$term] = ($counts[$term] ?? 0) + $count;
+                }
+            }
+
+            arsort($counts);
+
+            return $counts;
+        });
+
+        return array_values(array_unique(array_map(function (string $term) use ($vocabulary) {
+            if (isset($vocabulary[$term]) || strlen($term) < 5) {
+                return $term;
+            }
+
+            $allowed = strlen($term) >= 8 ? 2 : 1;
+            $best = null;
+
+            foreach ($vocabulary as $candidate => $count) {
+                $candidate = (string) $candidate;
+
+                if (abs(strlen($candidate) - strlen($term)) <= $allowed && levenshtein($term, $candidate) <= $allowed) {
+                    $best = $candidate;
+                    break;
+                }
+            }
+
+            return $best ?? $term;
+        }, $terms)));
+    }
+
+    /**
+     * Woorden die klanten gebruiken en die de site anders zegt.
+     */
+    public function withSynonyms(string $text): string
+    {
+        $synonyms = [
+            '/kortingen?|promoties?|aanbiedingen?|soldes|réductions?|remises?|discounts?|sales?\b/iu' => ' actie voordeel promo renovatiedagen ',
+            '/\\bkost|prijzen|\\bduur\\b|goedkoop|budget|combien|coût|\\bcost/iu' => ' prijs ',
+            '/kapot|stuk|defect|panne|cassé|broken|repar/iu' => ' herstelling ',
+            '/zonnescherm|tente solaire|awning/iu' => ' zonnescherm knikarmscherm ',
+            '/zonnewering|zonwering|protection solaire|sun protection/iu' => ' zonwering ',
+            '/\\bopen\\b|openingsuren|\\bouvert|horaires|opening hours/iu' => ' openingsuren showroom ',
+        ];
+
+        foreach ($synonyms as $pattern => $extra) {
+            if (preg_match($pattern, $text)) {
+                $text .= $extra;
+            }
+        }
+
+        return $text;
+    }
+
+    /**
+     * De actie die nu loopt (zie App\Services\RunningPromotion), in de taal
+     * van de bezoeker.
+     *
+     * @return array{title: string, label: string, url: string, end: string|null, text: string}|null
+     */
+    public function promotion(string $locale): ?array
+    {
+        $article = app(RunningPromotion::class)->find();
+
+        if (! $article) {
+            return null;
+        }
+
+        $localized = $article->in($locale) ?? $article;
+        $end = $article->value('promo_end');
+
+        return [
+            'title' => (string) $localized->value('title'),
+            'label' => (string) ($localized->value('promo_label') ?: $localized->value('title')),
+            'url' => (string) $localized->url(),
+            'end' => $end ? Carbon::parse($end)->format('d/m') : null,
+            'text' => Str::limit(trim(strip_tags((string) $localized->value('text'))), 400),
+        ];
     }
 
     private function stem(string $word): string

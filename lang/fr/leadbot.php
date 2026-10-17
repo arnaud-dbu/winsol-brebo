@@ -53,7 +53,10 @@ return [
     'start_contact' => 'Question à un conseiller',
     'show_showrooms' => 'Appeler ou visiter un showroom',
     'error' => 'Un problème est survenu. Réessayez, ou appelez-nous directement.',
-    'fallback_unknown' => 'Je n\'en suis pas certain. Un conseiller examinera volontiers votre question.',
+    'fallback_unknown' => 'Je n\'ai pas de réponse toute faite. Voulez-vous que je transmette votre question à un conseiller ? Il vous contactera.',
+    'fallback_related' => 'Je n\'ai pas de réponse toute faite, mais ces pages s\'en approchent le plus. Voulez-vous qu\'un conseiller examine votre question ?',
+    'price_answer' => 'Je ne peux pas vous donner de prix ici : tout est fabriqué sur mesure, le prix dépend donc des dimensions, du type, de la commande et de la finition. Demandez un devis gratuit ; un conseiller vient mesurer sans engagement et vous recevez un prix exact.',
+    'promo_answer' => 'Oui ! L\'action « :title » est en cours.',
 
     'intro_offerte' => 'Parfait ! Je vous pose les mêmes questions que le formulaire de devis, sous forme de conversation. Votre demande part ensuite directement au showroom.',
     'intro_herstelling' => 'Désolé de l\'apprendre. Je note votre demande de réparation étape par étape, pour que le service réparations arrive bien préparé.',

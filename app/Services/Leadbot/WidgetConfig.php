@@ -39,6 +39,7 @@ class WidgetConfig
             'endpoints' => [
                 'session' => route('leadbot.session', absolute: false),
                 'ask' => route('leadbot.ask', absolute: false),
+                'stream' => route('leadbot.stream', absolute: false),
                 'extract' => route('leadbot.extract', absolute: false),
                 'helpdesk' => route('leadbot.helpdesk', ['locale' => $locale], absolute: false),
                 'feedback' => route('leadbot.feedback', absolute: false),

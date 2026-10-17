@@ -21,6 +21,9 @@ return [
         'key' => env('ANTHROPIC_API_KEY'),
         'model' => env('LEADBOT_MODEL', 'claude-opus-5'),
         'effort' => env('LEADBOT_EFFORT', 'low'),
+        // Uit: een chat moet binnen een paar seconden antwoorden, en voor
+        // antwoorden uit aangereikte bronnen voegt nadenken weinig toe.
+        'thinking' => (bool) env('LEADBOT_THINKING', false),
         'timeout' => 40,
     ],
 

@@ -306,21 +306,14 @@ export function leadbot() {
             const pending = this.say({ thinking: true });
 
             try {
-                const response = await fetch(this.cfg.endpoints.ask, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-                    body: JSON.stringify({
-                        question,
-                        locale: this.cfg.locale,
-                        history: this.transcript().slice(-9, -1),
-                        page: { title: document.title, range: this.page.range?.handle ?? null },
-                        mode,
-                    }),
+                const result = await this.streamAnswer(pending, {
+                    question,
+                    locale: this.cfg.locale,
+                    history: this.transcript().slice(-9, -1),
+                    page: { title: document.title, range: this.page.range?.handle ?? null },
+                    mode,
                 });
 
-                if (!response.ok) throw new Error(response.status);
-
-                const result = await response.json();
                 Object.assign(pending, {
                     thinking: false,
                     text: result.answer,
@@ -347,15 +340,169 @@ export function leadbot() {
             }
         },
 
+        /**
+         * Leest het antwoord als server-sent events: elk `delta` komt meteen
+         * in de ballon, `done` brengt het definitieve antwoord en de bronnen.
+         * Lukt streamen niet (oude browser, proxy die buffert), dan valt dit
+         * terug op het gewone JSON-endpoint.
+         */
+        async streamAnswer(pending, payload) {
+            const body = JSON.stringify(payload);
+            const writer = this.typewriter(pending);
+
+            try {
+                const response = await fetch(this.cfg.endpoints.stream, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', Accept: 'text/event-stream' },
+                    body,
+                });
+
+                if (!response.ok || !response.body) throw new Error(response.status);
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let buffer = '';
+                let result = null;
+
+                while (!result) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+
+                    buffer += decoder.decode(value, { stream: true });
+                    let boundary;
+
+                    while ((boundary = buffer.indexOf('\n\n')) !== -1) {
+                        const block = buffer.slice(0, boundary);
+                        buffer = buffer.slice(boundary + 2);
+                        const event = block.match(/^event: (.+)$/m)?.[1];
+                        const data = JSON.parse(block.match(/^data: (.+)$/m)?.[1] ?? 'null');
+
+                        if (event === 'delta' && data) writer.add(data.text);
+                        if (event === 'done') result = data;
+                    }
+                }
+
+                if (!result) throw new Error('stream');
+
+                await writer.finish(result.answer);
+                return result;
+            } catch {
+                const response = await fetch(this.cfg.endpoints.ask, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                    body,
+                });
+
+                if (!response.ok) throw new Error(response.status);
+
+                const result = await response.json();
+                await writer.finish(result.answer, true);
+                return result;
+            }
+        },
+
+        /**
+         * Laat tekst woord per woord verschijnen, in leestempo en los van hoe
+         * schokkerig de stukjes binnenkomen. Elk nieuw woord komt in de
+         * markup als eigen span en fadet zo zelf in (zie .leadbot-word).
+         * Loopt er veel tekst achter, dan versnelt hij licht, zodat een lang
+         * antwoord niet eindeloos duurt.
+         */
+        typewriter(message) {
+            const WORDS_PER_SECOND = 7;
+            let target = [];
+            let running = false;
+            let settle = null;
+            let credit = 0;
+            let last = 0;
+
+            const tokenize = (text) => text.match(/\s*\S+\s*/g) ?? [];
+
+            const tick = (now) => {
+                const shown = message.tokens?.length ?? 0;
+                const backlog = target.length - shown;
+
+                if (backlog <= 0) {
+                    running = false;
+                    settle?.();
+                    return;
+                }
+
+                const rate = WORDS_PER_SECOND + Math.max(0, backlog - 25) / 4;
+                credit += ((now - (last || now)) / 1000) * rate;
+                last = now;
+
+                const reveal = Math.floor(credit);
+
+                if (reveal > 0 || shown === 0) {
+                    credit -= reveal;
+                    message.thinking = false;
+                    message.typing = true;
+                    message.tokens = target.slice(0, shown + Math.max(reveal, 1));
+                    message.text = message.tokens.join('');
+                    this.scrollDown(false);
+                }
+
+                requestAnimationFrame(tick);
+            };
+
+            const start = () => {
+                if (!running) {
+                    running = true;
+                    last = 0;
+                    requestAnimationFrame(tick);
+                }
+            };
+
+            let raw = '';
+
+            return {
+                add(text) {
+                    raw += text;
+                    // Het laatste woord kan nog half zijn; dat wacht op het volgende stukje.
+                    target = tokenize(raw.replace(/\S+$/, ''));
+                    start();
+                },
+                finish(final, fromScratch = false) {
+                    // Het definitieve antwoord kan afwijken van wat al
+                    // verscheen (bv. het vangnet voor prijzen): dan herbegint hij.
+                    if (fromScratch || !final.startsWith(message.text ?? '')) {
+                        message.tokens = [];
+                        message.text = '';
+                    }
+
+                    raw = final;
+                    target = tokenize(final);
+                    start();
+
+                    return new Promise((resolve) => {
+                        settle = () => {
+                            message.typing = false;
+                            message.tokens = null;
+                            resolve();
+                        };
+                        if (!running) settle();
+                    });
+                },
+            };
+        },
+
         followUp(result, question) {
             if (!result.answered) {
-                return this.say({
-                    text: this.t.unknown_handoff,
-                    chips: [
-                        { label: this.t.handoff_yes, action: 'form', value: 'contact', story: question, primary: true },
-                        { label: this.t.show_showrooms, action: 'showrooms' },
-                    ],
-                });
+                const message = this.messages[this.messages.length - 1];
+                message.feedback = null;
+                message.chips = [
+                    {
+                        key: `h-${message.id}`,
+                        label: this.t.handoff_yes,
+                        action: 'form',
+                        value: 'contact',
+                        story: question,
+                        primary: true,
+                    },
+                    { key: `s-${message.id}`, label: this.t.show_showrooms, action: 'showrooms' },
+                ];
+                return;
             }
 
             const range = this.cfg.ranges.find((candidate) => candidate.handle === result.range) ?? this.page.range;
@@ -1168,7 +1315,7 @@ export function leadbot() {
                 inputMode: this.inputMode,
                 messages: this.messages
                     .filter((message) => !message.thinking)
-                    .map((message) => (message.photo ? { ...message, photo: null } : message))
+                    .map((message) => ({ ...message, photo: null, typing: false, tokens: null }))
                     .slice(-80),
             });
         },

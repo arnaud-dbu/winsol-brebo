@@ -53,7 +53,10 @@ return [
     'start_contact' => 'Ask an adviser',
     'show_showrooms' => 'Call or visit a showroom',
     'error' => 'Something went wrong. Please try again, or call us directly.',
-    'fallback_unknown' => 'I\'m not sure about that. An adviser will gladly look into your question.',
+    'fallback_unknown' => 'I don\'t have a ready answer to that. Shall I pass your question on to an adviser? They will get in touch.',
+    'fallback_related' => 'I don\'t have a ready answer, but these pages come closest. Would you like an adviser to look at your question personally?',
+    'price_answer' => 'I can\'t give you a price here: everything is made to measure, so the price depends on the size, the type, the operation and the finish. Feel free to request a free quote; an adviser will measure up without obligation and you\'ll receive an exact price.',
+    'promo_answer' => 'Yes! The ":title" promotion is running now.',
 
     'intro_offerte' => 'Great! I\'ll ask you the same questions as the quote form, just as a chat. Your request then goes straight to the showroom.',
     'intro_herstelling' => 'Sorry to hear that. I\'ll take down your repair request step by step, so our repair service arrives well prepared.',

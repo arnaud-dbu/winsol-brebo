@@ -187,6 +187,68 @@ class LeadbotTest extends TestCase
         });
     }
 
+    public function test_a_price_question_never_gets_an_amount_and_leads_to_a_quote(): void
+    {
+        config(['leadbot.anthropic.key' => 'test-key']);
+
+        Http::fake(['api.anthropic.com/*' => Http::response([
+            'stop_reason' => 'end_turn',
+            'content' => [['type' => 'text', 'text' => json_encode([
+                'answer' => 'Een screen kost meestal tussen € 300 en € 1.500.',
+                'source_ids' => [],
+                'answered' => true,
+                'next_action' => 'none',
+                'range_handle' => 'zonwering',
+            ])]],
+        ])]);
+
+        $this->postJson('/leadbot/ask', ['question' => 'Hoeveel kost een screen?', 'locale' => 'nl'])
+            ->assertOk()
+            ->assertJson(['next_action' => 'offerte', 'answer' => __('leadbot.price_answer', [], 'nl')]);
+    }
+
+    public function test_without_a_model_a_price_question_also_leads_to_a_quote(): void
+    {
+        $this->postJson('/leadbot/ask', ['question' => 'Wat kost een rolluik?', 'locale' => 'nl'])
+            ->assertOk()
+            ->assertJson(['next_action' => 'offerte', 'answer' => __('leadbot.price_answer', [], 'nl')]);
+    }
+
+    public function test_the_prompt_keeps_the_assistant_to_winsol_brebo(): void
+    {
+        config(['leadbot.anthropic.key' => 'test-key']);
+        Http::fake(['api.anthropic.com/*' => Http::response(['stop_reason' => 'end_turn', 'content' => [['type' => 'text', 'text' => json_encode([
+            'answer' => 'Ik help alleen met vragen over Winsol Brebo.', 'source_ids' => [], 'answered' => true, 'next_action' => 'none', 'range_handle' => '',
+        ])]]])]);
+
+        $this->postJson('/leadbot/ask', ['question' => 'Wat is de hoofdstad van Frankrijk?', 'locale' => 'nl'])->assertOk();
+
+        Http::assertSent(fn (HttpRequest $request) => str_contains($request['system'][0]['text'], 'uitsluitend over Winsol Brebo')
+            && str_contains($request['system'][0]['text'], 'noem nooit een prijs'));
+    }
+
+    public function test_the_stream_endpoint_ends_with_the_full_answer(): void
+    {
+        $response = $this->post('/leadbot/ask/stream', ['question' => 'Is een offerte gratis?', 'locale' => 'nl'], ['Accept' => 'text/event-stream']);
+
+        $response->assertOk()->assertHeader('Content-Type', 'text/event-stream; charset=UTF-8');
+        $this->assertStringContainsString('event: done', $response->streamedContent());
+        $this->assertStringContainsString('gratis', $response->streamedContent());
+    }
+
+    public function test_the_running_promotion_answers_a_discount_question(): void
+    {
+        $promotion = app(Knowledge::class)->promotion('nl');
+
+        if (! $promotion) {
+            $this->markTestSkipped('Er loopt vandaag geen actie.');
+        }
+
+        $this->postJson('/leadbot/ask', ['question' => 'Zijn er kortingen?', 'locale' => 'nl'])
+            ->assertOk()
+            ->assertJsonPath('sources.0.url', $promotion['url']);
+    }
+
     public function test_a_failing_model_falls_back_instead_of_breaking_the_widget(): void
     {
         config(['leadbot.anthropic.key' => 'test-key']);

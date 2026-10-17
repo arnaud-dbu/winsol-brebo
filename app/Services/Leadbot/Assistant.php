@@ -39,10 +39,11 @@ class Assistant
 
     /**
      * @param  array<int, array{role: string, text: string}>  $history
-     * @param  array{title?: string|null}  $page
+     * @param  array{title?: string|null, range?: string|null}  $page
+     * @param  (callable(string): void)|null  $onDelta  krijgt het antwoord stukje per stukje, terwijl het model schrijft
      * @return array{answer: string, sources: array<int, array{title: string, url: string}>, answered: bool, next_action: string, range: string, mode: string}
      */
-    public function answer(string $question, string $locale, array $history = [], array $page = [], string $mode = 'answer'): array
+    public function answer(string $question, string $locale, array $history = [], array $page = [], string $mode = 'answer', ?callable $onDelta = null): array
     {
         $recent = collect($history)->where('role', 'user')->pluck('text')->take(-2)->implode(' ');
         $documents = $this->knowledge->search("{$question} {$question} {$recent}", $locale, 6);
@@ -71,7 +72,13 @@ class Assistant
             "<vraag>{$question}</vraag>",
         ])];
 
-        $result = $this->call($this->answerPrompt(), $this->mergeTurns($messages), self::ANSWER_SCHEMA, 2000);
+        // Een antwoord op een prijsvraag gaat eerst door het vangnet hieronder;
+        // dat kan niet als het al woord voor woord op het scherm stond.
+        $priceQuestion = $this->asksPrice($question) && ! $this->aboutRepair($question);
+
+        $result = $onDelta && ! $priceQuestion
+            ? $this->callStreaming($this->answerPrompt(), $this->mergeTurns($messages), self::ANSWER_SCHEMA, 2000, $onDelta)
+            : $this->call($this->answerPrompt(), $this->mergeTurns($messages), self::ANSWER_SCHEMA, 2000);
 
         if ($result === null) {
             return $this->fallbackAnswer($question, $locale, $page['range'] ?? null);
@@ -87,11 +94,24 @@ class Assistant
             ->values()
             ->all();
 
+        $answer = trim($result['answer']);
+        $nextAction = in_array($result['next_action'], self::ACTIONS, true) ? $result['next_action'] : 'none';
+
+        // Vangnet voor de prijsregel: een bedrag in een antwoord op een
+        // prijsvraag gaat nooit naar de bezoeker. Herstellingstarieven wel.
+        if ($priceQuestion) {
+            $nextAction = 'offerte';
+
+            if ($this->mentionsAmount($answer)) {
+                $answer = __('leadbot.price_answer', [], $locale);
+            }
+        }
+
         return [
-            'answer' => trim($result['answer']),
+            'answer' => $answer,
             'sources' => $links,
             'answered' => $result['answered'],
-            'next_action' => in_array($result['next_action'], self::ACTIONS, true) ? $result['next_action'] : 'none',
+            'next_action' => $nextAction,
             'range' => $result['range_handle'],
             'mode' => 'model',
         ];
@@ -275,12 +295,13 @@ class Assistant
         Zo antwoord je:
         - Twijfelt de bezoeker, of vraagt hij welke oplossing past of wat het verschil is: vergelijk de mogelijkheden uit de bronnen, zeg in gewone woorden waarin ze verschillen en voor wie elk het best past, en geef een concrete aanrader met de reden erbij ("Voor een terras op het zuiden zou ik ... nemen, omdat ..."). Denk mee: noem ook wat hij misschien niet overwoog, zoals bediening met Somfy of een windsensor, als de bronnen dat aanbieden.
         - Hangt de keuze af van één gegeven dat je niet kent (ramen of terras, nieuwbouw of renovatie, oriëntatie, budget), stel dan aan het eind precies één korte wedervraag. Nooit meer dan één.
-        - Warm, persoonlijk en concreet: hoogstens 120 woorden, in gewone zinnen. Geen opsommingstekens, geen kopjes, geen markdown.
+        - Warm, persoonlijk en concreet: hoogstens 110 woorden, in gewone zinnen. Geen opsommingstekens, geen kopjes, geen markdown, geen kastlijntjes (—); gebruik een komma of een dubbelpunt.
         - In de taal die in de context gevraagd wordt, ook als de bronnen in het Nederlands staan.
-        - Prijzen: noem enkel prijsvorken die letterlijk in een bron staan, als richtprijs, en zeg erbij dat de exacte prijs volgt uit de gratis opmeting. Noem nooit zelf een bedrag.
+        - Prijzen: noem nooit een prijs, bedrag, prijsvork of richtprijs, ook niet als die in een bron staat. Vraagt de bezoeker wat iets kost, leg dan kort uit waar de prijs van afhangt (afmetingen, type, bediening, afwerking), zeg dat alles op maat is en dat hij een exacte prijs krijgt via een gratis en vrijblijvende offerte met opmeting, en zet next_action op "offerte". Enige uitzondering: de vaste tarieven van een herstelling (verplaatsingsforfait en uurtarief) mag je noemen zoals ze in de bron staan.
+        - Kortingen of acties: vertel wat de lopende actie inhoudt zoals ze in de bron staat, en verwijs voor de prijs naar een offerte.
         - Beloof geen levertermijnen of datums en geef geen technisch advies dat niet in de bronnen staat.
         - Staat het antwoord niet in de bronnen, zeg dan eerlijk dat je het niet zeker weet en dat een adviseur het graag persoonlijk bekijkt. Zet answered dan op false. Raad niet.
-        - Gaat de vraag niet over Winsol Brebo of zijn producten, zeg dan vriendelijk dat je daar niet mee kunt helpen, met answered op false.
+        - Je praat uitsluitend over Winsol Brebo: zijn producten, advies bij een keuze, plaatsing, onderhoud, herstelling, garantie, premies en btw voor zijn producten, de showrooms en hoe een aanvraag verloopt. Over al het andere (andere merken of winkels, algemene kennis, het weer, programmeren, politiek, ...) geef je geen antwoord: zeg vriendelijk dat je alleen kunt helpen met vragen over Winsol Brebo en stel voor waarmee wel. Zet answered dan op true en next_action op "none". Vergelijk Winsol niet met concurrenten en zeg niets slechts over andere merken.
         - source_ids: de id's van de bronnen waarop je antwoord steunt, hoogstens drie, in volgorde van belang.
         - next_action, de logische volgende stap voor de bezoeker:
           "offerte" bij interesse in een product of een prijsvraag,
@@ -304,30 +325,10 @@ class Assistant
      */
     private function call(string $system, array $messages, array $schema, int $maxTokens, bool $cacheSystem = true): ?array
     {
-        $systemBlock = ['type' => 'text', 'text' => $system];
-
-        if ($cacheSystem) {
-            $systemBlock['cache_control'] = ['type' => 'ephemeral'];
-        }
-
         try {
-            $response = Http::withHeaders([
-                'x-api-key' => config('leadbot.anthropic.key'),
-                'anthropic-version' => '2023-06-01',
-                'anthropic-beta' => 'server-side-fallback-2026-07-01',
-            ])
+            $response = Http::withHeaders($this->headers())
                 ->timeout(config('leadbot.anthropic.timeout'))
-                ->post(self::ENDPOINT, [
-                    'model' => config('leadbot.anthropic.model'),
-                    'max_tokens' => $maxTokens,
-                    'system' => [$systemBlock],
-                    'messages' => $messages,
-                    'output_config' => [
-                        'effort' => config('leadbot.anthropic.effort'),
-                        'format' => ['type' => 'json_schema', 'schema' => $schema],
-                    ],
-                    'fallbacks' => 'default',
-                ])
+                ->post(self::ENDPOINT, $this->body($system, $messages, $schema, $maxTokens, $cacheSystem))
                 ->throw()
                 ->json();
         } catch (ConnectionException|RequestException $exception) {
@@ -346,6 +347,154 @@ class Assistant
         $decoded = $text ? json_decode($text, true) : null;
 
         return is_array($decoded) ? $decoded : null;
+    }
+
+    /**
+     * Zoals call(), maar gestreamd: de tekst van het veld `answer` gaat
+     * stukje per stukje naar $onAnswer zodra het model hem schrijft. Het
+     * schema zet `answer` als eerste veld, dus die tekst komt vóór de rest.
+     *
+     * @param  array<int, array{role: string, content: string}>  $messages
+     * @param  array<string, mixed>  $schema
+     * @param  callable(string): void  $onAnswer
+     * @return array<string, mixed>|null
+     */
+    private function callStreaming(string $system, array $messages, array $schema, int $maxTokens, callable $onAnswer): ?array
+    {
+        try {
+            $response = Http::withHeaders($this->headers())
+                ->withOptions(['stream' => true])
+                ->timeout(config('leadbot.anthropic.timeout'))
+                ->post(self::ENDPOINT, [...$this->body($system, $messages, $schema, $maxTokens, true), 'stream' => true])
+                ->throw();
+        } catch (ConnectionException|RequestException $exception) {
+            Log::warning('Leadbot: Claude-stream mislukt', ['error' => Str::limit($exception->getMessage(), 500)]);
+
+            return null;
+        }
+
+        $body = $response->toPsrResponse()->getBody();
+        [$buffer, $raw, $sent, $stop] = ['', '', 0, null];
+
+        while (! $body->eof()) {
+            $buffer .= $body->read(2048);
+
+            while (($newline = strpos($buffer, "\n")) !== false) {
+                $line = trim(substr($buffer, 0, $newline));
+                $buffer = substr($buffer, $newline + 1);
+
+                if (! str_starts_with($line, 'data:')) {
+                    continue;
+                }
+
+                $event = json_decode(trim(substr($line, 5)), true);
+
+                if (($event['type'] ?? null) === 'content_block_delta' && ($event['delta']['type'] ?? null) === 'text_delta') {
+                    $raw .= $event['delta']['text'];
+                    $answer = $this->partialAnswer($raw);
+
+                    if ($answer !== null && mb_strlen($answer) > $sent) {
+                        $onAnswer(mb_substr($answer, $sent));
+                        $sent = mb_strlen($answer);
+                    }
+                }
+
+                if (($event['type'] ?? null) === 'message_delta') {
+                    $stop = $event['delta']['stop_reason'] ?? $stop;
+                }
+            }
+        }
+
+        if ($stop !== 'end_turn') {
+            Log::warning('Leadbot: onverwachte stop_reason in stream', ['stop_reason' => $stop]);
+
+            return null;
+        }
+
+        $decoded = json_decode($raw, true);
+
+        return is_array($decoded) ? $decoded : null;
+    }
+
+    /**
+     * De tekst van het veld `answer` tot waar hij veilig te lezen is, uit
+     * JSON die nog niet af is. Stopt vóór een escape die nog niet volledig
+     * binnen is, zodat er nooit een half teken naar de bezoeker gaat.
+     */
+    private function partialAnswer(string $raw): ?string
+    {
+        if (! preg_match('/"answer"\s*:\s*"/', $raw, $match, PREG_OFFSET_CAPTURE)) {
+            return null;
+        }
+
+        $start = $match[0][1] + strlen($match[0][0]);
+        $length = strlen($raw);
+        $end = $start;
+
+        while ($end < $length) {
+            $char = $raw[$end];
+
+            if ($char === '"') {
+                break;
+            }
+
+            if ($char === '\\') {
+                $size = ($raw[$end + 1] ?? '') === 'u' ? 6 : 2;
+
+                if ($end + $size > $length) {
+                    break;
+                }
+
+                $end += $size;
+
+                continue;
+            }
+
+            $end++;
+        }
+
+        $decoded = json_decode('"'.substr($raw, $start, $end - $start).'"');
+
+        return is_string($decoded) ? $decoded : null;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function headers(): array
+    {
+        return [
+            'x-api-key' => (string) config('leadbot.anthropic.key'),
+            'anthropic-version' => '2023-06-01',
+            'anthropic-beta' => 'server-side-fallback-2026-07-01',
+        ];
+    }
+
+    /**
+     * @param  array<int, array{role: string, content: string}>  $messages
+     * @param  array<string, mixed>  $schema
+     * @return array<string, mixed>
+     */
+    private function body(string $system, array $messages, array $schema, int $maxTokens, bool $cacheSystem): array
+    {
+        $systemBlock = ['type' => 'text', 'text' => $system];
+
+        if ($cacheSystem) {
+            $systemBlock['cache_control'] = ['type' => 'ephemeral'];
+        }
+
+        return [
+            'model' => config('leadbot.anthropic.model'),
+            'max_tokens' => $maxTokens,
+            'system' => [$systemBlock],
+            'messages' => $messages,
+            'thinking' => ['type' => config('leadbot.anthropic.thinking') ? 'adaptive' : 'disabled'],
+            'output_config' => [
+                'effort' => config('leadbot.anthropic.effort'),
+                'format' => ['type' => 'json_schema', 'schema' => $schema],
+            ],
+            'fallbacks' => 'default',
+        ];
     }
 
     /**
@@ -378,35 +527,72 @@ class Assistant
     }
 
     /**
-     * Zonder model: het best passende FAQ-antwoord, of anders het begin van
-     * de best passende pagina met een link erheen.
+     * Zonder model: eerst de lopende actie als het daarover gaat, dan raad bij
+     * een keuzevraag, dan het best passende FAQ-antwoord of het begin van de
+     * best passende pagina. Lukt geen van die, dan nooit een kaal "weet ik
+     * niet": wel de pagina's die het dichtst in de buurt komen.
      *
      * @return array{answer: string, sources: array<int, array{title: string, url: string}>, answered: bool, next_action: string, range: string, mode: string}
      */
     private function fallbackAnswer(string $question, string $locale, ?string $pageRange = null): array
     {
+        $result = ['sources' => [], 'answered' => true, 'next_action' => 'none', 'range' => '', 'mode' => 'fallback'];
+
+        if ($this->asksPrice($question) && ! $this->aboutRepair($question)) {
+            return [...$result, 'answer' => __('leadbot.price_answer', [], $locale), 'next_action' => 'offerte'];
+        }
+
+        if (preg_match('/korting|\\bacties?\\b|promo|voordeel|aanbieding|soldes|réduction|remise|\\bpromotion|discount|\\boffers?\\b|\\bdeals?\\b/iu', $question)
+            && $promotion = $this->knowledge->promotion($locale)) {
+            return [...$result,
+                'answer' => __('leadbot.promo_answer', ['title' => $promotion['title']], $locale)."\n\n".$promotion['text'],
+                'sources' => [['title' => $promotion['title'], 'url' => $promotion['url']]],
+                'next_action' => 'offerte',
+            ];
+        }
+
         if ($advice = $this->fallbackAdvice($question, $locale, $pageRange)) {
             return $advice;
         }
 
         $faq = $this->knowledge->search($question, $locale, 1, 'faq')[0] ?? null;
-        $page = collect($this->knowledge->search($question, $locale, 4))->first(fn ($document) => $document['url'] !== '');
+        $pages = collect($this->knowledge->search($question, $locale, 6))->filter(fn ($document) => $document['url'] !== '')->unique('url')->values();
+        $page = $pages->first();
 
-        $result = ['sources' => [], 'answered' => true, 'next_action' => 'none', 'range' => '', 'mode' => 'fallback'];
-
-        if ($faq && $faq['score'] >= 5) {
+        if ($faq && $faq['score'] >= 4) {
             $answer = trim(Str::before($faq['text'], "\n"));
 
             return [...$result, 'answer' => $answer, 'sources' => $page && $page['score'] >= 4 ? [['title' => $page['title'], 'url' => $page['url']]] : []];
         }
 
-        if ($page && $page['score'] >= 8) {
+        if ($page && $page['score'] >= 6) {
             $sentences = preg_split('/(?<=[.!?])\s+/', str_replace("\n", ' ', $page['text']));
 
             return [...$result, 'answer' => implode(' ', array_slice($sentences, 0, 2)), 'sources' => [['title' => $page['title'], 'url' => $page['url']]]];
         }
 
-        return [...$result, 'answer' => __('leadbot.fallback_unknown', [], $locale), 'answered' => false];
+        $related = $pages->filter(fn ($document) => $document['score'] >= 1.5)->take(3)->map(fn ($document) => ['title' => $document['title'], 'url' => $document['url']])->values()->all();
+
+        return [...$result,
+            'answer' => __($related ? 'leadbot.fallback_related' : 'leadbot.fallback_unknown', [], $locale),
+            'sources' => $related,
+            'answered' => false,
+        ];
+    }
+
+    public function asksPrice(string $question): bool
+    {
+        return (bool) preg_match('/prijs|prijzen|kost|kosten|hoeveel|euro|€|budget|duur\b|goedkoop|tarief|prix|coût|coute|combien|tarif|price|cost|how much|expensive|cheap/iu', $question);
+    }
+
+    private function aboutRepair(string $question): bool
+    {
+        return (bool) preg_match('/herstel|reparat|repar|panne|depann|dépann|kapot|defect/iu', $question);
+    }
+
+    private function mentionsAmount(string $text): bool
+    {
+        return (bool) preg_match('/€\s?\d|\d[\d.,\s]*\s?(€|euro|eur\b)/iu', $text);
     }
 
     /**
@@ -419,12 +605,12 @@ class Assistant
      */
     private function fallbackAdvice(string $question, string $locale, ?string $pageRange): ?array
     {
-        if (! preg_match('/welke|kiez|keuze|verschil|twijfel|advie|aanra|beste|weet niet|quel|choisi|différence|conseil|hésit|which|choose|differen|advice|recommend|not sure/iu', $question)) {
+        if (! preg_match('/welke|wat voor|wat heb ik|nodig|kiez|keuze|verschil|twijfel|advie|aanra|beste|past|geschikt|soort|weet niet|quel|choisi|différence|conseil|hésit|besoin|which|choose|differen|advice|recommend|need|not sure/iu', $question)) {
             return null;
         }
 
         $ranges = collect($this->knowledge->ranges($locale));
-        $words = $this->knowledge->tokens($question);
+        $words = $this->knowledge->correct($this->knowledge->tokens($this->knowledge->withSynonyms($question)));
         $range = $ranges->first(fn ($candidate) => array_intersect($this->knowledge->tokens($candidate['title']), $words) !== [])
             ?? $ranges->firstWhere('handle', $pageRange);
 

@@ -53,7 +53,10 @@ return [
     'start_contact' => 'Vraag aan een adviseur',
     'show_showrooms' => 'Bel of bezoek een showroom',
     'error' => 'Er ging iets mis. Probeer het opnieuw, of bel ons rechtstreeks.',
-    'fallback_unknown' => 'Dat weet ik niet zeker. Een adviseur bekijkt je vraag graag persoonlijk.',
+    'fallback_unknown' => 'Daar heb ik geen kant-en-klaar antwoord op. Zal ik je vraag doorgeven aan een adviseur? Die neemt dan contact met je op.',
+    'fallback_related' => 'Daar heb ik geen kant-en-klaar antwoord op, maar deze pagina\'s komen het dichtst in de buurt. Wil je dat een adviseur je vraag persoonlijk bekijkt?',
+    'price_answer' => 'Een prijs kan ik je hier niet geven: alles wordt op maat gemaakt, dus de prijs hangt af van de afmetingen, het type, de bediening en de afwerking. Vraag gerust een gratis offerte aan. Een adviseur komt vrijblijvend opmeten en je krijgt een exacte prijs.',
+    'promo_answer' => 'Ja! Nu loopt de actie ":title".',
 
     'intro_offerte' => 'Top! Ik stel je dezelfde vragen als het offerteformulier, maar dan in een gesprekje. Daarna gaat je aanvraag meteen naar de showroom.',
     'intro_herstelling' => 'Vervelend. Ik neem je herstelaanvraag stap voor stap op, dan kan de dienst herstellingen meteen goed voorbereid langskomen.',

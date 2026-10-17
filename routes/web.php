@@ -39,6 +39,7 @@ Route::prefix('leadbot')
     ->group(function () {
         Route::get('session', [WidgetController::class, 'session'])->middleware('throttle:30,1')->name('leadbot.session');
         Route::post('ask', [WidgetController::class, 'ask'])->middleware('throttle:20,1')->name('leadbot.ask');
+        Route::post('ask/stream', [WidgetController::class, 'stream'])->middleware('throttle:20,1')->name('leadbot.stream');
         Route::post('extract', [WidgetController::class, 'extract'])->middleware('throttle:10,1')->name('leadbot.extract');
         Route::get('helpdesk', [WidgetController::class, 'helpdesk'])->name('leadbot.helpdesk');
         Route::post('feedback', [WidgetController::class, 'feedback'])->middleware('throttle:20,1')->name('leadbot.feedback');

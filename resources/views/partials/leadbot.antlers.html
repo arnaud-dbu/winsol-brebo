@@ -200,7 +200,16 @@
                                     <i></i>
                                 </span>
                             </template>
-                            <span x-show="message.text" x-text="message.text"></span>
+                            <template x-if="message.typing && message.tokens">
+                                <span class="leadbot-caret">
+                                    <template x-for="(token, index) in message.tokens" :key="index">
+                                        <span class="leadbot-word" x-text="token"></span>
+                                    </template>
+                                </span>
+                            </template>
+                            <template x-if="!(message.typing && message.tokens)">
+                                <span x-show="message.text" x-text="message.text"></span>
+                            </template>
                             <template x-if="message.sources && message.sources.length">
                                 <span class="leadbot-sources">
                                     <span class="leadbot-eyebrow" x-text="t.sources"></span>
