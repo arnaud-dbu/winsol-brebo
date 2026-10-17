@@ -1,0 +1,71 @@
+title: 'Veelgestelde vraag'
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              display: Vraag
+              instructions: 'Zoals een klant het zou vragen.'
+              localizable: true
+              validate:
+                - required
+          -
+            handle: answer
+            field:
+              type: textarea
+              display: Antwoord
+              instructions: 'Kort en concreet. De website-assistent gebruikt dit antwoord letterlijk als bron, in elke taal.'
+              localizable: true
+              validate:
+                - required
+          -
+            handle: category
+            field:
+              type: select
+              display: Categorie
+              options:
+                offerte: 'Offerte en prijs'
+                producten: Producten
+                plaatsing: 'Plaatsing en onderhoud'
+                herstelling: 'Herstelling en garantie'
+                showroom: 'Showroom en contact'
+                premies: 'Premies, btw en financiering'
+              default: producten
+              validate:
+                - required
+          -
+            handle: keywords
+            field:
+              type: text
+              display: Zoekwoorden
+              instructions: 'Optioneel. Andere woorden die klanten gebruiken, gescheiden door komma''s.'
+              localizable: true
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: source
+            field:
+              type: select
+              display: Bron
+              instructions: 'Waar deze vraag vandaan komt.'
+              options:
+                website: Website
+                telavox: 'Telavox (telefoongesprekken)'
+                assistent: 'Open vraag uit de assistent'
+                handmatig: Handmatig
+              default: handmatig
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate: 'max:200'

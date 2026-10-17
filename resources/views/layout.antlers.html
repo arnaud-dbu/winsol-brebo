@@ -48,5 +48,8 @@
             integrity="sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z"></script>
         {{ yield:scripts }}
         {{ partial:cookieConsent }}
+        {{ if leadbot_enabled }}
+            {{ partial:leadbot }}
+        {{ /if }}
     </body>
 </html>

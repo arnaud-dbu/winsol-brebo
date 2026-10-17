@@ -77,6 +77,52 @@
             {{ /if }}
         {{ /fields }}
     </table>
+    {{#
+        Alleen bij een aanvraag via de website-assistent (App\Listeners\AttachAssistantConversation): de samenvatting bovenaan,
+        het volledige gesprek eronder. Wie terugbelt, weet zo meteen wat de klant al vroeg en te horen kreeg.
+    #}}
+    {{ if assistant_summary }}
+        <div style="margin: 24px 0 0; padding: 16px 18px; background-color: #fdf7d2; border-radius: 12px">
+            <p
+                style="
+                    margin: 0 0 6px;
+                    font-size: 12px;
+                    letter-spacing: 0.08em;
+                    text-transform: uppercase;
+                    color: #6b7280;
+                ">
+                Via de website-assistent
+                {{ if assistant_urgency == 'hoog' }}· dringend{{ /if }}
+            </p>
+            <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #121b22">{{ assistant_summary }}</p>
+            {{ if assistant_signals }}
+                <p style="margin: 8px 0 0; font-size: 13px; color: #6b7280">{{ assistant_signals | join(' · ') }}</p>
+            {{ /if }}
+            {{ if assistant_tracking:gclid || assistant_tracking:utm_source }}
+                <p style="margin: 8px 0 0; font-size: 13px; color: #6b7280">
+                    Herkomst: {{ assistant_tracking:gclid ? 'Google Ads' : assistant_tracking:utm_source }}
+                    {{ if assistant_tracking:utm_campaign }}
+                        · {{ assistant_tracking:utm_campaign }}
+                    {{ /if }}
+                </p>
+            {{ /if }}
+        </div>
+        {{ if assistant_transcript }}
+            <p
+                style="
+                    margin: 20px 0 6px;
+                    font-size: 12px;
+                    letter-spacing: 0.08em;
+                    text-transform: uppercase;
+                    color: #6b7280;
+                ">
+                Het gesprek
+            </p>
+            <p style="margin: 0; font-size: 13px; line-height: 1.55; color: #374151">
+                {{ assistant_transcript | nl2br }}
+            </p>
+        {{ /if }}
+    {{ /if }}
     {{ if email }}
         <p style="margin: 24px 0 0">
             <a

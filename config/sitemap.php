@@ -18,6 +18,7 @@ return [
 
     'excluded_collections' => [
         // 'forms',
+        'faq',
     ],
 
     /*

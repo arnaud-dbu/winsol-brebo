@@ -9,11 +9,14 @@ use App\Listeners\AddDefaultBlueprintTabs;
 use App\Listeners\ClearSitemapCache;
 use App\Listeners\CompressUploadedAsset;
 use App\Services\ImageCompressor;
+use App\Services\Leadbot\Knowledge as LeadbotKnowledge;
+use App\Services\Leadbot\WidgetConfig as LeadbotWidgetConfig;
 use App\Services\PublishedArticles;
 use App\Services\RunningPromotion;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
@@ -25,9 +28,12 @@ use League\Glide\Server;
 use Statamic\Events\AssetUploaded;
 use Statamic\Events\BlueprintSaved;
 use Statamic\Events\CollectionSaved;
+use Statamic\Events\EntryDeleted;
+use Statamic\Events\EntrySaved;
 use Statamic\Facades\Collection;
 use Statamic\Facades\Entry;
 use Statamic\Facades\Glide as GlideManager;
+use Statamic\Facades\Site;
 use Statamic\Fieldtypes\Sets;
 
 class AppServiceProvider extends ServiceProvider
@@ -169,6 +175,18 @@ class AppServiceProvider extends ServiceProvider
             $view->with('cookie_consent', $consent[$locale]);
         });
         View::share('font_faces', config('fonts.fonts', []));
+
+        // De website-assistent; zie config/leadbot.php.
+        View::share('leadbot_enabled', (bool) config('leadbot.enabled'));
+        View::composer(['partials.leadbot', 'partials/leadbot'], function ($view): void {
+            if (config('leadbot.enabled')) {
+                $view->with('leadbot_json', app(LeadbotWidgetConfig::class)->json(Site::current()->handle()));
+            }
+        });
+
+        // De assistent zoekt in een index over de site-inhoud; na elke opslag
+        // in de CP moet hij de nieuwe tekst kennen.
+        Event::listen([EntrySaved::class, EntryDeleted::class], fn () => Cache::forget(LeadbotKnowledge::CACHE_KEY));
 
         // Het logo in de formuliermails. Niet via `{{ config: }}`: in een
         // formuliermail is dat Statamic's cascade en niet de Laravel-config,

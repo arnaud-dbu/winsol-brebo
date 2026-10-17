@@ -1,0 +1,418 @@
+{{#
+    Nagebootst ERP-scherm voor de demo van de website-assistent. Toont de requestpipeline uit de funcspec (module 03), de
+    reparaties (module 07) en de open vragen die de assistent niet kon beantwoorden. Leest elke drie seconden de toestand,
+    zodat een aanvraag uit de widget hier live binnenloopt.
+#}}
+<!DOCTYPE html>
+<html lang="nl">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="robots" content="noindex, nofollow" />
+        <title>Winsol Brebo ERP - demo</title>
+        {{ partial:fonts }}
+        {{ vite src="resources/js/site.js|resources/css/site.css" }}
+    </head>
+    <body class="erp">
+        <div
+            x-data="leadbotDemo"
+            data-key="{{ demo_key }}"
+            data-state="{{ route:leadbot.demo.state }}"
+            x-cloak
+            class="erp-shell">
+            <aside class="erp-sidebar">
+                <p class="erp-brand">
+                    Winsol Brebo
+                    <span>ERP</span>
+                </p>
+                <nav class="erp-nav" aria-label="Modules">
+                    <span class="erp-nav-item">
+                        {{ icon src="users" class="size-5" aria-hidden="true" }}
+                        Customers
+                    </span>
+                    <button
+                        type="button"
+                        class="erp-nav-item"
+                        :class="tab === 'requests' && 'is-active'"
+                        @click="tab = 'requests'">
+                        {{ icon src="kanban" class="size-5" aria-hidden="true" }}
+                        Requests
+                        <span class="erp-badge" x-show="counts.newRequests" x-text="counts.newRequests"></span>
+                    </button>
+                    <span class="erp-nav-item">
+                        {{ icon src="folder" class="size-5" aria-hidden="true" }}
+                        Projects
+                    </span>
+                    <button
+                        type="button"
+                        class="erp-nav-item"
+                        :class="tab === 'repairs' && 'is-active'"
+                        @click="tab = 'repairs'">
+                        {{ icon src="wrench" class="size-5" aria-hidden="true" }}
+                        Reparaties
+                        <span class="erp-badge" x-show="counts.newRepairs" x-text="counts.newRepairs"></span>
+                    </button>
+                    <button
+                        type="button"
+                        class="erp-nav-item"
+                        :class="tab === 'questions' && 'is-active'"
+                        @click="tab = 'questions'">
+                        {{ icon src="chat-circle-dots" class="size-5" aria-hidden="true" }}
+                        Open vragen
+                        <span
+                            class="erp-badge erp-badge--accent"
+                            x-show="counts.openQuestions"
+                            x-text="counts.openQuestions"></span>
+                    </button>
+                    <span class="erp-nav-item">
+                        {{ icon src="calendar-check" class="size-5" aria-hidden="true" }}
+                        Planning
+                    </span>
+                    <span class="erp-nav-item">
+                        {{ icon src="receipt" class="size-5" aria-hidden="true" }}
+                        Facturatie
+                    </span>
+                </nav>
+                <p class="erp-sidebar-note">
+                    Demo-omgeving met testdata. De echte koppeling landt in module 01 van de ERP.
+                </p>
+            </aside>
+
+            <main class="erp-main">
+                <header class="erp-topbar">
+                    <div>
+                        <p class="erp-kicker">Sales</p>
+                        <h1
+                            class="erp-h1"
+                            x-text="{ requests: 'Requests', repairs: 'Reparaties', questions: 'Open vragen van de assistent' }[tab]"></h1>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <span class="erp-live" :class="online ? '' : 'erp-live--off'">
+                            <span class="erp-live-dot" aria-hidden="true"></span>
+                            <span
+                                x-text="online ? 'Live verbonden met de website-assistent' : 'Verbinding kwijt'"></span>
+                        </span>
+                        <span class="erp-chip">
+                            {{ uses_model ? 'AI-model actief' : 'Zonder AI-sleutel: FAQ-modus' }}
+                        </span>
+                        <button type="button" class="erp-button" @click="reset()">
+                            {{ icon src="arrow-counter-clockwise" class="size-4" aria-hidden="true" }}
+                            Reset demo
+                        </button>
+                    </div>
+                </header>
+
+                <section class="erp-kpis" aria-label="Kerncijfers">
+                    <div class="erp-kpi">
+                        <p class="erp-kpi-label">Vragen aan de assistent</p>
+                        <p class="erp-kpi-value" x-text="state.stats.questions"></p>
+                    </div>
+                    <div class="erp-kpi">
+                        <p class="erp-kpi-label">Zelf beantwoord</p>
+                        <p class="erp-kpi-value" x-text="answeredRate()"></p>
+                    </div>
+                    <div class="erp-kpi">
+                        <p class="erp-kpi-label">Aanvragen via assistent</p>
+                        <p class="erp-kpi-value" x-text="state.stats.leads"></p>
+                    </div>
+                    <div class="erp-kpi">
+                        <p class="erp-kpi-label">Kennis van de assistent</p>
+                        <p class="erp-kpi-value erp-kpi-value--small">
+                            <span x-text="state.document_count"></span>
+                            bronnen, waarvan
+                            <span x-text="state.faq_count"></span>
+                            FAQ
+                        </p>
+                        <p class="erp-kpi-label" x-show="feedbackRate()" x-text="feedbackRate()"></p>
+                    </div>
+                </section>
+
+                {{# Requests: kanban op de salesstatussen uit de funcspec #}}
+                <section x-show="tab === 'requests'" class="erp-board">
+                    <template x-for="(label, status) in state.statuses" :key="status">
+                        <div class="erp-column">
+                            <p class="erp-column-title">
+                                <span x-text="label"></span>
+                                <span class="erp-count" x-text="requestsIn(status).length"></span>
+                            </p>
+                            <template x-for="request in requestsIn(status)" :key="request.id">
+                                <button
+                                    type="button"
+                                    class="erp-card"
+                                    :class="{ 'erp-card--live': request.live, 'erp-card--flash': fresh.includes(request.id) }"
+                                    @click="select(request)">
+                                    <span class="flex items-center justify-between gap-2">
+                                        <span class="erp-card-number" x-text="request.number"></span>
+                                        <span class="erp-age" x-text="age(request.created_at)"></span>
+                                    </span>
+                                    <span class="erp-card-name" x-text="customer(request).name"></span>
+                                    <span class="flex flex-wrap gap-1">
+                                        <template x-for="product in request.products" :key="product">
+                                            <span class="erp-tag" x-text="product"></span>
+                                        </template>
+                                        <span
+                                            class="erp-tag erp-tag--muted"
+                                            x-show="request.type === 'info'"
+                                            x-text="formLabel(request.form)"></span>
+                                    </span>
+                                    <span class="erp-source" :class="request.live && 'erp-source--bot'">
+                                        <template x-if="request.live">
+                                            {{ icon src="sparkle" suffix="fill" class="size-3.5" aria-hidden="true" }}
+                                        </template>
+                                        <span x-text="request.source"></span>
+                                        <span
+                                            class="text-black/40"
+                                            x-text="'· ' + showroomName(request.showroom)"></span>
+                                    </span>
+                                    <span
+                                        class="erp-assignee"
+                                        x-text="request.assigned_to ? request.assigned_to : 'Niet toegewezen'"></span>
+                                </button>
+                            </template>
+                        </div>
+                    </template>
+                </section>
+
+                {{# Reparaties (module 07) #}}
+                <section x-show="tab === 'repairs'" class="erp-list">
+                    <template x-for="request in repairs()" :key="request.id">
+                        <button
+                            type="button"
+                            class="erp-row"
+                            :class="{ 'erp-card--live': request.live, 'erp-card--flash': fresh.includes(request.id) }"
+                            @click="select(request)">
+                            <span class="erp-card-number" x-text="request.number"></span>
+                            <span class="font-semibold" x-text="customer(request).name"></span>
+                            <span class="min-w-0 flex-1 truncate text-black/60" x-text="request.summary"></span>
+                            <span class="erp-tag" x-show="hasFiles(request)">Foto</span>
+                            <span class="erp-age" x-text="age(request.created_at)"></span>
+                        </button>
+                    </template>
+                </section>
+
+                {{# Open vragen: de leerlus #}}
+                <section x-show="tab === 'questions'" class="erp-list">
+                    <p class="erp-help">
+                        Vragen waarop de assistent geen antwoord vond in de website of de FAQ. Eén keer beantwoorden
+                        volstaat: vanaf dan kent de assistent het antwoord, in elke taal.
+                    </p>
+                    <template x-for="question in questionsSorted()" :key="question.id">
+                        <div class="erp-question" :class="{ 'erp-card--flash': fresh.includes(question.id) }">
+                            <div class="flex items-center gap-2">
+                                <span class="erp-tag uppercase" x-text="question.locale"></span>
+                                <p class="font-semibold" x-text="question.question"></p>
+                                <span class="ml-auto erp-age" x-text="age(question.asked_at)"></span>
+                            </div>
+                            <template x-if="question.answer">
+                                <p class="erp-answered">
+                                    {{ icon src="check-circle" suffix="fill" class="size-4 shrink-0" aria-hidden="true" }}
+                                    <span x-text="question.answer"></span>
+                                </p>
+                            </template>
+                            <template x-if="!question.answer">
+                                <form class="flex flex-col gap-2 sm:flex-row" @submit.prevent="answer(question)">
+                                    <textarea
+                                        x-model="drafts[question.id]"
+                                        rows="2"
+                                        class="erp-textarea"
+                                        placeholder="Typ het antwoord zoals de assistent het mag geven..."></textarea>
+                                    <select x-model="categories[question.id]" class="erp-select" aria-label="Categorie">
+                                        <template x-for="(label, key) in state.categories" :key="key">
+                                            <option :value="key" x-text="label"></option>
+                                        </template>
+                                    </select>
+                                    <button
+                                        type="submit"
+                                        class="erp-button erp-button--primary"
+                                        :disabled="!(drafts[question.id] || '').trim()">
+                                        Toevoegen aan kennis
+                                    </button>
+                                </form>
+                            </template>
+                        </div>
+                    </template>
+                </section>
+            </main>
+
+            {{# Detail van een aanvraag #}}
+            <div
+                class="erp-overlay"
+                x-show="selected"
+                x-transition.opacity
+                @click.self="selected = null"
+                @keydown.escape.window="selected = null">
+                <aside
+                    class="erp-drawer"
+                    x-show="selected"
+                    x-transition:enter="transition duration-200 ease-out"
+                    x-transition:enter-start="translate-x-8 opacity-0"
+                    x-transition:enter-end="translate-x-0 opacity-100">
+                    <template x-if="selected">
+                        <div class="flex flex-col gap-6">
+                            <div class="flex items-start justify-between gap-4">
+                                <div>
+                                    <p
+                                        class="erp-kicker"
+                                        x-text="selected.type === 'herstelling' ? 'Reparatie' : 'Request'"></p>
+                                    <h2 class="erp-h2" x-text="selected.number + ' · ' + customer(selected).name"></h2>
+                                </div>
+                                <button
+                                    type="button"
+                                    class="erp-icon-button"
+                                    @click="selected = null"
+                                    aria-label="Sluiten">
+                                    {{ icon src="x" class="size-5" aria-hidden="true" }}
+                                </button>
+                            </div>
+
+                            <div class="flex flex-wrap items-center gap-2">
+                                <label class="sr-only" for="erp-status">Status</label>
+                                <select
+                                    id="erp-status"
+                                    class="erp-select"
+                                    :value="selected.status"
+                                    @change="setStatus(selected, $event.target.value)"
+                                    x-show="selected.type !== 'herstelling'">
+                                    <template x-for="(label, status) in state.statuses" :key="status">
+                                        <option
+                                            :value="status"
+                                            x-text="label"
+                                            :selected="status === selected.status"></option>
+                                    </template>
+                                </select>
+                                <span
+                                    class="erp-source"
+                                    :class="selected.live && 'erp-source--bot'"
+                                    x-text="selected.source"></span>
+                                <span class="erp-chip" x-text="showroomName(selected.showroom)"></span>
+                                <span
+                                    class="erp-chip"
+                                    x-text="selected.assigned_to ? selected.assigned_to : 'Niet toegewezen: Jimmy verdeelt'"></span>
+                            </div>
+
+                            <template x-if="selected.ai">
+                                <section class="erp-ai">
+                                    <p class="erp-section-title">
+                                        {{ icon src="sparkle" suffix="fill" class="size-4" aria-hidden="true" }}
+                                        Samenvatting voor de verkoper
+                                    </p>
+                                    <p x-text="selected.ai.summary"></p>
+                                    <div class="flex flex-wrap gap-1">
+                                        <span
+                                            class="erp-tag"
+                                            :class="selected.ai.urgency === 'hoog' && 'erp-tag--hot'"
+                                            x-text="'Dringendheid: ' + selected.ai.urgency"></span>
+                                        <template x-for="signal in selected.ai.signals" :key="signal">
+                                            <span class="erp-tag erp-tag--muted" x-text="signal"></span>
+                                        </template>
+                                    </div>
+                                </section>
+                            </template>
+                            <template x-if="!selected.ai">
+                                <p x-text="selected.summary"></p>
+                            </template>
+
+                            <section class="erp-grid">
+                                <div>
+                                    <p class="erp-section-title">Klant</p>
+                                    <dl class="erp-dl">
+                                        <dt>Naam</dt>
+                                        <dd x-text="customer(selected).name"></dd>
+                                        <dt>E-mail</dt>
+                                        <dd x-text="customer(selected).email || '-'"></dd>
+                                        <dt>Telefoon</dt>
+                                        <dd x-text="customer(selected).phone || '-'"></dd>
+                                        <dt>Dossier</dt>
+                                        <dd>
+                                            <span
+                                                class="erp-tag"
+                                                :class="selected.existing_customer ? 'erp-tag--ok' : 'erp-tag--muted'"
+                                                x-text="selected.existing_customer ? 'Bestaande klant herkend' : 'Nieuwe klant aangemaakt'"></span>
+                                        </dd>
+                                    </dl>
+                                    <template x-if="customer(selected).history && customer(selected).history.length">
+                                        <ul class="erp-history">
+                                            <template x-for="line in customer(selected).history" :key="line">
+                                                <li x-text="line"></li>
+                                            </template>
+                                        </ul>
+                                    </template>
+                                </div>
+                                <div>
+                                    <p class="erp-section-title" x-text="formLabel(selected.form)"></p>
+                                    <dl class="erp-dl">
+                                        <template x-if="!Object.keys(selected.fields || {}).length">
+                                            <div class="contents">
+                                                <dt>Producten</dt>
+                                                <dd x-text="selected.products.join(', ') || '-'"></dd>
+                                            </div>
+                                        </template>
+                                        <template x-for="[label, value] in detailRows(selected)" :key="label">
+                                            <div class="contents">
+                                                <dt x-text="label"></dt>
+                                                <dd x-text="value"></dd>
+                                            </div>
+                                        </template>
+                                    </dl>
+                                </div>
+                            </section>
+
+                            <template x-if="selected.submission_id">
+                                <a
+                                    :href="'/cp/forms/' + selected.form + '/submissions/' + selected.submission_id"
+                                    target="_blank"
+                                    class="erp-button w-fit">
+                                    {{ icon src="arrow-square-out" class="size-4" aria-hidden="true" }}
+                                    Open de inzending in Statamic (met foto's en bijlagen)
+                                </a>
+                            </template>
+
+                            <template x-if="selected.source === 'Website-assistent'">
+                                <section>
+                                    <p class="erp-section-title">Herkomst</p>
+                                    <dl class="erp-dl">
+                                        <dt>Taal</dt>
+                                        <dd class="uppercase" x-text="selected.locale"></dd>
+                                        <dt>Pagina</dt>
+                                        <dd class="truncate" x-text="selected.page || '-'"></dd>
+                                        <template
+                                            x-for="[key, value] in Object.entries(selected.tracking || {})"
+                                            :key="key">
+                                            <div class="contents">
+                                                <dt x-text="key"></dt>
+                                                <dd class="truncate" x-text="value || '-'"></dd>
+                                            </div>
+                                        </template>
+                                    </dl>
+                                    <p class="mt-2 erp-help" x-show="selected.tracking && selected.tracking.gclid">
+                                        Google-klik bewaard. Wordt dit project getekend, dan gaat er een offline
+                                        conversie naar Google Ads: de campagnes leren van verkochte projecten, niet van
+                                        formulieren.
+                                    </p>
+                                </section>
+                            </template>
+
+                            <template x-if="selected.transcript && selected.transcript.length">
+                                <section>
+                                    <p class="erp-section-title">Gesprek met de assistent</p>
+                                    <div class="erp-transcript">
+                                        <template x-for="(turn, index) in selected.transcript" :key="index">
+                                            <p
+                                                :class="turn.role === 'user' ? 'erp-turn erp-turn--user' : 'erp-turn'"
+                                                x-text="turn.text"></p>
+                                        </template>
+                                    </div>
+                                </section>
+                            </template>
+                        </div>
+                    </template>
+                </aside>
+            </div>
+
+            <div class="erp-toast" x-show="toast" x-transition role="status">
+                {{ icon src="sparkle" suffix="fill" class="size-5 shrink-0" aria-hidden="true" }}
+                <span x-text="toast"></span>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,109 @@
+# Startstand van het nagebootste ERP-scherm. Fictieve klanten en aanvragen,
+# zodat de pipeline er bij de demo niet leeg uitziet. "Reset demo" in het
+# ERP-scherm zet alles terug naar deze stand.
+customers:
+  -
+    id: cus-1001
+    name: 'Jan Peeters'
+    email: jan.peeters@example.be
+    phone: '+32 476 12 34 56'
+    postcode: '1700'
+    city: Dilbeek
+    history:
+      - '2023 - Opbouwrolluiken, 4 stuks - geplaatst en betaald'
+      - '2024 - Nazicht rolluikmotor - afgesloten'
+  -
+    id: cus-1002
+    name: 'Sarah Janssens'
+    email: sarah.janssens@example.be
+    phone: '+32 485 22 10 98'
+    postcode: '2630'
+    city: Aartselaar
+    history:
+      - '2025 - Terrasoverkapping Pergola Zip - geplaatst en betaald'
+  -
+    id: cus-1003
+    name: 'Marc Dubois'
+    email: marc.dubois@example.be
+    phone: '+32 472 88 41 07'
+    postcode: '1600'
+    city: 'Sint-Pieters-Leeuw'
+    history: []
+
+requests:
+  -
+    number: WB-2026-0411
+    days_ago: 6
+    status: offerte_verstuurd
+    type: offerte
+    customer_id: cus-1003
+    showroom: winsol-sint-pieters-leeuw
+    products: [Ramen en deuren]
+    source: 'Website-formulier'
+    assigned_to: Kevin
+    summary: 'Vervanging van zes ramen en een voordeur in een woning uit 1978. Plaatsbezoek gebeurd, offerte verstuurd.'
+  -
+    number: WB-2026-0413
+    days_ago: 5
+    status: afspraak
+    type: offerte
+    customer_name: 'Lotte Van den Broeck'
+    showroom: winsol-dilbeek
+    products: [Zonwering]
+    source: Showroom
+    assigned_to: Sofie
+    summary: 'Screens voor vier ramen op het zuiden, kwam langs in de showroom. Opmeting ingepland donderdag.'
+  -
+    number: WB-2026-0414
+    days_ago: 4
+    status: offerte_maken
+    type: offerte
+    customer_name: 'Thomas Claes'
+    showroom: winsol-aartselaar
+    products: [Garagepoorten]
+    source: Telefoon
+    assigned_to: Kevin
+    summary: 'Sectionale garagepoort, maat opgemeten. Offerte op te maken met en zonder motor.'
+  -
+    number: WB-2026-0415
+    days_ago: 3
+    status: gebeld_1
+    type: offerte
+    customer_name: 'Nadia El Amrani'
+    showroom: winsol-dilbeek
+    products: [Terrasoverkapping]
+    source: 'Website-formulier'
+    assigned_to: Sofie
+    summary: 'Interesse in een pergola, eerste keer gebeld zonder antwoord.'
+  -
+    number: WB-2026-0416
+    days_ago: 1
+    status: nieuw
+    type: offerte
+    customer_name: 'Pieter Maes'
+    showroom: winsol-dilbeek
+    products: [Rolluiken]
+    source: 'Mail info@'
+    assigned_to: null
+    summary: 'Vraagt prijs voor rolluiken, weinig details. Nog door te bellen.'
+  -
+    number: WB-2026-0417
+    days_ago: 2
+    status: nieuw
+    type: herstelling
+    customer_id: cus-1001
+    showroom: winsol-dilbeek
+    products: [Rolluiken]
+    source: Telefoon
+    assigned_to: null
+    summary: 'Rolluik in de living blijft halverwege hangen.'
+
+questions:
+  -
+    question: 'Plaatsen jullie ook vliegenramen?'
+    locale: nl
+    days_ago: 2
+  -
+    question: 'Est-ce que vous travaillez aussi à Waterloo ?'
+    locale: fr
+    days_ago: 1

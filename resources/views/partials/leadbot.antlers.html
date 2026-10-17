@@ -1,0 +1,688 @@
+{{#
+    De website-assistent; zie config/leadbot.php en resources/js/components/leadbot.js. Alleen ingeladen wanneer
+    LEADBOT_ENABLED aanstaat. Alles wat per bezoeker verschilt (de pagina, of de showroom nu open is, het gesprek) rekent de
+    component in de browser uit: productie serveert deze HTML uit de statische cache.
+#}}
+<script type="application/json" id="leadbot-config">
+    {{ leadbot_json }}
+</script>
+
+<div x-data="leadbot" x-cloak @keydown.escape.window="open && toggle()" class="leadbot">
+    {{# Lanceerknop, met een teaser die na een paar seconden verschijnt. #}}
+    <div class="leadbot-dock" x-show="!open" x-transition.opacity>
+        <div x-show="teaser" x-transition.opacity.duration.300ms class="leadbot-teaser">
+            <button
+                type="button"
+                class="leadbot-teaser-text"
+                @click="toggle()"
+                x-text="page.range ? tr('launcher_teaser_range', { range: page.range.title.toLowerCase() }) : t.launcher_teaser"></button>
+            <button type="button" class="leadbot-teaser-close" @click="dismissTeaser()" :aria-label="t.close">
+                {{ icon src="x" class="size-4" aria-hidden="true" }}
+            </button>
+        </div>
+        <button
+            type="button"
+            class="leadbot-launcher"
+            @click="toggle()"
+            :aria-label="t.launcher"
+            aria-haspopup="dialog">
+            {{ icon src="chat-circle-dots" suffix="fill" class="size-7" aria-hidden="true" }}
+            <span class="leadbot-launcher-dot" x-show="unread" aria-hidden="true"></span>
+        </button>
+    </div>
+
+    <section
+        x-show="open"
+        x-transition:enter="transition duration-250 ease-out"
+        x-transition:enter-start="translate-y-6 opacity-0 sm:scale-95"
+        x-transition:enter-end="translate-y-0 opacity-100 sm:scale-100"
+        x-transition:leave="transition duration-150 ease-in"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="translate-y-6 opacity-0"
+        class="leadbot-panel"
+        role="dialog"
+        aria-modal="false"
+        :aria-label="t.title">
+        {{# Kop #}}
+        <header class="leadbot-header">
+            <button
+                type="button"
+                class="leadbot-icon-button"
+                x-show="view !== 'home'"
+                @click="show('home')"
+                :aria-label="t.back">
+                {{ icon src="caret-left" class="size-5" aria-hidden="true" }}
+            </button>
+            <div class="min-w-0 flex-1">
+                <p class="leadbot-title">
+                    {{ svg src="logo" class="leadbot-logo" aria-hidden="true" }}
+                    <span class="sr-only" x-text="t.title"></span>
+                    <span class="leadbot-ai-badge" x-text="t.ai_badge"></span>
+                </p>
+                <p class="leadbot-status">
+                    <span
+                        class="leadbot-status-dot"
+                        :class="'leadbot-status-dot--' + status.tone"
+                        aria-hidden="true"></span>
+                    <span class="truncate" x-text="status.text"></span>
+                </p>
+            </div>
+            <button
+                type="button"
+                class="leadbot-icon-button"
+                x-show="view === 'chat'"
+                @click="restart()"
+                :aria-label="t.restart"
+                :title="t.restart">
+                {{ icon src="arrow-counter-clockwise" class="size-5" aria-hidden="true" }}
+            </button>
+            <button type="button" class="leadbot-icon-button" @click="toggle()" :aria-label="t.close">
+                {{ icon src="x" class="size-5" aria-hidden="true" }}
+            </button>
+        </header>
+
+        {{# Voortgang van een formulier #}}
+        <div class="leadbot-progress" x-show="view === 'chat' && flow" x-transition.opacity>
+            <div class="flex items-center justify-between gap-3">
+                <p class="leadbot-progress-label">
+                    <span x-text="flow && cfg.forms[flow.form]?.title"></span>
+                    <span class="text-black/40" x-text="progress() ? '· ' + tr('step_of', progress()) : ''"></span>
+                </p>
+                <button type="button" class="leadbot-link" @click="stopFlow()" x-text="t.stop_flow"></button>
+            </div>
+            <div class="leadbot-progress-track">
+                <span class="leadbot-progress-bar" :style="'width: ' + (progress()?.percent ?? 0) + '%'"></span>
+            </div>
+        </div>
+
+        {{# Start #}}
+        <div class="leadbot-home" x-show="view === 'home'">
+            <div class="leadbot-home-hero">
+                <p class="leadbot-home-hello" x-text="t.home_hello"></p>
+                <p
+                    class="leadbot-home-title"
+                    x-text="page.range ? tr('home_context', { range: page.range.title.toLowerCase() }) : t.home_title"></p>
+            </div>
+
+            <form class="leadbot-home-ask" @submit.prevent="askFromHome()">
+                <label class="sr-only" for="leadbot-home-input" x-text="t.home_ask"></label>
+                <input
+                    id="leadbot-home-input"
+                    x-ref="homeInput"
+                    x-model="draft"
+                    :placeholder="t.home_ask"
+                    autocomplete="off"
+                    maxlength="500"
+                    class="leadbot-home-input" />
+                <button type="submit" class="leadbot-send" :disabled="!draft.trim()" :aria-label="t.send">
+                    {{ icon src="paper-plane-right" suffix="fill" class="size-5" aria-hidden="true" }}
+                </button>
+            </form>
+
+            <button type="button" class="leadbot-resume" x-show="messages.length > 1" @click="show('chat')">
+                {{ icon src="chats-circle" class="size-5 shrink-0" aria-hidden="true" }}
+                <span class="flex-1 text-left" x-text="t.continue_chat"></span>
+                {{ icon src="caret-right" class="size-4" aria-hidden="true" }}
+            </button>
+
+            <p class="leadbot-eyebrow" x-text="t.home_actions"></p>
+            <div class="leadbot-actions">
+                <button
+                    type="button"
+                    class="leadbot-action-card leadbot-action-card--primary"
+                    @click="startFromHome('offerte')">
+                    <span class="leadbot-action-icon">{{ icon src="ruler" class="size-5" aria-hidden="true" }}</span>
+                    <span class="leadbot-action-title" x-text="t.action_offerte"></span>
+                    <span class="leadbot-action-sub" x-text="t.action_offerte_sub"></span>
+                </button>
+                <button type="button" class="leadbot-action-card" @click="startFromHome('herstelling')">
+                    <span class="leadbot-action-icon">{{ icon src="wrench" class="size-5" aria-hidden="true" }}</span>
+                    <span class="leadbot-action-title" x-text="t.action_herstelling"></span>
+                    <span class="leadbot-action-sub" x-text="t.action_herstelling_sub"></span>
+                </button>
+                <button type="button" class="leadbot-action-card" @click="startFromHome('brochure')">
+                    <span class="leadbot-action-icon">
+                        {{ icon src="book-open-text" class="size-5" aria-hidden="true" }}
+                    </span>
+                    <span class="leadbot-action-title" x-text="t.action_brochure"></span>
+                    <span class="leadbot-action-sub" x-text="t.action_brochure_sub"></span>
+                </button>
+                <button type="button" class="leadbot-action-card" @click="show('helpdesk')">
+                    <span class="leadbot-action-icon">
+                        {{ icon src="lifebuoy" class="size-5" aria-hidden="true" }}
+                    </span>
+                    <span class="leadbot-action-title" x-text="t.action_helpdesk"></span>
+                    <span class="leadbot-action-sub" x-text="t.action_helpdesk_sub"></span>
+                </button>
+            </div>
+
+            <div class="leadbot-talk">
+                <div>
+                    <p class="font-semibold" x-text="t.home_talk"></p>
+                    <p class="text-black/60" x-text="t.home_talk_sub"></p>
+                </div>
+                <div class="leadbot-talk-list">
+                    <template x-for="showroom in cfg.showrooms" :key="showroom.slug">
+                        <a
+                            :href="'tel:' + showroom.phone.replace(/\s/g, '')"
+                            class="leadbot-talk-row"
+                            @click="track('leadbot_call', { showroom: showroom.slug })">
+                            <span
+                                class="leadbot-status-dot"
+                                :class="'leadbot-status-dot--' + showroomState(showroom).tone"
+                                aria-hidden="true"></span>
+                            <span class="flex-1 font-medium" x-text="showroom.name.replace('Winsol ', '')"></span>
+                            <span class="text-black/60" x-text="showroom.phone"></span>
+                            {{ icon src="phone" class="size-4 shrink-0" aria-hidden="true" }}
+                        </a>
+                    </template>
+                </div>
+            </div>
+
+            <p class="leadbot-notice">
+                {{ icon src="sparkle" class="size-4 shrink-0" aria-hidden="true" }}
+                <span x-text="t.ai_notice"></span>
+            </p>
+        </div>
+
+        {{# Gesprek #}}
+        <div class="leadbot-stream" x-ref="stream" x-show="view === 'chat'" aria-live="polite">
+            <template x-for="message in messages" :key="message.id">
+                <div class="leadbot-row" :class="message.from === 'user' && 'leadbot-row--user'">
+                    <template x-if="message.text || message.thinking">
+                        <div
+                            class="leadbot-bubble"
+                            :class="message.from === 'user' ? 'leadbot-bubble--user' : 'leadbot-bubble--bot'">
+                            <template x-if="message.thinking">
+                                <span class="leadbot-typing" :aria-label="t.thinking">
+                                    <i></i>
+                                    <i></i>
+                                    <i></i>
+                                </span>
+                            </template>
+                            <span x-show="message.text" x-text="message.text"></span>
+                            <template x-if="message.sources && message.sources.length">
+                                <span class="leadbot-sources">
+                                    <span class="leadbot-eyebrow" x-text="t.sources"></span>
+                                    <template x-for="source in message.sources" :key="source.url">
+                                        <a :href="source.url" class="leadbot-source">
+                                            {{ icon src="arrow-up-right" class="size-3.5 shrink-0" aria-hidden="true" }}
+                                            <span x-text="source.title"></span>
+                                        </a>
+                                    </template>
+                                </span>
+                            </template>
+                            <template x-if="message.feedback">
+                                <span class="leadbot-feedback">
+                                    <template x-if="message.feedback === 'ask'">
+                                        <span class="flex items-center gap-1">
+                                            <span x-text="t.helpful_q"></span>
+                                            <button
+                                                type="button"
+                                                class="leadbot-thumb"
+                                                @click="feedback(message, true)"
+                                                :aria-label="t.yes">
+                                                {{ icon src="thumbs-up" class="size-4" aria-hidden="true" }}
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="leadbot-thumb"
+                                                @click="feedback(message, false)"
+                                                :aria-label="t.no">
+                                                {{ icon src="thumbs-down" class="size-4" aria-hidden="true" }}
+                                            </button>
+                                        </span>
+                                    </template>
+                                    <template x-if="message.feedback !== 'ask'">
+                                        <span x-text="t.feedback_thanks"></span>
+                                    </template>
+                                </span>
+                            </template>
+                        </div>
+                    </template>
+
+                    {{# Toegevoegd bestand #}}
+                    <template x-if="message.file">
+                        <div class="leadbot-file">
+                            <template x-if="message.photo">
+                                <img :src="message.photo" alt="" class="leadbot-photo" />
+                            </template>
+                            <span class="leadbot-file-name">
+                                {{ icon src="paperclip" class="size-4 shrink-0" aria-hidden="true" }}
+                                <span class="truncate" x-text="message.file"></span>
+                            </span>
+                        </div>
+                    </template>
+
+                    {{# Showrooms #}}
+                    <template x-if="message.card === 'showrooms'">
+                        <div class="leadbot-card">
+                            <p class="leadbot-card-title" x-text="t.showrooms_title"></p>
+                            <template x-for="showroom in cfg.showrooms" :key="showroom.slug">
+                                <div class="leadbot-showroom">
+                                    <div class="flex items-center justify-between gap-2">
+                                        <p class="font-semibold" x-text="showroom.name"></p>
+                                        <span
+                                            class="leadbot-pill"
+                                            :class="'leadbot-pill--' + showroomState(showroom).tone"
+                                            x-text="showroomState(showroom).label"></span>
+                                    </div>
+                                    <p class="text-black/60" x-text="showroom.address"></p>
+                                    <div class="leadbot-showroom-actions">
+                                        <a
+                                            :href="'tel:' + showroom.phone.replace(/\s/g, '')"
+                                            class="leadbot-action"
+                                            @click="track('leadbot_call', { showroom: showroom.slug })">
+                                            {{ icon src="phone" class="size-4" aria-hidden="true" }}
+                                            <span x-text="showroom.phone"></span>
+                                        </a>
+                                        <a :href="showroom.maps" target="_blank" rel="noopener" class="leadbot-action">
+                                            {{ icon src="map-pin" class="size-4" aria-hidden="true" }}
+                                            <span x-text="t.route"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </template>
+                            <template x-if="cfg.whatsapp">
+                                <a
+                                    :href="'https://wa.me/' + cfg.whatsapp"
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="leadbot-action leadbot-action--whatsapp">
+                                    {{ svg src="whatsapp" class="size-4" aria-hidden="true" }}
+                                    <span x-text="t.whatsapp"></span>
+                                </a>
+                            </template>
+                        </div>
+                    </template>
+
+                    {{# Een groep velden op één kaartje: contactgegevens, akkoordverklaringen #}}
+                    <template x-if="message.card === 'group'">
+                        <form class="leadbot-card leadbot-form" @submit.prevent="submitGroup(message)" novalidate>
+                            <template x-for="field in message.data.fields" :key="field.handle">
+                                <div class="leadbot-field" :class="message.data.errors[field.handle] && 'is-invalid'">
+                                    <template x-if="field.kind === 'consent'">
+                                        <label class="leadbot-consent">
+                                            <input
+                                                type="checkbox"
+                                                x-model="message.data.values[field.handle]"
+                                                :disabled="message.locked" />
+                                            <span>
+                                                <template x-if="field.handle === 'gdpr'">
+                                                    <span>
+                                                        <span x-text="t.privacy"></span>
+                                                        <a
+                                                            :href="cfg.privacyUrl"
+                                                            target="_blank"
+                                                            class="underline"
+                                                            x-text="t.privacy_link"></a>
+                                                        .
+                                                    </span>
+                                                </template>
+                                                <template x-if="field.handle !== 'gdpr'">
+                                                    <span x-text="field.label"></span>
+                                                </template>
+                                            </span>
+                                        </label>
+                                    </template>
+
+                                    <template x-if="field.kind === 'choice'">
+                                        <label class="leadbot-label">
+                                            <span x-text="field.label"></span>
+                                            <select
+                                                x-model="message.data.values[field.handle]"
+                                                :disabled="message.locked"
+                                                class="leadbot-control">
+                                                <option value="" x-text="field.placeholder ?? '...'"></option>
+                                                <template x-for="option in sortOptions(field)" :key="option.value">
+                                                    <option
+                                                        :value="option.value"
+                                                        x-text="option.label"
+                                                        :selected="option.value === message.data.values[field.handle]"></option>
+                                                </template>
+                                            </select>
+                                        </label>
+                                    </template>
+
+                                    <template x-if="field.kind === 'yesno'">
+                                        <label class="leadbot-consent">
+                                            <input
+                                                type="checkbox"
+                                                x-model="message.data.values[field.handle]"
+                                                :disabled="message.locked" />
+                                            <span x-text="field.label"></span>
+                                        </label>
+                                    </template>
+
+                                    <template x-if="field.kind === 'textarea'">
+                                        <label class="leadbot-label">
+                                            <span x-text="field.label"></span>
+                                            <textarea
+                                                rows="3"
+                                                x-model="message.data.values[field.handle]"
+                                                :placeholder="field.placeholder"
+                                                :disabled="message.locked"
+                                                class="leadbot-control"></textarea>
+                                        </label>
+                                    </template>
+
+                                    <template x-if="field.kind === 'address'">
+                                        <label class="leadbot-label">
+                                            <span x-text="field.label"></span>
+                                            <span
+                                                class="form-autocomplete"
+                                                x-data="addressAutocomplete(cfg.mapsKey)"
+                                                @click.outside="close"
+                                                @address-chosen="message.data.values[field.handle] = $event.detail">
+                                                <input
+                                                    x-ref="input"
+                                                    type="text"
+                                                    x-model="message.data.values[field.handle]"
+                                                    :placeholder="field.placeholder"
+                                                    :disabled="message.locked"
+                                                    autocomplete="street-address"
+                                                    role="combobox"
+                                                    aria-autocomplete="list"
+                                                    :aria-expanded="open"
+                                                    @input.debounce.300ms="search"
+                                                    @keydown.down.prevent="move(1)"
+                                                    @keydown.up.prevent="move(-1)"
+                                                    @keydown.enter="chooseActive($event)"
+                                                    @keydown.escape="close"
+                                                    class="leadbot-control" />
+                                                <ul
+                                                    x-show="open"
+                                                    role="listbox"
+                                                    class="form-autocomplete-list leadbot-suggestions">
+                                                    <template
+                                                        x-for="(suggestion, index) in suggestions"
+                                                        :key="suggestion">
+                                                        <li role="option" :aria-selected="index === active">
+                                                            <button
+                                                                type="button"
+                                                                :class="index === active && 'is-active'"
+                                                                @click="choose(index)"
+                                                                x-text="suggestion"
+                                                                tabindex="-1"></button>
+                                                        </li>
+                                                    </template>
+                                                </ul>
+                                            </span>
+                                        </label>
+                                    </template>
+
+                                    <template x-if="['text', 'email', 'phone'].includes(field.kind)">
+                                        <label class="leadbot-label">
+                                            <span x-text="field.label"></span>
+                                            <input
+                                                :type="field.kind === 'email' ? 'email' : field.kind === 'phone' ? 'tel' : field.integer ? 'number' : 'text'"
+                                                :inputmode="field.integer ? 'numeric' : null"
+                                                :autocomplete="{ name: 'name', email: 'email', phone: 'tel' }[field.handle] ?? 'off'"
+                                                x-model="message.data.values[field.handle]"
+                                                :placeholder="field.placeholder"
+                                                :disabled="message.locked"
+                                                class="leadbot-control" />
+                                        </label>
+                                    </template>
+
+                                    <small
+                                        class="leadbot-error"
+                                        x-show="message.data.errors[field.handle]"
+                                        x-text="message.data.errors[field.handle]"></small>
+                                </div>
+                            </template>
+                            <button type="submit" class="btn w-full btn--secondary" x-show="!message.locked">
+                                <span x-text="t.next"></span>
+                                {{ icon src="arrow-right" class="size-5" aria-hidden="true" }}
+                            </button>
+                        </form>
+                    </template>
+
+                    {{# Overzicht vóór het versturen #}}
+                    <template x-if="message.card === 'summary'">
+                        <div class="leadbot-card">
+                            <div>
+                                <p class="leadbot-card-title" x-text="t.summary_title"></p>
+                                <p class="text-xs text-black/50" x-show="!message.locked" x-text="t.summary_hint"></p>
+                            </div>
+                            <dl class="leadbot-summary">
+                                <template x-for="row in message.data.rows" :key="row.handle">
+                                    <button
+                                        type="button"
+                                        class="leadbot-summary-row"
+                                        :disabled="message.locked || !row.editable"
+                                        @click="edit(message, row.handle)">
+                                        <dt x-text="row.label"></dt>
+                                        <dd x-text="row.value"></dd>
+                                    </button>
+                                </template>
+                            </dl>
+                            <button
+                                type="button"
+                                class="btn w-full btn--primary"
+                                x-show="!message.locked"
+                                :disabled="submitting"
+                                @click="submit(message)">
+                                <span
+                                    x-text="submitting ? t.submitting : (message.data.form === 'brochure' ? t.submit_brochure : message.data.form === 'contact' ? t.submit_contact : t.submit)"></span>
+                                {{ icon src="paper-plane-right" class="size-5" aria-hidden="true" }}
+                            </button>
+                        </div>
+                    </template>
+
+                    {{# Bevestiging #}}
+                    <template x-if="message.card === 'done'">
+                        <div class="leadbot-card leadbot-card--done">
+                            <span class="leadbot-done-icon">
+                                {{ icon src="check" class="size-6" aria-hidden="true" }}
+                            </span>
+                            <p class="leadbot-card-title" x-text="message.data.title"></p>
+                            <p x-text="message.data.text"></p>
+                            <template x-if="message.data.phone">
+                                <a :href="'tel:' + message.data.phone.replace(/\s/g, '')" class="leadbot-action w-fit">
+                                    {{ icon src="phone" class="size-4" aria-hidden="true" }}
+                                    <span x-text="message.data.phone"></span>
+                                </a>
+                            </template>
+                        </div>
+                    </template>
+
+                    {{# Keuzeknoppen: alleen bij het laatste bericht nog aanklikbaar #}}
+                    <template x-if="message.chips && message.chips.length && !message.locked">
+                        <div class="leadbot-chips">
+                            <template x-for="chip in message.chips" :key="chip.key">
+                                <button
+                                    type="button"
+                                    class="leadbot-chip"
+                                    :class="{ 'leadbot-chip--primary': chip.primary, 'leadbot-chip--selected': chip.selected }"
+                                    :aria-pressed="message.multi && chip.action === 'toggle' ? String(!!chip.selected) : null"
+                                    @click="choose(message, chip)">
+                                    <template x-if="message.multi && chip.action === 'toggle'">
+                                        <span class="leadbot-check" aria-hidden="true">
+                                            {{ icon src="check" class="size-3" }}
+                                        </span>
+                                    </template>
+                                    <template x-if="chip.action === 'file'">
+                                        {{ icon src="camera" class="size-4" aria-hidden="true" }}
+                                    </template>
+                                    <span x-text="chip.label"></span>
+                                </button>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+
+        <form class="leadbot-composer" x-show="view === 'chat'" @submit.prevent="send()">
+            <input
+                type="file"
+                multiple
+                x-ref="file"
+                class="hidden"
+                @change="photoChosen($event)"
+                tabindex="-1"
+                aria-hidden="true" />
+            <label class="sr-only" for="leadbot-input" x-text="placeholder()"></label>
+            <textarea
+                id="leadbot-input"
+                x-ref="input"
+                x-model="draft"
+                rows="1"
+                :inputmode="inputMode === 'number' ? 'numeric' : 'text'"
+                maxlength="1500"
+                :placeholder="placeholder()"
+                :disabled="busy || submitting"
+                autocomplete="off"
+                @keydown="composerKey($event)"
+                @input="grow($event)"
+                class="leadbot-input"></textarea>
+            <button type="submit" class="leadbot-send" :disabled="busy || !draft.trim()" :aria-label="t.send">
+                {{ icon src="paper-plane-right" suffix="fill" class="size-5" aria-hidden="true" }}
+            </button>
+        </form>
+
+        {{# Helpdesk #}}
+        <div class="leadbot-helpdesk" x-show="view === 'helpdesk'">
+            <div class="leadbot-helpdesk-head">
+                <p class="leadbot-helpdesk-title" x-text="t.helpdesk_title"></p>
+                <p class="text-xs text-black/55" x-text="t.helpdesk_intro"></p>
+                {{# Eén veld voor beide: typen filtert de lijst, Enter stelt de vraag meteen aan de assistent. #}}
+                <form
+                    class="leadbot-search"
+                    @submit.prevent="helpdesk.query.trim() && askAssistant(helpdesk.query.trim())">
+                    {{ icon src="magnifying-glass" class="size-5 shrink-0 text-black/40" aria-hidden="true" }}
+                    <label class="sr-only" for="leadbot-helpdesk-input" x-text="t.helpdesk_search"></label>
+                    <input
+                        id="leadbot-helpdesk-input"
+                        x-ref="helpdeskSearch"
+                        x-model.debounce.150ms="helpdesk.query"
+                        :placeholder="t.helpdesk_search"
+                        autocomplete="off"
+                        maxlength="500"
+                        class="min-w-0 flex-1 bg-transparent py-1 outline-none" />
+                    <button
+                        type="submit"
+                        class="leadbot-send leadbot-send--small"
+                        :disabled="!helpdesk.query.trim()"
+                        :aria-label="t.helpdesk_ask">
+                        {{ icon src="sparkle" suffix="fill" class="size-4" aria-hidden="true" }}
+                    </button>
+                </form>
+                <div class="leadbot-filter">
+                    <button
+                        type="button"
+                        class="leadbot-filter-chip"
+                        :class="!helpdesk.category && 'is-active'"
+                        @click="helpdesk.category = ''"
+                        x-text="t.helpdesk_all"></button>
+                    <template x-for="[key, label] in helpdeskCategories()" :key="key">
+                        <button
+                            type="button"
+                            class="leadbot-filter-chip"
+                            :class="helpdesk.category === key && 'is-active'"
+                            @click="helpdesk.category = key"
+                            x-text="label"></button>
+                    </template>
+                </div>
+            </div>
+
+            <div class="leadbot-faq-list">
+                <template x-if="helpdesk.query.trim()">
+                    <button type="button" class="leadbot-ask-row" @click="askAssistant(helpdesk.query.trim())">
+                        <span class="leadbot-action-icon">
+                            {{ icon src="sparkle" suffix="fill" class="size-5" aria-hidden="true" }}
+                        </span>
+                        <span class="flex min-w-0 flex-1 flex-col">
+                            <span class="font-semibold" x-text="t.helpdesk_ask_now"></span>
+                            <span class="truncate text-black/55" x-text="'“' + helpdesk.query.trim() + '”'"></span>
+                        </span>
+                        {{ icon src="arrow-right" class="size-4 shrink-0" aria-hidden="true" }}
+                    </button>
+                </template>
+                <template x-if="!helpdesk.loaded">
+                    <div class="leadbot-skeleton">
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                    </div>
+                </template>
+                <template x-for="item in helpdeskResults()" :key="item.id">
+                    <div class="leadbot-faq" :class="helpdesk.openId === item.id && 'is-open'">
+                        <button
+                            type="button"
+                            class="leadbot-faq-question"
+                            :aria-expanded="helpdesk.openId === item.id"
+                            @click="helpdesk.openId = helpdesk.openId === item.id ? null : item.id">
+                            <span x-text="item.question"></span>
+                            {{ icon src="caret-down" class="leadbot-faq-caret" aria-hidden="true" }}
+                        </button>
+                        <div x-show="helpdesk.openId === item.id" x-collapse>
+                            <div class="leadbot-faq-answer">
+                                <p x-text="item.answer"></p>
+                                <div class="leadbot-faq-actions">
+                                    <span class="flex items-center gap-1" x-show="!helpdesk.voted[item.id]">
+                                        <span x-text="t.helpful_q"></span>
+                                        <button
+                                            type="button"
+                                            class="leadbot-thumb"
+                                            @click="voteHelpdesk(item, true)"
+                                            :aria-label="t.yes">
+                                            {{ icon src="thumbs-up" class="size-4" aria-hidden="true" }}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="leadbot-thumb"
+                                            @click="voteHelpdesk(item, false)"
+                                            :aria-label="t.no">
+                                            {{ icon src="thumbs-down" class="size-4" aria-hidden="true" }}
+                                        </button>
+                                    </span>
+                                    <span x-show="helpdesk.voted[item.id]" x-text="t.feedback_thanks"></span>
+                                    <button
+                                        type="button"
+                                        class="leadbot-link"
+                                        @click="askAssistant(item.question)"
+                                        x-text="t.helpdesk_followup"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <template x-if="helpdesk.loaded && !helpdeskResults().length">
+                    <div class="leadbot-empty">
+                        <p x-text="t.helpdesk_empty"></p>
+                        <button
+                            type="button"
+                            class="btn btn--secondary"
+                            @click="askAssistant(helpdesk.query || t.home_title)">
+                            {{ icon src="sparkle" class="size-5" aria-hidden="true" }}
+                            <span x-text="t.helpdesk_ask"></span>
+                        </button>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        {{# Tabs #}}
+        <nav class="leadbot-tabs" x-show="view !== 'chat'" :aria-label="t.title">
+            <button type="button" class="leadbot-tab" :class="view === 'home' && 'is-active'" @click="show('home')">
+                {{ icon src="house" class="size-5" aria-hidden="true" }}
+                <span x-text="t.tab_home"></span>
+            </button>
+            <button type="button" class="leadbot-tab" @click="show('chat')">
+                {{ icon src="chat-circle-dots" class="size-5" aria-hidden="true" }}
+                <span x-text="t.tab_chat"></span>
+            </button>
+            <button
+                type="button"
+                class="leadbot-tab"
+                :class="view === 'helpdesk' && 'is-active'"
+                @click="show('helpdesk')">
+                {{ icon src="lifebuoy" class="size-5" aria-hidden="true" }}
+                <span x-text="t.tab_helpdesk"></span>
+            </button>
+        </nav>
+    </section>
+</div>

@@ -3,5 +3,11 @@ Ingediend in het {{ language:label }}
 
 {{ fields }}{{ if value && handle != 'language' }}{{ display }}: {{ if fieldtype == 'assets' }}{{ value }}{{ url }}{{ unless last }}, {{ /unless }}{{ /value }}{{ elseif fieldtype == 'checkboxes' || fieldtype == 'range_checkboxes' || fieldtype == 'brochure_checkboxes' }}{{ value | pluck('label') | join(', ') }}{{ elseif fieldtype == 'toggle' }}Ja{{ elseif fieldtype == 'select' || fieldtype == 'location_select' || fieldtype == 'range_select' }}{{ value:label ?? value }}{{ else }}{{ value }}{{ /if }}
 {{ /if }}{{ /fields }}
+{{ if assistant_summary }}
+Via de website-assistent: {{ assistant_summary }}
+
+Het gesprek:
+{{ assistant_transcript }}
+{{ /if }}
 Verstuurd op {{ date format="d/m/Y" }} om {{ date format="H:i" }}.
 Winsol Brebo — {{ config:app:url }}

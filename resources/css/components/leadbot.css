@@ -1,0 +1,788 @@
+/*
+ * De website-assistent (partials/leadbot) en het nagebootste ERP-scherm voor
+ * de demo (leadbot/demo). Afmetingen volgen een raster van 4px.
+ */
+
+/* Paneel en lanceerknop */
+
+@utility leadbot-dock {
+    @apply fixed right-4 bottom-24 z-50 flex items-end gap-3 lg:right-6 lg:bottom-6;
+}
+
+@utility leadbot-launcher {
+    @apply relative grid size-15 place-items-center rounded-full bg-black text-accent shadow-xl transition-transform duration-200 ease-out hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent;
+}
+
+@utility leadbot-launcher-dot {
+    @apply absolute top-0.5 right-0.5 size-3.5 animate-pulse rounded-full border-2 border-black bg-live;
+}
+
+@utility leadbot-teaser {
+    @apply mb-2 flex max-w-64 items-start gap-1 rounded-2xl rounded-br-sm bg-white py-3 pr-2 pl-4 text-sm text-black shadow-xl;
+}
+
+@utility leadbot-teaser-text {
+    @apply text-left leading-snug font-medium;
+}
+
+@utility leadbot-teaser-close {
+    @apply shrink-0 rounded-full p-1 text-black/40 transition-colors hover:bg-light hover:text-black;
+}
+
+@utility leadbot-panel {
+    @apply fixed inset-0 z-50 flex flex-col overflow-hidden bg-white text-sm leading-normal text-black shadow-2xl sm:inset-auto sm:right-6 sm:bottom-6 sm:rounded-3xl;
+    padding-bottom: env(safe-area-inset-bottom);
+
+    @variant sm {
+        width: 26rem;
+        height: min(44rem, calc(100dvh - 3rem));
+    }
+}
+
+@utility leadbot-header {
+    @apply flex shrink-0 items-center gap-3 bg-black px-4 py-3 text-white;
+    padding-top: max(0.75rem, env(safe-area-inset-top));
+}
+
+@utility leadbot-title {
+    @apply flex items-center gap-2.5 whitespace-nowrap;
+}
+
+@utility leadbot-logo {
+    @apply h-7 w-auto shrink-0;
+}
+
+@utility leadbot-ai-badge {
+    @apply rounded-full bg-white/12 px-2 py-0.5 text-xs leading-tight font-medium whitespace-nowrap text-white/75;
+}
+
+@utility leadbot-status {
+    @apply mt-1 flex items-center gap-1.5 text-xs text-white/60;
+}
+
+@utility leadbot-status-dot {
+    @apply size-2 shrink-0 rounded-full bg-black/25;
+}
+
+/* In de zwarte kop moet het neutrale bolletje licht zijn; de kleur van open of op afspraak wint altijd. */
+.leadbot-header .leadbot-status-dot {
+    @apply bg-white/40;
+}
+
+.leadbot-status-dot.leadbot-status-dot--open {
+    @apply bg-live;
+}
+
+.leadbot-status-dot.leadbot-status-dot--appointment {
+    @apply bg-accent;
+}
+
+@utility leadbot-icon-button {
+    @apply grid size-9 shrink-0 place-items-center rounded-full text-white/70 transition-colors hover:bg-white/10 hover:text-white;
+}
+
+@utility leadbot-link {
+    @apply shrink-0 text-xs font-medium text-black/50 underline decoration-black/20 underline-offset-2 transition-colors hover:text-black;
+}
+
+@utility leadbot-eyebrow {
+    @apply text-xs font-semibold tracking-wide text-black/45 uppercase;
+}
+
+@utility leadbot-progress {
+    @apply flex shrink-0 flex-col gap-2 border-b border-black/5 bg-white px-4 pt-3 pb-3;
+}
+
+@utility leadbot-progress-label {
+    @apply truncate text-xs font-semibold;
+}
+
+@utility leadbot-progress-track {
+    @apply h-1 overflow-hidden rounded-full bg-light-shape;
+}
+
+@utility leadbot-progress-bar {
+    @apply block h-full rounded-full bg-accent transition-all duration-500 ease-out;
+}
+
+/* Start */
+
+@utility leadbot-home {
+    @apply flex flex-1 flex-col gap-4 overflow-y-auto overscroll-contain bg-light px-4 pt-0 pb-4;
+}
+
+@utility leadbot-home-hero {
+    @apply -mx-4 flex flex-col gap-1 bg-black px-5 pt-3 pb-12 text-white;
+}
+
+@utility leadbot-home-hello {
+    @apply text-base text-white/60;
+}
+
+@utility leadbot-home-title {
+    @apply text-xl leading-tight font-semibold;
+}
+
+@utility leadbot-home-ask {
+    @apply -mt-12 flex items-center gap-2 rounded-2xl bg-white p-2 pl-4 shadow-lg;
+}
+
+@utility leadbot-home-input {
+    @apply min-w-0 flex-1 bg-transparent py-2 outline-none placeholder:text-black/40;
+}
+
+@utility leadbot-resume {
+    @apply flex items-center gap-3 rounded-2xl bg-white px-4 py-3 font-medium transition-colors hover:bg-light-shape;
+}
+
+@utility leadbot-actions {
+    @apply -mt-2 grid grid-cols-2 gap-2;
+}
+
+@utility leadbot-action-card {
+    @apply flex flex-col items-start gap-1 rounded-2xl bg-white p-4 text-left transition duration-200 hover:-translate-y-0.5 hover:shadow-md;
+}
+
+@utility leadbot-action-card--primary {
+    @apply bg-accent hover:bg-accent-hover;
+}
+
+@utility leadbot-action-icon {
+    @apply mb-2 grid size-9 place-items-center rounded-xl bg-light;
+
+    .leadbot-action-card--primary & {
+        @apply bg-black/10;
+    }
+}
+
+@utility leadbot-action-title {
+    @apply leading-tight font-semibold;
+}
+
+@utility leadbot-action-sub {
+    @apply text-xs leading-snug text-black/55;
+}
+
+@utility leadbot-talk {
+    @apply flex flex-col gap-3 rounded-2xl bg-white p-4;
+}
+
+@utility leadbot-talk-list {
+    @apply flex flex-col divide-y divide-black/5;
+}
+
+@utility leadbot-talk-row {
+    @apply flex items-center gap-3 py-2.5 transition-colors first:pt-0 last:pb-0 hover:text-black/70;
+}
+
+@utility leadbot-notice {
+    @apply flex items-start gap-2 px-1 text-xs leading-snug text-black/45;
+}
+
+/* Gesprek */
+
+@utility leadbot-stream {
+    @apply flex flex-1 flex-col gap-3 overflow-y-auto overscroll-contain bg-light px-4 py-4;
+}
+
+@utility leadbot-row {
+    @apply flex flex-col items-start gap-2;
+    animation: leadbot-in 0.25s ease-out;
+}
+
+@utility leadbot-row--user {
+    @apply items-end;
+}
+
+@utility leadbot-bubble {
+    @apply flex max-w-[88%] flex-col gap-2 rounded-2xl px-4 py-2.5 leading-snug whitespace-pre-line;
+}
+
+@utility leadbot-bubble--bot {
+    @apply rounded-bl-md bg-white;
+}
+
+@utility leadbot-bubble--user {
+    @apply rounded-br-md bg-black text-white;
+}
+
+@utility leadbot-typing {
+    @apply flex gap-1 py-1.5;
+
+    i {
+        @apply size-1.5 animate-bounce rounded-full bg-black/35;
+    }
+
+    i:nth-child(2) {
+        animation-delay: 0.15s;
+    }
+
+    i:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+}
+
+@utility leadbot-sources {
+    @apply mt-1 flex flex-col gap-1.5 border-t border-black/5 pt-2.5 whitespace-normal;
+}
+
+@utility leadbot-source {
+    @apply inline-flex items-start gap-1.5 font-medium underline decoration-black/15 underline-offset-2 transition-colors hover:decoration-black;
+
+    svg {
+        @apply mt-0.5;
+    }
+}
+
+@utility leadbot-feedback {
+    @apply flex items-center gap-1 border-t border-black/5 pt-2 text-xs whitespace-normal text-black/45;
+}
+
+@utility leadbot-thumb {
+    @apply grid size-7 place-items-center rounded-full text-black/40 transition-colors hover:bg-light hover:text-black;
+}
+
+@utility leadbot-chips {
+    @apply flex flex-wrap gap-2;
+}
+
+@utility leadbot-chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-white px-3.5 py-2 text-left leading-tight font-medium transition-colors hover:border-black;
+}
+
+@utility leadbot-chip--primary {
+    @apply border-accent bg-accent hover:border-accent-hover hover:bg-accent-hover;
+}
+
+@utility leadbot-chip--selected {
+    @apply border-black;
+}
+
+@utility leadbot-check {
+    @apply grid size-4.5 shrink-0 place-items-center rounded-full border border-black/25 bg-white text-transparent transition-colors;
+
+    .leadbot-chip--selected & {
+        @apply border-black bg-black text-accent;
+    }
+}
+
+@utility leadbot-file {
+    @apply flex max-w-[70%] flex-col items-end gap-1;
+}
+
+@utility leadbot-photo {
+    @apply max-h-44 rounded-2xl rounded-br-md object-cover;
+}
+
+@utility leadbot-file-name {
+    @apply flex max-w-full items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs text-black/60;
+}
+
+@utility leadbot-card {
+    @apply flex w-full flex-col gap-3 rounded-2xl bg-white p-4;
+}
+
+@utility leadbot-card--done {
+    @apply items-start gap-2 ring-2 ring-live/60;
+}
+
+@utility leadbot-done-icon {
+    @apply mb-1 grid size-10 place-items-center rounded-full bg-live/15 text-black;
+}
+
+@utility leadbot-card-title {
+    @apply leading-tight font-semibold;
+}
+
+@utility leadbot-showroom {
+    @apply flex flex-col gap-0.5 border-t border-black/5 pt-3;
+}
+
+@utility leadbot-showroom-actions {
+    @apply mt-2 flex flex-wrap gap-2;
+}
+
+@utility leadbot-pill {
+    @apply shrink-0 rounded-full bg-light px-2 py-0.5 text-xs font-medium text-black/60;
+}
+
+@utility leadbot-pill--open {
+    @apply bg-live/15 text-black;
+}
+
+@utility leadbot-pill--appointment {
+    @apply bg-accent/30 text-black;
+}
+
+@utility leadbot-action {
+    @apply inline-flex items-center gap-1.5 rounded-full bg-light px-3 py-1.5 font-medium transition-colors hover:bg-light-shape;
+}
+
+@utility leadbot-action--whatsapp {
+    @apply w-fit bg-whatsapp text-white hover:bg-whatsapp;
+}
+
+@utility leadbot-form {
+    @apply gap-4;
+}
+
+@utility leadbot-field {
+    @apply flex flex-col gap-1.5;
+}
+
+@utility leadbot-label {
+    @apply flex flex-col gap-1.5 text-xs font-semibold text-black/60;
+}
+
+@utility leadbot-control {
+    @apply w-full rounded-xl border border-black/10 bg-light px-3.5 py-2.5 text-sm font-normal text-black transition-colors outline-none placeholder:text-black/35 focus:border-black focus:bg-white disabled:opacity-60;
+
+    .is-invalid & {
+        @apply border-red-700 bg-white;
+    }
+}
+
+@utility leadbot-suggestions {
+    @apply mt-1 rounded-xl py-1;
+
+    button {
+        @apply px-3.5 text-sm font-normal;
+    }
+}
+
+@utility leadbot-consent {
+    @apply flex items-start gap-3 text-sm leading-snug text-black/80;
+
+    input {
+        @apply mt-0.5 size-4.5 shrink-0 accent-black;
+    }
+}
+
+@utility leadbot-error {
+    @apply text-xs font-medium text-red-700;
+}
+
+@utility leadbot-summary {
+    @apply -mx-2 flex flex-col;
+}
+
+@utility leadbot-summary-row {
+    @apply grid grid-cols-5 gap-3 rounded-lg px-2 py-2 text-left transition-colors enabled:hover:bg-light;
+
+    dt {
+        @apply col-span-2 text-xs leading-snug text-black/50;
+    }
+
+    dd {
+        @apply col-span-3 leading-snug break-words;
+    }
+}
+
+@utility leadbot-composer {
+    @apply flex shrink-0 items-end gap-2 border-t border-black/5 bg-white p-3;
+}
+
+@utility leadbot-input {
+    @apply max-h-36 min-w-0 flex-1 resize-none rounded-2xl bg-light px-4 py-2.5 leading-snug transition-shadow outline-none placeholder:text-black/40 focus:ring-2 focus:ring-black disabled:opacity-60;
+}
+
+@utility leadbot-send {
+    @apply grid size-10 shrink-0 place-items-center rounded-full bg-accent text-black transition hover:bg-accent-hover disabled:opacity-35;
+}
+
+/* Helpdesk */
+
+@utility leadbot-helpdesk {
+    @apply flex flex-1 flex-col overflow-hidden bg-light;
+}
+
+@utility leadbot-helpdesk-head {
+    @apply flex shrink-0 flex-col gap-2 bg-white px-4 pt-4 pb-3;
+}
+
+@utility leadbot-helpdesk-title {
+    @apply text-lg leading-tight font-semibold;
+}
+
+@utility leadbot-search {
+    @apply mt-2 flex items-center gap-2 rounded-2xl bg-light py-1.5 pr-1.5 pl-3.5 transition-shadow focus-within:ring-2 focus-within:ring-black;
+}
+
+@utility leadbot-filter {
+    @apply -mx-4 flex gap-2 overflow-x-auto px-4 pt-1 pb-1;
+    scrollbar-width: none;
+}
+
+@utility leadbot-filter-chip {
+    @apply shrink-0 rounded-full border border-black/10 px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors hover:border-black;
+
+    &.is-active {
+        @apply border-black bg-black text-white;
+    }
+}
+
+@utility leadbot-send--small {
+    @apply size-8;
+}
+
+@utility leadbot-ask-row {
+    @apply flex items-center gap-3 rounded-2xl bg-white p-3 pr-4 text-left ring-2 ring-accent transition hover:shadow-md;
+
+    .leadbot-action-icon {
+        @apply mb-0 bg-accent;
+    }
+}
+
+@utility leadbot-faq-list {
+    @apply flex flex-1 flex-col gap-2 overflow-y-auto overscroll-contain p-4;
+}
+
+@utility leadbot-faq {
+    @apply rounded-2xl bg-white transition-shadow;
+
+    &.is-open {
+        @apply shadow-md;
+    }
+}
+
+@utility leadbot-faq-question {
+    @apply flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left leading-snug font-medium;
+}
+
+@utility leadbot-faq-caret {
+    @apply size-4 shrink-0 text-black/40 transition-transform duration-200;
+
+    .is-open & {
+        @apply rotate-180;
+    }
+}
+
+@utility leadbot-faq-answer {
+    @apply flex flex-col gap-3 px-4 pb-4 leading-relaxed text-black/75;
+}
+
+@utility leadbot-faq-actions {
+    @apply flex flex-wrap items-center justify-between gap-2 border-t border-black/5 pt-3 text-xs text-black/45;
+}
+
+@utility leadbot-empty {
+    @apply flex flex-col items-center gap-3 py-10 text-center text-black/60;
+}
+
+@utility leadbot-skeleton {
+    @apply flex flex-col gap-2;
+
+    i {
+        @apply block h-12 animate-pulse rounded-2xl bg-white;
+    }
+}
+
+@utility leadbot-tabs {
+    @apply grid shrink-0 grid-cols-3 border-t border-black/5 bg-white;
+}
+
+@utility leadbot-tab {
+    @apply flex flex-col items-center gap-0.5 py-2.5 text-xs font-medium text-black/45 transition-colors hover:text-black;
+
+    &.is-active {
+        @apply text-black;
+    }
+}
+
+@keyframes leadbot-in {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+}
+
+/* Op een gsm vult het paneel het scherm; de pagina eronder mag dan niet meescrollen. */
+@media (width < 40rem) {
+    html.leadbot-locked {
+        overflow: hidden;
+    }
+}
+
+/* Demo-ERP */
+
+@utility erp {
+    @apply bg-light font-base text-sm text-black;
+}
+
+@utility erp-shell {
+    @apply flex min-h-dvh;
+}
+
+@utility erp-sidebar {
+    @apply sticky top-0 hidden h-dvh w-60 shrink-0 flex-col gap-6 bg-black p-5 text-white lg:flex;
+}
+
+@utility erp-brand {
+    @apply text-lg font-semibold;
+
+    span {
+        @apply rounded bg-accent px-1.5 text-sm text-black;
+    }
+}
+
+@utility erp-nav {
+    @apply flex flex-col gap-1;
+}
+
+@utility erp-nav-item {
+    @apply flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-white/60;
+
+    &:is(button) {
+        @apply text-white/90 hover:bg-white/10;
+    }
+
+    &.is-active {
+        @apply bg-white/10 text-white;
+    }
+}
+
+@utility erp-sidebar-note {
+    @apply mt-auto text-xs text-white/40;
+}
+
+@utility erp-badge {
+    @apply ml-auto rounded-full bg-white/15 px-2 text-xs font-semibold;
+}
+
+@utility erp-badge--accent {
+    @apply bg-accent text-black;
+}
+
+@utility erp-main {
+    @apply flex min-w-0 flex-1 flex-col gap-6 p-5 lg:p-8;
+}
+
+@utility erp-topbar {
+    @apply flex flex-wrap items-end justify-between gap-4;
+}
+
+@utility erp-kicker {
+    @apply text-xs font-semibold tracking-wide text-black/50 uppercase;
+}
+
+@utility erp-h1 {
+    @apply text-2xl font-semibold;
+}
+
+@utility erp-h2 {
+    @apply text-xl font-semibold;
+}
+
+@utility erp-live {
+    @apply inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 font-medium;
+}
+
+@utility erp-live--off {
+    @apply text-red-700;
+}
+
+@utility erp-live-dot {
+    @apply size-2 animate-pulse rounded-full bg-live;
+
+    .erp-live--off & {
+        @apply animate-none bg-red-700;
+    }
+}
+
+@utility erp-chip {
+    @apply inline-flex items-center rounded-full bg-white px-3 py-1.5 text-xs font-medium text-black/70;
+}
+
+@utility erp-button {
+    @apply inline-flex items-center gap-1.5 rounded-lg border border-black/15 bg-white px-3 py-1.5 font-medium hover:border-black disabled:opacity-40;
+}
+
+@utility erp-button--primary {
+    @apply border-black bg-black text-white hover:bg-black-hover;
+}
+
+@utility erp-icon-button {
+    @apply grid size-9 place-items-center rounded-full hover:bg-light;
+}
+
+@utility erp-kpis {
+    @apply grid grid-cols-2 gap-3 xl:grid-cols-4;
+}
+
+@utility erp-kpi {
+    @apply flex flex-col gap-1 rounded-xl bg-white p-4;
+}
+
+@utility erp-kpi-label {
+    @apply text-xs text-black/60;
+}
+
+@utility erp-kpi-value {
+    @apply text-2xl font-semibold;
+}
+
+@utility erp-kpi-value--small {
+    @apply text-base;
+}
+
+@utility erp-board {
+    @apply grid gap-3 overflow-x-auto pb-2;
+    grid-template-columns: repeat(5, minmax(15rem, 1fr));
+}
+
+@utility erp-column {
+    @apply flex flex-col gap-2 rounded-xl bg-light-shape p-2;
+}
+
+@utility erp-column-title {
+    @apply flex items-center justify-between px-2 pt-1 pb-1 text-xs font-semibold text-black/70;
+}
+
+@utility erp-count {
+    @apply rounded-full bg-white px-2;
+}
+
+@utility erp-card {
+    @apply flex flex-col gap-2 rounded-lg border border-transparent bg-white p-3 text-left shadow-sm transition hover:border-black/20;
+}
+
+@utility erp-card--live {
+    @apply border-accent;
+}
+
+@utility erp-card--flash {
+    animation: erp-flash 1.2s ease-out 3;
+}
+
+@utility erp-card-number {
+    @apply font-mono text-xs text-black/50;
+}
+
+@utility erp-card-name {
+    @apply font-semibold;
+}
+
+@utility erp-age {
+    @apply shrink-0 text-xs text-black/40;
+}
+
+@utility erp-tag {
+    @apply inline-flex items-center rounded bg-light px-1.5 py-0.5 text-xs font-medium;
+}
+
+@utility erp-tag--muted {
+    @apply text-black/60;
+}
+
+@utility erp-tag--ok {
+    @apply bg-live/20;
+}
+
+@utility erp-tag--hot {
+    @apply bg-accent;
+}
+
+@utility erp-source {
+    @apply inline-flex items-center gap-1 text-xs text-black/60;
+}
+
+@utility erp-source--bot {
+    @apply w-fit rounded bg-accent/40 px-1.5 py-0.5 font-medium text-black;
+}
+
+@utility erp-assignee {
+    @apply text-xs text-black/40;
+}
+
+@utility erp-list {
+    @apply flex flex-col gap-2;
+}
+
+@utility erp-row {
+    @apply flex items-center gap-3 rounded-lg border border-transparent bg-white p-3 text-left hover:border-black/20;
+}
+
+@utility erp-help {
+    @apply max-w-2xl text-black/60;
+}
+
+@utility erp-question {
+    @apply flex flex-col gap-3 rounded-lg bg-white p-4;
+}
+
+@utility erp-answered {
+    @apply flex items-start gap-2 rounded-lg bg-live/10 p-3;
+}
+
+@utility erp-textarea {
+    @apply min-w-0 flex-1 rounded-lg border border-black/15 px-3 py-2 outline-none focus:border-black;
+}
+
+@utility erp-select {
+    @apply rounded-lg border border-black/15 bg-white px-3 py-1.5 font-medium;
+}
+
+@utility erp-overlay {
+    @apply fixed inset-0 z-40 flex justify-end bg-black/30;
+}
+
+@utility erp-drawer {
+    @apply h-full w-full max-w-2xl overflow-y-auto bg-white p-6 shadow-2xl;
+}
+
+@utility erp-ai {
+    @apply flex flex-col gap-2 rounded-xl bg-accent/20 p-4;
+}
+
+@utility erp-section-title {
+    @apply mb-2 flex items-center gap-1.5 text-xs font-semibold tracking-wide text-black/50 uppercase;
+}
+
+@utility erp-grid {
+    @apply grid gap-6 sm:grid-cols-2;
+}
+
+@utility erp-dl {
+    @apply grid grid-cols-3 gap-x-3 gap-y-1.5;
+
+    dt {
+        @apply text-black/50;
+    }
+
+    dd {
+        @apply col-span-2 min-w-0;
+    }
+}
+
+@utility erp-history {
+    @apply mt-3 flex list-disc flex-col gap-1 pl-4 text-black/70;
+}
+
+@utility erp-photo {
+    @apply max-h-80 rounded-xl object-cover;
+}
+
+@utility erp-transcript {
+    @apply flex flex-col gap-1.5 rounded-xl bg-light p-3;
+}
+
+@utility erp-turn {
+    @apply max-w-[85%] self-start rounded-xl bg-white px-3 py-1.5;
+}
+
+@utility erp-turn--user {
+    @apply self-end bg-accent/60;
+}
+
+@utility erp-toast {
+    @apply fixed right-6 bottom-6 z-50 flex max-w-sm items-center gap-2 rounded-xl bg-black px-4 py-3 font-medium text-white shadow-2xl;
+}
+
+@keyframes erp-flash {
+    0% {
+        box-shadow: 0 0 0 0 rgb(248 215 28 / 0.9);
+    }
+    100% {
+        box-shadow: 0 0 0 12px rgb(248 215 28 / 0);
+    }
+}

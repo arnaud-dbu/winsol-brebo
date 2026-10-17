@@ -104,6 +104,8 @@ export function addressAutocomplete(key) {
 
         choose(index) {
             this.$refs.input.value = this.suggestions[index];
+            // Voor wie het veld niet als gewone input uitleest, zoals de website-assistent.
+            this.$dispatch('address-chosen', this.suggestions[index]);
             this.token = null;
             this.close();
         },
