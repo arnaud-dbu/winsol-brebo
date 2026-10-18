@@ -99,6 +99,7 @@ export function leadbot() {
             this.unread = false;
 
             if (this.open) {
+                this.$refs.home?.scrollTo({ top: 0 });
                 this.track('leadbot_open', { range: this.page.range?.handle ?? '' });
                 this.$nextTick(() => this.focusInput());
             }
@@ -135,6 +136,10 @@ export function leadbot() {
 
             if (view === 'helpdesk') {
                 this.loadHelpdesk();
+            }
+
+            if (view === 'home') {
+                this.$nextTick(() => this.$refs.home?.scrollTo({ top: 0 }));
             }
 
             this.$nextTick(() => {

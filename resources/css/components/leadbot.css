@@ -14,7 +14,7 @@
 }
 
 @utility leadbot-launcher-winny {
-    @apply w-13;
+    @apply w-14;
     animation: winny-float 3.2s ease-in-out infinite;
 
     .is-nudging & {
@@ -69,17 +69,12 @@
 }
 
 @utility leadbot-header {
-    @apply flex shrink-0 items-center gap-3 bg-black px-4 py-3 text-white;
-    padding-top: max(0.75rem, env(safe-area-inset-top));
+    @apply flex shrink-0 items-center gap-2.5 bg-black py-2.5 pr-2 pl-4 text-white;
+    padding-top: max(0.625rem, env(safe-area-inset-top));
 }
 
-@utility leadbot-header-avatar {
-    @apply grid size-11 shrink-0 place-items-center rounded-full bg-white/10;
-}
-
-@utility leadbot-home-winny {
-    @apply mb-2 w-14;
-    animation: winny-float 3.2s ease-in-out infinite;
+@utility leadbot-header-winny {
+    @apply w-10 shrink-0;
 }
 
 @utility leadbot-title {
@@ -150,7 +145,7 @@
 }
 
 @utility leadbot-home-hero {
-    @apply -mx-4 flex flex-col gap-1 bg-black px-5 pt-3 pb-12 text-white;
+    @apply -mx-4 flex flex-col gap-1 bg-black px-5 pt-2 pb-12 text-white;
 }
 
 @utility leadbot-home-hello {
@@ -884,16 +879,28 @@ html.leadbot-locked .sticky-quote {
     }
 }
 
-/* Winny: knipperende ogen, oplichtende vonkjes, een zachte zweef en een wiebel om de aandacht te trekken. */
+/* Winny: drie lagen op elkaar (partials/winny). De ogen knipperen, de vonkjes lichten op, en het geheel zweeft of wiebelt. */
+.winny {
+    position: relative;
+    display: inline-block;
+    aspect-ratio: 1126 / 950;
+}
+
+.winny-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Het midden van de twee ogen in de render, zodat ze naar zichzelf toe dichtknijpen. */
 .winny-eyes {
-    transform-box: fill-box;
-    transform-origin: center;
+    transform-origin: 55.3% 52.3%;
     animation: winny-blink 5.5s ease-in-out infinite;
 }
 
 .winny-sparks {
-    transform-box: fill-box;
-    transform-origin: 0% 100%;
+    transform-origin: 80% 22%;
     animation: winny-spark 2.6s ease-in-out infinite;
 }
 
@@ -952,8 +959,7 @@ html.leadbot-locked .sticky-quote {
 @media (prefers-reduced-motion: reduce) {
     .winny-eyes,
     .winny-sparks,
-    .leadbot-launcher-winny,
-    .leadbot-home-winny {
+    .leadbot-launcher-winny {
         animation: none;
     }
 }

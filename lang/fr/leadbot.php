@@ -12,9 +12,9 @@ return [
     'close' => 'Fermer',
     'back' => 'Retour',
     'restart' => 'Nouvelle conversation',
-    'open_until' => 'Showroom :name ouvert jusqu\'à :time',
-    'appointment_today' => 'Sur rendez-vous aujourd\'hui, nous vous rappelons',
-    'closed_now' => 'Showrooms fermés, nous vous rappelons',
+    'open_until' => ':name ouvert jusqu\'à :time',
+    'appointment_today' => 'Sur rendez-vous aujourd\'hui',
+    'closed_now' => 'Fermé · nous vous rappelons',
     'ai_notice' => 'Vous parlez à un assistant IA. Les réponses proviennent des informations de ce site ; un conseiller confirme tout lors du mesurage gratuit.',
     'ai_badge' => 'Assistant IA',
 

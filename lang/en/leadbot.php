@@ -12,9 +12,9 @@ return [
     'close' => 'Close',
     'back' => 'Back',
     'restart' => 'New conversation',
-    'open_until' => ':name showroom open until :time',
-    'appointment_today' => 'By appointment today, we\'ll call you back',
-    'closed_now' => 'Showrooms closed now, we\'ll call you back',
+    'open_until' => ':name open until :time',
+    'appointment_today' => 'By appointment today',
+    'closed_now' => 'Closed now · we\'ll call you back',
     'ai_notice' => 'You are chatting with an AI assistant. Answers come from the information on this website; an adviser confirms everything during the free survey.',
     'ai_badge' => 'AI assistant',
 

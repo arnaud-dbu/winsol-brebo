@@ -1,31 +1,22 @@
 {{#
-    Winny, het gezicht van de website-assistent: een gele tekstballon met een zwart scherm en twee lachende ogen. Getekend
-    als SVG en niet als afbeelding, zodat ze scherp blijft op elk formaat en kan bewegen (zie .winny in leadbot.css: de ogen
-    knipperen, de vonkjes lichten op). `id` maakt de verlopen uniek wanneer Winny meer dan eens op de pagina staat.
+    Winny, het gezicht van de website-assistent. De render is opgesplitst in drie lagen van hetzelfde formaat die exact op
+    elkaar vallen: de tekstballon zonder ogen, de ogen en de twee vonkjes. Zo kunnen de ogen echt knipperen en de vonkjes
+    oplichten (zie .winny in leadbot.css). Samen geven ze de oorspronkelijke afbeelding.
 #}}
-<svg class="winny {{ class }}" viewBox="0 0 120 112" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <defs>
-        <linearGradient id="winny-body-{{ id }}" x1="20" y1="8" x2="96" y2="100" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#ffe75a" />
-            <stop offset="0.55" stop-color="#f8d71c" />
-            <stop offset="1" stop-color="#e3b90a" />
-        </linearGradient>
-        <linearGradient id="winny-screen-{{ id }}" x1="30" y1="26" x2="88" y2="76" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#27313a" />
-            <stop offset="1" stop-color="#0b1116" />
-        </linearGradient>
-    </defs>
-    <g class="winny-sparks">
-        <path d="M100 6 L95 18" stroke="#f8d71c" stroke-width="5" stroke-linecap="round" />
-        <path d="M114 16 L104 24" stroke="#f8d71c" stroke-width="5" stroke-linecap="round" />
-    </g>
-    <path
-        d="M38 12 H82 C100 12 112 24 112 42 V54 C112 72 100 84 82 84 H44 L26 104 C24.6 105.6 22 104.4 22.4 102.3 L26 82 C15 77 8 67 8 54 V42 C8 24 20 12 38 12 Z"
-        fill="url(#winny-body-{{ id }})" />
-    <path d="M30 18 C40 13 70 12 86 15" stroke="#fff" stroke-opacity="0.45" stroke-width="3" stroke-linecap="round" />
-    <rect x="20" y="24" width="80" height="50" rx="22" fill="url(#winny-screen-{{ id }})" />
-    <g class="winny-eyes">
-        <path d="M37 54 C40 43 52 43 55 54" stroke="#f8d71c" stroke-width="6" stroke-linecap="round" />
-        <path d="M65 54 C68 43 80 43 83 54" stroke="#f8d71c" stroke-width="6" stroke-linecap="round" />
-    </g>
-</svg>
+<span class="winny {{ class }}" aria-hidden="true">
+    <img src="/leadbot/winny-base.webp" alt="" class="winny-layer" width="240" height="202" decoding="async" />
+    <img
+        src="/leadbot/winny-sparks.webp"
+        alt=""
+        class="winny-layer winny-sparks"
+        width="240"
+        height="202"
+        decoding="async" />
+    <img
+        src="/leadbot/winny-eyes.webp"
+        alt=""
+        class="winny-layer winny-eyes"
+        width="240"
+        height="202"
+        decoding="async" />
+</span>

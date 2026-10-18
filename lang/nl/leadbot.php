@@ -12,9 +12,9 @@ return [
     'close' => 'Sluiten',
     'back' => 'Terug',
     'restart' => 'Nieuw gesprek',
-    'open_until' => 'Showroom :name open tot :time',
-    'appointment_today' => 'Vandaag op afspraak, we bellen je terug',
-    'closed_now' => 'Showrooms nu gesloten, we bellen je terug',
+    'open_until' => ':name open tot :time',
+    'appointment_today' => 'Vandaag op afspraak',
+    'closed_now' => 'Nu gesloten · we bellen je terug',
     'ai_notice' => 'Je praat met een AI-assistent. Antwoorden komen uit de info op deze website; een adviseur bevestigt alles tijdens de gratis opmeting.',
     'ai_badge' => 'AI-assistent',
 

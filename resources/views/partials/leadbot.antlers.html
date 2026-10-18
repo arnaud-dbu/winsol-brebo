@@ -42,7 +42,7 @@
             @click="toggle()"
             :aria-label="t.launcher"
             aria-haspopup="dialog">
-            {{ partial:winny id="launcher" class="leadbot-launcher-winny" }}
+            {{ partial:winny class="leadbot-launcher-winny" }}
             <span class="leadbot-launcher-dot" x-show="unread" aria-hidden="true"></span>
         </button>
     </div>
@@ -69,9 +69,7 @@
                 :aria-label="t.back">
                 {{ icon src="caret-left" class="size-5" aria-hidden="true" }}
             </button>
-            <span class="leadbot-header-avatar">
-                {{ partial:winny id="header" class="size-9" }}
-            </span>
+            {{ partial:winny class="leadbot-header-winny" }}
             <div class="min-w-0 flex-1">
                 <p class="leadbot-title">
                     <span x-text="t.assistant_name"></span>
@@ -114,9 +112,8 @@
         </div>
 
         {{# Start #}}
-        <div class="leadbot-home" x-show="view === 'home'">
+        <div class="leadbot-home" x-ref="home" x-show="view === 'home'">
             <div class="leadbot-home-hero">
-                {{ partial:winny id="home" class="leadbot-home-winny" }}
                 <p class="leadbot-home-hello" x-text="t.home_hello"></p>
                 <p
                     class="leadbot-home-title"
