@@ -42,6 +42,12 @@ return [
         'threshold' => env('RECAPTCHA_V3_THRESHOLD', 0.5),
     ],
 
+    // Beide waarden staan op het Instellingenblad Organisatie van de ERP (WIN-1481).
+    'erp' => [
+        'form_url' => env('ERP_FORM_URL'),
+        'form_secret' => env('ERP_FORM_SECRET'),
+    ],
+
     'google' => [
         // Client-side key voor Places Autocomplete (New); hoort in Google
         // Cloud op referer-restrictie te staan omdat hij in de HTML zichtbaar is.

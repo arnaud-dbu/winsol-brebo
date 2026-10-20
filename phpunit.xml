@@ -27,6 +27,8 @@
         <env name="CACHE_STORE" value="file_testing"/>
         <env name="DB_CONNECTION" value="sqlite"/>
         <env name="DB_DATABASE" value=":memory:"/>
+        <env name="ERP_FORM_URL" value=""/>
+        <env name="ERP_FORM_SECRET" value=""/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
