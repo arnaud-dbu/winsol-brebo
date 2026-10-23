@@ -57,7 +57,10 @@ class ErpDeliveryTest extends TestCase
             'name' => 'An Peeters',
             'phone' => '+32 470 12 34 56',
             'email' => 'klant@voorbeeld.be',
-            'address' => 'Kerkstraat 12, 1700 Dilbeek',
+            'street' => 'Kerkstraat',
+            'number' => '12',
+            'postal_code' => '1700',
+            'city' => 'Dilbeek',
             'project' => 'Een nieuwe voordeur.',
             'gdpr' => '1',
             ...$this->formTimer(),
@@ -98,7 +101,10 @@ class ErpDeliveryTest extends TestCase
                     'name' => 'An Peeters',
                     'phone' => '+32 470 12 34 56',
                     'email' => 'klant@voorbeeld.be',
-                    'address' => 'Kerkstraat 12, 1700 Dilbeek',
+                    'street' => 'Kerkstraat',
+                    'number' => '12',
+                    'postal_code' => '1700',
+                    'city' => 'Dilbeek',
                     'project' => 'Een nieuwe voordeur.',
                 ]
                 && $body['attachments'] === [];
@@ -132,7 +138,10 @@ class ErpDeliveryTest extends TestCase
             'email' => 'client@exemple.be',
             'name' => 'Hélène Lefèvre',
             'phone' => '+32 470 12 34 56',
-            'address' => 'Rue de l’Église 14, 1420 Braine-l’Alleud',
+            'street' => 'Rue de l’Église',
+            'number' => '14',
+            'postal_code' => '1420',
+            'city' => 'Braine-l’Alleud',
             'warranty' => 'nee',
             'vat_six' => '1',
             'rates_agreed' => '1',
@@ -244,7 +253,10 @@ class ErpDeliveryTest extends TestCase
             'name' => 'Klant',
             'phone' => '+32 470 00 00 00',
             'email' => 'klant@voorbeeld.be',
-            'address' => 'Teststraat 1, 1700 Dilbeek',
+            'street' => 'Teststraat',
+            'number' => '1',
+            'postal_code' => '1700',
+            'city' => 'Dilbeek',
             'gdpr' => '1',
             'brochures' => ['brochures/winsol_brochure_verticale-zonwering_nl.pdf'],
             ...$this->formTimer(),
@@ -258,7 +270,7 @@ class ErpDeliveryTest extends TestCase
     {
         Http::fake();
 
-        $this->from('/offerte')->post('/!/forms/offerte', $this->quote(['address' => 'https://casino-vulkan.example/bonus']))->assertSessionHasNoErrors();
+        $this->from('/offerte')->post('/!/forms/offerte', $this->quote(['street' => 'https://casino-vulkan.example/bonus']))->assertSessionHasNoErrors();
 
         Http::assertNothingSent();
         $this->assertSame(0, $this->notifications());

@@ -22,7 +22,7 @@
                                 {{# Leeg: de taal vult de server in, zie App\Listeners\RecordSubmissionLanguage. #}}
                                 {{# Toggles buiten .form-field, om dezelfde reden: die klasse stijlt elke input als volle-breedte tekstveld. #}}
                             {{ elseif type == "toggle" }}
-                                <div class="flex flex-col gap-2 lg:col-span-2">
+                                <div class="col-span-full flex flex-col gap-2">
                                     <label class="flex items-start gap-3 text-base">
                                         <input
                                             type="checkbox"
@@ -45,7 +45,7 @@
                                     {{ /if }}
                                 </div>
                             {{ else }}
-                                <div class="form-field{{ if width == 50 }} form-field--half{{ /if }}">
+                                <div class="form-field form-field--{{ width }}">
                                     <label class="form-label" for="{{ id }}">
                                         {{ trans :key="display" }}
                                         {{ partial:optionalMarker }}
@@ -60,7 +60,7 @@
                                         {{ partial:uploadField prompt="Sleep je foto's hierheen of klik om te uploaden" }}
                                     {{ elseif handle == "invoice" }}
                                         {{ partial:uploadField prompt="Sleep je factuur hierheen of klik om te uploaden" }}
-                                    {{ elseif handle == "address" }}
+                                    {{ elseif handle == "street" }}
                                         {{ partial:addressField }}
                                     {{ else }}
                                         {{ field }}

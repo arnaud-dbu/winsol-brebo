@@ -11,7 +11,7 @@ class OfferteFormTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:offerteForm }}');
 
-        foreach (['location', 'name', 'phone', 'email', 'address', 'project'] as $handle) {
+        foreach (['location', 'name', 'phone', 'email', 'street', 'number', 'postal_code', 'city', 'project'] as $handle) {
             $this->assertStringContainsString('name="'.$handle.'"', $html, "Veld {$handle} ontbreekt.");
         }
 
@@ -52,33 +52,35 @@ class OfferteFormTest extends SectionTestCase
     }
 
     /**
-     * name+phone en email+address staan in het ontwerp naast elkaar. De
-     * klasse volgt uit `width: 50` in het blueprint, niet uit het template.
+     * name+phone staan in het ontwerp naast elkaar, e-mail op de volle
+     * breedte, dan straat (breed) + nr. en postcode + gemeente (breed). De
+     * klasse volgt uit `width` in het blueprint, niet uit het template.
      */
-    public function test_marks_exactly_the_four_paired_fields_as_half_width(): void
+    public function test_the_paired_fields_carry_their_blueprint_width(): void
     {
         $html = $this->render('{{ partial:offerteForm }}');
 
-        $this->assertSame(4, substr_count($html, 'form-field--half'));
+        $this->assertSame(2, substr_count($html, 'form-field--50"'));
+        $this->assertSame(2, substr_count($html, 'form-field--75"'));
+        $this->assertSame(2, substr_count($html, 'form-field--25"'));
+        $this->assertMatchesRegularExpression('/form-field--75">\s*<label[^>]*for="offerte-form-street-field"/', $html);
+        $this->assertMatchesRegularExpression('/form-field--25">\s*<label[^>]*for="offerte-form-number-field"/', $html);
     }
 
     /**
-     * Het adresveld is de eigen combobox uit partials/addressField, niet
+     * Het straatveld is de eigen combobox uit partials/addressField, niet
      * Statamic's kale text-input: mét autocomplete-component, suggestielijst
      * en required-attribuut. Valt de partial-aanroep weg, dan rendert het
      * veld stil als gewoon tekstveld en is de Google-laag geruisloos weg.
      */
-    public function test_the_address_field_is_the_autocomplete_combobox(): void
+    public function test_the_street_field_is_the_autocomplete_combobox(): void
     {
         $html = $this->render('{{ partial:offerteForm }}');
 
-        $addressInput = strpos($html, 'name="address"');
-
-        $this->assertNotFalse($addressInput, 'Het adresveld ontbreekt.');
         $this->assertStringContainsString('addressAutocomplete(', $html);
-        $this->assertStringContainsString('role="combobox"', $html);
+        $this->assertMatchesRegularExpression('/name="street"[^>]*role="combobox"/s', $html);
         $this->assertStringContainsString('role="listbox"', $html);
-        $this->assertMatchesRegularExpression('/name="address"[^>]*required/', $html);
+        $this->assertMatchesRegularExpression('/name="street"[^>]*required/', $html);
     }
 
     /**

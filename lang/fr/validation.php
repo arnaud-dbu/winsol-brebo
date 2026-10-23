@@ -27,6 +27,10 @@ return [
         'is_winsol' => ['required' => 'Faites un choix dans la liste.'],
         'facade' => ['required' => 'Faites un choix dans la liste.'],
         'warranty' => ['required' => 'Faites un choix dans la liste.'],
+        'street' => ['required' => 'Indiquez votre rue.'],
+        'number' => ['required' => 'Indiquez votre numéro.'],
+        'postal_code' => ['required' => 'Indiquez votre code postal.', 'digits' => 'Indiquez un code postal valide (4 chiffres).'],
+        'city' => ['required' => 'Indiquez votre commune.'],
         'floor' => ['integer' => 'Indiquez l’étage en chiffres, 0 pour le rez-de-chaussée.', 'between' => 'Indiquez l’étage en chiffres, 0 pour le rez-de-chaussée.'],
     ],
 ];

@@ -68,7 +68,10 @@ class BrochureCheckboxesTest extends TestCase
                     'name' => 'Jan',
                     'email' => 'jan@voorbeeld.be',
                     'phone' => '+32 470 00 00 00',
-                    'address' => 'Teststraat 1, 1700 Dilbeek',
+                    'street' => 'Teststraat',
+                    'number' => '1',
+                    'postal_code' => '1700',
+                    'city' => 'Dilbeek',
                     'gdpr' => '1',
                 ],
                 $rules,
@@ -103,6 +106,7 @@ class BrochureCheckboxesTest extends TestCase
         $this->assertSame('Rolluiken en verticale zonwering', $augmented[0]['label']);
         $this->assertSame('/r2/brochures/winsol_brochure_verticale-zonwering_nl.pdf', $augmented[0]['url']);
     }
+
     /**
      * Het formulier post naar `/!/forms/brochure`, een route zonder taalprefix,
      * dus tijdens de validatie is `Site::current()` de standaardtaal. Sinds de

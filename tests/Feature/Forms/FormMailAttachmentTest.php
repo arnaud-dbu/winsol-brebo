@@ -40,7 +40,10 @@ class FormMailAttachmentTest extends TestCase
             'email' => 'klant@voorbeeld.be',
             'name' => 'Klant',
             'phone' => '+32 470 00 00 00',
-            'address' => 'Teststraat 1, 1700 Dilbeek',
+            'street' => 'Teststraat',
+            'number' => '1',
+            'postal_code' => '1700',
+            'city' => 'Dilbeek',
             'warranty' => 'nee',
             'rates_agreed' => '1',
             'warranty_terms' => '1',
@@ -70,7 +73,10 @@ class FormMailAttachmentTest extends TestCase
             'name' => 'Poting',
             'phone' => '+32 470 00 00 00',
             'email' => 'klant@voorbeeld.be',
-            'address' => 'Boomkwekerijstraat 1 Sint-Pieters-Leeuw, België',
+            'street' => 'Rue de l’Église',
+            'number' => '14',
+            'postal_code' => '1420',
+            'city' => 'Braine-l’Alleud',
             'project' => 'Je souhaite également la dépose de l’ancienne porte. Photo vue de l’intérieur',
             'attachment' => [UploadedFile::fake()->image('porte.jpg', 800, 600)],
             'gdpr' => '1',
@@ -84,7 +90,7 @@ class FormMailAttachmentTest extends TestCase
         $this->assertCount(1, $messages, 'Er vertrok geen (of meer dan één) melding.');
 
         $email = $messages->first()->getOriginalMessage();
-        $this->assertStringContainsString('België', $email->getHtmlBody(), 'De accenten zijn uit het adres verdwenen.');
+        $this->assertStringContainsString('Rue de l’Église 14, 1420 Braine-l’Alleud', $email->getHtmlBody(), 'De accenten zijn uit het adres verdwenen.');
         $this->assertStringContainsString('l’intérieur', $email->getHtmlBody(), 'De accenten zijn uit het project verdwenen.');
 
         $attachments = $email->getAttachments();

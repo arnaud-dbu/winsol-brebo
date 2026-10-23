@@ -13,7 +13,7 @@ class BrochureFormBlueprintTest extends TestCase
 
         $this->assertSame('brochure_checkboxes', $fields->get('brochures')->type());
 
-        foreach (['name', 'phone', 'email', 'address'] as $handle) {
+        foreach (['name', 'phone', 'email', 'street', 'number', 'postal_code', 'city'] as $handle) {
             $this->assertSame('text', $fields->get($handle)->type());
         }
     }
@@ -27,7 +27,7 @@ class BrochureFormBlueprintTest extends TestCase
     {
         $fields = Form::find('brochure')->blueprint()->fields()->all();
 
-        foreach (['brochures', 'name', 'phone', 'email', 'address'] as $handle) {
+        foreach (['brochures', 'name', 'phone', 'email', 'street', 'number', 'postal_code', 'city'] as $handle) {
             $this->assertTrue($fields->get($handle)->isRequired(), "{$handle} hoort verplicht te zijn.");
         }
 

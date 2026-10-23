@@ -13,12 +13,14 @@ class HerstellingFormBlueprintTest extends TestCase
      * elke aanvraag die binnenkomt draagt normaal naam, adres en telefoon.
      * Het adres is daarom op elk formulier verplicht.
      */
-    public function test_the_address_is_a_required_text_field(): void
+    public function test_the_address_is_four_required_text_fields(): void
     {
         $fields = Form::find('herstelling')->blueprint()->fields()->all();
 
-        $this->assertSame('text', $fields->get('address')->type());
-        $this->assertTrue($fields->get('address')->isRequired());
+        foreach (['street', 'number', 'postal_code', 'city'] as $handle) {
+            $this->assertSame('text', $fields->get($handle)->type());
+            $this->assertTrue($fields->get($handle)->isRequired(), "{$handle} hoort verplicht te zijn.");
+        }
     }
 
     /**
@@ -30,7 +32,7 @@ class HerstellingFormBlueprintTest extends TestCase
     {
         $fields = Form::find('herstelling')->blueprint()->fields()->all();
 
-        foreach (['product', 'is_winsol', 'installed', 'facade', 'floor', 'dimensions', 'problem', 'branch', 'email', 'name', 'phone', 'address'] as $handle) {
+        foreach (['product', 'is_winsol', 'installed', 'facade', 'floor', 'dimensions', 'problem', 'branch', 'email', 'name', 'phone', 'street', 'number', 'postal_code', 'city'] as $handle) {
             $this->assertTrue($fields->get($handle)->isRequired(), "{$handle} hoort verplicht te zijn.");
         }
 

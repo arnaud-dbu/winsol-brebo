@@ -30,7 +30,7 @@ class OfferteFormBlueprintTest extends TestCase
     {
         $fields = Form::find('offerte')->blueprint()->fields()->all();
 
-        foreach (['products', 'location', 'name', 'phone', 'email', 'address', 'project'] as $handle) {
+        foreach (['products', 'location', 'name', 'phone', 'email', 'street', 'number', 'postal_code', 'city', 'project'] as $handle) {
             $this->assertTrue($fields->get($handle)->isRequired(), "{$handle} hoort verplicht te zijn.");
         }
 

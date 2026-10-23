@@ -1,6 +1,7 @@
 {{#
-    Adresinput met Google Places Autocomplete (New). Draait volledig op de veldvariabelen van de omliggende
-    {{ fields }}-loop; zonder API-key blijft het een gewoon tekstveld.
+    Straatinput met Google Places Autocomplete (New). Draait volledig op de veldvariabelen van de omliggende veldenlus;
+    zonder API-key blijft het een gewoon tekstveld. Een gekozen suggestie vult ook nr., postcode en gemeente: die vakken
+    zoekt address-autocomplete.js op naam in hetzelfde formulier.
 #}}
 <div
     class="form-autocomplete"
@@ -28,13 +29,13 @@
         {{ if error }}aria-invalid="true" aria-describedby="{{ id }}-error"{{ /if }} />
 
     <ul x-cloak x-show="open" id="{{ id }}-options" role="listbox" class="form-autocomplete-list">
-        <template x-for="(suggestion, index) in suggestions" :key="suggestion">
+        <template x-for="(suggestion, index) in suggestions" :key="suggestion.id">
             <li role="option" :aria-selected="index === active">
                 <button
                     type="button"
                     :class="index === active && 'is-active'"
                     @click="choose(index)"
-                    x-text="suggestion"
+                    x-text="suggestion.text"
                     tabindex="-1"></button>
             </li>
         </template>

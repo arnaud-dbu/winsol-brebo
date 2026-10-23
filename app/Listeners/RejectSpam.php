@@ -31,7 +31,7 @@ class RejectSpam
      * er niet bij, want App\Rules\PhoneNumber weigert een link daar al bij de
      * validatie.
      */
-    private const LINK_FREE_FIELDS = ['name', 'address'];
+    private const LINK_FREE_FIELDS = ['name', 'street', 'number', 'postal_code', 'city'];
 
     private const LINK_PATTERN = '~https?://|www\.|[\p{L}\d-]+\.(?:com|net|org|info|biz|ru|xyz|top|online|site|club|bet|casino|io)\b|[\p{L}\d-]+\.[a-z]{2,}/~iu';
 

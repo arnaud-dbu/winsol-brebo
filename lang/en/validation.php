@@ -28,6 +28,10 @@ return [
         'is_winsol' => ['required' => 'Choose an option from the list.'],
         'facade' => ['required' => 'Choose an option from the list.'],
         'warranty' => ['required' => 'Choose an option from the list.'],
+        'street' => ['required' => 'Enter your street.'],
+        'number' => ['required' => 'Enter your house number.'],
+        'postal_code' => ['required' => 'Enter your postcode.', 'digits' => 'Enter a valid postcode (4 digits).'],
+        'city' => ['required' => 'Enter your town.'],
         'floor' => ['integer' => 'Enter the floor as a number, 0 for the ground floor.', 'between' => 'Enter the floor as a number, 0 for the ground floor.'],
     ],
 

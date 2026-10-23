@@ -28,14 +28,18 @@
     @apply border-t border-black/10 pt-8 lg:pt-12;
 }
 
+/*
+ * Vier kolommen, zodat een veld de breedtes 25, 50 en 75 uit het blueprint
+ * kan volgen: straat en nummer staan op 75 + 25 naast elkaar.
+ */
 .form-grid {
-    @apply grid gap-6 lg:grid-cols-2;
+    @apply grid gap-6 lg:grid-cols-4;
 }
 
 /*
- * Elk veld beslaat standaard de volle breedte; `--half` zet het terug naar
- * één kolom. Zo is de brede variant de default en hoeft het blueprint alleen
- * de uitzonderingen (`width: 50`) te dragen.
+ * Elk veld beslaat standaard de volle breedte; `--25`, `--50` en `--75`
+ * volgen de `width` uit het blueprint. Zo is de brede variant de default en
+ * hoeft het blueprint alleen de uitzonderingen te dragen.
  *
  * De kolomsplitsing gaat pas vanaf `lg` in, niet `sm`: `section-x-gap`
  * (base/spacing.css) zet de herstellingssectie zelf al vanaf `sm` naast
@@ -44,11 +48,19 @@
  * voor placeholders als "bv. Pergola SO!, rolluik, raam…".
  */
 .form-field {
-    @apply flex flex-col gap-3 lg:col-span-2;
+    @apply col-span-full flex flex-col gap-3;
 }
 
-.form-field--half {
+.form-field--25 {
     @apply lg:col-span-1;
+}
+
+.form-field--50 {
+    @apply lg:col-span-2;
+}
+
+.form-field--75 {
+    @apply lg:col-span-3;
 }
 
 .form-label {

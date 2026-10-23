@@ -51,7 +51,7 @@
                             {{ elseif handle == "language" }}
                                 {{# Leeg: de taal vult de server in, zie App\Listeners\RecordSubmissionLanguage. #}}
                             {{ else }}
-                                <div class="form-field{{ if width == 50 }} form-field--half{{ /if }}">
+                                <div class="form-field form-field--{{ width }}">
                                     <label class="form-label" for="{{ id }}">
                                         {{ trans :key="display" }}
                                         {{ partial:optionalMarker }}
@@ -63,7 +63,7 @@
                                         </div>
                                     {{ elseif handle == "attachment" }}
                                         {{ partial:uploadField prompt="Sleep je foto's hierheen of klik om te uploaden" }}
-                                    {{ elseif handle == "address" }}
+                                    {{ elseif handle == "street" }}
                                         {{ partial:addressField }}
                                     {{ else }}
                                         {{ field }}

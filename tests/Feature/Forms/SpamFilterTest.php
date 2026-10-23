@@ -63,7 +63,10 @@ class SpamFilterTest extends TestCase
             'email' => 'klant@voorbeeld.be',
             'name' => 'An Peeters',
             'phone' => '0470 12 34 56',
-            'address' => 'Kerkstraat 12, 1700 Dilbeek',
+            'street' => 'Kerkstraat',
+            'number' => '12',
+            'postal_code' => '1700',
+            'city' => 'Dilbeek',
             'warranty' => 'nee',
             'rates_agreed' => '1',
             'warranty_terms' => '1',
@@ -85,7 +88,10 @@ class SpamFilterTest extends TestCase
             'name' => 'An Peeters',
             'phone' => '+32 470 12 34 56',
             'email' => 'klant@voorbeeld.be',
-            'address' => 'Kerkstraat 12, 1700 Dilbeek',
+            'street' => 'Kerkstraat',
+            'number' => '12',
+            'postal_code' => '1700',
+            'city' => 'Dilbeek',
             'project' => 'Een nieuwe voordeur.',
             'gdpr' => '1',
             ...$this->formTimer(),
@@ -130,7 +136,7 @@ class SpamFilterTest extends TestCase
             'installed' => '478951',
             'floor' => '572661',
             'problem' => 'Лучшее онлайн-казино, бонус при регистрации',
-            'address' => 'https://casino-vulkan.example/bonus',
+            'street' => 'https://casino-vulkan.example/bonus',
             'phone' => '89123456789',
         ]));
 
@@ -167,15 +173,16 @@ class SpamFilterTest extends TestCase
     public static function links(): array
     {
         return [
-            'adres met https' => ['address', 'https://casino-vulkan.example/bonus'],
-            'adres met www' => ['address', 'www.casino-vulkan.ru'],
+            'straat met https' => ['street', 'https://casino-vulkan.example/bonus'],
+            'huisnummer met www' => ['number', 'www.casino-vulkan.ru'],
+            'gemeente met een kale domeinnaam' => ['city', 'vulkan-casino.com'],
             'naam met een kale domeinnaam' => ['name', 'Bonus op vulkan-casino.com'],
             'naam met een pad' => ['name', 'Jan bit.ly/abc123'],
         ];
     }
 
     #[DataProvider('links')]
-    public function test_a_link_in_name_or_address_is_rejected(string $field, string $value): void
+    public function test_a_link_in_the_name_or_an_address_field_is_rejected(string $field, string $value): void
     {
         Log::spy();
 
@@ -205,19 +212,28 @@ class SpamFilterTest extends TestCase
         return [
             'herstelling in het Nederlands' => ['herstelling', '/service', [
                 'name' => 'Sofie Van den Broeck-D’Hondt',
-                'address' => 'Sint-Jan-Baptiststraat 3 bus 2, 9000 Gent',
+                'street' => 'Sint-Jan-Baptiststraat',
+                'number' => '3 bus 2',
+                'postal_code' => '9000',
+                'city' => 'Gent',
                 'phone' => '09/123.45.67',
                 'problem' => 'De lamellen van onze zonwering (± 4 m breed) blijven halverwege steken.',
             ]],
             'herstelling in het Frans' => ['herstelling', '/fr/service', [
                 'name' => 'Hélène Lefèvre',
-                'address' => 'Rue de l’Église 14, 1420 Braine-l’Alleud',
+                'street' => 'Rue de l’Église',
+                'number' => '14',
+                'postal_code' => '1420',
+                'city' => 'Braine-l’Alleud',
                 'phone' => '+33 6 12 34 56 78',
                 'problem' => 'Le volet ne descend plus, le moteur fait un bruit étrange depuis l’été.',
             ]],
             'herstelling in het Engels' => ['herstelling', '/en/service', [
                 'name' => 'John O’Neill',
-                'address' => 'Avenue Louise 231, 1050 Brussels',
+                'street' => 'Avenue Louise',
+                'number' => '231',
+                'postal_code' => '1050',
+                'city' => 'Brussels',
                 'phone' => '0032 2 123 45 67',
                 'problem' => 'The awning won’t retract after the storm last week.',
             ]],

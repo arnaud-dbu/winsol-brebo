@@ -141,13 +141,7 @@ tabs:
                 - required
                 - 'new App\Rules\PhoneNumber'
           -
-            handle: address
-            field:
-              type: text
-              display: Adres
-              placeholder: 'Straat en nummer, gemeente'
-              validate:
-                - required
+            import: address
       -
         display: 'Tarieven en garantie'
         instructions: 'Wij rekenen een verplaatsingsforfait van 90 euro (excl. btw) aan en 65 euro (excl. btw) per begonnen uur per persoon.'

@@ -1,0 +1,39 @@
+title: Adres
+fields:
+  -
+    handle: street
+    field:
+      type: text
+      display: Straat
+      placeholder: Straatnaam
+      width: 75
+      validate:
+        - required
+  -
+    handle: number
+    field:
+      type: text
+      display: Nr.
+      width: 25
+      validate:
+        - required
+  -
+    handle: postal_code
+    field:
+      type: text
+      display: Postcode
+      character_limit: 4
+      autocomplete: postal-code
+      width: 25
+      validate:
+        - required
+        - 'digits:4'
+  -
+    handle: city
+    field:
+      type: text
+      display: Gemeente
+      autocomplete: address-level2
+      width: 75
+      validate:
+        - required

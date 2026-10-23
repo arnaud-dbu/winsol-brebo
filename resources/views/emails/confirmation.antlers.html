@@ -5,7 +5,9 @@
     antwoord van de klant. Een bijlage staat er met haar naam en zonder link: ze staat op de private R2-disk, die de klant
     niet kan openen.
 #}}
-{{ omitted = ['gdpr', 'rates_agreed', 'warranty_terms', 'language'] }}
+{{ omitted = ['gdpr', 'rates_agreed', 'warranty_terms', 'language', 'number', 'postal_code', 'city'] }}
+{{# Het adres staat in vier vakken op het formulier, maar leest als één regel onder het label van straat. #}}
+{{ address_line = "{street} {number}, {postal_code} {city}" }}
 {{ partial:emails/partials/layout }}
     <p style="margin: 0 0 16px">{{ trans:site.mail_greeting }} {{ name }},</p>
 
@@ -28,12 +30,14 @@
                             font-size: 13px;
                             color: #6b7280;
                         ">
-                        {{ trans :key="display" }}
+                        {{ trans :key="handle == 'street' ? 'Adres' : display" }}
                     </td>
                     <td
                         valign="top"
                         style="padding: 10px 0; border-bottom: 1px solid #ebf0f2; font-size: 15px; color: #121b22">
-                        {{ if fieldtype == 'assets' }}
+                        {{ if handle == 'street' }}
+                            {{ address_line }}
+                        {{ elseif fieldtype == 'assets' }}
                             {{ value }}
                                 {{ basename }}
                                 <br />

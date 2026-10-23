@@ -3,6 +3,8 @@
 namespace Tests\Feature\Sections;
 
 use Illuminate\Support\Collection;
+use Statamic\Facades\Form;
+use Statamic\Fields\Field;
 use Symfony\Component\Yaml\Yaml;
 
 class ReparationFormTest extends SectionTestCase
@@ -18,7 +20,7 @@ class ReparationFormTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:reparationForm }}');
 
-        foreach (['product', 'is_winsol', 'installed', 'facade', 'floor', 'dimensions', 'problem', 'branch', 'email', 'name', 'phone', 'address'] as $handle) {
+        foreach (['product', 'is_winsol', 'installed', 'facade', 'floor', 'dimensions', 'problem', 'branch', 'email', 'name', 'phone', 'street', 'number', 'postal_code', 'city'] as $handle) {
             $this->assertStringContainsString('name="'.$handle.'"', $html, "Veld {$handle} ontbreekt.");
         }
 
@@ -30,20 +32,22 @@ class ReparationFormTest extends SectionTestCase
 
     /**
      * De halve velden staan per twee naast elkaar: product+is_winsol,
-     * installed+facade, floor+... en name+phone. De klasse volgt uit
-     * `width: 50` in het blueprint, niet uit dit template — vandaar dat de
-     * verwachting uit datzelfde blueprint komt en niet uit een vast getal.
+     * installed+facade, floor+... en name+phone; straat en nr. op 75 + 25,
+     * postcode en gemeente op 25 + 75. De klasse volgt uit `width` in het
+     * blueprint, niet uit dit template — vandaar dat de verwachting uit
+     * datzelfde blueprint komt en niet uit een vast getal.
      */
-    public function test_the_paired_fields_are_marked_half_width(): void
+    public function test_the_paired_fields_carry_their_blueprint_width(): void
     {
         $html = $this->render('{{ partial:reparationForm }}');
 
-        $halve = $this->sections()
-            ->flatMap(fn ($sectie) => $sectie['fields'])
-            ->filter(fn ($veld) => ($veld['field']['width'] ?? 100) === 50)
-            ->count();
+        $breedtes = Form::find('herstelling')->blueprint()->fields()->all()
+            ->map(fn (Field $veld) => $veld->get('width') ?? 100)
+            ->countBy();
 
-        $this->assertSame($halve, substr_count($html, 'form-field--half'));
+        foreach ([25, 50, 75] as $breedte) {
+            $this->assertSame($breedtes[$breedte] ?? 0, substr_count($html, 'form-field--'.$breedte.'"'), "Velden op {$breedte}%.");
+        }
     }
 
     /**

@@ -50,12 +50,12 @@
                             {{ elseif handle == "language" }}
                                 {{# Leeg: de taal vult de server in, zie App\Listeners\RecordSubmissionLanguage. #}}
                             {{ else }}
-                                <div class="form-field{{ if width == 50 }} form-field--half{{ /if }}">
+                                <div class="form-field form-field--{{ width }}">
                                     <label class="form-label" for="{{ id }}">
                                         {{ trans :key="display" }}
                                         {{ partial:optionalMarker }}
                                     </label>
-                                    {{ if handle == "address" }}
+                                    {{ if handle == "street" }}
                                         {{ partial:addressField }}
                                     {{ else }}
                                         {{ field }}

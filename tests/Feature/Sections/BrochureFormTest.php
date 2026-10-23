@@ -11,7 +11,7 @@ class BrochureFormTest extends SectionTestCase
     {
         $html = $this->render('{{ partial:brochureForm }}');
 
-        foreach (['name', 'phone', 'email', 'address'] as $handle) {
+        foreach (['name', 'phone', 'email', 'street', 'number', 'postal_code', 'city'] as $handle) {
             $this->assertStringContainsString('name="'.$handle.'"', $html, "Veld {$handle} ontbreekt.");
         }
 
@@ -49,12 +49,12 @@ class BrochureFormTest extends SectionTestCase
         $this->assertMatchesRegularExpression('/<ul class="offerte-pills">/', $html);
     }
 
-    public function test_the_address_field_is_the_autocomplete_combobox(): void
+    public function test_the_street_field_is_the_autocomplete_combobox(): void
     {
         $html = $this->render('{{ partial:brochureForm }}');
 
         $this->assertStringContainsString('addressAutocomplete(', $html);
-        $this->assertStringContainsString('role="combobox"', $html);
+        $this->assertMatchesRegularExpression('/name="street"[^>]*role="combobox"/s', $html);
     }
 
     /**

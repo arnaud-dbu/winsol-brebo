@@ -42,6 +42,10 @@ class FormErrorMessagesTest extends TestCase
                 'te_groot' => 'Dit bestand is te groot. Kies een kleiner bestand.',
                 'te_veel' => 'Je koos te veel bestanden. Er kunnen er hoogstens 5 mee.',
                 'niet_aangekomen' => 'Dit bestand kwam niet aan. Kies een kleiner bestand of probeer het opnieuw.',
+                'straat' => 'Vul je straat in.',
+                'huisnummer' => 'Vul je huisnummer in.',
+                'postcode' => 'Vul je postcode in.',
+                'gemeente' => 'Vul je gemeente in.',
             ]],
             'fr' => [['offerte' => '/fr/devis', 'brochure' => '/fr/brochures', 'herstelling' => '/fr/service'], [
                 'leeg' => 'Remplissez ce champ.',
@@ -54,6 +58,10 @@ class FormErrorMessagesTest extends TestCase
                 'te_groot' => 'Ce fichier est trop lourd. Choisissez un fichier plus léger.',
                 'te_veel' => 'Vous avez choisi trop de fichiers. 5 au maximum.',
                 'niet_aangekomen' => 'Ce fichier n’est pas arrivé. Choisissez un fichier plus léger ou réessayez.',
+                'straat' => 'Indiquez votre rue.',
+                'huisnummer' => 'Indiquez votre numéro.',
+                'postcode' => 'Indiquez votre code postal.',
+                'gemeente' => 'Indiquez votre commune.',
             ]],
             'en' => [['offerte' => '/en/quote', 'brochure' => '/en/brochures', 'herstelling' => '/en/service'], [
                 'leeg' => 'Please fill in this field.',
@@ -66,6 +74,10 @@ class FormErrorMessagesTest extends TestCase
                 'te_groot' => 'This file is too large. Choose a smaller file.',
                 'te_veel' => 'You picked too many files. 5 at most.',
                 'niet_aangekomen' => 'This file didn’t come through. Choose a smaller file or try again.',
+                'straat' => 'Enter your street.',
+                'huisnummer' => 'Enter your house number.',
+                'postcode' => 'Enter your postcode.',
+                'gemeente' => 'Enter your town.',
             ]],
         ];
     }

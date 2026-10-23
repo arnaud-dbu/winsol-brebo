@@ -5,7 +5,8 @@
 //
 // `custom` per veldnaam, voor alles wat je kiest in plaats van intypt. Een
 // nieuwe keuzelijst in een formulierblueprint hoort hier haar handle bij te
-// krijgen; anders vraagt ze "Vul dit veld in."
+// krijgen; anders vraagt ze "Vul dit veld in." De vakken van het adres staan
+// er ook: vier keer "Vul dit veld in." onder elkaar zegt niet welk vak leeg is.
 return [
     'required' => 'Vul dit veld in.',
     'email' => 'Vul een geldig e-mailadres in, bijvoorbeeld naam@voorbeeld.be.',
@@ -32,6 +33,10 @@ return [
         'is_winsol' => ['required' => 'Maak een keuze uit de lijst.'],
         'facade' => ['required' => 'Maak een keuze uit de lijst.'],
         'warranty' => ['required' => 'Maak een keuze uit de lijst.'],
+        'street' => ['required' => 'Vul je straat in.'],
+        'number' => ['required' => 'Vul je huisnummer in.'],
+        'postal_code' => ['required' => 'Vul je postcode in.', 'digits' => 'Vul een geldige postcode in (4 cijfers).'],
+        'city' => ['required' => 'Vul je gemeente in.'],
         'floor' => ['integer' => 'Vul de verdieping in als getal, 0 voor het gelijkvloers.', 'between' => 'Vul de verdieping in als getal, 0 voor het gelijkvloers.'],
     ],
 ];

@@ -70,7 +70,10 @@ class RangeCheckboxesTest extends TestCase
                     'name' => 'Jan',
                     'phone' => '+32 470 00 00 00',
                     'email' => 'jan@voorbeeld.be',
-                    'address' => 'Teststraat 1, 1700 Dilbeek',
+                    'street' => 'Teststraat',
+                    'number' => '1',
+                    'postal_code' => '1700',
+                    'city' => 'Dilbeek',
                     'project' => 'Twee rolluiken vooraan.',
                     // Verplicht sinds het formulier om toestemming vraagt; zonder
                     // deze regel meet de test niet meer wat hij belooft.

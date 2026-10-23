@@ -22,9 +22,9 @@ class RequiredFieldsTest extends SectionTestCase
     public static function formulieren(): array
     {
         return [
-            'offerte' => ['offerteForm', 7],
-            'brochure' => ['brochureForm', 5],
-            'herstelling' => ['reparationForm', 16],
+            'offerte' => ['offerteForm', 10],
+            'brochure' => ['brochureForm', 8],
+            'herstelling' => ['reparationForm', 19],
         ];
     }
 

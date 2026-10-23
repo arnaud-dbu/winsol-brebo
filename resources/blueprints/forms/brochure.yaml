@@ -39,19 +39,11 @@ tabs:
               input_type: email
               display: E-mail
               placeholder: 'naam@voorbeeld.be'
-              width: 50
               validate:
                 - required
                 - email
           -
-            handle: address
-            field:
-              type: text
-              display: Adres
-              placeholder: 'Straat en nummer, gemeente'
-              width: 50
-              validate:
-                - required
+            import: address
           -
             handle: gdpr
             field:

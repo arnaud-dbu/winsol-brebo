@@ -2,8 +2,22 @@
  * Suggesties via de Places Autocomplete (New) REST-endpoint in plaats van de
  * Maps-JS-loader: dat scheelt het hele maps-bundle en houdt de dropdown
  * volledig in eigen markup. Het sessiontoken bundelt de keystrokes van één
- * adres tot één factureerbare sessie en wordt na een keuze vernieuwd.
+ * adres én de Place Details-oproep na de keuze tot één factureerbare sessie,
+ * en wordt daarna vernieuwd.
  */
+
+const PLACES = 'https://places.googleapis.com/v1/places';
+
+/**
+ * Vak op het formulier per type uit `addressComponents`. Het eerste type dat
+ * in de plaats voorkomt, wint.
+ */
+const COMPONENTS = {
+    street: ['route'],
+    number: ['street_number'],
+    postal_code: ['postal_code'],
+    city: ['locality', 'postal_town'],
+};
 
 /**
  * `crypto.randomUUID()` bestaat alleen in een secure context. Productie draait
@@ -48,7 +62,7 @@ export function addressAutocomplete(key) {
 
             let data;
             try {
-                const response = await fetch('https://places.googleapis.com/v1/places:autocomplete', {
+                const response = await fetch(`${PLACES}:autocomplete`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -80,8 +94,12 @@ export function addressAutocomplete(key) {
             }
 
             this.suggestions = (data.suggestions ?? [])
-                .map((suggestion) => suggestion.placePrediction?.text?.text)
-                .filter(Boolean);
+                .map(({ placePrediction }) => ({
+                    id: placePrediction?.placeId,
+                    text: placePrediction?.text?.text,
+                    street: placePrediction?.structuredFormat?.mainText?.text,
+                }))
+                .filter((suggestion) => suggestion.id && suggestion.text);
             this.active = -1;
             this.open = this.suggestions.length > 0;
         },
@@ -102,10 +120,69 @@ export function addressAutocomplete(key) {
             }
         },
 
-        choose(index) {
-            this.$refs.input.value = this.suggestions[index];
+        async choose(index) {
+            const suggestion = this.suggestions[index];
+            const token = this.token;
+
             this.token = null;
             this.close();
+
+            const parts = await this.fetchAddressParts(suggestion.id, token);
+
+            if (!parts) {
+                this.$refs.input.value = suggestion.street ?? suggestion.text;
+                return;
+            }
+
+            const form = this.$refs.input.form;
+
+            for (const [name, value] of Object.entries(parts)) {
+                const input = form.elements.namedItem(name);
+
+                // Zonder straat in de plaats (een gemeente gekozen) blijft wat
+                // de klant typte staan. Een ontbrekend nummer maakt nr. wél
+                // leeg: een oud nummer bij een nieuwe straat klopt niet.
+                if (input && (value || name === 'number')) {
+                    input.value = value ?? '';
+                }
+            }
+
+            if (!parts.number) {
+                form.elements.namedItem('number')?.focus();
+            }
+        },
+
+        /**
+         * Bij een fout `null`: dan krijgt het straatvak de tekst van de
+         * suggestie, en de klant vult de rest met de hand.
+         */
+        async fetchAddressParts(id, token) {
+            try {
+                const params = new URLSearchParams({ sessionToken: token, languageCode: 'nl' });
+                const response = await fetch(`${PLACES}/${encodeURIComponent(id)}?${params}`, {
+                    headers: {
+                        'X-Goog-Api-Key': key,
+                        'X-Goog-FieldMask': 'addressComponents',
+                    },
+                });
+
+                if (!response.ok) {
+                    return null;
+                }
+
+                const { addressComponents = [] } = await response.json();
+
+                return Object.fromEntries(
+                    Object.entries(COMPONENTS).map(([name, types]) => [
+                        name,
+                        types
+                            .map((type) => addressComponents.find((component) => component.types?.includes(type)))
+                            .find(Boolean)?.longText,
+                    ]),
+                );
+            } catch {
+                return null;
+            }
         },
 
         close() {

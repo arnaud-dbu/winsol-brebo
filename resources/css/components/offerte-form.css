@@ -12,13 +12,13 @@
 }
 
 /*
- * De pillengroep beslaat de volle breedte, net als `.form-field`. Het
- * breekpunt moet dat van `.form-grid` in form.css volgen (`lg:grid-cols-2`):
- * op een eenkolomsraster forceert een `col-span-2` een tweede kolom en
- * versmalt daarmee élk ander veld.
+ * De pillengroep beslaat de volle breedte, net als `.form-field`. Met
+ * `col-span-full` en geen vast aantal kolommen: op een eenkolomsraster
+ * forceert een `col-span-2` een tweede kolom en versmalt daarmee élk ander
+ * veld.
  */
 .offerte-products {
-    @apply flex flex-col gap-3 lg:col-span-2;
+    @apply col-span-full flex flex-col gap-3;
 }
 
 .offerte-pills {

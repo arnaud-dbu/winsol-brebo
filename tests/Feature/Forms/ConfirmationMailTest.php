@@ -54,7 +54,10 @@ class ConfirmationMailTest extends TestCase
             'name' => 'An Peeters',
             'phone' => '+32 470 12 34 56',
             'email' => 'klant@voorbeeld.be',
-            'address' => 'Kerkstraat 12, 1700 Dilbeek',
+            'street' => 'Kerkstraat',
+            'number' => '12',
+            'postal_code' => '1700',
+            'city' => 'Dilbeek',
             'project' => 'Een nieuwe voordeur.',
             'gdpr' => '1',
             ...$this->formTimer(),
@@ -79,7 +82,10 @@ class ConfirmationMailTest extends TestCase
             'email' => 'klant@voorbeeld.be',
             'name' => 'An Peeters',
             'phone' => '+32 470 12 34 56',
-            'address' => 'Kerkstraat 12, 1700 Dilbeek',
+            'street' => 'Kerkstraat',
+            'number' => '12',
+            'postal_code' => '1700',
+            'city' => 'Dilbeek',
             'warranty' => 'nee',
             'vat_six' => '1',
             'rates_agreed' => '1',
@@ -159,7 +165,7 @@ class ConfirmationMailTest extends TestCase
     {
         Http::fake();
 
-        $this->from('/offerte')->post('/!/forms/offerte', $this->quote(overrides: ['address' => 'https://casino-vulkan.example/bonus']))->assertSessionHasNoErrors();
+        $this->from('/offerte')->post('/!/forms/offerte', $this->quote(overrides: ['street' => 'https://casino-vulkan.example/bonus']))->assertSessionHasNoErrors();
 
         $this->assertCount(0, $this->mailsTo('klant@voorbeeld.be'));
     }

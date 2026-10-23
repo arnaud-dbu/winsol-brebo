@@ -1,7 +1,7 @@
-{{ email_config:label ?? 'Nieuwe inzending' }}{{ if name }} van {{ name }}{{ /if }}
+{{ address_line = "{street} {number}, {postal_code} {city}" }}{{ skipped = ['language', 'number', 'postal_code', 'city'] }}{{ email_config:label ?? 'Nieuwe inzending' }}{{ if name }} van {{ name }}{{ /if }}
 Ingediend in het {{ language:label }}
 
-{{ fields }}{{ if value && handle != 'language' }}{{ display }}: {{ if fieldtype == 'assets' }}{{ value }}{{ url }}{{ unless last }}, {{ /unless }}{{ /value }}{{ elseif fieldtype == 'checkboxes' || fieldtype == 'range_checkboxes' || fieldtype == 'brochure_checkboxes' }}{{ value | pluck('label') | join(', ') }}{{ elseif fieldtype == 'toggle' }}Ja{{ elseif fieldtype == 'select' || fieldtype == 'location_select' || fieldtype == 'range_select' }}{{ value:label ?? value }}{{ else }}{{ value }}{{ /if }}
+{{ fields }}{{ if value && !(skipped | in_array(handle)) }}{{ handle == 'street' ? 'Adres' : display }}: {{ if handle == 'street' }}{{ address_line }}{{ elseif fieldtype == 'assets' }}{{ value }}{{ url }}{{ unless last }}, {{ /unless }}{{ /value }}{{ elseif fieldtype == 'checkboxes' || fieldtype == 'range_checkboxes' || fieldtype == 'brochure_checkboxes' }}{{ value | pluck('label') | join(', ') }}{{ elseif fieldtype == 'toggle' }}Ja{{ elseif fieldtype == 'select' || fieldtype == 'location_select' || fieldtype == 'range_select' }}{{ value:label ?? value }}{{ else }}{{ value }}{{ /if }}
 {{ /if }}{{ /fields }}
 Verstuurd op {{ date format="d/m/Y" }} om {{ date format="H:i" }}.
 Winsol Brebo — {{ config:app:url }}
