@@ -1,0 +1,61 @@
+{{#
+    Bevestiging naar de klant na een offerte, herstelling of contactbericht, gedeeld door de drie formulieren. Zoals de
+    brochuremail via `trans`, zodat ze meegaat in de taal van de site; de veldlabels staan in het blueprint in het
+    Nederlands en krijgen hun vertaling uit lang/*.json, net als op het formulier zelf. Akkoordvinkjes en de taal zijn geen
+    antwoord van de klant. Een bijlage staat er met haar naam en zonder link: ze staat op de private R2-disk, die de klant
+    niet kan openen.
+#}}
+{{ omitted = ['gdpr', 'rates_agreed', 'warranty_terms', 'language'] }}
+{{ partial:emails/partials/layout }}
+    <p style="margin: 0 0 16px">{{ trans:site.mail_greeting }} {{ name }},</p>
+
+    <p style="margin: 0 0 28px">{{ trans:site.mail_confirmation_intro }}</p>
+
+    <p style="margin: 0 0 8px; font-size: 17px; font-weight: bold; color: #121b22">
+        {{ trans:site.mail_confirmation_overview }}
+    </p>
+
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+        {{ fields }}
+            {{ if value && !(omitted | in_array(handle)) }}
+                <tr>
+                    <td
+                        width="34%"
+                        valign="top"
+                        style="
+                            padding: 10px 12px 10px 0;
+                            border-bottom: 1px solid #ebf0f2;
+                            font-size: 13px;
+                            color: #6b7280;
+                        ">
+                        {{ trans :key="display" }}
+                    </td>
+                    <td
+                        valign="top"
+                        style="padding: 10px 0; border-bottom: 1px solid #ebf0f2; font-size: 15px; color: #121b22">
+                        {{ if fieldtype == 'assets' }}
+                            {{ value }}
+                                {{ basename }}
+                                <br />
+                            {{ /value }}
+                        {{ elseif fieldtype == 'checkboxes' || fieldtype == 'range_checkboxes' || fieldtype == 'brochure_checkboxes' }}
+                            {{ value | pluck('label') | join(', ') }}
+                        {{ elseif fieldtype == 'toggle' }}
+                            {{ trans key="Ja" }}
+                        {{ elseif fieldtype == 'select' || fieldtype == 'location_select' || fieldtype == 'range_select' }}
+                            {{ trans :key="value:label ?? value" }}
+                        {{ else }}
+                            {{ value | nl2br }}
+                        {{ /if }}
+                    </td>
+                </tr>
+            {{ /if }}
+        {{ /fields }}
+    </table>
+
+    <p style="margin: 28px 0 0">
+        {{ trans:site.mail_closing }}
+        <br />
+        <strong style="color: #121b22">Winsol Brebo</strong>
+    </p>
+{{ /partial:emails/partials/layout }}

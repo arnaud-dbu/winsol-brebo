@@ -5,6 +5,7 @@ namespace Tests\Feature\Forms;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Statamic\Facades\Entry;
+use Symfony\Component\Mailer\SentMessage;
 use Tests\Concerns\PassesFormTimer;
 use Tests\TestCase;
 
@@ -49,8 +50,9 @@ class FormMailAttachmentTest extends TestCase
 
         $response->assertSessionHasNoErrors();
 
-        $messages = app('mailer')->getSymfonyTransport()->messages();
-        $this->assertCount(1, $messages, 'Er vertrok geen (of meer dan één) mail.');
+        $messages = app('mailer')->getSymfonyTransport()->messages()
+            ->filter(fn (SentMessage $message): bool => $message->getOriginalMessage()->getTo()[0]->getAddress() === 'offertes@winsolspl.be');
+        $this->assertCount(1, $messages, 'Er vertrok geen (of meer dan één) melding.');
 
         $attachments = $messages->first()->getOriginalMessage()->getAttachments();
         $this->assertCount(1, $attachments, 'De foto zit niet als bijlage in de mail naar Winsol.');
@@ -77,8 +79,9 @@ class FormMailAttachmentTest extends TestCase
 
         $response->assertSessionHasNoErrors();
 
-        $messages = app('mailer')->getSymfonyTransport()->messages();
-        $this->assertCount(1, $messages, 'Er vertrok geen (of meer dan één) mail.');
+        $messages = app('mailer')->getSymfonyTransport()->messages()
+            ->filter(fn (SentMessage $message): bool => $message->getOriginalMessage()->getTo()[0]->getAddress() === 'offertes@winsolspl.be');
+        $this->assertCount(1, $messages, 'Er vertrok geen (of meer dan één) melding.');
 
         $email = $messages->first()->getOriginalMessage();
         $this->assertStringContainsString('België', $email->getHtmlBody(), 'De accenten zijn uit het adres verdwenen.');

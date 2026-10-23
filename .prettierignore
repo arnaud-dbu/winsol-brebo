@@ -9,4 +9,5 @@ bootstrap
 # regels aan elkaar en maakt er één onbruikbare regel van.
 resources/views/security.antlers.html
 resources/views/emails/brochure_text.antlers.html
+resources/views/emails/confirmation_text.antlers.html
 resources/views/emails/notification_text.antlers.html

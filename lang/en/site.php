@@ -34,4 +34,7 @@ return [
     'mail_route_quote' => 'Request a no-obligation quote',
     'mail_route_quote_text' => 'a few quick questions and you will know your guide price.',
     'mail_closing' => 'See you soon,',
+    'mail_confirmation_subject' => 'We have received your request',
+    'mail_confirmation_intro' => 'Thank you for your request. We have received it and will get back to you as soon as possible.',
+    'mail_confirmation_overview' => 'Here is what you filled in:',
 ];

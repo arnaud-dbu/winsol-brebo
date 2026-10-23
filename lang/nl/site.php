@@ -34,4 +34,7 @@ return [
     'mail_route_quote' => 'Vraag een vrijblijvende offerte',
     'mail_route_quote_text' => 'enkele korte vragen en je kent je richtprijs.',
     'mail_closing' => 'Tot binnenkort,',
+    'mail_confirmation_subject' => 'We hebben je aanvraag goed ontvangen',
+    'mail_confirmation_intro' => 'Bedankt voor je aanvraag. We hebben ze goed ontvangen en antwoorden je zo snel mogelijk.',
+    'mail_confirmation_overview' => 'Dit vulde je in:',
 ];

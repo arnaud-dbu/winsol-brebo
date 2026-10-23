@@ -8,3 +8,10 @@ email:
     html: emails/notification
     text: emails/notification_text
     label: Contactbericht
+  -
+    id: contact-confirmation
+    to: '{{ email }}'
+    reply_to: offertes@winsolspl.be
+    subject: site.mail_confirmation_subject
+    html: emails/confirmation
+    text: emails/confirmation_text

@@ -1,0 +1,10 @@
+{{ omitted = ['gdpr', 'rates_agreed', 'warranty_terms', 'language'] }}{{ trans:site.mail_greeting }} {{ name }},
+
+{{ trans:site.mail_confirmation_intro }}
+
+{{ trans:site.mail_confirmation_overview }}
+
+{{ fields }}{{ if value && !(omitted | in_array(handle)) }}{{ trans :key="display" }}: {{ if fieldtype == 'assets' }}{{ value }}{{ basename }}{{ unless last }}, {{ /unless }}{{ /value }}{{ elseif fieldtype == 'checkboxes' || fieldtype == 'range_checkboxes' || fieldtype == 'brochure_checkboxes' }}{{ value | pluck('label') | join(', ') }}{{ elseif fieldtype == 'toggle' }}{{ trans key="Ja" }}{{ elseif fieldtype == 'select' || fieldtype == 'location_select' || fieldtype == 'range_select' }}{{ trans :key="value:label ?? value" }}{{ else }}{{ value }}{{ /if }}
+{{ /if }}{{ /fields }}
+{{ trans:site.mail_closing }}
+Winsol Brebo

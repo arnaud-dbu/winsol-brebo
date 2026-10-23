@@ -9,3 +9,10 @@ email:
     text: emails/notification_text
     label: Herstelaanvraag
     attachments: true
+  -
+    id: herstelling-confirmation
+    to: '{{ email }}'
+    reply_to: offertes@winsolspl.be
+    subject: site.mail_confirmation_subject
+    html: emails/confirmation
+    text: emails/confirmation_text

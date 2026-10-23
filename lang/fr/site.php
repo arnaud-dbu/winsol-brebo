@@ -34,4 +34,7 @@ return [
     'mail_route_quote' => 'Demandez un devis sans engagement',
     'mail_route_quote_text' => 'quelques questions rapides et vous connaissez votre prix indicatif.',
     'mail_closing' => 'À bientôt,',
+    'mail_confirmation_subject' => 'Nous avons bien reçu votre demande',
+    'mail_confirmation_intro' => 'Merci pour votre demande. Nous l\'avons bien reçue et vous répondrons dans les meilleurs délais.',
+    'mail_confirmation_overview' => 'Voici ce que vous avez rempli :',
 ];

@@ -28,8 +28,8 @@ class FormRecipientsTest extends TestCase
 
             $ontvangers = collect($form->email())
                 ->pluck('to')
-                // De brochuremail vertrekt naar de aanvrager zelf; die telt
-                // hier niet mee.
+                // De brochuremail en de bevestiging vertrekken naar de
+                // aanvrager zelf; die tellen hier niet mee.
                 ->reject(fn ($to) => $to === '{{ email }}')
                 ->values();
 
@@ -53,9 +53,19 @@ class FormRecipientsTest extends TestCase
     {
         // Zonder reply-to beantwoordt Winsol zijn eigen adres.
         foreach (['offerte', 'contact', 'herstelling'] as $handle) {
-            foreach (Form::find($handle)->email() as $mail) {
+            foreach (collect(Form::find($handle)->email())->where('to', self::ONTVANGER) as $mail) {
                 $this->assertSame('{{ email }}', $mail['reply_to'] ?? null, "Formulier {$handle} mist reply_to");
             }
+        }
+    }
+
+    public function test_a_reply_to_the_confirmation_reaches_winsol(): void
+    {
+        foreach (['offerte', 'contact', 'herstelling'] as $handle) {
+            $confirmation = collect(Form::find($handle)->email())->firstWhere('to', '{{ email }}');
+
+            $this->assertNotNull($confirmation, "Formulier {$handle} stuurt de klant geen bevestiging");
+            $this->assertSame(self::ONTVANGER, $confirmation['reply_to'] ?? null, "De bevestiging van {$handle} mist reply_to");
         }
     }
 }

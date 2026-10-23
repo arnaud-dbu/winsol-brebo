@@ -8,12 +8,14 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Statamic\Facades\Entry;
+use Symfony\Component\Mailer\SentMessage;
 use Tests\Concerns\PassesFormTimer;
 use Tests\TestCase;
 
 /**
  * Een offerte of herstelling gaat ondertekend naar de ERP (WIN-1485, contract
- * in WIN-1479). De mail naar offertes@ is alleen nog de terugval.
+ * in WIN-1479). De melding aan offertes@ is alleen nog de terugval; de
+ * bevestiging aan de klant staat in ConfirmationMailTest.
  */
 class ErpDeliveryTest extends TestCase
 {
@@ -63,12 +65,14 @@ class ErpDeliveryTest extends TestCase
         ];
     }
 
-    private function sentMails(): int
+    private function notifications(): int
     {
-        return app('mailer')->getSymfonyTransport()->messages()->count();
+        return app('mailer')->getSymfonyTransport()->messages()
+            ->filter(fn (SentMessage $message): bool => $message->getOriginalMessage()->getTo()[0]->getAddress() === 'offertes@winsolspl.be')
+            ->count();
     }
 
-    public function test_a_quote_arrives_signed_at_the_erp_and_sends_no_mail(): void
+    public function test_a_quote_arrives_signed_at_the_erp_and_sends_no_notification(): void
     {
         $this->freezeTime();
         Http::fake([self::URL => Http::response('OK', 200)]);
@@ -99,7 +103,7 @@ class ErpDeliveryTest extends TestCase
                 ]
                 && $body['attachments'] === [];
         });
-        $this->assertSame(0, $this->sentMails(), 'Er vertrok toch een mail na een geslaagde post.');
+        $this->assertSame(0, $this->notifications(), 'Er vertrok toch een melding na een geslaagde post.');
     }
 
     /**
@@ -160,7 +164,7 @@ class ErpDeliveryTest extends TestCase
                 && $invoice['size'] === 16
                 && $invoice['url'] === "https://r2.example/herstellingen/facture.pdf?verloopt={$expires}";
         });
-        $this->assertSame(0, $this->sentMails());
+        $this->assertSame(0, $this->notifications());
     }
 
     /**
@@ -185,7 +189,7 @@ class ErpDeliveryTest extends TestCase
         $this->from('/offerte')->post('/!/forms/offerte', $this->quote())->assertSessionHasNoErrors();
 
         Http::assertSentCount(1);
-        $this->assertSame(1, $this->sentMails(), "Geen mail na een {$status} van de ERP.");
+        $this->assertSame(1, $this->notifications(), "Geen melding na een {$status} van de ERP.");
     }
 
     public function test_an_unreachable_erp_falls_back_to_todays_mail(): void
@@ -194,7 +198,7 @@ class ErpDeliveryTest extends TestCase
 
         $this->from('/offerte')->post('/!/forms/offerte', $this->quote())->assertSessionHasNoErrors();
 
-        $this->assertSame(1, $this->sentMails(), 'Geen mail toen de ERP niet antwoordde.');
+        $this->assertSame(1, $this->notifications(), 'Geen melding toen de ERP niet antwoordde.');
     }
 
     public function test_a_quote_carries_its_attachment(): void
@@ -229,7 +233,7 @@ class ErpDeliveryTest extends TestCase
             ->assertSessionHasNoErrors();
 
         Http::assertNothingSent();
-        $this->assertSame(1, $this->sentMails());
+        $this->assertSame(1, $this->notifications());
     }
 
     public function test_a_brochure_request_keeps_mailing_and_skips_the_erp(): void
@@ -247,7 +251,7 @@ class ErpDeliveryTest extends TestCase
         ])->assertSessionHasNoErrors();
 
         Http::assertNothingSent();
-        $this->assertGreaterThan(0, $this->sentMails());
+        $this->assertGreaterThan(0, $this->notifications());
     }
 
     public function test_what_the_spam_filter_refuses_never_reaches_the_erp(): void
@@ -257,7 +261,7 @@ class ErpDeliveryTest extends TestCase
         $this->from('/offerte')->post('/!/forms/offerte', $this->quote(['address' => 'https://casino-vulkan.example/bonus']))->assertSessionHasNoErrors();
 
         Http::assertNothingSent();
-        $this->assertSame(0, $this->sentMails());
+        $this->assertSame(0, $this->notifications());
     }
 
     public function test_without_an_address_or_secret_the_quote_goes_as_mail(): void
@@ -268,6 +272,6 @@ class ErpDeliveryTest extends TestCase
         $this->from('/offerte')->post('/!/forms/offerte', $this->quote())->assertSessionHasNoErrors();
 
         Http::assertNothingSent();
-        $this->assertSame(1, $this->sentMails());
+        $this->assertSame(1, $this->notifications());
     }
 }
