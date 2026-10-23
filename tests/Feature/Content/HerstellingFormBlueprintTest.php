@@ -24,6 +24,21 @@ class HerstellingFormBlueprintTest extends TestCase
     }
 
     /**
+     * Een leeg invulveld naast velden met een voorbeeld leest als een vergeten
+     * veld. Uploads, toggles en checkboxen hebben geen invulveld.
+     */
+    public function test_every_input_field_has_a_placeholder(): void
+    {
+        $fields = Form::find('herstelling')->blueprint()->fields()->all()
+            ->filter(fn ($field) => in_array($field->type(), ['text', 'textarea', 'select', 'range_select', 'location_select']))
+            ->filter(fn ($field) => $field->visibility() === 'visible');
+
+        foreach ($fields as $handle => $field) {
+            $this->assertNotEmpty($field->get('placeholder'), "{$handle} mist een placeholder.");
+        }
+    }
+
+    /**
      * Alles verplicht behalve de uploads (Quinten, 26-08). De uploads
      * blijven optioneel: niet iedereen heeft de factuur of een bruikbare
      * foto bij de hand, en een verplichte bijlage blokkeert de aanvraag.

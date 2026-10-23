@@ -21,6 +21,21 @@ class OfferteFormBlueprintTest extends TestCase
     }
 
     /**
+     * Een leeg invulveld naast velden met een voorbeeld leest als een vergeten
+     * veld. Uploads, toggles en checkboxen hebben geen invulveld.
+     */
+    public function test_every_input_field_has_a_placeholder(): void
+    {
+        $fields = Form::find('offerte')->blueprint()->fields()->all()
+            ->filter(fn ($field) => in_array($field->type(), ['text', 'textarea', 'select', 'range_select', 'location_select']))
+            ->filter(fn ($field) => $field->visibility() === 'visible');
+
+        foreach ($fields as $handle => $field) {
+            $this->assertNotEmpty($field->get('placeholder'), "{$handle} mist een placeholder.");
+        }
+    }
+
+    /**
      * Alles verplicht behalve de upload (Quinten, 26-08): zonder naam, adres
      * en telefoon is een lead maar half en moet hij manueel verrijkt worden.
      * De upload blijft optioneel — een verplichte bijlage blokkeert iedereen

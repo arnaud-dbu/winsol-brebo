@@ -14,6 +14,7 @@ fields:
     field:
       type: text
       display: Nr.
+      placeholder: 'bv. 12'
       width: 25
       validate:
         - required
@@ -22,6 +23,7 @@ fields:
     field:
       type: text
       display: Postcode
+      placeholder: 'bv. 2630'
       character_limit: 4
       autocomplete: postal-code
       width: 25
@@ -33,6 +35,7 @@ fields:
     field:
       type: text
       display: Gemeente
+      placeholder: 'bv. Aartselaar'
       autocomplete: address-level2
       width: 75
       validate:
