@@ -92,6 +92,28 @@ class ImageCompressorTest extends TestCase
         $this->assertSame('photo.heic', $result->filename);
     }
 
+    /**
+     * Een JPEG als invoer, omdat deze omgeving geen HEIF kan aanmaken. Imagick
+     * herkent het formaat aan de bytes, dus het pad is hetzelfde.
+     */
+    public function test_a_converted_hif_photo_is_renamed_to_jpg(): void
+    {
+        if (! extension_loaded('imagick')) {
+            $this->markTestSkipped('Imagick is unavailable; HEIF stays unconverted.');
+        }
+
+        $service = new ImageCompressor(maxWidth: 2500, jpegQuality: 85);
+
+        $result = $service->compress(
+            bytes: $this->fixture('small.jpg'),
+            mime: 'image/heif',
+            filename: 'DSCF0001.HIF',
+        );
+
+        $this->assertSame('image/jpeg', $result->mime);
+        $this->assertSame('DSCF0001.jpg', $result->filename);
+    }
+
     public function test_corrupt_jpeg_throws(): void
     {
         $service = new ImageCompressor(maxWidth: 2500, jpegQuality: 85);

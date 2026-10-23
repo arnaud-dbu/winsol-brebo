@@ -5,6 +5,7 @@ namespace Tests\Feature\Forms;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Statamic\Facades\Form;
 use Tests\TestCase;
 
 /**
@@ -40,6 +41,7 @@ class FormErrorMessagesTest extends TestCase
                 'bestandstype' => 'Dit bestandstype kan niet mee. Kies een foto of een pdf.',
                 'te_groot' => 'Dit bestand is te groot. Kies een kleiner bestand.',
                 'te_veel' => 'Je koos te veel bestanden. Er kunnen er hoogstens 5 mee.',
+                'niet_aangekomen' => 'Dit bestand kwam niet aan. Kies een kleiner bestand of probeer het opnieuw.',
             ]],
             'fr' => [['offerte' => '/fr/devis', 'brochure' => '/fr/brochures', 'herstelling' => '/fr/service'], [
                 'leeg' => 'Remplissez ce champ.',
@@ -51,6 +53,7 @@ class FormErrorMessagesTest extends TestCase
                 'bestandstype' => 'Ce type de fichier n’est pas accepté. Choisissez une photo ou un PDF.',
                 'te_groot' => 'Ce fichier est trop lourd. Choisissez un fichier plus léger.',
                 'te_veel' => 'Vous avez choisi trop de fichiers. 5 au maximum.',
+                'niet_aangekomen' => 'Ce fichier n’est pas arrivé. Choisissez un fichier plus léger ou réessayez.',
             ]],
             'en' => [['offerte' => '/en/quote', 'brochure' => '/en/brochures', 'herstelling' => '/en/service'], [
                 'leeg' => 'Please fill in this field.',
@@ -62,6 +65,7 @@ class FormErrorMessagesTest extends TestCase
                 'bestandstype' => 'This file type can’t be sent. Choose a photo or a PDF.',
                 'te_groot' => 'This file is too large. Choose a smaller file.',
                 'te_veel' => 'You picked too many files. 5 at most.',
+                'niet_aangekomen' => 'This file didn’t come through. Choose a smaller file or try again.',
             ]],
         ];
     }
@@ -197,9 +201,66 @@ class FormErrorMessagesTest extends TestCase
     }
 
     /**
+     * PHP weigert het bestand nog voor Laravel het ziet, meestal omdat het
+     * boven `upload_max_filesize` gaat. Laravel meldt dat per bestand, op
+     * `attachment.0`, en op `attachment` zelf zakt het bestandstype erdoor,
+     * want van een bestand dat niet aankwam (PHP levert het zonder pad aan)
+     * valt geen type te raden. Die
+     * tweede melding zou de bezoeker naar een ander bestandstype sturen, en
+     * buiten een test gooit dat raden zelfs een exception.
+     *
+     * @param  array<string, string>  $paginas
+     * @param  array<string, string>  $verwacht
+     */
+    #[DataProvider('talen')]
+    public function test_an_upload_php_refused_says_it_did_not_come_through(array $paginas, array $verwacht): void
+    {
+        $geweigerd = new UploadedFile('', 'foto.jpg', 'image/jpeg', UPLOAD_ERR_INI_SIZE, true);
+
+        $fouten = $this->foutenNaVersturen('offerte', $paginas['offerte'], ['attachment' => [$geweigerd]]);
+
+        $this->assertSame($verwacht['niet_aangekomen'], $fouten['attachment']);
+    }
+
+    /**
+     * Het geweigerde bestand mag de andere controles op het veld niet
+     * uitschakelen.
+     *
+     * @param  array<string, string>  $paginas
+     * @param  array<string, string>  $verwacht
+     */
+    #[DataProvider('talen')]
+    public function test_an_upload_php_refused_still_counts_towards_the_limit(array $paginas, array $verwacht): void
+    {
+        $bestanden = array_map(fn (int $i): UploadedFile => UploadedFile::fake()->image("foto{$i}.jpg"), range(1, 5));
+        $bestanden[] = new UploadedFile('', 'foto6.jpg', 'image/jpeg', UPLOAD_ERR_INI_SIZE, true);
+
+        $fouten = $this->foutenNaVersturen('offerte', $paginas['offerte'], ['attachment' => $bestanden]);
+
+        $this->assertSame($verwacht['te_veel'], $fouten['attachment']);
+    }
+
+    /**
+     * Fujifilm-camera's bewaren HEIF als `.hif`. Het blueprint keurt de
+     * inhoud goed, maar Statamic toetst daarnaast de extensie aan een eigen
+     * lijst, en daar ontbrak `hif`.
+     */
+    public function test_a_hif_photo_is_not_refused(): void
+    {
+        $fouten = $this->foutenNaVersturen('offerte', '/offerte', [
+            'attachment' => [UploadedFile::fake()->create('foto.hif', 10, 'image/heif')],
+        ]);
+
+        $this->assertArrayNotHasKey('attachment', $fouten);
+        $this->assertArrayNotHasKey('attachment.0', $fouten);
+    }
+
+    /**
      * Het vangnet: elke melding die een leeg formulier oplevert, is een van de
      * zinnen hierboven. Een nieuw veld of een nieuwe regel die terugvalt op
-     * Laravels standaardtekst, valt hier op.
+     * Laravels standaardtekst, valt hier op. Net zo een fout op een sleutel
+     * die het sjabloon niet toont, zoals `attachment.0`: die maakt het
+     * formulier ongeldig zonder dat de bezoeker ziet waarom.
      *
      * @param  array<string, string>  $paginas
      * @param  array<string, string>  $verwacht
@@ -208,12 +269,19 @@ class FormErrorMessagesTest extends TestCase
     public function test_no_form_falls_back_to_a_default_laravel_message(array $paginas, array $verwacht): void
     {
         foreach ($paginas as $formulier => $pagina) {
-            $fouten = $this->foutenNaVersturen($formulier, $pagina, ['email' => 'naam.voorbeeld.be']);
+            $fouten = $this->foutenNaVersturen($formulier, $pagina, [
+                'email' => 'naam.voorbeeld.be',
+                'attachment' => [UploadedFile::fake()->create('plan.exe', 10)],
+                'photo' => [UploadedFile::fake()->create('foto.exe', 10)],
+                'invoice' => [UploadedFile::fake()->create('factuur.exe', 10)],
+            ]);
+            $velden = Form::find($formulier)->blueprint()->fields()->all()->keys()->all();
 
             $this->assertNotEmpty($fouten, "Het lege {$formulier}formulier gaf geen enkele fout.");
 
             foreach ($fouten as $veld => $melding) {
                 $this->assertContains($melding, $verwacht, "{$formulier}.{$veld} toont een onbekende melding.");
+                $this->assertContains($veld, $velden, "{$formulier}.{$veld} is geen veld, dus het sjabloon toont die melding niet.");
             }
         }
     }

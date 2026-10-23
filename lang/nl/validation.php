@@ -13,6 +13,8 @@ return [
     'in' => 'Maak een keuze uit de lijst.',
     'array' => 'Maak een keuze uit de lijst.',
     'mimes' => 'Dit bestandstype kan niet mee. Kies een foto of een pdf.',
+    'uploaded' => 'Dit bestand kwam niet aan. Kies een kleiner bestand of probeer het opnieuw.',
+    'file' => 'Kies een foto of een pdf om mee te sturen.',
     'max' => [
         'file' => 'Dit bestand is te groot. Kies een kleiner bestand.',
         'array' => 'Je koos te veel bestanden. Er kunnen er hoogstens :max mee.',

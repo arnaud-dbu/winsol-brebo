@@ -8,6 +8,8 @@ return [
     'in' => 'Faites un choix dans la liste.',
     'array' => 'Faites un choix dans la liste.',
     'mimes' => 'Ce type de fichier n’est pas accepté. Choisissez une photo ou un PDF.',
+    'uploaded' => 'Ce fichier n’est pas arrivé. Choisissez un fichier plus léger ou réessayez.',
+    'file' => 'Choisissez une photo ou un PDF à joindre.',
     'max' => [
         'file' => 'Ce fichier est trop lourd. Choisissez un fichier plus léger.',
         'array' => 'Vous avez choisi trop de fichiers. :max au maximum.',

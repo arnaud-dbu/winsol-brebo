@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Middleware\InspaceToken;
+use App\Http\Requests\FormSubmissionRequest;
 use App\Imaging\AssetAlphaBounds;
 use App\Imaging\Manipulators\TrimTransparent;
 use App\Listeners\AddDefaultBlueprintTabs;
@@ -29,6 +30,7 @@ use Statamic\Facades\Collection;
 use Statamic\Facades\Entry;
 use Statamic\Facades\Glide as GlideManager;
 use Statamic\Fieldtypes\Sets;
+use Statamic\Http\Requests\FrontendFormRequest;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -65,6 +67,8 @@ class AppServiceProvider extends ServiceProvider
         // composer, en die zoekt hem dan één keer per request op.
         $this->app->singleton(RunningPromotion::class);
         $this->app->singleton(PublishedArticles::class);
+
+        $this->app->bind(FrontendFormRequest::class, FormSubmissionRequest::class);
 
         $this->registerTrimManipulator();
     }

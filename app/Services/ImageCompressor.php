@@ -25,7 +25,7 @@ class ImageCompressor
 
     private function compressJpeg(string $bytes, string $filename): CompressionResult
     {
-        $manager = new ImageManager(new GdDriver());
+        $manager = new ImageManager(new GdDriver);
         $image = $manager->read($bytes);
 
         if ($image->width() > $this->maxWidth) {
@@ -39,7 +39,7 @@ class ImageCompressor
 
     private function compressPng(string $bytes, string $filename): CompressionResult
     {
-        $manager = new ImageManager(new GdDriver());
+        $manager = new ImageManager(new GdDriver);
         $image = $manager->read($bytes);
 
         if ($image->width() > $this->maxWidth) {
@@ -58,7 +58,7 @@ class ImageCompressor
         }
 
         try {
-            $imagick = new \Imagick();
+            $imagick = new \Imagick;
             $imagick->readImageBlob($bytes);
             $imagick->setImageFormat('jpeg');
 
@@ -70,7 +70,7 @@ class ImageCompressor
             $jpegBytes = $imagick->getImageBlob();
             $imagick->clear();
 
-            $newName = preg_replace('/\.(heic|heif)$/i', '.jpg', $filename);
+            $newName = preg_replace('/\.(heic|heif|hif)$/i', '.jpg', $filename);
 
             return new CompressionResult($jpegBytes, 'image/jpeg', $newName);
         } catch (Throwable) {

@@ -213,7 +213,9 @@ return [
     |
     */
 
-    'additional_uploadable_extensions' => [],
+    // Fujifilm-camera's bewaren HEIF als `.hif`. Het offerte- en herstelformulier
+    // laten dat formaat toe, en zonder deze regel weigert Statamic het alsnog.
+    'additional_uploadable_extensions' => ['hif'],
 
     /*
     |--------------------------------------------------------------------------

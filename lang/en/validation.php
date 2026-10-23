@@ -9,6 +9,8 @@ return [
     'in' => 'Choose an option from the list.',
     'array' => 'Choose an option from the list.',
     'mimes' => 'This file type can’t be sent. Choose a photo or a PDF.',
+    'uploaded' => 'This file didn’t come through. Choose a smaller file or try again.',
+    'file' => 'Choose a photo or a PDF to send.',
     'max' => [
         'file' => 'This file is too large. Choose a smaller file.',
         'array' => 'You picked too many files. :max at most.',
