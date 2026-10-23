@@ -13,7 +13,7 @@ class BrochuresPageTest extends TestCase
         $response->assertOk();
         $response->assertSee('Ontvang onze brochures');
         $response->assertSee('name="brochures[]"', false);
-        $response->assertSee('role="combobox"', false);
+        $response->assertSee('name="street"', false);
     }
 
     /**

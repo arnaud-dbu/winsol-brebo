@@ -48,10 +48,4 @@ return [
         'form_secret' => env('ERP_FORM_SECRET'),
     ],
 
-    'google' => [
-        // Client-side key voor Places Autocomplete (New); hoort in Google
-        // Cloud op referer-restrictie te staan omdat hij in de HTML zichtbaar is.
-        'maps_key' => env('GOOGLE_MAPS_API_KEY'),
-    ],
-
 ];

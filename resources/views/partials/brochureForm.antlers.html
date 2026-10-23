@@ -55,11 +55,7 @@
                                         {{ trans :key="display" }}
                                         {{ partial:optionalMarker }}
                                     </label>
-                                    {{ if handle == "street" }}
-                                        {{ partial:addressField }}
-                                    {{ else }}
-                                        {{ field }}
-                                    {{ /if }}
+                                    {{ field }}
                                     {{ if error }}
                                         <p class="form-error" id="{{ id }}-error">{{ error }}</p>
                                     {{ /if }}

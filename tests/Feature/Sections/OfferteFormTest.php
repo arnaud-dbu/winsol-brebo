@@ -68,19 +68,16 @@ class OfferteFormTest extends SectionTestCase
     }
 
     /**
-     * Het straatveld is de eigen combobox uit partials/addressField, niet
-     * Statamic's kale text-input: mét autocomplete-component, suggestielijst
-     * en required-attribuut. Valt de partial-aanroep weg, dan rendert het
-     * veld stil als gewoon tekstveld en is de Google-laag geruisloos weg.
+     * Geen Google Places meer op het straatveld: de suggesties toonden een
+     * volledig adres, waardoor bezoekers alles in het straatvak typten.
      */
-    public function test_the_street_field_is_the_autocomplete_combobox(): void
+    public function test_the_street_field_is_a_plain_required_text_field(): void
     {
         $html = $this->render('{{ partial:offerteForm }}');
 
-        $this->assertStringContainsString('addressAutocomplete(', $html);
-        $this->assertMatchesRegularExpression('/name="street"[^>]*role="combobox"/s', $html);
-        $this->assertStringContainsString('role="listbox"', $html);
-        $this->assertMatchesRegularExpression('/name="street"[^>]*required/', $html);
+        $this->assertMatchesRegularExpression('/<input[^>]*type="text"[^>]*name="street"[^>]*required/s', $html);
+        $this->assertStringNotContainsString('role="combobox"', $html);
+        $this->assertStringNotContainsString('addressAutocomplete', $html);
     }
 
     /**

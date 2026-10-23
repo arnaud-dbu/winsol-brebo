@@ -2,13 +2,11 @@ import Alpine from 'alpinejs';
 import Collapse from '@alpinejs/collapse';
 import { cookieConsent } from './components/cookie-consent';
 import { articleFilter } from './components/article-filter';
-import { addressAutocomplete } from './components/address-autocomplete';
 
 window.Alpine = Alpine;
 Alpine.plugin(Collapse);
 Alpine.data('cookieConsent', cookieConsent);
 Alpine.data('articleFilter', articleFilter);
-Alpine.data('addressAutocomplete', addressAutocomplete);
 Alpine.start();
 
 import './components/hamburger';

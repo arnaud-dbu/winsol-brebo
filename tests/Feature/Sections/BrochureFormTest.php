@@ -49,12 +49,16 @@ class BrochureFormTest extends SectionTestCase
         $this->assertMatchesRegularExpression('/<ul class="offerte-pills">/', $html);
     }
 
-    public function test_the_street_field_is_the_autocomplete_combobox(): void
+    /**
+     * Zie OfferteFormTest::test_the_street_field_is_a_plain_required_text_field().
+     */
+    public function test_the_street_field_is_a_plain_required_text_field(): void
     {
         $html = $this->render('{{ partial:brochureForm }}');
 
-        $this->assertStringContainsString('addressAutocomplete(', $html);
-        $this->assertMatchesRegularExpression('/name="street"[^>]*role="combobox"/s', $html);
+        $this->assertMatchesRegularExpression('/<input[^>]*type="text"[^>]*name="street"[^>]*required/s', $html);
+        $this->assertStringNotContainsString('role="combobox"', $html);
+        $this->assertStringNotContainsString('addressAutocomplete', $html);
     }
 
     /**
